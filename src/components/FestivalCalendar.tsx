@@ -11,21 +11,26 @@ import { ArrowRight } from "lucide-react";
 import { format, parse, getYear } from 'date-fns';
 
 const allEvents = [
-    // Festivals
-    { date: "Aug 19, 2025", name: "Raksha Bandhan", region: "Nationwide", type: "Cultural", link: "raksha-bandhan" },
-    { date: "Aug 27, 2025", name: "Ganesh Chaturthi", region: "West", type: "Religious", link: "ganesh-chaturthi" },
-    { date: "Sep 07, 2025", name: "Onam", region: "South", type: "Harvest", link: "onam" },
-    { date: "Sep 22 - Oct 01, 2025", name: "Navratri", region: "Nationwide", type: "Religious", link: "navratri" },
-    { date: "Sep 27 - Oct 01, 2025", name: "Durga Puja", region: "East", type: "Religious", link: "durga-puja" },
-    { date: "Oct 21, 2025", name: "Diwali", region: "Nationwide", type: "Religious", link: "diwali" },
-    { date: "Oct 23, 2025", name: "Bhai Dooj", region: "Nationwide", type: "Cultural", link: "diwali" },
-    { date: "Oct 27, 2025", name: "Chhath Puja", region: "East", type: "Solar", link: "chhath-puja" },
-    { date: "Jan 14, 2026", name: "Makar Sankranti", region: "Nationwide", type: "Harvest", link: "makar-sankranti" },
-    { date: "Jan 14-17, 2026", name: "Pongal", region: "South", type: "Harvest", link: "pongal" },
-    { date: "Jan 15, 2026", name: "Bihu", region: "Northeast", type: "Harvest", link: "bihu" },
-    { date: "Feb 03, 2026", name: "Vasant Panchami", region: "Nationwide", type: "Seasonal", link: "vasant-panchami" },
-    { date: "Mar 04, 2026", name: "Holi", region: "Nationwide", type: "Cultural", link: "holi" },
-    { date: "Mar 21, 2026", name: "Gudi Padwa", region: "West", type: "New Year", link: "gudi-padwa" },
+    // Festivals 2025
+    { date: "Aug 19, 2025", name: "Raksha Bandhan", region: "Nationwide", type: "Cultural", link: "/festivals/raksha-bandhan" },
+    { date: "Aug 27, 2025", name: "Ganesh Chaturthi", region: "West", type: "Religious", link: "/festivals/ganesh-chaturthi" },
+    { date: "Sep 07, 2025", name: "Onam", region: "South", type: "Harvest", link: "/festivals/onam" },
+    { date: "Sep 22 - Oct 01, 2025", name: "Navratri", region: "Nationwide", type: "Religious", link: "/festivals/navratri" },
+    { date: "Sep 27 - Oct 01, 2025", name: "Durga Puja", region: "East", type: "Religious", link: "/festivals/durga-puja" },
+    { date: "Oct 19, 2025", name: "Dhanteras", region: "Nationwide", type: "Diwali", link: "/festivals/diwali" },
+    { date: "Oct 20, 2025", name: "Naraka Chaturdashi (Choti Diwali)", region: "Nationwide", type: "Diwali", link: "/festivals/diwali" },
+    { date: "Oct 21, 2025", name: "Lakshmi Puja (Diwali)", region: "Nationwide", type: "Diwali", link: "/festivals/diwali" },
+    { date: "Oct 22, 2025", name: "Govardhan Puja (Padwa)", region: "Nationwide", type: "Diwali", link: "/festivals/diwali" },
+    { date: "Oct 23, 2025", name: "Bhai Dooj (Bhaubeej)", region: "Nationwide", type: "Diwali", link: "/festivals/diwali" },
+    { date: "Oct 27, 2025", name: "Chhath Puja", region: "East", type: "Solar", link: "/festivals/chhath-puja" },
+
+    // Festivals 2026
+    { date: "Jan 14, 2026", name: "Makar Sankranti", region: "Nationwide", type: "Harvest", link: "/festivals/makar-sankranti" },
+    { date: "Jan 14-17, 2026", name: "Pongal", region: "South", type: "Harvest", link: "/festivals/pongal" },
+    { date: "Jan 15, 2026", name: "Bihu", region: "Northeast", type: "Harvest", link: "/festivals/bihu" },
+    { date: "Feb 03, 2026", name: "Vasant Panchami", region: "Nationwide", type: "Seasonal", link: null },
+    { date: "Mar 04, 2026", name: "Holi", region: "Nationwide", type: "Cultural", link: "/festivals/holi" },
+    { date: "Mar 21, 2026", name: "Gudi Padwa", region: "West", type: "New Year", link: "/festivals/gudi-padwa" },
 
     // Public Holidays 2025
     { date: "Jan 01, 2025", name: "New Year's Day", region: "Nationwide", type: "Holiday", link: null },
@@ -93,7 +98,14 @@ export function FestivalCalendar() {
         const yearMatch = selectedYear === 'all' || eventYear === parseInt(selectedYear);
         const monthMatch = selectedMonth === 'all' || eventMonth === selectedMonth;
         const regionMatch = selectedRegion === 'all' || event.region === selectedRegion;
-        const eventTypeMatch = selectedEventType === 'all' || (selectedEventType === 'Festivals' && event.type !== 'Holiday') || (selectedEventType === 'Holidays' && event.type === 'Holiday');
+        
+        let eventTypeMatch = true;
+        if (selectedEventType === 'Festivals') {
+            eventTypeMatch = event.type !== 'Holiday';
+        } else if (selectedEventType === 'Holidays') {
+            eventTypeMatch = event.type === 'Holiday';
+        }
+
 
         return yearMatch && monthMatch && regionMatch && eventTypeMatch;
     });
@@ -104,6 +116,7 @@ export function FestivalCalendar() {
             case 'Cultural': return 'secondary';
             case 'Harvest': return 'default';
             case 'Holiday': return 'outline';
+            case 'Diwali': return 'default';
             default: return 'secondary';
         }
     };
@@ -113,6 +126,7 @@ export function FestivalCalendar() {
             case 'Religious': return 'bg-primary/80 text-primary-foreground';
             case 'Harvest': return 'bg-green-600/80 text-white';
             case 'Holiday': return 'border-blue-500/80 text-blue-500';
+            case 'Diwali': return 'bg-amber-500/80 text-white';
             default: return '';
         }
     };
