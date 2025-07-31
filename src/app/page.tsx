@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Mail, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { FestivalCalendar } from "@/components/FestivalCalendar";
 
 export default function Home() {
   const upcomingFestivals = [
@@ -36,9 +37,9 @@ export default function Home() {
             Discover the rich tapestry of Indian festivals. Explore traditions, recipes, and stories that make each celebration unique.
           </p>
           <div className="mt-8 flex justify-center">
-            <Link href="/calendar">
+            <Link href="/festivals">
               <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground">
-                Explore Festival Calendar <ArrowRight className="ml-2" />
+                Explore All Festivals <ArrowRight className="ml-2" />
               </Button>
             </Link>
           </div>
@@ -74,6 +75,11 @@ export default function Home() {
           <CarouselNext className="hidden md:flex" />
         </Carousel>
       </section>
+
+      <section className="container mx-auto px-4">
+        <FestivalCalendar />
+      </section>
+
 
       <section className="container mx-auto px-4">
         <h2 className="font-headline text-3xl md:text-4xl font-bold text-center mb-8">Featured Recipes</h2>
