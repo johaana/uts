@@ -32,8 +32,8 @@ const months = ["January", "February", "March", "April", "May", "June", "July", 
 const regions = ["Nationwide", "North", "South", "East", "West", "Northeast"];
 
 export default function CalendarPage() {
-    const [selectedMonth, setSelectedMonth] = useState('');
-    const [selectedRegion, setSelectedRegion] = useState('');
+    const [selectedMonth, setSelectedMonth] = useState('all');
+    const [selectedRegion, setSelectedRegion] = useState('all');
 
     const getMonthFromDateString = (dateString: string) => {
         try {
@@ -48,8 +48,8 @@ export default function CalendarPage() {
     
     const filteredFestivals = festivalCalendar.filter(festival => {
         const festivalMonth = getMonthFromDateString(festival.date);
-        const monthMatch = selectedMonth ? festivalMonth === selectedMonth : true;
-        const regionMatch = selectedRegion ? festival.region === selectedRegion : true;
+        const monthMatch = selectedMonth !== 'all' ? festivalMonth === selectedMonth : true;
+        const regionMatch = selectedRegion !== 'all' ? festival.region === selectedRegion : true;
         return monthMatch && regionMatch;
     });
 
@@ -71,7 +71,7 @@ export default function CalendarPage() {
                                 <SelectValue placeholder="Month" />
                             </SelectTrigger>
                             <SelectContent>
-                                <SelectItem value="">All Months</SelectItem>
+                                <SelectItem value="all">All Months</SelectItem>
                                 {months.map(month => <SelectItem key={month} value={month}>{month}</SelectItem>)}
                             </SelectContent>
                         </Select>
@@ -80,7 +80,7 @@ export default function CalendarPage() {
                                 <SelectValue placeholder="Region" />
                             </SelectTrigger>
                             <SelectContent>
-                                 <SelectItem value="">All Regions</SelectItem>
+                                 <SelectItem value="all">All Regions</SelectItem>
                                 {regions.map(region => <SelectItem key={region} value={region}>{region}</SelectItem>)}
                             </SelectContent>
                         </Select>
