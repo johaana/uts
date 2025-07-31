@@ -5,7 +5,7 @@ import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 
 export const metadata: Metadata = {
-  title: 'Utsavopedia',
+  title: 'Utsavs',
   description: 'A vibrant celebration of Indian festivals.',
 };
 

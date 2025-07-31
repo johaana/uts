@@ -53,7 +53,7 @@ export default function ShopPage() {
                     </Card>
                 ))}
             </div>
-             <p className="text-center mt-12 text-sm text-muted-foreground">As an affiliate, we may earn from qualifying purchases. This helps support Utsavopedia.</p>
+             <p className="text-center mt-12 text-sm text-muted-foreground">As an affiliate, we may earn from qualifying purchases. This helps support Utsavs.</p>
         </div>
     );
 }

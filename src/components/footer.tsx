@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
-import { UtsavopediaLogo } from "./icons";
+import { UtsavsLogo } from "./icons";
 import { Facebook, Twitter, Instagram, Youtube } from "lucide-react";
 
 export function Footer() {
@@ -11,8 +11,8 @@ export function Footer() {
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-3">
           <div className="lg:col-span-1">
             <Link href="/" className="flex items-center gap-2 mb-4">
-                <UtsavopediaLogo />
-                <span className="font-headline text-2xl font-bold text-primary">Utsavopedia</span>
+                <UtsavsLogo />
+                <span className="font-headline text-2xl font-bold text-primary">Utsavs</span>
             </Link>
             <p className="text-foreground/80 max-w-xs">
               Your guide to the vibrant world of Indian festivals.
@@ -52,7 +52,7 @@ export function Footer() {
           </div>
         </div>
         <div className="mt-12 border-t pt-8 text-center text-sm text-foreground/60">
-          <p>&copy; {new Date().getFullYear()} Utsavopedia. All Rights Reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Utsavs. All Rights Reserved.</p>
         </div>
       </div>
     </footer>

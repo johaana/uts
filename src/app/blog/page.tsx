@@ -17,7 +17,7 @@ export default function BlogPage() {
     return (
         <div className="container mx-auto px-4 py-12">
             <div className="text-center mb-12">
-                <h1 className="font-headline text-4xl md:text-5xl font-bold">Utsavopedia Blog</h1>
+                <h1 className="font-headline text-4xl md:text-5xl font-bold">Utsavs Blog</h1>
                 <p className="mt-4 text-lg text-foreground/80 max-w-2xl mx-auto">
                     Dive deeper into the culture, stories, and traditions that make Indian festivals so special.
                 </p>
