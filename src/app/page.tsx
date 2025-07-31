@@ -16,9 +16,9 @@ export default function Home() {
   ];
 
   const featuredRecipes = [
-    { name: "Gajar Ka Halwa", image: "https://images.unsplash.com/photo-1613542911293-9a572a135316?q=80&w=400&h=300&fit=crop", hint: "carrot dessert", festival: "Diwali" },
-    { name: "Puran Poli", image: "https://images.unsplash.com/photo-1625391029258-a53655383921?q=80&w=400&h=300&fit=crop", hint: "sweet flatbread", festival: "Ganesh Chaturthi" },
-    { name: "Ras Malai", image: "https://images.unsplash.com/photo-1596561260279-7243b81e4c79?q=80&w=400&h=300&fit=crop", hint: "milk dessert", festival: "Holi" },
+    { name: "Gajar Ka Halwa", image: "https://images.unsplash.com/photo-1613542911293-9a572a135316?q=80&w=400&h=300&fit=crop", hint: "carrot dessert", festival: "Diwali", link: "/recipes/gajar-ka-halwa" },
+    { name: "Puran Poli", image: "https://images.unsplash.com/photo-1625391029258-a53655383921?q=80&w=400&h=300&fit=crop", hint: "sweet flatbread", festival: "Ganesh Chaturthi", link: "/recipes/puran-poli" },
+    { name: "Ras Malai", image: "https://images.unsplash.com/photo-1596561260279-7243b81e4c79?q=80&w=400&h=300&fit=crop", hint: "milk dessert", festival: "Holi", link: "/recipes/ras-malai" },
   ];
 
   const blogPosts = [
@@ -88,7 +88,7 @@ export default function Home() {
                 <p className="text-sm text-muted-foreground">{recipe.festival}</p>
               </CardHeader>
               <CardContent>
-                <Link href="/recipes">
+                <Link href={recipe.link}>
                   <Button variant="outline">View Recipe</Button>
                 </Link>
               </CardContent>

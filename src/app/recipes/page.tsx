@@ -7,14 +7,14 @@ import Image from "next/image";
 import Link from "next/link";
 
 const recipes = [
-    { name: "Gajar Ka Halwa", festival: "Diwali", region: "North", image: "https://images.unsplash.com/photo-1613542911293-9a572a135316?q=80&w=400&h=300&fit=crop", hint: "carrot dessert", description: "A rich carrot pudding made with milk, sugar, and ghee." },
-    { name: "Puran Poli", festival: "Ganesh Chaturthi", region: "West", image: "https://images.unsplash.com/photo-1625391029258-a53655383921?q=80&w=400&h=300&fit=crop", hint: "sweet flatbread", description: "Sweet flatbread stuffed with a lentil and jaggery filling." },
-    { name: "Ras Malai", festival: "Holi", region: "East", image: "https://images.unsplash.com/photo-1596561260279-7243b81e4c79?q=80&w=400&h=300&fit=crop", hint: "milk dessert", description: "Soft paneer discs soaked in sweetened, thickened milk." },
-    { name: "Masala Dosa", festival: "Any", region: "South", image: "https://images.unsplash.com/photo-1626500588691-893d5854b05f?q=80&w=400&h=300&fit=crop", hint: "savory crepe", description: "A crispy crepe made from fermented rice and lentil batter, filled with spiced potatoes." },
-    { name: "Litti Chokha", festival: "Chhath Puja", region: "East", image: "https://images.unsplash.com/photo-1607353481235-e435c434310c?q=80&w=400&h=300&fit=crop", hint: "dough ball", description: "Stuffed whole wheat dough balls with a spiced gram flour filling." },
-    { name: "Dhokla", festival: "Navratri", region: "West", image: "https://images.unsplash.com/photo-1596561260279-7243b81e4c79?q=80&w=400&h=300&fit=crop", hint: "savory cake", description: "A steamed, spongy, and savory cake made from fermented batter." },
-    { name: "Hyderabadi Biryani", festival: "Eid", region: "South", image: "https://images.unsplash.com/photo-1589302168068-964664d93dc0?q=80&w=400&h=300&fit=crop", hint: "rice dish", description: "A flavorful and aromatic rice dish with marinated meat or vegetables." },
-    { name: "Momos", festival: "Losar", region: "Northeast", image: "https://images.unsplash.com/photo-1633931326408-508a8a4a75a7?q=80&w=400&h=300&fit=crop", hint: "dumpling", description: "Steamed or fried dumplings stuffed with meat or vegetables." },
+    { name: "Gajar Ka Halwa", festival: "Diwali", region: "North", image: "https://images.unsplash.com/photo-1613542911293-9a572a135316?q=80&w=400&h=300&fit=crop", hint: "carrot dessert", description: "A rich carrot pudding made with milk, sugar, and ghee.", link: "/recipes/gajar-ka-halwa" },
+    { name: "Puran Poli", festival: "Ganesh Chaturthi", region: "West", image: "https://images.unsplash.com/photo-1625391029258-a53655383921?q=80&w=400&h=300&fit=crop", hint: "sweet flatbread", description: "Sweet flatbread stuffed with a lentil and jaggery filling.", link: "/recipes/puran-poli" },
+    { name: "Ras Malai", festival: "Holi", region: "East", image: "https://images.unsplash.com/photo-1596561260279-7243b81e4c79?q=80&w=400&h=300&fit=crop", hint: "milk dessert", description: "Soft paneer discs soaked in sweetened, thickened milk.", link: "/recipes/ras-malai" },
+    { name: "Modak", festival: "Ganesh Chaturthi", region: "West", image: "https://placehold.co/400x300.png", hint: "sweet dumpling", description: "Steamed sweet dumplings filled with coconut and jaggery.", link: "/recipes/modak" },
+    { name: "Thekua", festival: "Chhath Puja", region: "East", image: "https://placehold.co/400x300.png", hint: "wheat cookie", description: "A traditional deep-fried cookie made from wheat flour and jaggery.", link: "/recipes/thekua" },
+    { name: "Ladoo", festival: "Diwali", region: "Nationwide", image: "https://placehold.co/400x300.png", hint: "sweet balls", description: "Ball-shaped sweets made of flour, fat, and sugar.", link: "/recipes/ladoo" },
+    { name: "Gujiya", festival: "Holi", region: "North", image: "https://placehold.co/400x300.png", hint: "sweet dumpling", description: "Sweet deep-fried dumplings filled with khoya and dried fruits.", link: "/recipes/gujiya" },
+    { name: "Thandai", festival: "Holi", region: "North", image: "https://placehold.co/400x300.png", hint: "cold drink", description: "A cold drink prepared with a mixture of almonds, fennel seeds, and other spices.", link: "/recipes/thandai" },
 ];
 
 export default function RecipesPage() {
@@ -43,6 +43,8 @@ export default function RecipesPage() {
                                 <SelectItem value="holi">Holi</SelectItem>
                                 <SelectItem value="navratri">Navratri</SelectItem>
                                 <SelectItem value="pongal">Pongal</SelectItem>
+                                <SelectItem value="ganesh-chaturthi">Ganesh Chaturthi</SelectItem>
+                                <SelectItem value="chhath-puja">Chhath Puja</SelectItem>
                             </SelectContent>
                         </Select>
                          <Select>
@@ -54,6 +56,7 @@ export default function RecipesPage() {
                                 <SelectItem value="south">South</SelectItem>
                                 <SelectItem value="east">East</SelectItem>
                                 <SelectItem value="west">West</SelectItem>
+                                <SelectItem value="nationwide">Nationwide</SelectItem>
                             </SelectContent>
                         </Select>
                         <Button className="bg-accent hover:bg-accent/90 text-accent-foreground">Filter</Button>
@@ -71,7 +74,9 @@ export default function RecipesPage() {
                         </CardHeader>
                         <CardContent>
                             <p className="text-sm text-foreground/70 h-16">{recipe.description}</p>
-                            <Button variant="outline" className="mt-4 w-full">View Recipe</Button>
+                            <Link href={recipe.link}>
+                                <Button variant="outline" className="mt-4 w-full">View Recipe</Button>
+                            </Link>
                         </CardContent>
                     </Card>
                 ))}
