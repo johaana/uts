@@ -7,14 +7,14 @@ import Image from "next/image";
 import Link from "next/link";
 
 const recipes = [
-    { name: "Gajar Ka Halwa", festival: "Diwali", region: "North", image: "https://images.unsplash.com/photo-1613542911293-9a572a135316?q=80&w=400&h=300&fit=crop", hint: "carrot dessert", description: "A rich carrot pudding made with milk, sugar, and ghee." },
-    { name: "Puran Poli", festival: "Ganesh Chaturthi", region: "West", image: "https://images.unsplash.com/photo-1625391029258-a53655383921?q=80&w=400&h=300&fit=crop", hint: "sweet flatbread", description: "Sweet flatbread stuffed with a lentil and jaggery filling." },
-    { name: "Ras Malai", festival: "Holi", region: "East", image: "https://images.unsplash.com/photo-1596561260279-7243b81e4c79?q=80&w=400&h=300&fit=crop", hint: "milk dessert", description: "Soft paneer discs soaked in sweetened, thickened milk." },
-    { name: "Masala Dosa", festival: "Any", region: "South", image: "https://images.unsplash.com/photo-1606463449195-3ab789cd1886?q=80&w=400&h=300&fit=crop", hint: "savory crepe", description: "A crispy crepe made from fermented rice and lentil batter, filled with spiced potatoes." },
-    { name: "Litti Chokha", festival: "Chhath Puja", region: "East", image: "https://images.unsplash.com/photo-1626508495147-3a1375dce185?q=80&w=400&h=300&fit=crop", hint: "dough ball", description: "Stuffed whole wheat dough balls with a spiced gram flour filling." },
-    { name: "Dhokla", festival: "Navratri", region: "West", image: "https://images.unsplash.com/photo-1602937817454-b529a3980a32?q=80&w=400&h=300&fit=crop", hint: "savory cake", description: "A steamed, spongy, and savory cake made from fermented batter." },
-    { name: "Hyderabadi Biryani", festival: "Eid", region: "South", image: "https://images.unsplash.com/photo-1589302168068-964664d93dc0?q=80&w=400&h=300&fit=crop", hint: "rice dish", description: "A flavorful and aromatic rice dish with marinated meat or vegetables." },
-    { name: "Momos", festival: "Losar", region: "Northeast", image: "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?q=80&w=400&h=300&fit=crop", hint: "dumpling", description: "Steamed or fried dumplings stuffed with meat or vegetables." },
+    { name: "Gajar Ka Halwa", festival: "Diwali", region: "North", image: "https://images.unsplash.com/photo-1613542911293-9a572a135316?q=80&w=400&h=300&crop=entropy", hint: "carrot dessert", description: "A rich carrot pudding made with milk, sugar, and ghee." },
+    { name: "Puran Poli", festival: "Ganesh Chaturthi", region: "West", image: "https://images.unsplash.com/photo-1625391029258-a53655383921?q=80&w=400&h=300&crop=entropy", hint: "sweet flatbread", description: "Sweet flatbread stuffed with a lentil and jaggery filling." },
+    { name: "Ras Malai", festival: "Holi", region: "East", image: "https://images.unsplash.com/photo-1596561260279-7243b81e4c79?q=80&w=400&h=300&crop=entropy", hint: "milk dessert", description: "Soft paneer discs soaked in sweetened, thickened milk." },
+    { name: "Masala Dosa", festival: "Any", region: "South", image: "https://images.unsplash.com/photo-1606463449195-3ab789cd1886?q=80&w=400&h=300&crop=entropy", hint: "savory crepe", description: "A crispy crepe made from fermented rice and lentil batter, filled with spiced potatoes." },
+    { name: "Litti Chokha", festival: "Chhath Puja", region: "East", image: "https://images.unsplash.com/photo-1626508495147-3a1375dce185?q=80&w=400&h=300&crop=entropy", hint: "dough ball", description: "Stuffed whole wheat dough balls with a spiced gram flour filling." },
+    { name: "Dhokla", festival: "Navratri", region: "West", image: "https://images.unsplash.com/photo-1602937817454-b529a3980a32?q=80&w=400&h=300&crop=entropy", hint: "savory cake", description: "A steamed, spongy, and savory cake made from fermented batter." },
+    { name: "Hyderabadi Biryani", festival: "Eid", region: "South", image: "https://images.unsplash.com/photo-1589302168068-964664d93dc0?q=80&w=400&h=300&crop=entropy", hint: "rice dish", description: "A flavorful and aromatic rice dish with marinated meat or vegetables." },
+    { name: "Momos", festival: "Losar", region: "Northeast", image: "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?q=80&w=400&h=300&crop=entropy", hint: "dumpling", description: "Steamed or fried dumplings stuffed with meat or vegetables." },
 ];
 
 export default function RecipesPage() {

@@ -7,14 +7,14 @@ import Image from "next/image";
 import Link from "next/link";
 
 const festivals = [
-    { name: "Diwali", region: "Nationwide", image: "https://images.unsplash.com/photo-1574322499484-85a8a7c08186?q=80&w=600&h=400&fit=crop", hint: "lights diyas", description: "The festival of lights, symbolizing the victory of light over darkness." },
-    { name: "Holi", region: "Nationwide", image: "https://images.unsplash.com/photo-1519624090336-6b21b8575953?q=80&w=600&h=400&fit=crop", hint: "colors powder", description: "The festival of colors, celebrating the arrival of spring and love." },
-    { name: "Navratri", region: "West", image: "https://images.unsplash.com/photo-1589498202028-2a2b72183c58?q=80&w=600&h=400&fit=crop", hint: "garba dance", description: "A nine-night festival dedicated to the goddess Durga." },
-    { name: "Durga Puja", region: "East", image: "https://images.unsplash.com/photo-1544275932-c64057a6e5b8?q=80&w=600&h=400&fit=crop", hint: "goddess durga", description: "A major festival in Bengal celebrating the goddess Durga's victory." },
-    { name: "Ganesh Chaturthi", region: "West", image: "https://images.unsplash.com/photo-1596791834185-a7c3315a4523?q=80&w=600&h=400&fit=crop", hint: "ganesha idol", description: "Celebrates the birth of Lord Ganesha, the god of new beginnings." },
-    { name: "Pongal", region: "South", image: "https://images.unsplash.com/photo-1579582848902-ed48339c94f5?q=80&w=600&h=400&fit=crop", hint: "harvest festival", description: "A harvest festival celebrated in Tamil Nadu to thank the Sun God." },
-    { name: "Onam", region: "South", image: "https://images.unsplash.com/photo-1603218585445-565d7740f419?q=80&w=600&h=400&fit=crop", hint: "flower carpet", description: "A harvest festival of Kerala that celebrates the homecoming of King Mahabali." },
-    { name: "Bihu", region: "Northeast", image: "https://images.unsplash.com/photo-1581488179294-85bcb16244fe?q=80&w=600&h=400&fit=crop", hint: "assamese dance", description: "A set of three important Assamese festivals celebrating different phases of the farming calendar." },
+    { name: "Diwali", region: "Nationwide", image: "https://images.unsplash.com/photo-1574322499484-85a8a7c08186?q=80&w=600&h=400&crop=entropy", hint: "lights diyas", description: "The festival of lights, symbolizing the victory of light over darkness." },
+    { name: "Holi", region: "Nationwide", image: "https://images.unsplash.com/photo-1519624090336-6b21b8575953?q=80&w=600&h=400&crop=entropy", hint: "colors powder", description: "The festival of colors, celebrating the arrival of spring and love." },
+    { name: "Navratri", region: "West", image: "https://images.unsplash.com/photo-1589498202028-2a2b72183c58?q=80&w=600&h=400&crop=entropy", hint: "garba dance", description: "A nine-night festival dedicated to the goddess Durga." },
+    { name: "Durga Puja", region: "East", image: "https://images.unsplash.com/photo-1544275932-c64057a6e5b8?q=80&w=600&h=400&crop=entropy", hint: "goddess durga", description: "A major festival in Bengal celebrating the goddess Durga's victory." },
+    { name: "Ganesh Chaturthi", region: "West", image: "https://images.unsplash.com/photo-1596791834185-a7c3315a4523?q=80&w=600&h=400&crop=entropy", hint: "ganesha idol", description: "Celebrates the birth of Lord Ganesha, the god of new beginnings." },
+    { name: "Pongal", region: "South", image: "https://images.unsplash.com/photo-1579582848902-ed48339c94f5?q=80&w=600&h=400&crop=entropy", hint: "harvest festival", description: "A harvest festival celebrated in Tamil Nadu to thank the Sun God." },
+    { name: "Onam", region: "South", image: "https://images.unsplash.com/photo-1603218585445-565d7740f419?q=80&w=600&h=400&crop=entropy", hint: "flower carpet", description: "A harvest festival of Kerala that celebrates the homecoming of King Mahabali." },
+    { name: "Bihu", region: "Northeast", image: "https://images.unsplash.com/photo-1581488179294-85bcb16244fe?q=80&w=600&h=400&crop=entropy", hint: "assamese dance", description: "A set of three important Assamese festivals celebrating different phases of the farming calendar." },
 ];
 
 export default function FestivalsPage() {
