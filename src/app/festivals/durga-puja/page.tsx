@@ -5,9 +5,9 @@ import Image from "next/image";
 import Link from "next/link";
 
 const recipes = [
-    { name: "Khichuri", image: "https://placehold.co/400x300.png", hint: "rice and lentil dish" },
-    { name: "Labra", image: "https://placehold.co/400x300.png", hint: "mixed vegetable" },
-    { name: "Sabudana Khichdi", image: "https://placehold.co/400x300.png", hint: "tapioca pilaf" },
+    { name: "Khichuri", image: "https://images.unsplash.com/photo-1599422501066-8b43f990f133?q=80&w=400&h=300&fit=crop", hint: "rice and lentil dish" },
+    { name: "Labra", image: "https://images.unsplash.com/photo-1628848177430-a7d0352520da?q=80&w=400&h=300&fit=crop", hint: "mixed vegetable" },
+    { name: "Sabudana Khichdi", image: "https://images.unsplash.com/photo-1606550212039-9b76e2c9e7a2?q=80&w=400&h=300&fit=crop", hint: "tapioca pilaf" },
 ]
 
 export default function DurgaPujaPage() {

@@ -5,9 +5,9 @@ import Image from "next/image";
 import Link from "next/link";
 
 const recipes = [
-    { name: "Pitha", image: "https://placehold.co/400x300.png", hint: "rice cake" },
-    { name: "Laru", image: "https://placehold.co/400x300.png", hint: "sweet balls" },
-    { name: "Fish Curry with Joha Rice", image: "https://placehold.co/400x300.png", hint: "fish curry" },
+    { name: "Pitha", image: "https://images.unsplash.com/photo-1626094309830-0d7ea26f3094?q=80&w=400&h=300&fit=crop", hint: "rice cake" },
+    { name: "Laru", image: "https://images.unsplash.com/photo-1613542911293-9a572a135316?q=80&w=400&h=300&fit=crop", hint: "sweet balls" },
+    { name: "Fish Curry with Joha Rice", image: "https://images.unsplash.com/photo-1574484284001-a1fd3b33445f?q=80&w=400&h=300&fit=crop", hint: "fish curry" },
 ]
 
 export default function BihuPage() {

@@ -5,9 +5,9 @@ import Image from "next/image";
 import Link from "next/link";
 
 const recipes = [
-    { name: "Chakli", image: "https://images.unsplash.com/photo-1615937691168-32a76a52a3b2?q=80&w=400&h=300&fit=crop", hint: "spiral snack", link: "/recipes/ladoo" },
-    { name: "Kaju Katli", image: "https://images.unsplash.com/photo-1596561260279-7243b81e4c79?q=80&w=400&h=300&fit=crop", hint: "cashew fudge", link: "/recipes/ras-malai" },
     { name: "Ladoo", image: "https://images.unsplash.com/photo-1613542911293-9a572a135316?q=80&w=400&h=300&fit=crop", hint: "sweet balls", link: "/recipes/ladoo" },
+    { name: "Kaju Katli", image: "https://images.unsplash.com/photo-1596561260279-7243b81e4c79?q=80&w=400&h=300&fit=crop", hint: "cashew fudge", link: "/recipes/kaju-katli" },
+    { name: "Gajar Ka Halwa", image: "https://images.unsplash.com/photo-1613542911293-9a572a135316?q=80&w=400&h=300&fit=crop", hint: "carrot dessert", link: "/recipes/gajar-ka-halwa" },
 ]
 
 export default function DiwaliPage() {
@@ -145,12 +145,14 @@ export default function DiwaliPage() {
                                 <p className="mb-6 text-foreground/80 prose max-w-none">Diwali is a time for feasting, where kitchens come alive with the aroma of spices and sweets. Families prepare an array of 'mithai' (sweets) and savory snacks to share. Here are some quintessential Diwali dishes.</p>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                                     {recipes.map(recipe => (
-                                        <Card key={recipe.name} className="overflow-hidden">
-                                            <Image src={recipe.image} alt={recipe.name} width={400} height={300} className="w-full h-40 object-cover" data-ai-hint={recipe.hint}/>
-                                            <CardContent className="p-4">
-                                                <h3 className="font-headline text-xl font-bold text-center">{recipe.name}</h3>
-                                            </CardContent>
-                                        </Card>
+                                        <Link href={recipe.link} key={recipe.name}>
+                                            <Card className="overflow-hidden h-full">
+                                                <Image src={recipe.image} alt={recipe.name} width={400} height={300} className="w-full h-40 object-cover" data-ai-hint={recipe.hint}/>
+                                                <CardContent className="p-4">
+                                                    <h3 className="font-headline text-xl font-bold text-center">{recipe.name}</h3>
+                                                </CardContent>
+                                            </Card>
+                                        </Link>
                                     ))}
                                 </div>
                                 <div className="text-center mt-6">

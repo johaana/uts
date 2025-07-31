@@ -5,9 +5,9 @@ import Image from "next/image";
 import Link from "next/link";
 
 const recipes = [
-    { name: "Sakkarai Pongal", image: "https://placehold.co/400x300.png", hint: "sweet pongal" },
-    { name: "Ven Pongal", image: "https://placehold.co/400x300.png", hint: "savory pongal" },
-    { name: "Medu Vada", image: "https://placehold.co/400x300.png", hint: "lentil fritter" },
+    { name: "Sakkarai Pongal", image: "https://images.unsplash.com/photo-1608622834734-74a0f81b5abb?q=80&w=400&h=300&fit=crop", hint: "sweet pongal" },
+    { name: "Ven Pongal", image: "https://images.unsplash.com/photo-1628848177430-a7d0352520da?q=80&w=400&h=300&fit=crop", hint: "savory pongal" },
+    { name: "Medu Vada", image: "https://images.unsplash.com/photo-1663953538268-54b664d4715f?q=80&w=400&h=300&fit=crop", hint: "lentil fritter" },
 ]
 
 export default function PongalPage() {

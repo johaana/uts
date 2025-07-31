@@ -5,9 +5,9 @@ import Image from "next/image";
 import Link from "next/link";
 
 const recipes = [
-    { name: "Thekua", image: "https://placehold.co/400x300.png", hint: "wheat cookie" },
-    { name: "Rasia Kheer", image: "https://placehold.co/400x300.png", hint: "jaggery pudding" },
-    { name: "Fruits and Sugarcane", image: "https://placehold.co/400x300.png", hint: "fruit offering" },
+    { name: "Thekua", image: "https://images.unsplash.com/photo-1604435924739-429948033575?q=80&w=400&h=300&fit=crop", hint: "wheat cookie", link: "/recipes/thekua" },
+    { name: "Rasia Kheer", image: "https://images.unsplash.com/photo-1604938927599-633059dce83c?q=80&w=400&h=300&fit=crop", hint: "jaggery pudding", link: "#"  },
+    { name: "Fruits and Sugarcane", image: "https://images.unsplash.com/photo-1595463567638-6b5d92a537f0?q=80&w=400&h=300&fit=crop", hint: "fruit offering", link: "#"  },
 ]
 
 export default function ChhathPujaPage() {
@@ -78,12 +78,14 @@ export default function ChhathPujaPage() {
                                 <h2 className="font-headline text-3xl font-bold mb-4">Sacred Offerings (Prasad)</h2>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                                     {recipes.map(recipe => (
-                                        <Card key={recipe.name} className="overflow-hidden">
-                                            <Image src={recipe.image} alt={recipe.name} width={400} height={300} className="w-full h-40 object-cover" data-ai-hint={recipe.hint}/>
-                                            <CardContent className="p-4">
-                                                <h3 className="font-headline text-xl font-bold text-center">{recipe.name}</h3>
-                                            </CardContent>
-                                        </Card>
+                                       <Link href={recipe.link || "#"} key={recipe.name}>
+                                            <Card className="overflow-hidden h-full">
+                                                <Image src={recipe.image} alt={recipe.name} width={400} height={300} className="w-full h-40 object-cover" data-ai-hint={recipe.hint}/>
+                                                <CardContent className="p-4">
+                                                    <h3 className="font-headline text-xl font-bold text-center">{recipe.name}</h3>
+                                                </CardContent>
+                                            </Card>
+                                        </Link>
                                     ))}
                                 </div>
                             </TabsContent>

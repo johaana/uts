@@ -5,9 +5,9 @@ import Image from "next/image";
 import Link from "next/link";
 
 const recipes = [
-    { name: "Avial", image: "https://placehold.co/400x300.png", hint: "mixed vegetable curry" },
-    { name: "Sambar", image: "https://placehold.co/400x300.png", hint: "lentil stew" },
-    { name: "Payasam", image: "https://placehold.co/400x300.png", hint: "rice pudding" },
+    { name: "Avial", image: "https://images.unsplash.com/photo-1628848177430-a7d0352520da?q=80&w=400&h=300&fit=crop", hint: "mixed vegetable curry" },
+    { name: "Sambar", image: "https://images.unsplash.com/photo-1589301760014-d929f397918b?q=80&w=400&h=300&fit=crop", hint: "lentil stew" },
+    { name: "Payasam", image: "https://images.unsplash.com/photo-1604938927599-633059dce83c?q=80&w=400&h=300&fit=crop", hint: "rice pudding" },
 ]
 
 export default function OnamPage() {

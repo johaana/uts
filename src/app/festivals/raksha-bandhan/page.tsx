@@ -5,9 +5,9 @@ import Image from "next/image";
 import Link from "next/link";
 
 const recipes = [
-    { name: "Kaju Katli", image: "https://placehold.co/400x300.png", hint: "cashew fudge" },
-    { name: "Besan Ladoo", image: "https://placehold.co/400x300.png", hint: "gram flour sweet" },
-    { name: "Coconut Barfi", image: "https://placehold.co/400x300.png", hint: "coconut fudge" },
+    { name: "Kaju Katli", image: "https://images.unsplash.com/photo-1596561260279-7243b81e4c79?q=80&w=400&h=300&fit=crop", hint: "cashew fudge", link: "/recipes/kaju-katli" },
+    { name: "Besan Ladoo", image: "https://images.unsplash.com/photo-1613542911293-9a572a135316?q=80&w=400&h=300&fit=crop", hint: "gram flour sweet", link: "/recipes/ladoo" },
+    { name: "Coconut Barfi", image: "https://images.unsplash.com/photo-1606550212039-9b76e2c9e7a2?q=80&w=400&h=300&fit=crop", hint: "coconut fudge", link: "/recipes/coconut-barfi" },
 ]
 
 export default function RakshaBandhanPage() {
@@ -64,12 +64,14 @@ export default function RakshaBandhanPage() {
                                 <h2 className="font-headline text-3xl font-bold mb-4">Sweet Treats for Siblings</h2>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                                     {recipes.map(recipe => (
-                                        <Card key={recipe.name} className="overflow-hidden">
-                                            <Image src={recipe.image} alt={recipe.name} width={400} height={300} className="w-full h-40 object-cover" data-ai-hint={recipe.hint}/>
-                                            <CardContent className="p-4">
-                                                <h3 className="font-headline text-xl font-bold text-center">{recipe.name}</h3>
-                                            </CardContent>
-                                        </Card>
+                                        <Link href={recipe.link} key={recipe.name}>
+                                            <Card className="overflow-hidden h-full">
+                                                <Image src={recipe.image} alt={recipe.name} width={400} height={300} className="w-full h-40 object-cover" data-ai-hint={recipe.hint}/>
+                                                <CardContent className="p-4">
+                                                    <h3 className="font-headline text-xl font-bold text-center">{recipe.name}</h3>
+                                                </CardContent>
+                                            </Card>
+                                        </Link>
                                     ))}
                                 </div>
                             </TabsContent>
