@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote, CalendarDays } from "lucide-react";
+import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote, CalendarDays, Leaf } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -25,12 +25,13 @@ export default function DiwaliPage() {
                 <Card className="mb-12">
                     <CardContent className="p-6 md:p-10">
                         <Tabs defaultValue="overview">
-                            <TabsList className="grid w-full grid-cols-2 md:grid-cols-5 mb-6">
+                            <TabsList className="grid w-full grid-cols-2 md:grid-cols-6 mb-6">
                                 <TabsTrigger value="overview"><BookOpen className="w-4 h-4 mr-2" />Overview</TabsTrigger>
                                 <TabsTrigger value="five-days"><CalendarDays className="w-4 h-4 mr-2" />The Five Days</TabsTrigger>
                                 <TabsTrigger value="rituals"><CheckCircle className="w-4 h-4 mr-2" />Rituals</TabsTrigger>
                                 <TabsTrigger value="recipes"><Utensils className="w-4 h-4 mr-2" />Recipes</TabsTrigger>
                                 <TabsTrigger value="chants"><MessageSquareQuote className="w-4 h-4 mr-2" />Chants</TabsTrigger>
+                                <TabsTrigger value="eco-friendly"><Leaf className="w-4 h-4 mr-2" />Eco-Friendly</TabsTrigger>
                             </TabsList>
 
                             <TabsContent value="overview">
@@ -181,6 +182,42 @@ export default function DiwaliPage() {
                                             <p className="mt-2 text-foreground/80">This mantra is chanted to seek the blessings of Lord Kuber, the treasurer of the gods, for material wealth and success.</p>
                                         </CardContent>
                                     </Card>
+                                </div>
+                            </TabsContent>
+                            <TabsContent value="eco-friendly">
+                                <h2 className="font-headline text-3xl font-bold mb-4">Celebrating a Green Diwali</h2>
+                                <div className="space-y-4 text-foreground/80 prose max-w-none">
+                                    <p>Celebrate the festival of lights while being mindful of Mother Earth. A few small changes can make a big difference in reducing the environmental impact of the festivities.</p>
+                                    <ul className="space-y-4 pl-4">
+                                        <li className="flex items-start">
+                                            <Leaf className="w-6 h-6 mr-3 mt-1 text-green-600 shrink-0"/>
+                                            <div>
+                                                <h4 className="font-bold">Choose Earthen Lamps</h4>
+                                                <p>Opt for traditional clay diyas instead of plastic, electric lights. They are biodegradable and support local artisans. You can even paint them yourself for a personal touch.</p>
+                                            </div>
+                                        </li>
+                                        <li className="flex items-start">
+                                            <Leaf className="w-6 h-6 mr-3 mt-1 text-green-600 shrink-0"/>
+                                            <div>
+                                                <h4 className="font-bold">Natural Rangoli</h4>
+                                                <p>Create beautiful rangoli using natural colors like rice flour, turmeric, coffee powder, and flower petals instead of synthetic powders that contain harmful chemicals.</p>
+                                            </div>
+                                        </li>
+                                        <li className="flex items-start">
+                                            <Leaf className="w-6 h-6 mr-3 mt-1 text-green-600 shrink-0"/>
+                                            <div>
+                                                <h4 className="font-bold">Say No to Crackers</h4>
+                                                <p>Fireworks cause significant air and noise pollution, which is harmful to humans, animals, and the environment. Celebrate with light, not noise. Consider organizing a community light show or a laser show instead.</p>
+                                            </div>
+                                        </li>
+                                        <li className="flex items-start">
+                                            <Leaf className="w-6 h-6 mr-3 mt-1 text-green-600 shrink-0"/>
+                                            <div>
+                                                <h4 className="font-bold">Eco-Friendly Gifting</h4>
+                                                <p>Wrap gifts in newspaper or cloth instead of plastic-based wrappers. Gift plants, handmade sweets, or eco-friendly products to your loved ones.</p>
+                                            </div>
+                                        </li>
+                                    </ul>
                                 </div>
                             </TabsContent>
                         </Tabs>

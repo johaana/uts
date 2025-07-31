@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { BookOpen, Sparkles, MessageSquareQuote, CalendarDays } from "lucide-react";
+import { BookOpen, Sparkles, MessageSquareQuote, CalendarDays, Leaf } from "lucide-react";
 import Image from "next/image";
 
 const dayColors = [
@@ -31,11 +31,12 @@ export default function NavratriPage() {
                 <Card className="mb-12">
                     <CardContent className="p-6 md:p-10">
                         <Tabs defaultValue="overview">
-                            <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 mb-6">
+                            <TabsList className="grid w-full grid-cols-2 md:grid-cols-5 mb-6">
                                 <TabsTrigger value="overview"><BookOpen className="w-4 h-4 mr-2" />Overview</TabsTrigger>
                                 <TabsTrigger value="nine-nights"><CalendarDays className="w-4 h-4 mr-2" />The Nine Nights</TabsTrigger>
                                 <TabsTrigger value="culture"><Sparkles className="w-4 h-4 mr-2" />Culture & Dance</TabsTrigger>
                                 <TabsTrigger value="chants"><MessageSquareQuote className="w-4 h-4 mr-2" />Chants</TabsTrigger>
+                                <TabsTrigger value="eco-friendly"><Leaf className="w-4 h-4 mr-2" />Eco-Friendly</TabsTrigger>
                             </TabsList>
 
                             <TabsContent value="overview">
@@ -105,6 +106,42 @@ export default function NavratriPage() {
                                             <p className="mt-2 text-foreground/80">A highly energetic and popular hymn praising Goddess Durga as the daughter of the mountain king and the joy of the universe. It describes her fierce and victorious nature.</p>
                                         </CardContent>
                                     </Card>
+                                </div>
+                            </TabsContent>
+                             <TabsContent value="eco-friendly">
+                                <h2 className="font-headline text-3xl font-bold mb-4">Celebrating a Green Navratri</h2>
+                                <div className="space-y-4 text-foreground/80 prose max-w-none">
+                                    <p>Celebrate the nine nights of divine energy with respect for nature. Here are some ways to have a sustainable Navratri.</p>
+                                    <ul className="space-y-4 pl-4">
+                                        <li className="flex items-start">
+                                            <Leaf className="w-6 h-6 mr-3 mt-1 text-green-600 shrink-0"/>
+                                            <div>
+                                                <h4 className="font-bold">Clay Garba Pot</h4>
+                                                <p>Use a traditional, decorated earthen pot for the Garba instead of ones made from synthetic materials. This honors tradition and is eco-friendly.</p>
+                                            </div>
+                                        </li>
+                                        <li className="flex items-start">
+                                            <Leaf className="w-6 h-6 mr-3 mt-1 text-green-600 shrink-0"/>
+                                            <div>
+                                                <h4 className="font-bold">Sustainable Feasting</h4>
+                                                <p>Serve prasad and food on biodegradable leaf plates (pattals) or reusable utensils. Avoid single-use plastics and styrofoam to minimize waste during community feasts.</p>
+                                            </div>
+                                        </li>
+                                        <li className="flex items-start">
+                                            <Leaf className="w-6 h-6 mr-3 mt-1 text-green-600 shrink-0"/>
+                                            <div>
+                                                <h4 className="font-bold">Noise-Free Celebrations</h4>
+                                                <p>Keep the volume of music at Garba and Dandiya events within permissible limits to avoid noise pollution. Respect the peace and quiet of your neighborhood.</p>
+                                            </div>
+                                        </li>
+                                         <li className="flex items-start">
+                                            <Leaf className="w-6 h-6 mr-3 mt-1 text-green-600 shrink-0"/>
+                                            <div>
+                                                <h4 className="font-bold">Conscious Fashion</h4>
+                                                <p>Rent, borrow, or reuse traditional attire for the nine nights instead of buying new clothes that you might only wear once. This promotes a circular economy and reduces textile waste.</p>
+                                            </div>
+                                        </li>
+                                    </ul>
                                 </div>
                             </TabsContent>
                         </Tabs>

@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote } from "lucide-react";
+import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote, Leaf } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -25,11 +25,12 @@ export default function HoliPage() {
                 <Card className="mb-12">
                     <CardContent className="p-6 md:p-10">
                         <Tabs defaultValue="overview">
-                            <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 mb-6">
+                            <TabsList className="grid w-full grid-cols-2 md:grid-cols-5 mb-6">
                                 <TabsTrigger value="overview"><BookOpen className="w-4 h-4 mr-2" />Overview</TabsTrigger>
                                 <TabsTrigger value="traditions"><Sparkles className="w-4 h-4 mr-2" />Traditions</TabsTrigger>
                                 <TabsTrigger value="recipes"><Utensils className="w-4 h-4 mr-2" />Recipes</TabsTrigger>
                                 <TabsTrigger value="chants"><MessageSquareQuote className="w-4 h-4 mr-2" />Chants</TabsTrigger>
+                                <TabsTrigger value="eco-friendly"><Leaf className="w-4 h-4 mr-2" />Eco-Friendly</TabsTrigger>
                             </TabsList>
 
                             <TabsContent value="overview">
@@ -105,6 +106,42 @@ export default function HoliPage() {
                                             <p className="mt-2 text-foreground/80">Holi is also associated with the divine love of Radha and Krishna. Devotional songs (bhajans) celebrating their playful and colorful 'leela' (divine play) are sung with great enthusiasm.</p>
                                         </CardContent>
                                     </Card>
+                                </div>
+                            </TabsContent>
+                            <TabsContent value="eco-friendly">
+                                <h2 className="font-headline text-3xl font-bold mb-4">Celebrating a Green Holi</h2>
+                                <div className="space-y-4 text-foreground/80 prose max-w-none">
+                                    <p>Enjoy the festival of colors while protecting your skin and the environment. Here's how to have a safe and sustainable Holi.</p>
+                                    <ul className="space-y-4 pl-4">
+                                        <li className="flex items-start">
+                                            <Leaf className="w-6 h-6 mr-3 mt-1 text-green-600 shrink-0"/>
+                                            <div>
+                                                <h4 className="font-bold">Use Natural Colors</h4>
+                                                <p>Make your own colors from flowers like marigold and rose, or use kitchen ingredients like turmeric and beetroot. This avoids the harsh chemicals in synthetic colors that can harm your skin and pollute water bodies.</p>
+                                            </div>
+                                        </li>
+                                        <li className="flex items-start">
+                                            <Leaf className="w-6 h-6 mr-3 mt-1 text-green-600 shrink-0"/>
+                                            <div>
+                                                <h4 className="font-bold">Play a Dry Holi</h4>
+                                                <p>Conserve water by playing a dry Holi with only organic gulal. Water scarcity is a serious issue, and celebrating without water is a significant step towards sustainability.</p>
+                                            </div>
+                                        </li>
+                                        <li className="flex items-start">
+                                            <Leaf className="w-6 h-6 mr-3 mt-1 text-green-600 shrink-0"/>
+                                            <div>
+                                                <h4 className="font-bold">Avoid Water Balloons</h4>
+                                                <p>Plastic water balloons create unnecessary plastic waste and can harm animals. Opt for pichkaris (water guns) if you must play with water, and reuse them every year.</p>
+                                            </div>
+                                        </li>
+                                         <li className="flex items-start">
+                                            <Leaf className="w-6 h-6 mr-3 mt-1 text-green-600 shrink-0"/>
+                                            <div>
+                                                <h4 className="font-bold">Eco-Friendly Holika Dahan</h4>
+                                                <p>Use cow dung cakes, coconut waste, and camphor for the Holika bonfire instead of wood from felled trees. This helps reduce deforestation and air pollution.</p>
+                                            </div>
+                                        </li>
+                                    </ul>
                                 </div>
                             </TabsContent>
                         </Tabs>

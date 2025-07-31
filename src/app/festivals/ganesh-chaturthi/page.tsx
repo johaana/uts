@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote } from "lucide-react";
+import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote, Leaf } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -25,11 +25,12 @@ export default function GaneshChaturthiPage() {
                 <Card className="mb-12">
                     <CardContent className="p-6 md:p-10">
                         <Tabs defaultValue="overview">
-                            <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 mb-6">
+                            <TabsList className="grid w-full grid-cols-2 md:grid-cols-5 mb-6">
                                 <TabsTrigger value="overview"><BookOpen className="w-4 h-4 mr-2" />Overview</TabsTrigger>
                                 <TabsTrigger value="traditions"><Sparkles className="w-4 h-4 mr-2" />Traditions</TabsTrigger>
                                 <TabsTrigger value="recipes"><Utensils className="w-4 h-4 mr-2" />Recipes</TabsTrigger>
                                 <TabsTrigger value="chants"><MessageSquareQuote className="w-4 h-4 mr-2" />Chants</TabsTrigger>
+                                <TabsTrigger value="eco-friendly"><Leaf className="w-4 h-4 mr-2" />Eco-Friendly</TabsTrigger>
                             </TabsList>
 
                             <TabsContent value="overview">
@@ -106,6 +107,42 @@ export default function GaneshChaturthiPage() {
                                             <p className="mt-2 text-foreground/80">This powerful mantra describes Ganesha's form and seeks his blessings to make all endeavors free of obstacles.</p>
                                         </CardContent>
                                     </Card>
+                                </div>
+                            </TabsContent>
+                             <TabsContent value="eco-friendly">
+                                <h2 className="font-headline text-3xl font-bold mb-4">Celebrating a Green Ganesh Chaturthi</h2>
+                                <div className="space-y-4 text-foreground/80 prose max-w-none">
+                                    <p>Welcome Lord Ganesha into your home in an environmentally conscious way. Here’s how you can make your celebrations sustainable.</p>
+                                    <ul className="space-y-4 pl-4">
+                                        <li className="flex items-start">
+                                            <Leaf className="w-6 h-6 mr-3 mt-1 text-green-600 shrink-0"/>
+                                            <div>
+                                                <h4 className="font-bold">Choose a Clay Ganesha Idol</h4>
+                                                <p>Opt for idols made from natural, unbaked clay (shadu mati) instead of Plaster of Paris (PoP). PoP idols contain harmful chemicals that pollute water bodies. Clay idols dissolve easily in water.</p>
+                                            </div>
+                                        </li>
+                                        <li className="flex items-start">
+                                            <Leaf className="w-6 h-6 mr-3 mt-1 text-green-600 shrink-0"/>
+                                            <div>
+                                                <h4 className="font-bold">Symbolic Immersion (Visarjan)</h4>
+                                                <p>Immerse your clay idol at home in a bucket or a drum. The dissolved clay can then be used in your garden. This prevents the pollution of natural water bodies.</p>
+                                            </div>
+                                        </li>
+                                        <li className="flex items-start">
+                                            <Leaf className="w-6 h-6 mr-3 mt-1 text-green-600 shrink-0"/>
+                                            <div>
+                                                <h4 className="font-bold">Natural Decorations</h4>
+                                                <p>Use fresh flowers, leaves, and cloth for decorations instead of plastic and thermocol. These materials are biodegradable and look beautiful.</p>
+                                            </div>
+                                        </li>
+                                         <li className="flex items-start">
+                                            <Leaf className="w-6 h-6 mr-3 mt-1 text-green-600 shrink-0"/>
+                                            <div>
+                                                <h4 className="font-bold">Reduce Waste</h4>
+                                                <p>Minimize waste by using reusable plates and cutlery for serving prasad. Compost flower offerings and other organic materials after the puja.</p>
+                                            </div>
+                                        </li>
+                                    </ul>
                                 </div>
                             </TabsContent>
                         </Tabs>
