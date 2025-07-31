@@ -7,7 +7,7 @@ export default function ThandaiPage() {
         <div className="container mx-auto px-4 py-12">
             <Card>
                 <CardHeader className="p-0">
-                     <Image src="https://placehold.co/1200x600.png" alt="Thandai" width={1200} height={600} className="w-full h-auto object-cover rounded-t-lg" data-ai-hint="cold drink" />
+                     <Image src="https://images.unsplash.com/photo-1580538257844-94aa7d781d3d?q=80&w=1200&h=600&fit=crop" alt="Thandai" width={1200} height={600} className="w-full h-auto object-cover rounded-t-lg" data-ai-hint="cold drink" />
                 </CardHeader>
                 <CardContent className="p-6 md:p-10">
                     <CardTitle className="font-headline text-4xl mb-4">Thandai</CardTitle>

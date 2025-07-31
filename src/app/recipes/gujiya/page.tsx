@@ -7,7 +7,7 @@ export default function GujiyaPage() {
         <div className="container mx-auto px-4 py-12">
             <Card>
                 <CardHeader className="p-0">
-                     <Image src="https://placehold.co/1200x600.png" alt="Gujiya" width={1200} height={600} className="w-full h-auto object-cover rounded-t-lg" data-ai-hint="sweet dumpling" />
+                     <Image src="https://images.unsplash.com/photo-1617131723588-f6723467a1e3?q=80&w=1200&h=600&fit=crop" alt="Gujiya" width={1200} height={600} className="w-full h-auto object-cover rounded-t-lg" data-ai-hint="sweet dumpling" />
                 </CardHeader>
                 <CardContent className="p-6 md:p-10">
                     <CardTitle className="font-headline text-4xl mb-4">Gujiya</CardTitle>

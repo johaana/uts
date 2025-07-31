@@ -7,7 +7,7 @@ export default function ThekuaPage() {
         <div className="container mx-auto px-4 py-12">
             <Card>
                 <CardHeader className="p-0">
-                     <Image src="https://placehold.co/1200x600.png" alt="Thekua" width={1200} height={600} className="w-full h-auto object-cover rounded-t-lg" data-ai-hint="wheat cookie" />
+                     <Image src="https://images.unsplash.com/photo-1604435924739-429948033575?q=80&w=1200&h=600&fit=crop" alt="Thekua" width={1200} height={600} className="w-full h-auto object-cover rounded-t-lg" data-ai-hint="wheat cookie" />
                 </CardHeader>
                 <CardContent className="p-6 md:p-10">
                     <CardTitle className="font-headline text-4xl mb-4">Thekua</CardTitle>

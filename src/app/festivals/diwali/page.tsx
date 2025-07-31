@@ -5,9 +5,9 @@ import Image from "next/image";
 import Link from "next/link";
 
 const recipes = [
-    { name: "Chakli", image: "https://placehold.co/400x300.png", hint: "spiral snack" },
-    { name: "Kaju Katli", image: "https://placehold.co/400x300.png", hint: "cashew fudge" },
-    { name: "Ladoo", image: "https://placehold.co/400x300.png", hint: "sweet balls" },
+    { name: "Chakli", image: "https://images.unsplash.com/photo-1615937691168-32a76a52a3b2?q=80&w=400&h=300&fit=crop", hint: "spiral snack", link: "/recipes/ladoo" },
+    { name: "Kaju Katli", image: "https://images.unsplash.com/photo-1596561260279-7243b81e4c79?q=80&w=400&h=300&fit=crop", hint: "cashew fudge", link: "/recipes/ras-malai" },
+    { name: "Ladoo", image: "https://images.unsplash.com/photo-1613542911293-9a572a135316?q=80&w=400&h=300&fit=crop", hint: "sweet balls", link: "/recipes/ladoo" },
 ]
 
 export default function DiwaliPage() {
