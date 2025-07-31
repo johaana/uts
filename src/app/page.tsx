@@ -8,23 +8,23 @@ import Link from "next/link";
 
 export default function Home() {
   const upcomingFestivals = [
-    { name: "Diwali", image: "https://images.unsplash.com/photo-1574322499484-85a8a7c08186?q=80&w=600&h=400&crop=entropy", hint: "lights diyas" },
-    { name: "Holi", image: "https://images.unsplash.com/photo-1519624090336-6b21b8575953?q=80&w=600&h=400&crop=entropy", hint: "colors powder" },
-    { name: "Navratri", image: "https://images.unsplash.com/photo-1589498202028-2a2b72183c58?q=80&w=600&h=400&crop=entropy", hint: "garba dance" },
-    { name: "Durga Puja", image: "https://images.unsplash.com/photo-1544275932-c64057a6e5b8?q=80&w=600&h=400&crop=entropy", hint: "goddess durga" },
-    { name: "Ganesh Chaturthi", image: "https://images.unsplash.com/photo-1596791834185-a7c3315a4523?q=80&w=600&h=400&crop=entropy", hint: "ganesha idol" },
+    { name: "Diwali", image: "https://images.unsplash.com/photo-1600255933742-32a2a07590d7?q=80&w=600&h=400&fit=crop", hint: "lights diyas" },
+    { name: "Holi", image: "https://images.unsplash.com/photo-1616422179888-88d499de58f1?q=80&w=600&h=400&fit=crop", hint: "colors powder" },
+    { name: "Navratri", image: "https://images.unsplash.com/photo-1695453305212-091937fb4a72?q=80&w=600&h=400&fit=crop", hint: "garba dance" },
+    { name: "Durga Puja", image: "https://images.unsplash.com/photo-1604455248937-54b513475d4e?q=80&w=600&h=400&fit=crop", hint: "goddess durga" },
+    { name: "Ganesh Chaturthi", image: "https://images.unsplash.com/photo-1601222234375-c9e11aa24e13?q=80&w=600&h=400&fit=crop", hint: "ganesha idol" },
   ];
 
   const featuredRecipes = [
-    { name: "Gajar Ka Halwa", image: "https://images.unsplash.com/photo-1613542911293-9a572a135316?q=80&w=400&h=300&crop=entropy", hint: "carrot dessert", festival: "Diwali" },
-    { name: "Puran Poli", image: "https://images.unsplash.com/photo-1625391029258-a53655383921?q=80&w=400&h=300&crop=entropy", hint: "sweet flatbread", festival: "Ganesh Chaturthi" },
-    { name: "Ras Malai", image: "https://images.unsplash.com/photo-1596561260279-7243b81e4c79?q=80&w=400&h=300&crop=entropy", hint: "milk dessert", festival: "Holi" },
+    { name: "Gajar Ka Halwa", image: "https://images.unsplash.com/photo-1594313222146-a6f69a535742?q=80&w=400&h=300&fit=crop", hint: "carrot dessert", festival: "Diwali" },
+    { name: "Puran Poli", image: "https://images.unsplash.com/photo-1609503255992-13a825456224?q=80&w=400&h=300&fit=crop", hint: "sweet flatbread", festival: "Ganesh Chaturthi" },
+    { name: "Ras Malai", image: "https://images.unsplash.com/photo-1626803775151-64205f63ef37?q=80&w=400&h=300&fit=crop", hint: "milk dessert", festival: "Holi" },
   ];
 
   const blogPosts = [
-    { title: "The Significance of Diyas in Diwali", image: "https://images.unsplash.com/photo-1604514288399-55e62f45793b?q=80&w=400&h=300&crop=entropy", hint: "diya lamp", excerpt: "Discover the deep cultural and spiritual meaning behind lighting diyas..." },
-    { title: "A Guide to Traditional Holi Colors", image: "https://images.unsplash.com/photo-1580538257844-94aa7d781d3d?q=80&w=400&h=300&crop=entropy", hint: "holi colors", excerpt: "Learn about the natural ingredients used in traditional Holi colors and their significance." },
-    { title: "Top 5 Rangoli Designs for Beginners", image: "https://images.unsplash.com/photo-1604435924739-429948033575?q=80&w=400&h=300&crop=entropy", hint: "rangoli floor", excerpt: "Get inspired with these easy-to-make yet beautiful rangoli patterns for any occasion." },
+    { title: "The Significance of Diyas in Diwali", image: "https://images.unsplash.com/photo-1542641223-45543837943a?q=80&w=400&h=300&fit=crop", hint: "diya lamp", excerpt: "Discover the deep cultural and spiritual meaning behind lighting diyas..." },
+    { title: "A Guide to Traditional Holi Colors", image: "https://images.unsplash.com/photo-1518823821733-1004737aa9c4?q=80&w=400&h=300&fit=crop", hint: "holi colors", excerpt: "Learn about the natural ingredients used in traditional Holi colors and their significance." },
+    { title: "Top 5 Rangoli Designs for Beginners", image: "https://images.unsplash.com/photo-1571869366754-0824d3a4e4a7?q=80&w=400&h=300&fit=crop", hint: "rangoli floor", excerpt: "Get inspired with these easy-to-make yet beautiful rangoli patterns for any occasion." },
   ]
 
   return (

@@ -5,16 +5,16 @@ import Image from "next/image";
 import Link from "next/link";
 
 const recipes = [
-    { name: "Kaju Katli", image: "https://images.unsplash.com/photo-1594322678191-4dc815140412?q=80&w=400&h=300&crop=entropy", hint: "cashew fudge" },
-    { name: "Gulab Jamun", image: "https://images.unsplash.com/photo-1620371350502-998934af4142?q=80&w=400&h=300&crop=entropy", hint: "milk solids" },
-    { name: "Samosa", image: "https://images.unsplash.com/photo-1562376552-0d160a2f8615?q=80&w=400&h=300&crop=entropy", hint: "fried pastry" },
+    { name: "Kaju Katli", image: "https://images.unsplash.com/photo-1594322678191-4dc815140412?q=80&w=400&h=300&fit=crop", hint: "cashew fudge" },
+    { name: "Gulab Jamun", image: "https://images.unsplash.com/photo-1620371350502-998934af4142?q=80&w=400&h=300&fit=crop", hint: "milk solids" },
+    { name: "Samosa", image: "https://images.unsplash.com/photo-1562376552-0d160a2f8615?q=80&w=400&h=300&fit=crop", hint: "fried pastry" },
 ]
 
 export default function DiwaliPage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center">
-                <Image src="https://images.unsplash.com/photo-1509114397022-ed747cca3f65?q=80&w=1600&h=800&crop=entropy" alt="Diwali celebration" layout="fill" objectFit="cover" className="opacity-20" data-ai-hint="diwali celebration fireworks"/>
+                <Image src="https://images.unsplash.com/photo-1509114397022-ed747cca3f65?q=80&w=1600&h=800&fit=crop" alt="Diwali celebration" layout="fill" objectFit="cover" className="opacity-20" data-ai-hint="diwali celebration fireworks"/>
                 <div className="relative text-center text-primary-foreground">
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-white shadow-lg">Diwali</h1>
                     <p className="text-xl md:text-2xl mt-4 text-white/90 shadow-md">The Festival of Lights</p>
