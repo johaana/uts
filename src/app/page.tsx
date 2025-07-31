@@ -8,11 +8,11 @@ import Link from "next/link";
 
 export default function Home() {
   const upcomingFestivals = [
-    { name: "Navratri", image: "https://placehold.co/600x400.png", hint: "garba dance", link: "/festivals/navratri" },
-    { name: "Durga Puja", image: "https://placehold.co/600x400.png", hint: "goddess durga", link: "/festivals/durga-puja" },
-    { name: "Diwali", image: "https://placehold.co/600x400.png", hint: "lights diyas", link: "/festivals/diwali" },
-    { name: "Makar Sankranti", image: "https://placehold.co/600x400.png", hint: "kite festival", link: "/festivals/makar-sankranti" },
-    { name: "Holi", image: "https://placehold.co/600x400.png", hint: "colors powder", link: "/festivals/holi" },
+    { name: "Ganesh Chaturthi", date: "August 27, 2025", image: "https://placehold.co/600x400.png", hint: "ganesha idol", link: "/festivals/ganesh-chaturthi" },
+    { name: "Onam", date: "September 7, 2025", image: "https://placehold.co/600x400.png", hint: "flower carpet", link: "/festivals/onam" },
+    { name: "Navratri", date: "September 22, 2025", image: "https://placehold.co/600x400.png", hint: "garba dance", link: "/festivals/navratri" },
+    { name: "Diwali", date: "October 21, 2025", image: "https://placehold.co/600x400.png", hint: "lights diyas", link: "/festivals/diwali" },
+    { name: "Holi", date: "March 4, 2026", image: "https://placehold.co/600x400.png", hint: "colors powder", link: "/festivals/holi" },
   ];
 
   const featuredRecipes = [
@@ -46,7 +46,7 @@ export default function Home() {
       </section>
 
       <section className="container mx-auto px-4">
-        <h2 className="font-headline text-3xl md:text-4xl font-bold text-center mb-8">Upcoming Festivals</h2>
+        <h2 className="font-headline text-3xl md:text-4xl font-bold text-center mb-8">Upcoming Festivals 2025</h2>
         <Carousel opts={{ align: "start", loop: true }} className="w-full">
           <CarouselContent>
             {upcomingFestivals.map((festival, index) => (
@@ -57,6 +57,7 @@ export default function Home() {
                       <Image src={festival.image} alt={festival.name} width={600} height={400} className="w-full h-auto object-cover aspect-[3/2]" data-ai-hint={festival.hint} />
                       <div className="p-6">
                         <h3 className="font-headline text-2xl font-bold">{festival.name}</h3>
+                        <p className="text-sm text-muted-foreground">{festival.date}</p>
                         <Link href={festival.link}>
                           <Button variant="link" className="p-0 mt-2 text-accent hover:text-accent/90">
                             Learn More <ArrowRight className="ml-1 h-4 w-4" />

@@ -44,11 +44,11 @@ export default function DiwaliPage() {
                             </TabsContent>
                             
                             <TabsContent value="five-days">
-                                <h2 className="font-headline text-3xl font-bold mb-4">The Five Days of Diwali (2024)</h2>
+                                <h2 className="font-headline text-3xl font-bold mb-4">The Five Days of Diwali (2025)</h2>
                                 <div className="space-y-6">
                                     <Card>
                                         <CardHeader>
-                                            <CardTitle>Day 1: Dhanteras (October 29, 2024)</CardTitle>
+                                            <CardTitle>Day 1: Dhanteras (October 19, 2025)</CardTitle>
                                             <p className="text-sm text-muted-foreground">The Festival of Wealth</p>
                                         </CardHeader>
                                         <CardContent>
@@ -57,7 +57,7 @@ export default function DiwaliPage() {
                                     </Card>
                                     <Card>
                                         <CardHeader>
-                                            <CardTitle>Day 2: Naraka Chaturdashi / Choti Diwali (October 31, 2024)</CardTitle>
+                                            <CardTitle>Day 2: Naraka Chaturdashi / Choti Diwali (October 20, 2025)</CardTitle>
                                              <p className="text-sm text-muted-foreground">The Day of Liberation</p>
                                         </CardHeader>
                                         <CardContent>
@@ -66,7 +66,7 @@ export default function DiwaliPage() {
                                     </Card>
                                      <Card>
                                         <CardHeader>
-                                            <CardTitle>Day 3: Lakshmi Puja (November 1, 2024)</CardTitle>
+                                            <CardTitle>Day 3: Lakshmi Puja (October 21, 2025)</CardTitle>
                                              <p className="text-sm text-muted-foreground">The Main Celebration</p>
                                         </CardHeader>
                                         <CardContent>
@@ -75,7 +75,7 @@ export default function DiwaliPage() {
                                     </Card>
                                      <Card>
                                         <CardHeader>
-                                            <CardTitle>Day 4: Govardhan Puja / Padwa (November 2, 2024)</CardTitle>
+                                            <CardTitle>Day 4: Govardhan Puja / Padwa (October 22, 2025)</CardTitle>
                                              <p className="text-sm text-muted-foreground">Honoring Nature and Marital Bonds</p>
                                         </CardHeader>
                                         <CardContent>
@@ -84,7 +84,7 @@ export default function DiwaliPage() {
                                     </Card>
                                      <Card>
                                         <CardHeader>
-                                            <CardTitle>Day 5: Bhai Dooj / Bhaubeej (November 3, 2024)</CardTitle>
+                                            <CardTitle>Day 5: Bhai Dooj / Bhaubeej (October 23, 2025)</CardTitle>
                                              <p className="text-sm text-muted-foreground">Celebrating Siblings</p>
                                         </CardHeader>
                                         <CardContent>
