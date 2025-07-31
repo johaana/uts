@@ -1,0 +1,102 @@
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+
+const recipes = [
+    { name: "Avial", image: "https://placehold.co/400x300.png", hint: "mixed vegetable curry" },
+    { name: "Sambar", image: "https://placehold.co/400x300.png", hint: "lentil stew" },
+    { name: "Payasam", image: "https://placehold.co/400x300.png", hint: "rice pudding" },
+]
+
+export default function OnamPage() {
+    return (
+        <div className="bg-background">
+            <section className="relative h-[50vh] flex items-center justify-center">
+                <Image src="https://images.unsplash.com/photo-1630951165476-89680327391b?q=80&w=1600&h=800&fit=crop" alt="Onam celebration" layout="fill" objectFit="cover" className="opacity-20" data-ai-hint="onam flower carpet"/>
+                <div className="relative text-center text-primary-foreground">
+                    <h1 className="font-headline text-5xl md:text-7xl font-bold text-white shadow-lg">Onam</h1>
+                    <p className="text-xl md:text-2xl mt-4 text-white/90 shadow-md">Kerala's Harvest Festival</p>
+                </div>
+            </section>
+            
+            <div className="container mx-auto px-4 py-12 -mt-24">
+                <Card className="mb-12">
+                    <CardContent className="p-6 md:p-10">
+                        <Tabs defaultValue="overview">
+                            <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 mb-6">
+                                <TabsTrigger value="overview"><BookOpen className="w-4 h-4 mr-2" />Overview</TabsTrigger>
+                                <TabsTrigger value="traditions"><Sparkles className="w-4 h-4 mr-2" />Traditions</TabsTrigger>
+                                <TabsTrigger value="recipes"><Utensils className="w-4 h-4 mr-2" />Recipes</TabsTrigger>
+                                <TabsTrigger value="chants"><MessageSquareQuote className="w-4 h-4 mr-2" />Chants</TabsTrigger>
+                            </TabsList>
+
+                            <TabsContent value="overview">
+                                <h2 className="font-headline text-3xl font-bold mb-4">The Legend of King Mahabali</h2>
+                                <div className="space-y-4 text-foreground/80 prose max-w-none">
+                                    <p>Onam is the most important festival of Kerala, celebrating the annual homecoming of the mythical King Mahabali. According to legend, Mahabali was a wise and generous ruler whose reign was a golden era for Kerala. The gods, envious of his popularity, sent Vamana (an avatar of Vishnu) to banish him to the netherworld. However, Vamana granted Mahabali a boon to visit his beloved subjects once every year, and this visit is celebrated as Onam.</p>
+                                </div>
+                            </TabsContent>
+                            
+                            <TabsContent value="traditions">
+                                <h2 className="font-headline text-3xl font-bold mb-4">How to Celebrate Onam</h2>
+                                <ul className="space-y-4 pl-4">
+                                    <li className="flex items-start">
+                                        <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
+                                        <div>
+                                            <h4 className="font-bold">Pookalam (Floral Carpet)</h4>
+                                            <p className="text-foreground/80">Intricate and colorful carpets made of fresh flowers are laid at the entrance of homes to welcome King Mahabali.</p>
+                                        </div>
+                                    </li>
+                                    <li className="flex items-start">
+                                        <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
+                                        <div>
+                                            <h4 className="font-bold">Onasadya (The Grand Feast)</h4>
+                                            <p className="text-foreground/80">The highlight of Onam is the 'Onasadya', a grand vegetarian feast served on a banana leaf, featuring a wide variety of dishes.</p>
+                                        </div>
+                                    </li>
+                                    <li className="flex items-start">
+                                        <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
+                                        <div>
+                                            <h4 className="font-bold">Vallam Kali (Snake Boat Race)</h4>
+                                            <p className="text-foreground/80">Spectacular snake boat races are held on the rivers of Kerala, adding to the festive fervor.</p>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </TabsContent>
+
+                            <TabsContent value="recipes">
+                                <h2 className="font-headline text-3xl font-bold mb-4">The Onasadya Spread</h2>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                                    {recipes.map(recipe => (
+                                        <Card key={recipe.name} className="overflow-hidden">
+                                            <Image src={recipe.image} alt={recipe.name} width={400} height={300} className="w-full h-40 object-cover" data-ai-hint={recipe.hint}/>
+                                            <CardContent className="p-4">
+                                                <h3 className="font-headline text-xl font-bold text-center">{recipe.name}</h3>
+                                            </CardContent>
+                                        </Card>
+                                    ))}
+                                </div>
+                            </TabsContent>
+
+                             <TabsContent value="chants">
+                                <h2 className="font-headline text-3xl font-bold mb-4">Onappattu (Onam Songs)</h2>
+                                <div className="space-y-6">
+                                    <Card>
+                                        <CardHeader>
+                                            <CardTitle>Songs of a Golden Era</CardTitle>
+                                        </CardHeader>
+                                        <CardContent>
+                                            <p className="text-foreground/80">Onam is celebrated with a rich repertoire of folk songs called 'Onappattu'. These songs describe the golden reign of King Mahabali, the beauty of Kerala, and the joy of the harvest season. They are an essential part of the cultural celebrations, sung during various activities like the creating of the Pookalam and the Onasadya.</p>
+                                        </CardContent>
+                                    </Card>
+                                </div>
+                            </TabsContent>
+                        </Tabs>
+                    </CardContent>
+                </Card>
+            </div>
+        </div>
+    );
+}

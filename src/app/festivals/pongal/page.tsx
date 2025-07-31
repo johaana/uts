@@ -1,0 +1,110 @@
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+
+const recipes = [
+    { name: "Sakkarai Pongal", image: "https://placehold.co/400x300.png", hint: "sweet pongal" },
+    { name: "Ven Pongal", image: "https://placehold.co/400x300.png", hint: "savory pongal" },
+    { name: "Medu Vada", image: "https://placehold.co/400x300.png", hint: "lentil fritter" },
+]
+
+export default function PongalPage() {
+    return (
+        <div className="bg-background">
+            <section className="relative h-[50vh] flex items-center justify-center">
+                <Image src="https://images.unsplash.com/photo-1608622834734-74a0f81b5abb?q=80&w=1600&h=800&fit=crop" alt="Pongal celebration" layout="fill" objectFit="cover" className="opacity-20" data-ai-hint="pongal pot rice"/>
+                <div className="relative text-center text-primary-foreground">
+                    <h1 className="font-headline text-5xl md:text-7xl font-bold text-white shadow-lg">Pongal</h1>
+                    <p className="text-xl md:text-2xl mt-4 text-white/90 shadow-md">Tamil Nadu's Harvest Festival</p>
+                </div>
+            </section>
+            
+            <div className="container mx-auto px-4 py-12 -mt-24">
+                <Card className="mb-12">
+                    <CardContent className="p-6 md:p-10">
+                        <Tabs defaultValue="overview">
+                            <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 mb-6">
+                                <TabsTrigger value="overview"><BookOpen className="w-4 h-4 mr-2" />Overview</TabsTrigger>
+                                <TabsTrigger value="traditions"><Sparkles className="w-4 h-4 mr-2" />Traditions</TabsTrigger>
+                                <TabsTrigger value="recipes"><Utensils className="w-4 h-4 mr-2" />Recipes</TabsTrigger>
+                                <TabsTrigger value="chants"><MessageSquareQuote className="w-4 h-4 mr-2" />Chants</TabsTrigger>
+                            </TabsList>
+
+                            <TabsContent value="overview">
+                                <h2 className="font-headline text-3xl font-bold mb-4">The Essence of Pongal</h2>
+                                <div className="space-y-4 text-foreground/80 prose max-w-none">
+                                    <p>Pongal is a four-day harvest festival celebrated in Tamil Nadu, dedicated to the Sun God, Surya. It's a festival of thanksgiving for a bountiful harvest. The name 'Pongal' means 'to boil over' or 'overflow', symbolizing abundance and prosperity.</p>
+                                    <p>The festival is a time for family gatherings, decorating homes with kolams (rice flour drawings), and preparing the special dish also called 'Pongal', made from newly harvested rice.</p>
+                                </div>
+                            </TabsContent>
+                            
+                            <TabsContent value="traditions">
+                                <h2 className="font-headline text-3xl font-bold mb-4">The Four Days of Pongal</h2>
+                                <ul className="space-y-4 pl-4">
+                                    <li className="flex items-start">
+                                        <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
+                                        <div>
+                                            <h4 className="font-bold">Day 1: Bhogi Pongal</h4>
+                                            <p className="text-foreground/80">People discard old belongings and celebrate new beginnings by lighting a bonfire.</p>
+                                        </div>
+                                    </li>
+                                    <li className="flex items-start">
+                                        <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
+                                        <div>
+                                            <h4 className="font-bold">Day 2: Surya Pongal</h4>
+                                            <p className="text-foreground/80">The main festival day, dedicated to the Sun God. The special dish 'Pongal' is cooked and offered to Surya.</p>
+                                        </div>
+                                    </li>
+                                    <li className="flex items-start">
+                                        <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
+                                        <div>
+                                            <h4 className="font-bold">Day 3: Mattu Pongal</h4>
+                                            <p className="text-foreground/80">This day honors cattle, which are essential for farming. Cows are bathed, decorated, and worshipped.</p>
+                                        </div>
+                                    </li>
+                                     <li className="flex items-start">
+                                        <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
+                                        <div>
+                                            <h4 className="font-bold">Day 4: Kaanum Pongal</h4>
+                                            <p className="text-foreground/80">A day for family reunions and social gatherings. People visit relatives and friends.</p>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </TabsContent>
+
+                            <TabsContent value="recipes">
+                                <h2 className="font-headline text-3xl font-bold mb-4">Pongal Feast</h2>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                                    {recipes.map(recipe => (
+                                        <Card key={recipe.name} className="overflow-hidden">
+                                            <Image src={recipe.image} alt={recipe.name} width={400} height={300} className="w-full h-40 object-cover" data-ai-hint={recipe.hint}/>
+                                            <CardContent className="p-4">
+                                                <h3 className="font-headline text-xl font-bold text-center">{recipe.name}</h3>
+                                            </CardContent>
+                                        </Card>
+                                    ))}
+                                </div>
+                            </TabsContent>
+
+                             <TabsContent value="chants">
+                                <h2 className="font-headline text-3xl font-bold mb-4">Mantras for the Sun God</h2>
+                                <div className="space-y-6">
+                                    <Card>
+                                        <CardHeader>
+                                            <CardTitle>Surya Namaskar Mantras</CardTitle>
+                                        </CardHeader>
+                                        <CardContent>
+                                            <p className="mt-2 text-foreground/80">Chanting mantras dedicated to Surya while preparing and offering the Pongal dish is a key part of the celebration, expressing gratitude for the sun's energy that sustains life and agriculture.</p>
+                                        </CardContent>
+                                    </Card>
+                                </div>
+                            </TabsContent>
+                        </Tabs>
+                    </CardContent>
+                </Card>
+            </div>
+        </div>
+    );
+}

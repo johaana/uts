@@ -5,16 +5,16 @@ import Image from "next/image";
 import Link from "next/link";
 
 const recipes = [
+    { name: "Chakli", image: "https://placehold.co/400x300.png", hint: "spiral snack" },
     { name: "Kaju Katli", image: "https://placehold.co/400x300.png", hint: "cashew fudge" },
-    { name: "Gulab Jamun", image: "https://placehold.co/400x300.png", hint: "milk solids" },
-    { name: "Samosa", image: "https://placehold.co/400x300.png", hint: "fried pastry" },
+    { name: "Ladoo", image: "https://placehold.co/400x300.png", hint: "sweet balls" },
 ]
 
 export default function DiwaliPage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center">
-                <Image src="https://placehold.co/1600x800.png" alt="Diwali celebration" layout="fill" objectFit="cover" className="opacity-20" data-ai-hint="diwali celebration fireworks"/>
+                <Image src="https://images.unsplash.com/photo-1574322499484-85a8a7c08186?q=80&w=1600&h=800&fit=crop" alt="Diwali celebration" layout="fill" objectFit="cover" className="opacity-20" data-ai-hint="diwali celebration fireworks"/>
                 <div className="relative text-center text-primary-foreground">
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-white shadow-lg">Diwali</h1>
                     <p className="text-xl md:text-2xl mt-4 text-white/90 shadow-md">The Festival of Lights: A Triumph of Good Over Evil</p>
@@ -25,21 +25,19 @@ export default function DiwaliPage() {
                 <Card className="mb-12">
                     <CardContent className="p-6 md:p-10">
                         <Tabs defaultValue="overview">
-                            <TabsList className="grid w-full grid-cols-2 md:grid-cols-6 mb-6">
+                            <TabsList className="grid w-full grid-cols-2 md:grid-cols-5 mb-6">
                                 <TabsTrigger value="overview"><BookOpen className="w-4 h-4 mr-2" />Overview</TabsTrigger>
                                 <TabsTrigger value="five-days"><CalendarDays className="w-4 h-4 mr-2" />The Five Days</TabsTrigger>
                                 <TabsTrigger value="rituals"><CheckCircle className="w-4 h-4 mr-2" />Rituals</TabsTrigger>
                                 <TabsTrigger value="recipes"><Utensils className="w-4 h-4 mr-2" />Recipes</TabsTrigger>
-                                <TabsTrigger value="culture"><Sparkles className="w-4 h-4 mr-2" />Culture</TabsTrigger>
                                 <TabsTrigger value="chants"><MessageSquareQuote className="w-4 h-4 mr-2" />Chants</TabsTrigger>
                             </TabsList>
 
                             <TabsContent value="overview">
                                 <h2 className="font-headline text-3xl font-bold mb-4">The Story of Diwali</h2>
                                 <div className="space-y-4 text-foreground/80 prose max-w-none">
-                                    <p>Diwali, the 'Festival of Lights', is a luminous thread in the vibrant tapestry of Indian culture. Its name, a contraction of "Deepavali," translates from Sanskrit to "row of lighted lamps." This imagery is at the heart of the festival, where countless diyas (clay lamps) flicker against the dark night, each a beacon of hope, a symbol of the enduring victory of light over darkness, good over evil, and knowledge over ignorance.</p>
-                                    <p>The festival's soul is woven from numerous legends, the most famous being the return of Lord Rama to his kingdom of Ayodhya. As told in the epic Ramayana, Rama, along with his wife Sita and brother Lakshmana, returned after a fourteen-year exile and a heroic battle to defeat the ten-headed demon king, Ravana. The people of Ayodhya, their hearts overflowing with joy, illuminated the entire city with rows of diyas to welcome their righteous king. This ancient act of jubilation is recreated every year, making Diwali a celebration of homecoming, righteousness, and the dispelling of all that is dark and malevolent.</p>
-                                    <p>But the light of Diwali shines on many stories. In some parts of India, it commemorates the day Lord Krishna defeated the demon Narakasura, freeing thousands of maidens from his tyrannical grasp. For others, it is a celebration of the marriage of Goddess Lakshmi, the bestower of wealth and prosperity, to Lord Vishnu. Each story adds a unique facet to the festival, yet all converge on the central theme: the triumph of dharma (righteousness) and the celebration of life's brightest aspects.</p>
+                                    <p>Diwali, or Deepavali, the 'Festival of Lights', is a luminous thread in the vibrant tapestry of Indian culture. Its name translates from Sanskrit to "row of lighted lamps." This imagery is at the heart of the festival, where countless diyas (clay lamps) flicker against the dark night, each a beacon of hope, a symbol of the enduring victory of light over darkness, good over evil, and knowledge over ignorance.</p>
+                                    <p>The festival's soul is woven from the epic Ramayana, celebrating the return of Lord Rama to his kingdom of Ayodhya after a fourteen-year exile and a heroic battle to defeat the ten-headed demon king, Ravana. The people of Ayodhya, their hearts overflowing with joy, illuminated the entire city with rows of diyas to welcome their righteous king. This ancient act of jubilation is recreated every year, making Diwali a celebration of homecoming, righteousness, and the dispelling of all that is dark and malevolent.</p>
                                 </div>
                             </TabsContent>
                             
@@ -95,68 +93,45 @@ export default function DiwaliPage() {
                             </TabsContent>
 
                             <TabsContent value="rituals">
-                                <h2 className="font-headline text-3xl font-bold mb-4">Step-by-Step Puja Vidhi & Rituals</h2>
+                                <h2 className="font-headline text-3xl font-bold mb-4">How to Celebrate Diwali</h2>
                                 <div className="space-y-6">
+                                    <p className="text-foreground/80 prose max-w-none">Celebrating Diwali involves a series of beautiful rituals that fill the home with light and joy. The main event is the Lakshmi Puja.</p>
                                     <div>
-                                        <h3 className="font-bold text-lg mb-2">Preparation Phase:</h3>
+                                        <h3 className="font-bold text-lg mb-2">Step-by-Step Lakshmi Puja:</h3>
                                         <ul className="space-y-4 pl-4">
                                              <li className="flex items-start">
                                                 <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
                                                 <div>
-                                                    <h4 className="font-bold">1. Thorough Cleaning (Swachhata)</h4>
-                                                    <p className="text-foreground/80">Begin by deep cleaning your entire home. A clean house is believed to be a welcoming space for Goddess Lakshmi.</p>
-                                                </div>
-                                            </li>
-                                             <li className="flex items-start">
-                                                <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
-                                                <div>
-                                                    <h4 className="font-bold">2. Decoration (Sajavat)</h4>
-                                                    <p className="text-foreground/80">Adorn your home's entrance with a colorful Rangoli. Hang torans (door hangings of marigold flowers and mango leaves) and light diyas in every corner to banish darkness.</p>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div>
-                                        <h3 className="font-bold text-lg mb-2">Lakshmi Puja (The Main Worship):</h3>
-                                        <ul className="space-y-4 pl-4">
-                                            <li className="flex items-start">
-                                                <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
-                                                <div>
-                                                    <h4 className="font-bold">3. Setting up the Altar</h4>
-                                                    <p className="text-foreground/80">Place a red cloth on a raised platform. Place idols or images of Goddess Lakshmi and Lord Ganesha. Arrange a kalash (a pot filled with water, mango leaves, and a coconut) alongside.</p>
-                                                </div>
-                                            </li>
-                                            <li className="flex items-start">
-                                                <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
-                                                <div>
-                                                    <h4 className="font-bold">4. The Puja Ceremony</h4>
-                                                    <p className="text-foreground/80">Light a diya. Begin with prayers to Lord Ganesha. Offer flowers, fruits, sweets (especially Kheel and Batashe), and panchamrita (a mix of milk, curd, ghee, honey, and sugar) to the deities while chanting their mantras.</p>
+                                                    <h4 className="font-bold">1. Clean and Decorate</h4>
+                                                    <p className="text-foreground/80">Thoroughly clean your home and decorate it with rangoli, flowers, and strings of light. A clean, beautiful home is believed to welcome Goddess Lakshmi.</p>
                                                 </div>
                                             </li>
                                              <li className="flex items-start">
                                                 <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
                                                 <div>
-                                                    <h4 className="font-bold">5. Aarti and Bhog</h4>
-                                                    <p className="text-foreground/80">Conclude the puja by singing the Aarti for Goddess Lakshmi and Lord Ganesha. Offer the prepared bhog (food offerings) to the deities.</p>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div>
-                                        <h3 className="font-bold text-lg mb-2">Post-Puja Rituals:</h3>
-                                        <ul className="space-y-4 pl-4">
-                                            <li className="flex items-start">
-                                                <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
-                                                <div>
-                                                    <h4 className="font-bold">6. Exchanging Gifts & Sweets</h4>
-                                                    <p className="text-foreground/80">Distribute the prasad (blessed food) among family members. Exchange gifts and sweets with friends and neighbors to share joy and goodwill.</p>
+                                                    <h4 className="font-bold">2. Light Diyas</h4>
+                                                    <p className="text-foreground/80">Light countless diyas (earthen lamps) and place them in every corner of your home to banish darkness and evil spirits.</p>
                                                 </div>
                                             </li>
                                             <li className="flex items-start">
                                                 <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
                                                 <div>
-                                                    <h4 className="font-bold">7. Fireworks</h4>
-                                                    <p className="text-foreground/80">Traditionally, lighting fireworks was part of the celebration, though modern celebrations often opt for eco-friendly alternatives.</p>
+                                                    <h4 className="font-bold">3. Perform Puja</h4>
+                                                    <p className="text-foreground/80">Perform the Lakshmi Puja in the evening. Worship Goddess Lakshmi for wealth and Lord Ganesha to remove obstacles. Offer flowers, sweets, and prayers.</p>
+                                                </div>
+                                            </li>
+                                             <li className="flex items-start">
+                                                <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
+                                                <div>
+                                                    <h4 className="font-bold">4. Exchange Gifts & Sweets</h4>
+                                                    <p className="text-foreground/80">Share joy and goodwill by exchanging sweets and gifts with family, friends, and neighbors.</p>
+                                                </div>
+                                            </li>
+                                             <li className="flex items-start">
+                                                <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
+                                                <div>
+                                                    <h4 className="font-bold">5. Enjoy Fireworks</h4>
+                                                    <p className="text-foreground/80">Celebrate the triumph of light with firecrackers, though many now opt for more eco-friendly celebrations.</p>
                                                 </div>
                                             </li>
                                         </ul>
@@ -183,51 +158,27 @@ export default function DiwaliPage() {
                                     </Link>
                                 </div>
                             </TabsContent>
-
-                            <TabsContent value="culture">
-                                <h2 className="font-headline text-3xl font-bold mb-4">Attire, Music & Cultural Stories</h2>
-                                <div className="space-y-6 prose max-w-none text-foreground/80">
-                                    <div>
-                                        <h3 className="font-headline text-xl font-bold mb-2">Festive Attire</h3>
-                                        <p>Diwali is an occasion for people to wear their finest new clothes. Traditional attire is favored, with women often choosing vibrant sarees, lehengas, or anarkali suits, richly embroidered and embellished. Men typically wear kurtas with pajamas or dhotis, often paired with a decorated vest.</p>
-                                    </div>
-                                    <div>
-                                        <h3 className="font-headline text-xl font-bold mb-2">Music and Dance</h3>
-                                        <p>The air during Diwali is filled with the sounds of devotional songs (bhajans) and traditional folk music. In many communities, evenings are lively with music and dance performances, celebrating the joyous spirit of the festival.</p>
-                                    </div>
-                                </div>
-                            </TabsContent>
                              <TabsContent value="chants">
                                 <h2 className="font-headline text-3xl font-bold mb-4">Important Mantras and Chants</h2>
                                 <div className="space-y-6">
                                     <Card>
                                         <CardHeader>
-                                            <CardTitle>Ganesha Mantra</CardTitle>
-                                            <p className="text-sm text-muted-foreground">For removing obstacles</p>
+                                            <CardTitle>Lakshmi Ashtottara Shatanamavali</CardTitle>
+                                            <p className="text-sm text-muted-foreground">108 Names of Goddess Lakshmi</p>
                                         </CardHeader>
                                         <CardContent>
-                                            <p className="text-lg font-serif italic">"Om Gam Ganapataye Namaha"</p>
-                                            <p className="mt-2 text-foreground/80">Meaning: "Salutations to the remover of obstacles." This mantra is chanted at the beginning of the puja to ensure a smooth ceremony.</p>
+                                            <p className="text-lg font-serif italic">"Om Prakrityai Namah, Om Vikrityai Namah..."</p>
+                                            <p className="mt-2 text-foreground/80">Chanting the 108 names of Goddess Lakshmi is a powerful way to invoke her blessings for prosperity, wealth, and well-being.</p>
                                         </CardContent>
                                     </Card>
                                     <Card>
                                         <CardHeader>
-                                            <CardTitle>Lakshmi Mantra</CardTitle>
-                                            <p className="text-sm text-muted-foreground">For wealth and prosperity</p>
+                                            <CardTitle>Kuber Mantra</CardTitle>
+                                            <p className="text-sm text-muted-foreground">For Wealth and Fortune</p>
                                         </CardHeader>
                                         <CardContent>
-                                            <p className="text-lg font-serif italic">"Om Shreem Mahalakshmyai Namaha"</p>
-                                            <p className="mt-2 text-foreground/80">Meaning: "Salutations to the great Goddess Lakshmi." This powerful mantra is chanted to invoke her blessings for abundance and well-being.</p>
-                                        </CardContent>
-                                    </Card>
-                                    <Card>
-                                        <CardHeader>
-                                            <CardTitle>Diya Lighting Mantra</CardTitle>
-                                             <p className="text-sm text-muted-foreground">For dispelling darkness</p>
-                                        </CardHeader>
-                                        <CardContent>
-                                            <p className="text-lg font-serif italic">"Shubham Karoti Kalyanam, Arogyam Dhana Sampadah, Shatru Buddhi Vinashaya, Deepa Jyotir Namostute."</p>
-                                            <p className="mt-2 text-foreground/80">Meaning: "I fold my hands before the light that brings prosperity, auspiciousness, good health, abundance of wealth, and destruction of the enemy's intellect."</p>
+                                            <p className="text-lg font-serif italic">"Om Yakshaya Kuberaya Vaishravanaya Dhanadhanyadhipataye, Dhanadhanyasamriddhim Me Dehi Dapaya Swaha"</p>
+                                            <p className="mt-2 text-foreground/80">This mantra is chanted to seek the blessings of Lord Kuber, the treasurer of the gods, for material wealth and success.</p>
                                         </CardContent>
                                     </Card>
                                 </div>

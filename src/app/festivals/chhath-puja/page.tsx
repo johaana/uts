@@ -1,0 +1,119 @@
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+
+const recipes = [
+    { name: "Thekua", image: "https://placehold.co/400x300.png", hint: "wheat cookie" },
+    { name: "Rasia Kheer", image: "https://placehold.co/400x300.png", hint: "jaggery pudding" },
+    { name: "Fruits and Sugarcane", image: "https://placehold.co/400x300.png", hint: "fruit offering" },
+]
+
+export default function ChhathPujaPage() {
+    return (
+        <div className="bg-background">
+            <section className="relative h-[50vh] flex items-center justify-center">
+                <Image src="https://images.unsplash.com/photo-1604435924739-429948033575?q=80&w=1600&h=800&fit=crop" alt="Chhath Puja" layout="fill" objectFit="cover" className="opacity-20" data-ai-hint="sun worship river"/>
+                <div className="relative text-center text-primary-foreground">
+                    <h1 className="font-headline text-5xl md:text-7xl font-bold text-white shadow-lg">Chhath Puja</h1>
+                    <p className="text-xl md:text-2xl mt-4 text-white/90 shadow-md">An Ancient Vedic Festival of Sun Worship</p>
+                </div>
+            </section>
+            
+            <div className="container mx-auto px-4 py-12 -mt-24">
+                <Card className="mb-12">
+                    <CardContent className="p-6 md:p-10">
+                        <Tabs defaultValue="overview">
+                            <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 mb-6">
+                                <TabsTrigger value="overview"><BookOpen className="w-4 h-4 mr-2" />Overview</TabsTrigger>
+                                <TabsTrigger value="traditions"><Sparkles className="w-4 h-4 mr-2" />Traditions</TabsTrigger>
+                                <TabsTrigger value="recipes"><Utensils className="w-4 h-4 mr-2" />Recipes</TabsTrigger>
+                                <TabsTrigger value="chants"><MessageSquareQuote className="w-4 h-4 mr-2" />Chants</TabsTrigger>
+                            </TabsList>
+
+                            <TabsContent value="overview">
+                                <h2 className="font-headline text-3xl font-bold mb-4">The Essence of Chhath Puja</h2>
+                                <div className="space-y-4 text-foreground/80 prose max-w-none">
+                                    <p>Chhath Puja is an ancient Hindu Vedic festival dedicated to the Sun God, Surya, and his sister, Chhathi Maiya. It is a festival of thanksgiving to the deities for sustaining life on earth and requesting the granting of certain wishes. The rituals are rigorous and are observed over a period of four days.</p>
+                                    <p>Devotees, known as 'Vratis', undertake a period of fasting and purification, which includes abstaining from even drinking water. The puja is marked by offering 'arghya' (water offerings) to the rising and setting sun, symbolizing the cycle of life and death.</p>
+                                </div>
+                            </TabsContent>
+                            
+                            <TabsContent value="traditions">
+                                <h2 className="font-headline text-3xl font-bold mb-4">The Four Days of Chhath</h2>
+                                <ul className="space-y-4 pl-4">
+                                    <li className="flex items-start">
+                                        <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
+                                        <div>
+                                            <h4 className="font-bold">Day 1: Nahay Khay</h4>
+                                            <p className="text-foreground/80">Devotees take a holy bath in a river or pond and prepare a sacred meal of rice, dal, and gourd.</p>
+                                        </div>
+                                    </li>
+                                    <li className="flex items-start">
+                                        <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
+                                        <div>
+                                            <h4 className="font-bold">Day 2: Lohanda and Kharna</h4>
+                                            <p className="text-foreground/80">A full-day fast is observed, which is broken in the evening after offering prayers to the sun. The devotee prepares 'kheer' (rice pudding) as prasad.</p>
+                                        </div>
+                                    </li>
+                                    <li className="flex items-start">
+                                        <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
+                                        <div>
+                                            <h4 className="font-bold">Day 3: Sandhya Arghya</h4>
+                                            <p className="text-foreground/80">The main day of Chhath involves a strict fast without water. Devotees stand in water and offer 'arghya' to the setting sun.</p>
+                                        </div>
+                                    </li>
+                                     <li className="flex items-start">
+                                        <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
+                                        <div>
+                                            <h4 className="font-bold">Day 4: Usha Arghya</h4>
+                                            <p className="text-foreground/80">On the final day, devotees offer 'arghya' to the rising sun, breaking their fast and concluding the puja.</p>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </TabsContent>
+
+                            <TabsContent value="recipes">
+                                <h2 className="font-headline text-3xl font-bold mb-4">Sacred Offerings (Prasad)</h2>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                                    {recipes.map(recipe => (
+                                        <Card key={recipe.name} className="overflow-hidden">
+                                            <Image src={recipe.image} alt={recipe.name} width={400} height={300} className="w-full h-40 object-cover" data-ai-hint={recipe.hint}/>
+                                            <CardContent className="p-4">
+                                                <h3 className="font-headline text-xl font-bold text-center">{recipe.name}</h3>
+                                            </CardContent>
+                                        </Card>
+                                    ))}
+                                </div>
+                            </TabsContent>
+
+                             <TabsContent value="chants">
+                                <h2 className="font-headline text-3xl font-bold mb-4">Chhath Geet & Mantras</h2>
+                                <div className="space-y-6">
+                                    <Card>
+                                        <CardHeader>
+                                            <CardTitle>Surya Arghya Mantra</CardTitle>
+                                        </CardHeader>
+                                        <CardContent>
+                                            <p className="text-lg font-serif italic">"Om suryaya namah"</p>
+                                            <p className="mt-2 text-foreground/80">A simple yet powerful mantra chanted while offering water to the Sun God, expressing reverence and seeking blessings.</p>
+                                        </CardContent>
+                                    </Card>
+                                    <Card>
+                                        <CardHeader>
+                                            <CardTitle>Chhath Geet</CardTitle>
+                                        </CardHeader>
+                                        <CardContent>
+                                            <p className="text-foreground/80">Folk songs, known as Chhath Geet, are an integral part of the festival. These songs are sung in regional languages and narrate the significance of Chhath Puja, praising the Sun God and Chhathi Maiya.</p>
+                                        </CardContent>
+                                    </Card>
+                                </div>
+                            </TabsContent>
+                        </Tabs>
+                    </CardContent>
+                </Card>
+            </div>
+        </div>
+    );
+}

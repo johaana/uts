@@ -7,6 +7,12 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 const festivalCalendar = [
+    { date: "Jan 14, 2026", name: "Makar Sankranti", region: "Nationwide", type: "Harvest", link: "makar-sankranti" },
+    { date: "Jan 14-17, 2026", name: "Pongal", region: "South", type: "Harvest", link: "pongal" },
+    { date: "Jan 15, 2026", name: "Bihu", region: "Northeast", type: "Harvest", link: "bihu" },
+    { date: "Feb 03, 2026", name: "Vasant Panchami", region: "Nationwide", type: "Seasonal", link: "vasant-panchami" },
+    { date: "Mar 04, 2026", name: "Holi", region: "Nationwide", type: "Cultural", link: "holi" },
+    { date: "Mar 21, 2026", name: "Gudi Padwa", region: "West", type: "New Year", link: "gudi-padwa" },
     { date: "Aug 19, 2025", name: "Raksha Bandhan", region: "Nationwide", type: "Cultural", link: "raksha-bandhan" },
     { date: "Aug 27, 2025", name: "Ganesh Chaturthi", region: "West", type: "Religious", link: "ganesh-chaturthi" },
     { date: "Sep 07, 2025", name: "Onam", region: "South", type: "Harvest", link: "onam" },
@@ -14,11 +20,8 @@ const festivalCalendar = [
     { date: "Sep 27 - Oct 01, 2025", name: "Durga Puja", region: "East", type: "Religious", link: "durga-puja" },
     { date: "Oct 21, 2025", name: "Diwali", region: "Nationwide", type: "Religious", link: "diwali" },
     { date: "Oct 23, 2025", name: "Bhai Dooj", region: "Nationwide", type: "Cultural", link: "diwali" },
-    { date: "Jan 14, 2026", name: "Makar Sankranti", region: "Nationwide", type: "Harvest", link: "makar-sankranti" },
-    { date: "Jan 14, 2026", name: "Pongal", region: "South", type: "Harvest", link: "pongal" },
-    { date: "Feb 03, 2026", name: "Vasant Panchami", region: "Nationwide", type: "Seasonal", link: "vasant-panchami" },
-    { date: "Mar 04, 2026", name: "Holi", region: "Nationwide", type: "Cultural", link: "holi" },
-    { date: "Mar 21, 2026", name: "Gudi Padwa", region: "West", type: "New Year", link: "gudi-padwa" },
+    { date: "Oct 27, 2025", name: "Chhath Puja", region: "East", type: "Solar", link: "chhath-puja" },
+
 ];
 
 
