@@ -6,13 +6,17 @@ import Link from "next/link";
 
 const products = [
     { name: "Embroidered Silk Saree", category: "Attire", price: "₹4,999", image: "https://images.unsplash.com/photo-1583196827559-90d95c5549b4?q=80&w=400&h=400&fit=crop", hint: "silk saree", link: "#" },
-    { name: "Hand-painted Clay Diyas", category: "Decor", price: "₹499", image: "https://images.unsplash.com/photo-1542888260-1014a4561033?q=80&w=400&h=400&fit=crop", hint: "clay diyas", link: "#" },
-    { name: "Kundan Jewelry Set", category: "Jewelry", price: "₹2,499", image: "https://images.unsplash.com/photo-1616782415250-424b91f13b6c?q=80&w=400&h=400&fit=crop", hint: "kundan necklace", link: "#" },
-    { name: "Men's Silk Kurta", category: "Attire", price: "₹1,999", image: "https://images.unsplash.com/photo-1617137968427-85924c800a22?q=80&w=400&h=400&fit=crop", hint: "men kurta", link: "#" },
-    { name: "Puja Thali Set", category: "Decor", price: "₹899", image: "https://images.unsplash.com/photo-1604435924739-429948033575?q=80&w=400&h=400&fit=crop", hint: "puja thali", link: "#" },
-    { name: "Bandhani Dupatta", category: "Attire", price: "₹799", image: "https://images.unsplash.com/photo-1594909122845-11baa439b78f?q=80&w=400&h=400&fit=crop", hint: "colorful scarf", link: "#" },
-    { name: "Temple Jhumkas", category: "Jewelry", price: "₹1,299", image: "https://images.unsplash.com/photo-1617137968427-85924c800a22?q=80&w=400&h=400&fit=crop", hint: "gold earrings", link: "#" },
-    { name: "Toran Door Hanging", category: "Decor", price: "₹599", image: "https://images.unsplash.com/photo-1604435924739-429948033575?q=80&w=400&h=400&fit=crop", hint: "door decor", link: "#" },
+    { name: "Hand-painted Clay Diyas (Set of 12)", category: "Decor", price: "₹499", image: "https://images.unsplash.com/photo-1542888260-1014a4561033?q=80&w=400&h=400&fit=crop", hint: "clay diyas", link: "#" },
+    { name: "Kundan & Pearl Jewelry Set", category: "Jewelry", price: "₹2,499", image: "https://images.unsplash.com/photo-1616782415250-424b91f13b6c?q=80&w=400&h=400&fit=crop", hint: "kundan necklace", link: "#" },
+    { name: "Men's Lucknowi Chikankari Kurta", category: "Attire", price: "₹2,299", image: "https://images.unsplash.com/photo-1617137968427-85924c800a22?q=80&w=400&h=400&fit=crop", hint: "men kurta", link: "#" },
+    { name: "Brass Puja Thali Set", category: "Decor", price: "₹1,299", image: "https://images.unsplash.com/photo-1604435924739-429948033575?q=80&w=400&h=400&fit=crop", hint: "puja thali", link: "#" },
+    { name: "Bandhani Silk Dupatta", category: "Attire", price: "₹999", image: "https://images.unsplash.com/photo-1594909122845-11baa439b78f?q=80&w=400&h=400&fit=crop", hint: "colorful scarf", link: "#" },
+    { name: "Antique Gold-Plated Jhumkas", category: "Jewelry", price: "₹1,299", image: "https://images.unsplash.com/photo-1617137968427-85924c800a22?q=80&w=400&h=400&fit=crop", hint: "gold earrings", link: "#" },
+    { name: "Marigold & Mango Leaf Toran", category: "Decor", price: "₹799", image: "https://images.unsplash.com/photo-1604435924739-429948033575?q=80&w=400&h=400&fit=crop", hint: "door decor", link: "#" },
+    { name: "Silver-Plated Rakhi for Brother", category: "Gifts", price: "₹399", image: "https://images.unsplash.com/photo-1628045350380-4d5162a04944?q=80&w=400&h=400&fit=crop", hint: "rakhi thread", link: "#" },
+    { name: "Organic Holi Gulal (Pack of 5)", category: "Gifts", price: "₹599", image: "https://images.unsplash.com/photo-1580538257844-94aa7d781d3d?q=80&w=400&h=400&fit=crop", hint: "holi colors", link: "#" },
+    { name: "Eco-Friendly Ganesha Idol", category: "Decor", price: "₹1,499", image: "https://images.unsplash.com/photo-1596791834185-a7c3315a4523?q=80&w=400&h=400&fit=crop", hint: "ganesha idol", link: "#" },
+    { name: "Diwali Sweets & Dry Fruits Hamper", category: "Gifts", price: "₹1,999", image: "https://images.unsplash.com/photo-1613542911293-9a572a135316?q=80&w=400&h=400&fit=crop", hint: "sweets gift box", link: "#" },
 ];
 
 export default function ShopPage() {
@@ -22,7 +26,7 @@ export default function ShopPage() {
                 <ShoppingBag className="mx-auto h-16 w-16 text-primary mb-4" />
                 <h1 className="font-headline text-4xl md:text-5xl font-bold">Festive Shop</h1>
                 <p className="mt-4 text-lg text-foreground/80 max-w-2xl mx-auto">
-                    Find the perfect attire, decor, and gifts for your celebrations. We've curated a collection of beautiful products from our affiliate partners.
+                    Find the perfect attire, decor, and gifts for your celebrations. We've curated a collection of beautiful products from our affiliate partners to make your festivals even more special.
                 </p>
             </div>
             

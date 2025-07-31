@@ -19,6 +19,7 @@ const festivals = [
     { name: "Raksha Bandhan", region: "Nationwide", image: "https://images.unsplash.com/photo-1628045350380-4d5162a04944?q=80&w=600&h=400&fit=crop", hint: "sacred thread", description: "A festival that celebrates the cherished bond between brothers and sisters, marked by the tying of a sacred thread.", link: "/festivals/raksha-bandhan" },
     { name: "Chhath Puja", region: "North & East", image: "https://images.unsplash.com/photo-1604435924739-429948033575?q=80&w=600&h=400&fit=crop", hint: "sun worship", description: "An ancient Hindu festival dedicated to the Sun God, Surya, thanking him for sustaining life on earth.", link: "/festivals/chhath-puja" },
     { name: "Rath Yatra", region: "East", image: "https://images.unsplash.com/photo-1596783794104-a690f0b4f3b7?q=80&w=600&h=400&fit=crop", hint: "chariot festival", description: "The spectacular chariot festival of Lord Jagannath celebrated in Puri and other cities.", link: "/festivals/rath-yatra" },
+    { name: "Gudi Padwa", region: "West", image: "https://images.unsplash.com/photo-1587807316663-4972b2297ed1?q=80&w=600&h=400&fit=crop", hint: "gudi flag", description: "The Maharashtrian New Year, celebrated with the hoisting of a 'Gudi' and festive foods.", link: "/festivals/gudi-padwa" },
 ];
 
 export default function FestivalsPage() {

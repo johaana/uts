@@ -5,12 +5,12 @@ import Image from "next/image";
 import Link from "next/link";
 
 const blogPosts = [
-    { title: "The Significance of Diyas in Diwali", image: "https://images.unsplash.com/photo-1604514288399-55e62f45793b?q=80&w=400&h=300&fit=crop", hint: "diya lamp", excerpt: "Discover the deep cultural and spiritual meaning behind lighting diyas during the festival of lights.", author: "Priya Sharma", date: "October 20, 2025" },
-    { title: "A Guide to Traditional Holi Colors", image: "https://images.unsplash.com/photo-1580538257844-94aa7d781d3d?q=80&w=400&h=300&fit=crop", hint: "holi colors", excerpt: "Learn about the natural ingredients used in traditional Holi colors and their significance.", author: "Raj Patel", date: "March 10, 2026" },
-    { title: "Top 5 Rangoli Designs for Beginners", image: "https://images.unsplash.com/photo-1604435924739-429948033575?q=80&w=400&h=300&fit=crop", hint: "rangoli floor", excerpt: "Get inspired with these easy-to-make yet beautiful rangoli patterns for any occasion.", author: "Anjali Mehta", date: "October 18, 2025" },
-    { title: "The 9 Avatars of Durga in Navratri", image: "https://images.unsplash.com/photo-1544275932-c64057a6e5b8?q=80&w=400&h=300&fit=crop", hint: "durga goddess", excerpt: "Explore the nine forms of Goddess Durga worshipped during the nine nights of Navratri.", author: "Vikram Singh", date: "September 25, 2025" },
-    { title: "Onam Sadya: A Feast for the Senses", image: "https://images.unsplash.com/photo-1630951165476-89680327391b?q=80&w=400&h=300&fit=crop", hint: "banana leaf", excerpt: "A detailed guide to the grand vegetarian feast that is the centerpiece of Onam celebrations.", author: "Lakshmi Nair", date: "September 07, 2025" },
-    { title: "Fashion for Festivals: What to Wear", image: "https://images.unsplash.com/photo-1594909122845-11baa439b78f?q=80&w=400&h=300&fit=crop", hint: "ethnic wear", excerpt: "From vibrant sarees to elegant kurtas, find inspiration for your festive wardrobe.", author: "Riya Desai", date: "August 25, 2025" },
+    { title: "The Significance of Diyas in Diwali", image: "https://images.unsplash.com/photo-1604514288399-55e62f45793b?q=80&w=400&h=300&fit=crop", hint: "diya lamp", excerpt: "Discover the deep cultural and spiritual meaning behind lighting diyas during the festival of lights. From symbolizing the victory of good over evil to welcoming the goddess Lakshmi, the humble diya holds a universe of meaning.", author: "Priya Sharma", date: "October 20, 2025" },
+    { title: "A Guide to Natural Holi Colors", image: "https://images.unsplash.com/photo-1580538257844-94aa7d781d3d?q=80&w=400&h=300&fit=crop", hint: "holi colors", excerpt: "Before chemical colors became popular, Holi was played with fragrant, skin-friendly colors made from flowers and herbs. Learn how to make your own natural gulal and celebrate a safe, eco-friendly Holi.", author: "Raj Patel", date: "March 10, 2026" },
+    { title: "Top 5 Rangoli Designs for Beginners", image: "https://images.unsplash.com/photo-1604435924739-429948033575?q=80&w=400&h=300&fit=crop", hint: "rangoli floor", excerpt: "Get inspired with these easy-to-make yet beautiful rangoli patterns. From simple floral designs to geometric wonders, we provide step-by-step guides to adorn your home for any festive occasion.", author: "Anjali Mehta", date: "October 18, 2025" },
+    { title: "The 9 Avatars of Durga: A Navratri Special", image: "https://images.unsplash.com/photo-1544275932-c64057a6e5b8?q=80&w=400&h=300&fit=crop", hint: "durga goddess", excerpt: "Explore the nine powerful forms of Goddess Durga worshipped during the nine nights of Navratri. Each avatar has a unique story and significance, representing a different aspect of the divine feminine.", author: "Vikram Singh", date: "September 25, 2025" },
+    { title: "Onam Sadya: A Feast for the Senses", image: "https://images.unsplash.com/photo-1630951165476-89680327391b?q=80&w=400&h=300&fit=crop", hint: "banana leaf", excerpt: "The Onam Sadya is more than just a meal; it's a grand vegetarian feast that is the centerpiece of Onam celebrations. We take you through the 26+ dishes that make up this incredible culinary experience.", author: "Lakshmi Nair", date: "September 07, 2025" },
+    { title: "Festive Fashion: A Guide to Traditional Indian Attire", image: "https://images.unsplash.com/photo-1594909122845-11baa439b78f?q=80&w=400&h=300&fit=crop", hint: "ethnic wear", excerpt: "From vibrant sarees and lehengas to elegant kurtas and sherwanis, find inspiration for your festive wardrobe. We explore the significance of different colors and fabrics in Indian festive wear.", author: "Riya Desai", date: "August 25, 2025" },
 ];
 
 export default function BlogPage() {
@@ -19,7 +19,7 @@ export default function BlogPage() {
             <div className="text-center mb-12">
                 <h1 className="font-headline text-4xl md:text-5xl font-bold">Utsavs Blog</h1>
                 <p className="mt-4 text-lg text-foreground/80 max-w-2xl mx-auto">
-                    Dive deeper into the culture, stories, and traditions that make Indian festivals so special.
+                    Dive deeper into the culture, stories, and traditions that make Indian festivals so special. Your definitive source for festive knowledge.
                 </p>
             </div>
             
