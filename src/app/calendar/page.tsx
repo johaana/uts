@@ -7,14 +7,17 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 const festivalCalendar = [
-    { date: "Jan 15, 2025", name: "Pongal", region: "South", type: "Harvest" },
-    { date: "Feb 14, 2025", name: "Vasant Panchami", region: "Nationwide", type: "Seasonal" },
-    { date: "Mar 14, 2025", name: "Holi", region: "Nationwide", type: "Cultural" },
-    { date: "Apr 06, 2025", name: "Gudi Padwa", region: "West", type: "New Year" },
-    { date: "Sep 07, 2025", name: "Ganesh Chaturthi", region: "West", type: "Religious" },
-    { date: "Sep 06, 2025", name: "Onam", region: "South", type: "Harvest" },
-    { date: "Oct 01, 2025", name: "Navratri", region: "Nationwide", type: "Religious" },
-    { date: "Oct 21, 2025", name: "Diwali", region: "Nationwide", type: "Religious" },
+    { date: "Jan 14, 2025", name: "Makar Sankranti", region: "Nationwide", type: "Harvest", link: "makar-sankranti" },
+    { date: "Jan 15, 2025", name: "Pongal", region: "South", type: "Harvest", link: "pongal" },
+    { date: "Feb 14, 2025", name: "Vasant Panchami", region: "Nationwide", type: "Seasonal", link: "vasant-panchami" },
+    { date: "Mar 14, 2025", name: "Holi", region: "Nationwide", type: "Cultural", link: "holi" },
+    { date: "Apr 06, 2025", name: "Gudi Padwa", region: "West", type: "New Year", link: "gudi-padwa" },
+    { date: "Sep 07, 2025", name: "Ganesh Chaturthi", region: "West", type: "Religious", link: "ganesh-chaturthi" },
+    { date: "Sep 06, 2025", name: "Onam", region: "South", type: "Harvest", link: "onam" },
+    { date: "Oct 03-11, 2024", name: "Navratri", region: "Nationwide", type: "Religious", link: "navratri" },
+    { date: "Oct 09-13, 2024", name: "Durga Puja", region: "East", type: "Religious", link: "durga-puja" },
+    { date: "Nov 01, 2024", name: "Diwali", region: "Nationwide", type: "Religious", link: "diwali" },
+    { date: "Nov 03, 2024", name: "Bhai Dooj", region: "Nationwide", type: "Cultural", link: "diwali" },
 ];
 
 
@@ -22,7 +25,7 @@ export default function CalendarPage() {
     return (
         <div className="container mx-auto px-4 py-12">
             <div className="text-center mb-12">
-                <h1 className="font-headline text-4xl md:text-5xl font-bold">Festival Calendar 2025</h1>
+                <h1 className="font-headline text-4xl md:text-5xl font-bold">Festival Calendar 2024-2025</h1>
                 <p className="mt-4 text-lg text-foreground/80 max-w-2xl mx-auto">
                     Plan your year around the vibrant celebrations of India. Never miss a festival with our comprehensive calendar.
                 </p>
@@ -91,7 +94,7 @@ export default function CalendarPage() {
                                         </Badge>
                                     </TableCell>
                                     <TableCell className="text-right">
-                                        <Link href={`/festivals/${festival.name.toLowerCase().replace(' ', '-')}`}>
+                                        <Link href={`/festivals/${festival.link}`}>
                                             <Button variant="ghost" size="icon">
                                                 <ArrowRight className="h-4 w-4" />
                                             </Button>

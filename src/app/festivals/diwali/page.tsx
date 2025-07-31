@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote } from "lucide-react";
+import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote, CalendarDays } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -25,8 +25,9 @@ export default function DiwaliPage() {
                 <Card className="mb-12">
                     <CardContent className="p-6 md:p-10">
                         <Tabs defaultValue="overview">
-                            <TabsList className="grid w-full grid-cols-2 md:grid-cols-5 mb-6">
+                            <TabsList className="grid w-full grid-cols-2 md:grid-cols-6 mb-6">
                                 <TabsTrigger value="overview"><BookOpen className="w-4 h-4 mr-2" />Overview</TabsTrigger>
+                                <TabsTrigger value="five-days"><CalendarDays className="w-4 h-4 mr-2" />The Five Days</TabsTrigger>
                                 <TabsTrigger value="rituals"><CheckCircle className="w-4 h-4 mr-2" />Rituals</TabsTrigger>
                                 <TabsTrigger value="recipes"><Utensils className="w-4 h-4 mr-2" />Recipes</TabsTrigger>
                                 <TabsTrigger value="culture"><Sparkles className="w-4 h-4 mr-2" />Culture</TabsTrigger>
@@ -34,18 +35,62 @@ export default function DiwaliPage() {
                             </TabsList>
 
                             <TabsContent value="overview">
-                                <h2 className="font-headline text-3xl font-bold mb-4">History & Significance</h2>
+                                <h2 className="font-headline text-3xl font-bold mb-4">The Story of Diwali</h2>
                                 <div className="space-y-4 text-foreground/80 prose max-w-none">
-                                    <p>Diwali, or Deepavali, stands as one of India's most magnificent and cherished holidays. The name itself, derived from Sanskrit, means "row of lights" (deepa - light, avali - row). This refers to the rows of clay lamps, or diyas, that Indians light outside their homes. These lights are a powerful symbol, representing the victory of light over spiritual darkness, good over evil, and knowledge over ignorance.</p>
-                                    <p>The festival's origins are ancient, with several legends associated with it. The most prominent story is the return of Lord Rama to his kingdom of Ayodhya after defeating the demon king Ravana, as narrated in the epic Ramayana. The citizens of Ayodhya celebrated his return by illuminating the entire kingdom with diyas, an act that continues to be the centerpiece of Diwali celebrations to this day.</p>
-                                    <p>Diwali is not a single-day affair but a five-day festival, with each day holding unique significance:</p>
-                                    <ul>
-                                        <li><strong>Dhanteras:</strong> The first day, dedicated to cleansing homes and purchasing new items, especially gold, silver, or utensils, to welcome prosperity.</li>
-                                        <li><strong>Naraka Chaturdashi (Choti Diwali):</strong> The second day celebrates Lord Krishna's victory over the demon Narakasura, symbolizing the triumph of good over evil.</li>
-                                        <li><strong>Lakshmi Puja:</strong> The third and main day of Diwali. Families worship Goddess Lakshmi, the bestower of wealth and prosperity, and Lord Ganesha, the remover of obstacles.</li>
-                                        <li><strong>Govardhan Puja:</strong> The fourth day commemorates Lord Krishna lifting the Govardhan Hill to shelter villagers from torrential rains.</li>
-                                        <li><strong>Bhai Dooj:</strong> The fifth day celebrates the bond between brothers and sisters, similar to Raksha Bandhan.</li>
-                                    </ul>
+                                    <p>Diwali, the 'Festival of Lights', is a luminous thread in the vibrant tapestry of Indian culture. Its name, a contraction of "Deepavali," translates from Sanskrit to "row of lighted lamps." This imagery is at the heart of the festival, where countless diyas (clay lamps) flicker against the dark night, each a beacon of hope, a symbol of the enduring victory of light over darkness, good over evil, and knowledge over ignorance.</p>
+                                    <p>The festival's soul is woven from numerous legends, the most famous being the return of Lord Rama to his kingdom of Ayodhya. As told in the epic Ramayana, Rama, along with his wife Sita and brother Lakshmana, returned after a fourteen-year exile and a heroic battle to defeat the ten-headed demon king, Ravana. The people of Ayodhya, their hearts overflowing with joy, illuminated the entire city with rows of diyas to welcome their righteous king. This ancient act of jubilation is recreated every year, making Diwali a celebration of homecoming, righteousness, and the dispelling of all that is dark and malevolent.</p>
+                                    <p>But the light of Diwali shines on many stories. In some parts of India, it commemorates the day Lord Krishna defeated the demon Narakasura, freeing thousands of maidens from his tyrannical grasp. For others, it is a celebration of the marriage of Goddess Lakshmi, the bestower of wealth and prosperity, to Lord Vishnu. Each story adds a unique facet to the festival, yet all converge on the central theme: the triumph of dharma (righteousness) and the celebration of life's brightest aspects.</p>
+                                </div>
+                            </TabsContent>
+                            
+                            <TabsContent value="five-days">
+                                <h2 className="font-headline text-3xl font-bold mb-4">The Five Days of Diwali (2024)</h2>
+                                <div className="space-y-6">
+                                    <Card>
+                                        <CardHeader>
+                                            <CardTitle>Day 1: Dhanteras (October 29, 2024)</CardTitle>
+                                            <p className="text-sm text-muted-foreground">The Festival of Wealth</p>
+                                        </CardHeader>
+                                        <CardContent>
+                                            <p className="text-foreground/80">The festival officially begins with Dhanteras. Homes are cleaned and purified, and it is considered highly auspicious to purchase new items, especially gold, silver, or utensils. This act symbolizes the welcoming of Goddess Lakshmi and a year of prosperity. Evenings are spent worshipping Lord Dhanvantari, the physician of the gods and an incarnation of Vishnu, praying for good health and well-being.</p>
+                                        </CardContent>
+                                    </Card>
+                                    <Card>
+                                        <CardHeader>
+                                            <CardTitle>Day 2: Naraka Chaturdashi / Choti Diwali (October 31, 2024)</CardTitle>
+                                             <p className="text-sm text-muted-foreground">The Day of Liberation</p>
+                                        </CardHeader>
+                                        <CardContent>
+                                            <p className="text-foreground/80">Known as 'Small Diwali', this day celebrates Lord Krishna's victory over the demon Narakasura. It is a day for rituals to cleanse the soul of all sins and impurities. Many wake before sunrise to perform a ritual bath with aromatic oils and pastes. It is a day that reaffirms the power of good to overcome all that is evil and oppressive, paving the way for the main celebration.</p>
+                                        </CardContent>
+                                    </Card>
+                                     <Card>
+                                        <CardHeader>
+                                            <CardTitle>Day 3: Lakshmi Puja (November 1, 2024)</CardTitle>
+                                             <p className="text-sm text-muted-foreground">The Main Celebration</p>
+                                        </CardHeader>
+                                        <CardContent>
+                                            <p className="text-foreground/80">This is the most significant day of Diwali. After sunset, families gather to perform the Lakshmi Puja, an elaborate worship of the Goddess of Wealth. The home, brightly lit with diyas and decorated with rangoli, becomes a shrine. Offerings are made, mantras are chanted, and the air fills with devotion. It's a magical evening of family, feasting, and fireworks, celebrating the divine blessings of prosperity and light.</p>
+                                        </CardContent>
+                                    </Card>
+                                     <Card>
+                                        <CardHeader>
+                                            <CardTitle>Day 4: Govardhan Puja / Padwa (November 2, 2024)</CardTitle>
+                                             <p className="text-sm text-muted-foreground">Honoring Nature and Marital Bonds</p>
+                                        </CardHeader>
+                                        <CardContent>
+                                            <p className="text-foreground/80">This day holds dual significance. In North India, Govardhan Puja commemorates Lord Krishna lifting the Govardhan Hill to protect the villagers of Vrindavan from the wrath of Lord Indra. Devotees create miniature hills of food to represent the mountain. In other regions, it is celebrated as Padwa, a day that honors the sacred bond of marriage, where spouses exchange gifts and reaffirm their commitment.</p>
+                                        </CardContent>
+                                    </Card>
+                                     <Card>
+                                        <CardHeader>
+                                            <CardTitle>Day 5: Bhai Dooj / Bhaubeej (November 3, 2024)</CardTitle>
+                                             <p className="text-sm text-muted-foreground">Celebrating Siblings</p>
+                                        </CardHeader>
+                                        <CardContent>
+                                            <p className="text-foreground/80">The festival concludes with Bhai Dooj, a day dedicated to the beautiful bond between brothers and sisters. Sisters apply a tilak (a ceremonial mark) on their brothers' foreheads, praying for their long life and happiness. Brothers, in turn, shower their sisters with gifts. It is a heartwarming conclusion to the festivities, reinforcing family ties and love.</p>
+                                        </CardContent>
+                                    </Card>
                                 </div>
                             </TabsContent>
 
@@ -149,10 +194,6 @@ export default function DiwaliPage() {
                                     <div>
                                         <h3 className="font-headline text-xl font-bold mb-2">Music and Dance</h3>
                                         <p>The air during Diwali is filled with the sounds of devotional songs (bhajans) and traditional folk music. In many communities, evenings are lively with music and dance performances, celebrating the joyous spirit of the festival.</p>
-                                    </div>
-                                    <div>
-                                        <h3 className="font-headline text-xl font-bold mb-2">The Story of Rama and Sita</h3>
-                                        <p>The core mythological story behind Diwali is the triumphant return of Lord Rama to Ayodhya. After a 14-year exile and a fierce battle in which he defeated the ten-headed demon king Ravana who had abducted his wife Sita, Rama's homecoming was a momentous event. The people of Ayodhya, overjoyed to welcome their rightful king, illuminated the entire city with rows of diyas. This act of lighting lamps is recreated every year, symbolizing the victory of righteousness and the dispelling of darkness.</p>
                                     </div>
                                 </div>
                             </TabsContent>
