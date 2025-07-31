@@ -5,14 +5,14 @@ import Image from "next/image";
 import Link from "next/link";
 
 const products = [
-    { name: "Embroidered Silk Saree", category: "Attire", price: "₹4,999", image: "https://placehold.co/400x400.png", hint: "silk saree", link: "#" },
-    { name: "Hand-painted Clay Diyas", category: "Decor", price: "₹499", image: "https://placehold.co/400x400.png", hint: "clay diyas", link: "#" },
-    { name: "Kundan Jewelry Set", category: "Jewelry", price: "₹2,499", image: "https://placehold.co/400x400.png", hint: "kundan necklace", link: "#" },
-    { name: "Men's Silk Kurta", category: "Attire", price: "₹1,999", image: "https://placehold.co/400x400.png", hint: "men kurta", link: "#" },
-    { name: "Puja Thali Set", category: "Decor", price: "₹899", image: "https://placehold.co/400x400.png", hint: "puja thali", link: "#" },
-    { name: "Bandhani Dupatta", category: "Attire", price: "₹799", image: "https://placehold.co/400x400.png", hint: "colorful scarf", link: "#" },
-    { name: "Temple Jhumkas", category: "Jewelry", price: "₹1,299", image: "https://placehold.co/400x400.png", hint: "gold earrings", link: "#" },
-    { name: "Toran Door Hanging", category: "Decor", price: "₹599", image: "https://placehold.co/400x400.png", hint: "door decor", link: "#" },
+    { name: "Embroidered Silk Saree", category: "Attire", price: "₹4,999", image: "https://images.unsplash.com/photo-1583227443981-cc6c4058b85b?q=80&w=400&h=400&fit=crop", hint: "silk saree", link: "#" },
+    { name: "Hand-painted Clay Diyas", category: "Decor", price: "₹499", image: "https://images.unsplash.com/photo-1604514288399-55e62f45793b?q=80&w=400&h=400&fit=crop", hint: "clay diyas", link: "#" },
+    { name: "Kundan Jewelry Set", category: "Jewelry", price: "₹2,499", image: "https://images.unsplash.com/photo-1611195869069-7c421b8b2f2e?q=80&w=400&h=400&fit=crop", hint: "kundan necklace", link: "#" },
+    { name: "Men's Silk Kurta", category: "Attire", price: "₹1,999", image: "https://images.unsplash.com/photo-1620799140408-4c17d0d037b5?q=80&w=400&h=400&fit=crop", hint: "men kurta", link: "#" },
+    { name: "Puja Thali Set", category: "Decor", price: "₹899", image: "https://images.unsplash.com/photo-1617112582851-a9d524a87c1d?q=80&w=400&h=400&fit=crop", hint: "puja thali", link: "#" },
+    { name: "Bandhani Dupatta", category: "Attire", price: "₹799", image: "https://images.unsplash.com/photo-1594909122845-11baa439b7bf?q=80&w=400&h=400&fit=crop", hint: "colorful scarf", link: "#" },
+    { name: "Temple Jhumkas", category: "Jewelry", price: "₹1,299", image: "https://images.unsplash.com/photo-1611195869069-7c421b8b2f2e?q=80&w=400&h=400&fit=crop", hint: "gold earrings", link: "#" },
+    { name: "Toran Door Hanging", category: "Decor", price: "₹599", image: "https://images.unsplash.com/photo-1542372407-a3f295116349?q=80&w=400&h=400&fit=crop", hint: "door decor", link: "#" },
 ];
 
 export default function ShopPage() {
