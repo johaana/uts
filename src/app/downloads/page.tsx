@@ -4,12 +4,12 @@ import { DownloadCloud, Brush, CheckSquare, Gift } from "lucide-react";
 import Image from "next/image";
 
 const downloads = [
-    { title: "Peacock Rangoli Stencil", category: "Rangoli Designs", image: "https://images.unsplash.com/photo-1617112582851-a9d524a87c1d?q=80&w=400&h=300&fit=crop", hint: "peacock rangoli", file: "#" },
-    { title: "Diwali Greeting Card", category: "Greeting Cards", image: "https://images.unsplash.com/photo-1540632739433-70b3b64c146a?q=80&w=400&h=300&fit=crop", hint: "diwali card", file: "#" },
-    { title: "Puja Preparation Checklist", category: "Checklists", image: "https://images.unsplash.com/photo-1598791318448-f903a4a70a53?q=80&w=400&h=300&fit=crop", hint: "checklist paper", file: "#" },
-    { title: "Floral Rangoli Pattern", category: "Rangoli Designs", image: "https://images.unsplash.com/photo-1589571894921-823c4a0a4c18?q=80&w=400&h=300&fit=crop", hint: "flower rangoli", file: "#" },
-    { title: "Holi Party Invitation", category: "Greeting Cards", image: "https://images.unsplash.com/photo-1580538257844-94aa7d781d3d?q=80&w=400&h=300&fit=crop", hint: "holi invitation", file: "#" },
-    { title: "Navratri Fasting Guide", category: "Checklists", image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=400&h=300&fit=crop", hint: "guide book", file: "#" },
+    { title: "Peacock Rangoli Stencil", category: "Rangoli Designs", image: "https://placehold.co/400x300.png", hint: "peacock rangoli", file: "#" },
+    { title: "Diwali Greeting Card", category: "Greeting Cards", image: "https://placehold.co/400x300.png", hint: "diwali card", file: "#" },
+    { title: "Puja Preparation Checklist", category: "Checklists", image: "https://placehold.co/400x300.png", hint: "checklist paper", file: "#" },
+    { title: "Floral Rangoli Pattern", category: "Rangoli Designs", image: "https://placehold.co/400x300.png", hint: "flower rangoli", file: "#" },
+    { title: "Holi Party Invitation", category: "Greeting Cards", image: "https://placehold.co/400x300.png", hint: "holi invitation", file: "#" },
+    { title: "Navratri Fasting Guide", category: "Checklists", image: "https://placehold.co/400x300.png", hint: "guide book", file: "#" },
 ];
 
 export default function DownloadsPage() {

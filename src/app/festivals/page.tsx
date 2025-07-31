@@ -7,14 +7,14 @@ import Image from "next/image";
 import Link from "next/link";
 
 const festivals = [
-    { name: "Diwali", region: "Nationwide", image: "https://images.unsplash.com/photo-1600255933742-32a2a07590d7?q=80&w=600&h=400&fit=crop", hint: "lights diyas", description: "The festival of lights, symbolizing the victory of light over darkness." },
-    { name: "Holi", region: "Nationwide", image: "https://images.unsplash.com/photo-1616422179888-88d499de58f1?q=80&w=600&h=400&fit=crop", hint: "colors powder", description: "The festival of colors, celebrating the arrival of spring and love." },
-    { name: "Navratri", region: "West", image: "https://images.unsplash.com/photo-1695453305212-091937fb4a72?q=80&w=600&h=400&fit=crop", hint: "garba dance", description: "A nine-night festival dedicated to the goddess Durga." },
-    { name: "Durga Puja", region: "East", image: "https://images.unsplash.com/photo-1604455248937-54b513475d4e?q=80&w=600&h=400&fit=crop", hint: "goddess durga", description: "A major festival in Bengal celebrating the goddess Durga's victory." },
-    { name: "Ganesh Chaturthi", region: "West", image: "https://images.unsplash.com/photo-1601222234375-c9e11aa24e13?q=80&w=600&h=400&fit=crop", hint: "ganesha idol", description: "Celebrates the birth of Lord Ganesha, the god of new beginnings." },
-    { name: "Pongal", region: "South", image: "https://images.unsplash.com/photo-1609867946636-697b37345098?q=80&w=600&h=400&fit=crop", hint: "harvest festival", description: "A harvest festival celebrated in Tamil Nadu to thank the Sun God." },
-    { name: "Onam", region: "South", image: "https://images.unsplash.com/photo-1599331862165-27663e33a571?q=80&w=600&h=400&fit=crop", hint: "flower carpet", description: "A harvest festival of Kerala that celebrates the homecoming of King Mahabali." },
-    { name: "Bihu", region: "Northeast", image: "https://images.unsplash.com/photo-1627087657904-85885293292b?q=80&w=600&h=400&fit=crop", hint: "assamese dance", description: "A set of three important Assamese festivals celebrating different phases of the farming calendar." },
+    { name: "Diwali", region: "Nationwide", image: "https://placehold.co/600x400.png", hint: "lights diyas", description: "The festival of lights, symbolizing the victory of light over darkness." },
+    { name: "Holi", region: "Nationwide", image: "https://placehold.co/600x400.png", hint: "colors powder", description: "The festival of colors, celebrating the arrival of spring and love." },
+    { name: "Navratri", region: "West", image: "https://placehold.co/600x400.png", hint: "garba dance", description: "A nine-night festival dedicated to the goddess Durga." },
+    { name: "Durga Puja", region: "East", image: "https://placehold.co/600x400.png", hint: "goddess durga", description: "A major festival in Bengal celebrating the goddess Durga's victory." },
+    { name: "Ganesh Chaturthi", region: "West", image: "https://placehold.co/600x400.png", hint: "ganesha idol", description: "Celebrates the birth of Lord Ganesha, the god of new beginnings." },
+    { name: "Pongal", region: "South", image: "https://placehold.co/600x400.png", hint: "harvest festival", description: "A harvest festival celebrated in Tamil Nadu to thank the Sun God." },
+    { name: "Onam", region: "South", image: "https://placehold.co/600x400.png", hint: "flower carpet", description: "A harvest festival of Kerala that celebrates the homecoming of King Mahabali." },
+    { name: "Bihu", region: "Northeast", image: "https://placehold.co/600x400.png", hint: "assamese dance", description: "A set of three important Assamese festivals celebrating different phases of the farming calendar." },
 ];
 
 export default function FestivalsPage() {
