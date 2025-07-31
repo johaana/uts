@@ -15,6 +15,10 @@ const recipes = [
     { name: "Ladoo", festival: "Diwali", region: "Nationwide", image: "https://images.unsplash.com/photo-1613542911293-9a572a135316?q=80&w=400&h=300&fit=crop", hint: "sweet balls", description: "Ball-shaped sweets made of flour, fat, and sugar.", link: "/recipes/ladoo" },
     { name: "Gujiya", festival: "Holi", region: "North", image: "https://images.unsplash.com/photo-1617131723588-f6723467a1e3?q=80&w=400&h=300&fit=crop", hint: "sweet dumpling", description: "Sweet deep-fried dumplings filled with khoya and dried fruits.", link: "/recipes/gujiya" },
     { name: "Thandai", festival: "Holi", region: "North", image: "https://images.unsplash.com/photo-1580538257844-94aa7d781d3d?q=80&w=400&h=300&fit=crop", hint: "cold drink", description: "A cold drink prepared with a mixture of almonds, fennel seeds, and other spices.", link: "/recipes/thandai" },
+    { name: "Sheer Khurma", festival: "Eid-al-Fitr", region: "Nationwide", image: "https://images.unsplash.com/photo-1625391029258-a53655383921?q=80&w=400&h=300&fit=crop", hint: "vermicelli pudding", description: "A rich and creamy vermicelli pudding made for Eid.", link: "/recipes/sheer-khurma" },
+    { name: "Biryani", festival: "Eid-al-Fitr", region: "Nationwide", image: "https://images.unsplash.com/photo-1589302168068-964664d93dc0?q=80&w=400&h=300&fit=crop", hint: "spiced rice", description: "Aromatic rice dish with meat or vegetables.", link: "/recipes/biryani" },
+    { name: "Christmas Cake", festival: "Christmas", region: "Nationwide", image: "https://images.unsplash.com/photo-1542826438-60427341e3e2?q=80&w=400&h=300&fit=crop", hint: "fruit cake", description: "A rich, dense cake packed with dried fruits and spices.", link: "/recipes/christmas-cake" },
+    { name: "Karah Prasad", festival: "Guru Nanak Jayanti", region: "Nationwide", image: "https://images.unsplash.com/photo-1613542911293-9a572a135316?q=80&w=400&h=300&fit=crop", hint: "wheat halwa", description: "A sacred whole wheat flour pudding served at Gurdwaras.", link: "/recipes/karah-prasad" },
 ];
 
 export default function RecipesPage() {
@@ -45,6 +49,9 @@ export default function RecipesPage() {
                                 <SelectItem value="pongal">Pongal</SelectItem>
                                 <SelectItem value="ganesh-chaturthi">Ganesh Chaturthi</SelectItem>
                                 <SelectItem value="chhath-puja">Chhath Puja</SelectItem>
+                                <SelectItem value="eid-al-fitr">Eid-al-Fitr</SelectItem>
+                                <SelectItem value="christmas">Christmas</SelectItem>
+                                <SelectItem value="guru-nanak-jayanti">Guru Nanak Jayanti</SelectItem>
                             </SelectContent>
                         </Select>
                          <Select>
