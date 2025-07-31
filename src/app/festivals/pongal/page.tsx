@@ -5,9 +5,9 @@ import Image from "next/image";
 import Link from "next/link";
 
 const recipes = [
-    { name: "Sakkarai Pongal", image: "https://images.unsplash.com/photo-1608622834734-74a0f81b5abb?q=80&w=400&h=300&fit=crop", hint: "sweet pongal" },
-    { name: "Ven Pongal", image: "https://images.unsplash.com/photo-1628848177430-a7d0352520da?q=80&w=400&h=300&fit=crop", hint: "savory pongal" },
-    { name: "Medu Vada", image: "https://images.unsplash.com/photo-1663953538268-54b664d4715f?q=80&w=400&h=300&fit=crop", hint: "lentil fritter" },
+    { name: "Sakkarai Pongal", image: "https://images.unsplash.com/photo-1608622834734-74a0f81b5abb?q=80&w=400&h=300&fit=crop", hint: "sweet pongal", link: "#" },
+    { name: "Ven Pongal", image: "https://images.unsplash.com/photo-1628848177430-a7d0352520da?q=80&w=400&h=300&fit=crop", hint: "savory pongal", link: "#" },
+    { name: "Medu Vada", image: "https://images.unsplash.com/photo-1663953538268-54b664d4715f?q=80&w=400&h=300&fit=crop", hint: "lentil fritter", link: "#" },
 ]
 
 export default function PongalPage() {
@@ -78,12 +78,14 @@ export default function PongalPage() {
                                 <h2 className="font-headline text-3xl font-bold mb-4">Pongal Feast</h2>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                                     {recipes.map(recipe => (
-                                        <Card key={recipe.name} className="overflow-hidden">
-                                            <Image src={recipe.image} alt={recipe.name} width={400} height={300} className="w-full h-40 object-cover" data-ai-hint={recipe.hint}/>
-                                            <CardContent className="p-4">
-                                                <h3 className="font-headline text-xl font-bold text-center">{recipe.name}</h3>
-                                            </CardContent>
-                                        </Card>
+                                        <Link href={recipe.link || '#'} key={recipe.name}>
+                                            <Card className="overflow-hidden h-full">
+                                                <Image src={recipe.image} alt={recipe.name} width={400} height={300} className="w-full h-40 object-cover" data-ai-hint={recipe.hint}/>
+                                                <CardContent className="p-4">
+                                                    <h3 className="font-headline text-xl font-bold text-center">{recipe.name}</h3>
+                                                </CardContent>
+                                            </Card>
+                                        </Link>
                                     ))}
                                 </div>
                             </TabsContent>

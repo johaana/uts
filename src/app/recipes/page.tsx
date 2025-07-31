@@ -19,6 +19,8 @@ const recipes = [
     { name: "Biryani", festival: "Eid-al-Fitr", region: "Nationwide", image: "https://images.unsplash.com/photo-1589302168068-964664d93dc0?q=80&w=400&h=300&fit=crop", hint: "spiced rice", description: "Aromatic rice dish with meat or vegetables.", link: "/recipes/biryani" },
     { name: "Christmas Cake", festival: "Christmas", region: "Nationwide", image: "https://images.unsplash.com/photo-1542826438-60427341e3e2?q=80&w=400&h=300&fit=crop", hint: "fruit cake", description: "A rich, dense cake packed with dried fruits and spices.", link: "/recipes/christmas-cake" },
     { name: "Karah Prasad", festival: "Guru Nanak Jayanti", region: "Nationwide", image: "https://images.unsplash.com/photo-1613542911293-9a572a135316?q=80&w=400&h=300&fit=crop", hint: "wheat halwa", description: "A sacred whole wheat flour pudding served at Gurdwaras.", link: "/recipes/karah-prasad" },
+    { name: "Kaju Katli", festival: "Diwali", region: "Nationwide", image: "https://images.unsplash.com/photo-1596561260279-7243b81e4c79?q=80&w=400&h=300&fit=crop", hint: "cashew fudge", description: "Melt-in-the-mouth cashew and milk fudge.", link: "/recipes/kaju-katli" },
+    { name: "Coconut Barfi", festival: "Raksha Bandhan", region: "Nationwide", image: "https://images.unsplash.com/photo-1606550212039-9b76e2c9e7a2?q=80&w=400&h=300&fit=crop", hint: "coconut fudge", description: "Simple and delicious fudge made from coconut, milk, and sugar.", link: "/recipes/coconut-barfi" },
 ];
 
 export default function RecipesPage() {
