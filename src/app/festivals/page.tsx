@@ -7,14 +7,18 @@ import Image from "next/image";
 import Link from "next/link";
 
 const festivals = [
-    { name: "Diwali", region: "Nationwide", image: "https://images.unsplash.com/photo-1574322499484-85a8a7c08186?q=80&w=600&h=400&fit=crop", hint: "lights diyas", description: "The festival of lights, symbolizing the victory of light over darkness." },
-    { name: "Holi", region: "Nationwide", image: "https://images.unsplash.com/photo-1519624090336-6b21b8575953?q=80&w=600&h=400&fit=crop", hint: "colors powder", description: "The festival of colors, celebrating the arrival of spring and love." },
-    { name: "Navratri", region: "West", image: "https://images.unsplash.com/photo-1589498202028-2a2b72183c58?q=80&w=600&h=400&fit=crop", hint: "garba dance", description: "A nine-night festival dedicated to the goddess Durga." },
-    { name: "Durga Puja", region: "East", image: "https://images.unsplash.com/photo-1544275932-c64057a6e5b8?q=80&w=600&h=400&fit=crop", hint: "goddess durga", description: "A major festival in Bengal celebrating the goddess Durga's victory." },
-    { name: "Ganesh Chaturthi", region: "West", image: "https://images.unsplash.com/photo-1596791834185-a7c3315a4523?q=80&w=600&h=400&fit=crop", hint: "ganesha idol", description: "Celebrates the birth of Lord Ganesha, the god of new beginnings." },
-    { name: "Pongal", region: "South", image: "https://images.unsplash.com/photo-1611843467149-d3e2d65f5733?q=80&w=600&h=400&fit=crop", hint: "harvest festival", description: "A harvest festival celebrated in Tamil Nadu to thank the Sun God." },
-    { name: "Onam", region: "South", image: "https://images.unsplash.com/photo-1630951165476-89680327391b?q=80&w=600&h=400&fit=crop", hint: "flower carpet", description: "A harvest festival of Kerala that celebrates the homecoming of King Mahabali." },
-    { name: "Bihu", region: "Northeast", image: "https://images.unsplash.com/photo-1559332155-2b4a0375a034?q=80&w=600&h=400&fit=crop", hint: "assamese dance", description: "A set of three important Assamese festivals celebrating different phases of the farming calendar." },
+    { name: "Diwali", region: "Nationwide", image: "https://placehold.co/600x400.png", hint: "lights diyas", description: "The festival of lights, symbolizing the victory of light over darkness and good over evil." },
+    { name: "Holi", region: "Nationwide", image: "https://placehold.co/600x400.png", hint: "colors powder", description: "The vibrant festival of colors, celebrating the arrival of spring, love, and the triumph of good." },
+    { name: "Navratri", region: "West & North", image: "https://placehold.co/600x400.png", hint: "garba dance", description: "A nine-night festival dedicated to worshipping the nine forms of the goddess Durga, famous for its energetic Garba dances." },
+    { name: "Durga Puja", region: "East", image: "https://placehold.co/600x400.png", hint: "goddess durga", description: "A grand ten-day festival in Bengal celebrating the goddess Durga's victory over the demon Mahishasur." },
+    { name: "Ganesh Chaturthi", region: "West & South", image: "https://placehold.co/600x400.png", hint: "ganesha idol", description: "A spectacular festival celebrating the birth of Lord Ganesha, the god of new beginnings and wisdom." },
+    { name: "Pongal", region: "South", image: "https://placehold.co/600x400.png", hint: "harvest festival", description: "A four-day harvest festival in Tamil Nadu to thank the Sun God, Surya, for a bountiful harvest." },
+    { name: "Onam", region: "South", image: "https://placehold.co/600x400.png", hint: "flower carpet", description: "Kerala's most important harvest festival, celebrating the homecoming of the mythical King Mahabali." },
+    { name: "Bihu", region: "Northeast", image: "https://placehold.co/600x400.png", hint: "assamese dance", description: "A set of three Assamese festivals celebrating different phases of the farming calendar with folk dance and music." },
+    { name: "Makar Sankranti", region: "Nationwide", image: "https://placehold.co/600x400.png", hint: "kite festival", description: "A festival marking the sun's transit into Capricorn, celebrated with kite flying, bonfires, and feasts." },
+    { name: "Raksha Bandhan", region: "Nationwide", image: "https://placehold.co/600x400.png", hint: "sacred thread", description: "A festival that celebrates the cherished bond between brothers and sisters, marked by the tying of a sacred thread." },
+    { name: "Chhath Puja", region: "North & East", image: "https://placehold.co/600x400.png", hint: "sun worship", description: "An ancient Hindu festival dedicated to the Sun God, Surya, thanking him for sustaining life on earth." },
+    { name: "Hemis", region: "North (Ladakh)", image: "https://placehold.co/600x400.png", hint: "monastery festival", description: "A vibrant two-day festival in Ladakh commemorating the birth of Guru Padmasambhava, featuring masked dances." },
 ];
 
 export default function FestivalsPage() {
@@ -23,7 +27,7 @@ export default function FestivalsPage() {
             <div className="text-center mb-12">
                 <h1 className="font-headline text-4xl md:text-5xl font-bold">Discover Indian Festivals</h1>
                 <p className="mt-4 text-lg text-foreground/80 max-w-2xl mx-auto">
-                    From the snow-capped Himalayas to the sun-drenched coasts, explore the diverse and colorful festivals of India.
+                    From the snow-capped Himalayas to the sun-drenched coasts, explore the diverse and colorful festivals that form the heartbeat of India.
                 </p>
             </div>
 
@@ -31,7 +35,7 @@ export default function FestivalsPage() {
                 <div className="flex flex-col md:flex-row gap-4 items-center">
                     <div className="relative w-full flex-grow">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                        <Input placeholder="Search for a festival..." className="pl-10"/>
+                        <Input placeholder="Search for a festival (e.g., Diwali, Holi...)" className="pl-10"/>
                     </div>
                     <div className="flex gap-4 w-full md:w-auto">
                         <Select>
@@ -39,6 +43,7 @@ export default function FestivalsPage() {
                                 <SelectValue placeholder="Filter by Region" />
                             </SelectTrigger>
                             <SelectContent>
+                                <SelectItem value="nationwide">Nationwide</SelectItem>
                                 <SelectItem value="north">North</SelectItem>
                                 <SelectItem value="south">South</SelectItem>
                                 <SelectItem value="east">East</SelectItem>
@@ -60,7 +65,7 @@ export default function FestivalsPage() {
                             <p className="text-sm text-primary font-semibold mb-1">{festival.region}</p>
                             <h2 className="font-headline text-2xl font-bold mb-2">{festival.name}</h2>
                             <p className="text-foreground/70 mb-4 flex-grow">{festival.description}</p>
-                            <Link href={`/festivals/${festival.name.toLowerCase().replace(' ', '-')}`}>
+                            <Link href={`/festivals/${festival.name.toLowerCase().replace(/ /g, '-')}`}>
                                 <Button variant="link" className="p-0 text-accent hover:text-accent/90">
                                     Explore Festival <ArrowRight className="ml-1 h-4 w-4" />
                                 </Button>
