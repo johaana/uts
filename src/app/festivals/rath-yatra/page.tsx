@@ -5,9 +5,9 @@ import Image from "next/image";
 import Link from "next/link";
 
 const recipes = [
-    { name: "Khechudi", image: "https://images.unsplash.com/photo-1599422501066-8b43f990f133?q=80&w=400&h=300&fit=crop", hint: "rice and lentil dish", link: "#" },
+    { name: "Khechudi", image: "https://images.unsplash.com/photo-1604113589498-8f83792a6c44?q=80&w=400&h=300&fit=crop", hint: "rice and lentil dish", link: "#" },
     { name: "Dalma", image: "https://images.unsplash.com/photo-1628848177430-a7d0352520da?q=80&w=400&h=300&fit=crop", hint: "lentil and vegetable stew", link: "#" },
-    { name: "Mahaprasad", image: "https://images.unsplash.com/photo-1544275932-c64057a6e5b8?q=80&w=400&h=300&fit=crop", hint: "temple food", link: "#" },
+    { name: "Mahaprasad", image: "https://images.unsplash.com/photo-1604938927599-633059dce83c?q=80&w=400&h=300&fit=crop", hint: "temple food", link: "#" },
 ]
 
 export default function RathYatraPage() {

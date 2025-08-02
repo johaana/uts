@@ -7,7 +7,7 @@ import Link from "next/link";
 const recipes = [
     { name: "Sheer Khurma", image: "https://images.unsplash.com/photo-1620428268459-2f27918c5c79?q=80&w=400&h=300&fit=crop", hint: "vermicelli pudding", link: "/recipes/sheer-khurma" },
     { name: "Biryani", image: "https://images.unsplash.com/photo-1589302168068-964664d93dc0?q=80&w=400&h=300&fit=crop", hint: "spiced rice", link: "/recipes/biryani" },
-    { name: "Haleem", image: "https://images.unsplash.com/photo-1599422501066-8b43f990f133?q=80&w=400&h=300&fit=crop", hint: "meat stew", link: "#" },
+    { name: "Haleem", image: "https://images.unsplash.com/photo-1604113589498-8f83792a6c44?q=80&w=400&h=300&fit=crop", hint: "meat stew", link: "#" },
 ]
 
 export default function EidAlFitrPage() {

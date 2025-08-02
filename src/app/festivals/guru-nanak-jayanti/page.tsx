@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 const recipes = [
-    { name: "Karah Prasad", image: "https://images.unsplash.com/photo-1613542911293-9a572a135316?q=80&w=400&h=300&fit=crop", hint: "wheat halwa", link: "/recipes/karah-prasad" },
+    { name: "Karah Prasad", image: "https://images.unsplash.com/photo-1626094309830-0d7ea26f3094?q=80&w=400&h=300&fit=crop", hint: "wheat halwa", link: "/recipes/karah-prasad" },
     { name: "Langar Dal", image: "https://images.unsplash.com/photo-1599422501066-8b43f990f133?q=80&w=400&h=300&fit=crop", hint: "lentil soup", link: "#" },
     { name: "Aloo Gobi", image: "https://images.unsplash.com/photo-1628848177430-a7d0352520da?q=80&w=400&h=300&fit=crop", hint: "potato cauliflower", link: "#" },
 ]

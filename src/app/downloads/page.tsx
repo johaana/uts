@@ -4,8 +4,8 @@ import { DownloadCloud, Brush, CheckSquare, Gift } from "lucide-react";
 import Image from "next/image";
 
 const downloads = [
-    { title: "Peacock Rangoli Stencil", category: "Rangoli Designs", image: "https://images.unsplash.com/photo-1571862421479-2420a5c4054a?q=80&w=400&h=300&fit=crop", hint: "peacock rangoli", file: "#" },
-    { title: "Diwali Greeting Card", category: "Greeting Cards", image: "https://images.unsplash.com/photo-1600255941428-22d7d89594e0?q=80&w=400&h=300&fit=crop", hint: "diwali card", file: "#" },
+    { title: "Peacock Rangoli Stencil", category: "Rangoli Designs", image: "https://images.unsplash.com/photo-1664304245657-3a75871e62a2?q=80&w=400&h=300&fit=crop", hint: "peacock rangoli", file: "#" },
+    { title: "Diwali Greeting Card", category: "Greeting Cards", image: "https://images.unsplash.com/photo-1571168136623-1075b3671705?q=80&w=400&h=300&fit=crop", hint: "diwali card", file: "#" },
     { title: "Puja Preparation Checklist", category: "Checklists", image: "https://images.unsplash.com/photo-1540479859555-17af45c78602?q=80&w=400&h=300&fit=crop", hint: "checklist paper", file: "#" },
     { title: "Floral Rangoli Pattern", category: "Rangoli Designs", image: "https://images.unsplash.com/photo-1599422501066-8b43f990f133?q=80&w=400&h=300&fit=crop", hint: "flower rangoli", file: "#" },
     { title: "Holi Party Invitation", category: "Greeting Cards", image: "https://images.unsplash.com/photo-1618769339396-a24a5d8f6154?q=80&w=400&h=300&fit=crop", hint: "holi invitation", file: "#" },

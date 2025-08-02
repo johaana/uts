@@ -13,7 +13,7 @@ export default function Home() {
     { name: "Ganesh Chaturthi", date: "August 27, 2025", image: "https://images.unsplash.com/photo-1604213410393-8e4342838753?q=80&w=600&h=400&fit=crop", hint: "ganesha idol", link: "/festivals/ganesh-chaturthi" },
     { name: "Onam", date: "September 7, 2025", image: "https://images.unsplash.com/photo-1601664118464-58f278f79e27?q=80&w=600&h=400&fit=crop", hint: "flower carpet", link: "/festivals/onam" },
     { name: "Navratri", date: "September 22, 2025", image: "https://images.unsplash.com/photo-1589498202028-2a2b72183c58?q=80&w=600&h=400&fit=crop", hint: "garba dance", link: "/festivals/navratri" },
-    { name: "Diwali", date: "October 21, 2025", image: "https://images.unsplash.com/photo-1571862421479-2420a5c4054a?q=80&w=600&h=400&fit=crop", hint: "lights diyas", link: "/festivals/diwali" },
+    { name: "Diwali", date: "October 21, 2025", image: "https://images.unsplash.com/photo-1600255941428-22d7d89594e0?q=80&w=600&h=400&fit=crop", hint: "lights diyas", link: "/festivals/diwali" },
   ];
 
   const featuredRecipes = [
@@ -25,7 +25,7 @@ export default function Home() {
   const blogPosts = [
     { title: "The Significance of Diyas in Diwali", image: "https://images.unsplash.com/photo-1600255941428-22d7d89594e0?q=80&w=400&h=300&fit=crop", hint: "diya lamp", excerpt: "Discover the deep cultural and spiritual meaning behind lighting diyas..." },
     { title: "A Guide to Traditional Holi Colors", image: "https://images.unsplash.com/photo-1618769339396-a24a5d8f6154?q=80&w=400&h=300&fit=crop", hint: "holi colors", excerpt: "Learn about the natural ingredients used in traditional Holi colors and their significance." },
-    { title: "Top 5 Rangoli Designs for Beginners", image: "https://images.unsplash.com/photo-1571862421479-2420a5c4054a?q=80&w=400&h=300&fit=crop", hint: "rangoli floor", excerpt: "Get inspired with these easy-to-make yet beautiful rangoli patterns for any occasion." },
+    { title: "Top 5 Rangoli Designs for Beginners", image: "https://images.unsplash.com/photo-1664304245657-3a75871e62a2?q=80&w=400&h=300&fit=crop", hint: "rangoli floor", excerpt: "Get inspired with these easy-to-make yet beautiful rangoli patterns for any occasion." },
   ]
 
   return (

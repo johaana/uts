@@ -14,7 +14,7 @@ export default function HoliPage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center">
-                <Image src="https://images.unsplash.com/photo-1519794206461-cc6881b85528?q=80&w=1600&h=800&fit=crop" alt="Holi celebration" layout="fill" objectFit="cover" className="opacity-20" data-ai-hint="holi colors festival"/>
+                <Image src="https://images.unsplash.com/photo-1614945398734-73f4e2406835?q=80&w=1600&h=800&fit=crop" alt="Holi celebration" layout="fill" objectFit="cover" className="opacity-20" data-ai-hint="holi colors festival"/>
                 <div className="relative text-center text-primary-foreground">
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-white shadow-lg">Holi</h1>
                     <p className="text-xl md:text-2xl mt-4 text-white/90 shadow-md">The Festival of Colors</p>

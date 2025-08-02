@@ -7,7 +7,7 @@ import Link from "next/link";
 const recipes = [
     { name: "Avial", image: "https://images.unsplash.com/photo-1628848177430-a7d0352520da?q=80&w=400&h=300&fit=crop", hint: "mixed vegetable curry", link: "#" },
     { name: "Sambar", image: "https://images.unsplash.com/photo-1589301760014-d929f397918b?q=80&w=400&h=300&fit=crop", hint: "lentil stew", link: "#" },
-    { name: "Payasam", image: "https://images.unsplash.com/photo-1604938927599-633059dce83c?q=80&w=400&h=300&fit=crop", hint: "rice pudding", link: "#" },
+    { name: "Payasam", image: "https://images.unsplash.com/photo-1627308595182-4c9f13043d83?q=80&w=400&h=300&fit=crop", hint: "rice pudding", link: "#" },
 ]
 
 export default function OnamPage() {
