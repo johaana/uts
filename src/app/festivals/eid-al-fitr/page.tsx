@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 const recipes = [
     { name: "Sheer Khurma", link: "/recipes/sheer-khurma" },
@@ -13,7 +14,8 @@ export default function EidAlFitrPage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-primary/10">
-                <div className="relative text-center text-primary-foreground">
+                 <Image src="https://i.postimg.cc/Dm3FbTFS/Eid2.jpg" alt="Eid prayers" layout="fill" objectFit="cover" className="absolute opacity-20" data-ai-hint="eid prayers"/>
+                <div className="relative text-center text-primary-foreground z-10">
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-white shadow-lg">Eid al-Fitr</h1>
                     <p className="text-xl md:text-2xl mt-4 text-white/90 shadow-md">The Festival of Breaking the Fast</p>
                 </div>
@@ -31,10 +33,17 @@ export default function EidAlFitrPage() {
                             </TabsList>
 
                             <TabsContent value="overview">
-                                <h2 className="font-headline text-3xl font-bold mb-4">The Joy of Ramzan Eid</h2>
-                                <div className="space-y-4 text-foreground/80 prose max-w-none">
-                                    <p>Eid al-Fitr, often called the "Festival of Breaking the Fast," is one of the most important religious holidays celebrated by Muslims worldwide. It marks the triumphant end of Ramadan, a month of fasting, prayer, reflection, and community. The festival does not commemorate a single historical event but is a celebration of the spiritual discipline and devotion shown during Ramadan. It is a time to express gratitude to Allah for the strength and endurance given during the fasting month.</p>
-                                    <p>The spirit of Eid is one of joy, forgiveness, and immense gratitude. After a month of abstaining from food and drink from dawn until dusk, the arrival of the new moon signals the end of the fast and the beginning of joyous celebrations. The festival is a reminder of the importance of charity, compassion, and unity. Muslims are encouraged to forgive and forget any past animosities, visit friends and family, and share their blessings with those less fortunate through the obligatory act of 'Zakat al-Fitr', a charitable donation made before the special Eid prayers.</p>
+                                <div className="flex flex-col md:flex-row gap-8 items-center">
+                                    <div className="md:w-2/3">
+                                        <h2 className="font-headline text-3xl font-bold mb-4">The Joy of Ramzan Eid</h2>
+                                        <div className="space-y-4 text-foreground/80 prose max-w-none">
+                                            <p>Eid al-Fitr, often called the "Festival of Breaking the Fast," is one of the most important religious holidays celebrated by Muslims worldwide. It marks the triumphant end of Ramadan, a month of fasting, prayer, reflection, and community. The festival does not commemorate a single historical event but is a celebration of the spiritual discipline and devotion shown during Ramadan. It is a time to express gratitude to Allah for the strength and endurance given during the fasting month.</p>
+                                            <p>The spirit of Eid is one of joy, forgiveness, and immense gratitude. After a month of abstaining from food and drink from dawn until dusk, the arrival of the new moon signals the end of the fast and the beginning of joyous celebrations. The festival is a reminder of the importance of charity, compassion, and unity. Muslims are encouraged to forgive and forget any past animosities, visit friends and family, and share their blessings with those less fortunate through the obligatory act of 'Zakat al-Fitr', a charitable donation made before the special Eid prayers.</p>
+                                        </div>
+                                    </div>
+                                    <div className="md:w-1/3">
+                                        <Image src="https://i.postimg.cc/vBpDXCbs/Eid1.jpg" alt="Family celebrating Eid" width={400} height={600} className="rounded-lg shadow-lg" data-ai-hint="eid family"/>
+                                    </div>
                                 </div>
                             </TabsContent>
                             

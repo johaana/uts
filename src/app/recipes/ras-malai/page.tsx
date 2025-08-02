@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check } from "lucide-react";
+import Image from "next/image";
 
 export default function RasMalaiPage() {
     return (
@@ -7,7 +8,14 @@ export default function RasMalaiPage() {
             <Card>
                 <CardHeader className="p-6 md:p-10">
                     <CardTitle className="font-headline text-4xl mb-4">Ras Malai</CardTitle>
-                    <p className="text-lg text-muted-foreground">A royal Bengali dessert, Ras Malai consists of soft, spongy cheese discs soaked in a fragrant, saffron-infused milk syrup. A true delicacy for festivals like Holi and Diwali.</p>
+                    <div className="flex flex-col md:flex-row gap-6">
+                        <div className="md:w-2/3">
+                            <p className="text-lg text-muted-foreground">A royal Bengali dessert, Ras Malai consists of soft, spongy cheese discs soaked in a fragrant, saffron-infused milk syrup. A true delicacy for festivals like Holi and Diwali.</p>
+                        </div>
+                         <div className="md:w-1/3">
+                           <Image src="https://i.postimg.cc/kB1gSpfL/Sweets1.jpg" alt="Ras Malai" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="milk sweet"/>
+                        </div>
+                    </div>
                 </CardHeader>
                 <CardContent className="p-6 md:p-10 pt-0">
                     <div className="grid md:grid-cols-3 gap-8">

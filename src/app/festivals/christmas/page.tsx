@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 const recipes = [
     { name: "Christmas Cake", link: "/recipes/christmas-cake" },
@@ -13,7 +14,8 @@ export default function ChristmasPage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-primary/10">
-                <div className="relative text-center text-primary-foreground">
+                 <Image src="https://i.postimg.cc/ncKMYdWy/christmas-2.jpg" alt="Christmas Decorations" layout="fill" objectFit="cover" className="absolute opacity-20" data-ai-hint="christmas decor" />
+                <div className="relative text-center text-primary-foreground z-10">
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-white shadow-lg">Christmas</h1>
                     <p className="text-xl md:text-2xl mt-4 text-white/90 shadow-md">Celebrating Peace, Joy, and Goodwill</p>
                 </div>
@@ -31,10 +33,17 @@ export default function ChristmasPage() {
                             </TabsList>
 
                             <TabsContent value="overview">
-                                <h2 className="font-headline text-3xl font-bold mb-4">The Story of Christmas</h2>
-                                <div className="space-y-4 text-foreground/80 prose max-w-none">
-                                    <p>Christmas, celebrated by billions around the world on December 25th, is an annual festival commemorating the birth of Jesus Christ. For Christians, it is a central event in the liturgical year, a time of deep religious significance and joy. The story, as told in the Gospels of Luke and Matthew, begins with a young woman named Mary being visited by the angel Gabriel, who told her she would conceive a son by the Holy Spirit, whom she was to name Jesus. Mary and her husband Joseph traveled to Bethlehem, and with no room at the inn, they found shelter in a stable, where Jesus was born.</p>
-                                    <p>This humble birth is at the core of the Christmas message: the arrival of a savior who represents hope, peace, and God's love for humanity. Shepherds, guided by an angel, and Wise Men from the East, following a star, came to worship the newborn king, bearing gifts. Today, Christmas has evolved into a global cultural phenomenon, celebrated even by many non-Christians. It is a time for family gatherings, gift-giving, feasting, and spreading a message of goodwill and peace among all people, transcending religious and cultural boundaries.</p>
+                                <div className="flex flex-col md:flex-row gap-8 items-center">
+                                    <div className="md:w-2/3">
+                                        <h2 className="font-headline text-3xl font-bold mb-4">The Story of Christmas</h2>
+                                        <div className="space-y-4 text-foreground/80 prose max-w-none">
+                                            <p>Christmas, celebrated by billions around the world on December 25th, is an annual festival commemorating the birth of Jesus Christ. For Christians, it is a central event in the liturgical year, a time of deep religious significance and joy. The story, as told in the Gospels of Luke and Matthew, begins with a young woman named Mary being visited by the angel Gabriel, who told her she would conceive a son by the Holy Spirit, whom she was to name Jesus. Mary and her husband Joseph traveled to Bethlehem, and with no room at the inn, they found shelter in a stable, where Jesus was born.</p>
+                                            <p>This humble birth is at the core of the Christmas message: the arrival of a savior who represents hope, peace, and God's love for humanity. Shepherds, guided by an angel, and Wise Men from the East, following a star, came to worship the newborn king, bearing gifts. Today, Christmas has evolved into a global cultural phenomenon, celebrated even by many non-Christians. It is a time for family gatherings, gift-giving, feasting, and spreading a message of goodwill and peace among all people, transcending religious and cultural boundaries.</p>
+                                        </div>
+                                    </div>
+                                    <div className="md:w-1/3">
+                                        <Image src="https://i.postimg.cc/RZMhP75N/christmas1.jpg" alt="Nativity Scene" width={400} height={600} className="rounded-lg shadow-lg" data-ai-hint="nativity scene"/>
+                                    </div>
                                 </div>
                             </TabsContent>
                             

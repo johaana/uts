@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote, CalendarDays, Leaf } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 const recipes = [
     { name: "Ladoo", link: "/recipes/ladoo" },
@@ -13,7 +14,8 @@ export default function DiwaliPage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-primary/10">
-                <div className="relative text-center text-primary-foreground">
+                 <Image src="https://i.postimg.cc/d0V7084z/Diwali1.png" alt="Diwali lights" layout="fill" objectFit="cover" className="absolute opacity-20" data-ai-hint="diwali lamps"/>
+                <div className="relative text-center text-primary-foreground z-10">
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-white shadow-lg">Diwali</h1>
                     <p className="text-xl md:text-2xl mt-4 text-white/90 shadow-md">The Festival of Lights: A Triumph of Good Over Evil</p>
                 </div>
@@ -33,10 +35,17 @@ export default function DiwaliPage() {
                             </TabsList>
 
                             <TabsContent value="overview">
-                                <h2 className="font-headline text-3xl font-bold mb-4">The Story of Diwali</h2>
-                                <div className="space-y-4 text-foreground/80 prose max-w-none">
-                                    <p>Diwali, or Deepavali, the 'Festival of Lights', is a luminous thread in the vibrant tapestry of Indian culture. Its name translates from Sanskrit to "row of lighted lamps." This imagery is at the heart of the festival, where countless diyas (clay lamps) flicker against the dark night, each a beacon of hope, a symbol of the enduring victory of light over darkness, good over evil, and knowledge over ignorance.</p>
-                                    <p>The festival's soul is woven from the epic Ramayana, celebrating the return of Lord Rama to his kingdom of Ayodhya after a fourteen-year exile and a heroic battle to defeat the ten-headed demon king, Ravana. The people of Ayodhya, their hearts overflowing with joy, illuminated the entire city with rows of diyas to welcome their righteous king. This ancient act of jubilation is recreated every year, making Diwali a celebration of homecoming, righteousness, and the dispelling of all that is dark and malevolent.</p>
+                                <div className="flex flex-col md:flex-row gap-8 items-center">
+                                    <div className="md:w-2/3">
+                                        <h2 className="font-headline text-3xl font-bold mb-4">The Story of Diwali</h2>
+                                        <div className="space-y-4 text-foreground/80 prose max-w-none">
+                                            <p>Diwali, or Deepavali, the 'Festival of Lights', is a luminous thread in the vibrant tapestry of Indian culture. Its name translates from Sanskrit to "row of lighted lamps." This imagery is at the heart of the festival, where countless diyas (clay lamps) flicker against the dark night, each a beacon of hope, a symbol of the enduring victory of light over darkness, good over evil, and knowledge over ignorance.</p>
+                                            <p>The festival's soul is woven from the epic Ramayana, celebrating the return of Lord Rama to his kingdom of Ayodhya after a fourteen-year exile and a heroic battle to defeat the ten-headed demon king, Ravana. The people of Ayodhya, their hearts overflowing with joy, illuminated the entire city with rows of diyas to welcome their righteous king. This ancient act of jubilation is recreated every year, making Diwali a celebration of homecoming, righteousness, and the dispelling of all that is dark and malevolent.</p>
+                                        </div>
+                                    </div>
+                                    <div className="md:w-1/3">
+                                        <Image src="https://i.postimg.cc/kM0tyRgb/Diwali2.jpg" alt="Woman lighting Diwali Diya" width={400} height={600} className="rounded-lg shadow-lg" data-ai-hint="diwali celebration"/>
+                                    </div>
                                 </div>
                             </TabsContent>
                             

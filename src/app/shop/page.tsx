@@ -2,20 +2,21 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ShoppingBag, ArrowRight } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 const products = [
-    { name: "Embroidered Silk Saree", category: "Attire", price: "₹4,999", link: "#" },
-    { name: "Hand-painted Clay Diyas (Set of 12)", category: "Decor", price: "₹499", link: "#" },
-    { name: "Kundan & Pearl Jewelry Set", category: "Jewelry", price: "₹2,499", link: "#" },
-    { name: "Men's Lucknowi Chikankari Kurta", category: "Attire", price: "₹2,299", link: "#" },
-    { name: "Brass Puja Thali Set", category: "Decor", price: "₹1,299", link: "#" },
-    { name: "Bandhani Silk Dupatta", category: "Attire", price: "₹999", link: "#" },
-    { name: "Antique Gold-Plated Jhumkas", category: "Jewelry", price: "₹1,299", link: "#" },
-    { name: "Marigold & Mango Leaf Toran", category: "Decor", price: "₹799", link: "#" },
-    { name: "Silver-Plated Rakhi for Brother", category: "Gifts", price: "₹399", link: "#" },
-    { name: "Organic Holi Gulal (Pack of 5)", category: "Gifts", price: "₹599", link: "#" },
-    { name: "Eco-Friendly Ganesha Idol", category: "Decor", price: "₹1,499", link: "#" },
-    { name: "Diwali Sweets & Dry Fruits Hamper", category: "Gifts", price: "₹1,999", link: "#" },
+    { name: "Embroidered Silk Saree", category: "Attire", price: "₹4,999", link: "#", image: "https://i.postimg.cc/vBpDXCbs/Eid1.jpg", hint: "silk saree" },
+    { name: "Hand-painted Clay Diyas (Set of 12)", category: "Decor", price: "₹499", link: "#", image: "https://i.postimg.cc/d0V7084z/Diwali1.png", hint: "clay diyas" },
+    { name: "Kundan & Pearl Jewelry Set", category: "Jewelry", price: "₹2,499", link: "#", image: "https://i.postimg.cc/q7qRrp7r/raksha-bandhan.jpg", hint: "indian jewelry" },
+    { name: "Men's Lucknowi Chikankari Kurta", category: "Attire", price: "₹2,299", link: "#", image: "https://i.postimg.cc/vBpDXCbs/Eid1.jpg", hint: "mens kurta" },
+    { name: "Brass Puja Thali Set", category: "Decor", price: "₹1,299", link: "#", image: "https://i.postimg.cc/kM0tyRgb/Diwali2.jpg", hint: "puja thali" },
+    { name: "Bandhani Silk Dupatta", category: "Attire", price: "₹999", link: "#", image: "https://i.postimg.cc/rsXF5WNy/holi.jpg", hint: "silk dupatta" },
+    { name: "Antique Gold-Plated Jhumkas", category: "Jewelry", price: "₹1,299", link: "#", image: "https://i.postimg.cc/q7qRrp7r/raksha-bandhan.jpg", hint: "jhumka earrings" },
+    { name: "Marigold & Mango Leaf Toran", category: "Decor", price: "₹799", link: "#", image: "https://i.postimg.cc/d0V7084z/Diwali1.png", hint: "flower toran" },
+    { name: "Silver-Plated Rakhi for Brother", category: "Gifts", price: "₹399", link: "#", image: "https://i.postimg.cc/q7qRrp7r/raksha-bandhan.jpg", hint: "rakhi thread" },
+    { name: "Organic Holi Gulal (Pack of 5)", category: "Gifts", price: "₹599", link: "#", image: "https://i.postimg.cc/rsXF5WNy/holi.jpg", hint: "holi powder" },
+    { name: "Eco-Friendly Ganesha Idol", category: "Decor", price: "₹1,499", link: "#", image: "https://i.postimg.cc/tTV41DPm/ganpati1.jpg", hint: "ganesha idol" },
+    { name: "Diwali Sweets & Dry Fruits Hamper", category: "Gifts", price: "₹1,999", link: "#", image: "https://i.postimg.cc/4NpH24YF/Diwali-Sweets.jpg", hint: "sweets hamper" },
 ];
 
 export default function ShopPage() {
@@ -39,12 +40,15 @@ export default function ShopPage() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
                 {products.map((product) => (
-                    <Card key={product.name} className="overflow-hidden group">
-                        <CardHeader>
+                    <Card key={product.name} className="overflow-hidden group flex flex-col">
+                        <div className="relative h-48 w-full">
+                           <Image src={product.image} alt={product.name} layout="fill" objectFit="cover" data-ai-hint={product.hint}/>
+                        </div>
+                        <CardHeader className="flex-grow">
                             <p className="text-sm text-muted-foreground">{product.category}</p>
                             <CardTitle className="font-headline text-xl h-14">{product.name}</CardTitle>
                         </CardHeader>
-                        <CardContent className="flex justify-between items-center">
+                        <CardContent className="flex justify-between items-center mt-auto">
                             <p className="text-lg font-bold text-primary">{product.price}</p>
                             <Link href={product.link} target="_blank" rel="noopener noreferrer">
                                 <Button className="bg-accent hover:bg-accent/90 text-accent-foreground">

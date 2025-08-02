@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 const recipes = [
     { name: "Avial", link: "#" },
@@ -13,7 +14,8 @@ export default function OnamPage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-primary/10">
-                <div className="relative text-center text-primary-foreground">
+                 <Image src="https://i.postimg.cc/9fkfFs47/Onam.webp" alt="Onam Pookalam" layout="fill" objectFit="cover" className="absolute opacity-20" data-ai-hint="onam flowers"/>
+                <div className="relative text-center text-primary-foreground z-10">
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-white shadow-lg">Onam</h1>
                     <p className="text-xl md:text-2xl mt-4 text-white/90 shadow-md">Kerala's Harvest Festival</p>
                 </div>
@@ -31,10 +33,17 @@ export default function OnamPage() {
                             </TabsList>
 
                             <TabsContent value="overview">
-                                <h2 className="font-headline text-3xl font-bold mb-4">The Legend of King Mahabali</h2>
-                                <div className="space-y-4 text-foreground/80 prose max-w-none">
-                                    <p>Onam is the soul of Kerala, a vibrant harvest festival that transcends religion and caste, celebrated with unparalleled joy and unity. It's a festival that paints the entire state in hues of gold and green, celebrating the annual homecoming of the beloved, mythical King Mahabali. The legend speaks of a golden era in Kerala under the reign of the benevolent demon king Mahabali. His rule was so just and prosperous that the gods themselves grew envious of his popularity.</p>
-                                    <p>To test his righteousness, Lord Vishnu descended to Earth in his Vamana (dwarf) avatar. Vamana approached Mahabali and asked for three paces of land. The generous king agreed. The dwarf then grew to a cosmic size, covering the earth and the heavens in two steps. With no space left for the third step, the noble Mahabali offered his own head. Impressed by his devotion, Vishnu granted him a boon: he could return to his kingdom and visit his beloved subjects once every year. This annual royal visit is what Kerala celebrates as Onam, a ten-day festival of feasting, flowers, boat races, and cultural pageantry, a tribute to a king who sacrificed everything for his people.</p>
+                                 <div className="flex flex-col md:flex-row gap-8 items-center">
+                                    <div className="md:w-2/3">
+                                        <h2 className="font-headline text-3xl font-bold mb-4">The Legend of King Mahabali</h2>
+                                        <div className="space-y-4 text-foreground/80 prose max-w-none">
+                                            <p>Onam is the soul of Kerala, a vibrant harvest festival that transcends religion and caste, celebrated with unparalleled joy and unity. It's a festival that paints the entire state in hues of gold and green, celebrating the annual homecoming of the beloved, mythical King Mahabali. The legend speaks of a golden era in Kerala under the reign of the benevolent demon king Mahabali. His rule was so just and prosperous that the gods themselves grew envious of his popularity.</p>
+                                            <p>To test his righteousness, Lord Vishnu descended to Earth in his Vamana (dwarf) avatar. Vamana approached Mahabali and asked for three paces of land. The generous king agreed. The dwarf then grew to a cosmic size, covering the earth and the heavens in two steps. With no space left for the third step, the noble Mahabali offered his own head. Impressed by his devotion, Vishnu granted him a boon: he could return to his kingdom and visit his beloved subjects once every year. This annual royal visit is what Kerala celebrates as Onam, a ten-day festival of feasting, flowers, boat races, and cultural pageantry, a tribute to a king who sacrificed everything for his people.</p>
+                                        </div>
+                                    </div>
+                                    <div className="md:w-1/3">
+                                        <Image src="https://i.postimg.cc/tJ3RkTB3/Onam.png" alt="Onam Sadya feast" width={400} height={400} className="rounded-lg shadow-lg" data-ai-hint="onam feast"/>
+                                    </div>
                                 </div>
                             </TabsContent>
                             

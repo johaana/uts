@@ -4,22 +4,23 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Search } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 const recipes = [
-    { name: "Gajar Ka Halwa", festival: "Diwali", region: "North", description: "A rich carrot pudding made with milk, sugar, and ghee.", link: "/recipes/gajar-ka-halwa" },
-    { name: "Puran Poli", festival: "Ganesh Chaturthi", region: "West", description: "Sweet flatbread stuffed with a lentil and jaggery filling.", link: "/recipes/puran-poli" },
-    { name: "Ras Malai", festival: "Holi", region: "East", description: "Soft paneer discs soaked in sweetened, thickened milk.", link: "/recipes/ras-malai" },
-    { name: "Modak", festival: "Ganesh Chaturthi", region: "West", description: "Steamed sweet dumplings filled with coconut and jaggery.", link: "/recipes/modak" },
-    { name: "Thekua", festival: "Chhath Puja", region: "East", description: "A traditional deep-fried cookie made from wheat flour and jaggery.", link: "/recipes/thekua" },
-    { name: "Ladoo", festival: "Diwali", region: "Nationwide", description: "Ball-shaped sweets made of flour, fat, and sugar.", link: "/recipes/ladoo" },
-    { name: "Gujiya", festival: "Holi", region: "North", description: "Sweet deep-fried dumplings filled with khoya and dried fruits.", link: "/recipes/gujiya" },
-    { name: "Thandai", festival: "Holi", region: "North", description: "A cold drink prepared with a mixture of almonds, fennel seeds, and other spices.", link: "/recipes/thandai" },
-    { name: "Sheer Khurma", festival: "Eid-al-Fitr", region: "Nationwide", description: "A rich and creamy vermicelli pudding made for Eid.", link: "/recipes/sheer-khurma" },
-    { name: "Biryani", festival: "Eid-al-Fitr", region: "Nationwide", description: "Aromatic rice dish with meat or vegetables.", link: "/recipes/biryani" },
-    { name: "Christmas Cake", festival: "Christmas", region: "Nationwide", description: "A rich, dense cake packed with dried fruits and spices.", link: "/recipes/christmas-cake" },
-    { name: "Karah Prasad", festival: "Guru Nanak Jayanti", region: "Nationwide", description: "A sacred whole wheat flour pudding served at Gurdwaras.", link: "/recipes/karah-prasad" },
-    { name: "Kaju Katli", festival: "Diwali", region: "Nationwide", description: "Melt-in-the-mouth cashew and milk fudge.", link: "/recipes/kaju-katli" },
-    { name: "Coconut Barfi", festival: "Raksha Bandhan", region: "Nationwide", description: "Simple and delicious fudge made from coconut, milk, and sugar.", link: "/recipes/coconut-barfi" },
+    { name: "Gajar Ka Halwa", festival: "Diwali", region: "North", description: "A rich carrot pudding made with milk, sugar, and ghee.", link: "/recipes/gajar-ka-halwa", image: "https://i.postimg.cc/4NpH24YF/Diwali-Sweets.jpg", hint: "carrot pudding" },
+    { name: "Puran Poli", festival: "Ganesh Chaturthi", region: "West", description: "Sweet flatbread stuffed with a lentil and jaggery filling.", link: "/recipes/puran-poli", image: "https://i.postimg.cc/fRZtG4XW/Sweets1.jpg", hint: "sweet flatbread" },
+    { name: "Ras Malai", festival: "Holi", region: "East", description: "Soft paneer discs soaked in sweetened, thickened milk.", link: "/recipes/ras-malai", image: "https://i.postimg.cc/kB1gSpfL/Sweets1.jpg", hint: "milk sweets" },
+    { name: "Modak", festival: "Ganesh Chaturthi", region: "West", description: "Steamed sweet dumplings filled with coconut and jaggery.", link: "/recipes/modak", image: "https://i.postimg.cc/tTV41DPm/ganpati1.jpg", hint: "steamed dumplings" },
+    { name: "Thekua", festival: "Chhath Puja", region: "East", description: "A traditional deep-fried cookie made from wheat flour and jaggery.", link: "/recipes/thekua", image: "https://i.postimg.cc/4NpH24YF/Diwali-Sweets.jpg", hint: "fried cookie" },
+    { name: "Ladoo", festival: "Diwali", region: "Nationwide", description: "Ball-shaped sweets made of flour, fat, and sugar.", link: "/recipes/ladoo", image: "https://i.postimg.cc/4NpH24YF/Diwali-Sweets.jpg", hint: "ladoo sweet" },
+    { name: "Gujiya", festival: "Holi", region: "North", description: "Sweet deep-fried dumplings filled with khoya and dried fruits.", link: "/recipes/gujiya", image: "https://i.postimg.cc/rsXF5WNy/holi.jpg", hint: "fried dumplings" },
+    { name: "Thandai", festival: "Holi", region: "North", description: "A cold drink prepared with a mixture of almonds, fennel seeds, and other spices.", link: "/recipes/thandai", image: "https://i.postimg.cc/Cxm19RSJ/holi2.jpg", hint: "holi drink" },
+    { name: "Sheer Khurma", festival: "Eid-al-Fitr", region: "Nationwide", description: "A rich and creamy vermicelli pudding made for Eid.", link: "/recipes/sheer-khurma", image: "https://i.postimg.cc/fbqVSJPk/Eid3.jpg", hint: "vermicelli pudding" },
+    { name: "Biryani", festival: "Eid-al-Fitr", region: "Nationwide", description: "Aromatic rice dish with meat or vegetables.", link: "/recipes/biryani", image: "https://i.postimg.cc/nzsC4n82/Eid2.jpg", hint: "rice dish" },
+    { name: "Christmas Cake", festival: "Christmas", region: "Nationwide", description: "A rich, dense cake packed with dried fruits and spices.", link: "/recipes/christmas-cake", image: "https://i.postimg.cc/ncKMYdWy/christmas-2.jpg", hint: "fruit cake" },
+    { name: "Karah Prasad", festival: "Guru Nanak Jayanti", region: "Nationwide", description: "A sacred whole wheat flour pudding served at Gurdwaras.", link: "/recipes/karah-prasad", image: "https://i.postimg.cc/fRZtG4XW/Sweets1.jpg", hint: "wheat pudding" },
+    { name: "Kaju Katli", festival: "Diwali", region: "Nationwide", description: "Melt-in-the-mouth cashew and milk fudge.", link: "/recipes/kaju-katli", image: "https://i.postimg.cc/kB1gSpfL/Sweets1.jpg", hint: "cashew fudge" },
+    { name: "Coconut Barfi", festival: "Raksha Bandhan", region: "Nationwide", description: "Simple and delicious fudge made from coconut, milk, and sugar.", link: "/recipes/coconut-barfi", image: "https://i.postimg.cc/4NpH24YF/Diwali-Sweets.jpg", hint: "coconut fudge" },
 ];
 
 export default function RecipesPage() {
@@ -74,13 +75,16 @@ export default function RecipesPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 {recipes.map((recipe) => (
-                    <Card key={recipe.name} className="overflow-hidden group">
+                    <Card key={recipe.name} className="overflow-hidden group flex flex-col">
+                        <div className="relative h-48 w-full">
+                          <Image src={recipe.image} alt={recipe.name} layout="fill" objectFit="cover" data-ai-hint={recipe.hint}/>
+                        </div>
                         <CardHeader>
                             <CardTitle className="font-headline text-xl h-14">{recipe.name}</CardTitle>
                             <p className="text-sm text-primary">{recipe.festival} | {recipe.region}</p>
                         </CardHeader>
-                        <CardContent>
-                            <p className="text-sm text-foreground/70 h-16">{recipe.description}</p>
+                        <CardContent className="flex flex-col flex-grow">
+                            <p className="text-sm text-foreground/70 h-16 flex-grow">{recipe.description}</p>
                             <Link href={recipe.link}>
                                 <Button variant="outline" className="mt-4 w-full">View Recipe</Button>
                             </Link>

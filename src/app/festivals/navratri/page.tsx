@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BookOpen, Sparkles, MessageSquareQuote, CalendarDays, Leaf } from "lucide-react";
+import Image from "next/image";
 
 const dayColors = [
     { day: "Day 1: Pratipada", goddess: "Shailaputri", color: "Orange", significance: "Energy & Happiness" },
@@ -19,7 +20,8 @@ export default function NavratriPage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-primary/10">
-                <div className="relative text-center text-primary-foreground">
+                 <Image src="https://i.postimg.cc/Cxm19RSJ/holi2.jpg" alt="Garba dance" layout="fill" objectFit="cover" className="absolute opacity-20" data-ai-hint="garba dance"/>
+                <div className="relative text-center text-primary-foreground z-10">
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-white shadow-lg">Navratri</h1>
                     <p className="text-xl md:text-2xl mt-4 text-white/90 shadow-md">Nine Nights of Divine Feminine Power</p>
                 </div>
@@ -69,7 +71,9 @@ export default function NavratriPage() {
                                 <div className="space-y-6 prose max-w-none text-foreground/80">
                                    <div className="flex flex-col md:flex-row gap-6">
                                         <div className="md:w-1/2">
-                                            <div className="w-full h-64 bg-muted rounded-lg shadow-md"></div>
+                                            <div className="relative w-full h-64 bg-muted rounded-lg shadow-md">
+                                                <Image src="https://i.postimg.cc/Cxm19RSJ/holi2.jpg" alt="Garba Dance" layout="fill" objectFit="cover" className="rounded-lg" data-ai-hint="garba dance"/>
+                                            </div>
                                         </div>
                                         <div className="md:w-1/2">
                                              <h3 className="font-headline text-xl font-bold mb-2">The Dance of Devotion</h3>

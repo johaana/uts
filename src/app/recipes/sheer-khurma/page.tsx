@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check } from "lucide-react";
+import Image from "next/image";
 
 export default function SheerKhurmaPage() {
     return (
@@ -7,7 +8,14 @@ export default function SheerKhurmaPage() {
             <Card>
                 <CardHeader className="p-6 md:p-10">
                     <CardTitle className="font-headline text-4xl mb-4">Sheer Khurma</CardTitle>
-                    <p className="text-lg text-muted-foreground">A rich and creamy vermicelli pudding made with milk, dates, nuts, and aromatic spices. It's the quintessential dessert for Eid-al-Fitr celebrations.</p>
+                    <div className="flex flex-col md:flex-row gap-6">
+                        <div className="md:w-2/3">
+                            <p className="text-lg text-muted-foreground">A rich and creamy vermicelli pudding made with milk, dates, nuts, and aromatic spices. It's the quintessential dessert for Eid-al-Fitr celebrations.</p>
+                        </div>
+                         <div className="md:w-1/3">
+                           <Image src="https://i.postimg.cc/fbqVSJPk/Eid3.jpg" alt="Sheer Khurma" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="vermicelli pudding"/>
+                        </div>
+                    </div>
                 </CardHeader>
                 <CardContent className="p-6 md:p-10 pt-0">
                     <div className="grid md:grid-cols-3 gap-8">

@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote, Leaf } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 const recipes = [
     { name: "Gujiya", link: "/recipes/gujiya" },
@@ -13,7 +14,8 @@ export default function HoliPage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-primary/10">
-                <div className="relative text-center text-primary-foreground">
+                 <Image src="https://i.postimg.cc/rsXF5WNy/holi.jpg" alt="Holi festival of colors" layout="fill" objectFit="cover" className="absolute opacity-20" data-ai-hint="holi colors"/>
+                <div className="relative text-center text-primary-foreground z-10">
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-white shadow-lg">Holi</h1>
                     <p className="text-xl md:text-2xl mt-4 text-white/90 shadow-md">The Festival of Colors</p>
                 </div>
@@ -32,10 +34,17 @@ export default function HoliPage() {
                             </TabsList>
 
                             <TabsContent value="overview">
-                                <h2 className="font-headline text-3xl font-bold mb-4">The Story of Holi</h2>
-                                <div className="space-y-4 text-foreground/80 prose max-w-none">
-                                    <p>Holi, the world-renowned Festival of Colors, is an exuberant celebration of life, love, and the arrival of spring. It's a day when social barriers are broken, and people from all walks of life come together to douse each other in vibrant powders and colored water. But beneath the joyous revelry lie profound ancient legends. The most prominent story is that of Prahlada and Holika. The demon king Hiranyakashipu, consumed by arrogance, demanded that everyone worship him. His own son, Prahlada, however, was a devout follower of Lord Vishnu. Enraged, the king conspired with his sister, Holika, who was immune to fire, to kill Prahlada. She tricked the boy into sitting on a pyre with her, but by Vishnu's grace, Prahlada emerged unharmed while Holika was burnt to ashes. The Holika Dahan bonfire, lit on the eve of Holi, commemorates this victory of devotion and goodness over evil.</p>
-                                    <p>Holi is also intrinsically linked to the divine love story of Radha and Krishna. It is said that the young Lord Krishna, conscious of his dark blue skin, was playfully encouraged by his mother Yashoda to apply color to the fair-skinned Radha. This playful coloring blossomed into a tradition, celebrated with particular fervor in the Braj region (Mathura and Vrindavan), where the festivities last for weeks. Holi, therefore, is not just about colors; it's a festival of forgiveness, of mending broken relationships, and of celebrating the universal spirit of brotherhood and joy.</p>
+                                <div className="flex flex-col md:flex-row gap-8 items-center">
+                                    <div className="md:w-2/3">
+                                        <h2 className="font-headline text-3xl font-bold mb-4">The Story of Holi</h2>
+                                        <div className="space-y-4 text-foreground/80 prose max-w-none">
+                                            <p>Holi, the world-renowned Festival of Colors, is an exuberant celebration of life, love, and the arrival of spring. It's a day when social barriers are broken, and people from all walks of life come together to douse each other in vibrant powders and colored water. But beneath the joyous revelry lie profound ancient legends. The most prominent story is that of Prahlada and Holika. The demon king Hiranyakashipu, consumed by arrogance, demanded that everyone worship him. His own son, Prahlada, however, was a devout follower of Lord Vishnu. Enraged, the king conspired with his sister, Holika, who was immune to fire, to kill Prahlada. She tricked the boy into sitting on a pyre with her, but by Vishnu's grace, Prahlada emerged unharmed while Holika was burnt to ashes. The Holika Dahan bonfire, lit on the eve of Holi, commemorates this victory of devotion and goodness over evil.</p>
+                                            <p>Holi is also intrinsically linked to the divine love story of Radha and Krishna. It is said that the young Lord Krishna, conscious of his dark blue skin, was playfully encouraged by his mother Yashoda to apply color to the fair-skinned Radha. This playful coloring blossomed into a tradition, celebrated with particular fervor in the Braj region (Mathura and Vrindavan), where the festivities last for weeks. Holi, therefore, is not just about colors; it's a festival of forgiveness, of mending broken relationships, and of celebrating the universal spirit of brotherhood and joy.</p>
+                                        </div>
+                                    </div>
+                                    <div className="md:w-1/3">
+                                        <Image src="https://i.postimg.cc/Cxm19RSJ/holi2.jpg" alt="People playing holi" width={400} height={600} className="rounded-lg shadow-lg" data-ai-hint="holi celebration"/>
+                                    </div>
                                 </div>
                             </TabsContent>
                             
