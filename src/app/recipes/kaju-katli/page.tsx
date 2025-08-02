@@ -13,7 +13,7 @@ export default function KajuKatliPage() {
                             <p className="text-lg text-muted-foreground">A supremely popular and delicious Indian sweet, Kaju Katli (cashew fudge) is a must-have for festivals like Diwali and Raksha Bandhan. It's known for its melt-in-the-mouth texture.</p>
                         </div>
                          <div className="md:w-1/3">
-                           <Image src="https://i.postimg.cc/kB1gSpfL/Sweets1.jpg" alt="Kaju Katli" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="cashew fudge"/>
+                           <Image src="https://i.postimg.cc/T3jqMpQV/sonika-agarwal-ut6-AQhi-V0-BQ-unsplash.jpg" alt="Kaju Katli" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="cashew fudge"/>
                         </div>
                     </div>
                 </CardHeader>

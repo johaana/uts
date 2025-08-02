@@ -13,7 +13,7 @@ export default function GajarKaHalwaPage() {
                             <p className="text-lg text-muted-foreground">A classic North Indian dessert, this rich and decadent carrot pudding is a staple during winter and festive occasions like Diwali.</p>
                         </div>
                          <div className="md:w-1/3">
-                           <Image src="https://i.postimg.cc/4NpH24YF/Diwali-Sweets.jpg" alt="Gajar Ka Halwa" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="carrot pudding"/>
+                           <Image src="https://i.postimg.cc/nzrvDTx2/Diwali-Sweets.jpg" alt="Gajar Ka Halwa" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="carrot pudding"/>
                         </div>
                     </div>
                 </CardHeader>

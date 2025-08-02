@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check } from "lucide-react";
+import Image from "next/image";
 
 export default function ModakPage() {
     return (
@@ -7,7 +8,14 @@ export default function ModakPage() {
             <Card>
                 <CardHeader className="p-6 md:p-10">
                     <CardTitle className="font-headline text-4xl mb-4">Ukadiche Modak (Steamed Modak)</CardTitle>
-                    <p className="text-lg text-muted-foreground">This is the traditional sweet offering to Lord Ganesha during Ganesh Chaturthi. These steamed rice flour dumplings are filled with a sweet mixture of coconut and jaggery.</p>
+                    <div className="flex flex-col md:flex-row gap-6">
+                        <div className="md:w-2/3">
+                            <p className="text-lg text-muted-foreground">This is the traditional sweet offering to Lord Ganesha during Ganesh Chaturthi. These steamed rice flour dumplings are filled with a sweet mixture of coconut and jaggery.</p>
+                        </div>
+                        <div className="md:w-1/3">
+                           <Image src="https://i.postimg.cc/0jLdxSLf/milind-bedwa-Bp-VZGQ4pt0w-unsplash.jpg" alt="Modak" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="steamed dumplings"/>
+                        </div>
+                    </div>
                 </CardHeader>
                 <CardContent className="p-6 md:p-10 pt-0">
                     <div className="grid md:grid-cols-3 gap-8">

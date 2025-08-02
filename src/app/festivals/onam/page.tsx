@@ -42,7 +42,7 @@ export default function OnamPage() {
                                         </div>
                                     </div>
                                     <div className="md:w-1/3">
-                                        <Image src="https://i.postimg.cc/tJ3RkTB3/Onam.png" alt="Onam Sadya feast" width={400} height={400} className="rounded-lg shadow-lg" data-ai-hint="onam feast"/>
+                                        <Image src="https://i.postimg.cc/0564g0S7/nandu-menon-h-GHldb-Cg-YDA-unsplash.jpg" alt="Onam Sadya feast" width={400} height={400} className="rounded-lg shadow-lg" data-ai-hint="onam feast"/>
                                     </div>
                                 </div>
                             </TabsContent>
@@ -76,10 +76,10 @@ export default function OnamPage() {
 
                             <TabsContent value="recipes">
                                 <h2 className="font-headline text-3xl font-bold mb-4">The Onasadya Spread</h2>
-                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                                     {recipes.map(recipe => (
-                                       <Link href={recipe.link || '#'} key={recipe.name}>
-                                            <Card className="overflow-hidden h-full hover:shadow-xl transition-shadow duration-300">
+                                       <Link href={recipe.link} key={recipe.name}>
+                                            <Card className="overflow-hidden h-full">
                                                 <CardContent className="p-4">
                                                     <h3 className="font-headline text-xl font-bold text-center text-primary">{recipe.name}</h3>
                                                 </CardContent>

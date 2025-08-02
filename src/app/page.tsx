@@ -9,29 +9,29 @@ import { FestivalCalendar } from "@/components/FestivalCalendar";
 
 export default function Home() {
   const upcomingFestivals = [
-    { name: "Raksha Bandhan", date: "August 19, 2025", link: "/festivals/raksha-bandhan", image: "https://i.postimg.cc/q7qRrp7r/raksha-bandhan.jpg", hint: "rakhi thread", position: "top" },
-    { name: "Ganesh Chaturthi", date: "August 27, 2025", link: "/festivals/ganesh-chaturthi", image: "https://i.postimg.cc/tTV41DPm/ganpati1.jpg", hint: "ganesha idol", position: "top" },
-    { name: "Onam", date: "September 7, 2025", link: "/festivals/onam", image: "https://i.postimg.cc/tJ3RkTB3/Onam.png", hint: "onam sadhya", position: "center" },
-    { name: "Navratri", date: "September 22, 2025", link: "/festivals/navratri", image: "https://i.postimg.cc/Cxm19RSJ/holi2.jpg", hint: "garba dance", position: "center" },
-    { name: "Diwali", date: "October 21, 2025", link: "/festivals/diwali", image: "https://i.postimg.cc/d0V7084z/Diwali1.png", hint: "diwali lamps", position: "center" },
+    { name: "Raksha Bandhan", date: "August 19, 2025", link: "/festivals/raksha-bandhan", image: "https://i.postimg.cc/KjKrdfsj/unfold-memory-Z9-WMZqg-ASJE-unsplash.jpg", hint: "rakhi thread", position: "top" },
+    { name: "Ganesh Chaturthi", date: "August 27, 2025", link: "/festivals/ganesh-chaturthi", image: "https://i.postimg.cc/vBZvvbrW/prchi-palwe-Wci-Kb-LIFGxc-unsplash.jpg", hint: "ganesha idol", position: "center" },
+    { name: "Onam", date: "September 7, 2025", link: "/festivals/onam", image: "https://i.postimg.cc/0564g0S7/nandu-menon-h-GHldb-Cg-YDA-unsplash.jpg", hint: "onam sadhya", position: "center" },
+    { name: "Navratri", date: "September 22, 2025", link: "/festivals/navratri", image: "https://i.postimg.cc/sanin-sn-B4-ZQ2m-KEiq-Y-unsplash.jpg", hint: "garba dance", position: "center" },
+    { name: "Diwali", date: "October 21, 2025", link: "/festivals/diwali", image: "https://i.postimg.cc/1XNwWtfN/Diwali1.png", hint: "diwali lamps", position: "center" },
   ];
 
   const featuredRecipes = [
-    { name: "Gajar Ka Halwa", festival: "Diwali", link: "/recipes/gajar-ka-halwa", image: "https://i.postimg.cc/4NpH24YF/Diwali-Sweets.jpg", hint: "indian sweets" },
-    { name: "Puran Poli", festival: "Ganesh Chaturthi", link: "/recipes/puran-poli", image: "https://i.postimg.cc/fRZtG4XW/Sweets1.jpg", hint: "indian flatbread" },
-    { name: "Ras Malai", festival: "Holi", link: "/recipes/ras-malai", image: "https://i.postimg.cc/kB1gSpfL/Sweets1.jpg", hint: "milk sweets" },
+    { name: "Gajar Ka Halwa", festival: "Diwali", link: "/recipes/gajar-ka-halwa", image: "https://i.postimg.cc/nzrvDTx2/Diwali-Sweets.jpg", hint: "indian sweets" },
+    { name: "Puran Poli", festival: "Ganesh Chaturthi", link: "/recipes/puran-poli", image: "https://i.postimg.cc/mDn7NM2s/Sweets1.jpg", hint: "indian flatbread" },
+    { name: "Ras Malai", festival: "Holi", link: "/recipes/ras-malai", image: "https://i.postimg.cc/T3jqMpQV/sonika-agarwal-ut6-AQhi-V0-BQ-unsplash.jpg", hint: "milk sweets" },
   ];
 
   const blogPosts = [
-    { title: "The Significance of Diyas in Diwali", excerpt: "Discover the deep cultural and spiritual meaning behind lighting diyas...", image: "https://i.postimg.cc/kM0tyRgb/Diwali2.jpg", hint: "diwali light" },
-    { title: "A Guide to Traditional Holi Colors", excerpt: "Learn about the natural ingredients used in traditional Holi colors and their significance.", image: "https://i.postimg.cc/rsXF5WNy/holi.jpg", hint: "holi colors" },
-    { title: "Top 5 Rangoli Designs for Beginners", excerpt: "Get inspired with these easy-to-make yet beautiful rangoli patterns for any occasion.", image: "https://i.postimg.cc/d0V7084z/Diwali1.png", hint: "rangoli design" },
+    { title: "The Significance of Diyas in Diwali", excerpt: "Discover the deep cultural and spiritual meaning behind lighting diyas...", image: "https://i.postimg.cc/SjF8HhM1/Diwali2.jpg", hint: "diwali light" },
+    { title: "A Guide to Traditional Holi Colors", excerpt: "Learn about the natural ingredients used in traditional Holi colors and their significance.", image: "https://i.postimg.cc/fWFvx4J9/aceofnet-PNd98-z-An-U0-unsplash.jpg", hint: "holi colors" },
+    { title: "Top 5 Rangoli Designs for Beginners", excerpt: "Get inspired with these easy-to-make yet beautiful rangoli patterns for any occasion.", image: "https://i.postimg.cc/VN1gdj5Z/prchi-palwe-NLq-NQ10ppe0-unsplash.jpg", hint: "rangoli design" },
   ]
 
   return (
     <div className="space-y-16 md:space-y-24">
       <section className="relative bg-primary/10 py-16 md:py-24 flex items-center justify-center">
-        <Image src="https://i.postimg.cc/rsXF5WNy/holi.jpg" alt="Holi festival" layout="fill" objectFit="cover" className="absolute opacity-10" data-ai-hint="holi colors"/>
+        <Image src="https://i.postimg.cc/fWFvx4J9/aceofnet-PNd98-z-An-U0-unsplash.jpg" alt="Holi festival" layout="fill" objectFit="cover" className="absolute opacity-10" data-ai-hint="holi colors"/>
         <div className="container mx-auto px-4 text-center relative z-10">
           <h1 className="font-headline text-4xl md:text-6xl font-bold text-primary">A Vibrant Celebration of India</h1>
           <p className="mt-4 text-lg md:text-xl text-foreground/80 max-w-2xl mx-auto">
@@ -59,7 +59,7 @@ export default function Home() {
                        <Image src={festival.image} alt={festival.name} layout="fill" objectFit="cover" objectPosition={festival.position} className="transition-transform duration-500 ease-in-out group-hover:scale-105" data-ai-hint={festival.hint}/>
                     </div>
                     <CardContent className="p-6 flex flex-col flex-grow">
-                        <h3 className="font-headline text-2xl font-bold flex-grow">{festival.name}</h3>
+                        <h3 className="font-headline text-2xl font-bold flex-grow h-14">{festival.name}</h3>
                         <p className="text-sm text-muted-foreground">{festival.date}</p>
                         <Link href={festival.link}>
                           <Button variant="link" className="p-0 mt-4 text-accent hover:text-accent/90">

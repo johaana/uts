@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 const recipes = [
     { name: "Khechudi", link: "/recipes/khechudi" },
@@ -13,6 +14,7 @@ export default function RathYatraPage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-primary/10">
+                 <Image src="https://i.postimg.cc/YSpNpMyJ/sudarshan-poojary-FZw-Bem-Sc-Rc0-unsplash.jpg" alt="Rath Yatra Chariot" layout="fill" objectFit="cover" className="absolute opacity-20" data-ai-hint="chariot festival" />
                 <div className="relative text-center text-primary-foreground">
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-white shadow-lg">Rath Yatra</h1>
                     <p className="text-xl md:text-2xl mt-4 text-white/90 shadow-md">The Chariot Festival of Lord Jagannath</p>
@@ -67,10 +69,10 @@ export default function RathYatraPage() {
 
                             <TabsContent value="recipes">
                                 <h2 className="font-headline text-3xl font-bold mb-4">Jagannath's Feast</h2>
-                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                                     {recipes.map(recipe => (
-                                        <Link href={recipe.link || '#'} key={recipe.name}>
-                                            <Card className="overflow-hidden h-full hover:shadow-xl transition-shadow duration-300">
+                                        <Link href={recipe.link} key={recipe.name}>
+                                            <Card className="overflow-hidden h-full">
                                                 <CardContent className="p-4">
                                                     <h3 className="font-headline text-xl font-bold text-center text-primary">{recipe.name}</h3>
                                                 </CardContent>

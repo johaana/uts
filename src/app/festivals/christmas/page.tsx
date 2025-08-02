@@ -7,7 +7,7 @@ import Image from "next/image";
 const recipes = [
     { name: "Christmas Cake", link: "/recipes/christmas-cake" },
     { name: "Roast Chicken", link: "/recipes/roast-chicken" },
-    { name:g name: "Gingerbread Cookies", link: "/recipes/gingerbread-cookies" },
+    { name: "Gingerbread Cookies", link: "/recipes/gingerbread-cookies" },
 ]
 
 export default function ChristmasPage() {
@@ -76,10 +76,10 @@ export default function ChristmasPage() {
 
                             <TabsContent value="recipes">
                                 <h2 className="font-headline text-3xl font-bold mb-4">Christmas Feast</h2>
-                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                                     {recipes.map(recipe => (
-                                        <Link href={recipe.link || "#"} key={recipe.name}>
-                                            <Card className="overflow-hidden h-full hover:shadow-xl transition-shadow duration-300">
+                                        <Link href={recipe.link} key={recipe.name}>
+                                            <Card className="overflow-hidden h-full">
                                                 <CardContent className="p-4">
                                                     <h3 className="font-headline text-xl font-bold text-center text-primary">{recipe.name}</h3>
                                                 </CardContent>

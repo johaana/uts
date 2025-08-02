@@ -14,7 +14,7 @@ export default function HoliPage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-primary/10">
-                 <Image src="https://i.postimg.cc/rsXF5WNy/holi.jpg" alt="Holi festival of colors" layout="fill" objectFit="cover" className="absolute opacity-20" data-ai-hint="holi colors"/>
+                 <Image src="https://i.postimg.cc/fWFvx4J9/aceofnet-PNd98-z-An-U0-unsplash.jpg" alt="Holi festival of colors" layout="fill" objectFit="cover" className="absolute opacity-20" data-ai-hint="holi colors"/>
                 <div className="relative text-center text-primary-foreground z-10">
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-white shadow-lg">Holi</h1>
                     <p className="text-xl md:text-2xl mt-4 text-white/90 shadow-md">The Festival of Colors</p>
@@ -43,7 +43,7 @@ export default function HoliPage() {
                                         </div>
                                     </div>
                                     <div className="md:w-1/3">
-                                        <Image src="https://i.postimg.cc/Cxm19RSJ/holi2.jpg" alt="People playing holi" width={400} height={600} className="rounded-lg shadow-lg" data-ai-hint="holi celebration"/>
+                                        <Image src="https://i.postimg.cc/sanin-sn-B4-ZQ2m-KEiq-Y-unsplash.jpg" alt="People playing holi" width={400} height={600} className="rounded-lg shadow-lg" data-ai-hint="holi celebration"/>
                                     </div>
                                 </div>
                             </TabsContent>

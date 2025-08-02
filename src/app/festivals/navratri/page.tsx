@@ -20,7 +20,7 @@ export default function NavratriPage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-primary/10">
-                 <Image src="https://i.postimg.cc/Cxm19RSJ/holi2.jpg" alt="Garba dance" layout="fill" objectFit="cover" className="absolute opacity-20" data-ai-hint="garba dance"/>
+                 <Image src="https://i.postimg.cc/sanin-sn-B4-ZQ2m-KEiq-Y-unsplash.jpg" alt="Garba dance" layout="fill" objectFit="cover" className="absolute opacity-20" data-ai-hint="garba dance"/>
                 <div className="relative text-center text-primary-foreground z-10">
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-white shadow-lg">Navratri</h1>
                     <p className="text-xl md:text-2xl mt-4 text-white/90 shadow-md">Nine Nights of Divine Feminine Power</p>
@@ -72,7 +72,7 @@ export default function NavratriPage() {
                                    <div className="flex flex-col md:flex-row gap-6">
                                         <div className="md:w-1/2">
                                             <div className="relative w-full h-64 bg-muted rounded-lg shadow-md">
-                                                <Image src="https://i.postimg.cc/Cxm19RSJ/holi2.jpg" alt="Garba Dance" layout="fill" objectFit="cover" className="rounded-lg" data-ai-hint="garba dance"/>
+                                                <Image src="https://i.postimg.cc/sanin-sn-B4-ZQ2m-KEiq-Y-unsplash.jpg" alt="Garba Dance" layout="fill" objectFit="cover" className="rounded-lg" data-ai-hint="garba dance"/>
                                             </div>
                                         </div>
                                         <div className="md:w-1/2">

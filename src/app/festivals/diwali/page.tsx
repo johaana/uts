@@ -14,7 +14,7 @@ export default function DiwaliPage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-primary/10">
-                 <Image src="https://i.postimg.cc/d0V7084z/Diwali1.png" alt="Diwali lights" layout="fill" objectFit="cover" className="absolute opacity-20" data-ai-hint="diwali lamps"/>
+                 <Image src="https://i.postimg.cc/1XNwWtfN/Diwali1.png" alt="Diwali lights" layout="fill" objectFit="cover" className="absolute opacity-20" data-ai-hint="diwali lamps"/>
                 <div className="relative text-center text-primary-foreground z-10">
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-white shadow-lg">Diwali</h1>
                     <p className="text-xl md:text-2xl mt-4 text-white/90 shadow-md">The Festival of Lights: A Triumph of Good Over Evil</p>
@@ -44,7 +44,7 @@ export default function DiwaliPage() {
                                         </div>
                                     </div>
                                     <div className="md:w-1/3">
-                                        <Image src="https://i.postimg.cc/kM0tyRgb/Diwali2.jpg" alt="Woman lighting Diwali Diya" width={400} height={600} className="rounded-lg shadow-lg" data-ai-hint="diwali celebration"/>
+                                        <Image src="https://i.postimg.cc/SjF8HhM1/Diwali2.jpg" alt="Woman lighting Diwali Diya" width={400} height={600} className="rounded-lg shadow-lg" data-ai-hint="diwali celebration"/>
                                     </div>
                                 </div>
                             </TabsContent>

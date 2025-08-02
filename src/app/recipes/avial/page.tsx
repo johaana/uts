@@ -13,7 +13,7 @@ export default function AvialPage() {
                             <p className="text-lg text-muted-foreground">A star dish of the Onam Sadya, Avial is a thick stew of mixed vegetables cooked in a coconut and yogurt gravy, seasoned with coconut oil and curry leaves.</p>
                         </div>
                         <div className="md:w-1/3">
-                           <Image src="https://i.postimg.cc/tJ3RkTB3/Onam.png" alt="Avial" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="vegetable stew"/>
+                           <Image src="https://i.postimg.cc/0564g0S7/nandu-menon-h-GHldb-Cg-YDA-unsplash.jpg" alt="Avial" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="vegetable stew"/>
                         </div>
                     </div>
                 </CardHeader>
