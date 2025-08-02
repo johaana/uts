@@ -5,9 +5,9 @@ import Image from "next/image";
 import Link from "next/link";
 
 const recipes = [
-    { name: "Avial", image: "https://images.unsplash.com/photo-1628848177430-a7d0352520da?q=80&w=400&h=300&fit=crop", hint: "mixed vegetable curry" },
-    { name: "Sambar", image: "https://images.unsplash.com/photo-1589301760014-d929f397918b?q=80&w=400&h=300&fit=crop", hint: "lentil stew" },
-    { name: "Payasam", image: "https://images.unsplash.com/photo-1604938927599-633059dce83c?q=80&w=400&h=300&fit=crop", hint: "rice pudding" },
+    { name: "Avial", image: "https://images.unsplash.com/photo-1628848177430-a7d0352520da?q=80&w=400&h=300&fit=crop", hint: "mixed vegetable curry", link: "#" },
+    { name: "Sambar", image: "https://images.unsplash.com/photo-1589301760014-d929f397918b?q=80&w=400&h=300&fit=crop", hint: "lentil stew", link: "#" },
+    { name: "Payasam", image: "https://images.unsplash.com/photo-1604938927599-633059dce83c?q=80&w=400&h=300&fit=crop", hint: "rice pudding", link: "#" },
 ]
 
 export default function OnamPage() {
@@ -71,12 +71,14 @@ export default function OnamPage() {
                                 <h2 className="font-headline text-3xl font-bold mb-4">The Onasadya Spread</h2>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                                     {recipes.map(recipe => (
-                                        <Card key={recipe.name} className="overflow-hidden">
-                                            <Image src={recipe.image} alt={recipe.name} width={400} height={300} className="w-full h-40 object-cover" data-ai-hint={recipe.hint}/>
-                                            <CardContent className="p-4">
-                                                <h3 className="font-headline text-xl font-bold text-center">{recipe.name}</h3>
-                                            </CardContent>
-                                        </Card>
+                                       <Link href={recipe.link || '#'} key={recipe.name}>
+                                            <Card className="overflow-hidden h-full">
+                                                <Image src={recipe.image} alt={recipe.name} width={400} height={300} className="w-full h-40 object-cover" data-ai-hint={recipe.hint}/>
+                                                <CardContent className="p-4">
+                                                    <h3 className="font-headline text-xl font-bold text-center">{recipe.name}</h3>
+                                                </CardContent>
+                                            </Card>
+                                        </Link>
                                     ))}
                                 </div>
                             </TabsContent>
@@ -89,7 +91,8 @@ export default function OnamPage() {
                                             <CardTitle>Songs of a Golden Era</CardTitle>
                                         </CardHeader>
                                         <CardContent>
-                                            <p className="text-foreground/80">Onam is celebrated with a rich repertoire of folk songs called 'Onappattu'. These songs describe the golden reign of King Mahabali, the beauty of Kerala, and the joy of the harvest season. They are an essential part of the cultural celebrations, sung during various activities like the creating of the Pookalam and the Onasadya.</p>
+                                             <p className="text-lg font-serif italic">"Maveli naadu vaanidum kaalam, manusharellarum onnupole..."</p>
+                                            <p className="mt-2 text-foreground/80">This famous Onam song translates to "When Maveli (Mahabali) ruled the land, all people were equal." It describes the golden, utopian era of King Mahabali, a time of prosperity, justice, and happiness. These songs are an essential part of the cultural celebrations, sung during various activities like the creating of the Pookalam and the Onasadya.</p>
                                         </CardContent>
                                     </Card>
                                 </div>

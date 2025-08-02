@@ -91,7 +91,8 @@ export default function MakarSankrantiPage() {
                                             <CardTitle>Gayatri Mantra</CardTitle>
                                         </CardHeader>
                                         <CardContent>
-                                            <p className="mt-2 text-foreground/80">The Gayatri Mantra, a sacred hymn from the Vedas, is often chanted to honor the Sun God and seek his blessings for wisdom and enlightenment.</p>
+                                            <p className="text-lg font-serif italic">"Om Bhuur Bhuvah Svah, Tat-savitur Varennyam, Bhargo Devasya Dhiimahi, Dhiyo Yo Nah Pracodayaat."</p>
+                                            <p className="mt-2 text-foreground/80">**Translation:** "We meditate on the glory of the Creator; Who has created the Universe; Who is worthy of Worship; Who is the embodiment of Knowledge and Light; Who is the remover of all Sin and Ignorance; May He enlighten our Intellect." The Gayatri Mantra, a sacred hymn from the Vedas, is often chanted to honor the Sun God (Savitur) and seek his blessings for wisdom and enlightenment.</p>
                                         </CardContent>
                                     </Card>
                                      <Card>
@@ -99,7 +100,7 @@ export default function MakarSankrantiPage() {
                                             <CardTitle>Surya Namaskar Chants</CardTitle>
                                         </CardHeader>
                                         <CardContent>
-                                            <p className="mt-2 text-foreground/80">The sequence of 12 yoga poses known as Surya Namaskar (Sun Salutation) is often accompanied by the chanting of 12 different mantras, each praising a different aspect of the Sun God.</p>
+                                            <p className="text-foreground/80">The sequence of 12 yoga poses known as Surya Namaskar (Sun Salutation) is often accompanied by the chanting of 12 different mantras, each praising a different aspect of the Sun God, like "Om Mitraya Namah" (Salutations to the friend of all) and "Om Ravaye Namah" (Salutations to the shining one).</p>
                                         </CardContent>
                                     </Card>
                                 </div>

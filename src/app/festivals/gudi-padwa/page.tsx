@@ -5,9 +5,9 @@ import Image from "next/image";
 import Link from "next/link";
 
 const recipes = [
-    { name: "Shrikhand", image: "https://images.unsplash.com/photo-1582576163013-3c75c721f5f8?q=80&w=400&h=300&fit=crop", hint: "sweet yogurt" },
+    { name: "Shrikhand", image: "https://images.unsplash.com/photo-1582576163013-3c75c721f5f8?q=80&w=400&h=300&fit=crop", hint: "sweet yogurt", link: "#" },
     { name: "Puran Poli", image: "https://images.unsplash.com/photo-1625391029258-a53655383921?q=80&w=400&h=300&fit=crop", hint: "sweet flatbread", link: "/recipes/puran-poli" },
-    { name: "Kothimbir Vadi", image: "https://images.unsplash.com/photo-1625862366314-b15f57352163?q=80&w=400&h=300&fit=crop", hint: "coriander fritter" },
+    { name: "Kothimbir Vadi", image: "https://images.unsplash.com/photo-1625862366314-b15f57352163?q=80&w=400&h=300&fit=crop", hint: "coriander fritter", link: "#" },
 ]
 
 export default function GudiPadwaPage() {
@@ -96,7 +96,8 @@ export default function GudiPadwaPage() {
                                             <CardTitle>Prayer for a Prosperous Year</CardTitle>
                                         </CardHeader>
                                         <CardContent>
-                                            <p className="text-foreground/80">While there aren't specific chants exclusively for Gudi Padwa, families often perform a simple puja and recite prayers to Lord Brahma, seeking his blessings for a prosperous and happy new year. The Ganesh Atharvashirsha is also commonly chanted to remove obstacles and welcome good fortune.</p>
+                                            <p className="text-lg font-serif italic">"Brahma Dhwajaya Namostute"</p>
+                                            <p className="mt-2 text-foreground/80">While raising the Gudi, which is also known as 'Brahma Dhwaj' (Brahma's flag), families recite prayers to Lord Brahma, seeking his blessings for a prosperous and happy new year. The Ganesh Atharvashirsha is also commonly chanted to remove obstacles.</p>
                                         </CardContent>
                                     </Card>
                                 </div>

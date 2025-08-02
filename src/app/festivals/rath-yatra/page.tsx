@@ -91,7 +91,8 @@ export default function RathYatraPage() {
                                             <CardTitle>Jagannath Ashtakam</CardTitle>
                                         </CardHeader>
                                         <CardContent>
-                                            <p className="mt-2 text-foreground/80">A beautiful eight-verse prayer dedicated to Lord Jagannath, composed by Adi Shankaracharya. It is chanted with great devotion during the Rath Yatra.</p>
+                                            <p className="text-lg font-serif italic">"Kadacit kalindi-tata-vipina-sangitaka-ravo..."</p>
+                                            <p className="mt-2 text-foreground/80">A beautiful eight-verse prayer dedicated to Lord Jagannath, composed by Adi Shankaracharya. It is chanted with great devotion during the Rath Yatra, describing the glory and compassionate nature of the Lord of the Universe.</p>
                                         </CardContent>
                                     </Card>
                                      <Card>
@@ -99,7 +100,8 @@ export default function RathYatraPage() {
                                             <CardTitle>Hare Krishna Mahamantra</CardTitle>
                                         </CardHeader>
                                         <CardContent>
-                                            <p className="mt-2 text-foreground/80">The air during Rath Yatra resonates with the continuous chanting of the Hare Krishna mantra, creating a deeply spiritual and ecstatic atmosphere.</p>
+                                             <p className="text-lg font-serif italic">"Hare Krishna, Hare Krishna, Krishna Krishna, Hare Hare, Hare Rama, Hare Rama, Rama Rama, Hare Hare"</p>
+                                            <p className="mt-2 text-foreground/80">The air during Rath Yatra resonates with the continuous chanting of the Hare Krishna mantra, creating a deeply spiritual and ecstatic atmosphere that unites all devotees.</p>
                                         </CardContent>
                                     </Card>
                                 </div>

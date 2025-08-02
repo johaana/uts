@@ -95,19 +95,20 @@ export default function ChhathPujaPage() {
                                 <div className="space-y-6">
                                     <Card>
                                         <CardHeader>
+                                            <CardTitle>Chhath Geet</CardTitle>
+                                        </CardHeader>
+                                        <CardContent>
+                                            <p className="text-lg font-serif italic">"Kelwa ke paat par, uge lan suruj dev..."</p>
+                                            <p className="mt-2 text-foreground/80">Folk songs, known as Chhath Geet, are an integral part of the festival. These songs, sung in regional languages like Bhojpuri and Maithili, narrate the significance of Chhath Puja, praising the Sun God and Chhathi Maiya. They create a deeply devotional and community-oriented atmosphere.</p>
+                                        </CardContent>
+                                    </Card>
+                                     <Card>
+                                        <CardHeader>
                                             <CardTitle>Surya Arghya Mantra</CardTitle>
                                         </CardHeader>
                                         <CardContent>
                                             <p className="text-lg font-serif italic">"Om suryaya namah"</p>
-                                            <p className="mt-2 text-foreground/80">A simple yet powerful mantra chanted while offering water to the Sun God, expressing reverence and seeking blessings.</p>
-                                        </CardContent>
-                                    </Card>
-                                    <Card>
-                                        <CardHeader>
-                                            <CardTitle>Chhath Geet</CardTitle>
-                                        </CardHeader>
-                                        <CardContent>
-                                            <p className="text-foreground/80">Folk songs, known as Chhath Geet, are an integral part of the festival. These songs are sung in regional languages and narrate the significance of Chhath Puja, praising the Sun God and Chhathi Maiya.</p>
+                                            <p className="mt-2 text-foreground/80">A simple yet powerful mantra chanted while offering water to the Sun God, expressing reverence and seeking blessings for well-being, prosperity, and happiness.</p>
                                         </CardContent>
                                     </Card>
                                 </div>

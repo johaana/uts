@@ -6,7 +6,7 @@ import Link from "next/link";
 
 const recipes = [
     { name: "Pitha", image: "https://images.unsplash.com/photo-1626094309830-0d7ea26f3094?q=80&w=400&h=300&fit=crop", hint: "rice cake", link: "#" },
-    { name: "Laru", image: "https://images.unsplash.com/photo-1613542911293-9a572a135316?q=80&w=400&h=300&fit=crop", hint: "sweet balls", link: "/recipes/ladoo" },
+    { name: "Laru", image: "https://i.postimg.cc/kB1gSpfL/Sweets1.jpg", hint: "sweet balls", link: "/recipes/ladoo" },
     { name: "Fish Curry with Joha Rice", image: "https://images.unsplash.com/photo-1574484284001-a1fd3b33445f?q=80&w=400&h=300&fit=crop", hint: "fish curry", link: "#" },
 ]
 
@@ -98,7 +98,8 @@ export default function BihuPage() {
                                             <CardTitle>The Soul of the Festival</CardTitle>
                                         </CardHeader>
                                         <CardContent>
-                                            <p className="text-foreground/80">Bihu is incomplete without its traditional folk songs, known as 'Bihu Geet'. These songs, accompanied by the beats of the dhol (drum) and pepa (a buffalo hornpipe), speak of love, nature, and the Assamese way of life. They are the heart and soul of the Bihu celebration, filling the air with vibrant energy and joy.</p>
+                                            <p className="text-lg font-serif italic">"Husori geet, Bihu geet, bongeet... O mur apunar dekh..."</p>
+                                            <p className="mt-2 text-foreground/80">Bihu is incomplete without its traditional folk songs, known as 'Bihu Geet'. These songs, accompanied by the beats of the dhol (drum) and pepa (a buffalo hornpipe), speak of love, nature, and the Assamese way of life. They are the heart and soul of the Bihu celebration, filling the air with vibrant energy and joy.</p>
                                         </CardContent>
                                     </Card>
                                 </div>

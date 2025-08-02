@@ -92,7 +92,7 @@ export default function ChristmasPage() {
                                         </CardHeader>
                                         <CardContent>
                                             <div className="prose prose-sm max-w-none text-foreground/80">
-                                                <p className="italic">Our Father, who art in heaven, hallowed be thy name; thy kingdom come; thy will be done on earth as it is in heaven. Give us this day our daily bread; and forgive us our trespasses as we forgive those who trespass against us; and lead us not into temptation, but deliver us from evil.</p>
+                                                <p className="italic">Our Father, who art in heaven, hallowed be thy name; thy kingdom come; thy will be done on earth as it is in heaven. Give us this day our daily bread; and forgive us our trespasses as we forgive those who trespass against us; and lead us not into temptation, but deliver us from evil. Amen.</p>
                                             </div>
                                         </CardContent>
                                     </Card>

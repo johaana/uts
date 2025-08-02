@@ -7,7 +7,7 @@ import Link from "next/link";
 const recipes = [
     { name: "Gujiya", image: "https://images.unsplash.com/photo-1617131723588-f6723467a1e3?q=80&w=400&h=300&fit=crop", hint: "sweet dumpling", link: "/recipes/gujiya" },
     { name: "Thandai", image: "https://images.unsplash.com/photo-1580538257844-94aa7d781d3d?q=80&w=400&h=300&fit=crop", hint: "cold drink", link: "/recipes/thandai" },
-    { name: "Ras Malai", image: "https://i.postimg.cc/kB1gSpfL/Sweets1.jpg", hint: "lentil fritter", link: "/recipes/ras-malai" },
+    { name: "Ras Malai", image: "https://i.postimg.cc/kB1gSpfL/Sweets1.jpg", hint: "milk dessert", link: "/recipes/ras-malai" },
 ]
 
 export default function HoliPage() {
@@ -90,22 +90,22 @@ export default function HoliPage() {
                             </TabsContent>
 
                              <TabsContent value="chants">
-                                <h2 className="font-headline text-3xl font-bold mb-4">Prayers for Holi</h2>
+                                <h2 className="font-headline text-3xl font-bold mb-4">Songs and Prayers for Holi</h2>
                                 <div className="space-y-6">
                                     <Card>
                                         <CardHeader>
                                             <CardTitle>Holika Dahan Prayers</CardTitle>
                                         </CardHeader>
                                         <CardContent>
-                                            <p className="text-foreground/80">During the Holika Dahan ritual, people offer prayers to the fire god, Agni, seeking blessings and the destruction of evil forces.</p>
+                                            <p className="text-foreground/80">During the Holika Dahan ritual, people offer prayers to the fire god, Agni, seeking blessings and the destruction of evil forces. A common prayer involves requesting protection for the family and the triumph of good.</p>
                                         </CardContent>
                                     </Card>
                                      <Card>
                                         <CardHeader>
-                                            <CardTitle>Krishna Bhajans</CardTitle>
+                                            <CardTitle>Krishna Bhajans & Holi Geet</CardTitle>
                                         </CardHeader>
                                         <CardContent>
-                                            <p className="mt-2 text-foreground/80">Holi is also associated with the divine love of Radha and Krishna. Devotional songs (bhajans) celebrating their playful and colorful 'leela' (divine play) are sung with great enthusiasm.</p>
+                                            <p className="text-foreground/80">Holi is filled with music. Devotional songs (bhajans) celebrating the divine and playful love of Radha and Krishna are sung with great enthusiasm. A popular example is "Rang Barse Bheege Chunar Wali," a folk song that captures the spirit of the festival.</p>
                                         </CardContent>
                                     </Card>
                                 </div>

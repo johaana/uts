@@ -91,14 +91,22 @@ export default function PongalPage() {
                             </TabsContent>
 
                              <TabsContent value="chants">
-                                <h2 className="font-headline text-3xl font-bold mb-4">Mantras for the Sun God</h2>
+                                <h2 className="font-headline text-3xl font-bold mb-4">Mantras and Greetings</h2>
                                 <div className="space-y-6">
                                     <Card>
                                         <CardHeader>
-                                            <CardTitle>Surya Namaskar Mantras</CardTitle>
+                                            <CardTitle>Pongalo Pongal!</CardTitle>
                                         </CardHeader>
                                         <CardContent>
-                                            <p className="mt-2 text-foreground/80">Chanting mantras dedicated to Surya while preparing and offering the Pongal dish is a key part of the celebration, expressing gratitude for the sun's energy that sustains life and agriculture.</p>
+                                            <p className="text-foreground/80">This is the most common chant and greeting during the festival. As the Pongal dish boils and overflows from the pot, family members shout "Pongalo Pongal!". It is an exclamation of joy and gratitude for an abundant harvest.</p>
+                                        </CardContent>
+                                    </Card>
+                                     <Card>
+                                        <CardHeader>
+                                            <CardTitle>Prayers to Surya</CardTitle>
+                                        </CardHeader>
+                                        <CardContent>
+                                            <p className="mt-2 text-foreground/80">While preparing and offering the Pongal dish, families offer simple prayers to Surya, the Sun God, thanking him for his energy that sustains life and agriculture. These are often personal prayers of gratitude rather than fixed mantras.</p>
                                         </CardContent>
                                     </Card>
                                 </div>

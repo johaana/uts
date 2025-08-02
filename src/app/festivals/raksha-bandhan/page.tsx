@@ -6,7 +6,7 @@ import Link from "next/link";
 
 const recipes = [
     { name: "Kaju Katli", image: "https://i.postimg.cc/vcHmcsLW/Diwali-Sweets.jpg", hint: "cashew fudge", link: "/recipes/kaju-katli" },
-    { name: "Besan Ladoo", image: "https://i.postimg.cc/kB1gSpfL/Sweets1.jpg", hint: "gram flour sweet", link: "/recipes/ladoo" },
+    { name: "Ladoo", image: "https://i.postimg.cc/kB1gSpfL/Sweets1.jpg", hint: "gram flour sweet", link: "/recipes/ladoo" },
     { name: "Coconut Barfi", image: "https://images.unsplash.com/photo-1606550212039-9b76e2c9e7a2?q=80&w=400&h=300&fit=crop", hint: "coconut fudge", link: "/recipes/coconut-barfi" },
 ]
 
@@ -85,7 +85,7 @@ export default function RakshaBandhanPage() {
                                         </CardHeader>
                                         <CardContent>
                                             <p className="text-lg font-serif italic">"Yena baddho Baliraja danavendro mahabalah, tena twam anubadhnami rakshe ma chala ma chala."</p>
-                                            <p className="mt-2 text-foreground/80">"I tie upon you the same rakhi with which the most powerful and generous King Bali was bound. O Rakhi, please do not be unstable." This mantra from the Yajurveda is chanted by the sister, invoking the power of the rakhi to protect her brother.</p>
+                                            <p className="mt-2 text-foreground/80">**Translation:** "I tie upon you the same rakhi with which the most powerful and generous King Bali was bound. O Rakhi, please do not be unstable." This ancient mantra from the scriptures is chanted by the sister, invoking the power of the sacred thread to protect her brother from all harm.</p>
                                         </CardContent>
                                     </Card>
                                 </div>

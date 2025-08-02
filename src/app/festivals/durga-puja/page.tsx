@@ -7,7 +7,7 @@ import Link from "next/link";
 const recipes = [
     { name: "Khichuri", image: "https://images.unsplash.com/photo-1599422501066-8b43f990f133?q=80&w=400&h=300&fit=crop", hint: "rice and lentil dish", link: "#" },
     { name: "Labra", image: "https://images.unsplash.com/photo-1628848177430-a7d0352520da?q=80&w=400&h=300&fit=crop", hint: "mixed vegetable", link: "#" },
-    { name: "Ras Malai", image: "https://images.unsplash.com/photo-1596561260279-7243b81e4c79?q=80&w=400&h=300&fit=crop", hint: "milk dessert", link: "/recipes/ras-malai" },
+    { name: "Ras Malai", image: "https://i.postimg.cc/kB1gSpfL/Sweets1.jpg", hint: "milk dessert", link: "/recipes/ras-malai" },
 ]
 
 export default function DurgaPujaPage() {
@@ -91,20 +91,21 @@ export default function DurgaPujaPage() {
                              <TabsContent value="chants">
                                 <h2 className="font-headline text-3xl font-bold mb-4">Mantras of the Goddess</h2>
                                 <div className="space-y-6">
-                                    <Card>
-                                        <CardHeader>
-                                            <CardTitle>Durga Saptashati</CardTitle>
-                                        </CardHeader>
-                                        <CardContent>
-                                            <p className="mt-2 text-foreground/80">The chanting of the Durga Saptashati, also known as the Devi Mahatmyam, is a central part of the puja. These 700 verses narrate the story of the goddess's victory.</p>
-                                        </CardContent>
-                                    </Card>
                                      <Card>
                                         <CardHeader>
                                             <CardTitle>Aigiri Nandini</CardTitle>
                                         </CardHeader>
                                         <CardContent>
-                                            <p className="mt-2 text-foreground/80">This powerful and popular hymn is often sung in praise of Goddess Durga, celebrating her fierce and compassionate nature.</p>
+                                             <p className="text-lg font-serif italic">"Aigiri nandini, nandita medini, visva vinodini, nandinute..."</p>
+                                            <p className="mt-2 text-foreground/80">This powerful and popular hymn is often sung in praise of Goddess Durga, celebrating her fierce and compassionate nature. Its energetic rhythm captures the triumphant spirit of the festival.</p>
+                                        </CardContent>
+                                    </Card>
+                                    <Card>
+                                        <CardHeader>
+                                            <CardTitle>Durga Saptashati Path</CardTitle>
+                                        </CardHeader>
+                                        <CardContent>
+                                            <p className="text-foreground/80">The chanting of the Durga Saptashati, also known as the Devi Mahatmyam, is a central part of the puja. These 700 verses narrate the story of the goddess's victory over Mahishasura and are considered highly sacred.</p>
                                         </CardContent>
                                     </Card>
                                 </div>
