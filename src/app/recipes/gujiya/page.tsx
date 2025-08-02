@@ -1,19 +1,16 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check } from "lucide-react";
-import Image from "next/image";
 
 export default function GujiyaPage() {
     return (
         <div className="container mx-auto px-4 py-12">
             <Card>
-                <CardHeader className="p-0">
-                     <Image src="https://images.unsplash.com/photo-1617131723588-f6723467a1e3?q=80&w=1200&h=600&fit=crop" alt="Gujiya" width={1200} height={600} className="w-full h-auto object-cover rounded-t-lg" data-ai-hint="sweet dumpling" />
-                </CardHeader>
-                <CardContent className="p-6 md:p-10">
+                <CardHeader className="p-6 md:p-10">
                     <CardTitle className="font-headline text-4xl mb-4">Gujiya</CardTitle>
-                    <p className="text-lg text-muted-foreground mb-6">A classic sweet for the festival of Holi, Gujiya are crescent-shaped fried pastries filled with a sweet mixture of khoya (milk solids), nuts, and coconut.</p>
-
-                    <div className="grid md:grid-cols-3 gap-8 mb-8">
+                    <p className="text-lg text-muted-foreground">A classic sweet for the festival of Holi, Gujiya are crescent-shaped fried pastries filled with a sweet mixture of khoya (milk solids), nuts, and coconut.</p>
+                </CardHeader>
+                <CardContent className="p-6 md:p-10 pt-0">
+                    <div className="grid md:grid-cols-3 gap-8">
                         <div className="md:col-span-1">
                             <h3 className="font-headline text-2xl font-bold mb-4">Ingredients</h3>
                             <h4 className="font-bold mb-2">For the dough:</h4>

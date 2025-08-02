@@ -1,20 +1,18 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 
 const recipes = [
-    { name: "Sakkarai Pongal", image: "https://images.unsplash.com/photo-1608622834734-74a0f81b5abb?q=80&w=400&h=300&fit=crop", hint: "sweet pongal", link: "#" },
-    { name: "Ven Pongal", image: "https://images.unsplash.com/photo-1628848177430-a7d0352520da?q=80&w=400&h=300&fit=crop", hint: "savory pongal", link: "#" },
-    { name: "Medu Vada", image: "https://images.unsplash.com/photo-1663953538268-54b664d4715f?q=80&w=400&h=300&fit=crop", hint: "lentil fritter", link: "#" },
+    { name: "Sakkarai Pongal", link: "#" },
+    { name: "Ven Pongal", link: "#" },
+    { name: "Medu Vada", link: "#" },
 ]
 
 export default function PongalPage() {
     return (
         <div className="bg-background">
-            <section className="relative h-[50vh] flex items-center justify-center">
-                <Image src="https://images.unsplash.com/photo-1608622834734-74a0f81b5abb?q=80&w=1600&h=800&fit=crop" alt="Pongal celebration" layout="fill" objectFit="cover" className="opacity-20" data-ai-hint="pongal pot rice"/>
+            <section className="relative h-[50vh] flex items-center justify-center bg-primary/10">
                 <div className="relative text-center text-primary-foreground">
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-white shadow-lg">Pongal</h1>
                     <p className="text-xl md:text-2xl mt-4 text-white/90 shadow-md">Tamil Nadu's Harvest Festival</p>
@@ -80,7 +78,6 @@ export default function PongalPage() {
                                     {recipes.map(recipe => (
                                         <Link href={recipe.link || '#'} key={recipe.name}>
                                             <Card className="overflow-hidden h-full">
-                                                <Image src={recipe.image} alt={recipe.name} width={400} height={300} className="w-full h-40 object-cover" data-ai-hint={recipe.hint}/>
                                                 <CardContent className="p-4">
                                                     <h3 className="font-headline text-xl font-bold text-center">{recipe.name}</h3>
                                                 </CardContent>

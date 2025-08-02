@@ -3,29 +3,28 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Input } from "@/components/ui/input";
 import { Mail, ArrowRight } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { FestivalCalendar } from "@/components/FestivalCalendar";
 
 export default function Home() {
   const upcomingFestivals = [
-    { name: "Raksha Bandhan", date: "August 19, 2025", image: "https://images.unsplash.com/photo-1597753258833-66881a535496?q=80&w=600&h=400&fit=crop", hint: "sacred thread", link: "/festivals/raksha-bandhan" },
-    { name: "Ganesh Chaturthi", date: "August 27, 2025", image: "https://images.unsplash.com/photo-1604213410393-8e4342838753?q=80&w=600&h=400&fit=crop", hint: "ganesha idol", link: "/festivals/ganesh-chaturthi" },
-    { name: "Onam", date: "September 7, 2025", image: "https://images.unsplash.com/photo-1601664118464-58f278f79e27?q=80&w=600&h=400&fit=crop", hint: "flower carpet", link: "/festivals/onam" },
-    { name: "Navratri", date: "September 22, 2025", image: "https://images.unsplash.com/photo-1589498202028-2a2b72183c58?q=80&w=600&h=400&fit=crop", hint: "garba dance", link: "/festivals/navratri" },
-    { name: "Diwali", date: "October 21, 2025", image: "https://images.unsplash.com/photo-1600255941428-22d7d89594e0?q=80&w=600&h=400&fit=crop", hint: "lights diyas", link: "/festivals/diwali" },
+    { name: "Raksha Bandhan", date: "August 19, 2025", link: "/festivals/raksha-bandhan" },
+    { name: "Ganesh Chaturthi", date: "August 27, 2025", link: "/festivals/ganesh-chaturthi" },
+    { name: "Onam", date: "September 7, 2025", link: "/festivals/onam" },
+    { name: "Navratri", date: "September 22, 2025", link: "/festivals/navratri" },
+    { name: "Diwali", date: "October 21, 2025", link: "/festivals/diwali" },
   ];
 
   const featuredRecipes = [
-    { name: "Gajar Ka Halwa", image: "https://images.unsplash.com/photo-1613542911293-9a572a135316?q=80&w=400&h=300&fit=crop", hint: "carrot dessert", festival: "Diwali", link: "/recipes/gajar-ka-halwa" },
-    { name: "Puran Poli", image: "https://images.unsplash.com/photo-1625391029258-a53655383921?q=80&w=400&h=300&fit=crop", hint: "sweet flatbread", festival: "Ganesh Chaturthi", link: "/recipes/puran-poli" },
-    { name: "Ras Malai", image: "https://images.unsplash.com/photo-1626803775151-621644546ac9?q=80&w=400&h=300&fit=crop", hint: "milk dessert", festival: "Holi", link: "/recipes/ras-malai" },
+    { name: "Gajar Ka Halwa", festival: "Diwali", link: "/recipes/gajar-ka-halwa" },
+    { name: "Puran Poli", festival: "Ganesh Chaturthi", link: "/recipes/puran-poli" },
+    { name: "Ras Malai", festival: "Holi", link: "/recipes/ras-malai" },
   ];
 
   const blogPosts = [
-    { title: "The Significance of Diyas in Diwali", image: "https://images.unsplash.com/photo-1600255941428-22d7d89594e0?q=80&w=400&h=300&fit=crop", hint: "diya lamp", excerpt: "Discover the deep cultural and spiritual meaning behind lighting diyas..." },
-    { title: "A Guide to Traditional Holi Colors", image: "https://images.unsplash.com/photo-1618769339396-a24a5d8f6154?q=80&w=400&h=300&fit=crop", hint: "holi colors", excerpt: "Learn about the natural ingredients used in traditional Holi colors and their significance." },
-    { title: "Top 5 Rangoli Designs for Beginners", image: "https://images.unsplash.com/photo-1664304245657-3a75871e62a2?q=80&w=400&h=300&fit=crop", hint: "rangoli floor", excerpt: "Get inspired with these easy-to-make yet beautiful rangoli patterns for any occasion." },
+    { title: "The Significance of Diyas in Diwali", excerpt: "Discover the deep cultural and spiritual meaning behind lighting diyas..." },
+    { title: "A Guide to Traditional Holi Colors", excerpt: "Learn about the natural ingredients used in traditional Holi colors and their significance." },
+    { title: "Top 5 Rangoli Designs for Beginners", excerpt: "Get inspired with these easy-to-make yet beautiful rangoli patterns for any occasion." },
   ]
 
   return (
@@ -54,9 +53,7 @@ export default function Home() {
               <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
                 <div className="p-1">
                   <Card className="overflow-hidden">
-                    <CardContent className="p-0">
-                      <Image src={festival.image} alt={festival.name} width={600} height={400} className="w-full h-auto object-cover aspect-[3/2]" data-ai-hint={festival.hint} />
-                      <div className="p-6">
+                    <CardContent className="p-6">
                         <h3 className="font-headline text-2xl font-bold">{festival.name}</h3>
                         <p className="text-sm text-muted-foreground">{festival.date}</p>
                         <Link href={festival.link}>
@@ -64,7 +61,6 @@ export default function Home() {
                             Learn More <ArrowRight className="ml-1 h-4 w-4" />
                           </Button>
                         </Link>
-                      </div>
                     </CardContent>
                   </Card>
                 </div>
@@ -86,9 +82,6 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {featuredRecipes.map((recipe) => (
             <Card key={recipe.name} className="overflow-hidden group">
-              <div className="relative">
-                <Image src={recipe.image} alt={recipe.name} width={400} height={300} className="w-full h-auto object-cover aspect-[4/3] transition-transform duration-300 group-hover:scale-105" data-ai-hint={recipe.hint} />
-              </div>
               <CardHeader>
                 <CardTitle className="font-headline text-2xl">{recipe.name}</CardTitle>
                 <p className="text-sm text-muted-foreground">{recipe.festival}</p>
@@ -126,7 +119,6 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {blogPosts.map((post) => (
             <Card key={post.title} className="overflow-hidden group flex flex-col">
-              <Image src={post.image} alt={post.title} width={400} height={300} className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105" data-ai-hint={post.hint} />
               <CardHeader>
                 <CardTitle className="font-headline text-xl h-16">{post.title}</CardTitle>
               </CardHeader>

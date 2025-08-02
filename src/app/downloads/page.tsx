@@ -1,15 +1,14 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DownloadCloud, Brush, CheckSquare, Gift } from "lucide-react";
-import Image from "next/image";
 
 const downloads = [
-    { title: "Peacock Rangoli Stencil", category: "Rangoli Designs", image: "https://images.unsplash.com/photo-1664304245657-3a75871e62a2?q=80&w=400&h=300&fit=crop", hint: "peacock rangoli", file: "#" },
-    { title: "Diwali Greeting Card", category: "Greeting Cards", image: "https://images.unsplash.com/photo-1571168136623-1075b3671705?q=80&w=400&h=300&fit=crop", hint: "diwali card", file: "#" },
-    { title: "Puja Preparation Checklist", category: "Checklists", image: "https://images.unsplash.com/photo-1540479859555-17af45c78602?q=80&w=400&h=300&fit=crop", hint: "checklist paper", file: "#" },
-    { title: "Floral Rangoli Pattern", category: "Rangoli Designs", image: "https://images.unsplash.com/photo-1599422501066-8b43f990f133?q=80&w=400&h=300&fit=crop", hint: "flower rangoli", file: "#" },
-    { title: "Holi Party Invitation", category: "Greeting Cards", image: "https://images.unsplash.com/photo-1618769339396-a24a5d8f6154?q=80&w=400&h=300&fit=crop", hint: "holi invitation", file: "#" },
-    { title: "Navratri Fasting Guide", category: "Checklists", image: "https://images.unsplash.com/photo-1555949963-ff98c6a7155e?q=80&w=400&h=300&fit=crop", hint: "guide book", file: "#" },
+    { title: "Peacock Rangoli Stencil", category: "Rangoli Designs", file: "#" },
+    { title: "Diwali Greeting Card", category: "Greeting Cards", file: "#" },
+    { title: "Puja Preparation Checklist", category: "Checklists", file: "#" },
+    { title: "Floral Rangoli Pattern", category: "Rangoli Designs", file: "#" },
+    { title: "Holi Party Invitation", category: "Greeting Cards", file: "#" },
+    { title: "Navratri Fasting Guide", category: "Checklists", file: "#" },
 ];
 
 export default function DownloadsPage() {
@@ -32,7 +31,6 @@ export default function DownloadsPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {downloads.map((item) => (
                     <Card key={item.title} className="overflow-hidden group">
-                        <Image src={item.image} alt={item.title} width={400} height={300} className="w-full h-52 object-cover transition-transform duration-300 group-hover:scale-105" data-ai-hint={item.hint} />
                         <CardHeader>
                             <p className="text-sm text-primary font-semibold">{item.category}</p>
                             <CardTitle className="font-headline text-xl h-14">{item.title}</CardTitle>

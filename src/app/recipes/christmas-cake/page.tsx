@@ -1,19 +1,16 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check } from "lucide-react";
-import Image from "next/image";
 
 export default function ChristmasCakePage() {
     return (
         <div className="container mx-auto px-4 py-12">
             <Card>
-                <CardHeader className="p-0">
-                     <Image src="https://images.unsplash.com/photo-1542826438-c2e887a03a09?q=80&w=1200&h=600&fit=crop" alt="Christmas Cake" width={1200} height={600} className="w-full h-auto object-cover rounded-t-lg" data-ai-hint="fruit cake" />
-                </CardHeader>
-                <CardContent className="p-6 md:p-10">
+                <CardHeader className="p-6 md:p-10">
                     <CardTitle className="font-headline text-4xl mb-4">Classic Christmas Fruit Cake</CardTitle>
-                    <p className="text-lg text-muted-foreground mb-6">A rich, moist, and boozy fruit cake is the heart of Christmas celebrations. This recipe is packed with dried fruits, nuts, and warm spices.</p>
-
-                    <div className="grid md:grid-cols-3 gap-8 mb-8">
+                    <p className="text-lg text-muted-foreground">A rich, moist, and boozy fruit cake is the heart of Christmas celebrations. This recipe is packed with dried fruits, nuts, and warm spices.</p>
+                </CardHeader>
+                <CardContent className="p-6 md:p-10 pt-0">
+                    <div className="grid md:grid-cols-3 gap-8">
                         <div className="md:col-span-1">
                             <h3 className="font-headline text-2xl font-bold mb-4">Ingredients</h3>
                             <ul className="space-y-2">

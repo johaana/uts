@@ -1,20 +1,18 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 
 const recipes = [
-    { name: "Pitha", image: "https://images.unsplash.com/photo-1626094309830-0d7ea26f3094?q=80&w=400&h=300&fit=crop", hint: "rice cake", link: "#" },
-    { name: "Laru", image: "https://images.unsplash.com/photo-1598164879222-74d324976134?q=80&w=400&h=300&fit=crop", hint: "sweet balls", link: "/recipes/ladoo" },
-    { name: "Fish Curry with Joha Rice", image: "https://images.unsplash.com/photo-1574484284001-a1fd3b33445f?q=80&w=400&h=300&fit=crop", hint: "fish curry", link: "#" },
+    { name: "Pitha", link: "#" },
+    { name: "Laru", link: "/recipes/ladoo" },
+    { name: "Fish Curry with Joha Rice", link: "#" },
 ]
 
 export default function BihuPage() {
     return (
         <div className="bg-background">
-            <section className="relative h-[50vh] flex items-center justify-center">
-                <Image src="https://images.unsplash.com/photo-1588123199420-547867f520f2?q=80&w=1600&h=800&fit=crop" alt="Bihu dance" layout="fill" objectFit="cover" className="opacity-20" data-ai-hint="assamese dance festival"/>
+            <section className="relative h-[50vh] flex items-center justify-center bg-primary/10">
                 <div className="relative text-center text-primary-foreground">
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-white shadow-lg">Bihu</h1>
                     <p className="text-xl md:text-2xl mt-4 text-white/90 shadow-md">The Heartbeat of Assam</p>
@@ -75,7 +73,6 @@ export default function BihuPage() {
                                     {recipes.map(recipe => (
                                         <Link href={recipe.link} key={recipe.name}>
                                             <Card className="overflow-hidden h-full">
-                                                <Image src={recipe.image} alt={recipe.name} width={400} height={300} className="w-full h-40 object-cover" data-ai-hint={recipe.hint}/>
                                                 <CardContent className="p-4">
                                                     <h3 className="font-headline text-xl font-bold text-center">{recipe.name}</h3>
                                                 </CardContent>

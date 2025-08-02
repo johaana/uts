@@ -1,20 +1,18 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 
 const recipes = [
-    { name: "Shrikhand", image: "https://images.unsplash.com/photo-1582576163013-3c75c721f5f8?q=80&w=400&h=300&fit=crop", hint: "sweet yogurt", link: "#" },
-    { name: "Puran Poli", image: "https://images.unsplash.com/photo-1625391029258-a53655383921?q=80&w=400&h=300&fit=crop", hint: "sweet flatbread", link: "/recipes/puran-poli" },
-    { name: "Kothimbir Vadi", image: "https://images.unsplash.com/photo-1625862366314-b15f57352163?q=80&w=400&h=300&fit=crop", hint: "coriander fritter", link: "#" },
+    { name: "Shrikhand", link: "#" },
+    { name: "Puran Poli", link: "/recipes/puran-poli" },
+    { name: "Kothimbir Vadi", link: "#" },
 ]
 
 export default function GudiPadwaPage() {
     return (
         <div className="bg-background">
-            <section className="relative h-[50vh] flex items-center justify-center">
-                <Image src="https://images.unsplash.com/photo-1587807316663-4972b2297ed1?q=80&w=1600&h=800&fit=crop" alt="Gudi Padwa" layout="fill" objectFit="cover" className="opacity-20" data-ai-hint="gudi flag festival"/>
+            <section className="relative h-[50vh] flex items-center justify-center bg-primary/10">
                 <div className="relative text-center text-primary-foreground">
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-white shadow-lg">Gudi Padwa</h1>
                     <p className="text-xl md:text-2xl mt-4 text-white/90 shadow-md">The Maharashtrian New Year</p>
@@ -73,7 +71,6 @@ export default function GudiPadwaPage() {
                                     {recipes.map(recipe => (
                                         <Link href={recipe.link || "#"} key={recipe.name}>
                                             <Card className="overflow-hidden h-full">
-                                                <Image src={recipe.image} alt={recipe.name} width={400} height={300} className="w-full h-40 object-cover" data-ai-hint={recipe.hint}/>
                                                 <CardContent className="p-4">
                                                     <h3 className="font-headline text-xl font-bold text-center">{recipe.name}</h3>
                                                 </CardContent>

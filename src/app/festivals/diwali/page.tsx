@@ -1,20 +1,18 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote, CalendarDays, Leaf } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 
 const recipes = [
-    { name: "Ladoo", image: "https://images.unsplash.com/photo-1598164879222-74d324976134?q=80&w=400&h=300&fit=crop", hint: "sweet balls", link: "/recipes/ladoo" },
-    { name: "Kaju Katli", image: "https://images.unsplash.com/photo-1574263539400-38823b2b8315?q=80&w=400&h=300&fit=crop", hint: "cashew fudge", link: "/recipes/kaju-katli" },
-    { name: "Gajar Ka Halwa", image: "https://images.unsplash.com/photo-1613542911293-9a572a135316?q=80&w=400&h=300&fit=crop", hint: "carrot dessert", link: "/recipes/gajar-ka-halwa" },
+    { name: "Ladoo", link: "/recipes/ladoo" },
+    { name: "Kaju Katli", link: "/recipes/kaju-katli" },
+    { name: "Gajar Ka Halwa", link: "/recipes/gajar-ka-halwa" },
 ]
 
 export default function DiwaliPage() {
     return (
         <div className="bg-background">
-            <section className="relative h-[50vh] flex items-center justify-center">
-                <Image src="https://images.unsplash.com/photo-1542882583-93e9a1a8e83c?q=80&w=1600&h=800&fit=crop" alt="Diwali celebration" layout="fill" objectFit="cover" className="opacity-20" data-ai-hint="diwali celebration fireworks"/>
+            <section className="relative h-[50vh] flex items-center justify-center bg-primary/10">
                 <div className="relative text-center text-primary-foreground">
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-white shadow-lg">Diwali</h1>
                     <p className="text-xl md:text-2xl mt-4 text-white/90 shadow-md">The Festival of Lights: A Triumph of Good Over Evil</p>
@@ -147,7 +145,6 @@ export default function DiwaliPage() {
                                     {recipes.map(recipe => (
                                         <Link href={recipe.link} key={recipe.name}>
                                             <Card className="overflow-hidden h-full">
-                                                <Image src={recipe.image} alt={recipe.name} width={400} height={300} className="w-full h-40 object-cover" data-ai-hint={recipe.hint}/>
                                                 <CardContent className="p-4">
                                                     <h3 className="font-headline text-xl font-bold text-center">{recipe.name}</h3>
                                                 </CardContent>

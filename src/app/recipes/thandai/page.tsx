@@ -1,19 +1,16 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check } from "lucide-react";
-import Image from "next/image";
 
 export default function ThandaiPage() {
     return (
         <div className="container mx-auto px-4 py-12">
             <Card>
-                <CardHeader className="p-0">
-                     <Image src="https://images.unsplash.com/photo-1580538257844-94aa7d781d3d?q=80&w=1200&h=600&fit=crop" alt="Thandai" width={1200} height={600} className="w-full h-auto object-cover rounded-t-lg" data-ai-hint="cold drink" />
-                </CardHeader>
-                <CardContent className="p-6 md:p-10">
+                <CardHeader className="p-6 md:p-10">
                     <CardTitle className="font-headline text-4xl mb-4">Thandai</CardTitle>
-                    <p className="text-lg text-muted-foreground mb-6">The official drink of Holi, Thandai is a refreshing and aromatic cold beverage made with a blend of nuts, seeds, and spices, perfect for cooling down during the colorful festivities.</p>
-
-                    <div className="grid md:grid-cols-3 gap-8 mb-8">
+                    <p className="text-lg text-muted-foreground">The official drink of Holi, Thandai is a refreshing and aromatic cold beverage made with a blend of nuts, seeds, and spices, perfect for cooling down during the colorful festivities.</p>
+                </CardHeader>
+                <CardContent className="p-6 md:p-10 pt-0">
+                    <div className="grid md:grid-cols-3 gap-8">
                         <div className="md:col-span-1">
                             <h3 className="font-headline text-2xl font-bold mb-4">Ingredients</h3>
                              <h4 className="font-bold mb-2">For Thandai Paste:</h4>
