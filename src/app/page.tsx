@@ -10,7 +10,7 @@ import { FestivalCalendar } from "@/components/FestivalCalendar";
 export default function Home() {
   const upcomingFestivals = [
     { name: "Raksha Bandhan", date: "August 19, 2025", link: "/festivals/raksha-bandhan", image: "https://i.postimg.cc/q7qRrp7r/raksha-bandhan.jpg", hint: "rakhi thread", position: "center" },
-    { name: "Ganesh Chaturthi", date: "August 27, 2025", link: "/festivals/ganesh-chaturthi", image: "https://i.postimg.cc/tTV41DPm/ganpati1.jpg", hint: "ganesha idol", position: "center" },
+    { name: "Ganesh Chaturthi", date: "August 27, 2025", link: "/festivals/ganesh-chaturthi", image: "https://i.postimg.cc/tTV41DPm/ganpati1.jpg", hint: "ganesha idol", position: "bottom" },
     { name: "Onam", date: "September 7, 2025", link: "/festivals/onam", image: "https://i.postimg.cc/tJ3RkTB3/Onam.png", hint: "onam sadhya", position: "center" },
     { name: "Navratri", date: "September 22, 2025", link: "/festivals/navratri", image: "https://i.postimg.cc/Cxm19RSJ/holi2.jpg", hint: "garba dance", position: "center" },
     { name: "Diwali", date: "October 21, 2025", link: "/festivals/diwali", image: "https://i.postimg.cc/d0V7084z/Diwali1.png", hint: "diwali lamps", position: "center" },
