@@ -9,11 +9,11 @@ import { FestivalCalendar } from "@/components/FestivalCalendar";
 
 export default function Home() {
   const upcomingFestivals = [
-    { name: "Raksha Bandhan", date: "August 19, 2025", link: "/festivals/raksha-bandhan", image: "https://i.postimg.cc/q7qRrp7r/raksha-bandhan.jpg", hint: "rakhi thread" },
-    { name: "Ganesh Chaturthi", date: "August 27, 2025", link: "/festivals/ganesh-chaturthi", image: "https://i.postimg.cc/tTV41DPm/ganpati1.jpg", hint: "ganesha idol" },
-    { name: "Onam", date: "September 7, 2025", link: "/festivals/onam", image: "https://i.postimg.cc/tJ3RkTB3/Onam.png", hint: "onam sadhya" },
-    { name: "Navratri", date: "September 22, 2025", link: "/festivals/navratri", image: "https://i.postimg.cc/Cxm19RSJ/holi2.jpg", hint: "garba dance" },
-    { name: "Diwali", date: "October 21, 2025", link: "/festivals/diwali", image: "https://i.postimg.cc/d0V7084z/Diwali1.png", hint: "diwali lamps" },
+    { name: "Raksha Bandhan", date: "August 19, 2025", link: "/festivals/raksha-bandhan", image: "https://i.postimg.cc/q7qRrp7r/raksha-bandhan.jpg", hint: "rakhi thread", position: "center" },
+    { name: "Ganesh Chaturthi", date: "August 27, 2025", link: "/festivals/ganesh-chaturthi", image: "https://i.postimg.cc/tTV41DPm/ganpati1.jpg", hint: "ganesha idol", position: "center" },
+    { name: "Onam", date: "September 7, 2025", link: "/festivals/onam", image: "https://i.postimg.cc/tJ3RkTB3/Onam.png", hint: "onam sadhya", position: "center" },
+    { name: "Navratri", date: "September 22, 2025", link: "/festivals/navratri", image: "https://i.postimg.cc/Cxm19RSJ/holi2.jpg", hint: "garba dance", position: "center" },
+    { name: "Diwali", date: "October 21, 2025", link: "/festivals/diwali", image: "https://i.postimg.cc/d0V7084z/Diwali1.png", hint: "diwali lamps", position: "center" },
   ];
 
   const featuredRecipes = [
@@ -56,7 +56,7 @@ export default function Home() {
                 <div className="p-1 h-full">
                   <Card className="overflow-hidden h-full flex flex-col">
                     <div className="relative h-48 w-full">
-                       <Image src={festival.image} alt={festival.name} layout="fill" objectFit="cover" data-ai-hint={festival.hint}/>
+                       <Image src={festival.image} alt={festival.name} layout="fill" objectFit="cover" objectPosition={festival.position} data-ai-hint={festival.hint}/>
                     </div>
                     <CardContent className="p-6 flex flex-col flex-grow">
                         <h3 className="font-headline text-2xl font-bold flex-grow">{festival.name}</h3>
