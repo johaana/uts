@@ -10,7 +10,7 @@ import { FestivalCalendar } from "@/components/FestivalCalendar";
 export default function Home() {
   const upcomingFestivals = [
     { name: "Raksha Bandhan", date: "August 19, 2025", link: "/festivals/raksha-bandhan", image: "https://i.postimg.cc/q7qRrp7r/raksha-bandhan.jpg", hint: "rakhi thread", position: "center" },
-    { name: "Ganesh Chaturthi", date: "August 27, 2025", link: "/festivals/ganesh-chaturthi", image: "https://i.postimg.cc/tTV41DPm/ganpati1.jpg", hint: "ganesha idol", position: "bottom" },
+    { name: "Ganesh Chaturthi", date: "August 27, 2025", link: "/festivals/ganesh-chaturthi", image: "https://i.postimg.cc/tTV41DPm/ganpati1.jpg", hint: "ganesha idol", position: "center" },
     { name: "Onam", date: "September 7, 2025", link: "/festivals/onam", image: "https://i.postimg.cc/tJ3RkTB3/Onam.png", hint: "onam sadhya", position: "center" },
     { name: "Navratri", date: "September 22, 2025", link: "/festivals/navratri", image: "https://i.postimg.cc/Cxm19RSJ/holi2.jpg", hint: "garba dance", position: "center" },
     { name: "Diwali", date: "October 21, 2025", link: "/festivals/diwali", image: "https://i.postimg.cc/d0V7084z/Diwali1.png", hint: "diwali lamps", position: "center" },
@@ -29,9 +29,9 @@ export default function Home() {
   ]
 
   return (
-    <div className="space-y-12 md:space-y-20">
+    <div className="space-y-16 md:space-y-24">
       <section className="relative bg-primary/10 py-16 md:py-24 flex items-center justify-center">
-        <Image src="https://i.postimg.cc/rsXF5WNy/holi.jpg" alt="Holi festival" layout="fill" objectFit="cover" className="absolute opacity-20" data-ai-hint="holi colors"/>
+        <Image src="https://i.postimg.cc/rsXF5WNy/holi.jpg" alt="Holi festival" layout="fill" objectFit="cover" className="absolute opacity-10" data-ai-hint="holi colors"/>
         <div className="container mx-auto px-4 text-center relative z-10">
           <h1 className="font-headline text-4xl md:text-6xl font-bold text-primary">A Vibrant Celebration of India</h1>
           <p className="mt-4 text-lg md:text-xl text-foreground/80 max-w-2xl mx-auto">
@@ -48,21 +48,21 @@ export default function Home() {
       </section>
 
       <section className="container mx-auto px-4">
-        <h2 className="font-headline text-3xl md:text-4xl font-bold text-center mb-8">Upcoming Festivals 2025</h2>
+        <h2 className="font-headline text-3xl md:text-4xl font-bold text-center mb-12">Upcoming Festivals 2025</h2>
         <Carousel opts={{ align: "start", loop: true }} className="w-full">
           <CarouselContent>
             {upcomingFestivals.map((festival, index) => (
               <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
                 <div className="p-1 h-full">
-                  <Card className="overflow-hidden h-full flex flex-col">
-                    <div className="relative h-48 w-full">
-                       <Image src={festival.image} alt={festival.name} layout="fill" objectFit="cover" objectPosition={festival.position} data-ai-hint={festival.hint}/>
+                  <Card className="overflow-hidden h-full flex flex-col group">
+                    <div className="relative h-64 w-full overflow-hidden">
+                       <Image src={festival.image} alt={festival.name} layout="fill" objectFit="cover" objectPosition={festival.position} className="transition-transform duration-500 ease-in-out group-hover:scale-105" data-ai-hint={festival.hint}/>
                     </div>
                     <CardContent className="p-6 flex flex-col flex-grow">
                         <h3 className="font-headline text-2xl font-bold flex-grow">{festival.name}</h3>
                         <p className="text-sm text-muted-foreground">{festival.date}</p>
                         <Link href={festival.link}>
-                          <Button variant="link" className="p-0 mt-2 text-accent hover:text-accent/90">
+                          <Button variant="link" className="p-0 mt-4 text-accent hover:text-accent/90">
                             Learn More <ArrowRight className="ml-1 h-4 w-4" />
                           </Button>
                         </Link>
@@ -83,12 +83,12 @@ export default function Home() {
 
 
       <section className="container mx-auto px-4">
-        <h2 className="font-headline text-3xl md:text-4xl font-bold text-center mb-8">Featured Recipes</h2>
+        <h2 className="font-headline text-3xl md:text-4xl font-bold text-center mb-12">Featured Recipes</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {featuredRecipes.map((recipe) => (
             <Card key={recipe.name} className="overflow-hidden group">
-               <div className="relative h-48 w-full">
-                <Image src={recipe.image} alt={recipe.name} layout="fill" objectFit="cover" data-ai-hint={recipe.hint}/>
+               <div className="relative h-48 w-full overflow-hidden">
+                <Image src={recipe.image} alt={recipe.name} layout="fill" objectFit="cover" className="transition-transform duration-500 ease-in-out group-hover:scale-105" data-ai-hint={recipe.hint}/>
               </div>
               <CardHeader>
                 <CardTitle className="font-headline text-2xl">{recipe.name}</CardTitle>
@@ -102,9 +102,9 @@ export default function Home() {
             </Card>
           ))}
         </div>
-        <div className="text-center mt-8">
+        <div className="text-center mt-12">
             <Link href="/recipes">
-                <Button variant="secondary">Explore All Recipes</Button>
+                <Button variant="secondary" size="lg">Explore All Recipes</Button>
             </Link>
         </div>
       </section>
@@ -123,12 +123,12 @@ export default function Home() {
       </section>
 
       <section className="container mx-auto px-4">
-        <h2 className="font-headline text-3xl md:text-4xl font-bold text-center mb-8">From Our Blog</h2>
+        <h2 className="font-headline text-3xl md:text-4xl font-bold text-center mb-12">From Our Blog</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {blogPosts.map((post) => (
             <Card key={post.title} className="overflow-hidden group flex flex-col">
-              <div className="relative h-48 w-full">
-                  <Image src={post.image} alt={post.title} layout="fill" objectFit="cover" data-ai-hint={post.hint}/>
+              <div className="relative h-48 w-full overflow-hidden">
+                  <Image src={post.image} alt={post.title} layout="fill" objectFit="cover" className="transition-transform duration-500 ease-in-out group-hover:scale-105" data-ai-hint={post.hint}/>
               </div>
               <CardHeader>
                 <CardTitle className="font-headline text-xl h-16">{post.title}</CardTitle>
