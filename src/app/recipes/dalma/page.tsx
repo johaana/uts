@@ -13,7 +13,7 @@ export default function DalmaPage() {
                             <p className="text-lg text-muted-foreground">A traditional and nutritious dish from Odisha, Dalma is a lentil and vegetable stew that is a key part of the Mahaprasad at the Jagannath Temple.</p>
                         </div>
                         <div className="md:w-1/3">
-                           <Image src="https://i.postimg.cc/CBghYTxn/Eid2.jpg" alt="Dalma" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="lentil stew"/>
+                           <Image src="https://i.postimg.cc/mDn7NM2s/Sweets1.jpg" alt="Dalma" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="lentil stew"/>
                         </div>
                     </div>
                 </CardHeader>

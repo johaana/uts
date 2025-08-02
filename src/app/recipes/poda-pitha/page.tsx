@@ -13,7 +13,7 @@ export default function PodaPithaPage() {
                             <p className="text-lg text-muted-foreground">The favorite food of Lord Jagannath, Poda Pitha is a slow-cooked, baked rice cake from Odisha, traditionally prepared for the Rath Yatra festival.</p>
                         </div>
                         <div className="md:w-1/3">
-                           <Image src="https://i.postimg.cc/CBghYTxn/Eid2.jpg" alt="Poda Pitha" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="baked rice cake"/>
+                           <Image src="https://i.postimg.cc/YSpNpMyJ/sudarshan-poojary-FZw-Bem-Sc-Rc0-unsplash.jpg" alt="Poda Pitha" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="baked rice cake"/>
                         </div>
                     </div>
                 </CardHeader>
@@ -36,7 +36,7 @@ export default function PodaPithaPage() {
                             <ol className="space-y-4 list-decimal list-inside text-foreground/80">
                                 <li>Grind the soaked rice and urad dal into a thick, slightly coarse batter. Allow it to ferment for 6-8 hours.</li>
                                 <li>To the fermented batter, add grated coconut, jaggery, cardamom powder, nuts, and raisins. Mix well.</li>
-                                <li>Grease a pressure cooker or a heavy-bottomed pan with ghee. Traditionally, it's lined with banana leaves.</li>
+                                <li>Grease a pressure cooker or a heavy-bottomed pan with ghee. Traditionally, it's lined with a banana leaf.</li>
                                 <li>Pour the batter into the cooker/pan.</li>
                                 <li>Cook on a very low flame for about 45-60 minutes. If using a pressure cooker, cook without the whistle.</li>
                                 <li>The pitha is cooked when a skewer inserted comes out clean and the top is a beautiful caramelized brown.</li>

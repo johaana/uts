@@ -13,7 +13,9 @@ export default function KadduBhaatPage() {
                            <p className="text-lg text-muted-foreground">A simple yet significant dish for Chhath Puja, Kaddu Bhaat consists of a lightly spiced pumpkin curry served with rice. It is often eaten on the 'Nahay Khay' day.</p>
                         </div>
                          <div className="md:w-1/3">
-                           <Image src="https://i.postimg.cc/CBghYTxn/Eid2.jpg" alt="Kaddu Bhaat" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="pumpkin rice"/>
+                            <div className="relative w-full h-[250px] bg-muted rounded-lg shadow-lg">
+                                {/* No relevant image available for this specific recipe, so a placeholder is used. */}
+                            </div>
                         </div>
                     </div>
                 </CardHeader>

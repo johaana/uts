@@ -13,7 +13,7 @@ export default function TilgulPage() {
                             <p className="text-lg text-muted-foreground">A traditional Maharashtrian sweet for Makar Sankranti, these ladoos made from sesame seeds (til) and jaggery (gul) are exchanged with the saying "Tilgul ghya, goad goad bola" (Eat tilgul and speak sweet words).</p>
                         </div>
                         <div className="md:w-1/3">
-                           <Image src="https://i.postimg.cc/4NpH24YF/Diwali-Sweets.jpg" alt="Tilgul Ladoo" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="sesame ladoo"/>
+                           <Image src="https://i.postimg.cc/nzrvDTx2/Diwali-Sweets.jpg" alt="Tilgul Ladoo" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="sesame ladoo"/>
                         </div>
                     </div>
                 </CardHeader>

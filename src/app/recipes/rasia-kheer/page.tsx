@@ -13,7 +13,7 @@ export default function RasiaKheerPage() {
                            <p className="text-lg text-muted-foreground">A special rice pudding made with jaggery instead of sugar, Rasia is a key 'prasad' prepared during the Kharna day of Chhath Puja.</p>
                         </div>
                          <div className="md:w-1/3">
-                           <Image src="https://i.postimg.cc/CBghYTxn/Eid2.jpg" alt="Rasia Kheer" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="jaggery rice pudding"/>
+                           <Image src="https://i.postimg.cc/nzrvDTx2/Diwali-Sweets.jpg" alt="Rasia Kheer" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="jaggery rice pudding"/>
                         </div>
                     </div>
                 </CardHeader>

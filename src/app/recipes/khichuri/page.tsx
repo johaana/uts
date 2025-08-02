@@ -13,7 +13,7 @@ export default function KhichuriPage() {
                             <p className="text-lg text-muted-foreground">The heart of any Durga Puja celebration, this Bengali-style khichdi is a no-onion, no-garlic recipe made with roasted moong dal and gobindobhog rice, offered as 'bhog' to the Goddess.</p>
                         </div>
                         <div className="md:w-1/3">
-                           <Image src="https://i.postimg.cc/CBghYTxn/Eid2.jpg" alt="Bhoger Khichuri" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="bengali khichdi"/>
+                           <Image src="https://i.postimg.cc/GmnJ5kP3/nilendrajyoti-halder-v32-Ac-NJ4-Q-Q-unsplash.jpg" alt="Bhoger Khichuri" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="bengali khichdi"/>
                         </div>
                     </div>
                 </CardHeader>

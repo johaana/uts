@@ -13,7 +13,7 @@ export default function HaleemPage() {
                            <p className="text-lg text-muted-foreground">A rich and savory stew, Haleem is a popular dish during Ramadan and Eid. It's a slow-cooked wonder of meat, lentils, and pounded wheat, resulting in a thick, paste-like consistency.</p>
                         </div>
                          <div className="md:w-1/3">
-                           <Image src="https://i.postimg.cc/nzsC4n82/Eid2.jpg" alt="Haleem" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="meat stew"/>
+                           <Image src="https://i.postimg.cc/9fJd0K6z/Eid2.jpg" alt="Haleem" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="meat stew"/>
                         </div>
                     </div>
                 </CardHeader>

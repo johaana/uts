@@ -13,7 +13,7 @@ export default function SakkaraiPongalPage() {
                            <p className="text-lg text-muted-foreground">A sweet and fragrant rice and lentil pudding, Sakkarai Pongal is a quintessential dish prepared during the Pongal festival in Tamil Nadu as an offering to the gods.</p>
                         </div>
                          <div className="md:w-1/3">
-                           <Image src="https://i.postimg.cc/CBghYTxn/Eid2.jpg" alt="Sakkarai Pongal" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="sweet rice pudding"/>
+                           <Image src="https://i.postimg.cc/tJ3RkTB3/Onam.png" alt="Sakkarai Pongal" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="sweet rice pudding"/>
                         </div>
                     </div>
                 </CardHeader>

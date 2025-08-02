@@ -13,7 +13,7 @@ export default function VenPongalPage() {
                             <p className="text-lg text-muted-foreground">A savory and comforting South Indian dish made from rice and moong dal, tempered with ghee, cumin, peppercorns, and cashews. It's a popular breakfast and a key dish for Pongal festival.</p>
                         </div>
                         <div className="md:w-1/3">
-                           <Image src="https://i.postimg.cc/CBghYTxn/Eid2.jpg" alt="Ven Pongal" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="savory rice pudding"/>
+                           <Image src="https://i.postimg.cc/tJ3RkTB3/Onam.png" alt="Ven Pongal" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="savory rice pudding"/>
                         </div>
                     </div>
                 </CardHeader>

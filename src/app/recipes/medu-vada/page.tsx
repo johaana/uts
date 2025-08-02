@@ -13,7 +13,9 @@ export default function MeduVadaPage() {
                             <p className="text-lg text-muted-foreground">A popular South Indian fritter, Medu Vada is a crispy, fluffy, and savory donut-shaped snack, often served as part of the Pongal feast with sambar and chutney.</p>
                         </div>
                         <div className="md:w-1/3">
-                           <Image src="https://i.postimg.cc/CBghYTxn/Eid2.jpg" alt="Medu Vada" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="savory donut"/>
+                            <div className="relative w-full h-[250px] bg-muted rounded-lg shadow-lg">
+                                {/* No relevant image available for this specific recipe, so a placeholder is used. */}
+                            </div>
                         </div>
                     </div>
                 </CardHeader>

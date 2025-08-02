@@ -13,7 +13,7 @@ export default function LangarDalPage() {
                             <p className="text-lg text-muted-foreground">A simple, nutritious, and soul-satisfying dal served at Gurdwaras. It's made with a mix of lentils and is cooked without much fuss, yet tastes incredibly delicious.</p>
                         </div>
                          <div className="md:w-1/3">
-                           <Image src="https://i.postimg.cc/fRZtG4XW/Sweets1.jpg" alt="Langarwali Dal" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="lentil curry"/>
+                           <Image src="https://i.postimg.cc/mDn7NM2s/Sweets1.jpg" alt="Langarwali Dal" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="lentil curry"/>
                         </div>
                     </div>
                 </CardHeader>

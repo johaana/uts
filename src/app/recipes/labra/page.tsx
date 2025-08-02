@@ -13,7 +13,7 @@ export default function LabraPage() {
                             <p className="text-lg text-muted-foreground">A quintessential part of Durga Puja 'bhog', Labra is a medley of various vegetables cooked together with Bengali five-spice (panch phoron). It's a delightful semi-dry curry.</p>
                         </div>
                          <div className="md:w-1/3">
-                           <Image src="https://i.postimg.cc/CBghYTxn/Eid2.jpg" alt="Labra" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="mixed vegetable curry"/>
+                           <Image src="https://i.postimg.cc/GmnJ5kP3/nilendrajyoti-halder-v32-Ac-NJ4-Q-Q-unsplash.jpg" alt="Labra" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="mixed vegetable curry"/>
                         </div>
                     </div>
                 </CardHeader>

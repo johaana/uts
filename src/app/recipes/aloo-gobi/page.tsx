@@ -13,7 +13,7 @@ export default function AlooGobiPage() {
                            <p className="text-lg text-muted-foreground">A classic and comforting North Indian dish made with potatoes (aloo) and cauliflower (gobi). It's a simple, staple dish often served in Langars.</p>
                         </div>
                          <div className="md:w-1/3">
-                           <Image src="https://i.postimg.cc/fRZtG4XW/Sweets1.jpg" alt="Aloo Gobi" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="potato cauliflower"/>
+                           <Image src="https://i.postimg.cc/mDn7NM2s/Sweets1.jpg" alt="Aloo Gobi" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="potato cauliflower"/>
                         </div>
                     </div>
                 </CardHeader>
