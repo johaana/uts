@@ -4,15 +4,15 @@ import { BookOpen, Sparkles, MessageSquareQuote, CalendarDays, Leaf } from "luci
 import Image from "next/image";
 
 const dayColors = [
-    { day: "Day 1: Pratipada", goddess: "Shailaputri", color: "Orange", significance: "Energy & Happiness", image: "https://placehold.co/150x150.png", hint: "orange goddess" },
-    { day: "Day 2: Dwitiya", goddess: "Brahmacharini", color: "White", significance: "Purity & Peace", image: "https://placehold.co/150x150.png", hint: "white goddess" },
-    { day: "Day 3: Tritiya", goddess: "Chandraghanta", color: "Red", significance: "Beauty & Fearlessness", image: "https://placehold.co/150x150.png", hint: "red goddess" },
-    { day: "Day 4: Chaturthi", goddess: "Kushmanda", color: "Royal Blue", significance: "Health & Wealth", image: "https://placehold.co/150x150.png", hint: "blue goddess" },
-    { day: "Day 5: Panchami", goddess: "Skandamata", color: "Yellow", significance: "Happiness & Brightness", image: "https://placehold.co/150x150.png", hint: "yellow goddess" },
-    { day: "Day 6: Shashthi", goddess: "Katyayani", color: "Green", significance: "New Beginnings & Growth", image: "https://placehold.co/150x150.png", hint: "green goddess" },
-    { day: "Day 7: Saptami", goddess: "Kalaratri", color: "Grey", significance: "Strength & Protection", image: "https://placehold.co/150x150.png", hint: "grey goddess" },
-    { day: "Day 8: Ashtami", goddess: "Mahagauri", color: "Purple", significance: "Intellect & Peace", image: "https://placehold.co/150x150.png", hint: "purple goddess" },
-    { day: "Day 9: Navami", goddess: "Siddhidatri", color: "Peacock Green", significance: "Wisdom & Fulfillment", image: "https://placehold.co/150x150.png", hint: "peacock goddess" },
+    { day: "Day 1: Pratipada", goddess: "Shailaputri", color: "Orange", significance: "Energy & Happiness", image: "https://images.unsplash.com/photo-1695751240324-c135c3c0399d?q=80&w=150&h=150&fit=crop", hint: "goddess mountain" },
+    { day: "Day 2: Dwitiya", goddess: "Brahmacharini", color: "White", significance: "Purity & Peace", image: "https://images.unsplash.com/photo-1695751240223-e25b04e6c382?q=80&w=150&h=150&fit=crop", hint: "goddess ascetic" },
+    { day: "Day 3: Tritiya", goddess: "Chandraghanta", color: "Red", significance: "Beauty & Fearlessness", image: "https://images.unsplash.com/photo-1695751240097-3f0d4bf11666?q=80&w=150&h=150&fit=crop", hint: "goddess bell" },
+    { day: "Day 4: Chaturthi", goddess: "Kushmanda", color: "Royal Blue", significance: "Health & Wealth", image: "https://images.unsplash.com/photo-1695751240344-f187a84c8524?q=80&w=150&h=150&fit=crop", hint: "goddess cosmic" },
+    { day: "Day 5: Panchami", goddess: "Skandamata", color: "Yellow", significance: "Happiness & Brightness", image: "https://images.unsplash.com/photo-1695751240183-51b7596041a9?q=80&w=150&h=150&fit=crop", hint: "goddess son" },
+    { day: "Day 6: Shashthi", goddess: "Katyayani", color: "Green", significance: "New Beginnings & Growth", image: "https://images.unsplash.com/photo-1695751240156-6de0a7e651c1?q=80&w=150&h=150&fit=crop", hint: "goddess warrior" },
+    { day: "Day 7: Saptami", goddess: "Kalaratri", color: "Grey", significance: "Strength & Protection", image: "https://images.unsplash.com/photo-1695751240391-7f300c3b885c?q=80&w=150&h=150&fit=crop", hint: "goddess dark" },
+    { day: "Day 8: Ashtami", goddess: "Mahagauri", color: "Purple", significance: "Intellect & Peace", image: "https://images.unsplash.com/photo-1695751240361-9c9889f8d16e?q=80&w=150&h=150&fit=crop", hint: "goddess purity" },
+    { day: "Day 9: Navami", goddess: "Siddhidatri", color: "Peacock Green", significance: "Wisdom & Fulfillment", image: "https://images.unsplash.com/photo-1695751240121-81d3d65016e3?q=80&w=150&h=150&fit=crop", hint: "goddess powers" },
 ];
 
 
@@ -53,12 +53,12 @@ export default function NavratriPage() {
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                     {dayColors.map((day) => (
                                          <Card key={day.day} className="flex flex-col items-center text-center p-4">
-                                            <Image src={day.image} alt={day.goddess} width={100} height={100} className="rounded-full border-4 mb-4" style={{borderColor: day.color}} data-ai-hint={day.hint}/>
+                                            <Image src={day.image} alt={day.goddess} width={100} height={100} className="rounded-full border-4 mb-4 object-cover" style={{borderColor: day.color}} data-ai-hint={day.hint}/>
                                             <p className="font-bold">{day.day}</p>
                                             <h3 className="font-headline text-2xl text-primary my-1">{day.goddess}</h3>
                                             <p className="text-foreground/80">{day.significance}</p>
                                             <div className="mt-2 flex items-center gap-2">
-                                                <div className="w-4 h-4 rounded-full" style={{backgroundColor: day.color.toLowerCase()}}></div>
+                                                <div className="w-4 h-4 rounded-full" style={{backgroundColor: day.color.toLowerCase().replace(' ', '')}}></div>
                                                 <span className="font-semibold text-sm">{day.color}</span>
                                             </div>
                                         </Card>
@@ -71,7 +71,7 @@ export default function NavratriPage() {
                                 <div className="space-y-6 prose max-w-none text-foreground/80">
                                    <div className="flex flex-col md:flex-row gap-6">
                                         <div className="md:w-1/2">
-                                            <Image src="https://images.unsplash.com/photo-1589498202028-2a2b72183c58?q=80&w=600&h=400&fit=crop" alt="Garba dance" width={600} height={400} className="rounded-lg shadow-md" data-ai-hint="garba dance circle" />
+                                            <Image src="https://images.unsplash.com/photo-1589498202028-2a2b72183c58?q=80&w=600&h=400&fit=crop" alt="Garba dance" width={600} height={400} className="rounded-lg shadow-md object-cover" data-ai-hint="garba dance circle" />
                                         </div>
                                         <div className="md:w-1/2">
                                              <h3 className="font-headline text-xl font-bold mb-2">The Dance of Devotion</h3>

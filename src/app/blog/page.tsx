@@ -35,9 +35,11 @@ export default function BlogPage() {
                             <p className="text-foreground/80">{post.excerpt}</p>
                         </CardContent>
                         <CardContent>
-                            <Button variant="link" className="p-0 text-accent hover:text-accent/90">
-                                Read More <ArrowRight className="ml-1 h-4 w-4" />
-                            </Button>
+                            <Link href="/blog">
+                                <Button variant="link" className="p-0 text-accent hover:text-accent/90">
+                                    Read More <ArrowRight className="ml-1 h-4 w-4" />
+                                </Button>
+                            </Link>
                         </CardContent>
                     </Card>
                 ))}
