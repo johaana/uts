@@ -94,18 +94,24 @@ export default function GaneshChaturthiPage() {
                                 <div className="space-y-6">
                                     <Card>
                                         <CardHeader>
-                                            <CardTitle>Ganapati Atharvashirsha</CardTitle>
+                                            <CardTitle>Jai Ganesh Deva Aarti</CardTitle>
                                         </CardHeader>
                                         <CardContent>
-                                            <p className="text-foreground/80">A sacred text from the Upanishads, this is one of the most important scriptures dedicated to Lord Ganesha. Chanting it is believed to bring peace, prosperity, and remove obstacles.</p>
+                                            <div className="prose prose-sm max-w-none text-foreground/80">
+                                                <p className="italic">Jai Ganesh, Jai Ganesh, Jai Ganesh Deva. Mata Jaaki Parvati, Pita Mahadeva.</p>
+                                                <p className="italic">Ek Dant Dayavant, Chaar Bhuja Dhaari. Maathe Pe Sindhoor Sohe, Muse Ki Savari.</p>
+                                                <p className="italic">Paan Chadhe, Phool Chadhe, Aur Chadhe Meva. Ladduan Ka Bhog Lage, Sant Karein Seva.</p>
+                                                <p className="italic">Andhan Ko Aankh Det, Kodhin Ko Kaaya. Baanjhan Ko Putra Det, Nirdhan Ko Maaya.</p>
+                                                <p className="italic">'Soor' Shyaam Sharan Aaye, Safal Kije Seva. Jai Ganesh, Jai Ganesh, Jai Ganesh Deva.</p>
+                                            </div>
                                         </CardContent>
                                     </Card>
                                      <Card>
                                         <CardHeader>
-                                            <CardTitle>Ganesh Stotram</CardTitle>
+                                            <CardTitle>Vakratunda Mahakaya Mantra</CardTitle>
                                         </CardHeader>
                                         <CardContent>
-                                            <p className="text-lg font-serif italic">"Vakratunda Mahakaya Suryakoti Samaprabha..."</p>
+                                            <p className="text-lg font-serif italic">"Vakratunda Mahakaya Suryakoti Samaprabha, Nirvighnam Kuru Me Deva Sarva-Kaaryeshu Sarvada."</p>
                                             <p className="mt-2 text-foreground/80">This powerful mantra describes Ganesha's form and seeks his blessings to make all endeavors free of obstacles.</p>
                                         </CardContent>
                                     </Card>

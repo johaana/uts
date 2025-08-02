@@ -88,19 +88,28 @@ export default function EidAlFitrPage() {
                                 <div className="space-y-6">
                                     <Card>
                                         <CardHeader>
-                                            <CardTitle>The Eid Takbir</CardTitle>
+                                            <CardTitle>Common Greeting: Eid Mubarak</CardTitle>
                                         </CardHeader>
                                         <CardContent>
-                                            <p className="text-lg font-serif italic">"Allāhu Akbar, Allāhu Akbar, Lā ilāha illā Allāh, Allāhu Akbar, Allāhu Akbar, wa lillāhi al-ḥamd."</p>
-                                            <p className="mt-2 text-foreground/80">This is the Takbir, chanted repeatedly on the way to the Eid prayers and throughout the day. It translates to "God is the greatest, God is the greatest. There is no god but God. God is the greatest, God is the greatest, and to God belongs all praise."</p>
+                                            <p className="text-foreground/80">The most common greeting is "Eid Mubarak," which simply means "Blessed Eid" or "Happy Eid."</p>
                                         </CardContent>
                                     </Card>
                                     <Card>
                                         <CardHeader>
-                                            <CardTitle>Common Greetings</CardTitle>
+                                            <CardTitle>A Dua for Acceptance</CardTitle>
                                         </CardHeader>
                                         <CardContent>
-                                            <p className="text-foreground/80">The most common greeting is "Eid Mubarak," which means "Blessed Eid." Another greeting is "Taqabbalallāhu minnā wa minkum" (May Allah accept from us and from you [our fasts and deeds]).</p>
+                                            <p className="text-lg font-serif italic">"Taqabbalallāhu minnā wa minkum."</p>
+                                            <p className="mt-2 text-foreground/80">This beautiful dua translates to, "May Allah accept from us and from you," referring to the good deeds and fasting performed during Ramadan. It is a heartfelt prayer for mutual acceptance and blessings.</p>
+                                        </CardContent>
+                                    </Card>
+                                    <Card>
+                                        <CardHeader>
+                                            <CardTitle>The Eid Takbir</CardTitle>
+                                        </CardHeader>
+                                        <CardContent>
+                                            <p className="text-lg font-serif italic">"Allāhu Akbar, Allāhu Akbar, Lā ilāha illā Allāh, Allāhu Akbar, Allāhu Akbar, wa lillāhi al-ḥamd."</p>
+                                            <p className="mt-2 text-foreground/80">This is the Takbir, chanted repeatedly on the way to the Eid prayers. It translates to "God is the greatest, God is the greatest. There is no god but God. God is the greatest, God is the greatest, and to God belongs all praise."</p>
                                         </CardContent>
                                     </Card>
                                 </div>

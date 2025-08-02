@@ -29,7 +29,7 @@ export default function ChristmasPage() {
                                 <TabsTrigger value="overview"><BookOpen className="w-4 h-4 mr-2" />Overview</TabsTrigger>
                                 <TabsTrigger value="traditions"><Sparkles className="w-4 h-4 mr-2" />Traditions</TabsTrigger>
                                 <TabsTrigger value="recipes"><Utensils className="w-4 h-4 mr-2" />Recipes</TabsTrigger>
-                                <TabsTrigger value="carols"><MessageSquareQuote className="w-4 h-4 mr-2" />Carols</TabsTrigger>
+                                <TabsTrigger value="prayers"><MessageSquareQuote className="w-4 h-4 mr-2" />Prayers & Carols</TabsTrigger>
                             </TabsList>
 
                             <TabsContent value="overview">
@@ -83,9 +83,19 @@ export default function ChristmasPage() {
                                 </div>
                             </TabsContent>
 
-                             <TabsContent value="carols">
-                                <h2 className="font-headline text-3xl font-bold mb-4">Songs of the Season</h2>
+                             <TabsContent value="prayers">
+                                <h2 className="font-headline text-3xl font-bold mb-4">Songs and Prayers of the Season</h2>
                                 <div className="space-y-6">
+                                    <Card>
+                                        <CardHeader>
+                                            <CardTitle>The Lord's Prayer</CardTitle>
+                                        </CardHeader>
+                                        <CardContent>
+                                            <div className="prose prose-sm max-w-none text-foreground/80">
+                                                <p className="italic">Our Father, who art in heaven, hallowed be thy name; thy kingdom come; thy will be done on earth as it is in heaven. Give us this day our daily bread; and forgive us our trespasses as we forgive those who trespass against us; and lead us not into temptation, but deliver us from evil.</p>
+                                            </div>
+                                        </CardContent>
+                                    </Card>
                                     <Card>
                                         <CardHeader>
                                             <CardTitle>Silent Night</CardTitle>
