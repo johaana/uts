@@ -6,17 +6,17 @@ import Link from "next/link";
 
 const products = [
     { name: "Embroidered Silk Saree", category: "Attire", price: "₹4,999", image: "https://images.unsplash.com/photo-1583196827559-90d95c5549b4?q=80&w=400&h=400&fit=crop", hint: "silk saree", link: "#" },
-    { name: "Hand-painted Clay Diyas (Set of 12)", category: "Decor", price: "₹499", image: "https://images.unsplash.com/photo-1542888260-1014a4561033?q=80&w=400&h=400&fit=crop", hint: "clay diyas", link: "#" },
+    { name: "Hand-painted Clay Diyas (Set of 12)", category: "Decor", price: "₹499", image: "https://i.postimg.cc/Wt73N3rN/Diwali2.jpg", hint: "clay diyas", link: "#" },
     { name: "Kundan & Pearl Jewelry Set", category: "Jewelry", price: "₹2,499", image: "https://images.unsplash.com/photo-1616782415250-424b91f13b6c?q=80&w=400&h=400&fit=crop", hint: "kundan necklace", link: "#" },
     { name: "Men's Lucknowi Chikankari Kurta", category: "Attire", price: "₹2,299", image: "https://images.unsplash.com/photo-1617137968427-85924c800a22?q=80&w=400&h=400&fit=crop", hint: "men kurta", link: "#" },
     { name: "Brass Puja Thali Set", category: "Decor", price: "₹1,299", image: "https://images.unsplash.com/photo-1604435924739-429948033575?q=80&w=400&h=400&fit=crop", hint: "puja thali", link: "#" },
     { name: "Bandhani Silk Dupatta", category: "Attire", price: "₹999", image: "https://images.unsplash.com/photo-1594909122845-11baa439b78f?q=80&w=400&h=400&fit=crop", hint: "colorful scarf", link: "#" },
     { name: "Antique Gold-Plated Jhumkas", category: "Jewelry", price: "₹1,299", image: "https://images.unsplash.com/photo-1617137968427-85924c800a22?q=80&w=400&h=400&fit=crop", hint: "gold earrings", link: "#" },
     { name: "Marigold & Mango Leaf Toran", category: "Decor", price: "₹799", image: "https://images.unsplash.com/photo-1604435924739-429948033575?q=80&w=400&h=400&fit=crop", hint: "door decor", link: "#" },
-    { name: "Silver-Plated Rakhi for Brother", category: "Gifts", price: "₹399", image: "https://images.unsplash.com/photo-1628045350380-4d5162a04944?q=80&w=400&h=400&fit=crop", hint: "rakhi thread", link: "#" },
-    { name: "Organic Holi Gulal (Pack of 5)", category: "Gifts", price: "₹599", image: "https://images.unsplash.com/photo-1580538257844-94aa7d781d3d?q=80&w=400&h=400&fit=crop", hint: "holi colors", link: "#" },
-    { name: "Eco-Friendly Ganesha Idol", category: "Decor", price: "₹1,499", image: "https://images.unsplash.com/photo-1596791834185-a7c3315a4523?q=80&w=400&h=400&fit=crop", hint: "ganesha idol", link: "#" },
-    { name: "Diwali Sweets & Dry Fruits Hamper", category: "Gifts", price: "₹1,999", image: "https://images.unsplash.com/photo-1613542911293-9a572a135316?q=80&w=400&h=400&fit=crop", hint: "sweets gift box", link: "#" },
+    { name: "Silver-Plated Rakhi for Brother", category: "Gifts", price: "₹399", image: "https://i.postimg.cc/QBLskG5Y/raksha-bandhan.jpg", hint: "rakhi thread", link: "#" },
+    { name: "Organic Holi Gulal (Pack of 5)", category: "Gifts", price: "₹599", image: "https://i.postimg.cc/18Vsq5gN/holi2.jpg", hint: "holi colors", link: "#" },
+    { name: "Eco-Friendly Ganesha Idol", category: "Decor", price: "₹1,499", image: "https://i.postimg.cc/Vrm8pqKj/ganpati1.jpg", hint: "ganesha idol", link: "#" },
+    { name: "Diwali Sweets & Dry Fruits Hamper", category: "Gifts", price: "₹1,999", image: "https://i.postimg.cc/vcHmcsLW/Diwali-Sweets.jpg", hint: "sweets gift box", link: "#" },
 ];
 
 export default function ShopPage() {

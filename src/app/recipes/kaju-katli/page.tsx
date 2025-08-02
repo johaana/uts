@@ -7,7 +7,7 @@ export default function KajuKatliPage() {
         <div className="container mx-auto px-4 py-12">
             <Card>
                 <CardHeader className="p-0">
-                     <Image src="https://images.unsplash.com/photo-1596561260279-7243b81e4c79?q=80&w=1200&h=600&fit=crop" alt="Kaju Katli" width={1200} height={600} className="w-full h-auto object-cover rounded-t-lg" data-ai-hint="cashew fudge" />
+                     <Image src="https://i.postimg.cc/vcHmcsLW/Diwali-Sweets.jpg" alt="Kaju Katli" width={1200} height={600} className="w-full h-auto object-cover rounded-t-lg" data-ai-hint="cashew fudge" />
                 </CardHeader>
                 <CardContent className="p-6 md:p-10">
                     <CardTitle className="font-headline text-4xl mb-4">Kaju Katli</CardTitle>

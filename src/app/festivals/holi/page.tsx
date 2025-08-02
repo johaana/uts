@@ -7,14 +7,14 @@ import Link from "next/link";
 const recipes = [
     { name: "Gujiya", image: "https://images.unsplash.com/photo-1617131723588-f6723467a1e3?q=80&w=400&h=300&fit=crop", hint: "sweet dumpling", link: "/recipes/gujiya" },
     { name: "Thandai", image: "https://images.unsplash.com/photo-1580538257844-94aa7d781d3d?q=80&w=400&h=300&fit=crop", hint: "cold drink", link: "/recipes/thandai" },
-    { name: "Ras Malai", image: "https://images.unsplash.com/photo-1596561260279-7243b81e4c79?q=80&w=400&h=300&fit=crop", hint: "lentil fritter", link: "/recipes/ras-malai" },
+    { name: "Ras Malai", image: "https://i.postimg.cc/kB1gSpfL/Sweets1.jpg", hint: "lentil fritter", link: "/recipes/ras-malai" },
 ]
 
 export default function HoliPage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center">
-                <Image src="https://images.unsplash.com/photo-1519624090336-6b21b8575953?q=80&w=1600&h=800&fit=crop" alt="Holi celebration" layout="fill" objectFit="cover" className="opacity-20" data-ai-hint="holi colors festival"/>
+                <Image src="https://i.postimg.cc/mzjssPnK/holi.jpg" alt="Holi celebration" layout="fill" objectFit="cover" className="opacity-20" data-ai-hint="holi colors festival"/>
                 <div className="relative text-center text-primary-foreground">
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-white shadow-lg">Holi</h1>
                     <p className="text-xl md:text-2xl mt-4 text-white/90 shadow-md">The Festival of Colors</p>

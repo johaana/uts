@@ -9,23 +9,23 @@ import { FestivalCalendar } from "@/components/FestivalCalendar";
 
 export default function Home() {
   const upcomingFestivals = [
-    { name: "Raksha Bandhan", date: "August 19, 2025", image: "https://images.unsplash.com/photo-1628045350380-4d5162a04944?q=80&w=600&h=400&fit=crop", hint: "sacred thread", link: "/festivals/raksha-bandhan" },
-    { name: "Ganesh Chaturthi", date: "August 27, 2025", image: "https://images.unsplash.com/photo-1596791834185-a7c3315a4523?q=80&w=600&h=400&fit=crop", hint: "ganesha idol", link: "/festivals/ganesh-chaturthi" },
-    { name: "Onam", date: "September 7, 2025", image: "https://images.unsplash.com/photo-1630951165476-89680327391b?q=80&w=600&h=400&fit=crop", hint: "flower carpet", link: "/festivals/onam" },
+    { name: "Raksha Bandhan", date: "August 19, 2025", image: "https://i.postimg.cc/QBLskG5Y/raksha-bandhan.jpg", hint: "sacred thread", link: "/festivals/raksha-bandhan" },
+    { name: "Ganesh Chaturthi", date: "August 27, 2025", image: "https://i.postimg.cc/Vrm8pqKj/ganpati1.jpg", hint: "ganesha idol", link: "/festivals/ganesh-chaturthi" },
+    { name: "Onam", date: "September 7, 2025", image: "https://i.postimg.cc/1VzZ59hX/Onam.png", hint: "flower carpet", link: "/festivals/onam" },
     { name: "Navratri", date: "September 22, 2025", image: "https://images.unsplash.com/photo-1589498202028-2a2b72183c58?q=80&w=600&h=400&fit=crop", hint: "garba dance", link: "/festivals/navratri" },
-    { name: "Diwali", date: "October 21, 2025", image: "https://images.unsplash.com/photo-1574322499484-85a8a7c08186?q=80&w=600&h=400&fit=crop", hint: "lights diyas", link: "/festivals/diwali" },
+    { name: "Diwali", date: "October 21, 2025", image: "https://i.postimg.cc/0zh5WJgf/Diwali1.png", hint: "lights diyas", link: "/festivals/diwali" },
   ];
 
   const featuredRecipes = [
     { name: "Gajar Ka Halwa", image: "https://images.unsplash.com/photo-1613542911293-9a572a135316?q=80&w=400&h=300&fit=crop", hint: "carrot dessert", festival: "Diwali", link: "/recipes/gajar-ka-halwa" },
     { name: "Puran Poli", image: "https://images.unsplash.com/photo-1625391029258-a53655383921?q=80&w=400&h=300&fit=crop", hint: "sweet flatbread", festival: "Ganesh Chaturthi", link: "/recipes/puran-poli" },
-    { name: "Ras Malai", image: "https://images.unsplash.com/photo-1596561260279-7243b81e4c79?q=80&w=400&h=300&fit=crop", hint: "milk dessert", festival: "Holi", link: "/recipes/ras-malai" },
+    { name: "Ras Malai", image: "https://i.postimg.cc/kB1gSpfL/Sweets1.jpg", hint: "milk dessert", festival: "Holi", link: "/recipes/ras-malai" },
   ];
 
   const blogPosts = [
-    { title: "The Significance of Diyas in Diwali", image: "https://images.unsplash.com/photo-1604514288399-55e62f45793b?q=80&w=400&h=300&fit=crop", hint: "diya lamp", excerpt: "Discover the deep cultural and spiritual meaning behind lighting diyas..." },
-    { title: "A Guide to Traditional Holi Colors", image: "https://images.unsplash.com/photo-1580538257844-94aa7d781d3d?q=80&w=400&h=300&fit=crop", hint: "holi colors", excerpt: "Learn about the natural ingredients used in traditional Holi colors and their significance." },
-    { title: "Top 5 Rangoli Designs for Beginners", image: "https://images.unsplash.com/photo-1604435924739-429948033575?q=80&w=400&h=300&fit=crop", hint: "rangoli floor", excerpt: "Get inspired with these easy-to-make yet beautiful rangoli patterns for any occasion." },
+    { title: "The Significance of Diyas in Diwali", image: "https://i.postimg.cc/Wt73N3rN/Diwali2.jpg", hint: "diya lamp", excerpt: "Discover the deep cultural and spiritual meaning behind lighting diyas..." },
+    { title: "A Guide to Traditional Holi Colors", image: "https://i.postimg.cc/18Vsq5gN/holi2.jpg", hint: "holi colors", excerpt: "Learn about the natural ingredients used in traditional Holi colors and their significance." },
+    { title: "Top 5 Rangoli Designs for Beginners", image: "https://i.postimg.cc/0zh5WJgf/Diwali1.png", hint: "rangoli floor", excerpt: "Get inspired with these easy-to-make yet beautiful rangoli patterns for any occasion." },
   ]
 
   return (
@@ -154,7 +154,7 @@ export default function Home() {
               Subscribe to our newsletter for the latest festival updates, recipes, and cultural stories delivered to your inbox.
             </p>
             <form className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-              <Input type="email" placeholder="Enter your email" className="flex-grow bg-primary-foreground/10 border-primary-foreground/50 text-primary-foreground placeholder:text-primary-foreground/70" />
+              <Input type="email" placeholder="Enter your email" className="bg-primary-foreground/10 border-primary-foreground/50 text-primary-foreground placeholder:text-primary-foreground/70" />
               <Button type="submit" className="bg-accent hover:bg-accent/90 text-accent-foreground">Subscribe</Button>
             </form>
           </Card>

@@ -7,7 +7,7 @@ export default function BiryaniPage() {
         <div className="container mx-auto px-4 py-12">
             <Card>
                 <CardHeader className="p-0">
-                     <Image src="https://images.unsplash.com/photo-1589302168068-964664d93dc0?q=80&w=1200&h=600&fit=crop" alt="Biryani" width={1200} height={600} className="w-full h-auto object-cover rounded-t-lg" data-ai-hint="spiced rice dish" />
+                     <Image src="https://i.postimg.cc/34FKxSkS/Eid1.jpg" alt="Biryani" width={1200} height={600} className="w-full h-auto object-cover rounded-t-lg" data-ai-hint="spiced rice dish" />
                 </CardHeader>
                 <CardContent className="p-6 md:p-10">
                     <CardTitle className="font-headline text-4xl mb-4">Chicken Biryani</CardTitle>

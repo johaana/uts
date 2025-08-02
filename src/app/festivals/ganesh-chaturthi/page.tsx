@@ -14,7 +14,7 @@ export default function GaneshChaturthiPage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center">
-                <Image src="https://images.unsplash.com/photo-1596791834185-a7c3315a4523?q=80&w=1600&h=800&fit=crop" alt="Ganesh Chaturthi celebration" layout="fill" objectFit="cover" className="opacity-20" data-ai-hint="ganesha idol festival"/>
+                <Image src="https://i.postimg.cc/Vrm8pqKj/ganpati1.jpg" alt="Ganesh Chaturthi celebration" layout="fill" objectFit="cover" className="opacity-20" data-ai-hint="ganesha idol festival"/>
                 <div className="relative text-center text-primary-foreground">
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-white shadow-lg">Ganesh Chaturthi</h1>
                     <p className="text-xl md:text-2xl mt-4 text-white/90 shadow-md">Celebrating the Birth of the Elephant God</p>

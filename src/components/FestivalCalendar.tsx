@@ -13,13 +13,13 @@ import { format, parse, getYear } from 'date-fns';
 const allEvents = [
     // Public Holidays 2025
     { date: "Jan 01, 2025", name: "New Year's Day", region: "Nationwide", type: "Holiday", link: null },
-    { date: "Jan 26, 2025", name: "Republic Day", region: "Nationwide", type: "Holiday", link: null },
+    { date: "Jan 26, 2025", name: "Republic Day", region: "Nationwide", type: "Holiday", link: "https://i.postimg.cc/9z1m3k5z/republic-day.jpg" },
     { date: "Mar 30, 2025", name: "Eid-al-Fitr (Ramzan Eid)", region: "Nationwide", type: "Religious", link: "/festivals/eid-al-fitr" },
     { date: "Mar 31, 2025", name: "Holi", region: "Nationwide", type: "Holiday", link: "/festivals/holi" },
     { date: "Apr 18, 2025", name: "Good Friday", region: "Nationwide", type: "Religious", link: "/festivals/christmas" },
     { date: "May 01, 2025", name: "Labour Day", region: "Nationwide", type: "Holiday", link: null },
     { date: "Jun 17, 2025", name: "Eid al-Adha", region: "Nationwide", type: "Religious", link: null },
-    { date: "Aug 15, 2025", name: "Independence Day", region: "Nationwide", type: "Holiday", link: null },
+    { date: "Aug 15, 2025", name: "Independence Day", region: "Nationwide", type: "Holiday", link: "https://i.postimg.cc/s13jNrLt/Independence-day.jpg" },
     // Festivals 2025
     { date: "Aug 19, 2025", name: "Raksha Bandhan", region: "Nationwide", type: "Cultural", link: "/festivals/raksha-bandhan" },
     { date: "Aug 27, 2025", name: "Ganesh Chaturthi", region: "West", type: "Religious", link: "/festivals/ganesh-chaturthi" },
@@ -42,7 +42,7 @@ const allEvents = [
     { date: "Jan 14, 2026", name: "Makar Sankranti", region: "Nationwide", type: "Harvest", link: "/festivals/makar-sankranti" },
     { date: "Jan 14-17, 2026", name: "Pongal", region: "South", type: "Harvest", link: "/festivals/pongal" },
     { date: "Jan 15, 2026", name: "Bihu", region: "Northeast", type: "Harvest", link: "/festivals/bihu" },
-    { date: "Jan 26, 2026", name: "Republic Day", region: "Nationwide", type: "Holiday", link: null },
+    { date: "Jan 26, 2026", name: "Republic Day", region: "Nationwide", type: "Holiday", link: "https://i.postimg.cc/9z1m3k5z/republic-day.jpg" },
     { date: "Feb 03, 2026", name: "Vasant Panchami", region: "Nationwide", type: "Seasonal", link: null },
     { date: "Mar 04, 2026", name: "Holi", region: "Nationwide", type: "Cultural", link: "/festivals/holi" },
     { date: "Mar 20, 2026", name: "Holi", region: "Nationwide", type: "Holiday", link: "/festivals/holi" },
@@ -50,7 +50,7 @@ const allEvents = [
     { date: "Apr 03, 2026", name: "Good Friday", region: "Nationwide", type: "Religious", link: "/festivals/christmas" },
     { date: "May 01, 2026", name: "Labour Day", region: "Nationwide", type: "Holiday", link: null },
     { date: "Jun 06, 2026", name: "Eid al-Adha", region: "Nationwide", type: "Religious", link: null },
-    { date: "Aug 15, 2026", name: "Independence Day", region: "Nationwide", type: "Holiday", link: null },
+    { date: "Aug 15, 2026", name: "Independence Day", region: "Nationwide", type: "Holiday", link: "https://i.postimg.cc/s13jNrLt/Independence-day.jpg" },
     { date: "Oct 02, 2026", name: "Gandhi Jayanti", region: "Nationwide", type: "Holiday", link: null },
     { date: "Nov 09, 2026", name: "Diwali (Deepavali)", region: "Nationwide", type: "Holiday", link: "/festivals/diwali" },
     { date: "Dec 25, 2026", name: "Christmas", region: "Nationwide", type: "Religious", link: "/festivals/christmas" },
@@ -208,7 +208,7 @@ export function FestivalCalendar() {
                                             </Badge>
                                         </TableCell>
                                         <TableCell className="text-right">
-                                            {event.link ? (
+                                            {event.link && (event.link.startsWith('/') || event.link.startsWith('http')) ? (
                                                 <Link href={event.link}>
                                                     <Button variant="ghost" size="icon">
                                                         <ArrowRight className="h-4 w-4" />

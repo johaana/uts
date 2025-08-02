@@ -5,8 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 
 const recipes = [
-    { name: "Sheer Khurma", image: "https://images.unsplash.com/photo-1625391029258-a53655383921?q=80&w=400&h=300&fit=crop", hint: "vermicelli pudding", link: "/recipes/sheer-khurma" },
-    { name: "Biryani", image: "https://images.unsplash.com/photo-1589302168068-964664d93dc0?q=80&w=400&h=300&fit=crop", hint: "spiced rice", link: "/recipes/biryani" },
+    { name: "Sheer Khurma", image: "https://i.postimg.cc/94TmvFCj/Eid3.jpg", hint: "vermicelli pudding", link: "/recipes/sheer-khurma" },
+    { name: "Biryani", image: "https://i.postimg.cc/34FKxSkS/Eid1.jpg", hint: "spiced rice", link: "/recipes/biryani" },
     { name: "Haleem", image: "https://images.unsplash.com/photo-1599422501066-8b43f990f133?q=80&w=400&h=300&fit=crop", hint: "meat stew", link: "#" },
 ]
 
@@ -14,7 +14,7 @@ export default function EidAlFitrPage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center">
-                <Image src="https://images.unsplash.com/photo-1588081693449-cde6d2a7638d?q=80&w=1600&h=800&fit=crop" alt="Eid celebration" layout="fill" objectFit="cover" className="opacity-20" data-ai-hint="eid prayers mosque"/>
+                <Image src="https://i.postimg.cc/CBghYTxn/Eid2.jpg" alt="Eid celebration" layout="fill" objectFit="cover" className="opacity-20" data-ai-hint="eid prayers mosque"/>
                 <div className="relative text-center text-primary-foreground">
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-white shadow-lg">Eid al-Fitr</h1>
                     <p className="text-xl md:text-2xl mt-4 text-white/90 shadow-md">The Festival of Breaking the Fast</p>
