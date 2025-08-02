@@ -79,7 +79,7 @@ export default function EidAlFitrPage() {
                                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                                     {recipes.map(recipe => (
                                         <Link href={recipe.link} key={recipe.name}>
-                                            <Card className="overflow-hidden h-full">
+                                            <Card className="overflow-hidden h-full hover:shadow-xl transition-shadow duration-300">
                                                 <CardContent className="p-4">
                                                     <h3 className="font-headline text-xl font-bold text-center text-primary">{recipe.name}</h3>
                                                 </CardContent>

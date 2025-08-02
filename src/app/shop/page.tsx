@@ -13,8 +13,8 @@ const products = [
     { name: "Bandhani Silk Dupatta", category: "Attire", price: "₹999", link: "#", image: "https://i.postimg.cc/fWFvx4J9/aceofnet-PNd98-z-An-U0-unsplash.jpg", hint: "silk dupatta" },
     { name: "Antique Gold-Plated Jhumkas", category: "Jewelry", price: "₹1,299", link: "#", image: "https://i.postimg.cc/KjKrdfsj/unfold-memory-Z9-WMZqg-ASJE-unsplash.jpg", hint: "jhumka earrings" },
     { name: "Marigold & Mango Leaf Toran", category: "Decor", price: "₹799", link: "#", image: "https://i.postimg.cc/1XNwWtfN/Diwali1.png", hint: "flower toran" },
-    { name: "Silver-Plated Rakhi for Brother", category: "Gifts", price: "₹399", link: "#", image: "https://i.postimg.cc/KjKrdfsj/unfold-memory-Z9-WMZqg-ASJE-unsplash.jpg", hint: "rakhi thread" },
-    { name: "Organic Holi Gulal (Pack of 5)", category: "Gifts", price: "₹599", link: "#", image: "https://i.postimg.cc/fWFvx4J9/aceofnet-PNd98-z-An-U0-unsplash.jpg", hint: "holi powder" },
+    { name: "Silver-Plated Rakhi for Brother", category: "Gifts", price: "₹399", link: "#", image: "https://i.postimg.cc/q7qRrp7r/raksha-bandhan.jpg", hint: "rakhi thread" },
+    { name: "Organic Holi Gulal (Pack of 5)", category: "Gifts", price: "₹599", link: "#", image: "https://i.postimg.cc/Cxm19RSJ/holi2.jpg", hint: "holi powder" },
     { name: "Eco-Friendly Ganesha Idol", category: "Decor", price: "₹1,499", link: "#", image: "https://i.postimg.cc/vBZvvbrW/prchi-palwe-Wci-Kb-LIFGxc-unsplash.jpg", hint: "ganesha idol" },
     { name: "Diwali Sweets & Dry Fruits Hamper", category: "Gifts", price: "₹1,999", link: "#", image: "https://i.postimg.cc/nzrvDTx2/Diwali-Sweets.jpg", hint: "sweets hamper" },
 ];

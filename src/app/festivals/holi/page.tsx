@@ -43,7 +43,7 @@ export default function HoliPage() {
                                         </div>
                                     </div>
                                     <div className="md:w-1/3">
-                                        <Image src="https://i.postimg.cc/sanin-sn-B4-ZQ2m-KEiq-Y-unsplash.jpg" alt="People playing holi" width={400} height={600} className="rounded-lg shadow-lg" data-ai-hint="holi celebration"/>
+                                        <Image src="https://i.postimg.cc/rsXF5WNy/holi.jpg" alt="People playing holi" width={400} height={600} className="rounded-lg shadow-lg" data-ai-hint="holi celebration"/>
                                     </div>
                                 </div>
                             </TabsContent>
@@ -80,9 +80,9 @@ export default function HoliPage() {
                                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                                     {recipes.map(recipe => (
                                         <Link href={recipe.link} key={recipe.name}>
-                                            <Card className="overflow-hidden h-full">
+                                            <Card className="overflow-hidden h-full hover:shadow-xl transition-shadow duration-300">
                                                 <CardContent className="p-4">
-                                                    <h3 className="font-headline text-xl font-bold text-center">{recipe.name}</h3>
+                                                    <h3 className="font-headline text-xl font-bold text-center text-primary">{recipe.name}</h3>
                                                 </CardContent>
                                             </Card>
                                         </Link>
