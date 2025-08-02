@@ -21,6 +21,10 @@ const recipes = [
     { name: "Karah Prasad", festival: "Guru Nanak Jayanti", region: "Nationwide", description: "A sacred whole wheat flour pudding served at Gurdwaras.", link: "/recipes/karah-prasad", image: "https://i.postimg.cc/fRZtG4XW/Sweets1.jpg", hint: "wheat pudding" },
     { name: "Kaju Katli", festival: "Diwali", region: "Nationwide", description: "Melt-in-the-mouth cashew and milk fudge.", link: "/recipes/kaju-katli", image: "https://i.postimg.cc/kB1gSpfL/Sweets1.jpg", hint: "cashew fudge" },
     { name: "Coconut Barfi", festival: "Raksha Bandhan", region: "Nationwide", description: "Simple and delicious fudge made from coconut, milk, and sugar.", link: "/recipes/coconut-barfi", image: "https://i.postimg.cc/4NpH24YF/Diwali-Sweets.jpg", hint: "coconut fudge" },
+    { name: "Haleem", festival: "Eid-al-Fitr", region: "Nationwide", description: "A rich and savory stew of meat, lentils, and pounded wheat.", link: "/recipes/haleem", image: "https://i.postimg.cc/nzsC4n82/Eid2.jpg", hint: "meat stew" },
+    { name: "Langar Dal", festival: "Guru Nanak Jayanti", region: "Nationwide", description: "A simple, wholesome lentil curry served in Gurdwaras.", link: "/recipes/langar-dal", image: "https://i.postimg.cc/fRZtG4XW/Sweets1.jpg", hint: "lentil curry" },
+    { name: "Avial", festival: "Onam", region: "South", description: "A mixed vegetable stew in a coconut and yogurt gravy.", link: "/recipes/avial", image: "https://i.postimg.cc/tJ3RkTB3/Onam.png", hint: "vegetable stew" },
+    { name: "Payasam", festival: "Onam", region: "South", description: "A traditional South Indian pudding made with milk, sugar, and rice or vermicelli.", link: "/recipes/payasam", image: "https://i.postimg.cc/tJ3RkTB3/Onam.png", hint: "rice pudding" },
 ];
 
 export default function RecipesPage() {

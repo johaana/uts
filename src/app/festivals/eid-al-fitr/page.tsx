@@ -7,7 +7,7 @@ import Image from "next/image";
 const recipes = [
     { name: "Sheer Khurma", link: "/recipes/sheer-khurma" },
     { name: "Biryani", link: "/recipes/biryani" },
-    { name: "Haleem", link: "#" },
+    { name: "Haleem", link: "/recipes/haleem" },
 ]
 
 export default function EidAlFitrPage() {
@@ -25,11 +25,11 @@ export default function EidAlFitrPage() {
                 <Card className="mb-12">
                     <CardContent className="p-6 md:p-10">
                         <Tabs defaultValue="overview">
-                            <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 mb-6">
-                                <TabsTrigger value="overview"><BookOpen className="w-4 h-4 mr-2" />Overview</TabsTrigger>
-                                <TabsTrigger value="traditions"><Sparkles className="w-4 h-4 mr-2" />Traditions</TabsTrigger>
-                                <TabsTrigger value="recipes"><Utensils className="w-4 h-4 mr-2" />Recipes</TabsTrigger>
-                                <TabsTrigger value="prayers"><MessageSquareQuote className="w-4 h-4 mr-2" />Prayers</TabsTrigger>
+                            <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 mb-6 h-auto">
+                                <TabsTrigger value="overview" className="py-2"><BookOpen className="w-4 h-4 mr-2" />Overview</TabsTrigger>
+                                <TabsTrigger value="traditions" className="py-2"><Sparkles className="w-4 h-4 mr-2" />Traditions</TabsTrigger>
+                                <TabsTrigger value="recipes" className="py-2"><Utensils className="w-4 h-4 mr-2" />Recipes</TabsTrigger>
+                                <TabsTrigger value="prayers" className="py-2"><MessageSquareQuote className="w-4 h-4 mr-2" />Prayers</TabsTrigger>
                             </TabsList>
 
                             <TabsContent value="overview">
@@ -76,12 +76,12 @@ export default function EidAlFitrPage() {
 
                             <TabsContent value="recipes">
                                 <h2 className="font-headline text-3xl font-bold mb-4">Eid Delicacies</h2>
-                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                                     {recipes.map(recipe => (
                                         <Link href={recipe.link} key={recipe.name}>
-                                            <Card className="overflow-hidden h-full">
+                                            <Card className="overflow-hidden h-full hover:shadow-xl transition-shadow duration-300">
                                                 <CardContent className="p-4">
-                                                    <h3 className="font-headline text-xl font-bold text-center">{recipe.name}</h3>
+                                                    <h3 className="font-headline text-xl font-bold text-center text-primary">{recipe.name}</h3>
                                                 </CardContent>
                                             </Card>
                                         </Link>
