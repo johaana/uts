@@ -29,7 +29,7 @@ export default function GaneshChaturthiPage() {
                                 <TabsTrigger value="overview"><BookOpen className="w-4 h-4 mr-2" />Overview</TabsTrigger>
                                 <TabsTrigger value="traditions"><Sparkles className="w-4 h-4 mr-2" />Traditions</TabsTrigger>
                                 <TabsTrigger value="recipes"><Utensils className="w-4 h-4 mr-2" />Recipes</TabsTrigger>
-                                <TabsTrigger value="chants"><MessageSquareQuote className="w-4 h-4 mr-2" />Chants</TabsTrigger>
+                                <TabsTrigger value="chants"><MessageSquareQuote className="w-4 h-4 mr-2" />Aartis</TabsTrigger>
                                 <TabsTrigger value="eco-friendly"><Leaf className="w-4 h-4 mr-2" />Eco-Friendly</TabsTrigger>
                             </TabsList>
 
@@ -90,29 +90,54 @@ export default function GaneshChaturthiPage() {
                             </TabsContent>
 
                              <TabsContent value="chants">
-                                <h2 className="font-headline text-3xl font-bold mb-4">Invocations to Ganesha</h2>
+                                <h2 className="font-headline text-3xl font-bold mb-4">Marathi Aartis for Lord Ganesha</h2>
                                 <div className="space-y-6">
                                     <Card>
                                         <CardHeader>
-                                            <CardTitle>Jai Ganesh Deva Aarti</CardTitle>
+                                            <CardTitle>Sukhkarta Dukhharta</CardTitle>
                                         </CardHeader>
                                         <CardContent>
                                             <div className="prose prose-sm max-w-none text-foreground/80">
-                                                <p className="italic">Jai Ganesh, Jai Ganesh, Jai Ganesh Deva. Mata Jaaki Parvati, Pita Mahadeva.</p>
-                                                <p className="italic">Ek Dant Dayavant, Chaar Bhuja Dhaari. Maathe Pe Sindhoor Sohe, Muse Ki Savari.</p>
-                                                <p className="italic">Paan Chadhe, Phool Chadhe, Aur Chadhe Meva. Ladduan Ka Bhog Lage, Sant Karein Seva.</p>
-                                                <p className="italic">Andhan Ko Aankh Det, Kodhin Ko Kaaya. Baanjhan Ko Putra Det, Nirdhan Ko Maaya.</p>
-                                                <p className="italic">'Soor' Shyaam Sharan Aaye, Safal Kije Seva. Jai Ganesh, Jai Ganesh, Jai Ganesh Deva.</p>
+                                                <p className="italic">Sukhkarta Dukhharta Varta Vighnachi, Nurvi Purvi Prem Krupa Jayachi</p>
+                                                <p className="italic">Sarvangi Sundar Uti Shendurachi, Kanti Jhalke Mal Mukataphalaanchi</p>
+                                                <p className="italic">Jaidev Jaidev Jai Mangal Murti, Darshan Matre Manokamana Purti</p>
+                                                <br/>
+                                                <p className="italic">Ratnakhachit Phara Tujh Gaurikumra, Chandanachi Uti Kumkum Keshara</p>
+                                                <p className="italic">Hirejadit Mukut Shobhato Bara, Runjhunati Nupure Charani Ghagaria</p>
+                                                <p className="italic">Jaidev Jaidev Jai Mangal Murti, Darshan Matre Manokamana Purti</p>
+                                                <br/>
+                                                <p className="italic">Lambodar Pitambar Phanivarvandana, Saral Sond Vakratunda Trinayana</p>
+                                                <p className="italic">Das Ramacha Vat Pahe Sadana, Sankati Pavave Nirvani Rakshave Survarvandana</p>
+                                                <p className="italic">Jaidev Jaidev Jai Mangal Murti, Darshan Matre Manokamana Purti</p>
                                             </div>
                                         </CardContent>
                                     </Card>
                                      <Card>
                                         <CardHeader>
-                                            <CardTitle>Vakratunda Mahakaya Mantra</CardTitle>
+                                            <CardTitle>Shendur Lal Chadhayo</CardTitle>
                                         </CardHeader>
                                         <CardContent>
-                                            <p className="text-lg font-serif italic">"Vakratunda Mahakaya Suryakoti Samaprabha, Nirvighnam Kuru Me Deva Sarva-Kaaryeshu Sarvada."</p>
-                                            <p className="mt-2 text-foreground/80">This powerful mantra describes Ganesha's form and seeks his blessings to make all endeavors free of obstacles.</p>
+                                            <div className="prose prose-sm max-w-none text-foreground/80">
+                                                <p className="italic">Shendur laal chadhaayo achchhaa gajamukha ko</p>
+                                                <p className="italic">Dondil laal biraaje sut gaurihar ko</p>
+                                                <p className="italic">Hath liye gud laddu saai survarko</p>
+                                                <p className="italic">Mahimaa kahe na jaay laagat hun pad ko</p>
+                                                <br/>
+                                                <p className="italic">Jay dev, jay dev</p>
+                                                <br/>
+                                                <p className="italic">Jay jay jay jay jay jay jay ganeshaji</p>
+                                                <p className="italic">Jay jay jay jay jay jay jay ganeshaji</p>
+                                                <br/>
+                                                <p className="italic">Ghaalin lotangan vandin charan, Dolyanni paahin rup tujhe</p>
+                                                <p className="italic">Preme alingin anande pujin, Bhave ovalin mhane nama</p>
+                                                <p className="italic">Tvamev mata, pita tvamev, Tvamev bandhushch sakha tvamev</p>
+                                                <p className="italic">Tvamev vidya, dravinm tvamev, Tvamev sarvm mam dev dev</p>
+                                                <br/>
+                                                <p className="italic">Kayen vacha manasendriyenva, Buddhayatmna va prakrutiswabhavat</p>
+                                                <p className="italic">Karomi yadyat sakalm parasmai, Narayanayeti samarpayami</p>
+                                                <p className="italic">Achyutm keshvm ramnarayanm, krushanadamodarm vasudevm hari</p>
+                                                <p className="italic">Shri dharam madhavm gopikavallabham, janakinayakm ramchandram bhaje</p>
+                                            </div>
                                         </CardContent>
                                     </Card>
                                 </div>
