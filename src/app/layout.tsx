@@ -7,7 +7,7 @@ import { Footer } from '@/components/footer';
 export const metadata: Metadata = {
   title: 'Utsavs: Your Guide to Indian Festivals, Traditions & Recipes',
   description: 'Explore the vibrant world of Indian festivals with Utsavs. Your complete guide to dates, history, traditions, recipes, and chants for Diwali, Holi, Navratri, and more.',
-  keywords: ['Indian festivals', 'Hindu festivals', 'Diwali', 'Holi', 'Navratri', 'Durga Puja', 'Ganesh Chaturthi', 'Indian culture', 'festival recipes', 'puja vidhi', 'festival calendar'],
+  keywords: ['Indian festivals', 'Hindu festivals', 'Diwali', 'Holi', 'Navratri', 'Durga Puja', 'Ganesh Chaturthi', 'Indian culture', 'festival recipes', 'puja vidhi', 'festival calendar 2025'],
 };
 
 export default function RootLayout({

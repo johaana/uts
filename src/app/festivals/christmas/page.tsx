@@ -7,7 +7,7 @@ import Image from "next/image";
 const recipes = [
     { name: "Christmas Cake", link: "/recipes/christmas-cake" },
     { name: "Roast Chicken", link: "/recipes/roast-chicken" },
-    { name: "Gingerbread Cookies", link: "/recipes/gingerbread-cookies" },
+    { name:g name: "Gingerbread Cookies", link: "/recipes/gingerbread-cookies" },
 ]
 
 export default function ChristmasPage() {
