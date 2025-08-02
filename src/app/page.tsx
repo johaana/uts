@@ -9,23 +9,23 @@ import { FestivalCalendar } from "@/components/FestivalCalendar";
 
 export default function Home() {
   const upcomingFestivals = [
-    { name: "Raksha Bandhan", date: "August 19, 2025", image: "https://i.postimg.cc/QBLskG5Y/raksha-bandhan.jpg", hint: "sacred thread", link: "/festivals/raksha-bandhan" },
-    { name: "Ganesh Chaturthi", date: "August 27, 2025", image: "https://i.postimg.cc/Vrm8pqKj/ganpati1.jpg", hint: "ganesha idol", link: "/festivals/ganesh-chaturthi" },
-    { name: "Onam", date: "September 7, 2025", image: "https://i.postimg.cc/1VzZ59hX/Onam.png", hint: "flower carpet", link: "/festivals/onam" },
+    { name: "Raksha Bandhan", date: "August 19, 2025", image: "https://images.unsplash.com/photo-1597753258833-66881a535496?q=80&w=600&h=400&fit=crop", hint: "sacred thread", link: "/festivals/raksha-bandhan" },
+    { name: "Ganesh Chaturthi", date: "August 27, 2025", image: "https://images.unsplash.com/photo-1604213410393-8e4342838753?q=80&w=600&h=400&fit=crop", hint: "ganesha idol", link: "/festivals/ganesh-chaturthi" },
+    { name: "Onam", date: "September 7, 2025", image: "https://images.unsplash.com/photo-1601664118464-58f278f79e27?q=80&w=600&h=400&fit=crop", hint: "flower carpet", link: "/festivals/onam" },
     { name: "Navratri", date: "September 22, 2025", image: "https://images.unsplash.com/photo-1589498202028-2a2b72183c58?q=80&w=600&h=400&fit=crop", hint: "garba dance", link: "/festivals/navratri" },
-    { name: "Diwali", date: "October 21, 2025", image: "https://i.postimg.cc/0zh5WJgf/Diwali1.png", hint: "lights diyas", link: "/festivals/diwali" },
+    { name: "Diwali", date: "October 21, 2025", image: "https://images.unsplash.com/photo-1571862421479-2420a5c4054a?q=80&w=600&h=400&fit=crop", hint: "lights diyas", link: "/festivals/diwali" },
   ];
 
   const featuredRecipes = [
     { name: "Gajar Ka Halwa", image: "https://images.unsplash.com/photo-1613542911293-9a572a135316?q=80&w=400&h=300&fit=crop", hint: "carrot dessert", festival: "Diwali", link: "/recipes/gajar-ka-halwa" },
     { name: "Puran Poli", image: "https://images.unsplash.com/photo-1625391029258-a53655383921?q=80&w=400&h=300&fit=crop", hint: "sweet flatbread", festival: "Ganesh Chaturthi", link: "/recipes/puran-poli" },
-    { name: "Ras Malai", image: "https://i.postimg.cc/kB1gSpfL/Sweets1.jpg", hint: "milk dessert", festival: "Holi", link: "/recipes/ras-malai" },
+    { name: "Ras Malai", image: "https://images.unsplash.com/photo-1626803775151-621644546ac9?q=80&w=400&h=300&fit=crop", hint: "milk dessert", festival: "Holi", link: "/recipes/ras-malai" },
   ];
 
   const blogPosts = [
-    { title: "The Significance of Diyas in Diwali", image: "https://i.postimg.cc/Wt73N3rN/Diwali2.jpg", hint: "diya lamp", excerpt: "Discover the deep cultural and spiritual meaning behind lighting diyas..." },
-    { title: "A Guide to Traditional Holi Colors", image: "https://i.postimg.cc/18Vsq5gN/holi2.jpg", hint: "holi colors", excerpt: "Learn about the natural ingredients used in traditional Holi colors and their significance." },
-    { title: "Top 5 Rangoli Designs for Beginners", image: "https://i.postimg.cc/0zh5WJgf/Diwali1.png", hint: "rangoli floor", excerpt: "Get inspired with these easy-to-make yet beautiful rangoli patterns for any occasion." },
+    { title: "The Significance of Diyas in Diwali", image: "https://images.unsplash.com/photo-1600255941428-22d7d89594e0?q=80&w=400&h=300&fit=crop", hint: "diya lamp", excerpt: "Discover the deep cultural and spiritual meaning behind lighting diyas..." },
+    { title: "A Guide to Traditional Holi Colors", image: "https://images.unsplash.com/photo-1618769339396-a24a5d8f6154?q=80&w=400&h=300&fit=crop", hint: "holi colors", excerpt: "Learn about the natural ingredients used in traditional Holi colors and their significance." },
+    { title: "Top 5 Rangoli Designs for Beginners", image: "https://images.unsplash.com/photo-1571862421479-2420a5c4054a?q=80&w=400&h=300&fit=crop", hint: "rangoli floor", excerpt: "Get inspired with these easy-to-make yet beautiful rangoli patterns for any occasion." },
   ]
 
   return (

@@ -6,7 +6,7 @@ import Link from "next/link";
 
 const recipes = [
     { name: "Pitha", image: "https://images.unsplash.com/photo-1626094309830-0d7ea26f3094?q=80&w=400&h=300&fit=crop", hint: "rice cake", link: "#" },
-    { name: "Laru", image: "https://i.postimg.cc/kB1gSpfL/Sweets1.jpg", hint: "sweet balls", link: "/recipes/ladoo" },
+    { name: "Laru", image: "https://images.unsplash.com/photo-1598164879222-74d324976134?q=80&w=400&h=300&fit=crop", hint: "sweet balls", link: "/recipes/ladoo" },
     { name: "Fish Curry with Joha Rice", image: "https://images.unsplash.com/photo-1574484284001-a1fd3b33445f?q=80&w=400&h=300&fit=crop", hint: "fish curry", link: "#" },
 ]
 

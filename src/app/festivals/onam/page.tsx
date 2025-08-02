@@ -14,7 +14,7 @@ export default function OnamPage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center">
-                <Image src="https://i.postimg.cc/zLnNxtFz/Onam.webp" alt="Onam celebration" layout="fill" objectFit="cover" className="opacity-20" data-ai-hint="onam flower carpet"/>
+                <Image src="https://images.unsplash.com/photo-1601664118464-58f278f79e27?q=80&w=1600&h=800&fit=crop" alt="Onam celebration" layout="fill" objectFit="cover" className="opacity-20" data-ai-hint="onam flower carpet"/>
                 <div className="relative text-center text-primary-foreground">
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-white shadow-lg">Onam</h1>
                     <p className="text-xl md:text-2xl mt-4 text-white/90 shadow-md">Kerala's Harvest Festival</p>

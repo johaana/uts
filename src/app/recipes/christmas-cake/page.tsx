@@ -7,7 +7,7 @@ export default function ChristmasCakePage() {
         <div className="container mx-auto px-4 py-12">
             <Card>
                 <CardHeader className="p-0">
-                     <Image src="https://i.postimg.cc/xc498bd2/christmas1.jpg" alt="Christmas Cake" width={1200} height={600} className="w-full h-auto object-cover rounded-t-lg" data-ai-hint="fruit cake" />
+                     <Image src="https://images.unsplash.com/photo-1542826438-c2e887a03a09?q=80&w=1200&h=600&fit=crop" alt="Christmas Cake" width={1200} height={600} className="w-full h-auto object-cover rounded-t-lg" data-ai-hint="fruit cake" />
                 </CardHeader>
                 <CardContent className="p-6 md:p-10">
                     <CardTitle className="font-headline text-4xl mb-4">Classic Christmas Fruit Cake</CardTitle>

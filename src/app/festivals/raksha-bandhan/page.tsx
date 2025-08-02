@@ -5,8 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 
 const recipes = [
-    { name: "Kaju Katli", image: "https://i.postimg.cc/vcHmcsLW/Diwali-Sweets.jpg", hint: "cashew fudge", link: "/recipes/kaju-katli" },
-    { name: "Ladoo", image: "https://i.postimg.cc/kB1gSpfL/Sweets1.jpg", hint: "gram flour sweet", link: "/recipes/ladoo" },
+    { name: "Kaju Katli", image: "https://images.unsplash.com/photo-1574263539400-38823b2b8315?q=80&w=400&h=300&fit=crop", hint: "cashew fudge", link: "/recipes/kaju-katli" },
+    { name: "Ladoo", image: "https://images.unsplash.com/photo-1598164879222-74d324976134?q=80&w=400&h=300&fit=crop", hint: "gram flour sweet", link: "/recipes/ladoo" },
     { name: "Coconut Barfi", image: "https://images.unsplash.com/photo-1606550212039-9b76e2c9e7a2?q=80&w=400&h=300&fit=crop", hint: "coconut fudge", link: "/recipes/coconut-barfi" },
 ]
 
@@ -14,7 +14,7 @@ export default function RakshaBandhanPage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center">
-                <Image src="https://i.postimg.cc/QBLskG5Y/raksha-bandhan.jpg" alt="Raksha Bandhan" layout="fill" objectFit="cover" className="opacity-20" data-ai-hint="rakhi celebration"/>
+                <Image src="https://images.unsplash.com/photo-1597753258833-66881a535496?q=80&w=1600&h=800&fit=crop" alt="Raksha Bandhan" layout="fill" objectFit="cover" className="opacity-20" data-ai-hint="rakhi celebration"/>
                 <div className="relative text-center text-primary-foreground">
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-white shadow-lg">Raksha Bandhan</h1>
                     <p className="text-xl md:text-2xl mt-4 text-white/90 shadow-md">The Sacred Thread of Protection</p>
