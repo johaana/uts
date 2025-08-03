@@ -139,12 +139,12 @@ export function FestivalCalendar() {
         switch(type) {
             case 'Religious': return 'bg-primary/80 text-primary-foreground';
             case 'Harvest': return 'bg-green-600/80 text-white';
-            case 'Holiday': return 'border-accent text-accent';
-            case 'Cultural': return 'bg-purple-600/80 text-white';
-            case 'New Year': return 'bg-pink-600/80 text-white';
+            case 'Holiday': return 'border-blue-500/80 text-blue-500';
+            case 'Diwali': return 'bg-amber-500/80 text-white';
+            case 'New Year': return 'bg-purple-600/80 text-white';
             case 'Seasonal': return 'bg-yellow-500/80 text-white';
             case 'Solar': return 'bg-orange-500/80 text-white';
-            default: return 'bg-secondary text-secondary-foreground';
+            default: return '';
         }
     };
 
