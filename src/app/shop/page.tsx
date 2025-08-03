@@ -31,7 +31,7 @@ export default function ShopPage() {
             </div>
             
             <div className="flex justify-center gap-4 mb-12 flex-wrap">
-                <Button variant="outline" size="lg">All</Button>
+                <Button variant="secondary" size="lg">All</Button>
                 <Button variant="outline" size="lg">Attire</Button>
                 <Button variant="outline" size="lg">Decor</Button>
                 <Button variant="outline" size="lg">Jewelry</Button>
@@ -41,8 +41,8 @@ export default function ShopPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
                 {products.map((product) => (
                     <Card key={product.name} className="overflow-hidden group flex flex-col">
-                        <div className="relative h-64 w-full bg-black/5">
-                           <Image src={product.image} alt={product.name} layout="fill" objectFit="contain" data-ai-hint={product.hint}/>
+                        <div className="relative h-80 w-full bg-black/5">
+                           <Image src={product.image} alt={product.name} layout="fill" objectFit="cover" data-ai-hint={product.hint}/>
                         </div>
                         <CardHeader className="flex-grow">
                             <p className="text-sm text-muted-foreground">{product.category}</p>
@@ -51,7 +51,7 @@ export default function ShopPage() {
                         <CardContent className="flex justify-between items-center mt-auto">
                             <p className="text-lg font-bold text-primary">{product.price}</p>
                             <Link href={product.link} target="_blank" rel="noopener noreferrer">
-                                <Button className="bg-accent hover:bg-accent/90 text-accent-foreground">
+                                <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">
                                     Shop Now <ArrowRight className="ml-2 h-4 w-4" />
                                 </Button>
                             </Link>
@@ -59,7 +59,7 @@ export default function ShopPage() {
                     </Card>
                 ))}
             </div>
-             <p className="text-center mt-12 text-sm text-muted-foreground">As an affiliate, we may earn from qualifying purchases. This helps support Utsavs.</p>
+             <p className="text-center mt-12 text-sm text-muted-foreground">As an affiliate, we may earn from qualifying purchases. This helps support Utsavopedia.</p>
         </div>
     );
 }

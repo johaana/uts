@@ -70,16 +70,16 @@ export default function Home() {
 
   return (
     <div className="space-y-16 md:space-y-24">
-      <section className="relative bg-primary/10 py-16 md:py-24 flex items-center justify-center">
+      <section className="relative bg-secondary/50 py-16 md:py-24 flex items-center justify-center">
         <Image src="https://i.postimg.cc/fWFvx4J9/aceofnet-PNd98-z-An-U0-unsplash.jpg" alt="Holi festival" layout="fill" objectFit="cover" className="absolute opacity-10" data-ai-hint="holi colors"/>
         <div className="container mx-auto px-4 text-center relative z-10">
           <h1 className="font-headline text-4xl md:text-6xl font-bold text-primary">A Vibrant Celebration of India</h1>
-          <p className="mt-4 text-lg md:text-xl text-foreground/80 max-w-2xl mx-auto">
+          <p className="mt-4 text-lg md:text-xl text-foreground/80 max-w-3xl mx-auto">
             Your ultimate guide to the rich tapestry of Indian festivals. Explore traditions, 2025-2026 dates, recipes, and stories that make each celebration unique.
           </p>
           <div className="mt-8 flex justify-center">
             <Link href="/festivals">
-              <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground">
+              <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground">
                 Explore All Festivals <ArrowRight className="ml-2" />
               </Button>
             </Link>
@@ -149,13 +149,13 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-primary/10 py-16">
+      <section className="bg-secondary/50 py-16">
         <div className="container mx-auto px-4">
           <h2 className="font-headline text-3xl md:text-4xl font-bold text-center mb-8">Discover Festivals by Region</h2>
             <div className="flex flex-wrap justify-center gap-4">
               {["North", "South", "East", "West", "Central", "Northeast"].map((region) => (
                 <Link key={region} href={`/festivals?region=${region}`} passHref>
-                    <Button variant="outline" size="lg" className="bg-white hover:bg-white/80">
+                    <Button variant="outline" size="lg" className="bg-card hover:bg-card/80">
                       {region} India
                     </Button>
                 </Link>
@@ -193,7 +193,7 @@ export default function Home() {
       <section className="py-16">
         <div className="container mx-auto px-4">
           <Card className="bg-primary text-primary-foreground p-8 md:p-12 text-center">
-            <Mail className="mx-auto h-12 w-12 mb-4 text-accent" />
+            <Mail className="mx-auto h-12 w-12 text-accent" />
             <h2 className="font-headline text-3xl md:text-4xl font-bold mb-4">Stay Connected</h2>
             <p className="text-primary-foreground/80 max-w-xl mx-auto mb-6">
               Subscribe to our newsletter for the latest festival updates, recipes, and cultural stories delivered to your inbox.

@@ -5,7 +5,7 @@ import { UtsavsLogo } from "./icons";
 
 export function Footer() {
   return (
-    <footer className="bg-primary/10 border-t">
+    <footer className="bg-secondary/50 border-t">
       <div className="container mx-auto max-w-7xl px-4 py-12">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-3">
           <div className="lg:col-span-1">
@@ -42,7 +42,7 @@ export function Footer() {
           </div>
         </div>
         <div className="mt-12 border-t pt-8 text-center text-sm text-foreground/60">
-          <p>&copy; {new Date().getFullYear()} Utsavs. All Rights Reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Utsavopedia. All Rights Reserved.</p>
         </div>
       </div>
     </footer>
