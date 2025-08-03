@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useMemo } from 'react';
@@ -20,7 +21,8 @@ const allRecipes = [
     { name: "Thandai", festival: "Holi", region: "North", description: "A cold drink prepared with a mixture of almonds, fennel seeds, and other spices.", link: "/recipes/thandai", image: "https://i.postimg.cc/Y04CQqLL/Thandai.webp", hint: "holi drink" },
     { name: "Sheer Khurma", festival: "Eid-al-Fitr", region: "Nationwide", description: "A rich and creamy vermicelli pudding made for Eid.", link: "/recipes/sheer-khurma", image: "https://i.postimg.cc/sQC9PHmM/sheer-khurma.jpg", hint: "vermicelli pudding" },
     { name: "Biryani", festival: "Eid-al-Fitr", region: "Nationwide", description: "Aromatic rice dish with meat or vegetables.", link: "/recipes/biryani", image: "https://i.postimg.cc/BQxh45tk/Mutton-Biryani.png", hint: "rice dish" },
-    { name: "Rum Cake", festival: "Christmas", region: "Nationwide", description: "A rich, dense cake packed with rum-soaked dried fruits and spices.", link: "/recipes/rum-cake", image: "https://i.postimg.cc/kDmD9PDV/christmas-cake.jpg", hint: "fruit cake" },
+    { name: "Christmas Cake", festival: "Christmas", region: "Nationwide", description: "A traditional rich fruit cake, perfect for Christmas celebrations.", link: "/recipes/christmas-cake", image: "https://i.postimg.cc/kDmD9PDV/christmas-cake.jpg", hint: "fruit cake" },
+    { name: "Rum Cake", festival: "Christmas", region: "Nationwide", description: "A rich, dense cake packed with rum-soaked dried fruits and spices.", link: "/recipes/rum-cake", image: "https://i.postimg.cc/kDmD9PDV/christmas-cake.jpg", hint: "rum cake" },
     { name: "Kerala Roast Chicken", festival: "Christmas", region: "South", description: "A succulent roast chicken with a twist of Keralan spices.", link: "/recipes/kerala-roast-chicken", image: "https://i.postimg.cc/ncKMYdWy/christmas-2.jpg", hint: "kerala roast chicken" },
     { name: "Karah Prasad", festival: "Guru Nanak Jayanti", region: "Nationwide", description: "A sacred whole wheat flour pudding served at Gurdwaras.", link: "/recipes/karah-prasad", image: "https://i.postimg.cc/zXgfBv19/karah-prasad.jpg", hint: "wheat pudding" },
     { name: "Kaju Katli", festival: "Diwali", region: "Nationwide", description: "Melt-in-the-mouth cashew and milk fudge.", link: "/recipes/kaju-katli", image: "https://i.postimg.cc/3ND3dSzg/Kaju-Katli.webp", hint: "cashew fudge" },
