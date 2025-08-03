@@ -124,30 +124,6 @@ export function FestivalCalendar() {
         return yearMatch && monthMatch && regionMatch && eventTypeMatch;
     });
 
-    const getBadgeVariant = (type: string) => {
-        switch(type) {
-            case 'Religious': return 'default';
-            case 'Cultural': return 'secondary';
-            case 'Harvest': return 'default';
-            case 'Holiday': return 'outline';
-            case 'Diwali': return 'default';
-            default: return 'secondary';
-        }
-    };
-
-     const getBadgeClass = (type: string) => {
-        switch(type) {
-            case 'Religious': return 'bg-amber-700/80 text-white';
-            case 'Harvest': return 'bg-green-700/80 text-white';
-            case 'Holiday': return 'border-blue-500/80 text-blue-500';
-            case 'Cultural': return 'bg-purple-700/80 text-white';
-            case 'New Year': return 'bg-pink-600/80 text-white';
-            case 'Seasonal': return 'bg-yellow-500/80 text-white';
-            case 'Solar': return 'bg-orange-500/80 text-white';
-            default: return '';
-        }
-    };
-
     return (
         <div className="w-full">
             <div className="text-center mb-12">
@@ -221,7 +197,7 @@ export function FestivalCalendar() {
                                         <TableCell className="font-bold text-base">{event.name}</TableCell>
                                         <TableCell>{event.region}</TableCell>
                                         <TableCell>
-                                            <Badge variant={getBadgeVariant(event.type)} className={getBadgeClass(event.type)}>
+                                            <Badge>
                                                 {event.type}
                                             </Badge>
                                         </TableCell>

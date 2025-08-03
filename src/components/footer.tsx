@@ -20,15 +20,15 @@ export function Footer() {
             <div className="md:col-span-2 lg:col-span-2">
               <h3 className="font-bold mb-4 font-headline text-lg">Explore</h3>
               <ul className="space-y-3">
-                <li><Link href="/festivals" className="text-foreground/80 hover:text-accent">Festivals</Link></li>
-                <li><Link href="/recipes" className="text-foreground/80 hover:text-accent">Recipes</Link></li>
+                <li><Link href="/festivals" className="text-foreground/80 hover:text-primary">Festivals</Link></li>
+                <li><Link href="/recipes" className="text-foreground/80 hover:text-primary">Recipes</Link></li>
               </ul>
             </div>
             <div className="md:col-span-2 lg:col-span-2">
               <h3 className="font-bold mb-4 font-headline text-lg">Resources</h3>
               <ul className="space-y-3">
-                <li><Link href="/blog" className="text-foreground/80 hover:text-accent">Blog</Link></li>
-                <li><Link href="/downloads" className="text-foreground/80 hover:text-accent">Downloads</Link></li>
+                <li><Link href="/blog" className="text-foreground/80 hover:text-primary">Blog</Link></li>
+                <li><Link href="/shop" className="text-foreground/80 hover:text-primary">Shop</Link></li>
               </ul>
             </div>
              <div className="md:col-span-4 lg:col-span-5">
@@ -41,7 +41,7 @@ export function Footer() {
             </div>
         </div>
         <div className="mt-12 border-t pt-8 text-center text-sm text-foreground/60">
-          <p>&copy; {new Date().getFullYear()} Utsavopedia. All Rights Reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Utsavs. All Rights Reserved.</p>
         </div>
       </div>
     </footer>

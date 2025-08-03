@@ -14,7 +14,6 @@ const navLinks = [
   { href: "/recipes", label: "Recipes" },
   { href: "/blog", label: "Blog" },
   { href: "/shop", label: "Shop" },
-  { href: "/downloads", label: "Downloads" },
 ];
 
 export function Header() {
@@ -36,8 +35,8 @@ export function Header() {
               key={link.href}
               href={link.href}
               className={cn(
-                "text-base font-medium transition-colors hover:text-accent",
-                pathname.startsWith(link.href) ? "text-accent font-bold" : "text-foreground/80"
+                "text-base font-medium transition-colors hover:text-primary",
+                pathname.startsWith(link.href) ? "text-primary font-bold" : "text-foreground/80"
               )}
             >
               {link.label}
@@ -68,8 +67,8 @@ export function Header() {
                         key={link.href}
                         href={link.href}
                         className={cn(
-                            "text-lg font-medium transition-colors hover:text-accent",
-                            pathname.startsWith(link.href) ? "text-accent" : "text-foreground"
+                            "text-lg font-medium transition-colors hover:text-primary",
+                            pathname.startsWith(link.href) ? "text-primary" : "text-foreground"
                         )}
                         >
                         {link.label}
