@@ -1,12 +1,12 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ArrowRight, Search } from "lucide-react";
+import { ArrowRight, Search, RotateCcw } from "lucide-react";
 import Link from "next/link";
 
 const allFestivals = [
@@ -35,9 +35,10 @@ const allFestivals = [
     { name: "Thaipusam", region: "South", description: "A powerful Tamil festival of faith, endurance, and penance dedicated to Lord Murugan.", link: "/festivals/thaipusam" },
     { name: "Hemis Tsechu", region: "North", description: "A colorful Buddhist festival in Ladakh with masked dances celebrating the birth of Guru Padmasambhava.", link: "/festivals/hemis-tsechu" },
     { name: "Goa Carnival", region: "West", description: "A vibrant and energetic carnival in Goa with Portuguese roots, featuring parades, music, and dance.", link: "/festivals/goa-carnival" },
-].sort((a, b) => a.name.localeCompare(b.name));
+];
 
 const regions = ["Nationwide", "North", "South", "East", "West", "Central", "Northeast"];
+const sortOptions = ["Name (A-Z)", "Name (Z-A)"];
 
 function FestivalsPageContent() {
     const searchParams = useSearchParams();
@@ -45,16 +46,34 @@ function FestivalsPageContent() {
 
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedRegion, setSelectedRegion] = useState(initialRegion);
+    const [sortOrder, setSortOrder] = useState(sortOptions[0]);
 
     useEffect(() => {
         setSelectedRegion(initialRegion);
     }, [initialRegion]);
+    
+    const resetFilters = () => {
+        setSearchTerm('');
+        setSelectedRegion('all');
+        setSortOrder(sortOptions[0]);
+    };
 
-    const filteredFestivals = allFestivals.filter(festival => {
-        const nameMatch = festival.name.toLowerCase().includes(searchTerm.toLowerCase());
-        const regionMatch = selectedRegion === 'all' || festival.region.toLowerCase().includes(selectedRegion.toLowerCase());
-        return nameMatch && regionMatch;
-    });
+    const filteredAndSortedFestivals = useMemo(() => {
+        let festivals = allFestivals.filter(festival => {
+            const nameMatch = festival.name.toLowerCase().includes(searchTerm.toLowerCase());
+            const regionMatch = selectedRegion === 'all' || festival.region.toLowerCase().includes(selectedRegion.toLowerCase());
+            return nameMatch && regionMatch;
+        });
+
+        if (sortOrder === "Name (A-Z)") {
+            festivals.sort((a, b) => a.name.localeCompare(b.name));
+        } else if (sortOrder === "Name (Z-A)") {
+            festivals.sort((a, b) => b.name.localeCompare(a.name));
+        }
+
+        return festivals;
+    }, [searchTerm, selectedRegion, sortOrder]);
+
 
     return (
         <div className="container mx-auto px-4 py-12">
@@ -66,8 +85,8 @@ function FestivalsPageContent() {
             </div>
 
             <Card className="p-6 mb-12">
-                <div className="flex flex-col md:flex-row gap-4 items-center">
-                    <div className="relative w-full flex-grow">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 items-center">
+                    <div className="relative w-full lg:col-span-2">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                         <Input 
                             placeholder="Search for a festival (e.g., Diwali, Holi...)" 
@@ -76,24 +95,38 @@ function FestivalsPageContent() {
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
                     </div>
-                    <div className="flex gap-4 w-full md:w-auto">
-                        <Select value={selectedRegion} onValueChange={setSelectedRegion}>
-                            <SelectTrigger className="w-full md:w-[180px]">
-                                <SelectValue placeholder="Filter by Region" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="all">All Regions</SelectItem>
-                                {regions.map(region => (
-                                    <SelectItem key={region} value={region}>{region}</SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
+                    <Select value={selectedRegion} onValueChange={setSelectedRegion}>
+                        <SelectTrigger>
+                            <SelectValue placeholder="Filter by Region" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="all">All Regions</SelectItem>
+                            {regions.map(region => (
+                                <SelectItem key={region} value={region}>{region}</SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                     <Select value={sortOrder} onValueChange={setSortOrder}>
+                        <SelectTrigger>
+                            <SelectValue placeholder="Sort by" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {sortOptions.map(option => (
+                                <SelectItem key={option} value={option}>{option}</SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                    <div className="md:col-span-full flex justify-end">
+                         <Button variant="ghost" onClick={resetFilters}>
+                            <RotateCcw className="mr-2 h-4 w-4" />
+                            Reset Filters
+                        </Button>
                     </div>
                 </div>
             </Card>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {filteredFestivals.length > 0 ? filteredFestivals.map((festival) => (
+                {filteredAndSortedFestivals.length > 0 ? filteredAndSortedFestivals.map((festival) => (
                     <Card key={festival.name} className="overflow-hidden group flex flex-col">
                         <CardContent className="p-6 flex flex-col flex-grow">
                             <p className="text-sm text-primary font-semibold mb-1">{festival.region}</p>
@@ -122,6 +155,3 @@ export default function FestivalsPage() {
         </Suspense>
     );
 }
-
-// Add Suspense to your imports
-import { Suspense } from 'react';
