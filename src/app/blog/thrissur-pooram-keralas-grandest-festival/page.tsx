@@ -1,0 +1,50 @@
+import { Card, CardContent } from "@/components/ui/card";
+import { ArrowLeft } from "lucide-react";
+import Link from "next/link";
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
+
+export default function SingleBlogPage() {
+    return (
+        <div className="container mx-auto px-4 py-12">
+            <Card>
+                <CardContent className="p-6 md:p-10">
+                     <div className="mb-8">
+                        <Link href="/blog">
+                            <Button variant="outline"><ArrowLeft className="mr-2 h-4 w-4" />Back to Blog</Button>
+                        </Link>
+                    </div>
+
+                    <article className="prose max-w-none text-foreground/80">
+                         <div className="text-center mb-8">
+                            <p className="text-sm text-muted-foreground">By Jignesh Gohel on April 29, 2025</p>
+                            <h1 className="font-headline text-4xl font-bold text-primary mt-2">Thrissur Pooram: Kerala's Spectacle of Elephants and Percussion</h1>
+                        </div>
+
+                         <div className="relative h-96 w-full mb-8">
+                            <Image src="https://i.postimg.cc/9fkfFs47/Onam.webp" alt="Thrissur Pooram" layout="fill" objectFit="contain" data-ai-hint="kerala temple festival" className="rounded-lg"/>
+                        </div>
+
+                        <h2>The Mother of all Poorams</h2>
+                        <p>Thrissur Pooram is the most spectacular and grandest of all temple festivals in Kerala. Held annually at the Vadakkunnathan Temple in Thrissur, this festival is a vibrant explosion of sight and sound, attracting a massive audience of locals and tourists. It's a day-long event that showcases the rich cultural and spiritual essence of Kerala in all its glory.</p>
+
+                        <h2>A Friendly Rivalry</h2>
+                        <p>The festival is essentially a friendly competition between two major temples in Thrissur – Paramekkavu and Thiruvambadi. Both temples compete to put on the most elaborate and impressive display, which is what makes the festival so magnificent.</p>
+
+                        <h3>Key Highlights of Thrissur Pooram:</h3>
+                        <ul>
+                            <li><strong>Caparisoned Elephants:</strong> The most iconic image of the festival is the procession of majestic, richly caparisoned elephants. Each temple presents a row of 15 elephants, all adorned with golden head-dresses ('nettipattam'), decorative bells, and ornaments.</li>
+                            <li><strong>Kudamattom:</strong> A highlight of the festival is the 'Kudamattom' ceremony, a rhythmic and colourful changing of sequined umbrellas held atop the elephants.</li>
+                            <li><strong>Panchavadyam:</strong> The air is filled with the powerful and soul-stirring rhythm of the 'Panchavadyam', a traditional orchestra of five instruments. The 'Ilanjithara Melam', a performance by over 250 artists, is another major musical attraction.</li>
+                            <li><strong>Fireworks Display:</strong> The festival culminates in a spectacular and dazzling fireworks display that lights up the night sky.</li>
+                        </ul>
+                        
+                        <p>Thrissur Pooram is an unforgettable, magical experience that offers a fascinating glimpse into the rich cultural heritage of India. It's a must-see for anyone wanting to experience the grandeur of a traditional Indian festival.</p>
+                    </article>
+                </CardContent>
+            </Card>
+        </div>
+    );
+}
+
+    
