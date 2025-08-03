@@ -28,14 +28,14 @@ export default function GandhiJayantiPage() {
                             <TabsContent value="overview">
                                 <h2 className="font-headline text-3xl font-bold mb-4">A Tribute to the Mahatma</h2>
                                 <div className="space-y-4 text-foreground/80 prose max-w-none">
-                                    <p>Gandhi Jayanti, celebrated on October 2nd, marks the birth anniversary of Mohandas Karamchand Gandhi, affectionately known as Mahatma Gandhi, the 'Father of the Nation'. It is one of the three official national holidays of India. The day is observed not just in India but across the world, as the United Nations has declared October 2nd as the International Day of Non-Violence, in honor of Gandhi's philosophy and lifelong struggle for freedom through non-violent means.</p>
+                                    <p>Gandhi Jayanti, celebrated annually on the 2nd of October, marks the birth anniversary of Mohandas Karamchand Gandhi, who is lovingly and respectfully known as Mahatma Gandhi, the 'Father of the Nation' in India. It is one of the three official national holidays of India and is observed with great reverence across the country. The day is not just a commemoration of a great leader's birth but a celebration of his life, his philosophy, and his enduring legacy. In a testament to the global impact of his ideals, the United Nations has also declared October 2nd as the International Day of Non-Violence, in honor of Gandhi's lifelong and successful struggle for freedom through peaceful and non-violent means.</p>
                                 </div>
                             </TabsContent>
                             
                             <TabsContent value="traditions">
                                 <h2 className="font-headline text-3xl font-bold mb-4">A Day of Prayer and Reflection</h2>
                                 <div className="space-y-4 text-foreground/80 prose max-w-none">
-                                    <p>Gandhi Jayanti is observed with solemnity and respect. The main ceremony takes place at Raj Ghat in New Delhi, Gandhi's memorial, where the President and Prime Minister of India, along with other political leaders, pay homage. Prayer meetings, commemorative ceremonies, and cultural events are held across the country. His favorite devotional song, "Raghupati Raghava Raja Ram," is often sung at these gatherings. Schools and colleges organize events like essay and painting competitions based on themes of peace, non-violence, and Gandhi's life.</p>
+                                    <p>Gandhi Jayanti is observed not with grand festivities but with solemnity and quiet respect. The main ceremony takes place at Raj Ghat in New Delhi, the memorial where Gandhi was cremated. Here, the President and Prime Minister of India, along with other political leaders and citizens, pay homage by offering flowers and prayers. Across the country, the day is marked by prayer meetings, commemorative ceremonies, and cultural events that reflect his teachings. His favorite devotional song, "Raghupati Raghava Raja Ram," is often sung at these gatherings, evoking a sense of peace and unity. Schools and colleges organize events such as essay competitions, painting contests, and debates based on themes of peace, non-violence, and Gandhi's life, ensuring that his message continues to inspire future generations.</p>
                                 </div>
                             </TabsContent>
 
@@ -47,7 +47,7 @@ export default function GandhiJayantiPage() {
                                             <CardTitle>Satyagraha</CardTitle>
                                         </CardHeader>
                                         <CardContent>
-                                            <p className="text-foreground/80">At the core of Gandhi's philosophy was 'Satyagraha', loosely translated as 'insistence on truth'. It was his primary tool in the struggle against British rule, a form of non-violent resistance that aimed to convert the opponent through self-suffering and moral force. Gandhi Jayanti is a day to reflect on these powerful ideals and their relevance in today's world.</p>
+                                            <p className="text-foreground/80">At the core of Gandhi's philosophy was 'Satyagraha', a concept he developed that can be loosely translated as 'insistence on truth' or 'soul force'. It was his primary and most powerful tool in the long struggle against British rule—a revolutionary form of non-violent resistance. Satyagraha sought to convert the opponent not through physical force, but through moral force, self-suffering, and an unwavering commitment to truth. Gandhi Jayanti is a day for the world to reflect on these powerful ideals of peace and non-violence and their profound relevance in resolving conflicts in today's world.</p>
                                         </CardContent>
                                     </Card>
                                 </div>

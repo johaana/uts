@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CheckCircle, BookOpen, Utensils, Sparkles, Music } from "lucide-react";
@@ -27,8 +28,8 @@ export default function GoaCarnivalPage() {
                             <TabsContent value="overview">
                                 <h2 className="font-headline text-3xl font-bold mb-4">A Portuguese Legacy</h2>
                                 <div className="space-y-4 text-foreground/80 prose max-w-none">
-                                    <p>The Goa Carnival is a vibrant, four-day festival held in Goa just before the start of Lent, a period of fasting and penance in Christianity. The carnival is a legacy of the Portuguese colonial rule and is one of the few carnivals celebrated in Asia. It's a time of exuberant celebration, with colorful parades, floats, music, and dancing on the streets of major Goan cities like Panjim, Mapusa, and Margao.</p>
-                                    <p>The festival is presided over by the mythical King Momo, who declares the decree of "Kha, Piye, Aani Majja Kar" (Eat, Drink, and Make Merry). The carnival is a true reflection of Goa's unique culture, a blend of Indian and Western traditions, and is a time for people of all faiths to come together and celebrate.</p>
+                                    <p>The Goa Carnival is a vibrant, four-day festival of pure revelry held in Goa just before the start of Lent, the 40-day period of fasting and penance in Christianity. The carnival is a spectacular legacy of the state's 450-year-long Portuguese colonial rule and is one of the few carnivals of its kind celebrated in Asia. It's a time of exuberant celebration, where the streets of major Goan cities like Panjim, Mapusa, Margao, and Vasco da Gama erupt in a riot of color, music, and dance.</p>
+                                    <p>The festival is officially presided over by the mythical King Momo, a jovial figure who, on the opening day, declares his decree of "Kha, Piye, Aani Majja Kar" (Eat, Drink, and Make Merry). This sets the tone for four days of non-stop festivities, including colorful parades with elaborate floats, masked dancers in vibrant costumes, and electrifying live music. The carnival is a true reflection of Goa's unique and syncretic culture, a beautiful blend of Indian and Western traditions, where people of all faiths and backgrounds come together to celebrate life with unmatched energy and spirit.</p>
                                 </div>
                             </TabsContent>
                             

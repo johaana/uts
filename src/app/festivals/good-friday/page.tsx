@@ -28,14 +28,14 @@ export default function GoodFridayPage() {
                             <TabsContent value="overview">
                                 <h2 className="font-headline text-3xl font-bold mb-4">The Crucifixion of Jesus</h2>
                                 <div className="space-y-4 text-foreground/80 prose max-w-none">
-                                    <p>Good Friday is a Christian holiday commemorating the crucifixion of Jesus Christ and his death at Calvary. It is observed during Holy Week as part of the Paschal Triduum. It is a day of deep sorrow, penance, and fasting for Christians worldwide. The day is called "Good" because it is believed that through his death, Jesus took away the sins of the world, leading to the resurrection on Easter Sunday, which represents the ultimate victory of good over evil.</p>
+                                    <p>Good Friday is a Christian holiday of profound significance, commemorating the crucifixion of Jesus Christ and his subsequent death at Calvary. Observed during Holy Week as a part of the Paschal Triduum, it is a day marked by deep sorrow, penance, and fasting for Christians worldwide. The day is called "Good" not because of the tragic events it remembers, but because Christians believe that through his ultimate sacrifice, Jesus took upon himself the sins of the world. His death is seen as the culmination of God's plan to offer salvation to humanity, which leads to his resurrection on Easter Sunday—the ultimate victory of life over death and good over evil.</p>
                                 </div>
                             </TabsContent>
                             
                             <TabsContent value="traditions">
                                 <h2 className="font-headline text-3xl font-bold mb-4">A Day of Mourning and Prayer</h2>
                                 <div className="space-y-4 text-foreground/80 prose max-w-none">
-                                    <p>On Good Friday, many churches hold special services that recount the story of Jesus's passion and crucifixion. The church bells are often kept silent. Many Christians observe a fast, abstaining from food or eating simple meals. Processions recreating the Stations of the Cross, which depict the final hours of Jesus's life, are also common in many communities. It is a day for quiet reflection and prayer.</p>
+                                    <p>On Good Friday, many churches hold special, solemn services that recount the story of Jesus's passion—his suffering and crucifixion. The church bells, which normally ring out joyfully, are often kept silent as a sign of mourning. Altars are left bare, and services are conducted in a subdued atmosphere. Many Christians observe a strict fast on this day, abstaining from food or eating very simple meals as an act of penance. In many communities, processions recreating the Stations of the Cross, which depict the final hours of Jesus's life, are also held. It is a day for quiet reflection, prayer, and contemplation of the sacrifice at the heart of the Christian faith.</p>
                                 </div>
                             </TabsContent>
 
@@ -47,7 +47,7 @@ export default function GoodFridayPage() {
                                             <CardTitle>A Symbol of Hope</CardTitle>
                                         </CardHeader>
                                         <CardContent>
-                                            <p className="text-foreground/80">While Good Friday is a day of mourning, it is also a day of hope. For Christians, Jesus's sacrifice is the ultimate proof of God's love for humanity. It is a reminder that suffering and death are not the end, and that they are followed by the promise of resurrection and eternal life. The somber atmosphere of Good Friday gives way to the joyous celebration of Easter, which marks the resurrection of Jesus Christ.</p>
+                                            <p className="text-foreground/80">While Good Friday is a day of deep mourning, it is paradoxically also a day of great hope. For Christians, Jesus's sacrifice on the cross is the ultimate demonstration of God's boundless love for humanity. It is a powerful reminder that suffering and death are not the end, but are followed by the glorious promise of resurrection and eternal life. The somber and reflective atmosphere of Good Friday gives way to the joyous celebration of Easter, which marks the triumphant resurrection of Jesus Christ from the dead, the cornerstone of Christian faith.</p>
                                         </CardContent>
                                     </Card>
                                 </div>

@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BookOpen, Sparkles, MessageSquareQuote, CircleHelp } from "lucide-react";
@@ -28,16 +29,16 @@ export default function MuharramPage() {
                             <TabsContent value="overview">
                                 <h2 className="font-headline text-3xl font-bold mb-4">The First Month of the Islamic Calendar</h2>
                                 <div className="space-y-4 text-foreground/80 prose max-w-none">
-                                    <p>Muharram is the first month of the Islamic calendar and is one of the four sacred months of the year. While it marks the beginning of the Islamic New Year for all Muslims, for Shia Muslims, it is a period of intense grief and mourning. The month is observed in remembrance of the martyrdom of Imam Hussein, the grandson of the Prophet Muhammad, and his family and companions in the Battle of Karbala in 680 AD.</p>
-                                    <p>The event of Karbala is a pivotal moment in Islamic history, representing a stand for justice and truth against tyranny and oppression. Imam Hussein's refusal to pledge allegiance to the corrupt and unjust caliph, Yazid, led to a brutal siege where he and his small band of supporters were martyred. Muharram is a time for reflection on the sacrifices made by Imam Hussein and his followers, and a period to recommit to the principles of justice, compassion, and human dignity.</p>
+                                    <p>Muharram is the first month of the Islamic calendar, holding the distinction of being one of the four sacred months of the year when warfare is forbidden. While it marks the beginning of the Islamic New Year for all Muslims, it holds a particularly profound and solemn significance for Shia Muslims, for whom it is a period of intense grief and mourning. The entire month is observed in remembrance of the tragic martyrdom of Imam Hussein ibn Ali, the beloved grandson of the Prophet Muhammad, along with his family and companions in the Battle of Karbala in the year 680 AD.</p>
+                                    <p>The event of Karbala stands as a pivotal moment in Islamic history, a heart-wrenching tale of sacrifice, and an unwavering stand for justice and truth against the forces of tyranny and corruption. Imam Hussein's courageous refusal to pledge allegiance to the corrupt and unjust caliph, Yazid, led to a brutal siege where he and his small band of loyal supporters, deprived of water and resources, were martyred with unimaginable cruelty. Muharram, therefore, is not a festival of celebration but a time for deep reflection on the immense sacrifices made by Imam Hussein and his followers. It is a period for Muslims to reconnect with the core principles of justice, compassion, and human dignity that the Imam's stand so powerfully represents.</p>
                                 </div>
                             </TabsContent>
 
                             <TabsContent value="ashura">
                                 <h2 className="font-headline text-3xl font-bold mb-4">The Day of Ashura</h2>
                                 <div className="space-y-4 text-foreground/80 prose max-w-none">
-                                    <p>The tenth day of Muharram, known as Ashura, is the focal point of the mourning period. This was the day Imam Hussein was martyred. For Shia Muslims, it is a day of profound sorrow, observed with prayers, public processions, and reenactments of the tragedy of Karbala. These acts of remembrance, known as 'taziyas', serve as a powerful reminder of the suffering endured by the Imam and his family.</p>
-                                    <p>For Sunni Muslims, Ashura is also a significant day. It is believed to be the day that Moses and the Israelites were saved from the Pharaoh by God creating a path in the Red Sea. To commemorate this event, some Sunni Muslims observe a voluntary fast on Ashura. Thus, while the historical reasons differ, the day holds spiritual importance for both major branches of Islam.</p>
+                                    <p>The tenth day of Muharram, known as Ashura, is the focal point of the mourning period. This was the very day Imam Hussein was martyred. For Shia Muslims, it is a day of profound sorrow and public expression of grief, observed with prayers, sermons, public processions, and passionate reenactments of the tragedy of Karbala. These acts of remembrance, known as 'taziyas', serve as a powerful and visceral reminder of the immense suffering endured by the Imam and his family, and their unwavering commitment to their principles.</p>
+                                    <p>For Sunni Muslims, Ashura is also a significant day, although it is observed for different historical reasons. It is believed to be the day that Moses (Musa) and the Israelites were saved from the Pharaoh by God creating a miraculous path in the Red Sea. To commemorate this event of divine salvation, many Sunni Muslims observe a voluntary fast on Ashura. Thus, while the historical contexts and emotional tones of the observance differ, the day holds deep spiritual importance for both major branches of Islam.</p>
                                 </div>
                             </TabsContent>
                             
@@ -96,5 +97,3 @@ export default function MuharramPage() {
         </div>
     );
 }
-
-    
