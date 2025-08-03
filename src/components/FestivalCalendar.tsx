@@ -126,8 +126,11 @@ export function FestivalCalendar() {
 
     const getBadgeVariant = (type: string) => {
         switch(type) {
-            case 'Holiday': return 'outline';
             case 'Religious': return 'default';
+            case 'Cultural': return 'secondary';
+            case 'Harvest': return 'default';
+            case 'Holiday': return 'outline';
+            case 'Diwali': return 'default';
             default: return 'secondary';
         }
     };
@@ -241,3 +244,4 @@ export function FestivalCalendar() {
 
 
 
+    
