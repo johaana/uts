@@ -27,6 +27,9 @@ const festivals = [
     { name: "Muharram", region: "Nationwide", description: "A solemn period of remembrance and mourning for Shia Muslims, commemorating the martyrdom of Imam Hussein.", link: "/festivals/muharram" },
     { name: "Akshaya Tritiya", region: "Nationwide", description: "An auspicious day of eternal prosperity, believed to bring good fortune and success.", link: "/festivals/akshaya-tritiya" },
     { name: "Nag Panchami", region: "Nationwide", description: "A traditional day of serpent worship, observed by offering milk and prayers to snake deities.", link: "/festivals/nag-panchami" },
+    { name: "Hornbill Festival", region: "Northeast", description: "A vibrant festival in Nagaland showcasing the rich culture and traditions of the Naga tribes.", link: "/festivals/hornbill-festival" },
+    { name: "Thaipusam", region: "South", description: "A powerful Tamil festival of faith, endurance, and penance dedicated to Lord Murugan.", link: "/festivals/thaipusam" },
+    { name: "Hemis Tsechu", region: "North", description: "A colorful Buddhist festival in Ladakh with masked dances celebrating the birth of Guru Padmasambhava.", link: "/festivals/hemis-tsechu" },
 ];
 
 export default function FestivalsPage() {
