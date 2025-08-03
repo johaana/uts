@@ -4,11 +4,13 @@
 /**
  * @fileOverview A simple flow for handling newsletter subscriptions.
  *
- * - subscribeToNewsletter - A function that simulates subscribing an email address.
+ * - subscribeToNewsletter - A function that saves a new subscriber's email to Firestore.
  */
 
 import { ai } from '@/ai/genkit';
 import { z } from 'zod';
+import { db } from '@/lib/firebase';
+import { collection, addDoc, serverTimestamp, query, where, getDocs } from "firebase/firestore";
 
 const SubscribeInputSchema = z.string().email({ message: "Invalid email address" });
 
@@ -24,11 +26,27 @@ const subscribeFlow = ai.defineFlow(
     outputSchema: z.string(),
   },
   async (email) => {
-    // In a real application, you would add logic here to save the email
-    // to your database or email marketing service (e.g., Mailchimp, ConvertKit).
-    console.log(`New subscription from: ${email}`);
+    try {
+      // Check if the email already exists
+      const subscribersRef = collection(db, "subscribers");
+      const q = query(subscribersRef, where("email", "==", email));
+      const querySnapshot = await getDocs(q);
 
-    // For now, we'll just return a success message.
-    return `Thank you for subscribing, ${email}! You're all set.`;
+      if (!querySnapshot.empty) {
+        console.log(`Email already subscribed: ${email}`);
+        return `The email ${email} is already subscribed to our newsletter!`;
+      }
+
+      // Add a new document with a generated id.
+      await addDoc(collection(db, "subscribers"), {
+        email: email,
+        subscribedAt: serverTimestamp()
+      });
+      console.log(`New subscription from: ${email}`);
+      return `Thank you for subscribing, ${email}! You're all set.`;
+    } catch (e) {
+      console.error("Error adding document: ", e);
+      throw new Error("Could not subscribe. Please try again later.");
+    }
   }
 );
