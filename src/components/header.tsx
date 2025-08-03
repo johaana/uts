@@ -25,7 +25,7 @@ export function Header() {
       <div className="container mx-auto flex h-24 max-w-7xl items-center justify-between px-4">
         <div className="flex items-center gap-8">
             <Link href="/" className="flex items-center gap-2">
-                <UtsavsLogo className="text-primary" />
+                <UtsavsLogo />
             </Link>
         </div>
 
@@ -36,8 +36,8 @@ export function Header() {
               key={link.href}
               href={link.href}
               className={cn(
-                "text-base font-medium transition-colors hover:text-primary",
-                pathname.startsWith(link.href) ? "text-primary" : "text-foreground/80"
+                "text-base font-medium transition-colors hover:text-accent",
+                pathname.startsWith(link.href) ? "text-accent font-bold" : "text-foreground/80"
               )}
             >
               {link.label}
@@ -61,15 +61,15 @@ export function Header() {
                 <SheetContent side="right">
                     <div className="flex flex-col gap-6 pt-10">
                     <Link href="/" className="flex items-center gap-2 mb-4">
-                        <UtsavsLogo className="text-primary" />
+                        <UtsavsLogo />
                     </Link>
                     {navLinks.map((link) => (
                         <Link
                         key={link.href}
                         href={link.href}
                         className={cn(
-                            "text-lg font-medium transition-colors hover:text-primary",
-                            pathname.startsWith(link.href) ? "text-primary" : "text-foreground"
+                            "text-lg font-medium transition-colors hover:text-accent",
+                            pathname.startsWith(link.href) ? "text-accent" : "text-foreground"
                         )}
                         >
                         {link.label}

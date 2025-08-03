@@ -79,7 +79,7 @@ export default function Home() {
           </p>
           <div className="mt-8 flex justify-center">
             <Link href="/festivals">
-              <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground">
+              <Button size="lg">
                 Explore All Festivals <ArrowRight className="ml-2" />
               </Button>
             </Link>
@@ -144,7 +144,7 @@ export default function Home() {
         </div>
         <div className="text-center mt-12">
             <Link href="/recipes">
-                <Button variant="secondary" size="lg">Explore All Recipes</Button>
+                <Button size="lg">Explore All Recipes</Button>
             </Link>
         </div>
       </section>
@@ -192,15 +192,15 @@ export default function Home() {
 
       <section className="py-16">
         <div className="container mx-auto px-4">
-          <Card className="bg-primary text-primary-foreground p-8 md:p-12 text-center">
-            <Mail className="mx-auto h-12 w-12 text-accent" />
+          <Card className="bg-secondary p-8 md:p-12 text-center">
+            <Mail className="mx-auto h-12 w-12 text-primary" />
             <h2 className="font-headline text-3xl md:text-4xl font-bold mb-4">Stay Connected</h2>
-            <p className="text-primary-foreground/80 max-w-xl mx-auto mb-6">
+            <p className="text-foreground/80 max-w-xl mx-auto mb-6">
               Subscribe to our newsletter for the latest festival updates, recipes, and cultural stories delivered to your inbox.
             </p>
             <form className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto" onSubmit={handleSubscription}>
-              <Input name="email" type="email" placeholder="Enter your email" className="bg-primary-foreground/10 border-primary-foreground/50 text-primary-foreground placeholder:text-primary-foreground/70" />
-              <Button type="submit" className="bg-accent hover:bg-accent/90 text-accent-foreground">Subscribe</Button>
+              <Input name="email" type="email" placeholder="Enter your email" className="bg-background" />
+              <Button type="submit">Subscribe</Button>
             </form>
           </Card>
         </div>
