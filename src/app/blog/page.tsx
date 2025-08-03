@@ -21,6 +21,7 @@ const blogPosts = [
     { slug: "losar-festival-the-tibetan-new-year", title: "Losar Festival: Celebrating the Tibetan New Year in the Himalayas", excerpt: "Discover the Losar festival, a vibrant celebration marking the Tibetan New Year with colorful rituals, music, and dance in Sikkim and Ladakh.", author: "Jignesh Gohel", date: "February 28, 2025", image: "https://i.postimg.cc/k4WjTjj3/hemis-tsechu.jpg", hint: "ladakh festival" },
     { slug: "torgya-monastery-festival-a-splash-of-color", title: "Torgya: The Masked Dances of Tawang Monastery", excerpt: "Witness the stunning Torgya festival in Arunachal Pradesh, where monks perform sacred 'Chham' dances to chase away evil spirits.", author: "Jignesh Gohel", date: "January 20, 2025", image: "https://i.postimg.cc/tJnB8vjD/Hornbill-Festival.jpg", hint: "tawang monastery" },
     { slug: "thrissur-pooram-keralas-grandest-festival", title: "Thrissur Pooram: Kerala's Spectacle of Elephants and Percussion", excerpt: "Experience the magic of Thrissur Pooram, a grand temple festival in Kerala featuring caparisoned elephants, traditional music, and a dazzling fireworks display.", author: "Jignesh Gohel", date: "April 29, 2025", image: "https://i.postimg.cc/9fkfFs47/Onam.webp", hint: "kerala temple festival" },
+    { slug: "10-unknown-festivals-of-india", title: "10 Indian Festivals You've Probably Never Heard Of", excerpt: "Venture off the beaten path and discover some of India's most unique and fascinating regional festivals, from tribal celebrations to ancient rituals.", author: "Travel Desk", date: "July 15, 2024", image: "https://i.postimg.cc/tJnB8vjD/Hornbill-Festival.jpg", hint: "tribal festival" },
 ];
 
 export default function BlogPage() {
@@ -59,5 +60,3 @@ export default function BlogPage() {
         </div>
     );
 }
-
-    
