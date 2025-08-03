@@ -15,7 +15,7 @@ export default function ChristmasPage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-primary/10">
-                 <Image src="https://i.postimg.cc/nVsm4HJ1/christmas-cake.jpg" alt="Christmas Decorations" layout="fill" objectFit="cover" className="absolute opacity-20" data-ai-hint="christmas decor" />
+                 <Image src="https://i.postimg.cc/RZMhP75N/christmas1.jpg" alt="Christmas Decorations" layout="fill" objectFit="cover" className="absolute opacity-20" data-ai-hint="christmas decor" />
                 <div className="relative text-center text-primary-foreground z-10">
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-white shadow-lg">Christmas</h1>
                     <p className="text-xl md:text-2xl mt-4 text-white/90 shadow-md">Celebrating Peace, Joy, and Goodwill</p>

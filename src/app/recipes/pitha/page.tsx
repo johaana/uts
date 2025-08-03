@@ -13,9 +13,7 @@ export default function PithaPage() {
                             <p className="text-lg text-muted-foreground">A quintessential Assamese delicacy for Bihu, Til Pitha are pan-fried rice cakes filled with a sweet mixture of roasted black sesame seeds and jaggery.</p>
                         </div>
                         <div className="md:w-1/3">
-                             <div className="relative w-full h-[250px] bg-muted rounded-lg shadow-lg">
-                                {/* No relevant image available for this specific recipe, so a placeholder is used. */}
-                            </div>
+                             <Image src="https://i.postimg.cc/3WM2zqgN/bihu2.png" alt="Til Pitha" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="sesame rice cakes"/>
                         </div>
                     </div>
                 </CardHeader>
