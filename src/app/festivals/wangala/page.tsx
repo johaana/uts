@@ -7,11 +7,11 @@ import Image from "next/image";
 export default function WangalaPage() {
     return (
         <div className="bg-background">
-            <section className="relative h-[50vh] flex items-center justify-center bg-primary/10">
+            <section className="relative h-[50vh] flex items-center justify-center bg-yellow-800/10">
                  <Image src="https://i.postimg.cc/tJnB8vjD/Hornbill-Festival.jpg" alt="Wangala Festival" layout="fill" objectFit="cover" className="absolute opacity-20" data-ai-hint="garo tribe festival"/>
-                <div className="relative text-center text-primary-foreground z-10">
-                    <h1 className="font-headline text-5xl md:text-7xl font-bold text-white shadow-lg">Wangala Festival</h1>
-                    <p className="text-xl md:text-2xl mt-4 text-white/90 shadow-md">The Hundred Drums Festival</p>
+                <div className="relative text-center text-primary-foreground z-10 p-4">
+                    <h1 className="font-headline text-5xl md:text-7xl font-bold text-yellow-900 drop-shadow-lg">Wangala Festival</h1>
+                    <p className="text-xl md:text-2xl mt-4 text-yellow-800/90 drop-shadow-md">The Hundred Drums Festival</p>
                 </div>
             </section>
             
@@ -19,7 +19,7 @@ export default function WangalaPage() {
                 <Card className="mb-12">
                     <CardContent className="p-6 md:p-10">
                         <Tabs defaultValue="overview">
-                            <TabsList className="grid w-full grid-cols-2 md:grid-cols-2 mb-6 h-auto">
+                            <TabsList className="grid w-full grid-cols-1 md:grid-cols-2 mb-6 h-auto">
                                 <TabsTrigger value="overview" className="py-2"><BookOpen className="w-4 h-4 mr-2" />Overview</TabsTrigger>
                                 <TabsTrigger value="traditions" className="py-2"><Drum className="w-4 h-4 mr-2" />Celebrations</TabsTrigger>
                             </TabsList>

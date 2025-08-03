@@ -14,11 +14,11 @@ const recipes = [
 export default function AkshayaTritiyaPage() {
     return (
         <div className="bg-background">
-            <section className="relative h-[50vh] flex items-center justify-center bg-yellow-400/10">
+            <section className="relative h-[50vh] flex items-center justify-center bg-yellow-500/10">
                  <Image src="https://i.postimg.cc/KjKrdfsj/unfold-memory-Z9-WMZqg-ASJE-unsplash.jpg" alt="Gold coins" layout="fill" objectFit="cover" className="absolute opacity-20" data-ai-hint="gold jewelry"/>
-                <div className="relative text-center text-primary-foreground z-10">
-                    <h1 className="font-headline text-5xl md:text-7xl font-bold text-yellow-800 shadow-lg">Akshaya Tritiya</h1>
-                    <p className="text-xl md:text-2xl mt-4 text-yellow-700/90 shadow-md">The Day of Eternal Fortune</p>
+                <div className="relative text-center text-primary-foreground z-10 p-4">
+                    <h1 className="font-headline text-5xl md:text-7xl font-bold text-amber-900 drop-shadow-lg">Akshaya Tritiya</h1>
+                    <p className="text-xl md:text-2xl mt-4 text-amber-800/90 drop-shadow-md">The Day of Eternal Fortune</p>
                 </div>
             </section>
             

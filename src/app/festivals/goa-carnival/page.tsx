@@ -7,11 +7,11 @@ import Image from "next/image";
 export default function GoaCarnivalPage() {
     return (
         <div className="bg-background">
-            <section className="relative h-[50vh] flex items-center justify-center bg-purple-600/10">
+            <section className="relative h-[50vh] flex items-center justify-center bg-purple-500/10">
                  <Image src="https://i.postimg.cc/k4WjTjj3/hemis-tsechu.jpg" alt="Goa Carnival" layout="fill" objectFit="cover" className="absolute opacity-20" data-ai-hint="goa carnival" />
-                <div className="relative text-center text-primary-foreground z-10">
-                    <h1 className="font-headline text-5xl md:text-7xl font-bold text-white shadow-lg">Goa Carnival</h1>
-                    <p className="text-xl md:text-2xl mt-4 text-white/90 shadow-md">The Ultimate Street Party</p>
+                <div className="relative text-center text-primary-foreground z-10 p-4">
+                    <h1 className="font-headline text-5xl md:text-7xl font-bold text-purple-900 drop-shadow-lg">Goa Carnival</h1>
+                    <p className="text-xl md:text-2xl mt-4 text-purple-800/90 drop-shadow-md">The Ultimate Street Party</p>
                 </div>
             </section>
             

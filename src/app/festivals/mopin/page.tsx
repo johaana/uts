@@ -7,11 +7,11 @@ import Image from "next/image";
 export default function MopinFestivalPage() {
     return (
         <div className="bg-background">
-            <section className="relative h-[50vh] flex items-center justify-center bg-green-700/10">
+            <section className="relative h-[50vh] flex items-center justify-center bg-green-500/10">
                  <Image src="https://i.postimg.cc/tJnB8vjD/Hornbill-Festival.jpg" alt="Mopin Festival" layout="fill" objectFit="cover" className="absolute opacity-20" data-ai-hint="arunachal pradesh festival"/>
-                <div className="relative text-center text-primary-foreground z-10">
-                    <h1 className="font-headline text-5xl md:text-7xl font-bold text-white shadow-lg">Mopin Festival</h1>
-                    <p className="text-xl md:text-2xl mt-4 text-white/90 shadow-md">Arunachal's Harvest Celebration</p>
+                <div className="relative text-center text-primary-foreground z-10 p-4">
+                    <h1 className="font-headline text-5xl md:text-7xl font-bold text-green-900 drop-shadow-lg">Mopin Festival</h1>
+                    <p className="text-xl md:text-2xl mt-4 text-green-800/90 drop-shadow-md">Arunachal's Harvest Celebration</p>
                 </div>
             </section>
             
