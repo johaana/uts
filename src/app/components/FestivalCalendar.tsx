@@ -21,8 +21,8 @@ const allEvents = [
     { date: "Feb 22 - Feb 25, 2025", name: "Goa Carnival", region: "West", type: "Cultural", link: "/festivals/goa-carnival" },
     { date: "Feb 26, 2025", name: "Maha Shivaratri", region: "Nationwide", type: "Religious", link: null },
     { date: "Mar 14, 2025", name: "Holi", region: "Nationwide", type: "Holiday", link: "/festivals/holi" },
-    { date: "Mar 30, 2025", name: "Gudi Padwa / Ugadi", region: "West", type: "New Year", link: "/festivals/gudi-padwa" },
-    { date: "Mar 30, 2025", name: "Eid-al-Fitr (Ramzan Eid)", region: "Nationwide", type: "Religious", link: "/festivals/eid-al-fitr" },
+    { date: "Mar 30, 2025", name: "Gudi Padwa / Ugadi", region: "West & South", type: "New Year", link: "/festivals/gudi-padwa" },
+    { date: "Mar 30, 2025", name: "Eid-al-Fitr", region: "Nationwide", type: "Religious", link: "/festivals/eid-al-fitr" },
     { date: "Apr 06, 2025", name: "Ram Navami", region: "Nationwide", type: "Religious", link: null },
     { date: "Apr 14, 2025", name: "Vaisakhi / Bihu", region: "North & Northeast", type: "Harvest", link: "/festivals/bihu" },
     { date: "Apr 18, 2025", name: "Good Friday", region: "Nationwide", type: "Religious", link: "/festivals/christmas" },
@@ -58,10 +58,14 @@ const allEvents = [
     { date: "Jan 26, 2026", name: "Republic Day", region: "Nationwide", type: "Holiday", link: null },
     { date: "Feb 01, 2026", name: "Thaipusam", region: "South", type: "Religious", link: "/festivals/thaipusam" },
     { date: "Feb 13 - Feb 16, 2026", name: "Goa Carnival", region: "West", type: "Cultural", link: "/festivals/goa-carnival" },
+    { date: "Feb 15, 2026", name: "Maha Shivaratri", region: "Nationwide", type: "Religious", link: null },
     { date: "Mar 04, 2026", name: "Holi", region: "Nationwide", type: "Holiday", link: "/festivals/holi" },
     { date: "Mar 20, 2026", name: "Eid-al-Fitr", region: "Nationwide", type: "Religious", link: "/festivals/eid-al-fitr" },
-    { date: "Mar 21, 2026", name: "Gudi Padwa / Ugadi", region: "West", type: "New Year", link: "/festivals/gudi-padwa" },
+    { date: "Mar 21, 2026", name: "Gudi Padwa / Ugadi", region: "West & South", type: "New Year", link: "/festivals/gudi-padwa" },
+    { date: "Mar 26, 2026", name: "Ram Navami", region: "Nationwide", type: "Religious", link: null },
     { date: "Apr 03, 2026", name: "Good Friday", region: "Nationwide", type: "Religious", link: "/festivals/christmas" },
+    { date: "Apr 14, 2026", name: "Vaisakhi / Bihu", region: "North & Northeast", type: "Harvest", link: "/festivals/bihu" },
+    { date: "Apr 10, 2026", name: "Akshaya Tritiya", region: "Nationwide", type: "Religious", link: "/festivals/akshaya-tritiya" },
     { date: "May 01, 2026", name: "Labour Day", region: "Nationwide", type: "Holiday", link: null },
     { date: "May 27, 2026", name: "Eid al-Adha", region: "Nationwide", type: "Religious", link: null },
     { date: "Jun 17, 2026", name: "Muharram", region: "Nationwide", type: "Religious", link: "/festivals/muharram" },
@@ -69,12 +73,15 @@ const allEvents = [
     { date: "Jun 28 - Jun 29, 2026", name: "Hemis Tsechu", region: "North", type: "Cultural", link: "/festivals/hemis-tsechu" },
     { date: "Aug 07, 2026", name: "Raksha Bandhan", region: "Nationwide", type: "Cultural", link: "/festivals/raksha-bandhan" },
     { date: "Aug 15, 2026", name: "Independence Day", region: "Nationwide", type: "Holiday", link: null },
+    { date: "Aug 15, 2026", name: "Krishna Janmashtami", region: "Nationwide", type: "Religious", link: null },
     { date: "Aug 18, 2026", name: "Nag Panchami", region: "Nationwide", type: "Cultural", link: "/festivals/nag-panchami" },
     { date: "Aug 26, 2026", name: "Onam", region: "South", type: "Harvest", link: "/festivals/onam" },
     { date: "Sep 15, 2026", name: "Ganesh Chaturthi", region: "West", type: "Religious", link: "/festivals/ganesh-chaturthi" },
     { date: "Oct 02, 2026", name: "Gandhi Jayanti", region: "Nationwide", type: "Holiday", link: null },
     { date: "Oct 12 - Oct 20, 2026", name: "Navratri", region: "Nationwide", type: "Religious", link: "/festivals/navratri" },
+    { date: "Oct 16 - Oct 20, 2026", name: "Durga Puja", region: "East", type: "Religious", link: "/festivals/durga-puja" },
     { date: "Nov 08, 2026", name: "Diwali (Lakshmi Puja)", region: "Nationwide", type: "Holiday", link: "/festivals/diwali" },
+    { date: "Nov 24, 2026", name: "Guru Nanak Jayanti", region: "Nationwide", type: "Religious", link: "/festivals/guru-nanak-jayanti" },
     { date: "Dec 01 - Dec 10, 2026", name: "Hornbill Festival", region: "Northeast", type: "Cultural", link: "/festivals/hornbill-festival" },
     { date: "Dec 25, 2026", name: "Christmas", region: "Nationwide", type: "Religious", link: "/festivals/christmas" },
 ].sort((a, b) => {
@@ -119,7 +126,7 @@ export function FestivalCalendar() {
 
         const yearMatch = selectedYear === 'all' || eventYear === parseInt(selectedYear);
         const monthMatch = selectedMonth === 'all' || eventMonth === selectedMonth;
-        const regionMatch = selectedRegion === 'all' || event.region === selectedRegion;
+        const regionMatch = selectedRegion === 'all' || event.region === selectedRegion || event.region.includes(selectedRegion);
         
         let eventTypeMatch = true;
         if (selectedEventType === 'Festivals') {
@@ -263,4 +270,3 @@ export function FestivalCalendar() {
     );
 }
 
-    
