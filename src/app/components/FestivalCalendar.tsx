@@ -19,7 +19,7 @@ const allEvents = [
     { date: "Feb 03, 2025", name: "Vasant Panchami", region: "Nationwide", type: "Seasonal", link: "/festivals/vasant-panchami" },
     { date: "Feb 11, 2025", name: "Thaipusam", region: "South", type: "Religious", link: "/festivals/thaipusam" },
     { date: "Feb 22 - Feb 25, 2025", name: "Goa Carnival", region: "West", type: "Cultural", link: "/festivals/goa-carnival" },
-    { date: "Feb 25, 2025", name: "Maha Shivaratri", region: "Nationwide", type: "Religious", link: null },
+    { date: "Feb 26, 2025", name: "Maha Shivaratri", region: "Nationwide", type: "Religious", link: null },
     { date: "Mar 14, 2025", name: "Holi", region: "Nationwide", type: "Holiday", link: "/festivals/holi" },
     { date: "Mar 30, 2025", name: "Gudi Padwa / Ugadi", region: "West", type: "New Year", link: "/festivals/gudi-padwa" },
     { date: "Mar 30, 2025", name: "Eid-al-Fitr (Ramzan Eid)", region: "Nationwide", type: "Religious", link: "/festivals/eid-al-fitr" },
@@ -30,9 +30,9 @@ const allEvents = [
     { date: "May 01, 2025", name: "Labour Day", region: "Nationwide", type: "Holiday", link: null },
     { date: "Jun 06, 2025", name: "Eid al-Adha", region: "Nationwide", type: "Religious", link: null },
     { date: "Jun 10, 2025", name: "Hemis Tsechu", region: "North", type: "Cultural", link: "/festivals/hemis-tsechu" },
-    { date: "Jun 28, 2025", name: "Muharram Begins", region: "Nationwide", type: "Religious", link: "/festivals/muharram" },
+    { date: "Jun 28, 2025", name: "Muharram", region: "Nationwide", type: "Religious", link: "/festivals/muharram" },
     { date: "Jun 29, 2025", name: "Rath Yatra", region: "East", type: "Religious", link: "/festivals/rath-yatra" },
-    { date: "Aug 04, 2025", name: "Nag Panchami", region: "Nationwide", type: "Cultural", link: "/festivals/nag-panchami" },
+    { date: "Jul 29, 2025", name: "Nag Panchami", region: "Nationwide", type: "Cultural", link: "/festivals/nag-panchami" },
     { date: "Aug 15, 2025", name: "Independence Day", region: "Nationwide", type: "Holiday", link: null },
     { date: "Aug 19, 2025", name: "Raksha Bandhan", region: "Nationwide", type: "Cultural", link: "/festivals/raksha-bandhan" },
     { date: "Aug 26, 2025", name: "Krishna Janmashtami", region: "Nationwide", type: "Religious", link: null },
@@ -64,12 +64,12 @@ const allEvents = [
     { date: "Apr 03, 2026", name: "Good Friday", region: "Nationwide", type: "Religious", link: "/festivals/christmas" },
     { date: "May 01, 2026", name: "Labour Day", region: "Nationwide", type: "Holiday", link: null },
     { date: "May 27, 2026", name: "Eid al-Adha", region: "Nationwide", type: "Religious", link: null },
-    { date: "Jun 17, 2026", name: "Muharram Begins", region: "Nationwide", type: "Religious", link: "/festivals/muharram" },
+    { date: "Jun 17, 2026", name: "Muharram", region: "Nationwide", type: "Religious", link: "/festivals/muharram" },
     { date: "Jun 18, 2026", name: "Rath Yatra", region: "East", type: "Religious", link: "/festivals/rath-yatra" },
     { date: "Jun 28 - Jun 29, 2026", name: "Hemis Tsechu", region: "North", type: "Cultural", link: "/festivals/hemis-tsechu" },
     { date: "Aug 07, 2026", name: "Raksha Bandhan", region: "Nationwide", type: "Cultural", link: "/festivals/raksha-bandhan" },
     { date: "Aug 15, 2026", name: "Independence Day", region: "Nationwide", type: "Holiday", link: null },
-    { date: "Aug 24, 2026", name: "Nag Panchami", region: "Nationwide", type: "Cultural", link: "/festivals/nag-panchami" },
+    { date: "Aug 18, 2026", name: "Nag Panchami", region: "Nationwide", type: "Cultural", link: "/festivals/nag-panchami" },
     { date: "Aug 26, 2026", name: "Onam", region: "South", type: "Harvest", link: "/festivals/onam" },
     { date: "Sep 15, 2026", name: "Ganesh Chaturthi", region: "West", type: "Religious", link: "/festivals/ganesh-chaturthi" },
     { date: "Oct 02, 2026", name: "Gandhi Jayanti", region: "Nationwide", type: "Holiday", link: null },
@@ -262,3 +262,5 @@ export function FestivalCalendar() {
         </div>
     );
 }
+
+    
