@@ -9,33 +9,33 @@ body {
 
 @layer base {
   :root {
-    --background: 30 50% 98%; /* Light Beige */
-    --foreground: 25 60% 15%; /* Dark Maroon/Brown */
+    --background: 0 50% 97%; /* Desaturated Light Red */
+    --foreground: 0 60% 15%; /* Dark Maroon/Brown */
 
-    --card: 30 30% 100%; /* White with a hint of beige */
-    --card-foreground: 25 60% 15%;
+    --card: 0 30% 100%; /* White with a hint of red */
+    --card-foreground: 0 60% 15%;
 
-    --popover: 30 30% 100%;
-    --popover-foreground: 25 60% 15%;
+    --popover: 0 30% 100%;
+    --popover-foreground: 0 60% 15%;
 
-    --primary: 25 85% 60%; /* Vibrant Orange */
+    --primary: 0 79% 51%; /* Saturated Red */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 30 50% 94%; /* Slightly darker beige */
-    --secondary-foreground: 25 60% 25%;
+    --secondary: 0 50% 94%; /* Slightly darker desaturated red */
+    --secondary-foreground: 0 60% 25%;
 
-    --muted: 30 50% 94%;
-    --muted-foreground: 25 50% 40%;
+    --muted: 0 50% 94%;
+    --muted-foreground: 0 50% 40%;
     
-    --accent: 35 90% 55%; /* Rich Gold/Orange Accent */
+    --accent: 30 100% 48%; /* Analogous Orange */
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
     
-    --border: 30 30% 88%;
-    --input: 30 30% 92%;
-    --ring: 25 85% 60%; /* Ring color same as primary */
+    --border: 0 30% 88%;
+    --input: 0 30% 92%;
+    --ring: 0 79% 51%; /* Ring color same as primary */
 
     --chart-1: 12 76% 61%;
     --chart-2: 173 58% 39%;
@@ -53,16 +53,16 @@ body {
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
   .dark {
-    --background: 25 10% 10%;
-    --foreground: 35 15% 95%;
+    --background: 0 10% 10%;
+    --foreground: 0 15% 95%;
     
-    --card: 25 10% 12%;
-    --card-foreground: 35 15% 95%;
+    --card: 0 10% 12%;
+    --card-foreground: 0 15% 95%;
     
-    --popover: 25 10% 12%;
-    --popover-foreground: 35 15% 95%;
+    --popover: 0 10% 12%;
+    --popover-foreground: 0 15% 95%;
 
-    --primary: 25 85% 60%; /* Vibrant Orange */
+    --primary: 0 79% 51%; /* Saturated Red */
     --primary-foreground: 0 0% 100%;
 
     --secondary: 0 0% 14.9%;
@@ -71,15 +71,15 @@ body {
     --muted: 0 0% 14.9%;
     --muted-foreground: 0 0% 63.9%;
     
-    --accent: 35 90% 55%; /* Rich Gold/Orange Accent */
+    --accent: 30 100% 48%; /* Analogous Orange */
     --accent-foreground: 0 0% 10%;
     
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
     
-    --border: 30 20% 30%;
-    --input: 30 20% 30%;
-    --ring: 25 85% 60%;
+    --border: 0 20% 30%;
+    --input: 0 20% 30%;
+    --ring: 0 79% 51%;
     
     --chart-1: 220 70% 50%;
     --chart-2: 160 60% 45%;
