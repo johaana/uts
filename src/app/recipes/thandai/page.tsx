@@ -13,7 +13,7 @@ export default function ThandaiPage() {
                              <p className="text-lg text-muted-foreground">The official drink of Holi, Thandai is a refreshing and aromatic cold beverage made with a blend of nuts, seeds, and spices, perfect for cooling down during the colorful festivities.</p>
                         </div>
                         <div className="md:w-1/3">
-                            <Image src="https://i.postimg.cc/Cxm19RSJ/holi2.jpg" alt="Thandai" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="holi drink"/>
+                            <Image src="https://i.postimg.cc/Y04CQqLL/Thandai.webp" alt="Thandai" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="holi drink"/>
                         </div>
                     </div>
                 </CardHeader>

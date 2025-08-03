@@ -13,7 +13,7 @@ export default function GujiyaPage() {
                             <p className="text-lg text-muted-foreground">A classic sweet for the festival of Holi, Gujiya are crescent-shaped fried pastries filled with a sweet mixture of khoya (milk solids), nuts, and coconut.</p>
                         </div>
                         <div className="md:w-1/3">
-                           <Image src="https://i.postimg.cc/fWFvx4J9/aceofnet-PNd98-z-An-U0-unsplash.jpg" alt="Gujiya" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="fried dumplings"/>
+                           <Image src="https://i.postimg.cc/zv9X7ZTt/Gujiya.jpg" alt="Gujiya" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="fried dumplings"/>
                         </div>
                     </div>
                 </CardHeader>

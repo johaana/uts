@@ -13,7 +13,7 @@ export default function ThekuaPage() {
                             <p className="text-lg text-muted-foreground">A revered prasad (offering) from Bihar, Thekua is a crispy, cookie-like sweet made especially for the Chhath Puja festival.</p>
                         </div>
                          <div className="md:w-1/3">
-                           <Image src="https://i.postimg.cc/nzrvDTx2/Diwali-Sweets.jpg" alt="Thekua" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="fried cookie"/>
+                           <Image src="https://i.postimg.cc/d1N07T3K/thekua1.webp" alt="Thekua" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="fried cookie"/>
                         </div>
                     </div>
                 </CardHeader>

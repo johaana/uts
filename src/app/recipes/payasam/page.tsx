@@ -13,7 +13,7 @@ export default function PayasamPage() {
                            <p className="text-lg text-muted-foreground">A classic South Indian dessert, Semiya Payasam is a creamy and aromatic pudding made with roasted vermicelli, milk, and sugar, typically served during Onam and other celebrations.</p>
                         </div>
                          <div className="md:w-1/3">
-                           <Image src="https://i.postimg.cc/tJ3RkTB3/Onam.png" alt="Semiya Payasam" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="vermicelli pudding"/>
+                           <Image src="https://i.postimg.cc/xj7CnHBv/payasam1.jpg" alt="Semiya Payasam" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="vermicelli pudding"/>
                         </div>
                     </div>
                 </CardHeader>

@@ -13,7 +13,7 @@ export default function LadooPage() {
                             <p className="text-lg text-muted-foreground">A beloved Indian sweet, Besan Ladoo is made from gram flour, sugar, and ghee. It's a must-have for festivals like Diwali and Raksha Bandhan.</p>
                         </div>
                          <div className="md:w-1/3">
-                           <Image src="https://i.postimg.cc/nzrvDTx2/Diwali-Sweets.jpg" alt="Besan Ladoo" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="gram flour ladoo"/>
+                           <Image src="https://i.postimg.cc/9MkWX5gm/Besan-Laddoo.webp" alt="Besan Ladoo" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="gram flour ladoo"/>
                         </div>
                     </div>
                 </CardHeader>

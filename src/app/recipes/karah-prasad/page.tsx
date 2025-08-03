@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check } from "lucide-react";
+import Image from "next/image";
 
 export default function KarahPrasadPage() {
     return (
@@ -7,7 +8,14 @@ export default function KarahPrasadPage() {
             <Card>
                 <CardHeader className="p-6 md:p-10">
                     <CardTitle className="font-headline text-4xl mb-4">Karah Prasad</CardTitle>
-                    <p className="text-lg text-muted-foreground">A sacred and humble offering made with just four ingredients, Karah Prasad is served at Gurdwaras to everyone. Its beauty lies in its simplicity and the devotion with which it's made.</p>
+                    <div className="flex flex-col md:flex-row gap-6">
+                        <div className="md:w-2/3">
+                            <p className="text-lg text-muted-foreground">A sacred and humble offering made with just four ingredients, Karah Prasad is served at Gurdwaras to everyone. Its beauty lies in its simplicity and the devotion with which it's made.</p>
+                        </div>
+                        <div className="md:w-1/3">
+                           <Image src="https://i.postimg.cc/zXgfBv19/karah-prasad.jpg" alt="Karah Prasad" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="wheat pudding"/>
+                        </div>
+                    </div>
                 </CardHeader>
                 <CardContent className="p-6 md:p-10 pt-0">
                     <div className="grid md:grid-cols-3 gap-8">

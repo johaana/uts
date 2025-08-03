@@ -13,7 +13,7 @@ export default function ChristmasCakePage() {
                             <p className="text-lg text-muted-foreground">A rich, moist, and boozy fruit cake is the heart of Christmas celebrations. This recipe is packed with dried fruits, nuts, and warm spices.</p>
                         </div>
                         <div className="md:w-1/3">
-                            <Image src="https://i.postimg.cc/ncKMYdWy/christmas-2.jpg" alt="Christmas Cake" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="christmas cake"/>
+                            <Image src="https://i.postimg.cc/kDmD9PDV/christmas-cake.jpg" alt="Christmas Cake" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="christmas cake"/>
                         </div>
                     </div>
                 </CardHeader>
