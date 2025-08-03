@@ -22,7 +22,7 @@ export default function MuharramPage() {
                                 <TabsTrigger value="overview" className="py-2"><BookOpen className="w-4 h-4 mr-2" />Overview</TabsTrigger>
                                 <TabsTrigger value="ashura" className="py-2"><CircleHelp className="w-4 h-4 mr-2" />Day of Ashura</TabsTrigger>
                                 <TabsTrigger value="observances" className="py-2"><Sparkles className="w-4 h-4 mr-2" />Observances</TabsTrigger>
-                                <TabsTrigger value="prayers" className="py-2"><MessageSquareQuote className="w-4 h-4 mr-2" />Prayers</" + "a" + "d-Dua" + ">
+                                <TabsTrigger value="prayers" className="py-2"><MessageSquareQuote className="w-4 h-4 mr-2" />Prayers & Dua</TabsTrigger>
                             </TabsList>
 
                             <TabsContent value="overview">
@@ -96,3 +96,5 @@ export default function MuharramPage() {
         </div>
     );
 }
+
+    
