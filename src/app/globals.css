@@ -9,33 +9,33 @@ body {
 
 @layer base {
   :root {
-    --background: 0 50% 96%;
-    --foreground: 0 0% 15%;
+    --background: 39 100% 95%; /* Light Peach/Beige */
+    --foreground: 24 9% 15%; /* Dark Brown for text */
 
-    --card: 0 33% 100%;
-    --card-foreground: 0 0% 15%;
+    --card: 39 100% 97%; /* Slightly lighter peach for cards */
+    --card-foreground: 24 9% 15%;
 
-    --popover: 0 33% 100%;
-    --popover-foreground: 0 0% 15%;
+    --popover: 39 100% 97%;
+    --popover-foreground: 24 9% 15%;
 
-    --primary: 0 72% 51%;
+    --primary: 25 95% 53%; /* Vibrant Orange for buttons */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 0 43% 93%;
-    --secondary-foreground: 0 0% 25%;
+    --secondary: 40 11% 95%;
+    --secondary-foreground: 24 9% 25%;
 
-    --muted: 0 43% 93%;
-    --muted-foreground: 0 0% 40%;
+    --muted: 40 11% 95%;
+    --muted-foreground: 24 9% 40%;
     
-    --accent: 25 95% 53%;
+    --accent: 25 35% 35%; /* Dark Brown for links/accents */
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
     
-    --border: 0 33% 88%;
-    --input: 0 33% 92%;
-    --ring: 0 72% 51%;
+    --border: 39 25% 88%;
+    --input: 39 25% 92%;
+    --ring: 25 95% 53%;
 
     --chart-1: 12 76% 61%;
     --chart-2: 173 58% 39%;
@@ -62,8 +62,8 @@ body {
     --popover: 30 10% 12%;
     --popover-foreground: 40 15% 95%;
 
-    --primary: 0 72% 51%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 25 95% 53%; /* Vibrant Orange for buttons */
+    --primary-foreground: 0 0% 10%;
 
     --secondary: 0 0% 14.9%;
     --secondary-foreground: 0 0% 98%;
@@ -71,7 +71,7 @@ body {
     --muted: 0 0% 14.9%;
     --muted-foreground: 0 0% 63.9%;
     
-    --accent: 25 95% 63%;
+    --accent: 25 95% 63%; /* Lighter Orange for dark mode accents */
     --accent-foreground: 0 0% 10%;
     
     --destructive: 0 62.8% 30.6%;
@@ -79,7 +79,7 @@ body {
     
     --border: 30 20% 30%;
     --input: 30 20% 30%;
-    --ring: 0 72% 51%;
+    --ring: 25 95% 53%;
     
     --chart-1: 220 70% 50%;
     --chart-2: 160 60% 45%;
