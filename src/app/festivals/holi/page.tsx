@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote, Leaf } from "lucide-react";
@@ -15,7 +14,7 @@ export default function HoliPage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-primary/10">
-                 <Image src="https://i.postimg.cc/fWFvx4J9/aceofnet-PNd98-z-An-U0-unsplash.jpg" alt="Holi festival of colors" layout="fill" objectFit="cover" className="absolute opacity-20" data-ai-hint="holi colors"/>
+                 <Image src="https://i.postimg.cc/rsXF5WNy/holi.jpg" alt="Holi festival of colors" layout="fill" objectFit="cover" className="absolute opacity-20" data-ai-hint="holi colors"/>
                 <div className="relative text-center text-primary-foreground z-10">
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-white shadow-lg">Holi</h1>
                     <p className="text-xl md:text-2xl mt-4 text-white/90 shadow-md">The Festival of Colors</p>
@@ -44,7 +43,7 @@ export default function HoliPage() {
                                         </div>
                                     </div>
                                     <div className="md:w-1/3">
-                                        <Image src="https://i.postimg.cc/rsXF5WNy/holi.jpg" alt="People playing holi" width={400} height={600} className="rounded-lg shadow-lg" data-ai-hint="holi celebration"/>
+                                        <Image src="https://i.postimg.cc/fWFvx4J9/aceofnet-PNd98-z-An-U0-unsplash.jpg" alt="People playing holi" width={400} height={600} className="rounded-lg shadow-lg" data-ai-hint="holi celebration"/>
                                     </div>
                                 </div>
                             </TabsContent>
@@ -83,7 +82,7 @@ export default function HoliPage() {
                                        <Link href={recipe.link} key={recipe.name}>
                                             <Card className="overflow-hidden h-full hover:shadow-xl transition-shadow duration-300">
                                                 <CardContent className="p-4">
-                                                    <h3 className="font-headline text-xl font-bold text-center text-primary">{recipe.name}</h3>
+                                                    <h3 className="font-headline text-xl font-bold text-center text-primary h-14 flex items-center justify-center">{recipe.name}</h3>
                                                 </CardContent>
                                             </Card>
                                         </Link>
@@ -119,56 +118,44 @@ export default function HoliPage() {
                             </TabsContent>
                             <TabsContent value="eco-friendly">
                                 <h2 className="font-headline text-3xl font-bold mb-4">How to Make Natural Holi Colors at Home</h2>
-                                <div className="space-y-4 text-foreground/80 prose max-w-none">
-                                    <p>Celebrate a truly vibrant and safe Holi by making your own colors from simple, non-toxic kitchen ingredients. Commercial colors often contain harmful chemicals, but these natural alternatives are gentle on your skin and the environment.</p>
-                                    <ul className="space-y-6 pl-4">
-                                        <li className="flex items-start">
-                                            <div className="w-8 h-8 rounded-full bg-yellow-400 mr-4 mt-1 shrink-0"></div>
-                                            <div>
-                                                <h4 className="font-bold">Radiant Yellow</h4>
-                                                <p>For a beautiful sunny yellow, mix turmeric powder (haldi) with an equal amount of gram flour (besan) or rice flour. This not only gives a lovely color but is also great for your skin. For a wet yellow, boil marigold flowers in water, let it cool, and your natural pichkari color is ready.</p>
-                                            </div>
-                                        </li>
-                                        <li className="flex items-start">
-                                            <div className="w-8 h-8 rounded-full bg-red-500 mr-4 mt-1 shrink-0"></div>
-                                            <div>
-                                                <h4 className="font-bold">Brilliant Red</h4>
-                                                <p>Create a striking red by using red sandalwood powder (Raktachandan). For a deeper shade, dry some hibiscus flowers in the sun until crisp and grind them into a fine powder. For a liquid red, soak dried hibiscus flowers or slices of beetroot in water overnight.</p>
-                                            </div>
-                                        </li>
-                                        <li className="flex items-start">
-                                            <div className="w-8 h-8 rounded-full bg-green-500 mr-4 mt-1 shrink-0"></div>
-                                            <div>
-                                                <h4 className="font-bold">Verdant Green</h4>
-                                                <p>For a dry green, use pure henna (mehendi) powder mixed with flour to achieve the desired shade. You can also dry and powder leaves like neem or mint. For a wet green, simply make a paste from spinach, mint, or coriander leaves.</p>
-                                            </div>
-                                        </li>
-                                         <li className="flex items-start">
-                                            <div className="w-8 h-8 rounded-full bg-pink-500 mr-4 mt-1 shrink-0"></div>
-                                            <div>
-                                                <h4 className="font-bold">Lovely Magenta</h4>
-                                                <p>Grate or slice a beetroot and soak it in water. For a more intense color, boil the beetroot slices in water and then let it cool. This creates a beautiful, deep pinkish-red color that is completely safe.</p>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                    <div className="pt-4">
-                                        <h3 className="font-bold text-lg">Other Green Practices:</h3>
-                                         <ul className="space-y-4 pl-4 mt-4">
-                                             <li className="flex items-start">
-                                                <Leaf className="w-6 h-6 mr-3 mt-1 text-green-600 shrink-0"/>
-                                                <div>
-                                                    <h4 className="font-bold">Conserve Water</h4>
-                                                    <p>Try to play a dry Holi using only your homemade gulal. This saves a significant amount of water and still allows for all the fun.</p>
-                                                </div>
-                                            </li>
-                                            <li className="flex items-start">
-                                                <Leaf className="w-6 h-6 mr-3 mt-1 text-green-600 shrink-0"/>
-                                                <div>
-                                                    <h4 className="font-bold">Say No to Water Balloons</h4>
-                                                    <p>Plastic balloons add to landfill waste and can be harmful to stray animals. Stick to traditional pichkaris if you play with wet colors.</p>
-                                                </div>
-                                            </li>
-                                        </ul>
+                                <div className="flex flex-col md:flex-row gap-8 items-center">
+                                    <div className="md:w-2/3">
+                                        <div className="space-y-4 text-foreground/80 prose max-w-none">
+                                            <p>Celebrate a truly vibrant and safe Holi by making your own colors from simple, non-toxic kitchen ingredients. Commercial colors often contain harmful chemicals, but these natural alternatives are gentle on your skin and the environment.</p>
+                                            <ul className="space-y-6 pl-4">
+                                                <li className="flex items-start">
+                                                    <div className="w-8 h-8 rounded-full bg-yellow-400 mr-4 mt-1 shrink-0"></div>
+                                                    <div>
+                                                        <h4 className="font-bold">Radiant Yellow</h4>
+                                                        <p>For a beautiful sunny yellow, mix turmeric powder (haldi) with an equal amount of gram flour (besan) or rice flour. This not only gives a lovely color but is also great for your skin. For a wet yellow, boil marigold flowers in water, let it cool, and your natural pichkari color is ready.</p>
+                                                    </div>
+                                                </li>
+                                                <li className="flex items-start">
+                                                    <div className="w-8 h-8 rounded-full bg-red-500 mr-4 mt-1 shrink-0"></div>
+                                                    <div>
+                                                        <h4 className="font-bold">Brilliant Red</h4>
+                                                        <p>Create a striking red by using red sandalwood powder (Raktachandan). For a deeper shade, dry some hibiscus flowers in the sun until crisp and grind them into a fine powder. For a liquid red, soak dried hibiscus flowers or slices of beetroot in water overnight.</p>
+                                                    </div>
+                                                </li>
+                                                <li className="flex items-start">
+                                                    <div className="w-8 h-8 rounded-full bg-green-500 mr-4 mt-1 shrink-0"></div>
+                                                    <div>
+                                                        <h4 className="font-bold">Verdant Green</h4>
+                                                        <p>For a dry green, use pure henna (mehendi) powder mixed with flour to achieve the desired shade. You can also dry and powder leaves like neem or mint. For a wet green, simply make a paste from spinach, mint, or coriander leaves.</p>
+                                                    </div>
+                                                </li>
+                                                 <li className="flex items-start">
+                                                    <div className="w-8 h-8 rounded-full bg-pink-500 mr-4 mt-1 shrink-0"></div>
+                                                    <div>
+                                                        <h4 className="font-bold">Lovely Magenta</h4>
+                                                        <p>Grate or slice a beetroot and soak it in water. For a more intense color, boil the beetroot slices in water and then let it cool. This creates a beautiful, deep pinkish-red color that is completely safe.</p>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div className="md:w-1/3">
+                                        <Image src="https://i.postimg.cc/qvxZXcTy/natural-holi-colors.webp" alt="Natural Holi Colors" width={400} height={400} className="rounded-lg shadow-lg" data-ai-hint="natural colors"/>
                                     </div>
                                 </div>
                             </TabsContent>
@@ -179,5 +166,3 @@ export default function HoliPage() {
         </div>
     );
 }
-
-    

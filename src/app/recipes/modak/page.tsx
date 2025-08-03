@@ -13,7 +13,7 @@ export default function ModakPage() {
                             <p className="text-lg text-muted-foreground">This is the traditional sweet offering to Lord Ganesha during Ganesh Chaturthi. These steamed rice flour dumplings are filled with a sweet mixture of coconut and jaggery.</p>
                         </div>
                         <div className="md:w-1/3">
-                           <Image src="https://i.postimg.cc/0jLdxSLf/milind-bedwa-Bp-VZGQ4pt0w-unsplash.jpg" alt="Modak" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="steamed dumplings"/>
+                           <Image src="https://i.postimg.cc/ZYv7DzmT/ukadiche-modak-recipe.jpg" alt="Modak" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="steamed dumplings"/>
                         </div>
                     </div>
                 </CardHeader>

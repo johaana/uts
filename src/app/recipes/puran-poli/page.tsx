@@ -13,7 +13,7 @@ export default function PuranPoliPage() {
                             <p className="text-lg text-muted-foreground">A quintessential Maharashtrian sweet flatbread, Puran Poli is specially made during festivals like Ganesh Chaturthi and Holi.</p>
                         </div>
                          <div className="md:w-1/3">
-                           <Image src="https://i.postimg.cc/mDn7NM2s/Sweets1.jpg" alt="Puran Poli" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="sweet flatbread"/>
+                           <Image src="https://i.postimg.cc/jj8gBsCj/puranpoli.jpg" alt="Puran Poli" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="sweet flatbread"/>
                         </div>
                     </div>
                 </CardHeader>

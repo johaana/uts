@@ -13,7 +13,7 @@ export default function BiryaniPage() {
                             <p className="text-lg text-muted-foreground">A royal and aromatic one-pot dish, Biryani is a celebration in itself. Layers of fragrant basmati rice and succulent, spiced meat cooked to perfection.</p>
                         </div>
                          <div className="md:w-1/3">
-                           <Image src="https://i.postimg.cc/9fJd0K6z/Eid2.jpg" alt="Chicken Biryani" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="chicken biryani"/>
+                           <Image src="https://i.postimg.cc/BQxh45tk/Mutton-Biryani.png" alt="Chicken Biryani" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="chicken biryani"/>
                         </div>
                     </div>
                 </CardHeader>

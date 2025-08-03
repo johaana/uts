@@ -13,7 +13,7 @@ export default function RasMalaiPage() {
                             <p className="text-lg text-muted-foreground">A royal Bengali dessert, Ras Malai consists of soft, spongy cheese discs soaked in a fragrant, saffron-infused milk syrup. A true delicacy for festivals like Holi and Diwali.</p>
                         </div>
                          <div className="md:w-1/3">
-                           <Image src="https://i.postimg.cc/T3jqMpQV/sonika-agarwal-ut6-AQhi-V0-BQ-unsplash.jpg" alt="Ras Malai" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="milk sweet"/>
+                           <Image src="https://i.postimg.cc/d1pWt42P/Rasmalai.webp" alt="Ras Malai" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="milk sweet"/>
                         </div>
                     </div>
                 </CardHeader>
