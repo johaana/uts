@@ -11,16 +11,20 @@ import { ArrowRight } from "lucide-react";
 import { format, parse } from 'date-fns';
 
 const allEvents = [
-    // Public Holidays 2025
+    // 2025
     { date: "Jan 01, 2025", name: "New Year's Day", region: "Nationwide", type: "Holiday", link: null },
+    { date: "Jan 13, 2025", name: "Lohri", region: "North", type: "Harvest", link: "/festivals/lohri" },
     { date: "Jan 26, 2025", name: "Republic Day", region: "Nationwide", type: "Holiday", link: null },
     { date: "Mar 30, 2025", name: "Eid-al-Fitr (Ramzan Eid)", region: "Nationwide", type: "Religious", link: "/festivals/eid-al-fitr" },
     { date: "Mar 31, 2025", name: "Holi", region: "Nationwide", type: "Holiday", link: "/festivals/holi" },
     { date: "Apr 18, 2025", name: "Good Friday", region: "Nationwide", type: "Religious", link: "/festivals/christmas" },
+    { date: "Apr 21, 2025", name: "Akshaya Tritiya", region: "Nationwide", type: "Religious", link: "/festivals/akshaya-tritiya" },
     { date: "May 01, 2025", name: "Labour Day", region: "Nationwide", type: "Holiday", link: null },
     { date: "Jun 17, 2025", name: "Eid al-Adha", region: "Nationwide", type: "Religious", link: null },
+    { date: "Jun 29, 2025", name: "Rath Yatra", region: "East", type: "Religious", link: "/festivals/rath-yatra" },
+    { date: "Jul 17, 2025", name: "Muharram", region: "Nationwide", type: "Religious", link: "/festivals/muharram" },
+    { date: "Aug 09, 2025", name: "Nag Panchami", region: "Nationwide", type: "Cultural", link: "/festivals/nag-panchami" },
     { date: "Aug 15, 2025", name: "Independence Day", region: "Nationwide", type: "Holiday", link: null },
-    // Festivals 2025
     { date: "Aug 19, 2025", name: "Raksha Bandhan", region: "Nationwide", type: "Cultural", link: "/festivals/raksha-bandhan" },
     { date: "Aug 27, 2025", name: "Ganesh Chaturthi", region: "West", type: "Religious", link: "/festivals/ganesh-chaturthi" },
     { date: "Sep 07, 2025", name: "Onam", region: "South", type: "Harvest", link: "/festivals/onam" },
@@ -37,13 +41,14 @@ const allEvents = [
     { date: "Nov 05, 2025", name: "Guru Nanak Jayanti", region: "Nationwide", type: "Religious", link: "/festivals/guru-nanak-jayanti" },
     { date: "Dec 25, 2025", name: "Christmas", region: "Nationwide", type: "Religious", link: "/festivals/christmas" },
 
-    // Public Holidays 2026
+    // 2026
     { date: "Jan 01, 2026", name: "New Year's Day", region: "Nationwide", type: "Holiday", link: null },
+    { date: "Jan 13, 2026", name: "Lohri", region: "North", type: "Harvest", link: "/festivals/lohri" },
     { date: "Jan 14, 2026", name: "Makar Sankranti", region: "Nationwide", type: "Harvest", link: "/festivals/makar-sankranti" },
     { date: "Jan 14, 2026", name: "Pongal", region: "South", type: "Harvest", link: "/festivals/pongal" },
     { date: "Jan 15, 2026", name: "Bihu", region: "Northeast", type: "Harvest", link: "/festivals/bihu" },
     { date: "Jan 26, 2026", name: "Republic Day", region: "Nationwide", type: "Holiday", link: null },
-    { date: "Feb 03, 2026", name: "Vasant Panchami", region: "Nationwide", type: "Seasonal", link: null },
+    { date: "Feb 03, 2026", name: "Vasant Panchami", region: "Nationwide", type: "Seasonal", link: "/festivals/vasant-panchami" },
     { date: "Mar 04, 2026", name: "Holi", region: "Nationwide", type: "Cultural", link: "/festivals/holi" },
     { date: "Mar 20, 2026", name: "Eid al-Fitr", region: "Nationwide", type: "Holiday", link: "/festivals/eid-al-fitr" },
     { date: "Mar 21, 2026", name: "Gudi Padwa", region: "West", type: "New Year", link: "/festivals/gudi-padwa" },
@@ -126,6 +131,9 @@ export function FestivalCalendar() {
             case 'Harvest': return 'bg-green-600/80 text-white';
             case 'Holiday': return 'border-blue-500/80 text-blue-500';
             case 'Diwali': return 'bg-amber-500/80 text-white';
+            case 'New Year': return 'bg-purple-600/80 text-white';
+            case 'Seasonal': return 'bg-yellow-500/80 text-white';
+            case 'Solar': return 'bg-orange-500/80 text-white';
             default: return '';
         }
     };
