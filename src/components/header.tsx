@@ -23,8 +23,7 @@ export function Header() {
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-16 max-w-7xl items-center justify-between px-4">
         <Link href="/" className="flex items-center gap-2">
-          <UtsavsLogo />
-          <span className="font-headline text-2xl font-bold text-primary">Utsavs</span>
+          <UtsavsLogo className="text-primary" />
         </Link>
         <nav className="hidden md:flex items-center gap-6">
           {navLinks.map((link) => (
@@ -56,8 +55,7 @@ export function Header() {
               <SheetContent side="right">
                 <div className="flex flex-col gap-6 pt-10">
                   <Link href="/" className="flex items-center gap-2 mb-4">
-                    <UtsavsLogo />
-                    <span className="font-headline text-xl font-bold text-primary">Utsavs</span>
+                    <UtsavsLogo className="text-primary" />
                   </Link>
                   {navLinks.map((link) => (
                     <Link

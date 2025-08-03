@@ -11,8 +11,7 @@ export function Footer() {
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-3">
           <div className="lg:col-span-1">
             <Link href="/" className="flex items-center gap-2 mb-4">
-                <UtsavsLogo />
-                <span className="font-headline text-2xl font-bold text-primary">Utsavs</span>
+                <UtsavsLogo className="text-primary" />
             </Link>
             <p className="text-foreground/80 max-w-xs">
               Your guide to the vibrant world of Indian festivals.
