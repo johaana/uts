@@ -22,6 +22,8 @@ const festivals = [
     { name: "Chhath Puja", region: "North & East", description: "An ancient Hindu festival dedicated to the Sun God, Surya, thanking him for sustaining life on earth.", link: "/festivals/chhath-puja" },
     { name: "Rath Yatra", region: "East", description: "The spectacular chariot festival of Lord Jagannath celebrated in Puri and other cities.", link: "/festivals/rath-yatra" },
     { name: "Gudi Padwa", region: "West", description: "The Maharashtrian New Year, celebrated with the hoisting of a 'Gudi' and festive foods.", link: "/festivals/gudi-padwa" },
+    { name: "Lohri", region: "North", description: "A popular Punjabi folk festival, celebrating the winter solstice and the harvest of rabi crops.", link: "/festivals/lohri" },
+    { name: "Vasant Panchami", region: "Nationwide", description: "A festival that marks the preparation for the arrival of spring, dedicated to the goddess Saraswati.", link: "/festivals/vasant-panchami" },
 ];
 
 export default function FestivalsPage() {
