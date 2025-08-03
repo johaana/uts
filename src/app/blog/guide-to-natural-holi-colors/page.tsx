@@ -2,6 +2,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { Button } from "@/components/ui/button";
 
 export default function SingleBlogPage() {
     return (
@@ -42,3 +43,5 @@ export default function SingleBlogPage() {
         </div>
     );
 }
+
+    
