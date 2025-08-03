@@ -8,7 +8,7 @@ export function UtsavsLogo({ className, ...props }: React.HTMLAttributes<HTMLDiv
         src="https://i.postimg.cc/Gh0W1Kj4/Beige-And-Orange-Traditional-Indian-Fashion-Business-Logo-20250803-235803-0002.png" 
         alt="Utsavopedia Logo" 
         layout="fill"
-        objectFit="cover"
+        objectFit="contain"
         objectPosition="center"
         priority 
         unoptimized 
