@@ -1,3 +1,7 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -5,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { ArrowRight, Search } from "lucide-react";
 import Link from "next/link";
 
-const festivals = [
+const allFestivals = [
     { name: "Diwali", region: "Nationwide", description: "The festival of lights, symbolizing the victory of light over darkness and good over evil.", link: "/festivals/diwali" },
     { name: "Holi", region: "Nationwide", description: "The vibrant festival of colors, celebrating the arrival of spring, love, and the triumph of good.", link: "/festivals/holi" },
     { name: "Eid-al-Fitr", region: "Nationwide", description: "Marking the end of Ramadan, this festival is a joyous celebration of feasting, prayer, and charity.", link: "/festivals/eid-al-fitr" },
@@ -33,7 +37,25 @@ const festivals = [
     { name: "Goa Carnival", region: "West", description: "A vibrant and energetic carnival in Goa with Portuguese roots, featuring parades, music, and dance.", link: "/festivals/goa-carnival" },
 ].sort((a, b) => a.name.localeCompare(b.name));
 
-export default function FestivalsPage() {
+const regions = ["Nationwide", "North", "South", "East", "West", "Central", "Northeast"];
+
+function FestivalsPageContent() {
+    const searchParams = useSearchParams();
+    const initialRegion = searchParams.get('region') || 'all';
+
+    const [searchTerm, setSearchTerm] = useState('');
+    const [selectedRegion, setSelectedRegion] = useState(initialRegion);
+
+    useEffect(() => {
+        setSelectedRegion(initialRegion);
+    }, [initialRegion]);
+
+    const filteredFestivals = allFestivals.filter(festival => {
+        const nameMatch = festival.name.toLowerCase().includes(searchTerm.toLowerCase());
+        const regionMatch = selectedRegion === 'all' || festival.region.toLowerCase().includes(selectedRegion.toLowerCase());
+        return nameMatch && regionMatch;
+    });
+
     return (
         <div className="container mx-auto px-4 py-12">
             <div className="text-center mb-12">
@@ -47,30 +69,31 @@ export default function FestivalsPage() {
                 <div className="flex flex-col md:flex-row gap-4 items-center">
                     <div className="relative w-full flex-grow">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                        <Input placeholder="Search for a festival (e.g., Diwali, Holi...)" className="pl-10"/>
+                        <Input 
+                            placeholder="Search for a festival (e.g., Diwali, Holi...)" 
+                            className="pl-10"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
                     </div>
                     <div className="flex gap-4 w-full md:w-auto">
-                        <Select>
+                        <Select value={selectedRegion} onValueChange={setSelectedRegion}>
                             <SelectTrigger className="w-full md:w-[180px]">
                                 <SelectValue placeholder="Filter by Region" />
                             </SelectTrigger>
                             <SelectContent>
-                                <SelectItem value="nationwide">Nationwide</SelectItem>
-                                <SelectItem value="north">North</SelectItem>
-                                <SelectItem value="south">South</SelectItem>
-                                <SelectItem value="east">East</SelectItem>
-                                <SelectItem value="west">West</SelectItem>
-                                <SelectItem value="central">Central</SelectItem>
-                                <SelectItem value="northeast">Northeast</SelectItem>
+                                <SelectItem value="all">All Regions</SelectItem>
+                                {regions.map(region => (
+                                    <SelectItem key={region} value={region}>{region}</SelectItem>
+                                ))}
                             </SelectContent>
                         </Select>
-                        <Button className="bg-accent hover:bg-accent/90 text-accent-foreground">Filter</Button>
                     </div>
                 </div>
             </Card>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {festivals.map((festival) => (
+                {filteredFestivals.length > 0 ? filteredFestivals.map((festival) => (
                     <Card key={festival.name} className="overflow-hidden group flex flex-col">
                         <CardContent className="p-6 flex flex-col flex-grow">
                             <p className="text-sm text-primary font-semibold mb-1">{festival.region}</p>
@@ -83,8 +106,22 @@ export default function FestivalsPage() {
                             </Link>
                         </CardContent>
                     </Card>
-                ))}
+                )) : (
+                    <p className="text-center md:col-span-3">No festivals found matching your criteria.</p>
+                )}
             </div>
         </div>
     );
 }
+
+
+export default function FestivalsPage() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <FestivalsPageContent />
+        </Suspense>
+    );
+}
+
+// Add Suspense to your imports
+import { Suspense } from 'react';

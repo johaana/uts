@@ -1,3 +1,6 @@
+'use client';
+
+import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -6,7 +9,7 @@ import { Search } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 
-const recipes = [
+const allRecipes = [
     { name: "Gajar Ka Halwa", festival: "Diwali", region: "North", description: "A rich carrot pudding made with milk, sugar, and ghee.", link: "/recipes/gajar-ka-halwa", image: "https://i.postimg.cc/FHNTRfLR/gajar-halwa.jpg", hint: "carrot pudding" },
     { name: "Puran Poli", festival: "Ganesh Chaturthi", region: "West", description: "Sweet flatbread stuffed with a lentil and jaggery filling.", link: "/recipes/puran-poli", image: "https://i.postimg.cc/jj8gBsCj/puranpoli.jpg", hint: "sweet flatbread" },
     { name: "Ras Malai", festival: "Holi", region: "East", description: "Soft paneer discs soaked in sweetened, thickened milk.", link: "/recipes/ras-malai", image: "https://i.postimg.cc/d1pWt42P/Rasmalai.webp", hint: "milk sweets" },
@@ -35,7 +38,21 @@ const recipes = [
     { name: "Poda Pitha", festival: "Rath Yatra", region: "East", description: "Slow-cooked, baked rice cake, a favorite of Lord Jagannath.", link: "/recipes/poda-pitha", image: "https://i.postimg.cc/YSpNpMyJ/sudarshan-poojary-FZw-Bem-Sc-Rc0-unsplash.jpg", hint: "baked rice cake" },
 ].sort((a, b) => a.name.localeCompare(b.name));
 
+const festivals = [...new Set(allRecipes.map(r => r.festival))].sort();
+const regions = [...new Set(allRecipes.map(r => r.region))].sort();
+
 export default function RecipesPage() {
+    const [searchTerm, setSearchTerm] = useState('');
+    const [selectedFestival, setSelectedFestival] = useState('all');
+    const [selectedRegion, setSelectedRegion] = useState('all');
+
+    const filteredRecipes = allRecipes.filter(recipe => {
+        const nameMatch = recipe.name.toLowerCase().includes(searchTerm.toLowerCase());
+        const festivalMatch = selectedFestival === 'all' || recipe.festival === selectedFestival;
+        const regionMatch = selectedRegion === 'all' || recipe.region === selectedRegion;
+        return nameMatch && festivalMatch && regionMatch;
+    });
+
     return (
         <div className="container mx-auto px-4 py-12">
             <div className="text-center mb-12">
@@ -49,44 +66,42 @@ export default function RecipesPage() {
                  <div className="flex flex-col md:flex-row gap-4 items-center">
                     <div className="relative w-full flex-grow">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                        <Input placeholder="Search for a recipe (e.g., Ladoo, Biryani...)" className="pl-10"/>
+                        <Input 
+                            placeholder="Search for a recipe (e.g., Ladoo, Biryani...)" 
+                            className="pl-10"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
                     </div>
                     <div className="flex gap-4 w-full md:w-auto">
-                        <Select>
+                        <Select value={selectedFestival} onValueChange={setSelectedFestival}>
                             <SelectTrigger className="w-full md:w-[180px]">
                                 <SelectValue placeholder="By Festival" />
                             </SelectTrigger>
                             <SelectContent>
-                                <SelectItem value="diwali">Diwali</SelectItem>
-                                <SelectItem value="holi">Holi</SelectItem>
-                                <SelectItem value="navratri">Navratri</SelectItem>
-                                <SelectItem value="pongal">Pongal</SelectItem>
-                                <SelectItem value="ganesh-chaturthi">Ganesh Chaturthi</SelectItem>
-                                <SelectItem value="chhath-puja">Chhath Puja</SelectItem>
-                                <SelectItem value="eid-al-fitr">Eid-al-Fitr</SelectItem>
-                                <SelectItem value="christmas">Christmas</SelectItem>
-                                <SelectItem value="guru-nanak-jayanti">Guru Nanak Jayanti</SelectItem>
+                                <SelectItem value="all">All Festivals</SelectItem>
+                                {festivals.map(festival => (
+                                    <SelectItem key={festival} value={festival}>{festival}</SelectItem>
+                                ))}
                             </SelectContent>
                         </Select>
-                         <Select>
+                         <Select value={selectedRegion} onValueChange={setSelectedRegion}>
                             <SelectTrigger className="w-full md:w-[180px]">
                                 <SelectValue placeholder="By Region" />
                             </SelectTrigger>
                             <SelectContent>
-                                <SelectItem value="north">North</SelectItem>
-                                <SelectItem value="south">South</SelectItem>
-                                <SelectItem value="east">East</SelectItem>
-                                <SelectItem value="west">West</SelectItem>
-                                <SelectItem value="nationwide">Nationwide</SelectItem>
+                                <SelectItem value="all">All Regions</SelectItem>
+                                {regions.map(region => (
+                                     <SelectItem key={region} value={region}>{region}</SelectItem>
+                                ))}
                             </SelectContent>
                         </Select>
-                        <Button className="bg-accent hover:bg-accent/90 text-accent-foreground">Filter</Button>
                     </div>
                 </div>
             </Card>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                {recipes.map((recipe) => (
+                {filteredRecipes.length > 0 ? filteredRecipes.map((recipe) => (
                     <Card key={recipe.name} className="overflow-hidden group flex flex-col">
                         <div className="relative h-64 w-full bg-black/5 overflow-hidden">
                           <Image src={recipe.image} alt={recipe.name} layout="fill" objectFit="cover" data-ai-hint={recipe.hint} className="transition-transform duration-500 ease-in-out group-hover:scale-105"/>
@@ -102,7 +117,9 @@ export default function RecipesPage() {
                             </Link>
                         </CardContent>
                     </Card>
-                ))}
+                )) : (
+                     <p className="text-center md:col-span-4">No recipes found matching your criteria.</p>
+                )}
             </div>
         </div>
     );

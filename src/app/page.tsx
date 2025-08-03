@@ -154,9 +154,11 @@ export default function Home() {
           <h2 className="font-headline text-3xl md:text-4xl font-bold text-center mb-8">Discover Festivals by Region</h2>
             <div className="flex flex-wrap justify-center gap-4">
               {["North", "South", "East", "West", "Central", "Northeast"].map((region) => (
-                <Button key={region} variant="outline" size="lg" className="bg-white hover:bg-white/80">
-                  {region} India
-                </Button>
+                <Link key={region} href={`/festivals?region=${region}`} passHref>
+                    <Button variant="outline" size="lg" className="bg-white hover:bg-white/80">
+                      {region} India
+                    </Button>
+                </Link>
               ))}
             </div>
         </div>
