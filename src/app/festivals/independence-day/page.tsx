@@ -7,11 +7,11 @@ import Image from "next/image";
 export default function IndependenceDayPage() {
     return (
         <div className="bg-background">
-            <section className="relative h-[50vh] flex items-center justify-center bg-orange-600/10">
+            <section className="relative h-[50vh] flex items-center justify-center bg-green-50/20">
                  <Image src="https://i.postimg.cc/kG6pM4vB/Camel-Festival-Bikaner-Rajasthan.jpg" alt="Indian Flag" layout="fill" objectFit="cover" className="absolute opacity-20" data-ai-hint="indian flag"/>
                 <div className="relative text-center text-primary-foreground z-10">
-                    <h1 className="font-headline text-5xl md:text-7xl font-bold text-white shadow-lg">Independence Day</h1>
-                    <p className="text-xl md:text-2xl mt-4 text-white/90 shadow-md">Celebrating Freedom</p>
+                    <h1 className="font-headline text-5xl md:text-7xl font-bold text-primary shadow-lg">Independence Day</h1>
+                    <p className="text-xl md:text-2xl mt-4 text-primary/90 shadow-md">Celebrating Freedom</p>
                 </div>
             </section>
             
@@ -19,7 +19,7 @@ export default function IndependenceDayPage() {
                 <Card className="mb-12">
                     <CardContent className="p-6 md:p-10">
                         <Tabs defaultValue="overview">
-                            <TabsList className="grid w-full grid-cols-2 md:grid-cols-3 mb-6 h-auto">
+                            <TabsList className="grid w-full grid-cols-1 md:grid-cols-3 mb-6 h-auto">
                                 <TabsTrigger value="overview" className="py-2"><BookOpen className="w-4 h-4 mr-2" />Overview</TabsTrigger>
                                 <TabsTrigger value="traditions" className="py-2"><Flag className="w-4 h-4 mr-2" />Traditions</TabsTrigger>
                                 <TabsTrigger value="significance" className="py-2"><Sparkles className="w-4 h-4 mr-2" />Significance</TabsTrigger>
