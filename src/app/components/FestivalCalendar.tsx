@@ -23,17 +23,17 @@ const allEvents = [
     { date: "Feb 26, 2025", name: "Maha Shivaratri", region: "Nationwide", type: "Religious", link: null },
     { date: "Mar 14, 2025", name: "Holi", region: "Nationwide", type: "Holiday", link: "/festivals/holi" },
     { date: "Mar 30, 2025", name: "Gudi Padwa / Ugadi", region: "West & South", type: "New Year", link: "/festivals/gudi-padwa" },
-    { date: "Mar 30, 2025", name: "Eid-al-Fitr (Ramzan Eid)", region: "Nationwide", type: "Religious", link: "/festivals/eid-al-fitr" },
+    { date: "Mar 31, 2025", name: "Eid-al-Fitr (Ramzan Eid)", region: "Nationwide", type: "Religious", link: "/festivals/eid-al-fitr" },
     { date: "Apr 06, 2025", name: "Ram Navami", region: "Nationwide", type: "Religious", link: null },
     { date: "Apr 14, 2025", name: "Vaisakhi / Bihu", region: "North & Northeast", type: "Harvest", link: "/festivals/bihu" },
     { date: "Apr 18, 2025", name: "Good Friday", region: "Nationwide", type: "Religious", link: "/festivals/christmas" },
     { date: "Apr 21, 2025", name: "Akshaya Tritiya", region: "Nationwide", type: "Religious", link: "/festivals/akshaya-tritiya" },
     { date: "May 01, 2025", name: "Labour Day", region: "Nationwide", type: "Holiday", link: null },
-    { date: "Jun 06, 2025", name: "Eid al-Adha", region: "Nationwide", type: "Religious", link: null },
+    { date: "Jun 07, 2025", name: "Eid al-Adha", region: "Nationwide", type: "Religious", link: null },
     { date: "Jun 10, 2025", name: "Hemis Tsechu", region: "North", type: "Cultural", link: "/festivals/hemis-tsechu" },
     { date: "Jun 29, 2025", name: "Rath Yatra", region: "East", type: "Religious", link: "/festivals/rath-yatra" },
     { date: "Jun 28, 2025", name: "Muharram", region: "Nationwide", type: "Religious", link: "/festivals/muharram" },
-    { date: "Jul 29, 2025", name: "Nag Panchami", region: "Nationwide", type: "Cultural", link: "/festivals/nag-panchami" },
+    { date: "Aug 04, 2025", name: "Nag Panchami", region: "Nationwide", type: "Cultural", link: "/festivals/nag-panchami" },
     { date: "Aug 15, 2025", name: "Independence Day", region: "Nationwide", type: "Holiday", link: null },
     { date: "Aug 19, 2025", name: "Raksha Bandhan", region: "Nationwide", type: "Cultural", link: "/festivals/raksha-bandhan" },
     { date: "Aug 26, 2025", name: "Krishna Janmashtami", region: "Nationwide", type: "Religious", link: null },
@@ -262,6 +262,8 @@ export function FestivalCalendar() {
         </div>
     );
 }
+
+    
 
     
 
