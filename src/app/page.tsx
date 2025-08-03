@@ -55,8 +55,8 @@ export default function Home() {
               <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
                 <div className="p-1 h-full">
                   <Card className="overflow-hidden h-full flex flex-col group">
-                    <div className="relative h-64 w-full overflow-hidden">
-                       <Image src={festival.image} alt={festival.name} layout="fill" objectFit="cover" objectPosition={festival.position} className="transition-transform duration-500 ease-in-out group-hover:scale-105" data-ai-hint={festival.hint}/>
+                    <div className="relative h-64 w-full overflow-hidden bg-black/5">
+                       <Image src={festival.image} alt={festival.name} layout="fill" objectFit="contain" className="transition-transform duration-500 ease-in-out group-hover:scale-105" data-ai-hint={festival.hint}/>
                     </div>
                     <CardContent className="p-6 flex flex-col flex-grow">
                         <h3 className="font-headline text-2xl font-bold flex-grow h-14">{festival.name}</h3>
