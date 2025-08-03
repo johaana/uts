@@ -9,11 +9,11 @@ import { FestivalCalendar } from "@/components/FestivalCalendar";
 
 export default function Home() {
   const upcomingFestivals = [
-    { name: "Raksha Bandhan", date: "August 19, 2025", link: "/festivals/raksha-bandhan", image: "https://i.postimg.cc/q7qRrp7r/raksha-bandhan.jpg", hint: "rakhi thread", position: "center" },
-    { name: "Ganesh Chaturthi", date: "August 27, 2025", link: "/festivals/ganesh-chaturthi", image: "https://i.postimg.cc/tTV41DPm/ganpati1.jpg", hint: "ganesha idol", position: "center" },
-    { name: "Onam", date: "September 7, 2025", link: "/festivals/onam", image: "https://i.postimg.cc/0564g0S7/nandu-menon-h-GHldb-Cg-YDA-unsplash.jpg", hint: "onam sadhya", position: "bottom" },
-    { name: "Navratri", date: "September 22, 2025", link: "/festivals/navratri", image: "https://i.postimg.cc/0Nffmbwk/sanin-sn-B4-ZQ2m-KEiq-Y-unsplash.jpg", hint: "garba dance", position: "center" },
-    { name: "Diwali", date: "October 21, 2025", link: "/festivals/diwali", image: "https://i.postimg.cc/1XNwWtfN/Diwali1.png", hint: "diwali lamps", position: "center" },
+    { name: "Raksha Bandhan", date: "August 19, 2025", link: "/festivals/raksha-bandhan", image: "https://i.postimg.cc/q7qRrp7r/raksha-bandhan.jpg", hint: "rakhi thread" },
+    { name: "Ganesh Chaturthi", date: "August 27, 2025", link: "/festivals/ganesh-chaturthi", image: "https://i.postimg.cc/tTV41DPm/ganpati1.jpg", hint: "ganesha idol" },
+    { name: "Onam", date: "September 7, 2025", link: "/festivals/onam", image: "https://i.postimg.cc/0564g0S7/nandu-menon-h-GHldb-Cg-YDA-unsplash.jpg", hint: "onam sadhya" },
+    { name: "Navratri", date: "September 22, 2025", link: "/festivals/navratri", image: "https://i.postimg.cc/0Nffmbwk/sanin-sn-B4-ZQ2m-KEiq-Y-unsplash.jpg", hint: "garba dance" },
+    { name: "Diwali", date: "October 21, 2025", link: "/festivals/diwali", image: "https://i.postimg.cc/1XNwWtfN/Diwali1.png", hint: "diwali lamps" },
   ];
 
   const featuredRecipes = [
@@ -87,8 +87,8 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {featuredRecipes.map((recipe) => (
             <Card key={recipe.name} className="overflow-hidden group">
-               <div className="relative h-64 w-full overflow-hidden">
-                <Image src={recipe.image} alt={recipe.name} layout="fill" objectFit="cover" className="transition-transform duration-500 ease-in-out group-hover:scale-105" data-ai-hint={recipe.hint}/>
+               <div className="relative h-64 w-full overflow-hidden bg-black/5">
+                <Image src={recipe.image} alt={recipe.name} layout="fill" objectFit="contain" className="transition-transform duration-500 ease-in-out group-hover:scale-105" data-ai-hint={recipe.hint}/>
               </div>
               <CardHeader>
                 <CardTitle className="font-headline text-2xl h-16">{recipe.name}</CardTitle>
@@ -127,8 +127,8 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {blogPosts.map((post) => (
             <Card key={post.title} className="overflow-hidden group flex flex-col">
-              <div className="relative h-64 w-full overflow-hidden">
-                  <Image src={post.image} alt={post.title} layout="fill" objectFit="cover" className="transition-transform duration-500 ease-in-out group-hover:scale-105" data-ai-hint={post.hint}/>
+              <div className="relative h-64 w-full overflow-hidden bg-black/5">
+                  <Image src={post.image} alt={post.title} layout="fill" objectFit="contain" className="transition-transform duration-500 ease-in-out group-hover:scale-105" data-ai-hint={post.hint}/>
               </div>
               <CardHeader>
                 <CardTitle className="font-headline text-xl h-16">{post.title}</CardTitle>

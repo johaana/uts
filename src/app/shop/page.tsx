@@ -41,8 +41,8 @@ export default function ShopPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
                 {products.map((product) => (
                     <Card key={product.name} className="overflow-hidden group flex flex-col">
-                        <div className="relative h-64 w-full">
-                           <Image src={product.image} alt={product.name} layout="fill" objectFit="cover" data-ai-hint={product.hint}/>
+                        <div className="relative h-64 w-full bg-black/5">
+                           <Image src={product.image} alt={product.name} layout="fill" objectFit="contain" data-ai-hint={product.hint}/>
                         </div>
                         <CardHeader className="flex-grow">
                             <p className="text-sm text-muted-foreground">{product.category}</p>

@@ -26,8 +26,8 @@ export default function BlogPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {blogPosts.map((post) => (
                     <Card key={post.title} className="overflow-hidden group flex flex-col">
-                        <div className="relative h-64 w-full">
-                           <Image src={post.image} alt={post.title} layout="fill" objectFit="cover" data-ai-hint={post.hint}/>
+                        <div className="relative h-64 w-full bg-black/5">
+                           <Image src={post.image} alt={post.title} layout="fill" objectFit="contain" data-ai-hint={post.hint}/>
                         </div>
                         <CardHeader>
                             <CardTitle className="font-headline text-xl h-16">{post.title}</CardTitle>
