@@ -1,0 +1,106 @@
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote } from "lucide-react";
+import Link from "next/link";
+import Image from "next/image";
+
+const recipes = [
+    { name: "Lemon Rice", link: "#" },
+    { name: "Sweet Pongal", link: "/recipes/sakkarai-pongal" },
+    { name: "Payasam", link: "/recipes/payasam" },
+]
+
+export default function AkshayaTritiyaPage() {
+    return (
+        <div className="bg-background">
+            <section className="relative h-[50vh] flex items-center justify-center bg-yellow-400/10">
+                 <Image src="https://i.postimg.cc/KjKrdfsj/unfold-memory-Z9-WMZqg-ASJE-unsplash.jpg" alt="Gold coins" layout="fill" objectFit="cover" className="absolute opacity-20" data-ai-hint="gold jewelry"/>
+                <div className="relative text-center text-primary-foreground z-10">
+                    <h1 className="font-headline text-5xl md:text-7xl font-bold text-yellow-800 shadow-lg">Akshaya Tritiya</h1>
+                    <p className="text-xl md:text-2xl mt-4 text-yellow-700/90 shadow-md">The Day of Eternal Fortune</p>
+                </div>
+            </section>
+            
+            <div className="container mx-auto px-4 py-12 -mt-24">
+                <Card className="mb-12">
+                    <CardContent className="p-6 md:p-10">
+                        <Tabs defaultValue="overview">
+                            <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 mb-6 h-auto">
+                                <TabsTrigger value="overview" className="py-2"><BookOpen className="w-4 h-4 mr-2" />Overview</TabsTrigger>
+                                <TabsTrigger value="traditions" className="py-2"><Sparkles className="w-4 h-4 mr-2" />Traditions</TabsTrigger>
+                                <TabsTrigger value="recipes" className="py-2"><Utensils className="w-4 h-4 mr-2" />Foods</TabsTrigger>
+                                <TabsTrigger value="chants" className="py-2"><MessageSquareQuote className="w-4 h-4 mr-2" />Chants</TabsTrigger>
+                            </TabsList>
+
+                            <TabsContent value="overview">
+                                <h2 className="font-headline text-3xl font-bold mb-4">The Promise of Never-Diminishing Prosperity</h2>
+                                <div className="space-y-4 text-foreground/80 prose max-w-none">
+                                    <p>Akshaya Tritiya, celebrated on the third lunar day of the bright half of the Vaishakha month, is one of the most auspicious days in the Hindu calendar. The word 'Akshaya' in Sanskrit means 'never diminishing' or 'imperishable', and the festival is believed to bring everlasting prosperity and success. Any venture started on this day, be it a new business, a marriage, or a significant purchase, is thought to be blessed with eternal fortune.</p>
+                                    <p>The day is rich with mythological significance. It is believed to be the birthday of Lord Parashurama, the sixth incarnation of Lord Vishnu. It is also the day when the Treta Yuga began and when the sacred river Ganga descended to Earth. A famous tale associated with Akshaya Tritiya is that of Lord Krishna and his poor friend Sudama. On this day, Sudama visited Krishna with a humble gift of puffed rice, and in return, Krishna blessed him with immense wealth. This story reinforces the belief that acts of charity and devotion performed on Akshaya Tritiya yield manifold and unending rewards.</p>
+                                </div>
+                            </TabsContent>
+                            
+                            <TabsContent value="traditions">
+                                <h2 className="font-headline text-3xl font-bold mb-4">How to Observe Akshaya Tritiya</h2>
+                                <ul className="space-y-4 pl-4">
+                                    <li className="flex items-start">
+                                        <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
+                                        <div>
+                                            <h4 className="font-bold">Purchasing Gold</h4>
+                                            <p className="text-foreground/80">One of the most popular traditions is buying gold, as it is believed to symbolize wealth and is thought to never diminish if purchased on this day.</p>
+                                        </div>
+                                    </li>
+                                    <li className="flex items-start">
+                                        <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
+                                        <div>
+                                            <h4 className="font-bold">Charity (Daan)</h4>
+                                            <p className="text-foreground/80">Giving to charity is a key ritual. It is believed that 'daan' (donations) made on this day brings inexhaustible merit.</p>
+                                        </div>
+                                    </li>
+                                    <li className="flex items-start">
+                                        <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
+                                        <div>
+                                            <h4 className="font-bold">Starting New Ventures</h4>
+                                            <p className="text-foreground/80">The day is considered perfect for starting new businesses, construction projects, or any significant new beginning.</p>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </TabsContent>
+
+                            <TabsContent value="recipes">
+                                <h2 className="font-headline text-3xl font-bold mb-4">Auspicious Foods</h2>
+                                 <p className="mb-6 text-foreground/80 prose max-w-none">Foods prepared on Akshaya Tritiya are typically simple, sattvic (pure), and often yellow or white in color, symbolizing prosperity and purity.</p>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                                    {recipes.map(recipe => (
+                                       <Link href={recipe.link} key={recipe.name}>
+                                            <Card className="overflow-hidden h-full hover:shadow-xl transition-shadow duration-300">
+                                                <CardContent className="p-4">
+                                                    <h3 className="font-headline text-xl font-bold text-center text-primary h-14 flex items-center justify-center">{recipe.name}</h3>
+                                                </CardContent>
+                                            </Card>
+                                        </Link>
+                                    ))}
+                                </div>
+                            </TabsContent>
+
+                             <TabsContent value="chants">
+                                <h2 className="font-headline text-3xl font-bold mb-4">Mantras for Prosperity</h2>
+                                <div className="space-y-6">
+                                    <Card>
+                                        <CardHeader>
+                                            <CardTitle>Lakshmi Mantra</CardTitle>
+                                        </CardHeader>
+                                        <CardContent>
+                                            <p className="text-lg font-serif italic">"Om Shreem Hreem Shreem Kamale Kamalalaye Praseed Praseed, Om Shreem Hreem Shreem Mahalakshmaye Namah"</p>
+                                            <p className="mt-2 text-foreground/80">Chanting mantras dedicated to Goddess Lakshmi, the goddess of wealth, is a common practice to invite prosperity into the home.</p>
+                                        </CardContent>
+                                    </Card>
+                                </div>
+                            </TabsContent>
+                        </Tabs>
+                    </CardContent>
+                </Card>
+            </div>
+        </div>
+    );
+}

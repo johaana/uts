@@ -24,6 +24,9 @@ const festivals = [
     { name: "Gudi Padwa", region: "West", description: "The Maharashtrian New Year, celebrated with the hoisting of a 'Gudi' and festive foods.", link: "/festivals/gudi-padwa" },
     { name: "Lohri", region: "North", description: "A popular Punjabi folk festival, celebrating the winter solstice and the harvest of rabi crops.", link: "/festivals/lohri" },
     { name: "Vasant Panchami", region: "Nationwide", description: "A festival that marks the preparation for the arrival of spring, dedicated to the goddess Saraswati.", link: "/festivals/vasant-panchami" },
+    { name: "Muharram", region: "Nationwide", description: "A solemn period of remembrance and mourning for Shia Muslims, commemorating the martyrdom of Imam Hussein.", link: "/festivals/muharram" },
+    { name: "Akshaya Tritiya", region: "Nationwide", description: "An auspicious day of eternal prosperity, believed to bring good fortune and success.", link: "/festivals/akshaya-tritiya" },
+    { name: "Nag Panchami", region: "Nationwide", description: "A traditional day of serpent worship, observed by offering milk and prayers to snake deities.", link: "/festivals/nag-panchami" },
 ];
 
 export default function FestivalsPage() {
@@ -63,11 +66,11 @@ export default function FestivalsPage() {
             </Card>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {festivals.map((festival) => (
+                {festivals.sort((a, b) => a.name.localeCompare(b.name)).map((festival) => (
                     <Card key={festival.name} className="overflow-hidden group flex flex-col">
                         <CardContent className="p-6 flex flex-col flex-grow">
                             <p className="text-sm text-primary font-semibold mb-1">{festival.region}</p>
-                            <h2 className="font-headline text-2xl font-bold mb-2">{festival.name}</h2>
+                            <h2 className="font-headline text-2xl font-bold mb-2 h-14">{festival.name}</h2>
                             <p className="text-foreground/70 mb-4 flex-grow">{festival.description}</p>
                             <Link href={festival.link}>
                                 <Button variant="link" className="p-0 text-accent hover:text-accent/90">
