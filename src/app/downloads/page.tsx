@@ -1,14 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { DownloadCloud, Brush, CheckSquare, Gift } from "lucide-react";
+import { DownloadCloud, Sparkles, Sprout, Star } from "lucide-react";
 
 const downloads = [
-    { title: "Peacock Rangoli Stencil", category: "Rangoli Designs", file: "#" },
-    { title: "Diwali Greeting Card", category: "Greeting Cards", file: "#" },
-    { title: "Puja Preparation Checklist", category: "Checklists", file: "#" },
-    { title: "Floral Rangoli Pattern", category: "Rangoli Designs", file: "#" },
-    { title: "Holi Party Invitation", category: "Greeting Cards", file: "#" },
-    { title: "Navratri Fasting Guide", category: "Checklists", file: "#" },
+    { title: "Diwali Puja Checklist", category: "Festival Guides", file: "/downloads/diwali_checklist.pdf", icon: <Star/>, description: "A complete checklist for all the essentials you need for a traditional Diwali Lakshmi Puja, from samagri to preparations." },
+    { title: "Guide to Natural Holi Colors", category: "Eco-Friendly Tips", file: "/downloads/natural_holi_colors.pdf", icon: <Sprout/>, description: "Learn how to make vibrant, skin-friendly Holi colors at home using flowers and kitchen ingredients." },
+    { title: "Navratri Fasting (Vrat) Guide", category: "Health & Rituals", file: "/downloads/navratri_vrat_guide.pdf", icon: <Sparkles/>, description: "A helpful guide with a list of permitted foods and meal ideas for observing the nine-day Navratri fast." },
 ];
 
 export default function DownloadsPage() {
@@ -18,28 +15,30 @@ export default function DownloadsPage() {
                 <DownloadCloud className="mx-auto h-16 w-16 text-primary mb-4" />
                 <h1 className="font-headline text-4xl md:text-5xl font-bold">Downloads Hub</h1>
                 <p className="mt-4 text-lg text-foreground/80 max-w-2xl mx-auto">
-                    Enhance your festival preparations with our free resources. Download rangoli designs, checklists, greeting cards, and more.
+                    Enhance your festival preparations with our free resources. Download helpful checklists, eco-friendly guides, and more to make your celebrations seamless and meaningful.
                 </p>
-            </div>
-
-            <div className="flex justify-center gap-4 mb-12 flex-wrap">
-                <Button variant="outline" size="lg"><Brush className="mr-2 h-4 w-4"/>Rangoli Designs</Button>
-                <Button variant="outline" size="lg"><Gift className="mr-2 h-4 w-4"/>Greeting Cards</Button>
-                <Button variant="outline" size="lg"><CheckSquare className="mr-2 h-4 w-4"/>Checklists</Button>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {downloads.map((item) => (
-                    <Card key={item.title} className="overflow-hidden group">
-                        <CardHeader>
-                            <p className="text-sm text-primary font-semibold">{item.category}</p>
-                            <CardTitle className="font-headline text-xl h-14">{item.title}</CardTitle>
+                    <Card key={item.title} className="overflow-hidden group flex flex-col">
+                        <CardHeader className="flex-row items-center gap-4 space-y-0">
+                            <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+                                {item.icon}
+                            </div>
+                            <div>
+                                <p className="text-sm text-primary font-semibold">{item.category}</p>
+                                <CardTitle className="font-headline text-xl">{item.title}</CardTitle>
+                            </div>
                         </CardHeader>
+                        <CardContent className="flex-grow">
+                             <p className="text-foreground/70">{item.description}</p>
+                        </CardContent>
                         <CardContent>
                             <a href={item.file} download>
                                 <Button className="w-full bg-accent hover:bg-accent/90 text-accent-foreground">
                                     <DownloadCloud className="mr-2 h-4 w-4" />
-                                    Download
+                                    Download Now
                                 </Button>
                             </a>
                         </CardContent>
