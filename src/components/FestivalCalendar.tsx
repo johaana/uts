@@ -124,6 +124,14 @@ export function FestivalCalendar() {
         return yearMatch && monthMatch && regionMatch && eventTypeMatch;
     });
 
+    const getBadgeVariant = (type: string) => {
+        switch(type) {
+            case 'Holiday': return 'outline';
+            case 'Religious': return 'default';
+            default: return 'secondary';
+        }
+    };
+
     return (
         <div className="w-full">
             <div className="text-center mb-12">
@@ -197,7 +205,7 @@ export function FestivalCalendar() {
                                         <TableCell className="font-bold text-base">{event.name}</TableCell>
                                         <TableCell>{event.region}</TableCell>
                                         <TableCell>
-                                            <Badge>
+                                            <Badge variant={getBadgeVariant(event.type)}>
                                                 {event.type}
                                             </Badge>
                                         </TableCell>
@@ -230,3 +238,6 @@ export function FestivalCalendar() {
         </div>
     );
 }
+
+
+
