@@ -31,7 +31,7 @@ export default function Home() {
   return (
     <div className="space-y-16 md:space-y-24">
       <section className="relative bg-primary/10 py-16 md:py-24 flex items-center justify-center">
-        <Image src="https://i.postimg.cc/rsXF5WNy/holi.jpg" alt="Holi festival" layout="fill" objectFit="cover" className="absolute opacity-10" data-ai-hint="holi colors"/>
+        <Image src="https://i.postimg.cc/fWFvx4J9/aceofnet-PNd98-z-An-U0-unsplash.jpg" alt="Holi festival" layout="fill" objectFit="cover" className="absolute opacity-10" data-ai-hint="holi colors"/>
         <div className="container mx-auto px-4 text-center relative z-10">
           <h1 className="font-headline text-4xl md:text-6xl font-bold text-primary">A Vibrant Celebration of India</h1>
           <p className="mt-4 text-lg md:text-xl text-foreground/80 max-w-2xl mx-auto">
@@ -88,7 +88,7 @@ export default function Home() {
           {featuredRecipes.map((recipe) => (
             <Card key={recipe.name} className="overflow-hidden group">
                <div className="relative h-64 w-full overflow-hidden bg-black/5">
-                <Image src={recipe.image} alt={recipe.name} layout="fill" objectFit="contain" className="transition-transform duration-500 ease-in-out group-hover:scale-105" data-ai-hint={recipe.hint}/>
+                <Image src={recipe.image} alt={recipe.name} layout="fill" objectFit="cover" className="transition-transform duration-500 ease-in-out group-hover:scale-105" data-ai-hint={recipe.hint}/>
               </div>
               <CardHeader>
                 <CardTitle className="font-headline text-2xl h-16">{recipe.name}</CardTitle>
