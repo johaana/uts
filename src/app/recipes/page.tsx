@@ -80,8 +80,8 @@ export default function RecipesPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 {recipes.map((recipe) => (
                     <Card key={recipe.name} className="overflow-hidden group flex flex-col">
-                        <div className="relative h-64 w-full bg-black/5">
-                          <Image src={recipe.image} alt={recipe.name} layout="fill" objectFit="contain" data-ai-hint={recipe.hint}/>
+                        <div className="relative h-64 w-full bg-black/5 overflow-hidden">
+                          <Image src={recipe.image} alt={recipe.name} layout="fill" objectFit="cover" data-ai-hint={recipe.hint} className="transition-transform duration-500 ease-in-out group-hover:scale-105"/>
                         </div>
                         <CardHeader>
                             <CardTitle className="font-headline text-xl h-14">{recipe.name}</CardTitle>
