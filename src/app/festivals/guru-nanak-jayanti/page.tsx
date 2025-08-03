@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote } from "lucide-react";
@@ -14,7 +15,7 @@ export default function GuruNanakJayantiPage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-primary/10">
-                 <Image src="https://i.postimg.cc/d1x2j338/Guru-Nanak-Jayanti.webp" alt="Guru Nanak Jayanti" layout="fill" objectFit="cover" className="absolute opacity-20" data-ai-hint="sikh festival" />
+                 <Image src="https://i.postimg.cc/yNnXWvzp/gurunanak-jayanti2.avif" alt="Guru Nanak Jayanti" layout="fill" objectFit="cover" className="absolute opacity-20" data-ai-hint="sikh festival" />
                 <div className="relative text-center text-primary-foreground">
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-white shadow-lg">Guru Nanak Jayanti</h1>
                     <p className="text-xl md:text-2xl mt-4 text-white/90 shadow-md">Celebrating the Founder of Sikhism</p>
