@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -31,7 +30,7 @@ const festivals = [
     { name: "Hornbill Festival", region: "Northeast", description: "A vibrant festival in Nagaland showcasing the rich culture and traditions of the Naga tribes.", link: "/festivals/hornbill-festival" },
     { name: "Thaipusam", region: "South", description: "A powerful Tamil festival of faith, endurance, and penance dedicated to Lord Murugan.", link: "/festivals/thaipusam" },
     { name: "Hemis Tsechu", region: "North", description: "A colorful Buddhist festival in Ladakh with masked dances celebrating the birth of Guru Padmasambhava.", link: "/festivals/hemis-tsechu" },
-];
+].sort((a, b) => a.name.localeCompare(b.name));
 
 export default function FestivalsPage() {
     return (
@@ -39,7 +38,7 @@ export default function FestivalsPage() {
             <div className="text-center mb-12">
                 <h1 className="font-headline text-4xl md:text-5xl font-bold">Discover Indian Festivals</h1>
                 <p className="mt-4 text-lg text-foreground/80 max-w-2xl mx-auto">
-                    From the snow-capped Himalayas to the sun-drenched coasts, explore the diverse and colorful festivals that form the heartbeat of India.
+                    From the snow-capped Himalayas to the sun-drenched coasts, explore the diverse and colorful festivals that form the heartbeat of India. An essential guide to dates, rituals, and stories.
                 </p>
             </div>
 
@@ -70,7 +69,7 @@ export default function FestivalsPage() {
             </Card>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {festivals.sort((a, b) => a.name.localeCompare(b.name)).map((festival) => (
+                {festivals.map((festival) => (
                     <Card key={festival.name} className="overflow-hidden group flex flex-col">
                         <CardContent className="p-6 flex flex-col flex-grow">
                             <p className="text-sm text-primary font-semibold mb-1">{festival.region}</p>

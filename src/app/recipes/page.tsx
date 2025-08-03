@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -34,15 +33,15 @@ const recipes = [
     { name: "Khechudi", festival: "Rath Yatra", region: "East", description: "Simple rice and lentil dish, part of Jagannath's Mahaprasad.", link: "/recipes/khechudi", image: "https://i.postimg.cc/YSpNpMyJ/sudarshan-poojary-FZw-Bem-Sc-Rc0-unsplash.jpg", hint: "rice lentils" },
     { name: "Dalma", festival: "Rath Yatra", region: "East", description: "Nutritious lentil and vegetable stew from Odisha.", link: "/recipes/dalma", image: "https://i.postimg.cc/YSpNpMyJ/sudarshan-poojary-FZw-Bem-Sc-Rc0-unsplash.jpg", hint: "lentil stew" },
     { name: "Poda Pitha", festival: "Rath Yatra", region: "East", description: "Slow-cooked, baked rice cake, a favorite of Lord Jagannath.", link: "/recipes/poda-pitha", image: "https://i.postimg.cc/YSpNpMyJ/sudarshan-poojary-FZw-Bem-Sc-Rc0-unsplash.jpg", hint: "baked rice cake" },
-];
+].sort((a, b) => a.name.localeCompare(b.name));
 
 export default function RecipesPage() {
     return (
         <div className="container mx-auto px-4 py-12">
             <div className="text-center mb-12">
-                <h1 className="font-headline text-4xl md:text-5xl font-bold">Recipe Library</h1>
+                <h1 className="font-headline text-4xl md:text-5xl font-bold">The Utsavs Recipe Library</h1>
                 <p className="mt-4 text-lg text-foreground/80 max-w-2xl mx-auto">
-                    Savor the authentic tastes of India. Find traditional recipes for every festival and region.
+                    Savor the authentic tastes of India. Find traditional, easy-to-follow recipes for every festival and region, from Diwali sweets to Onam feasts.
                 </p>
             </div>
 
@@ -50,7 +49,7 @@ export default function RecipesPage() {
                  <div className="flex flex-col md:flex-row gap-4 items-center">
                     <div className="relative w-full flex-grow">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                        <Input placeholder="Search for a recipe..." className="pl-10"/>
+                        <Input placeholder="Search for a recipe (e.g., Ladoo, Biryani...)" className="pl-10"/>
                     </div>
                     <div className="flex gap-4 w-full md:w-auto">
                         <Select>

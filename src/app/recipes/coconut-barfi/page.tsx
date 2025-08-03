@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check } from "lucide-react";
 import Image from "next/image";
@@ -8,10 +7,10 @@ export default function CoconutBarfiPage() {
         <div className="container mx-auto px-4 py-12">
             <Card>
                 <CardHeader className="p-6 md:p-10">
-                    <CardTitle className="font-headline text-4xl mb-4">Coconut Barfi</CardTitle>
+                    <CardTitle className="font-headline text-4xl mb-4">Coconut Barfi (Nariyal Barfi)</CardTitle>
                     <div className="flex flex-col md:flex-row gap-6">
                        <div className="md:w-2/3">
-                            <p className="text-lg text-muted-foreground">A simple yet delicious sweet, Coconut Barfi (or Nariyal Barfi) is made with just a few ingredients and is a perfect treat for any festive occasion.</p>
+                            <p className="text-lg text-muted-foreground">A simple yet delicious sweet, Coconut Barfi is made with just a few ingredients and is a perfect treat for any festive occasion, especially Raksha Bandhan and Diwali.</p>
                        </div>
                        <div className="md:w-1/3">
                             <Image src="https://i.postimg.cc/V5QmM9c2/Coconut-Burfi.jpg" alt="Coconut Barfi" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="coconut fudge"/>
