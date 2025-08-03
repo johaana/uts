@@ -152,7 +152,7 @@ export default function DiwaliPage() {
                                 <p className="mb-6 text-foreground/80 prose max-w-none">Diwali is a time for feasting, where kitchens come alive with the aroma of spices and sweets. Families prepare an array of 'mithai' (sweets) and savory snacks to share. Here are some quintessential Diwali dishes.</p>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                                     {recipes.map(recipe => (
-                                        <Link href={recipe.link} key={recipe.name}>
+                                       <Link href={recipe.link} key={recipe.name}>
                                             <Card className="overflow-hidden h-full hover:shadow-xl transition-shadow duration-300">
                                                 <CardContent className="p-4">
                                                     <h3 className="font-headline text-xl font-bold text-center text-primary">{recipe.name}</h3>

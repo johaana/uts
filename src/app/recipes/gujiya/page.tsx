@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check } from "lucide-react";
+import Image from "next/image";
 
 export default function GujiyaPage() {
     return (
@@ -7,7 +8,14 @@ export default function GujiyaPage() {
             <Card>
                 <CardHeader className="p-6 md:p-10">
                     <CardTitle className="font-headline text-4xl mb-4">Gujiya</CardTitle>
-                    <p className="text-lg text-muted-foreground">A classic sweet for the festival of Holi, Gujiya are crescent-shaped fried pastries filled with a sweet mixture of khoya (milk solids), nuts, and coconut.</p>
+                    <div className="flex flex-col md:flex-row gap-6">
+                        <div className="md:w-2/3">
+                            <p className="text-lg text-muted-foreground">A classic sweet for the festival of Holi, Gujiya are crescent-shaped fried pastries filled with a sweet mixture of khoya (milk solids), nuts, and coconut.</p>
+                        </div>
+                        <div className="md:w-1/3">
+                           <Image src="https://i.postimg.cc/fWFvx4J9/aceofnet-PNd98-z-An-U0-unsplash.jpg" alt="Gujiya" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="fried dumplings"/>
+                        </div>
+                    </div>
                 </CardHeader>
                 <CardContent className="p-6 md:p-10 pt-0">
                     <div className="grid md:grid-cols-3 gap-8">

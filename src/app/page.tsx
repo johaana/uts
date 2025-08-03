@@ -87,11 +87,11 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {featuredRecipes.map((recipe) => (
             <Card key={recipe.name} className="overflow-hidden group">
-               <div className="relative h-48 w-full overflow-hidden">
+               <div className="relative h-64 w-full overflow-hidden">
                 <Image src={recipe.image} alt={recipe.name} layout="fill" objectFit="cover" className="transition-transform duration-500 ease-in-out group-hover:scale-105" data-ai-hint={recipe.hint}/>
               </div>
               <CardHeader>
-                <CardTitle className="font-headline text-2xl">{recipe.name}</CardTitle>
+                <CardTitle className="font-headline text-2xl h-16">{recipe.name}</CardTitle>
                 <p className="text-sm text-muted-foreground">{recipe.festival}</p>
               </CardHeader>
               <CardContent>
@@ -127,7 +127,7 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {blogPosts.map((post) => (
             <Card key={post.title} className="overflow-hidden group flex flex-col">
-              <div className="relative h-48 w-full overflow-hidden">
+              <div className="relative h-64 w-full overflow-hidden">
                   <Image src={post.image} alt={post.title} layout="fill" objectFit="cover" className="transition-transform duration-500 ease-in-out group-hover:scale-105" data-ai-hint={post.hint}/>
               </div>
               <CardHeader>

@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check } from "lucide-react";
+import Image from "next/image";
 
 export default function ChristmasCakePage() {
     return (
@@ -7,7 +8,14 @@ export default function ChristmasCakePage() {
             <Card>
                 <CardHeader className="p-6 md:p-10">
                     <CardTitle className="font-headline text-4xl mb-4">Classic Christmas Fruit Cake</CardTitle>
-                    <p className="text-lg text-muted-foreground">A rich, moist, and boozy fruit cake is the heart of Christmas celebrations. This recipe is packed with dried fruits, nuts, and warm spices.</p>
+                    <div className="flex flex-col md:flex-row gap-6">
+                        <div className="md:w-2/3">
+                            <p className="text-lg text-muted-foreground">A rich, moist, and boozy fruit cake is the heart of Christmas celebrations. This recipe is packed with dried fruits, nuts, and warm spices.</p>
+                        </div>
+                        <div className="md:w-1/3">
+                            <Image src="https://i.postimg.cc/ncKMYdWy/christmas-2.jpg" alt="Christmas Cake" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="christmas cake"/>
+                        </div>
+                    </div>
                 </CardHeader>
                 <CardContent className="p-6 md:p-10 pt-0">
                     <div className="grid md:grid-cols-3 gap-8">

@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check } from "lucide-react";
+import Image from "next/image";
 
 export default function LadooPage() {
     return (
@@ -7,7 +8,14 @@ export default function LadooPage() {
             <Card>
                 <CardHeader className="p-6 md:p-10">
                     <CardTitle className="font-headline text-4xl mb-4">Besan Ladoo</CardTitle>
-                    <p className="text-lg text-muted-foreground">A beloved Indian sweet, Besan Ladoo is made from gram flour, sugar, and ghee. It's a must-have for festivals like Diwali and Raksha Bandhan.</p>
+                     <div className="flex flex-col md:flex-row gap-6">
+                        <div className="md:w-2/3">
+                            <p className="text-lg text-muted-foreground">A beloved Indian sweet, Besan Ladoo is made from gram flour, sugar, and ghee. It's a must-have for festivals like Diwali and Raksha Bandhan.</p>
+                        </div>
+                         <div className="md:w-1/3">
+                           <Image src="https://i.postimg.cc/nzrvDTx2/Diwali-Sweets.jpg" alt="Besan Ladoo" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="gram flour ladoo"/>
+                        </div>
+                    </div>
                 </CardHeader>
                 <CardContent className="p-6 md:p-10 pt-0">
                     <div className="grid md:grid-cols-3 gap-8">

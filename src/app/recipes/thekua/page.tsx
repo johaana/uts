@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check } from "lucide-react";
+import Image from "next/image";
 
 export default function ThekuaPage() {
     return (
@@ -7,7 +8,14 @@ export default function ThekuaPage() {
             <Card>
                 <CardHeader className="p-6 md:p-10">
                     <CardTitle className="font-headline text-4xl mb-4">Thekua</CardTitle>
-                    <p className="text-lg text-muted-foreground">A revered prasad (offering) from Bihar, Thekua is a crispy, cookie-like sweet made especially for the Chhath Puja festival.</p>
+                     <div className="flex flex-col md:flex-row gap-6">
+                        <div className="md:w-2/3">
+                            <p className="text-lg text-muted-foreground">A revered prasad (offering) from Bihar, Thekua is a crispy, cookie-like sweet made especially for the Chhath Puja festival.</p>
+                        </div>
+                         <div className="md:w-1/3">
+                           <Image src="https://i.postimg.cc/nzrvDTx2/Diwali-Sweets.jpg" alt="Thekua" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="fried cookie"/>
+                        </div>
+                    </div>
                 </CardHeader>
                 <CardContent className="p-6 md:p-10 pt-0">
                     <div className="grid md:grid-cols-3 gap-8">

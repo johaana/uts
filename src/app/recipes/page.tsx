@@ -80,7 +80,7 @@ export default function RecipesPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 {recipes.map((recipe) => (
                     <Card key={recipe.name} className="overflow-hidden group flex flex-col">
-                        <div className="relative h-48 w-full">
+                        <div className="relative h-64 w-full">
                           <Image src={recipe.image} alt={recipe.name} layout="fill" objectFit="cover" data-ai-hint={recipe.hint}/>
                         </div>
                         <CardHeader>

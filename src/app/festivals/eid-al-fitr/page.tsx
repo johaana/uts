@@ -14,7 +14,7 @@ export default function EidAlFitrPage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-primary/10">
-                 <Image src="https://i.postimg.cc/9fJd0K6z/Eid2.jpg" alt="Eid prayers" layout="fill" objectFit="cover" className="absolute opacity-20" data-ai-hint="eid prayers"/>
+                 <Image src="https://i.postimg.cc/Dm3FbTFS/Eid2.jpg" alt="Eid prayers" layout="fill" objectFit="cover" className="absolute opacity-20" data-ai-hint="eid prayers"/>
                 <div className="relative text-center text-primary-foreground z-10">
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-white shadow-lg">Eid al-Fitr</h1>
                     <p className="text-xl md:text-2xl mt-4 text-white/90 shadow-md">The Festival of Breaking the Fast</p>
@@ -78,7 +78,7 @@ export default function EidAlFitrPage() {
                                 <h2 className="font-headline text-3xl font-bold mb-4">Eid Delicacies</h2>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                                     {recipes.map(recipe => (
-                                        <Link href={recipe.link} key={recipe.name}>
+                                       <Link href={recipe.link} key={recipe.name}>
                                             <Card className="overflow-hidden h-full hover:shadow-xl transition-shadow duration-300">
                                                 <CardContent className="p-4">
                                                     <h3 className="font-headline text-xl font-bold text-center text-primary">{recipe.name}</h3>

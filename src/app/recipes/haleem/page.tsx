@@ -41,7 +41,7 @@ export default function HaleemPage() {
                                 <li>Soak the broken wheat and lentils for at least 4-5 hours or overnight.</li>
                                 <li>In a pressure cooker, heat oil/ghee. Add the chopped onion and sauté until golden.</li>
                                 <li>Add ginger-garlic paste and cook for a minute. Add the meat, turmeric, chili powder, and salt. Cook for 5-7 minutes.</li>
-                                <li>Add 4 cups of water and pressure cook until the meat is very tender (about 8-10 whistles for mutton).</li>
+                                <li>Add 4 cups of water and pressure cooker until the meat is very tender (about 8-10 whistles for mutton).</li>
                                 <li>Once cooked, shred the meat and keep it aside.</li>
                                 <li>In another pressure cooker, cook the soaked lentils and wheat with salt and 6 cups of water until they are completely mushy.</li>
                                 <li>Blend the cooked lentil-wheat mixture to a smooth paste using a hand blender.</li>
