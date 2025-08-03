@@ -17,9 +17,9 @@ export default function Home() {
   ];
 
   const featuredRecipes = [
-    { name: "Gajar Ka Halwa", festival: "Diwali", link: "/recipes/gajar-ka-halwa", image: "https://i.postimg.cc/nzrvDTx2/Diwali-Sweets.jpg", hint: "indian sweets" },
-    { name: "Puran Poli", festival: "Ganesh Chaturthi", link: "/recipes/puran-poli", image: "https://i.postimg.cc/mDn7NM2s/Sweets1.jpg", hint: "indian flatbread" },
-    { name: "Ras Malai", festival: "Holi", link: "/recipes/ras-malai", image: "https://i.postimg.cc/T3jqMpQV/sonika-agarwal-ut6-AQhi-V0-BQ-unsplash.jpg", hint: "milk sweets" },
+    { name: "Gajar Ka Halwa", festival: "Diwali", link: "/recipes/gajar-ka-halwa", image: "https://i.postimg.cc/FHNTRfLR/gajar-halwa.jpg", hint: "carrot pudding" },
+    { name: "Puran Poli", festival: "Ganesh Chaturthi", link: "/recipes/puran-poli", image: "https://i.postimg.cc/jj8gBsCj/puranpoli.jpg", hint: "sweet flatbread" },
+    { name: "Ras Malai", festival: "Holi", link: "/recipes/ras-malai", image: "https://i.postimg.cc/d1pWt42P/Rasmalai.webp", hint: "milk sweet" },
   ];
 
   const blogPosts = [
@@ -31,7 +31,7 @@ export default function Home() {
   return (
     <div className="space-y-16 md:space-y-24">
       <section className="relative bg-primary/10 py-16 md:py-24 flex items-center justify-center">
-        <Image src="https://i.postimg.cc/fWFvx4J9/aceofnet-PNd98-z-An-U0-unsplash.jpg" alt="Holi festival" layout="fill" objectFit="cover" className="absolute opacity-10" data-ai-hint="holi colors"/>
+        <Image src="https://i.postimg.cc/rsXF5WNy/holi.jpg" alt="Holi festival" layout="fill" objectFit="cover" className="absolute opacity-10" data-ai-hint="holi colors"/>
         <div className="container mx-auto px-4 text-center relative z-10">
           <h1 className="font-headline text-4xl md:text-6xl font-bold text-primary">A Vibrant Celebration of India</h1>
           <p className="mt-4 text-lg md:text-xl text-foreground/80 max-w-2xl mx-auto">
