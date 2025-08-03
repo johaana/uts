@@ -18,8 +18,8 @@ export default function Home() {
   const { toast } = useToast();
   
   const upcomingFestivals = [
-    { name: "Raksha Bandhan", date: "August 19, 2025", link: "/festivals/raksha-bandhan", image: "https://i.postimg.cc/q7qRrp7r/raksha-bandhan.jpg", hint: "rakhi thread" },
-    { name: "Ganesh Chaturthi", date: "September 5, 2025", link: "/festivals/ganesh-chaturthi", image: "https://i.postimg.cc/tTV41DPm/ganpati1.jpg", hint: "ganesha idol" },
+    { name: "Raksha Bandhan", date: "August 9, 2025", link: "/festivals/raksha-bandhan", image: "https://i.postimg.cc/q7qRrp7r/raksha-bandhan.jpg", hint: "rakhi thread" },
+    { name: "Ganesh Chaturthi", date: "August 26, 2025", link: "/festivals/ganesh-chaturthi", image: "https://i.postimg.cc/tTV41DPm/ganpati1.jpg", hint: "ganesha idol" },
     { name: "Onam", date: "September 7, 2025", link: "/festivals/onam", image: "https://i.postimg.cc/0564g0S7/nandu-menon-h-GHldb-Cg-YDA-unsplash.jpg", hint: "onam sadhya" },
     { name: "Navratri", date: "September 22, 2025", link: "/festivals/navratri", image: "https://i.postimg.cc/0Nffmbwk/sanin-sn-B4-ZQ2m-KEiq-Y-unsplash.jpg", hint: "garba dance" },
     { name: "Diwali", date: "October 21, 2025", link: "/festivals/diwali", image: "https://i.postimg.cc/1XNwWtfN/Diwali1.png", hint: "diwali lamps" },
