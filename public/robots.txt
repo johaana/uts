@@ -1,0 +1,9 @@
+# Allow all user-agents to crawl the site
+User-agent: *
+Allow: /
+
+# Disallow crawling of administrative or sensitive paths if any
+# Disallow: /admin
+
+# Point to the sitemap for better crawling
+Sitemap: https://utsavs.firebaseapp.com/sitemap.xml

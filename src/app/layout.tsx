@@ -3,6 +3,7 @@ import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
+import { BackToTopButton } from '@/components/BackToTopButton';
 
 export const metadata: Metadata = {
   title: 'Utsavs: Your Guide to Indian Festivals, Traditions & Recipes',
@@ -28,6 +29,7 @@ export default function RootLayout({
           <main className="flex-1">{children}</main>
           <Footer />
         </div>
+        <BackToTopButton />
         <Toaster />
       </body>
     </html>
