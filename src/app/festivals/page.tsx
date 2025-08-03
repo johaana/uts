@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect, useMemo, Suspense } from 'react';
@@ -35,6 +36,10 @@ const allFestivals = [
     { name: "Thaipusam", region: "South", description: "A powerful Tamil festival of faith, endurance, and penance dedicated to Lord Murugan.", link: "/festivals/thaipusam" },
     { name: "Hemis Tsechu", region: "North", description: "A colorful Buddhist festival in Ladakh with masked dances celebrating the birth of Guru Padmasambhava.", link: "/festivals/hemis-tsechu" },
     { name: "Goa Carnival", region: "West", description: "A vibrant and energetic carnival in Goa with Portuguese roots, featuring parades, music, and dance.", link: "/festivals/goa-carnival" },
+    { name: "Republic Day", region: "Nationwide", description: "Celebrating the adoption of the Indian Constitution with a grand parade in the capital.", link: "/festivals/republic-day" },
+    { name: "Independence Day", region: "Nationwide", description: "Commemorating India's freedom from British rule, marked by flag-hoisting ceremonies.", link: "/festivals/independence-day" },
+    { name: "Gandhi Jayanti", region: "Nationwide", description: "Marking the birth anniversary of Mahatma Gandhi, the 'Father of the Nation'.", link: "/festivals/gandhi-jayanti" },
+    { name: "Good Friday", region: "Nationwide", description: "A Christian holiday commemorating the crucifixion of Jesus Christ.", link: "/festivals/good-friday" },
 ];
 
 const regions = ["Nationwide", "North", "South", "East", "West", "Central", "Northeast"];
