@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -14,15 +15,18 @@ const allEvents = [
     // 2025
     { date: "Jan 01, 2025", name: "New Year's Day", region: "Nationwide", type: "Holiday", link: null },
     { date: "Jan 13, 2025", name: "Lohri", region: "North", type: "Harvest", link: "/festivals/lohri" },
+    { date: "Jan 14, 2025", name: "Makar Sankranti / Pongal", region: "Nationwide", type: "Harvest", link: "/festivals/makar-sankranti" },
     { date: "Jan 26, 2025", name: "Republic Day", region: "Nationwide", type: "Holiday", link: null },
+    { date: "Feb 03, 2025", name: "Vasant Panchami", region: "Nationwide", type: "Seasonal", link: "/festivals/vasant-panchami" },
+    { date: "Mar 14, 2025", name: "Holi", region: "Nationwide", type: "Holiday", link: "/festivals/holi" },
+    { date: "Mar 30, 2025", name: "Gudi Padwa", region: "West", type: "New Year", link: "/festivals/gudi-padwa" },
     { date: "Mar 30, 2025", name: "Eid-al-Fitr (Ramzan Eid)", region: "Nationwide", type: "Religious", link: "/festivals/eid-al-fitr" },
-    { date: "Mar 31, 2025", name: "Holi", region: "Nationwide", type: "Holiday", link: "/festivals/holi" },
     { date: "Apr 18, 2025", name: "Good Friday", region: "Nationwide", type: "Religious", link: "/festivals/christmas" },
     { date: "Apr 21, 2025", name: "Akshaya Tritiya", region: "Nationwide", type: "Religious", link: "/festivals/akshaya-tritiya" },
     { date: "May 01, 2025", name: "Labour Day", region: "Nationwide", type: "Holiday", link: null },
-    { date: "Jun 17, 2025", name: "Eid al-Adha", region: "Nationwide", type: "Religious", link: null },
+    { date: "Jun 06, 2025", name: "Eid al-Adha", region: "Nationwide", type: "Religious", link: null },
     { date: "Jun 29, 2025", name: "Rath Yatra", region: "East", type: "Religious", link: "/festivals/rath-yatra" },
-    { date: "Jul 17, 2025", name: "Muharram", region: "Nationwide", type: "Religious", link: "/festivals/muharram" },
+    { date: "Jul 07, 2025", name: "Muharram", region: "Nationwide", type: "Religious", link: "/festivals/muharram" },
     { date: "Aug 09, 2025", name: "Nag Panchami", region: "Nationwide", type: "Cultural", link: "/festivals/nag-panchami" },
     { date: "Aug 15, 2025", name: "Independence Day", region: "Nationwide", type: "Holiday", link: null },
     { date: "Aug 19, 2025", name: "Raksha Bandhan", region: "Nationwide", type: "Cultural", link: "/festivals/raksha-bandhan" },
@@ -33,8 +37,7 @@ const allEvents = [
     { date: "Oct 02, 2025", name: "Gandhi Jayanti", region: "Nationwide", type: "Holiday", link: null },
     { date: "Oct 19, 2025", name: "Dhanteras", region: "Nationwide", type: "Diwali", link: "/festivals/diwali" },
     { date: "Oct 20, 2025", name: "Naraka Chaturdashi (Choti Diwali)", region: "Nationwide", type: "Diwali", link: "/festivals/diwali" },
-    { date: "Oct 21, 2025", name: "Lakshmi Puja (Diwali)", region: "Nationwide", type: "Diwali", link: "/festivals/diwali" },
-    { date: "Oct 21, 2025", name: "Diwali (Deepavali)", region: "Nationwide", type: "Holiday", link: "/festivals/diwali" },
+    { date: "Oct 21, 2025", name: "Diwali (Lakshmi Puja)", region: "Nationwide", type: "Holiday", link: "/festivals/diwali" },
     { date: "Oct 22, 2025", name: "Govardhan Puja (Padwa)", region: "Nationwide", type: "Diwali", link: "/festivals/diwali" },
     { date: "Oct 23, 2025", name: "Bhai Dooj (Bhaubeej)", region: "Nationwide", type: "Diwali", link: "/festivals/diwali" },
     { date: "Oct 27, 2025", name: "Chhath Puja", region: "East", type: "Solar", link: "/festivals/chhath-puja" },
@@ -44,20 +47,18 @@ const allEvents = [
     // 2026
     { date: "Jan 01, 2026", name: "New Year's Day", region: "Nationwide", type: "Holiday", link: null },
     { date: "Jan 13, 2026", name: "Lohri", region: "North", type: "Harvest", link: "/festivals/lohri" },
-    { date: "Jan 14, 2026", name: "Makar Sankranti", region: "Nationwide", type: "Harvest", link: "/festivals/makar-sankranti" },
-    { date: "Jan 14, 2026", name: "Pongal", region: "South", type: "Harvest", link: "/festivals/pongal" },
+    { date: "Jan 14, 2026", name: "Makar Sankranti / Pongal", region: "Nationwide", type: "Harvest", link: "/festivals/makar-sankranti" },
     { date: "Jan 15, 2026", name: "Bihu", region: "Northeast", type: "Harvest", link: "/festivals/bihu" },
+    { date: "Jan 23, 2026", name: "Vasant Panchami", region: "Nationwide", type: "Seasonal", link: "/festivals/vasant-panchami" },
     { date: "Jan 26, 2026", name: "Republic Day", region: "Nationwide", type: "Holiday", link: null },
-    { date: "Feb 03, 2026", name: "Vasant Panchami", region: "Nationwide", type: "Seasonal", link: "/festivals/vasant-panchami" },
     { date: "Mar 04, 2026", name: "Holi", region: "Nationwide", type: "Cultural", link: "/festivals/holi" },
-    { date: "Mar 20, 2026", name: "Eid al-Fitr", region: "Nationwide", type: "Holiday", link: "/festivals/eid-al-fitr" },
+    { date: "Mar 20, 2026", name: "Eid-al-Fitr", region: "Nationwide", type: "Holiday", link: "/festivals/eid-al-fitr" },
     { date: "Mar 21, 2026", name: "Gudi Padwa", region: "West", type: "New Year", link: "/festivals/gudi-padwa" },
     { date: "Apr 03, 2026", name: "Good Friday", region: "Nationwide", type: "Religious", link: "/festivals/christmas" },
     { date: "May 01, 2026", name: "Labour Day", region: "Nationwide", type: "Holiday", link: null },
-    { date: "Jun 06, 2026", name: "Eid al-Adha", region: "Nationwide", type: "Religious", link: null },
-    { date: "Aug 15, 2026", name: "Independence Day", region: "Nationwide", type: "Holiday", link: null },
+    { date: "May 27, 2026", name: "Eid al-Adha", region: "Nationwide", type: "Religious", link: null },
     { date: "Oct 02, 2026", name: "Gandhi Jayanti", region: "Nationwide", type: "Holiday", link: null },
-    { date: "Nov 09, 2026", name: "Diwali (Deepavali)", region: "Nationwide", type: "Holiday", link: "/festivals/diwali" },
+    { date: "Nov 08, 2026", name: "Diwali (Lakshmi Puja)", region: "Nationwide", type: "Holiday", link: "/festivals/diwali" },
     { date: "Dec 25, 2026", name: "Christmas", region: "Nationwide", type: "Religious", link: "/festivals/christmas" },
 ].sort((a, b) => {
     const dateA = parse(a.date.split(' - ')[0], 'MMM dd, yyyy', new Date());
@@ -244,3 +245,5 @@ export function FestivalCalendar() {
         </div>
     );
 }
+
+    
