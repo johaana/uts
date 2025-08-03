@@ -31,9 +31,6 @@ const festivals = [
     { name: "Hornbill Festival", region: "Northeast", description: "A vibrant festival in Nagaland showcasing the rich culture and traditions of the Naga tribes.", link: "/festivals/hornbill-festival" },
     { name: "Thaipusam", region: "South", description: "A powerful Tamil festival of faith, endurance, and penance dedicated to Lord Murugan.", link: "/festivals/thaipusam" },
     { name: "Hemis Tsechu", region: "North", description: "A colorful Buddhist festival in Ladakh with masked dances celebrating the birth of Guru Padmasambhava.", link: "/festivals/hemis-tsechu" },
-    { name: "Mopin Festival", region: "Northeast", description: "A harvest festival of the Galo tribe in Arunachal Pradesh, celebrating fertility and prosperity.", link: "/festivals/mopin" },
-    { name: "Nuakhai", region: "East", description: "An agricultural festival in Odisha to welcome the new rice of the season.", link: "/festivals/nuakhai" },
-    { name: "Wangala", region: "Northeast", description: "The 'Hundred Drums Festival' of the Garo tribe, a post-harvest thanksgiving celebration.", link: "/festivals/wangala" },
 ];
 
 export default function FestivalsPage() {

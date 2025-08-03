@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check } from "lucide-react";
 import Image from "next/image";
@@ -13,7 +14,7 @@ export default function GingerbreadCookiesPage() {
                             <p className="text-lg text-muted-foreground">The quintessential Christmas treat! These spiced cookies, often cut into festive shapes, are perfect for decorating and sharing.</p>
                         </div>
                         <div className="md:w-1/3">
-                           <Image src="https://i.postimg.cc/RZMhP75N/christmas1.jpg" alt="Gingerbread Cookies" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="christmas cookies"/>
+                           <Image src="https://i.postimg.cc/kDmD9PDV/christmas-cake.jpg" alt="Gingerbread Cookies" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="christmas cookies"/>
                         </div>
                     </div>
                 </CardHeader>

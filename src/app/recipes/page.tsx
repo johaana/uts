@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -25,6 +26,14 @@ const recipes = [
     { name: "Langarwali Dal", festival: "Guru Nanak Jayanti", region: "Nationwide", description: "A simple, wholesome lentil curry served in Gurdwaras.", link: "/recipes/langar-dal", image: "https://i.postimg.cc/d0qQ49TY/Langar-Wali-Dal.jpg", hint: "lentil curry" },
     { name: "Avial", festival: "Onam", region: "South", description: "A mixed vegetable stew in a coconut and yogurt gravy.", link: "/recipes/avial", image: "https://i.postimg.cc/MpJpjw6X/Aviyal.webp", hint: "vegetable stew" },
     { name: "Payasam", festival: "Onam", region: "South", description: "A traditional South Indian pudding made with milk, sugar, and rice or vermicelli.", link: "/recipes/payasam", image: "https://i.postimg.cc/xj7CnHBv/payasam1.jpg", hint: "rice pudding" },
+    { name: "Shrikhand", festival: "Gudi Padwa", region: "West", description: "Creamy strained yogurt dessert flavored with saffron and cardamom.", link: "/recipes/shrikhand", image: "https://i.postimg.cc/mDn7NM2s/Sweets1.jpg", hint: "yogurt dessert" },
+    { name: "Kothimbir Vadi", festival: "Gudi Padwa", region: "West", description: "Crispy, spiced cilantro fritters, a Maharashtrian favorite.", link: "/recipes/kothimbir-vadi", image: "https://i.postimg.cc/jj8gBsCj/puranpoli.jpg", hint: "coriander fritters" },
+    { name: "Pitha", festival: "Bihu", region: "Northeast", description: "Assamese rice cakes with a sweet sesame and jaggery filling.", link: "/recipes/pitha", image: "https://i.postimg.cc/3WM2zqgN/bihu2.png", hint: "sesame rice cakes" },
+    { name: "Laru", festival: "Bihu", region: "Northeast", description: "Traditional Assamese sweet coconut balls.", link: "/recipes/laru", image: "https://i.postimg.cc/nzrvDTx2/Diwali-Sweets.jpg", hint: "coconut ladoo" },
+    { name: "Masor Tenga", festival: "Bihu", region: "Northeast", description: "A light and tangy Assamese fish curry.", link: "/recipes/fish-curry", image: "https://i.postimg.cc/V669tnff/Bihu-Dance-assam.jpg", hint: "fish curry" },
+    { name: "Khechudi", festival: "Rath Yatra", region: "East", description: "Simple rice and lentil dish, part of Jagannath's Mahaprasad.", link: "/recipes/khechudi", image: "https://i.postimg.cc/YSpNpMyJ/sudarshan-poojary-FZw-Bem-Sc-Rc0-unsplash.jpg", hint: "rice lentils" },
+    { name: "Dalma", festival: "Rath Yatra", region: "East", description: "Nutritious lentil and vegetable stew from Odisha.", link: "/recipes/dalma", image: "https://i.postimg.cc/YSpNpMyJ/sudarshan-poojary-FZw-Bem-Sc-Rc0-unsplash.jpg", hint: "lentil stew" },
+    { name: "Poda Pitha", festival: "Rath Yatra", region: "East", description: "Slow-cooked, baked rice cake, a favorite of Lord Jagannath.", link: "/recipes/poda-pitha", image: "https://i.postimg.cc/YSpNpMyJ/sudarshan-poojary-FZw-Bem-Sc-Rc0-unsplash.jpg", hint: "baked rice cake" },
 ];
 
 export default function RecipesPage() {

@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check } from "lucide-react";
 import Image from "next/image";
@@ -13,7 +14,7 @@ export default function RoastChickenPage() {
                             <p className="text-lg text-muted-foreground">A perfectly roasted chicken is the centerpiece of many Christmas feasts. This recipe ensures a juicy, flavorful bird with crispy skin.</p>
                         </div>
                          <div className="md:w-1/3">
-                           <Image src="https://i.postimg.cc/RZMhP75N/christmas1.jpg" alt="Roast Chicken" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="roast chicken"/>
+                           <Image src="https://i.postimg.cc/ncKMYdWy/christmas-2.jpg" alt="Roast Chicken" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="roast chicken"/>
                         </div>
                     </div>
                 </CardHeader>

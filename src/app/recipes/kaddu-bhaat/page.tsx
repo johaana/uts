@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check } from "lucide-react";
 import Image from "next/image";
@@ -13,7 +14,7 @@ export default function KadduBhaatPage() {
                            <p className="text-lg text-muted-foreground">A simple yet significant dish for Chhath Puja, Kaddu Bhaat consists of a lightly spiced pumpkin curry served with rice. It is often eaten on the 'Nahay Khay' day.</p>
                         </div>
                          <div className="md:w-1/3">
-                            <Image src="https://i.postimg.cc/d1N07T3K/thekua1.webp" alt="Kaddu Bhaat" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="pumpkin curry rice"/>
+                            <Image src="https://i.postimg.cc/KYmDZCCg/chath-puja-festival1.webp" alt="Kaddu Bhaat" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="pumpkin curry rice"/>
                         </div>
                     </div>
                 </CardHeader>
