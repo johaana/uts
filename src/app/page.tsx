@@ -1,3 +1,6 @@
+
+'use client';
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
@@ -6,11 +9,17 @@ import { Mail, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { FestivalCalendar } from "@/components/FestivalCalendar";
+import { useToast } from "@/hooks/use-toast";
+import React from "react";
+import { subscribeToNewsletter } from "@/ai/flows/subscribe-flow";
+
 
 export default function Home() {
+  const { toast } = useToast();
+  
   const upcomingFestivals = [
     { name: "Raksha Bandhan", date: "August 19, 2025", link: "/festivals/raksha-bandhan", image: "https://i.postimg.cc/q7qRrp7r/raksha-bandhan.jpg", hint: "rakhi thread" },
-    { name: "Ganesh Chaturthi", date: "August 27, 2025", link: "/festivals/ganesh-chaturthi", image: "https://i.postimg.cc/tTV41DPm/ganpati1.jpg", hint: "ganesha idol" },
+    { name: "Ganesh Chaturthi", date: "September 5, 2025", link: "/festivals/ganesh-chaturthi", image: "https://i.postimg.cc/tTV41DPm/ganpati1.jpg", hint: "ganesha idol" },
     { name: "Onam", date: "September 7, 2025", link: "/festivals/onam", image: "https://i.postimg.cc/0564g0S7/nandu-menon-h-GHldb-Cg-YDA-unsplash.jpg", hint: "onam sadhya" },
     { name: "Navratri", date: "September 22, 2025", link: "/festivals/navratri", image: "https://i.postimg.cc/0Nffmbwk/sanin-sn-B4-ZQ2m-KEiq-Y-unsplash.jpg", hint: "garba dance" },
     { name: "Diwali", date: "October 21, 2025", link: "/festivals/diwali", image: "https://i.postimg.cc/1XNwWtfN/Diwali1.png", hint: "diwali lamps" },
@@ -24,9 +33,40 @@ export default function Home() {
 
   const blogPosts = [
     { title: "The Significance of Diyas in Diwali", excerpt: "Discover the deep cultural and spiritual meaning behind lighting diyas...", link: "/blog/significance-of-diyas-in-diwali", image: "https://i.postimg.cc/SjF8HhM1/Diwali2.jpg", hint: "diwali light" },
-    { title: "A Guide to Traditional Holi Colors", excerpt: "Learn about the natural ingredients used in traditional Holi colors and their significance.", link: "/blog/guide-to-natural-holi-colors", image: "https://i.postimg.cc/fWFvx4J9/aceofnet-PNd98-z-An-U0-unsplash.jpg", hint: "holi colors" },
+    { title: "A Guide to Natural Holi Colors", excerpt: "Learn about the natural ingredients used in traditional Holi colors and their significance.", link: "/blog/guide-to-natural-holi-colors", image: "https://i.postimg.cc/fWFvx4J9/aceofnet-PNd98-z-An-U0-unsplash.jpg", hint: "holi colors" },
     { title: "Top 5 Rangoli Designs for Beginners", excerpt: "Get inspired with these easy-to-make yet beautiful rangoli patterns for any occasion.", link: "/blog/top-5-rangoli-designs-for-beginners", image: "https://i.postimg.cc/VN1gdj5Z/prchi-palwe-NLq-NQ10ppe0-unsplash.jpg", hint: "rangoli design" },
   ]
+  
+  const handleSubscription = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const email = formData.get('email') as string;
+
+    if (!email) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Please enter a valid email address.",
+      });
+      return;
+    }
+
+    try {
+      const response = await subscribeToNewsletter(email);
+      toast({
+        title: "Subscribed!",
+        description: response,
+      });
+      (event.target as HTMLFormElement).reset();
+    } catch (error) {
+      console.error("Subscription failed:", error);
+      toast({
+        variant: "destructive",
+        title: "Subscription Failed",
+        description: "Could not subscribe. Please try again later.",
+      });
+    }
+  };
 
   return (
     <div className="space-y-16 md:space-y-24">
@@ -156,8 +196,8 @@ export default function Home() {
             <p className="text-primary-foreground/80 max-w-xl mx-auto mb-6">
               Subscribe to our newsletter for the latest festival updates, recipes, and cultural stories delivered to your inbox.
             </p>
-            <form className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-              <Input type="email" placeholder="Enter your email" className="bg-primary-foreground/10 border-primary-foreground/50 text-primary-foreground placeholder:text-primary-foreground/70" />
+            <form className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto" onSubmit={handleSubscription}>
+              <Input name="email" type="email" placeholder="Enter your email" className="bg-primary-foreground/10 border-primary-foreground/50 text-primary-foreground placeholder:text-primary-foreground/70" />
               <Button type="submit" className="bg-accent hover:bg-accent/90 text-accent-foreground">Subscribe</Button>
             </form>
           </Card>

@@ -31,7 +31,7 @@ export function Header() {
               href={link.href}
               className={cn(
                 "text-sm font-medium transition-colors hover:text-primary",
-                pathname === link.href ? "text-primary" : "text-foreground/60"
+                pathname.startsWith(link.href) ? "text-primary" : "text-foreground/60"
               )}
             >
               {link.label}
@@ -62,7 +62,7 @@ export function Header() {
                       href={link.href}
                       className={cn(
                         "text-lg font-medium transition-colors hover:text-primary",
-                         pathname === link.href ? "text-primary" : "text-foreground"
+                         pathname.startsWith(link.href) ? "text-primary" : "text-foreground"
                       )}
                     >
                       {link.label}
@@ -77,5 +77,3 @@ export function Header() {
     </header>
   );
 }
-
-    
