@@ -13,7 +13,7 @@ export default function LaruPage() {
                            <p className="text-lg text-muted-foreground">A traditional Assamese sweet, Narikol Laru are delicious coconut ladoos made during festivals like Bihu. They are simple, fragrant, and melt-in-the-mouth.</p>
                         </div>
                          <div className="md:w-1/3">
-                           <Image src="https://i.postimg.cc/nzrvDTx2/Diwali-Sweets.jpg" alt="Narikol Laru" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="coconut ladoo"/>
+                           <Image src="https://i.postimg.cc/MpjzBzff/laru.jpg" alt="Narikol Laru" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="coconut ladoo"/>
                         </div>
                     </div>
                 </CardHeader>

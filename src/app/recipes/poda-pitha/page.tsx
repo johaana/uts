@@ -13,7 +13,7 @@ export default function PodaPithaPage() {
                             <p className="text-lg text-muted-foreground">The favorite food of Lord Jagannath, Poda Pitha is a slow-cooked, baked rice cake from Odisha, traditionally prepared for the Rath Yatra festival.</p>
                         </div>
                         <div className="md:w-1/3">
-                           <Image src="https://i.postimg.cc/YSpNpMyJ/sudarshan-poojary-FZw-Bem-Sc-Rc0-unsplash.jpg" alt="Poda Pitha" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="baked rice cake"/>
+                           <Image src="https://i.postimg.cc/zXQJ3yv1/podapitha.jpg" alt="Poda Pitha" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="baked rice cake"/>
                         </div>
                     </div>
                 </CardHeader>

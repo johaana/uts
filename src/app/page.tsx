@@ -71,10 +71,10 @@ export default function Home() {
   return (
     <div className="space-y-16 md:space-y-24">
       <section className="relative bg-secondary/50 py-16 md:py-24 flex items-center justify-center">
-        <Image src="https://i.postimg.cc/fWFvx4J9/aceofnet-PNd98-z-An-U0-unsplash.jpg" alt="Holi festival" layout="fill" objectFit="cover" className="absolute opacity-20" data-ai-hint="holi colors"/>
+        <Image src="https://i.postimg.cc/fWFvx4J9/aceofnet-PNd98-z-An-U0-unsplash.jpg" alt="Holi festival" layout="fill" objectFit="cover" className="absolute opacity-30" data-ai-hint="holi colors"/>
         <div className="container mx-auto px-4 text-center relative z-10">
           <h1 className="font-headline text-4xl md:text-6xl font-bold text-primary">A Vibrant Celebration of India</h1>
-          <p className="mt-4 text-lg md:text-xl text-foreground/80 max-w-3xl mx-auto">
+          <p className="mt-4 text-lg md:text-xl text-primary/80 max-w-3xl mx-auto">
             Your ultimate guide to the rich tapestry of Indian festivals. Explore traditions, 2025-2026 dates, recipes, and stories that make each celebration unique.
           </p>
           <div className="mt-8 flex justify-center">
@@ -102,7 +102,7 @@ export default function Home() {
                         <h3 className="font-headline text-2xl font-bold flex-grow h-14">{festival.name}</h3>
                         <p className="text-sm text-muted-foreground">{festival.date}</p>
                         <Link href={festival.link}>
-                          <Button variant="link" className="p-0 mt-4 text-primary hover:text-primary/90">
+                          <Button variant="link" className="p-0 mt-4 text-accent hover:text-accent/90">
                             Learn More <ArrowRight className="ml-1 h-4 w-4" />
                           </Button>
                         </Link>
@@ -180,7 +180,7 @@ export default function Home() {
               </CardContent>
               <CardContent>
                 <Link href={post.link}>
-                  <Button variant="link" className="p-0 text-primary hover:text-primary/90">
+                  <Button variant="link" className="p-0 text-accent hover:text-accent/90">
                     Read More <ArrowRight className="ml-1 h-4 w-4" />
                   </Button>
                 </Link>

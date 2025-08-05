@@ -14,7 +14,7 @@ export default function RumCakePage() {
                             <p className="text-lg text-muted-foreground">A rich, moist, and boozy fruit cake is the heart of Christmas celebrations. This recipe is packed with rum-soaked dried fruits, nuts, and warm spices.</p>
                         </div>
                         <div className="md:w-1/3">
-                            <Image src="https://i.postimg.cc/kDmD9PDV/christmas-cake.jpg" alt="Rum Cake" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="rum cake"/>
+                            <Image src="https://i.postimg.cc/hvyKLj0T/rum-cake.webp" alt="Rum Cake" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="rum cake"/>
                         </div>
                     </div>
                 </CardHeader>

@@ -13,7 +13,7 @@ export default function KothimbirVadiPage() {
                             <p className="text-lg text-muted-foreground">A popular Maharashtrian savory snack, Kothimbir Vadi are crispy, spiced cilantro fritters, perfect for festive snacking during Gudi Padwa or Diwali.</p>
                         </div>
                         <div className="md:w-1/3">
-                           <Image src="https://i.postimg.cc/jj8gBsCj/puranpoli.jpg" alt="Kothimbir Vadi" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="coriander fritters"/>
+                           <Image src="https://i.postimg.cc/1XtQ3SZt/kothimbir-wadi1.webp" alt="Kothimbir Vadi" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="coriander fritters"/>
                         </div>
                     </div>
                 </CardHeader>

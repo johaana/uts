@@ -13,7 +13,7 @@ export default function KhechudiPage() {
                             <p className="text-lg text-muted-foreground">An essential part of the 'Mahaprasad' at Puri's Jagannath Temple, Khechudi (or Khichdi) is a simple, one-pot dish made from rice and lentils, flavored with ghee and light spices.</p>
                         </div>
                         <div className="md:w-1/3">
-                           <Image src="https://i.postimg.cc/YSpNpMyJ/sudarshan-poojary-FZw-Bem-Sc-Rc0-unsplash.jpg" alt="Khechudi" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="rice lentils"/>
+                           <Image src="https://i.postimg.cc/wvFzzvZZ/khechudi.jpg" alt="Khechudi" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="rice lentils"/>
                         </div>
                     </div>
                 </CardHeader>

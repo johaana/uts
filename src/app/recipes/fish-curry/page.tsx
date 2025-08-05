@@ -13,7 +13,7 @@ export default function FishCurryPage() {
                             <p className="text-lg text-muted-foreground">A signature dish from Assam, Masor Tenga is a light and tangy fish curry, perfect for a comforting meal, especially during Bihu.</p>
                         </div>
                         <div className="md:w-1/3">
-                            <Image src="https://i.postimg.cc/V669tnff/Bihu-Dance-assam.jpg" alt="Assamese Fish Curry" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="fish curry"/>
+                            <Image src="https://i.postimg.cc/6QJtLFCj/masor-tenga.webp" alt="Assamese Fish Curry" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="fish curry"/>
                         </div>
                     </div>
                 </CardHeader>

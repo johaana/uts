@@ -50,7 +50,7 @@ export default function BlogPage() {
                         </CardContent>
                         <CardContent>
                             <Link href={`/blog/${post.slug}`}>
-                                <Button variant="link" className="p-0 text-primary hover:text-primary/90">
+                                <Button variant="link" className="p-0 text-accent hover:text-accent/90">
                                     Read More <ArrowRight className="ml-1 h-4 w-4" />
                                 </Button>
                             </Link>

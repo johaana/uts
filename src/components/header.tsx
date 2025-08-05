@@ -13,7 +13,6 @@ const navLinks = [
   { href: "/festivals", label: "Festivals" },
   { href: "/recipes", label: "Recipes" },
   { href: "/blog", label: "Blog" },
-  { href: "/shop", label: "Shop" },
 ];
 
 export function Header() {

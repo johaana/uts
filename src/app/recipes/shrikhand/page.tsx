@@ -13,7 +13,7 @@ export default function ShrikhandPage() {
                             <p className="text-lg text-muted-foreground">A creamy and delicious dessert from Western India, Shrikhand is made from strained yogurt (hung curd) and flavored with saffron, cardamom, and nuts. It's a Gudi Padwa favorite.</p>
                         </div>
                         <div className="md:w-1/3">
-                           <Image src="https://i.postimg.cc/mDn7NM2s/Sweets1.jpg" alt="Shrikhand" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="yogurt dessert"/>
+                           <Image src="https://i.postimg.cc/BbQqPD2J/shrikhand.webp" alt="Shrikhand" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="yogurt dessert"/>
                         </div>
                     </div>
                 </CardHeader>

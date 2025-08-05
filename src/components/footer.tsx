@@ -28,7 +28,6 @@ export function Footer() {
               <h3 className="font-bold mb-4 font-headline text-lg">Resources</h3>
               <ul className="space-y-3">
                 <li><Link href="/blog" className="text-foreground/80 hover:text-primary">Blog</Link></li>
-                <li><Link href="/shop" className="text-foreground/80 hover:text-primary">Shop</Link></li>
               </ul>
             </div>
              <div className="md:col-span-4 lg:col-span-5">

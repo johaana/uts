@@ -14,7 +14,7 @@ export default function KeralaRoastChickenPage() {
                             <p className="text-lg text-muted-foreground">A succulent roast chicken with a twist of Keralan spices, perfect for a festive Christmas meal. The marinade of yogurt and spices makes it incredibly flavorful and tender.</p>
                         </div>
                          <div className="md:w-1/3">
-                           <Image src="https://i.postimg.cc/ncKMYdWy/christmas-2.jpg" alt="Kerala Roast Chicken" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="kerala roast chicken"/>
+                           <Image src="https://i.postimg.cc/JnR8SJ6j/Kerala-chicken-roast.jpg" alt="Kerala Roast Chicken" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="kerala roast chicken"/>
                         </div>
                     </div>
                 </CardHeader>
