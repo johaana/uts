@@ -9,11 +9,11 @@ import { ArrowRight } from 'lucide-react';
 
 const regions = [
   { name: 'North', href: '/festivals?region=North', image: 'https://i.postimg.cc/ncg3FqB3/kumbh-mela-2.jpg', hint: 'kumbh mela' },
-  { name: 'Northeast', href: '/festivals?region=Northeast', image: 'https://i.postimg.cc/tJnB8vjD/Hornbill-Festival.jpg', hint: 'naga festival dancers' },
-  { name: 'East', href: '/festivals?region=East', image: 'https://i.postimg.cc/GmnJ5kP3/nilendrajyoti-halder-v32-Ac-NJ4-Q-Q-unsplash.jpg', hint: 'durga idol' },
-  { name: 'West', href: '/festivals?region=West', image: 'https://i.postimg.cc/N0qYH9q4/tarnetar-mela.jpg', hint: 'gujarat fair' },
+  { name: 'Northeast', href: '/festivals?region=Northeast', image: 'https://i.postimg.cc/52MbHQMm/North-East-festivals.jpg', hint: 'naga festival dancers' },
+  { name: 'East', href: '/festivals?region=East', image: 'https://i.postimg.cc/nL3Jwd9d/East-India-festivals.webp', hint: 'durga idol' },
+  { name: 'West', href: '/festivals?region=West', image: 'https://i.postimg.cc/jjxTcV2w/Western-India-festivals-1.jpg', hint: 'gujarat fair' },
   { name: 'Central', href: '/festivals?region=Central', image: 'https://i.postimg.cc/rmVJnj2w/Pushkar-Camel-Fair.avif', hint: 'pushkar camel fair' },
-  { name: 'South', href: '/festivals?region=South', image: 'https://i.postimg.cc/j28kQ9WT/thrissur-puram-festival-2.jpg', hint: 'kerala temple festival' },
+  { name: 'South', href: '/festivals?region=South', image: 'https://i.postimg.cc/j5CbVzzR/south-indian-festivals.jpg', hint: 'kerala temple festival' },
 ];
 
 export function RegionShowcase() {
@@ -28,8 +28,7 @@ export function RegionShowcase() {
                     src={region.image} 
                     alt={region.name} 
                     layout="fill" 
-                    objectFit="contain" 
-                    className="p-4" 
+                    objectFit="cover"
                     data-ai-hint={region.hint}
                  />
               </div>
