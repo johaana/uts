@@ -21,7 +21,7 @@ const CountdownUnit = ({ value, label }: { value: number, label: string }) => (
 
 const calculateTimeLeft = (targetDate: Date): TimeLeft | null => {
     const now = new Date();
-    if (isFuture(targetDate)) {
+    if (isFuture(targetDate) || isToday(targetDate)) {
         const totalSeconds = differenceInSeconds(targetDate, now);
         if (totalSeconds > 0) {
             return {
@@ -42,6 +42,12 @@ export function UpcomingFestivalCardClient({ festivalDateString, festivalName }:
     const [timeLeft, setTimeLeft] = useState(calculateTimeLeft(festivalDate));
 
     useEffect(() => {
+        // Set up the timer only if the festival date is valid and in the future
+        if (!festivalDate || !isFuture(festivalDate)) {
+            setTimeLeft(null); // Clear any existing timer if the date has passed
+            return;
+        }
+
         const timer = setInterval(() => {
             const newTimeLeft = calculateTimeLeft(festivalDate);
             setTimeLeft(newTimeLeft);
@@ -50,8 +56,9 @@ export function UpcomingFestivalCardClient({ festivalDateString, festivalName }:
             }
         }, 1000);
 
+        // Clear the interval when the component is unmounted
         return () => clearInterval(timer);
-    }, [festivalDate]);
+    }, [festivalDate]); // Rerun the effect if the festivalDate prop changes
 
     return (
         <>
@@ -76,3 +83,5 @@ export function UpcomingFestivalCardClient({ festivalDateString, festivalName }:
         </>
     );
 }
+
+    

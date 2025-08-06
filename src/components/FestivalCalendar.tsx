@@ -227,7 +227,7 @@ export function FestivalCalendar() {
                                 <SelectValue placeholder="Year" />
                             </SelectTrigger>
                             <SelectContent>
-                                <SelectItem value="upcoming">Upcoming (Next Year)</SelectItem>
+                                <SelectItem value="upcoming">Upcoming (1 year)</SelectItem>
                                 <SelectItem value="all">All Years</SelectItem>
                                 {availableYears.map(year => <SelectItem key={year} value={String(year)}>{year}</SelectItem>)}
                             </SelectContent>
@@ -324,3 +324,5 @@ export function FestivalCalendar() {
         </div>
     );
 }
+
+    
