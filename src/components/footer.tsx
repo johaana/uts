@@ -1,7 +1,25 @@
+
+'use client';
+
 import Link from "next/link";
 import { UtsavsLogo } from "./icons";
+import { Input } from "./ui/input";
+import { Button } from "./ui/button";
+import { useRouter } from "next/navigation";
+import React from "react";
 
 export function Footer() {
+  const router = useRouter();
+
+  const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const searchQuery = formData.get('search') as string;
+    if (searchQuery.trim()) {
+      router.push(`/festivals?search=${searchQuery.trim()}`);
+    }
+  };
+
   return (
     <footer className="bg-secondary/50 border-t">
       <div className="container mx-auto max-w-7xl px-4 py-12">
@@ -29,14 +47,13 @@ export function Footer() {
               </ul>
             </div>
              <div className="md:col-span-4 lg:col-span-5">
-              <h3 className="font-bold mb-4 font-headline text-lg">Newsletter</h3>
-              <p className="text-foreground/80 mb-4 text-sm">Get festival updates and new recipes in your inbox.</p>
-              {/* This form is for styling purposes and does not submit data. */}
-              <form className="flex gap-2 max-w-sm">
-                <input type="email" placeholder="Email" className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm" />
-                <button type="button" className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 w-10">
-                    <span className="sr-only">Subscribe</span>&rarr;
-                </button>
+              <h3 className="font-bold mb-4 font-headline text-lg">Search Utsavs</h3>
+              <p className="text-foreground/80 mb-4 text-sm">Looking for something specific? Find it here.</p>
+              <form className="flex gap-2 max-w-sm" onSubmit={handleSearch}>
+                <Input name="search" type="search" placeholder="Search festivals..." className="bg-background"/>
+                <Button type="submit" size="icon" className="shrink-0">
+                    <span className="sr-only">Search</span>&rarr;
+                </Button>
               </form>
             </div>
         </div>
