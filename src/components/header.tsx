@@ -13,7 +13,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { Input } from "./ui/input";
-import Image from "next/image";
 
 const navLinks = [
   { href: "/festivals", label: "Festivals" },
@@ -74,8 +73,8 @@ export function Header() {
                 </SheetTrigger>
                 <SheetContent side="left">
                     <div className="flex flex-col gap-6 pt-10">
-                    <Link href="/" className="flex items-center gap-2 mb-4" onClick={() => setIsOpen(false)}>
-                    <Image src="https://i.postimg.cc/tJggpS12/utsavs-logo.png" alt="Utsavs Logo" width={60} height={60}/>
+                    <Link href="/" className="flex items-center gap-2 mb-4 font-headline text-2xl" onClick={() => setIsOpen(false)}>
+                        U
                     </Link>
                     {navLinks.map((link) => (
                         <Link
@@ -94,8 +93,8 @@ export function Header() {
                 </SheetContent>
             </Sheet>
             </div>
-            <Link href="/" className="hidden md:flex items-center gap-2">
-                <Image src="https://i.postimg.cc/tJggpS12/utsavs-logo.png" alt="Utsavs Logo" width={60} height={60}/>
+             <Link href="/" className="hidden md:flex items-center justify-center h-10 w-10 rounded-full bg-primary text-primary-foreground font-headline text-2xl">
+              U
             </Link>
         </div>
 
