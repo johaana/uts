@@ -77,7 +77,7 @@ export default function Home() {
         <div className="container mx-auto px-4 text-center relative z-10">
           <h1 className="font-headline text-4xl md:text-6xl font-bold text-primary">A Vibrant Celebration of India</h1>
           <p className="mt-4 text-lg md:text-xl text-primary/80 max-w-3xl mx-auto">
-            Your ultimate guide to the rich tapestry of Indian festivals. Explore traditions, 2025-2026 dates, recipes, and stories that make each celebration unique. Utsavs is your definitive source for understanding the rituals, significance, and joy of India's cultural heritage, from Diwali to Durga Puja.
+            Your definitive guide to the rich tapestry of Indian festivals. Explore traditions, 2025-2028 dates, recipes, and the stories that make each celebration unique.
           </p>
           <div className="mt-8 flex justify-center">
             <Link href="/festivals">
