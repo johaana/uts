@@ -9,7 +9,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { ArrowRight, Star } from "lucide-react";
-import { format, parse, getYear, isAfter, isSameDay } from 'date-fns';
+import { format, parse, getYear, isAfter, isSameDay, addYears, isBefore } from 'date-fns';
 
 const allEvents = [
     // 2024
@@ -88,7 +88,17 @@ const months = ["January", "February", "March", "April", "May", "June", "July", 
 const regions = ["Nationwide", "North", "South", "East", "West", "Northeast", "Central"];
 const eventTypes = ["Festivals", "Holidays", "Long Weekends"];
 const currentFullYear = getYear(new Date());
-const availableYears = Array.from(new Array(11), (_, i) => (currentFullYear + i).toString());
+const availableYears = [...new Set(allEvents.map(e => getYearFromDateString(e.date)))].sort();
+
+
+function getYearFromDateString(dateString: string): number {
+    try {
+        const yearStr = dateString.split(', ')[1].split(' - ')[0];
+        return parseInt(yearStr, 10);
+    } catch (e) {
+        return 0;
+    }
+};
 
 export function FestivalCalendar() {
     const [selectedMonth, setSelectedMonth] = useState('all');
@@ -106,14 +116,6 @@ export function FestivalCalendar() {
         }
     };
     
-    const getYearFromDateString = (dateString: string): number => {
-        try {
-            const yearStr = dateString.split(', ')[1].split(' - ')[0];
-            return parseInt(yearStr, 10);
-        } catch (e) {
-            return 0;
-        }
-    };
 
     const formatDateString = (dateString: string) => {
         const parts = dateString.split(' - ');
@@ -148,24 +150,30 @@ export function FestivalCalendar() {
         now.setHours(0,0,0,0);
         
         return allEvents.filter(event => {
+            const eventStartDateStr = event.date.split(' - ')[0];
             const eventEndDateStr = event.date.split(' - ').pop() || event.date;
-            
-            let eventEndDate;
-            try {
-                 const yearStr = eventEndDateStr.includes(',') ? eventEndDateStr.split(', ')[1].split(' ')[0] : event.date.split(', ')[1].split(' ')[0];
-                 const dateToParse = eventEndDateStr.includes(',') ? eventEndDateStr : `${eventEndDateStr}, ${yearStr}`;
-                 eventEndDate = parse(dateToParse, 'MMM dd, yyyy', new Date());
-                 if (isNaN(eventEndDate.getTime())) return false;
-            } catch (e) {
+
+            let eventStartDate, eventEndDate;
+             try {
+                eventStartDate = parse(eventStartDateStr, 'MMM dd, yyyy', new Date());
+
+                const yearStr = eventEndDateStr.includes(',') ? eventEndDateStr.split(', ')[1].split(' ')[0] : event.date.split(', ')[1].split(' ')[0];
+                const dateToParse = eventEndDateStr.includes(',') ? eventEndDateStr : `${eventEndDateStr}, ${yearStr}`;
+                eventEndDate = parse(dateToParse, 'MMM dd, yyyy', new Date());
+
+                if (isNaN(eventStartDate.getTime()) || isNaN(eventEndDate.getTime())) return false;
+            } catch(e) {
                 return false;
             }
+
 
             const eventMonth = getMonthFromDateString(event.date);
             const eventYear = getYearFromDateString(event.date);
 
             let yearMatch = true;
             if (selectedYear === 'upcoming') {
-                yearMatch = isAfter(eventEndDate, now) || isSameDay(eventEndDate, now);
+                const oneYearFromNow = addYears(now, 1);
+                yearMatch = (isAfter(eventStartDate, now) || isSameDay(eventStartDate, now)) && isBefore(eventStartDate, oneYearFromNow);
             } else if (selectedYear !== 'all') {
                 yearMatch = eventYear === parseInt(selectedYear);
             }
@@ -219,7 +227,7 @@ export function FestivalCalendar() {
                                 <SelectValue placeholder="Year" />
                             </SelectTrigger>
                             <SelectContent>
-                                <SelectItem value="upcoming">Upcoming</SelectItem>
+                                <SelectItem value="upcoming">Upcoming (Next Year)</SelectItem>
                                 <SelectItem value="all">All Years</SelectItem>
                                 {availableYears.map(year => <SelectItem key={year} value={String(year)}>{year}</SelectItem>)}
                             </SelectContent>
