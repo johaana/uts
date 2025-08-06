@@ -65,7 +65,7 @@ export function Header() {
             <Link href="/" className="flex items-center gap-2">
                 <div className="relative h-12 w-40">
                   <Image 
-                    src="https://i.postimg.cc/P50LzHXx/Utsavs-Logo-Indigo.png"
+                    src="https://i.postimg.cc/t4x7tYqY/Utsavs-Logo-Maroon.png"
                     alt="Utsavs Logo" 
                     layout="fill"
                     objectFit="contain"
@@ -108,7 +108,7 @@ export function Header() {
                     <Link href="/" className="flex items-center gap-2 mb-4" onClick={() => setOpen(false)}>
                        <div className="relative h-12 w-40">
                           <Image 
-                            src="https://i.postimg.cc/P50LzHXx/Utsavs-Logo-Indigo.png"
+                            src="https://i.postimg.cc/t4x7tYqY/Utsavs-Logo-Maroon.png"
                             alt="Utsavs Logo" 
                             layout="fill"
                             objectFit="contain"
