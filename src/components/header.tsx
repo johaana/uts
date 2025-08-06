@@ -63,7 +63,7 @@ export function Header() {
         
         <div className="flex-1 flex justify-start">
              <Link href="/" className="flex items-center gap-2">
-                <Image src="https://i.postimg.cc/tCYyQVjX/4.png" alt="Utsavs Logo" width={26} height={26} style={{ objectFit: 'contain' }} />
+                <Image src="https://i.postimg.cc/tCYyQVjX/4.png" alt="Utsavs Logo" width={44} height={44} style={{ objectFit: 'contain' }} />
              </Link>
         </div>
 
@@ -97,7 +97,7 @@ export function Header() {
                     <SheetContent side="left">
                         <div className="flex flex-col gap-6 pt-10">
                         <Link href="/" className="flex items-center gap-2 mb-4" onClick={() => setIsOpen(false)}>
-                            <Image src="https://i.postimg.cc/tCYyQVjX/4.png" alt="Utsavs Logo" width={26} height={26} />
+                            <Image src="https://i.postimg.cc/tCYyQVjX/4.png" alt="Utsavs Logo" width={44} height={44} />
                         </Link>
                         {navLinks.map((link) => (
                             <Link
