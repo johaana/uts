@@ -9,10 +9,10 @@ body {
 
 @layer base {
   :root {
-    --background: 260 50% 98%;
+    --background: 34 33% 96%;
     --foreground: 0 70% 35%;
 
-    --card: 0 0% 100%;
+    --card: 34 33% 98%;
     --card-foreground: 0 70% 30%;
 
     --popover: 0 0% 100%;
@@ -87,6 +87,7 @@ body {
   }
   body {
     @apply bg-background text-foreground;
+    background-color: #F8F5F1;
   }
   h1, h2, h3, h4, h5, h6 {
     @apply font-headline;
