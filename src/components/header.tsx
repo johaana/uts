@@ -8,7 +8,7 @@ import { Menu, Search } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -57,10 +57,35 @@ function SearchDialog() {
 export function Header() {
   const pathname = usePathname();
   const [open, setOpen] = React.useState(false);
+  const [visible, setVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  const controlNavbar = () => {
+    if (typeof window !== 'undefined') { 
+      if (window.scrollY > lastScrollY && window.scrollY > 80) { // if scroll down hide the navbar
+        setVisible(false);
+      } else { // if scroll up show the navbar
+        setVisible(true);
+      }
+      setLastScrollY(window.scrollY); 
+    }
+  };
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      window.addEventListener('scroll', controlNavbar);
+
+      return () => {
+        window.removeEventListener('scroll', controlNavbar);
+      };
+    }
+  }, [lastScrollY]);
 
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className={cn("sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 transition-transform duration-300", {
+        '-translate-y-full': !visible,
+      })}>
       <div className="container mx-auto flex h-16 max-w-7xl items-center justify-between px-4">
         <div className="flex items-center gap-8">
             <Link href="/" className="flex items-center gap-2">
