@@ -1,3 +1,4 @@
+
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
@@ -6,23 +7,23 @@ import { Footer } from '@/components/footer';
 import { BackToTopButton } from '@/components/BackToTopButton';
 
 const APP_NAME = "Utsavs";
-const APP_DESCRIPTION = "Your definitive guide to Indian festivals for 2025 and 2026. Explore dates, rituals, recipes, and the stories behind Diwali, Holi, Navratri, and more.";
+const APP_DESCRIPTION = "Your definitive guide to Indian festivals. Explore dates, rituals, recipes, and the stories behind Diwali, Holi, Navratri, and more.";
 const APP_URL = "https://utsavs.com";
 
 export const metadata: Metadata = {
   title: {
-    default: "Utsavs: Indian Festival Calendar 2025 & 2026 | Recipes & Traditions",
+    default: "Utsavs: Your Definitive Guide to Indian Festivals | Recipes & Traditions",
     template: "%s | Utsavs",
   },
   description: APP_DESCRIPTION,
   applicationName: APP_NAME,
   metadataBase: new URL(APP_URL),
-  keywords: ['Indian festivals', 'Hindu festivals 2025', 'Indian festival calendar', 'Diwali 2025', 'Holi 2025', 'Navratri 2025', 'Durga Puja', 'Ganesh Chaturthi', 'Indian culture', 'festival recipes', 'puja vidhi', 'festival dates 2026'],
+  keywords: ['Indian festivals', 'Hindu festivals', 'Indian festival calendar', 'Diwali', 'Holi', 'Navratri', 'Durga Puja', 'Ganesh Chaturthi', 'Indian culture', 'festival recipes', 'puja vidhi', 'festival dates'],
   openGraph: {
     type: "website",
     url: APP_URL,
     title: {
-      default: "Utsavs: Indian Festival Calendar 2025 & 2026 | Recipes & Traditions",
+      default: "Utsavs: Your Definitive Guide to Indian Festivals | Recipes & Traditions",
       template: "%s | Utsavs",
     },
     description: APP_DESCRIPTION,
@@ -37,7 +38,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: {
-      default: "Utsavs: Indian Festival Calendar 2025 & 2026 | Recipes & Traditions",
+      default: "Utsavs: Your Definitive Guide to Indian Festivals | Recipes & Traditions",
       template: "%s | Utsavs",
     },
     description: APP_DESCRIPTION,

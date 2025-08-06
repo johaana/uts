@@ -23,7 +23,7 @@ export default function Home() {
         <div className="container mx-auto px-4 text-center relative z-10">
           <h1 className="font-headline text-4xl md:text-6xl font-bold text-primary">Utsavs: Your Definitive Guide to Indian Festivals</h1>
           <p className="mt-4 text-lg md:text-xl text-foreground/80 max-w-3xl mx-auto">
-             An essential guide to dates, rituals, and stories for 2025 & 2026. Discover authentic recipes, explore cultural traditions, and plan your celebrations with our comprehensive festival calendar.
+             Your essential guide to the dates, rituals, and stories behind India's vibrant celebrations. Discover authentic recipes, explore cultural traditions, and plan your year with our comprehensive festival calendar.
           </p>
           <div className="mt-8 flex justify-center">
             <Link href="/festivals">
@@ -44,17 +44,17 @@ export default function Home() {
             <Card className="text-center p-6">
                 <Calendar className="mx-auto h-10 w-10 text-primary mb-4"/>
                 <h3 className="font-headline text-xl font-bold">Festival Calendar</h3>
-                <p className="text-muted-foreground mt-2">Accurate dates for 2025-2026, including holidays and long weekends.</p>
+                <p className="text-muted-foreground mt-2">Accurate dates for all major festivals, including long weekends to help you plan.</p>
             </Card>
             <Card className="text-center p-6">
                 <BookOpen className="mx-auto h-10 w-10 text-primary mb-4"/>
                 <h3 className="font-headline text-xl font-bold">Cultural Guides</h3>
-                <p className="text-muted-foreground mt-2">Deep dive into the stories, rituals, and significance behind every festival.</p>
+                <p className="text-muted-foreground mt-2">Deep dive into the stories, rituals, and significance behind every celebration.</p>
             </Card>
             <Card className="text-center p-6">
                 <Utensils className="mx-auto h-10 w-10 text-primary mb-4"/>
                 <h3 className="font-headline text-xl font-bold">Authentic Recipes</h3>
-                <p className="text-muted-foreground mt-2">Cook traditional festive foods with our easy-to-follow recipes.</p>
+                <p className="text-muted-foreground mt-2">Cook traditional festive foods with our easy-to-follow, authentic recipes.</p>
             </Card>
         </div>
       </section>
