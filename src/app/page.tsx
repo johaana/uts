@@ -19,10 +19,10 @@ import { Card, CardContent } from "@/components/ui/card";
 
 const upcomingFestivals = [
   { name: "Raksha Bandhan", date: "August 19, 2024", link: "/festivals/raksha-bandhan", image: "https://i.postimg.cc/9MXxXQhY/Raksha-Bandhan.jpg", hint: "rakhi festival" },
-  { name: "Ganesh Chaturthi", date: "September 07, 2024", link: "/festivals/ganesh-chaturthi", image: "https://i.postimg.cc/VNWGcb3N/ganesh-chaturthi-festival.jpg", hint: "ganesha idol" },
+  { name: "Ganesh Chaturthi", date: "September 7, 2024", link: "/festivals/ganesh-chaturthi", image: "https://i.postimg.cc/VNWGcb3N/ganesh-chaturthi-festival.jpg", hint: "ganesha idol" },
   { name: "Onam", date: "September 15, 2024", link: "/festivals/onam", image: "https://i.postimg.cc/0564g0S7/nandu-menon-h-GHldb-Cg-YDA-unsplash.jpg", hint: "onam feast" },
-  { name: "Navratri", date: "October 03, 2024", link: "/festivals/navratri", image: "https://i.postimg.cc/GhWjwdnN/Navratri.jpg", hint: "garba dance" },
-  { name: "Durga Puja", date: "October 09, 2024", link: "/festivals/durga-puja", image: "https://i.postimg.cc/nL3Jwd9d/East-India-festivals.webp", hint: "durga idol" },
+  { name: "Navratri", date: "October 3, 2024", link: "/festivals/navratri", image: "https://i.postimg.cc/GhWjwdnN/Navratri.jpg", hint: "garba dance" },
+  { name: "Durga Puja", date: "October 9, 2024", link: "/festivals/durga-puja", image: "https://i.postimg.cc/nL3Jwd9d/East-India-festivals.webp", hint: "durga idol" },
   { name: "Diwali", date: "October 31, 2024", link: "/festivals/diwali", image: "https://i.postimg.cc/SjF8HhM1/Diwali2.jpg", hint: "diwali celebration" },
   { name: "Lohri", date: "January 13, 2025", link: "/festivals/lohri", image: "https://i.postimg.cc/kGQ9w7QS/north-india-festivals.webp", hint: "lohri bonfire" },
   { name: "Holi", date: "March 14, 2025", link: "/festivals/holi", image: "https://i.postimg.cc/fWFvx4J9/aceofnet-PNd98-z-An-U0-unsplash.jpg", hint: "holi celebration" }
@@ -64,7 +64,7 @@ function FestivalOfTheMonth() {
                             <h3 className="font-headline text-4xl font-bold mb-4">Onam</h3>
                             <p className="text-foreground/80 mb-6">Experience the vibrant harvest festival of Kerala, a ten-day celebration of the mythical King Mahabali's homecoming. Discover the joy of the Onasadya feast, the beauty of Pookalam floral carpets, and the thrill of the Vallam Kali boat races.</p>
                             <Link href="/festivals/onam">
-                                <Button variant="default">
+                                <Button>
                                     Explore Onam <ArrowRight className="ml-2" />
                                 </Button>
                             </Link>
@@ -85,13 +85,13 @@ export default function Home() {
       <section className="relative text-center py-20 md:py-32 bg-cover bg-center" style={{backgroundImage: "url('https://i.postimg.cc/rmVJnj2w/Pushkar-Camel-Fair.avif')"}}>
         <div className="absolute inset-0 bg-black/60"></div>
         <div className="container mx-auto px-4 relative z-10">
-          <h1 className="font-headline text-5xl md:text-7xl font-bold text-white drop-shadow-lg max-w-4xl mx-auto">Your Definitive Guide to Indian Festivals</h1>
-          <p className="mt-6 text-lg md:text-xl text-white/90 drop-shadow-lg max-w-3xl mx-auto">
+          <h1 className="font-headline text-5xl md:text-7xl font-bold text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] max-w-4xl mx-auto">Your Definitive Guide to Indian Festivals</h1>
+          <p className="mt-6 text-lg md:text-xl text-white/90 drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] max-w-3xl mx-auto">
             Explore the rich tapestry of India's vibrant celebrations. Discover dates, rituals, stories, and authentic recipes for every occasion.
           </p>
           <div className="mt-10">
             <Link href="/festivals">
-              <Button size="lg" variant="default">
+              <Button size="lg">
                 Explore All Festivals <ArrowRight className="ml-2" />
               </Button>
             </Link>

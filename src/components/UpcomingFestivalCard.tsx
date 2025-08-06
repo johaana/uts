@@ -7,7 +7,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Calendar } from "lucide-react";
-import { parse, differenceInDays, format, getYear, addYears } from 'date-fns';
+import { parse, differenceInDays, format, isFuture, isToday } from 'date-fns';
 
 interface Festival {
     name: string;
@@ -30,17 +30,23 @@ export function UpcomingFestivalCard({ festival }: { festival: Festival }) {
                 let festivalDate = parse(festival.date, 'MMMM d, yyyy', new Date());
                 
                 if (isNaN(festivalDate.getTime())) {
+                    console.error("Invalid date parsed:", festival.date);
                     return; 
                 }
 
-                // If festival date in the current year has already passed, check for next year
-                if (festivalDate < now) {
-                   festivalDate = addYears(festivalDate, 1);
+                if (isFuture(festivalDate) || isToday(festivalDate)) {
+                    const diff = differenceInDays(festivalDate, now);
+                    setDaysLeft(diff);
+                    setDisplayDate(format(festivalDate, 'MMMM d, yyyy'));
+                } else {
+                    // This case handles festivals whose dates have passed for the current year,
+                    // but they are still in the upcoming list (e.g. for next year).
+                    // This part might need adjustment based on how you source your `upcomingFestivals` array.
+                    // For now, we just show the date without a countdown if it's in the past.
+                    setDaysLeft(null);
+                    setDisplayDate(format(festivalDate, 'MMMM d, yyyy'));
                 }
                 
-                const diff = differenceInDays(festivalDate, now);
-                setDaysLeft(diff);
-                setDisplayDate(format(festivalDate, 'MMMM d, yyyy'));
 
             } catch (error) {
                 console.error("Error parsing date:", festival.date, error);
