@@ -38,10 +38,14 @@ const calculateTimeLeft = (targetDate: Date): TimeLeft | null => {
 export function UpcomingFestivalCardClient({ festivalDateString, festivalName }: { festivalDateString: string, festivalName: string }) {
     
     // The prop is a string, so we must parse it into a Date object on the client.
-    const festivalDate = parseISO(festivalDateString);
-    const [timeLeft, setTimeLeft] = useState(calculateTimeLeft(festivalDate));
+    // This was the main source of previous errors. parseISO correctly handles the format.
+    const [festivalDate] = useState(parseISO(festivalDateString));
+    const [timeLeft, setTimeLeft] = useState<TimeLeft | null>(null);
 
     useEffect(() => {
+        // Set initial time left immediately
+        setTimeLeft(calculateTimeLeft(festivalDate));
+
         // Set up the timer only if the festival date is valid and in the future
         if (!festivalDate || !isFuture(festivalDate)) {
             setTimeLeft(null); // Clear any existing timer if the date has passed
@@ -58,7 +62,7 @@ export function UpcomingFestivalCardClient({ festivalDateString, festivalName }:
 
         // Clear the interval when the component is unmounted
         return () => clearInterval(timer);
-    }, [festivalDate]); // Rerun the effect if the festivalDate prop changes
+    }, [festivalDate]);
 
     return (
         <>
@@ -83,5 +87,3 @@ export function UpcomingFestivalCardClient({ festivalDateString, festivalName }:
         </>
     );
 }
-
-    
