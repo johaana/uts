@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -77,8 +78,8 @@ function FestivalOfTheMonth() {
                         </div>
                     </div>
                 </Card>
-            </section>
-        </Card>
+            </div>
+        </section>
     );
 }
 
