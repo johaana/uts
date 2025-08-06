@@ -59,17 +59,17 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container mx-auto flex h-20 max-w-7xl items-center justify-between px-4">
+      <div className="container mx-auto flex h-20 max-w-7xl items-center px-4">
         
         {/* Left Section: Logo */}
-        <div className="flex items-center">
+        <div className="flex-1 flex justify-start">
             <Link href="/" className="flex items-center gap-2">
-                 <img src="https://i.postimg.cc/Dz3RFpRR/Beige-And-Orange-Traditional-Indian-Fashion-Business-Logo-20250803-235803-0002.png" alt="Utsavs Logo" style={{ height: '60px' }} />
+                 <img src="https://i.postimg.cc/Dz3RFpRR/Beige-And-Orange-Traditional-Indian-Fashion-Business-Logo-20250803-235803-0002.png" alt="Utsavs Logo" style={{ height: '50px' }} />
             </Link>
         </div>
 
         {/* Center Section: Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-6">
+        <nav className="hidden md:flex flex-1 justify-center items-center gap-6">
         {navLinks.map((link) => (
             <Link
             key={link.href}
@@ -85,7 +85,7 @@ export function Header() {
         </nav>
         
         {/* Right Section: Search and Mobile Menu */}
-        <div className="flex items-center gap-2">
+        <div className="flex flex-1 justify-end items-center gap-2">
             <div className="hidden md:flex">
                 <SearchDialog />
             </div>
@@ -100,7 +100,7 @@ export function Header() {
                     <SheetContent side="left">
                         <div className="flex flex-col gap-6 pt-10">
                         <Link href="/" className="flex items-center gap-2 mb-4" onClick={() => setOpen(false)}>
-                           <img src="https://i.postimg.cc/Dz3RFpRR/Beige-And-Orange-Traditional-Indian-Fashion-Business-Logo-20250803-235803-0002.png" alt="Utsavs Logo" style={{height: '60px'}}/>
+                           <img src="https://i.postimg.cc/Dz3RFpRR/Beige-And-Orange-Traditional-Indian-Fashion-Business-Logo-20250803-235803-0002.png" alt="Utsavs Logo" style={{height: '50px'}}/>
                         </Link>
                         {navLinks.map((link) => (
                             <Link
