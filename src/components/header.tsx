@@ -58,7 +58,7 @@ export function Header() {
   const [isOpen, setIsOpen] = React.useState(false);
 
   return (
-    <header className="bg-card/95 border-b backdrop-blur-sm sticky top-0 z-50">
+    <header className="bg-background border-b sticky top-0 z-50">
       <div className="container mx-auto flex items-center justify-between px-4 py-2">
         
         <div className="flex items-center justify-start flex-1">
