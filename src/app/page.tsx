@@ -12,6 +12,8 @@ import { FestivalCalendar } from "@/components/FestivalCalendar";
 import { useToast } from "@/hooks/use-toast";
 import React from "react";
 import { subscribeToNewsletter } from "@/ai/flows/subscribe-flow";
+import { InteractiveMap } from "@/components/InteractiveMap";
+import { UpcomingFestivalCard } from "@/components/UpcomingFestivalCard";
 
 
 export default function Home() {
@@ -93,22 +95,7 @@ export default function Home() {
           <CarouselContent>
             {upcomingFestivals.map((festival, index) => (
               <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
-                <div className="p-1 h-full">
-                  <Card className="overflow-hidden h-full flex flex-col group">
-                    <div className="relative h-64 w-full overflow-hidden bg-black/5">
-                       <Image src={festival.image} alt={festival.name} layout="fill" objectFit="contain" className="transition-transform duration-500 ease-in-out group-hover:scale-105" data-ai-hint={festival.hint}/>
-                    </div>
-                    <CardContent className="p-6 flex flex-col flex-grow">
-                        <h3 className="font-headline text-2xl font-bold flex-grow h-14">{festival.name}</h3>
-                        <p className="text-sm text-muted-foreground">{festival.date}</p>
-                        <Link href={festival.link}>
-                          <Button variant="link" className="p-0 mt-4 text-accent hover:text-accent/90">
-                            Learn More <ArrowRight className="ml-1 h-4 w-4" />
-                          </Button>
-                        </Link>
-                    </CardContent>
-                  </Card>
-                </div>
+                 <UpcomingFestivalCard festival={festival} />
               </CarouselItem>
             ))}
           </CarouselContent>
@@ -151,16 +138,8 @@ export default function Home() {
 
       <section className="bg-secondary/50 py-16">
         <div className="container mx-auto px-4">
-          <h2 className="font-headline text-3xl md:text-4xl font-bold text-center mb-8">Discover Festivals by Region</h2>
-            <div className="flex flex-wrap justify-center gap-4">
-              {["North", "South", "East", "West", "Central", "Northeast"].map((region) => (
-                <Link key={region} href={`/festivals?region=${region}`} passHref>
-                    <Button variant="outline" size="lg" className="bg-card hover:bg-card/80">
-                      {region} India
-                    </Button>
-                </Link>
-              ))}
-            </div>
+          <h2 className="font-headline text-3xl md:text-4xl font-bold text-center mb-12">Discover Festivals by Region</h2>
+            <InteractiveMap />
         </div>
       </section>
 

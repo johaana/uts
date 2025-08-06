@@ -1,6 +1,4 @@
 import Link from "next/link";
-import { Input } from "./ui/input";
-import { Button } from "./ui/button";
 import { UtsavsLogo } from "./icons";
 
 export function Footer() {
@@ -33,9 +31,12 @@ export function Footer() {
              <div className="md:col-span-4 lg:col-span-5">
               <h3 className="font-bold mb-4 font-headline text-lg">Newsletter</h3>
               <p className="text-foreground/80 mb-4 text-sm">Get festival updates and new recipes in your inbox.</p>
+              {/* This form is for styling purposes and does not submit data. */}
               <form className="flex gap-2 max-w-sm">
-                <Input type="email" placeholder="Email" className="bg-background" />
-                <Button type="submit" size="icon"><span className="sr-only">Subscribe</span>&rarr;</Button>
+                <input type="email" placeholder="Email" className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm" />
+                <button type="button" className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 w-10">
+                    <span className="sr-only">Subscribe</span>&rarr;
+                </button>
               </form>
             </div>
         </div>

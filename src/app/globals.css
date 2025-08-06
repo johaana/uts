@@ -91,4 +91,16 @@ body {
   h1, h2, h3, h4, h5, h6 {
     @apply font-headline;
   }
+  /* Magazine-style Drop Cap */
+  .prose > p:first-child::first-letter {
+    @apply float-left text-7xl font-bold font-headline text-primary mr-4 leading-[0.8];
+  }
+
+  /* Magazine-style blockquote */
+  .prose blockquote {
+    @apply border-l-4 border-accent bg-secondary/30 p-4 my-8 italic;
+  }
+  .prose blockquote p {
+    @apply text-lg text-foreground/80;
+  }
 }

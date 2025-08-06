@@ -1,0 +1,42 @@
+
+'use client';
+
+import Link from 'next/link';
+import { cn } from '@/lib/utils';
+
+const regions = [
+  { name: 'North', href: '/festivals?region=North', className: 'top-[15%] left-[50%] -translate-x-1/2' },
+  { name: 'West', href: '/festivals?region=West', className: 'top-[45%] left-[30%] -translate-x-1/2' },
+  { name: 'East', href: '/festivals?region=East', className: 'top-[45%] left-[70%] -translate-x-1/2' },
+  { name: 'Central', href: '/festivals?region=Central', className: 'top-[50%] left-[50%] -translate-x-1/2' },
+  { name: 'South', href: '/festivals?region=South', className: 'top-[75%] left-[50%] -translate-x-1/2' },
+  { name: 'Northeast', href: '/festivals?region=Northeast', className: 'top-[30%] left-[85%] -translate-x-1/2' },
+];
+
+export function InteractiveMap() {
+  return (
+    <div className="relative w-full max-w-2xl mx-auto aspect-square rounded-lg bg-secondary/50 p-4">
+      <div className="relative w-full h-full">
+        {/* Placeholder for map shape if needed in future */}
+        {/* <img src="/india-map-outline.svg" className="absolute inset-0 w-full h-full object-contain opacity-20" /> */}
+        {regions.map((region) => (
+          <Link href={region.href} key={region.name}>
+            <div
+              className={cn(
+                'absolute transform transition-all duration-300 ease-in-out hover:scale-110',
+                region.className
+              )}
+            >
+              <div className="relative p-3">
+                <div className="absolute inset-0 bg-accent/30 rounded-full blur-xl animate-pulse"></div>
+                <div className="relative rounded-full bg-background px-6 py-3 text-center shadow-lg ring-1 ring-border">
+                  <p className="font-headline text-lg font-bold text-primary">{region.name}</p>
+                </div>
+              </div>
+            </div>
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
+}
