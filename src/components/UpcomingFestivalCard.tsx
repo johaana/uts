@@ -23,15 +23,17 @@ export function UpcomingFestivalCard({ festival }: { festival: Festival }) {
     useEffect(() => {
         const calculateDaysLeft = () => {
             try {
-                const festivalDate = parse(festival.date, 'MMMM d, yyyy', new Date());
                 const now = new Date();
-                now.setHours(0, 0, 0, 0); 
+                const festivalDate = parse(festival.date, 'MMMM d, yyyy', new Date(now.getFullYear(), 0, 1));
+                
+                // If festival date is in the past for the current year, check next year's date
                 if (festivalDate < now) {
-                    setDaysLeft(null);
-                    return;
+                    festivalDate.setFullYear(now.getFullYear() + 1);
                 }
+
                 const diff = differenceInDays(festivalDate, now);
-                setDaysLeft(diff);
+                setDaysLeft(diff >= 0 ? diff : null);
+
             } catch (error) {
                 console.error("Error parsing date:", festival.date, error);
                 setDaysLeft(null);
@@ -39,7 +41,7 @@ export function UpcomingFestivalCard({ festival }: { festival: Festival }) {
         };
 
         calculateDaysLeft();
-        const interval = setInterval(calculateDaysLeft, 1000 * 60 * 60); 
+        const interval = setInterval(calculateDaysLeft, 1000 * 60 * 60 * 24); // Update once a day
         return () => clearInterval(interval);
     }, [festival.date]);
     
@@ -53,7 +55,7 @@ export function UpcomingFestivalCard({ festival }: { festival: Festival }) {
                 <h3 className="font-headline text-2xl font-bold flex-grow h-14 text-primary">{festival.name}</h3>
                 <div className="text-sm text-muted-foreground mb-4">
                     <p>{festival.date}</p>
-                    {daysLeft !== null && daysLeft >= 0 && (
+                    {daysLeft !== null && (
                          <div className="flex items-center gap-2 mt-2 text-accent font-bold">
                             <Calendar className="w-4 h-4" />
                             <span>
