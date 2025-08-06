@@ -21,6 +21,7 @@ const allFestivals = [
     { name: "Holi", date: "March 14, 2025", link: "/festivals/holi", image: "https://i.postimg.cc/fWFvx4J9/aceofnet-PNd98-z-An-U0-unsplash.jpg", hint: "holi celebration" },
 ];
 
+
 export default function Home() {
 
   const upcomingFestivals = useMemo(() => {
@@ -41,7 +42,7 @@ export default function Home() {
         <div className="container mx-auto px-4 text-center">
           <h1 className="font-headline text-4xl md:text-6xl font-bold text-primary">Utsavs: Your Definitive Guide to Indian Festivals</h1>
           <p className="mt-4 text-lg md:text-xl text-foreground/80 max-w-3xl mx-auto">
-            Your essential guide to the dates, rituals, and stories behind India's vibrant celebrations. Discover authentic recipes, explore cultural traditions, and plan your year with our comprehensive festival calendar.
+             Your essential guide to the dates, rituals, and stories behind India's vibrant celebrations. Discover authentic recipes, explore cultural traditions, and plan your year with our comprehensive festival calendar.
           </p>
           <div className="mt-8 flex justify-center">
             <Link href="/festivals">
