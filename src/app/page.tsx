@@ -70,7 +70,7 @@ export default function Home() {
         <FestivalCalendar />
       </section>
       
-      <section className="container mx-auto px-4">
+       <section className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="font-headline text-3xl md:text-4xl font-bold">Explore by Region</h2>
           <p className="mt-3 text-lg text-foreground/80 max-w-2xl mx-auto">Discover the unique festivals that give each part of India its distinct cultural flavor.</p>
