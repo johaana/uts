@@ -7,7 +7,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Calendar } from "lucide-react";
-import { parse, differenceInDays, format, isFuture, isToday } from 'date-fns';
+import { parse, differenceInSeconds, isFuture, format, isToday } from 'date-fns';
 
 interface Festival {
     name: string;
@@ -17,47 +17,68 @@ interface Festival {
     hint: string;
 }
 
+interface TimeLeft {
+    days: number;
+    hours: number;
+    minutes: number;
+    seconds: number;
+}
+
 export function UpcomingFestivalCard({ festival }: { festival: Festival }) {
-    const [daysLeft, setDaysLeft] = useState<number | null>(null);
-    const [displayDate, setDisplayDate] = useState<string>('');
+    const [timeLeft, setTimeLeft] = useState<TimeLeft | null>(null);
+    const [isFestivalToday, setIsFestivalToday] = useState(false);
+    const [displayDate, setDisplayDate] = useState(festival.date);
 
     useEffect(() => {
-        const calculateDaysLeft = () => {
+        const calculateTimeLeft = () => {
             try {
+                const festivalDate = parse(festival.date, 'MMMM d, yyyy', new Date());
                 const now = new Date();
-                now.setHours(0, 0, 0, 0);
 
-                let festivalDate = parse(festival.date, 'MMMM d, yyyy', new Date());
-                
                 if (isNaN(festivalDate.getTime())) {
-                    console.error("Invalid date parsed:", festival.date);
-                    return; 
+                    setTimeLeft(null);
+                    return;
                 }
 
-                if (isFuture(festivalDate) || isToday(festivalDate)) {
-                    const diff = differenceInDays(festivalDate, now);
-                    setDaysLeft(diff);
-                    setDisplayDate(format(festivalDate, 'MMMM d, yyyy'));
-                } else {
-                    // This case handles festivals whose dates have passed for the current year,
-                    // but they are still in the upcoming list (e.g. for next year).
-                    // This part might need adjustment based on how you source your `upcomingFestivals` array.
-                    // For now, we just show the date without a countdown if it's in the past.
-                    setDaysLeft(null);
-                    setDisplayDate(format(festivalDate, 'MMMM d, yyyy'));
+                setDisplayDate(format(festivalDate, 'MMMM d, yyyy'));
+
+                if (isToday(festivalDate)) {
+                    setIsFestivalToday(true);
+                    setTimeLeft(null);
+                    return;
                 }
                 
+                setIsFestivalToday(false);
 
+                if (isFuture(festivalDate)) {
+                    const totalSeconds = differenceInSeconds(festivalDate, now);
+                    if (totalSeconds <= 0) {
+                        setTimeLeft(null);
+                    } else {
+                        setTimeLeft({
+                            days: Math.floor(totalSeconds / (3600 * 24)),
+                            hours: Math.floor((totalSeconds % (3600 * 24)) / 3600),
+                            minutes: Math.floor((totalSeconds % 3600) / 60),
+                            seconds: Math.floor(totalSeconds % 60),
+                        });
+                    }
+                } else {
+                    setTimeLeft(null);
+                }
             } catch (error) {
-                console.error("Error parsing date:", festival.date, error);
-                setDaysLeft(null);
-                setDisplayDate(festival.date);
+                console.error("Error calculating time left:", error);
+                setTimeLeft(null);
             }
         };
 
-        calculateDaysLeft();
-        const interval = setInterval(calculateDaysLeft, 1000 * 60 * 60 * 24); 
-        return () => clearInterval(interval);
+        // Set initial value
+        calculateTimeLeft();
+
+        // Update every second
+        const timer = setInterval(calculateTimeLeft, 1000);
+
+        // Cleanup interval on component unmount
+        return () => clearInterval(timer);
     }, [festival.date]);
     
     return (
@@ -70,14 +91,21 @@ export function UpcomingFestivalCard({ festival }: { festival: Festival }) {
                 <h3 className="font-headline text-2xl font-bold flex-grow h-14 text-primary">{festival.name}</h3>
                 <div className="text-sm text-muted-foreground mb-4">
                     <p>{displayDate}</p>
-                    {daysLeft !== null && (
-                         <div className="flex items-center gap-2 mt-2 text-accent font-bold">
-                            <Calendar className="w-4 h-4" />
-                            <span>
-                                {daysLeft === 0 ? "Today!" : daysLeft > 0 ? `In ${daysLeft} ${daysLeft === 1 ? "day" : "days"}` : ''}
-                            </span>
-                        </div>
-                    )}
+                    <div className="flex items-center gap-2 mt-2 text-accent font-bold h-5">
+                       {isFestivalToday ? (
+                            <>
+                                <Calendar className="w-4 h-4" />
+                                <span>It's Today!</span>
+                            </>
+                       ) : timeLeft ? (
+                             <div className="flex items-baseline space-x-1 font-mono">
+                                <div><span className="text-lg">{timeLeft.days}</span><span className="text-xs">d</span></div>
+                                <div><span className="text-lg">{timeLeft.hours}</span><span className="text-xs">h</span></div>
+                                <div><span className="text-lg">{timeLeft.minutes}</span><span className="text-xs">m</span></div>
+                                <div><span className="text-lg">{timeLeft.seconds}</span><span className="text-xs">s</span></div>
+                            </div>
+                       ) : null}
+                    </div>
                 </div>
                 <Link href={festival.link}>
                   <Button variant="link" className="p-0 mt-auto text-accent hover:text-accent/90 font-bold">
