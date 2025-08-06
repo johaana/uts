@@ -7,7 +7,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Calendar } from "lucide-react";
-import { parse, differenceInDays, format } from 'date-fns';
+import { parse, differenceInDays, format, getYear } from 'date-fns';
 
 interface Festival {
     name: string;
@@ -19,6 +19,7 @@ interface Festival {
 
 export function UpcomingFestivalCard({ festival }: { festival: Festival }) {
     const [daysLeft, setDaysLeft] = useState<number | null>(null);
+    const [displayDate, setDisplayDate] = useState<string>('');
 
     useEffect(() => {
         const calculateDaysLeft = () => {
@@ -33,19 +34,23 @@ export function UpcomingFestivalCard({ festival }: { festival: Festival }) {
                 }
 
                 if (festivalDate < now) {
-                    festivalDate.setFullYear(now.getFullYear() + 1);
+                    // If the date has passed this year, check for next year's date
+                    festivalDate.setFullYear(getYear(now) + 1);
                 }
                 
                 const diff = differenceInDays(festivalDate, now);
                 setDaysLeft(diff < 0 ? 0 : diff);
+                setDisplayDate(format(festivalDate, 'MMMM d, yyyy'));
 
             } catch (error) {
                 console.error("Error parsing date:", festival.date, error);
                 setDaysLeft(null);
+                setDisplayDate(festival.date);
             }
         };
 
         calculateDaysLeft();
+        // Recalculate once a day
         const interval = setInterval(calculateDaysLeft, 1000 * 60 * 60 * 24); 
         return () => clearInterval(interval);
     }, [festival.date]);
@@ -59,7 +64,7 @@ export function UpcomingFestivalCard({ festival }: { festival: Festival }) {
             <CardContent className="p-6 flex flex-col flex-grow">
                 <h3 className="font-headline text-2xl font-bold flex-grow h-14 text-primary">{festival.name}</h3>
                 <div className="text-sm text-muted-foreground mb-4">
-                    <p>{format(parse(festival.date, 'MMMM d, yyyy', new Date()), 'MMMM d, yyyy')}</p>
+                    <p>{displayDate}</p>
                     {daysLeft !== null && (
                          <div className="flex items-center gap-2 mt-2 text-accent font-bold">
                             <Calendar className="w-4 h-4" />
