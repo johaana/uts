@@ -4,7 +4,8 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Card, CardContent } from './ui/card';
-import { useCountdown } from '@/hooks/useCountdown';
+import React, { useState, useEffect } from 'react';
+import { differenceInSeconds, isAfter, isSameDay, parseISO } from 'date-fns';
 
 interface Festival {
     name: string;
@@ -12,6 +13,13 @@ interface Festival {
     link: string;
     image: string;
     hint: string;
+}
+
+interface TimeLeft {
+    days: number;
+    hours: number;
+    minutes: number;
+    seconds: number;
 }
 
 function CountdownBox({ value, label }: { value: number, label: string }) {
@@ -25,7 +33,7 @@ function CountdownBox({ value, label }: { value: number, label: string }) {
 
 function FestivalDateDisplay({ dateString }: { dateString: string }) {
     try {
-        const date = new Date(dateString);
+        const date = parseISO(dateString);
         return <p className="text-sm text-muted-foreground mb-4">{new Intl.DateTimeFormat('en-US', { dateStyle: 'full' }).format(date)}</p>;
     } catch (e) {
         return <p className="text-sm text-muted-foreground mb-4">Invalid Date</p>;
@@ -34,7 +42,37 @@ function FestivalDateDisplay({ dateString }: { dateString: string }) {
 
 
 export function UpcomingFestivalCardClient({ festival }: { festival: Festival }) {
-    const timeLeft = useCountdown(festival.date);
+    const [timeLeft, setTimeLeft] = useState<TimeLeft | null>(null);
+
+    useEffect(() => {
+        const festivalDate = parseISO(festival.date);
+        
+        const calculateTimeLeft = () => {
+            const now = new Date();
+            const diff = differenceInSeconds(festivalDate, now);
+
+            if (diff <= 0) {
+                return null;
+            }
+
+            return {
+                days: Math.floor(diff / (60 * 60 * 24)),
+                hours: Math.floor((diff / (60 * 60)) % 24),
+                minutes: Math.floor((diff / 60) % 60),
+                seconds: Math.floor(diff % 60),
+            };
+        };
+
+        // Set initial value
+        setTimeLeft(calculateTimeLeft());
+
+        const timer = setInterval(() => {
+            setTimeLeft(calculateTimeLeft());
+        }, 1000);
+
+        return () => clearInterval(timer);
+    }, [festival.date]);
+
 
     return (
         <Card className="h-full overflow-hidden group flex flex-col shadow-lg hover:shadow-2xl transition-shadow duration-300">
