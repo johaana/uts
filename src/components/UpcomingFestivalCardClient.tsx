@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Calendar } from "lucide-react";
-import { parse, differenceInSeconds, isFuture, format, isToday } from 'date-fns';
+import { parse, differenceInSeconds, isFuture, format, isToday, isSameDay } from 'date-fns';
 
 interface Festival {
     name: string;
