@@ -58,12 +58,12 @@ export function Header() {
   const [isOpen, setIsOpen] = React.useState(false);
 
   return (
-    <header className="bg-background/80 border-b backdrop-blur-sm sticky top-0 z-50">
+    <header className="bg-card/95 border-b backdrop-blur-sm sticky top-0 z-50">
       <div className="container mx-auto flex h-20 items-center justify-between px-4">
         
         <div className="flex-1 flex justify-start">
              <Link href="/" className="flex items-center gap-2">
-                <Image src="https://i.postimg.cc/tCYyQVjX/4.png" alt="Utsavs Logo" width={44} height={44} style={{ objectFit: 'contain' }} />
+                <Image src="https://i.postimg.cc/tCYyQVjX/4.png" alt="Utsavs Logo" width={48} height={48} />
              </Link>
         </div>
 
@@ -97,7 +97,7 @@ export function Header() {
                     <SheetContent side="left">
                         <div className="flex flex-col gap-6 pt-10">
                         <Link href="/" className="flex items-center gap-2 mb-4" onClick={() => setIsOpen(false)}>
-                            <Image src="https://i.postimg.cc/tCYyQVjX/4.png" alt="Utsavs Logo" width={44} height={44} />
+                            <Image src="https://i.postimg.cc/tCYyQVjX/4.png" alt="Utsavs Logo" width={48} height={48} />
                         </Link>
                         {navLinks.map((link) => (
                             <Link
