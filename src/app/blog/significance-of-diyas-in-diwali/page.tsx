@@ -22,7 +22,7 @@ export default function SingleBlogPage() {
                         </div>
 
                         <div className="relative h-96 w-full mb-8">
-                            <Image src="https://i.postimg.cc/SjF8HhM1/Diwali2.jpg" alt="The Significance of Diyas in Diwali" layout="fill" objectFit="contain" data-ai-hint="diwali lamps" className="rounded-lg" />
+                            <Image src="https://i.postimg.cc/brM9vjDZ/Diya-diwali.webp" alt="The Significance of Diyas in Diwali" layout="fill" objectFit="contain" data-ai-hint="diwali lamps" className="rounded-lg" />
                         </div>
 
                         <h2>The Symbolism of Light</h2>

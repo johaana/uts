@@ -22,7 +22,7 @@ export default function SingleBlogPage() {
                         </div>
 
                          <div className="relative h-96 w-full mb-8">
-                            <Image src="https://i.postimg.cc/0Nffmbwk/sanin-sn-B4-ZQ2m-KEiq-Y-unsplash.jpg" alt="The 9 Avatars of Durga: A Navratri Special" layout="fill" objectFit="contain" data-ai-hint="garba dance" className="rounded-lg"/>
+                            <Image src="https://i.postimg.cc/GhWjwdnN/Navratri.jpg" alt="The 9 Avatars of Durga: A Navratri Special" layout="fill" objectFit="contain" data-ai-hint="garba dance" className="rounded-lg"/>
                         </div>
 
                         <p>Explore the nine powerful forms of Goddess Durga worshipped during the nine nights of Navratri. Each avatar has a unique story and significance, representing a different aspect of the divine feminine.</p>

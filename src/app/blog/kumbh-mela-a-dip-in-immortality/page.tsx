@@ -22,7 +22,7 @@ export default function SingleBlogPage() {
                         </div>
 
                          <div className="relative h-96 w-full mb-8">
-                            <Image src="https://i.postimg.cc/T1gD4R6R/nag-panchami1.jpg" alt="Kumbh Mela" layout="fill" objectFit="contain" data-ai-hint="kumbh mela pilgrimage" className="rounded-lg"/>
+                            <Image src="https://i.postimg.cc/t462Y7zp/kumbh-mela.jpg" alt="Kumbh Mela" layout="fill" objectFit="contain" data-ai-hint="kumbh mela pilgrimage" className="rounded-lg"/>
                         </div>
 
                         <h2>The Largest Peaceful Gathering on Earth</h2>

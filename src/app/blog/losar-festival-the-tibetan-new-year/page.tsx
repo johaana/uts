@@ -22,7 +22,7 @@ export default function SingleBlogPage() {
                         </div>
 
                          <div className="relative h-96 w-full mb-8">
-                            <Image src="https://i.postimg.cc/k4WjTjj3/hemis-tsechu.jpg" alt="Losar Festival" layout="fill" objectFit="contain" data-ai-hint="ladakh festival" className="rounded-lg"/>
+                            <Image src="https://i.postimg.cc/bJg6pM9n/losar-1.jpg" alt="Losar Festival" layout="fill" objectFit="contain" data-ai-hint="ladakh festival" className="rounded-lg"/>
                         </div>
 
                         <h2>Welcoming a New Beginning</h2>

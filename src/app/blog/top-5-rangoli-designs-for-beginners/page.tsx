@@ -22,7 +22,7 @@ export default function SingleBlogPage() {
                         </div>
 
                         <div className="relative h-96 w-full mb-8">
-                             <Image src="https://i.postimg.cc/VN1gdj5Z/prchi-palwe-NLq-NQ10ppe0-unsplash.jpg" alt="Top 5 Rangoli Designs for Beginners" layout="fill" objectFit="contain" data-ai-hint="rangoli design" className="rounded-lg"/>
+                             <Image src="https://i.postimg.cc/fRYfMpwb/Rangoli.jpg" alt="Top 5 Rangoli Designs for Beginners" layout="fill" objectFit="contain" data-ai-hint="rangoli design" className="rounded-lg"/>
                         </div>
                         
                         <p>Get inspired with these easy-to-make yet beautiful rangoli patterns. From simple floral designs to geometric wonders, we provide step-by-step guides to adorn your home for any festive occasion.</p>

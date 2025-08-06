@@ -22,7 +22,7 @@ export default function SingleBlogPage() {
                         </div>
 
                         <div className="relative h-96 w-full mb-8">
-                           <Image src="https://i.postimg.cc/g234zMc6/monoswita-palchowdhury-P7r11-LLRg-M-unsplash.jpg" alt="Festive Fashion: A Guide to Traditional Indian Attire" layout="fill" objectFit="contain" data-ai-hint="indian fashion" className="rounded-lg"/>
+                           <Image src="https://i.postimg.cc/Kj45FYzX/festive-Indian-attire.png" alt="Festive Fashion: A Guide to Traditional Indian Attire" layout="fill" objectFit="contain" data-ai-hint="indian fashion" className="rounded-lg"/>
                         </div>
                         
                         <p>From vibrant sarees and lehengas to elegant kurtas and sherwanis, find inspiration for your festive wardrobe. We explore the significance of different colors and fabrics in Indian festive wear.</p>

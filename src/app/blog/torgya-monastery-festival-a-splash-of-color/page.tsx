@@ -22,7 +22,7 @@ export default function SingleBlogPage() {
                         </div>
 
                          <div className="relative h-96 w-full mb-8">
-                            <Image src="https://i.postimg.cc/tJnB8vjD/Hornbill-Festival.jpg" alt="Torgya Festival" layout="fill" objectFit="contain" data-ai-hint="tawang monastery" className="rounded-lg"/>
+                            <Image src="https://i.postimg.cc/hGFZrVGX/torgya.jpg" alt="Torgya Festival" layout="fill" objectFit="contain" data-ai-hint="tawang monastery" className="rounded-lg"/>
                         </div>
 
                         <h2>A Monastic Festival of Protection</h2>

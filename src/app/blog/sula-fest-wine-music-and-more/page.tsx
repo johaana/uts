@@ -22,7 +22,7 @@ export default function SingleBlogPage() {
                         </div>
 
                          <div className="relative h-96 w-full mb-8">
-                            <Image src="https://i.postimg.cc/kDmD9PDV/christmas-cake.jpg" alt="Sula Fest" layout="fill" objectFit="contain" data-ai-hint="sula vineyards" className="rounded-lg"/>
+                            <Image src="https://i.postimg.cc/2yX2BZJ8/sula-fest.jpg" alt="Sula Fest" layout="fill" objectFit="contain" data-ai-hint="sula vineyards" className="rounded-lg"/>
                         </div>
 
                         <h2>Where Wine, Music, and Culture Converge</h2>

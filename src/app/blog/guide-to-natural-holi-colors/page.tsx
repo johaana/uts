@@ -22,7 +22,7 @@ export default function SingleBlogPage() {
                         </div>
 
                          <div className="relative h-96 w-full mb-8">
-                            <Image src="https://i.postimg.cc/fWFvx4J9/aceofnet-PNd98-z-An-U0-unsplash.jpg" alt="A Guide to Natural Holi Colors" layout="fill" objectFit="contain" data-ai-hint="holi colors" className="rounded-lg"/>
+                            <Image src="https://i.postimg.cc/gkXKTrQ8/organic-holi-colours.webp" alt="A Guide to Natural Holi Colors" layout="fill" objectFit="contain" data-ai-hint="holi colors" className="rounded-lg"/>
                         </div>
 
                         <h2>The Problem with Chemical Colors</h2>

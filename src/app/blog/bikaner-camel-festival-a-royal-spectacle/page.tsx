@@ -22,7 +22,7 @@ export default function SingleBlogPage() {
                         </div>
 
                          <div className="relative h-96 w-full mb-8">
-                            <Image src="https://i.postimg.cc/kG6pM4vB/Camel-Festival-Bikaner-Rajasthan.jpg" alt="Bikaner Camel Festival" layout="fill" objectFit="contain" data-ai-hint="bikaner camel festival" className="rounded-lg"/>
+                            <Image src="https://i.postimg.cc/Fs7PXTdf/bikaner-camel-festival.jpg" alt="Bikaner Camel Festival" layout="fill" objectFit="contain" data-ai-hint="bikaner camel festival" className="rounded-lg"/>
                         </div>
 
                         <h2>A Tribute to the Ship of the Desert</h2>

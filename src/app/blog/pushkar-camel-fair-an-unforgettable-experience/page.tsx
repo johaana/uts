@@ -22,7 +22,7 @@ export default function SingleBlogPage() {
                         </div>
 
                          <div className="relative h-96 w-full mb-8">
-                            <Image src="https://i.postimg.cc/MHWxGgXJ/Camel-Pushkar-fair.jpg" alt="Pushkar Camel Fair" layout="fill" objectFit="contain" data-ai-hint="pushkar camel fair" className="rounded-lg"/>
+                            <Image src="https://i.postimg.cc/rmVJnj2w/Pushkar-Camel-Fair.avif" alt="Pushkar Camel Fair" layout="fill" objectFit="contain" data-ai-hint="pushkar camel fair" className="rounded-lg"/>
                         </div>
 
                         <h2>The World's Largest Camel Fair</h2>
