@@ -12,7 +12,6 @@ import Image from "next/image";
 
 export function Footer() {
   const router = useRouter();
-  const { toast } = useToast();
 
   const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

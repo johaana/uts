@@ -25,7 +25,7 @@ export function UpcomingFestivalCard({ festival }: { festival: Festival }) {
             try {
                 const festivalDate = parse(festival.date, 'MMMM d, yyyy', new Date());
                 const now = new Date();
-                // To ensure we don't show negative days for past events
+                now.setHours(0, 0, 0, 0); 
                 if (festivalDate < now) {
                     setDaysLeft(null);
                     return;
@@ -39,7 +39,6 @@ export function UpcomingFestivalCard({ festival }: { festival: Festival }) {
         };
 
         calculateDaysLeft();
-        // Recalculate every hour to keep it relatively updated without being too frequent
         const interval = setInterval(calculateDaysLeft, 1000 * 60 * 60); 
         return () => clearInterval(interval);
     }, [festival.date]);
@@ -48,16 +47,18 @@ export function UpcomingFestivalCard({ festival }: { festival: Festival }) {
         <div className="p-1 h-full">
           <Card className="overflow-hidden h-full flex flex-col group">
             <div className="relative h-64 w-full overflow-hidden bg-black/5">
-               <Image src={festival.image} alt={festival.name} layout="fill" objectFit="contain" className="transition-transform duration-500 ease-in-out group-hover:scale-105" data-ai-hint={festival.hint}/>
+               <Image src={festival.image} alt={festival.name} layout="fill" objectFit="cover" className="transition-transform duration-500 ease-in-out group-hover:scale-105" data-ai-hint={festival.hint}/>
             </div>
             <CardContent className="p-6 flex flex-col flex-grow">
                 <h3 className="font-headline text-2xl font-bold flex-grow h-14">{festival.name}</h3>
                 <div className="text-sm text-muted-foreground mb-4">
                     <p>{festival.date}</p>
-                    {daysLeft !== null && (
+                    {daysLeft !== null && daysLeft >= 0 && (
                          <div className="flex items-center gap-2 mt-2 text-accent font-bold">
                             <Calendar className="w-4 h-4" />
-                            <span>Celebrated in {daysLeft} days!</span>
+                            <span>
+                                {daysLeft === 0 ? "Celebrated today!" : `Celebrated in ${daysLeft} ${daysLeft === 1 ? "day" : "days"}!`}
+                            </span>
                         </div>
                     )}
                 </div>

@@ -63,47 +63,48 @@ export function Header() {
 
   return (
     <header className="bg-background/80 border-b backdrop-blur-sm sticky top-0 z-50">
-      <div className="container mx-auto flex h-20 items-center justify-between px-4">
-        
-        <div className="md:hidden">
-          <Sheet open={isOpen} onOpenChange={setIsOpen}>
-            <SheetTrigger asChild>
-              <Button variant="ghost" size="icon">
-                <Menu className="h-6 w-6" />
-                <span className="sr-only">Open menu</span>
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="left">
-                <div className="flex flex-col gap-6 pt-10">
-                <Link href="/" className="flex items-center gap-2 mb-4" onClick={() => setIsOpen(false)}>
-                  <Image src="https://i.postimg.cc/Dz3RFpRR/Beige-And-Orange-Traditional-Indian-Fashion-Business-Logo-20250803-235803-0002.png" alt="Utsavs Logo" width={50} height={50}/>
-                </Link>
-                {navLinks.map((link) => (
-                    <Link
-                      key={link.href}
-                      href={link.href}
-                      onClick={() => setIsOpen(false)}
-                      className={cn(
-                          "text-lg font-medium transition-colors hover:text-primary",
-                          pathname.startsWith(link.href) ? "text-primary" : "text-foreground"
-                      )}
-                    >
-                    {link.label}
+      <div className="container mx-auto flex h-20 items-center px-4">
+        <div className="flex-1 flex justify-start">
+            <div className="md:hidden">
+            <Sheet open={isOpen} onOpenChange={setIsOpen}>
+                <SheetTrigger asChild>
+                <Button variant="ghost" size="icon">
+                    <Menu className="h-6 w-6" />
+                    <span className="sr-only">Open menu</span>
+                </Button>
+                </SheetTrigger>
+                <SheetContent side="left">
+                    <div className="flex flex-col gap-6 pt-10">
+                    <Link href="/" className="flex items-center gap-2 mb-4" onClick={() => setIsOpen(false)}>
+                    <Image src="https://i.postimg.cc/Dz3RFpRR/Beige-And-Orange-Traditional-Indian-Fashion-Business-Logo-20250803-235803-0002.png" alt="Utsavs Logo" width={50} height={50}/>
                     </Link>
-                ))}
-                </div>
-            </SheetContent>
-          </Sheet>
-        </div>
-
-        <div className="flex-shrink-0">
-             <Link href="/" className="flex items-center gap-2">
+                    {navLinks.map((link) => (
+                        <Link
+                        key={link.href}
+                        href={link.href}
+                        onClick={() => setIsOpen(false)}
+                        className={cn(
+                            "text-lg font-medium transition-colors hover:text-primary",
+                            pathname.startsWith(link.href) ? "text-primary" : "text-foreground"
+                        )}
+                        >
+                        {link.label}
+                        </Link>
+                    ))}
+                    </div>
+                </SheetContent>
+            </Sheet>
+            </div>
+            <Link href="/" className="hidden md:flex items-center gap-2">
                 <Image src="https://i.postimg.cc/Dz3RFpRR/Beige-And-Orange-Traditional-Indian-Fashion-Business-Logo-20250803-235803-0002.png" alt="Utsavs Logo" width={60} height={60}/>
             </Link>
         </div>
 
         <nav className="hidden md:flex flex-1 justify-center items-center gap-8">
-          {navLinks.map((link) => (
+            <Link href="/" className="md:hidden flex items-center gap-2">
+                <Image src="https://i.postimg.cc/Dz3RFpRR/Beige-And-Orange-Traditional-Indian-Fashion-Business-Logo-20250803-235803-0002.png" alt="Utsavs Logo" width={60} height={60}/>
+            </Link>
+            {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
@@ -117,7 +118,7 @@ export function Header() {
           ))}
         </nav>
         
-        <div className="flex-shrink-0">
+        <div className="flex-1 flex justify-end">
             <SearchDialog />
         </div>
 

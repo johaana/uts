@@ -98,7 +98,7 @@ const allEvents = [
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const regions = ["Nationwide", "North", "South", "East", "West", "Northeast", "Central"];
 const eventTypes = ["Festivals", "Holidays", "Long Weekends"];
-const allYears = [...new Set(allEvents.map(e => getYear(parse(e.date.split(' - ')[0], 'MMM dd, yyyy', new Date()))))].sort();
+const availableYears = ["2025", "2026"];
 
 export function FestivalCalendar() {
     const [selectedMonth, setSelectedMonth] = useState('all');
@@ -125,20 +125,34 @@ export function FestivalCalendar() {
         }
     };
 
+    const formatDateString = (dateString: string) => {
+        const parts = dateString.split(' - ');
+        const startDate = parse(parts[0], 'MMM dd, yyyy', new Date());
+
+        if (parts.length > 1) {
+            const endDate = parse(parts[1], 'MMM dd, yyyy', new Date());
+            if (format(startDate, 'MMMM') === format(endDate, 'MMMM')) {
+                 return `${format(startDate, 'MMM dd')} - ${format(endDate, 'dd, yyyy (EEEE)')}`;
+            }
+             return `${format(startDate, 'MMM dd, yyyy')} - ${format(endDate, 'MMM dd, yyyy')}`;
+        }
+        return format(startDate, 'MMM dd, yyyy (EEEE)');
+    };
+
     const filteredEvents = useMemo(() => {
         const now = new Date();
         const nextYear = new Date();
         nextYear.setFullYear(now.getFullYear() + 1);
 
         return allEvents.filter(event => {
-            const eventDate = parse(event.date.split(' - ')[0], 'MMM dd, yyyy', new Date());
-            if (isNaN(eventDate.getTime())) return false; // Invalid date
+            const eventStartDate = parse(event.date.split(' - ')[0], 'MMM dd, yyyy', new Date());
+            if (isNaN(eventStartDate.getTime())) return false; // Invalid date
 
             const eventMonth = getMonthFromDateString(event.date);
             const eventYear = getYearFromDateString(event.date);
 
             const yearMatch = selectedYear === 'all' ||
-                              (selectedYear === 'upcoming' && eventDate >= now && eventDate <= nextYear) ||
+                              (selectedYear === 'upcoming' && eventStartDate >= now && eventStartDate <= nextYear) ||
                               eventYear === parseInt(selectedYear);
             const monthMatch = selectedMonth === 'all' || eventMonth === selectedMonth;
             const regionMatch = selectedRegion === 'all' || event.region === selectedRegion || event.region.includes(selectedRegion);
@@ -179,7 +193,7 @@ export function FestivalCalendar() {
                 </p>
             </div>
             
-            <Card className="p-6 mb-12">
+            <Card className="p-6 mb-2">
                  <div className="flex flex-col md:flex-row gap-4 items-center">
                     <p className="font-semibold text-lg mr-4 shrink-0">Filter by:</p>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full">
@@ -188,9 +202,9 @@ export function FestivalCalendar() {
                                 <SelectValue placeholder="Year" />
                             </SelectTrigger>
                             <SelectContent>
-                                <SelectItem value="upcoming">Upcoming</SelectItem>
+                                <SelectItem value="upcoming">Upcoming (1 Year)</SelectItem>
                                 <SelectItem value="all">All Years</SelectItem>
-                                {allYears.map(year => <SelectItem key={year} value={String(year)}>{year}</SelectItem>)}
+                                {availableYears.map(year => <SelectItem key={year} value={String(year)}>{year}</SelectItem>)}
                             </SelectContent>
                         </Select>
                         <Select onValueChange={setSelectedMonth} value={selectedMonth}>
@@ -224,12 +238,17 @@ export function FestivalCalendar() {
                 </div>
             </Card>
 
+            <div className="flex items-center justify-start text-sm text-muted-foreground mb-8 ml-2">
+                <Star className="w-4 h-4 mr-2 text-amber-500 fill-amber-500" />
+                <span>Indicates a long weekend opportunity.</span>
+            </div>
+
             <Card>
                 <CardContent className="p-0">
                     <Table>
                         <TableHeader>
                             <TableRow>
-                                <TableHead className="w-[200px]">Date</TableHead>
+                                <TableHead className="w-[250px]">Date</TableHead>
                                 <TableHead>Name</TableHead>
                                 <TableHead>Region</TableHead>
                                 <TableHead>Type</TableHead>
@@ -240,7 +259,7 @@ export function FestivalCalendar() {
                             {filteredEvents.length > 0 ? (
                                 filteredEvents.map((event) => (
                                     <TableRow key={event.name + event.date}>
-                                        <TableCell className="font-medium">{event.date}</TableCell>
+                                        <TableCell className="font-medium">{formatDateString(event.date)}</TableCell>
                                         <TableCell className="font-bold text-base flex items-center gap-2">
                                             {event.name}
                                             {event.longWeekend && <Star className="w-4 h-4 text-amber-500 fill-amber-500" />}
