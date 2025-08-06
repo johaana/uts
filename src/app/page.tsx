@@ -86,12 +86,12 @@ export default function Home() {
         <div className="absolute inset-0 bg-black/60"></div>
         <div className="container mx-auto px-4 relative z-10">
           <h1 className="font-headline text-5xl md:text-7xl font-bold text-white drop-shadow-lg max-w-4xl mx-auto">Your Definitive Guide to Indian Festivals</h1>
-          <p className="mt-6 text-lg md:text-xl text-white/90 drop-shadow-md max-w-3xl mx-auto">
+          <p className="mt-6 text-lg md:text-xl text-white/90 drop-shadow-lg max-w-3xl mx-auto">
             Explore the rich tapestry of India's vibrant celebrations. Discover dates, rituals, stories, and authentic recipes for every occasion.
           </p>
           <div className="mt-10">
             <Link href="/festivals">
-              <Button size="lg" variant="secondary">
+              <Button size="lg" variant="default">
                 Explore All Festivals <ArrowRight className="ml-2" />
               </Button>
             </Link>
