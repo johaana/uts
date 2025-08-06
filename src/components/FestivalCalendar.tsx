@@ -9,7 +9,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { ArrowRight, Star } from "lucide-react";
-import { format, parse, getYear } from 'date-fns';
+import { format, parse } from 'date-fns';
 
 const allEvents = [
     // 2025
@@ -127,19 +127,23 @@ export function FestivalCalendar() {
 
     const formatDateString = (dateString: string) => {
         const parts = dateString.split(' - ');
-        if (parts.length > 1) {
-            const startDate = parse(parts[0], 'MMM dd, yyyy', new Date());
-            const endDate = parse(parts[1], 'MMM dd, yyyy', new Date());
-            if (format(startDate, 'yyyy') !== format(endDate, 'yyyy')) {
-                return `${format(startDate, 'MMM dd, yyyy')} - ${format(endDate, 'MMM dd, yyyy')}`;
-            } else if (format(startDate, 'MMMM') !== format(endDate, 'MMMM')) {
-                return `${format(startDate, 'MMM dd')} - ${format(endDate, 'MMM dd, yyyy')}`;
-            } else {
-                return `${format(startDate, 'MMM dd')} - ${format(endDate, 'dd, yyyy')}`;
+        try {
+            if (parts.length > 1) {
+                const startDate = parse(parts[0], 'MMM dd, yyyy', new Date());
+                const endDate = parse(parts[1], 'MMM dd, yyyy', new Date());
+                if (format(startDate, 'yyyy') !== format(endDate, 'yyyy')) {
+                    return `${format(startDate, 'MMM dd, yyyy')} - ${format(endDate, 'MMM dd, yyyy')}`;
+                } else if (format(startDate, 'MMMM') !== format(endDate, 'MMMM')) {
+                    return `${format(startDate, 'MMM dd')} - ${format(endDate, 'MMM dd, yyyy')}`;
+                } else {
+                    return `${format(startDate, 'MMM dd')} - ${format(endDate, 'dd, yyyy')}`;
+                }
             }
+            const singleDate = parse(dateString, 'MMM dd, yyyy', new Date());
+            return format(singleDate, 'MMM dd, yyyy (EEEE)');
+        } catch (error) {
+            return dateString;
         }
-        const singleDate = parse(dateString, 'MMM dd, yyyy', new Date());
-        return format(singleDate, 'MMM dd, yyyy (EEEE)');
     };
 
     const filteredEvents = useMemo(() => {
@@ -148,7 +152,8 @@ export function FestivalCalendar() {
         nextYear.setFullYear(now.getFullYear() + 1);
 
         return allEvents.filter(event => {
-            const eventStartDate = parse(event.date.split(' - ')[0], 'MMM dd, yyyy', new Date());
+            const eventStartDateStr = event.date.split(' - ')[0];
+            const eventStartDate = parse(eventStartDateStr, 'MMM dd, yyyy', new Date());
             if (isNaN(eventStartDate.getTime())) return false; // Invalid date
 
             const eventMonth = getMonthFromDateString(event.date);

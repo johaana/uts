@@ -101,9 +101,6 @@ export function Header() {
         </div>
 
         <nav className="hidden md:flex flex-1 justify-center items-center gap-8">
-            <Link href="/" className="md:hidden flex items-center gap-2">
-                <Image src="https://i.postimg.cc/Dz3RFpRR/Beige-And-Orange-Traditional-Indian-Fashion-Business-Logo-20250803-235803-0002.png" alt="Utsavs Logo" width={60} height={60}/>
-            </Link>
             {navLinks.map((link) => (
             <Link
               key={link.href}

@@ -6,7 +6,6 @@ import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { useRouter } from "next/navigation";
 import React from "react";
-import { useToast } from "@/hooks/use-toast";
 import { Search } from "lucide-react";
 import Image from "next/image";
 
