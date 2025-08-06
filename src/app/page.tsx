@@ -17,10 +17,10 @@ import { UpcomingFestivalCard } from "@/components/UpcomingFestivalCard";
 
 const upcomingFestivals = [
   { name: "Raksha Bandhan", date: "August 19, 2024", link: "/festivals/raksha-bandhan", image: "https://i.postimg.cc/9MXxXQhY/Raksha-Bandhan.jpg", hint: "rakhi festival" },
-  { name: "Ganesh Chaturthi", date: "September 7, 2024", link: "/festivals/ganesh-chaturthi", image: "https://i.postimg.cc/VNWGcb3N/ganesh-chaturthi-festival.jpg", hint: "ganesha idol" },
+  { name: "Ganesh Chaturthi", date: "September 07, 2024", link: "/festivals/ganesh-chaturthi", image: "https://i.postimg.cc/VNWGcb3N/ganesh-chaturthi-festival.jpg", hint: "ganesha idol" },
   { name: "Onam", date: "September 15, 2024", link: "/festivals/onam", image: "https://i.postimg.cc/0564g0S7/nandu-menon-h-GHldb-Cg-YDA-unsplash.jpg", hint: "onam feast" },
-  { name: "Navratri", date: "October 3, 2024", link: "/festivals/navratri", image: "https://i.postimg.cc/GhWjwdnN/Navratri.jpg", hint: "garba dance" },
-  { name: "Durga Puja", date: "October 9, 2024", link: "/festivals/durga-puja", image: "https://i.postimg.cc/nL3Jwd9d/East-India-festivals.webp", hint: "durga idol" },
+  { name: "Navratri", date: "October 03, 2024", link: "/festivals/navratri", image: "https://i.postimg.cc/GhWjwdnN/Navratri.jpg", hint: "garba dance" },
+  { name: "Durga Puja", date: "October 09, 2024", link: "/festivals/durga-puja", image: "https://i.postimg.cc/nL3Jwd9d/East-India-festivals.webp", hint: "durga idol" },
   { name: "Diwali", date: "October 31, 2024", link: "/festivals/diwali", image: "https://i.postimg.cc/SjF8HhM1/Diwali2.jpg", hint: "diwali celebration" },
   { name: "Lohri", date: "January 13, 2025", link: "/festivals/lohri", image: "https://i.postimg.cc/kGQ9w7QS/north-india-festivals.webp", hint: "lohri bonfire" },
   { name: "Holi", date: "March 14, 2025", link: "/festivals/holi", image: "https://i.postimg.cc/fWFvx4J9/aceofnet-PNd98-z-An-U0-unsplash.jpg", hint: "holi celebration" }
@@ -57,7 +57,7 @@ export default function Home() {
           </p>
           <div className="mt-10">
             <Link href="/festivals">
-              <Button size="lg">
+              <Button size="lg" variant="secondary">
                 Explore All Festivals <ArrowRight className="ml-2" />
               </Button>
             </Link>

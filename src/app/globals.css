@@ -13,7 +13,7 @@
     --popover: 0 0% 100%;
     --popover-foreground: 20 14% 4%;
  
-    --primary: 0 70% 35%; /* Deep Red */
+    --primary: 0 72% 51%;
     --primary-foreground: 0 0% 98%;
  
     --secondary: 30 14% 95%;
@@ -30,7 +30,7 @@
 
     --border: 30 10% 88%;
     --input: 30 10% 92%;
-    --ring: 0 70% 35%;
+    --ring: 0 72% 51%;
  
     --radius: 0.75rem;
 

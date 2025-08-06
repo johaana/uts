@@ -14,42 +14,42 @@ const regions = [
     href: '/festivals?region=North', 
     image: 'https://i.postimg.cc/kGQ9w7QS/north-india-festivals.webp', 
     hint: 'north india festivals',
-    description: "Home to vibrant festivals like Holi, Diwali, Lohri, and Baisakhi." 
+    description: "The heartland of vibrant festivals like Holi's color, Diwali's light, and Lohri's warmth."
   },
   { 
     name: 'Northeast', 
     href: '/festivals?region=Northeast', 
     image: 'https://i.postimg.cc/52MbHQMm/North-East-festivals.jpg', 
     hint: 'naga festival dancers',
-    description: "Experience unique cultural celebrations like Hornbill, Yaoshang, and Chapchar Kut."
+    description: "A cultural mosaic celebrating unique traditions like Hornbill, Bihu, and Chapchar Kut."
   },
   { 
     name: 'East', 
     href: '/festivals?region=East', 
     image: 'https://i.postimg.cc/nL3Jwd9d/East-India-festivals.webp', 
     hint: 'durga idol',
-    description: "Celebrate grand festivals like Durga Puja, Chhath Puja, and Rath Yatra."
+    description: "Experience devotion and artistry in grand festivals like Durga Puja, Chhath Puja, and Rath Yatra."
   },
   { 
     name: 'West', 
     href: '/festivals?region=West', 
     image: 'https://i.postimg.cc/jjxTcV2w/Western-India-festivals-1.jpg', 
     hint: 'gujarat fair',
-    description: "Immerse yourself in Ganesh Chaturthi, Navratri Garba, and Gudi Padwa."
+    description: "Immerse yourself in the energy of Ganesh Chaturthi, Navratri Garba, and the Goa Carnival."
   },
   { 
     name: 'Central', 
     href: '/festivals?region=Central', 
     image: 'https://i.postimg.cc/rmVJnj2w/Pushkar-Camel-Fair.avif', 
     hint: 'pushkar camel fair',
-    description: "Discover the tribal heritage with Bastar Dussehra, Madai Festival, and Hareli."
+    description: "Discover ancient tribal heritage with Bastar Dussehra, Madai Festival, and Hareli."
   },
   { 
     name: 'South', 
     href: '/festivals?region=South', 
     image: 'https://i.postimg.cc/j5CbVzzR/south-indian-festivals.jpg', 
     hint: 'kerala temple festival',
-    description: "Witness the grandeur of Onam, Pongal, Ugadi, and Karthigai Deepam."
+    description: "Witness the traditional grandeur of Onam, Pongal, Ugadi, and Thrissur Pooram."
   },
 ];
 
