@@ -12,8 +12,8 @@ import { FestivalCalendar } from "@/components/FestivalCalendar";
 import { useToast } from "@/hooks/use-toast";
 import React from "react";
 import { subscribeToNewsletter } from "@/ai/flows/subscribe-flow";
-import { InteractiveMap } from "@/components/InteractiveMap";
 import { UpcomingFestivalCard } from "@/components/UpcomingFestivalCard";
+import { RegionShowcase } from "@/components/RegionShowcase";
 
 
 export default function Home() {
@@ -139,7 +139,7 @@ export default function Home() {
       <section className="bg-secondary/50 py-16">
         <div className="container mx-auto px-4">
           <h2 className="font-headline text-3xl md:text-4xl font-bold text-center mb-12">Discover Festivals by Region</h2>
-            <InteractiveMap />
+            <RegionShowcase />
         </div>
       </section>
 
