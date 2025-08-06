@@ -9,7 +9,7 @@ body {
 
 @layer base {
   :root {
-    --background: 39 53% 93%;
+    --background: 40 33% 95%; /* Beige from logo */
     --foreground: 0 65% 15%;
 
     --card: 0 0% 100%;
@@ -27,7 +27,7 @@ body {
     --muted: 39 30% 90%;
     --muted-foreground: 0 65% 45%;
     
-    --accent: 29 100% 48%;
+    --accent: 29 95% 50%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
