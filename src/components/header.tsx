@@ -63,17 +63,7 @@ export function Header() {
       <div className="container mx-auto flex h-20 max-w-7xl items-center justify-between px-4">
         <div className="flex items-center gap-8">
             <Link href="/" className="flex items-center gap-2">
-                <div className="relative h-12 w-40">
-                  <Image 
-                    src="https://i.postimg.cc/5N4qfL1q/Utsavs-Logo-Maroon.png"
-                    alt="Utsavs Logo" 
-                    layout="fill"
-                    objectFit="contain"
-                    objectPosition="left"
-                    priority 
-                    unoptimized
-                  />
-                </div>
+                <Image src="https://i.postimg.cc/qR0pRyFD/Utsavs-maroon.png" alt="Utsavs Logo" width={150} height={40} data-ai-hint="logo" />
             </Link>
         </div>
 
@@ -106,17 +96,7 @@ export function Header() {
                 <SheetContent side="right">
                     <div className="flex flex-col gap-6 pt-10">
                     <Link href="/" className="flex items-center gap-2 mb-4" onClick={() => setOpen(false)}>
-                       <div className="relative h-12 w-40">
-                          <Image 
-                            src="https://i.postimg.cc/5N4qfL1q/Utsavs-Logo-Maroon.png"
-                            alt="Utsavs Logo" 
-                            layout="fill"
-                            objectFit="contain"
-                            objectPosition="left"
-                            priority 
-                            unoptimized
-                          />
-                        </div>
+                       <Image src="https://i.postimg.cc/qR0pRyFD/Utsavs-maroon.png" alt="Utsavs Logo" width={150} height={40} data-ai-hint="logo" />
                     </Link>
                     {navLinks.map((link) => (
                         <Link
