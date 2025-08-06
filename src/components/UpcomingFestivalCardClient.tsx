@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Card, CardContent } from './ui/card';
 import React, { useState, useEffect } from 'react';
-import { differenceInSeconds, isAfter, isSameDay, parseISO } from 'date-fns';
+import { differenceInSeconds, parseISO } from 'date-fns';
 
 interface Festival {
     name: string;
@@ -43,35 +43,39 @@ function FestivalDateDisplay({ dateString }: { dateString: string }) {
 
 export function UpcomingFestivalCardClient({ festival }: { festival: Festival }) {
     const [timeLeft, setTimeLeft] = useState<TimeLeft | null>(null);
+    const [isClient, setIsClient] = useState(false);
 
     useEffect(() => {
+        setIsClient(true);
+    }, []);
+
+    useEffect(() => {
+        if (!isClient) {
+            return;
+        }
+
         const festivalDate = parseISO(festival.date);
-        
-        const calculateTimeLeft = () => {
+
+        const timer = setInterval(() => {
             const now = new Date();
             const diff = differenceInSeconds(festivalDate, now);
 
             if (diff <= 0) {
-                return null;
+                setTimeLeft(null);
+                clearInterval(timer);
+                return;
             }
 
-            return {
+            setTimeLeft({
                 days: Math.floor(diff / (60 * 60 * 24)),
                 hours: Math.floor((diff / (60 * 60)) % 24),
                 minutes: Math.floor((diff / 60) % 60),
                 seconds: Math.floor(diff % 60),
-            };
-        };
-
-        // Set initial value
-        setTimeLeft(calculateTimeLeft());
-
-        const timer = setInterval(() => {
-            setTimeLeft(calculateTimeLeft());
+            });
         }, 1000);
 
         return () => clearInterval(timer);
-    }, [festival.date]);
+    }, [festival.date, isClient]);
 
 
     return (
@@ -98,7 +102,7 @@ export function UpcomingFestivalCardClient({ festival }: { festival: Festival })
                 </div>
                 
                 <div className="h-[92px] flex items-center justify-center">
-                    {timeLeft ? (
+                    {timeLeft && isClient ? (
                         <div className="flex justify-center gap-2">
                             <CountdownBox value={timeLeft.days} label="Days" />
                             <CountdownBox value={timeLeft.hours} label="Hours" />
