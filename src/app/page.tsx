@@ -2,9 +2,8 @@
 'use client';
 
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Star } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { Card, CardContent } from "@/components/ui/card";
 import { FestivalCalendar } from "@/components/FestivalCalendar";
 import { RegionShowcase } from "@/components/RegionShowcase";
 import {
@@ -33,11 +32,11 @@ function ResourceSummary() {
         <p className="text-foreground/80">Explore detailed guides on major and regional Indian festivals.</p>
       </div>
       <div className="bg-secondary/30 p-8 rounded-lg">
-        <h3 className="font-headline text-3xl font-bold text-primary mb-2">50+ Recipes</h3>
+        <h3 className="font-headline text-3xl font-bold text-primary mb-2">30+ Recipes</h3>
         <p className="text-foreground/80">Cook authentic festive food with our easy-to-follow recipes.</p>
       </div>
       <div className="bg-secondary/30 p-8 rounded-lg">
-        <h3 className="font-headline text-3xl font-bold text-primary mb-2">20+ Stories</h3>
+        <h3 className="font-headline text-3xl font-bold text-primary mb-2">15+ Stories</h3>
         <p className="text-foreground/80">Dive deep into the culture and stories behind the celebrations.</p>
       </div>
     </div>
