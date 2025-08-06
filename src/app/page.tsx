@@ -66,7 +66,19 @@ export default function Home() {
         </div>
       </section>
 
+       <section className="container mx-auto px-4">
+        <FestivalCalendar />
+      </section>
+
       <section className="container mx-auto px-4">
+        <div className="text-center mb-12">
+          <h2 className="font-headline text-3xl md:text-4xl font-bold">Explore by Region</h2>
+          <p className="mt-3 text-lg text-foreground/80 max-w-2xl mx-auto">Discover the unique festivals that give each part of India its distinct cultural flavor.</p>
+        </div>
+        <RegionShowcase />
+      </section>
+      
+      <section className="container mx-auto px-4 pb-16">
         <div className="text-center mb-12">
             <h2 className="font-headline text-3xl md:text-4xl font-bold">The Complete Festival Resource</h2>
             <p className="mt-3 text-lg text-foreground/80 max-w-2xl mx-auto">From grand national holidays to unique regional celebrations, Utsavs is your trusted source for everything you need to know.</p>
@@ -88,18 +100,6 @@ export default function Home() {
                 <p className="text-muted-foreground mt-2">Cook traditional festive foods with our easy-to-follow, authentic recipes.</p>
             </Card>
         </div>
-      </section>
-
-       <section className="container mx-auto px-4">
-        <FestivalCalendar />
-      </section>
-
-      <section className="container mx-auto px-4 pb-16">
-        <div className="text-center mb-12">
-          <h2 className="font-headline text-3xl md:text-4xl font-bold">Explore by Region</h2>
-          <p className="mt-3 text-lg text-foreground/80 max-w-2xl mx-auto">Discover the unique festivals that give each part of India its distinct cultural flavor.</p>
-        </div>
-        <RegionShowcase />
       </section>
 
     </div>
