@@ -9,7 +9,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { ArrowRight, Star } from "lucide-react";
-import { format, parse, getYear, isAfter } from 'date-fns';
+import { format, parse, getYear, isAfter, isSameDay } from 'date-fns';
 
 const allEvents = [
     // 2024
@@ -19,8 +19,8 @@ const allEvents = [
     { date: "Sep 07, 2024", name: "Ganesh Chaturthi", region: "West & South", type: "Religious", link: "/festivals/ganesh-chaturthi" },
     { date: "Sep 15, 2024", name: "Onam", region: "South", type: "Harvest", link: "/festivals/onam", longWeekend: true },
     { date: "Oct 02, 2024", name: "Gandhi Jayanti", region: "Nationwide", type: "Holiday", link: "/festivals/gandhi-jayanti" },
-    { date: "Oct 03, 2024 - Oct 12, 2024", name: "Navratri", region: "Nationwide", type: "Religious", link: "/festivals/navratri", longWeekend: true },
-    { date: "Oct 09, 2024 - Oct 13, 2024", name: "Durga Puja", region: "East", type: "Religious", link: "/festivals/durga-puja", longWeekend: true },
+    { date: "Oct 03 - Oct 11, 2024", name: "Navratri", region: "Nationwide", type: "Religious", link: "/festivals/navratri", longWeekend: true },
+    { date: "Oct 09 - Oct 13, 2024", name: "Durga Puja", region: "East", type: "Religious", link: "/festivals/durga-puja", longWeekend: true },
     { date: "Oct 29, 2024", name: "Dhanteras", region: "Nationwide", type: "Diwali", link: "/festivals/diwali", longWeekend: true },
     { date: "Oct 31, 2024", name: "Diwali (Lakshmi Puja)", region: "Nationwide", type: "Holiday", link: "/festivals/diwali", longWeekend: true },
     { date: "Nov 02, 2024", name: "Bhai Dooj", region: "North & West", type: "Diwali", link: "/festivals/diwali" },
@@ -46,7 +46,7 @@ const allEvents = [
     { date: "Aug 17, 2025", name: "Janmashtami", region: "Nationwide", type: "Religious", link: "#" },
     { date: "Aug 27, 2025", name: "Ganesh Chaturthi", region: "West & South", type: "Religious", link: "/festivals/ganesh-chaturthi" },
     { date: "Sep 05, 2025", name: "Onam", region: "South", type: "Harvest", link: "/festivals/onam" },
-    { date: "Sep 22, 2025 - Oct 01, 2025", name: "Navratri", region: "Nationwide", type: "Religious", link: "/festivals/navratri", longWeekend: true },
+    { date: "Sep 22 - Oct 01, 2025", name: "Navratri", region: "Nationwide", type: "Religious", link: "/festivals/navratri", longWeekend: true },
     { date: "Oct 01, 2025", name: "Dussehra", region: "Nationwide", type: "Religious", link: "#", longWeekend: true },
     { date: "Oct 02, 2025", name: "Gandhi Jayanti", region: "Nationwide", type: "Holiday", link: "/festivals/gandhi-jayanti", longWeekend: true },
     { date: "Oct 20, 2025", name: "Diwali (Lakshmi Puja)", region: "Nationwide", type: "Holiday", link: "/festivals/diwali", longWeekend: true },
@@ -152,7 +152,7 @@ export function FestivalCalendar() {
             
             let eventEndDate;
             try {
-                 const yearStr = eventEndDateStr.includes(',') ? eventEndDateStr.split(', ')[1] : event.date.split(', ')[1];
+                 const yearStr = eventEndDateStr.includes(',') ? eventEndDateStr.split(', ')[1].split(' ')[0] : event.date.split(', ')[1].split(' ')[0];
                  const dateToParse = eventEndDateStr.includes(',') ? eventEndDateStr : `${eventEndDateStr}, ${yearStr}`;
                  eventEndDate = parse(dateToParse, 'MMM dd, yyyy', new Date());
                  if (isNaN(eventEndDate.getTime())) return false;
@@ -165,7 +165,7 @@ export function FestivalCalendar() {
 
             let yearMatch = true;
             if (selectedYear === 'upcoming') {
-                yearMatch = isAfter(eventEndDate, now) || eventEndDate.getTime() === now.getTime();
+                yearMatch = isAfter(eventEndDate, now) || isSameDay(eventEndDate, now);
             } else if (selectedYear !== 'all') {
                 yearMatch = eventYear === parseInt(selectedYear);
             }
@@ -274,8 +274,8 @@ export function FestivalCalendar() {
                         </TableHeader>
                         <TableBody>
                             {filteredEvents.length > 0 ? (
-                                filteredEvents.map((event) => (
-                                    <TableRow key={event.name + event.date}>
+                                filteredEvents.map((event, index) => (
+                                    <TableRow key={event.name + event.date + index}>
                                         <TableCell className="font-medium">{formatDateString(event.date)}</TableCell>
                                         <TableCell className="font-bold text-base flex items-center gap-2">
                                             {event.name}

@@ -4,7 +4,7 @@
 
 @layer base {
   :root {
-    --background: 30 25% 97%; /* Light Peach */
+    --background: 4 100% 95%; /* Desaturated Light Red - #F8E7E7 */
     --foreground: 20 14% 4%;
 
     --card: 0 0% 100%;
@@ -13,24 +13,24 @@
     --popover: 0 0% 100%;
     --popover-foreground: 20 14% 4%;
  
-    --primary: 0 72% 51%;
+    --primary: 0 61% 51%; /* Saturated Red - #D32F2F */
     --primary-foreground: 0 0% 98%;
  
-    --secondary: 30 14% 95%;
+    --secondary: 4 30% 96%;
     --secondary-foreground: 24 10% 12%;
  
-    --muted: 30 10% 90%;
+    --muted: 4 30% 91%;
     --muted-foreground: 25 10% 45%;
  
-    --accent: 29 95% 48%; /* Vibrant Orange */
+    --accent: 28 94% 48%; /* Analogous Orange - #F57C00 */
     --accent-foreground: 0 0% 98%;
  
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 30 10% 88%;
-    --input: 30 10% 92%;
-    --ring: 0 72% 51%;
+    --border: 4 30% 88%;
+    --input: 4 30% 92%;
+    --ring: 0 61% 51%;
  
     --radius: 0.75rem;
 
@@ -51,7 +51,7 @@
     --popover: 20 14% 4%;
     --popover-foreground: 0 0% 98%;
  
-    --primary: 29 95% 48%;
+    --primary: 0 61% 51%;
     --primary-foreground: 0 0% 98%;
  
     --secondary: 12 6% 15%;
@@ -60,7 +60,7 @@
     --muted: 12 6% 15%;
     --muted-foreground: 24 5% 64%;
  
-    --accent: 29 95% 48%;
+    --accent: 28 94% 48%;
     --accent-foreground: 0 0% 98%;
  
     --destructive: 0 63% 31%;
@@ -68,7 +68,7 @@
  
     --border: 12 6% 15%;
     --input: 12 6% 15%;
-    --ring: 29 95% 48%;
+    --ring: 0 61% 51%;
 
     --chart-1: 220 70% 50%;
     --chart-2: 160 60% 45%;

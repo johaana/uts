@@ -2,7 +2,7 @@
 'use client';
 
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, CalendarHeart } from "lucide-react";
 import Link from "next/link";
 import { FestivalCalendar } from "@/components/FestivalCalendar";
 import { RegionShowcase } from "@/components/RegionShowcase";
@@ -14,6 +14,8 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel"
 import { UpcomingFestivalCard } from "@/components/UpcomingFestivalCard";
+import Image from "next/image";
+import { Card, CardContent } from "@/components/ui/card";
 
 const upcomingFestivals = [
   { name: "Raksha Bandhan", date: "August 19, 2024", link: "/festivals/raksha-bandhan", image: "https://i.postimg.cc/9MXxXQhY/Raksha-Bandhan.jpg", hint: "rakhi festival" },
@@ -45,6 +47,38 @@ function ResourceSummary() {
   )
 }
 
+function FestivalOfTheMonth() {
+    return (
+        <section className="py-16 md:py-24 bg-background">
+            <div className="container mx-auto px-4">
+                 <div className="text-center mb-12">
+                    <h2 className="font-headline text-4xl md:text-5xl font-bold text-primary">Festival of the Month</h2>
+                    <p className="mt-4 text-lg text-foreground/80 max-w-2xl mx-auto">
+                        A special highlight on a significant celebration happening now.
+                    </p>
+                </div>
+                <Card className="overflow-hidden shadow-2xl rounded-2xl">
+                    <div className="grid grid-cols-1 md:grid-cols-2 items-center">
+                         <div className="p-8 md:p-12 order-2 md:order-1">
+                            <p className="text-sm font-semibold uppercase tracking-widest text-accent mb-2">September Feature</p>
+                            <h3 className="font-headline text-4xl font-bold mb-4">Onam</h3>
+                            <p className="text-foreground/80 mb-6">Experience the vibrant harvest festival of Kerala, a ten-day celebration of the mythical King Mahabali's homecoming. Discover the joy of the Onasadya feast, the beauty of Pookalam floral carpets, and the thrill of the Vallam Kali boat races.</p>
+                            <Link href="/festivals/onam">
+                                <Button variant="default">
+                                    Explore Onam <ArrowRight className="ml-2" />
+                                </Button>
+                            </Link>
+                        </div>
+                        <div className="relative h-64 md:h-full order-1 md:order-2 min-h-[300px]">
+                             <Image src="https://i.postimg.cc/tJ3RkTB3/Onam.png" alt="Onam Festival" layout="fill" objectFit="cover" data-ai-hint="onam kathakali"/>
+                        </div>
+                    </div>
+                </Card>
+            </div>
+        </section>
+    );
+}
+
 export default function Home() {
   return (
     <div className="flex flex-col">
@@ -65,7 +99,9 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-16 md:py-24 bg-background">
+      <FestivalOfTheMonth />
+      
+      <section className="py-16 md:py-24 bg-secondary/30">
         <div className="container mx-auto px-4">
            <div className="text-center mb-12">
                 <h2 className="font-headline text-4xl md:text-5xl font-bold text-primary">Upcoming Festivals</h2>
@@ -93,13 +129,13 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-16 md:py-24 bg-secondary/30">
+      <section className="py-16 md:py-24 bg-background">
         <div className="container mx-auto px-4">
            <FestivalCalendar />
         </div>
       </section>
 
-      <section className="py-16 md:py-24 bg-background">
+      <section className="py-16 md:py-24 bg-secondary/30">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="font-headline text-4xl md:text-5xl font-bold text-primary">Discover by Region</h2>
@@ -111,7 +147,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-16 md:py-24 bg-secondary/30">
+      <section className="py-16 md:py-24 bg-background">
         <div className="container mx-auto px-4">
             <div className="text-center mb-12">
                 <h2 className="font-headline text-4xl md:text-5xl font-bold text-primary">A World of Flavor & Tradition</h2>

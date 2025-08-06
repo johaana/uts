@@ -62,8 +62,9 @@ export function Header() {
       <div className="container mx-auto flex h-24 items-center justify-between px-4">
         
         <div className="flex-1 flex justify-start">
-             <Link href="/" className="flex items-center">
+             <Link href="/" className="flex items-center gap-2">
                 <Image src="https://i.postimg.cc/Dz3RFpRR/Beige-And-Orange-Traditional-Indian-Fashion-Business-Logo-20250803-235803-0002.png" alt="Utsavs Logo" width={60} height={60} />
+                <span className="font-headline text-3xl font-bold text-primary">Utsavs</span>
              </Link>
         </div>
 
