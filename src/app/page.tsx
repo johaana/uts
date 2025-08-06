@@ -12,12 +12,13 @@ import { useMemo } from "react";
 import { parse } from "date-fns";
 
 const allFestivals = [
-    { name: "Diwali", date: "October 21, 2025", link: "/festivals/diwali", image: "https://i.postimg.cc/SjF8HhM1/Diwali2.jpg", hint: "diwali celebration" },
-    { name: "Holi", date: "March 14, 2025", link: "/festivals/holi", image: "https://i.postimg.cc/fWFvx4J9/aceofnet-PNd98-z-An-U0-unsplash.jpg", hint: "holi celebration" },
-    { name: "Durga Puja", date: "October 01, 2025", link: "/festivals/durga-puja", image: "https://i.postimg.cc/nL3Jwd9d/East-India-festivals.webp", hint: "durga idol" },
+    { name: "Raksha Bandhan", date: "August 09, 2025", link: "/festivals/raksha-bandhan", image: "https://i.postimg.cc/5Nn3fPPM/raksha-bandhan-2.jpg", hint: "rakhi thread" },
     { name: "Ganesh Chaturthi", date: "August 26, 2025", link: "/festivals/ganesh-chaturthi", image: "https://i.postimg.cc/P5g1B5g8/Ganesh-Chaturthi.webp", hint: "ganesh idol" },
     { name: "Onam", date: "September 07, 2025", link: "/festivals/onam", image: "https://i.postimg.cc/0564g0S7/nandu-menon-h-GHldb-Cg-YDA-unsplash.jpg", hint: "onam feast" },
+    { name: "Durga Puja", date: "October 01, 2025", link: "/festivals/durga-puja", image: "https://i.postimg.cc/nL3Jwd9d/East-India-festivals.webp", hint: "durga idol" },
+    { name: "Diwali", date: "October 21, 2025", link: "/festivals/diwali", image: "https://i.postimg.cc/SjF8HhM1/Diwali2.jpg", hint: "diwali celebration" },
     { name: "Christmas", date: "December 25, 2025", link: "/festivals/christmas", image: "https://i.postimg.cc/ncKMYdWy/christmas-2.jpg", hint: "nativity scene" },
+    { name: "Holi", date: "March 14, 2025", link: "/festivals/holi", image: "https://i.postimg.cc/fWFvx4J9/aceofnet-PNd98-z-An-U0-unsplash.jpg", hint: "holi celebration" },
 ];
 
 export default function Home() {
@@ -40,7 +41,7 @@ export default function Home() {
         <div className="container mx-auto px-4 text-center">
           <h1 className="font-headline text-4xl md:text-6xl font-bold text-primary">Utsavs: Your Definitive Guide to Indian Festivals</h1>
           <p className="mt-4 text-lg md:text-xl text-foreground/80 max-w-3xl mx-auto">
-            Your essential guide to the dates, rituals, and stories behind India's vibrant celebrations. Discover authentic recipes, explore cultural traditions, and plan your celebrations with our comprehensive festival calendar.
+            Your essential guide to the dates, rituals, and stories behind India's vibrant celebrations. Discover authentic recipes, explore cultural traditions, and plan your year with our comprehensive festival calendar.
           </p>
           <div className="mt-8 flex justify-center">
             <Link href="/festivals">
