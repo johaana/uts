@@ -64,7 +64,7 @@ export function Header() {
         {/* Left Aligned: Logo */}
         <div className="flex-1 flex justify-start">
              <Link href="/" className="flex items-center">
-                <Image src="https://i.postimg.cc/tJggpS12/utsavs-logo.png" alt="Utsavs Logo" width={60} height={60} />
+                <Image src="https://i.postimg.cc/Dz3RFpRR/Beige-And-Orange-Traditional-Indian-Fashion-Business-Logo-20250803-235803-0002.png" alt="Utsavs Logo" width={80} height={80} />
              </Link>
         </div>
 
@@ -100,7 +100,7 @@ export function Header() {
                     <SheetContent side="left">
                         <div className="flex flex-col gap-6 pt-10">
                         <Link href="/" className="flex items-center gap-2 mb-4" onClick={() => setIsOpen(false)}>
-                            <Image src="https://i.postimg.cc/tJggpS12/utsavs-logo.png" alt="Utsavs Logo" width={50} height={50} />
+                            <Image src="https://i.postimg.cc/Dz3RFpRR/Beige-And-Orange-Traditional-Indian-Fashion-Business-Logo-20250803-235803-0002.png" alt="Utsavs Logo" width={60} height={60} />
                             <span className="font-headline text-2xl">Utsavs</span>
                         </Link>
                         {navLinks.map((link) => (
