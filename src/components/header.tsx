@@ -59,11 +59,11 @@ export function Header() {
 
   return (
     <header className="bg-card/95 border-b backdrop-blur-sm sticky top-0 z-50">
-      <div className="container mx-auto flex h-20 items-center justify-between px-4">
+      <div className="container mx-auto flex items-center justify-between px-4 py-2">
         
-        <div className="flex items-center justify-start">
+        <div className="flex items-center justify-start flex-1">
              <Link href="/" className="flex items-center gap-2">
-                <Image src="https://i.postimg.cc/tCYyQVjX/4.png" alt="Utsavs Logo" width={64} height={64} className="h-16 w-16"/>
+                <Image src="https://i.postimg.cc/tCYyQVjX/4.png" alt="Utsavs Logo" width={80} height={80} />
              </Link>
         </div>
 
@@ -82,7 +82,7 @@ export function Header() {
           ))}
         </nav>
         
-        <div className="flex justify-end items-center" style={{ flexBasis: 'content' }}>
+        <div className="flex justify-end items-center flex-1">
             <div className="hidden md:flex">
                 <SearchDialog />
             </div>
@@ -97,7 +97,7 @@ export function Header() {
                     <SheetContent side="left">
                         <div className="flex flex-col gap-6 pt-10">
                         <Link href="/" className="flex items-center gap-2 mb-4" onClick={() => setIsOpen(false)}>
-                            <Image src="https://i.postimg.cc/tCYyQVjX/4.png" alt="Utsavs Logo" width={48} height={48} />
+                            <Image src="https://i.postimg.cc/tCYyQVjX/4.png" alt="Utsavs Logo" width={64} height={64} />
                         </Link>
                         {navLinks.map((link) => (
                             <Link
