@@ -71,13 +71,8 @@ export function UpcomingFestivalCard({ festival }: { festival: Festival }) {
             }
         };
 
-        // Set initial value
         calculateTimeLeft();
-
-        // Update every second
         const timer = setInterval(calculateTimeLeft, 1000);
-
-        // Cleanup interval on component unmount
         return () => clearInterval(timer);
     }, [festival.date]);
     
@@ -100,9 +95,9 @@ export function UpcomingFestivalCard({ festival }: { festival: Festival }) {
                        ) : timeLeft ? (
                              <div className="flex items-baseline space-x-1 font-mono">
                                 <div><span className="text-lg">{timeLeft.days}</span><span className="text-xs">d</span></div>
-                                <div><span className="text-lg">{timeLeft.hours}</span><span className="text-xs">h</span></div>
-                                <div><span className="text-lg">{timeLeft.minutes}</span><span className="text-xs">m</span></div>
-                                <div><span className="text-lg">{timeLeft.seconds}</span><span className="text-xs">s</span></div>
+                                <div><span className="text-lg">{String(timeLeft.hours).padStart(2,'0')}</span><span className="text-xs">h</span></div>
+                                <div><span className="text-lg">{String(timeLeft.minutes).padStart(2, '0')}</span><span className="text-xs">m</span></div>
+                                <div><span className="text-lg">{String(timeLeft.seconds).padStart(2, '0')}</span><span className="text-xs">s</span></div>
                             </div>
                        ) : null}
                     </div>
