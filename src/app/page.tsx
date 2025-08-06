@@ -17,7 +17,7 @@ import {
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import React from "react";
-import { UpcomingFestivalCardClient } from "@/components/UpcomingFestivalCardClient";
+import { UpcomingFestivalCard } from "@/components/UpcomingFestivalCard";
 
 
 const allUpcomingFestivals = [
@@ -125,7 +125,7 @@ export default function Home() {
                 return (
                     <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
                         <div className="p-1 h-full">
-                          <UpcomingFestivalCardClient festival={festival} />
+                          <UpcomingFestivalCard festival={festival} />
                         </div>
                     </CarouselItem>
                 )
