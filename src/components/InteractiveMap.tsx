@@ -7,7 +7,7 @@ import { cn } from '@/lib/utils';
 const regions = [
   { name: 'North', href: '/festivals?region=North', className: 'top-[10%] left-[50%] -translate-x-1/2' },
   { name: 'West', href: '/festivals?region=West', className: 'top-[45%] left-[28%] -translate-x-1/2' },
-  { name: 'East', href: '/festivals?region=East', className: 'top-[45%] left-[72%] -translate-x-1/2' },
+  { name: "East", href: "/festivals?region=East", className: "top-[45%] left-[72%] -translate-x-1/2" },
   { name: 'Central', href: '/festivals?region=Central', className: 'top-[50%] left-[50%] -translate-x-1/2' },
   { name: 'South', href: '/festivals?region=South', className: 'top-[80%] left-[50%] -translate-x-1/2' },
   { name: 'Northeast', href: '/festivals?region=Northeast', className: 'top-[28%] left-[88%] -translate-x-1/2' },
@@ -15,10 +15,8 @@ const regions = [
 
 export function InteractiveMap() {
   return (
-    <div className="relative w-full max-w-2xl mx-auto aspect-square rounded-lg bg-secondary/50 p-4">
+    <div className="relative w-full max-w-2xl mx-auto aspect-square rounded-lg bg-gradient-to-br from-secondary/30 to-background p-4">
       <div className="relative w-full h-full">
-        {/* Placeholder for map shape if needed in future */}
-        {/* <img src="/india-map-outline.svg" className="absolute inset-0 w-full h-full object-contain opacity-20" /> */}
         {regions.map((region) => (
           <Link href={region.href} key={region.name}>
             <div

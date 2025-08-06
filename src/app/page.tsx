@@ -34,9 +34,9 @@ export default function Home() {
   ];
 
   const blogPosts = [
-    { title: "The Significance of Diyas in Diwali", excerpt: "Discover the deep cultural and spiritual meaning behind lighting diyas...", link: "/blog/significance-of-diyas-in-diwali", image: "https://i.postimg.cc/SjF8HhM1/Diwali2.jpg", hint: "diwali light" },
-    { title: "A Guide to Natural Holi Colors", excerpt: "Learn about the natural ingredients used in traditional Holi colors and their significance.", link: "/blog/guide-to-natural-holi-colors", image: "https://i.postimg.cc/fWFvx4J9/aceofnet-PNd98-z-An-U0-unsplash.jpg", hint: "holi colors" },
-    { title: "Top 5 Rangoli Designs for Beginners", excerpt: "Get inspired with these easy-to-make yet beautiful rangoli patterns for any occasion.", link: "/blog/top-5-rangoli-designs-for-beginners", image: "https://i.postimg.cc/VN1gdj5Z/prchi-palwe-NLq-NQ10ppe0-unsplash.jpg", hint: "rangoli design" },
+    { title: "The Significance of Diyas in Diwali", excerpt: "Discover the deep cultural and spiritual meaning behind lighting diyas...", link: "/blog/significance-of-diyas-in-diwali", image: "https://i.postimg.cc/brM9vjDZ/Diya-diwali.webp", hint: "diwali light" },
+    { title: "A Guide to Natural Holi Colors", excerpt: "Learn about the natural ingredients used in traditional Holi colors and their significance.", link: "/blog/guide-to-natural-holi-colors", image: "https://i.postimg.cc/gkXKTrQ8/organic-holi-colours.webp", hint: "holi colors" },
+    { title: "Top 5 Rangoli Designs for Beginners", excerpt: "Get inspired with these easy-to-make yet beautiful rangoli patterns for any occasion.", link: "/blog/top-5-rangoli-designs-for-beginners", image: "https://i.postimg.cc/fRYfMpwb/Rangoli.jpg", hint: "rangoli design" },
   ]
   
   const handleSubscription = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -77,7 +77,7 @@ export default function Home() {
         <div className="container mx-auto px-4 text-center relative z-10">
           <h1 className="font-headline text-4xl md:text-6xl font-bold text-primary">A Vibrant Celebration of India</h1>
           <p className="mt-4 text-lg md:text-xl text-primary/80 max-w-3xl mx-auto">
-            Your ultimate guide to the rich tapestry of Indian festivals. Explore traditions, 2025-2026 dates, recipes, and stories that make each celebration unique.
+            Your ultimate guide to the rich tapestry of Indian festivals. Explore traditions, 2025-2026 dates, recipes, and stories that make each celebration unique. Utsavs is your definitive source for understanding the rituals, significance, and joy of India's cultural heritage, from Diwali to Durga Puja.
           </p>
           <div className="mt-8 flex justify-center">
             <Link href="/festivals">
