@@ -75,7 +75,6 @@ export function Footer() {
                 <li><Link href="/festivals" className="text-foreground/80 hover:text-primary">Festivals</Link></li>
                 <li><Link href="/recipes" className="text-foreground/80 hover:text-primary">Recipes</Link></li>
                  <li><Link href="/blog" className="text-foreground/80 hover:text-primary">Blog</Link></li>
-                 <li><Link href="/shop" className="text-foreground/80 hover:text-primary">Shop</Link></li>
               </ul>
             </div>
             <div className="md:col-span-2 lg:col-span-3">
