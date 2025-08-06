@@ -6,7 +6,7 @@ import { getFirestore } from "firebase/firestore";
 const firebaseConfig = {
   projectId: "utsavs",
   appId: "1:137590302946:web:b879542562629df4d8d6bb",
-  storageBucket: "utsavs.firebasestorage.app",
+  storageBucket: "utsavs.appspot.com",
   apiKey: "AIzaSyAW6KIpv1onQWuQllpnhPeZDe7_DBw4PUU",
   authDomain: "utsavs.firebaseapp.com",
   messagingSenderId: "137590302946",
