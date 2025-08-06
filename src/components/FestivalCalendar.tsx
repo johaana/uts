@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { ArrowRight, Star } from "lucide-react";
 import { format, parse, isAfter, startOfToday, addYears } from 'date-fns';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
 
 const allEvents = [
     // 2025
@@ -277,6 +278,10 @@ export function FestivalCalendar() {
                         </Select>
                     </div>
                 </div>
+                 <div className="flex items-center gap-2 mt-4 pt-4 border-t border-dashed">
+                    <Star className="w-4 h-4 text-amber-500 fill-amber-500" /> 
+                    <p className="text-sm text-muted-foreground">Indicates a festival that falls on or creates a long weekend.</p>
+                </div>
             </Card>
 
             <Card>
@@ -335,5 +340,3 @@ export function FestivalCalendar() {
         </div>
     );
 }
-
-    
