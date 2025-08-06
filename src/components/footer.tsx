@@ -62,9 +62,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-12 gap-12">
             <div className="lg:col-span-3">
                  <Link href="/" className="flex items-center gap-2 mb-4">
-                    <div className="relative h-20 w-40">
-                      <UtsavsLogo />
-                    </div>
+                    <UtsavsLogo className="h-20 w-40" />
                 </Link>
                 <p className="text-foreground/80 max-w-xs text-sm">
                   Your guide to the vibrant world of Indian festivals.

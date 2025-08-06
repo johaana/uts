@@ -63,9 +63,7 @@ export function Header() {
       <div className="container mx-auto flex h-20 max-w-7xl items-center justify-between px-4">
         <div className="flex items-center gap-8">
             <Link href="/" className="flex items-center gap-2">
-                <div className="h-24 w-48 relative">
-                    <UtsavsLogo/>
-                </div>
+                <UtsavsLogo className="h-24 w-48" />
             </Link>
         </div>
 
@@ -98,9 +96,7 @@ export function Header() {
                 <SheetContent side="right">
                     <div className="flex flex-col gap-6 pt-10">
                     <Link href="/" className="flex items-center gap-2 mb-4" onClick={() => setOpen(false)}>
-                        <div className="h-20 w-40 relative">
-                            <UtsavsLogo />
-                        </div>
+                       <UtsavsLogo className="h-20 w-40" />
                     </Link>
                     {navLinks.map((link) => (
                         <Link
