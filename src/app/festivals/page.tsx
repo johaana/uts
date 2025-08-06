@@ -40,6 +40,9 @@ const allFestivals = [
     { name: "Independence Day", region: "Nationwide", description: "Commemorating India's freedom from British rule, marked by flag-hoisting ceremonies.", link: "/festivals/independence-day" },
     { name: "Gandhi Jayanti", region: "Nationwide", description: "Marking the birth anniversary of Mahatma Gandhi, the 'Father of the Nation'.", link: "/festivals/gandhi-jayanti" },
     { name: "Good Friday", region: "Nationwide", description: "A Christian holiday commemorating the crucifixion of Jesus Christ.", link: "/festivals/good-friday" },
+    { name: "Madai Festival", region: "Central", description: "A prominent tribal festival of the Gond tribe in Chhattisgarh, involving rituals and folk dances.", link: "/festivals/madai-festival" },
+    { name: "Bastar Dussehra", region: "Central", description: "A unique 75-day long Dussehra celebration in Chhattisgarh's Bastar region, focused on nature and local deities.", link: "/festivals/bastar-dussehra" },
+    { name: "Hareli Festival", region: "Central", description: "A harvest festival in Chhattisgarh marking the beginning of the Shravan month with worship of farm equipment and cattle.", link: "/festivals/hareli-festival" },
 ];
 
 const regions = ["Nationwide", "North", "South", "East", "West", "Central", "Northeast"];
