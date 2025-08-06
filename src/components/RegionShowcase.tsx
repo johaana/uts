@@ -8,7 +8,7 @@ import { cn } from '@/lib/utils';
 import { ArrowRight } from 'lucide-react';
 
 const regions = [
-  { name: 'North', href: '/festivals?region=North', image: 'https://i.postimg.cc/ncg3FqB3/kumbh-mela-2.jpg', hint: 'kumbh mela' },
+  { name: 'North', href: '/festivals?region=North', image: 'https://i.postimg.cc/kGQ9w7QS/north-india-festivals.webp', hint: 'north india festivals' },
   { name: 'Northeast', href: '/festivals?region=Northeast', image: 'https://i.postimg.cc/52MbHQMm/North-East-festivals.jpg', hint: 'naga festival dancers' },
   { name: 'East', href: '/festivals?region=East', image: 'https://i.postimg.cc/nL3Jwd9d/East-India-festivals.webp', hint: 'durga idol' },
   { name: 'West', href: '/festivals?region=West', image: 'https://i.postimg.cc/jjxTcV2w/Western-India-festivals-1.jpg', hint: 'gujarat fair' },
