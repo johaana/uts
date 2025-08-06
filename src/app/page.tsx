@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -16,6 +17,7 @@ import {
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import { UpcomingFestivalCardClient } from "@/components/UpcomingFestivalCardClient";
+import { parse } from 'date-fns';
 
 const upcomingFestivals = [
   { name: "Raksha Bandhan", date: "August 19, 2024", link: "/festivals/raksha-bandhan", image: "https://i.postimg.cc/9MXxXQhY/Raksha-Bandhan.jpg", hint: "rakhi festival" },
@@ -82,7 +84,7 @@ function FestivalOfTheMonth() {
 export default function Home() {
   return (
     <div className="flex flex-col">
-      <section className="relative text-center py-20 md:py-32 bg-cover bg-center" style={{backgroundImage: "url('https://i.postimg.cc/rmVJnj2w/Pushkar-Camel-Fair.avif')"}}>
+       <section className="relative text-center py-20 md:py-32 bg-cover bg-center" style={{backgroundImage: "url('https://i.postimg.cc/rmVJnj2w/Pushkar-Camel-Fair.avif')"}}>
         <div className="absolute inset-0 bg-black/60"></div>
         <div className="container mx-auto px-4 relative z-10">
           <h1 className="font-headline text-5xl md:text-7xl font-bold text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] max-w-4xl mx-auto">Your Definitive Guide to Indian Festivals</h1>
@@ -117,30 +119,33 @@ export default function Home() {
             className="w-full"
           >
             <CarouselContent>
-              {upcomingFestivals.map((festival) => (
-                <CarouselItem key={festival.name} className="md:basis-1/2 lg:basis-1/3">
-                    <div className="p-1 h-full">
-                      <Card className="overflow-hidden h-full flex flex-col group shadow-lg hover:shadow-2xl transition-shadow duration-300">
-                        <div className="relative h-64 w-full overflow-hidden bg-secondary">
-                           <Image src={festival.image} alt={festival.name} layout="fill" objectFit="cover" className="transition-transform duration-500 ease-in-out group-hover:scale-105" data-ai-hint={festival.hint}/>
-                        </div>
-                        <CardContent className="p-6 flex flex-col flex-grow">
-                            <h3 className="font-headline text-2xl font-bold text-primary">{festival.name}</h3>
-                            
-                            <UpcomingFestivalCardClient festival={festival} />
-
-                            <div className="mt-auto pt-4">
-                                <Link href={festival.link}>
-                                  <Button variant="link" className="p-0 text-accent hover:text-accent/90 font-bold">
-                                    Learn More <ArrowRight className="ml-1 h-4 w-4" />
-                                  </Button>
-                                </Link>
+              {upcomingFestivals.map((festival) => {
+                const festivalDate = parse(festival.date, 'MMMM d, yyyy', new Date());
+                return (
+                    <CarouselItem key={festival.name} className="md:basis-1/2 lg:basis-1/3">
+                        <div className="p-1 h-full">
+                          <Card className="overflow-hidden h-full flex flex-col group shadow-lg hover:shadow-2xl transition-shadow duration-300">
+                            <div className="relative h-64 w-full overflow-hidden bg-secondary">
+                               <Image src={festival.image} alt={festival.name} layout="fill" objectFit="cover" className="transition-transform duration-500 ease-in-out group-hover:scale-105" data-ai-hint={festival.hint}/>
                             </div>
-                        </CardContent>
-                      </Card>
-                    </div>
-                </CarouselItem>
-              ))}
+                            <CardContent className="p-6 flex flex-col flex-grow">
+                                <h3 className="font-headline text-2xl font-bold text-primary">{festival.name}</h3>
+                                
+                                <UpcomingFestivalCardClient festivalDate={festivalDate} festivalName={festival.name} />
+
+                                <div className="mt-auto pt-4">
+                                    <Link href={festival.link}>
+                                      <Button variant="link" className="p-0 text-accent hover:text-accent/90 font-bold">
+                                        Learn More <ArrowRight className="ml-1 h-4 w-4" />
+                                      </Button>
+                                    </Link>
+                                </div>
+                            </CardContent>
+                          </Card>
+                        </div>
+                    </CarouselItem>
+                )
+            })}
             </CarouselContent>
             <CarouselPrevious className="hidden md:flex" />
             <CarouselNext className="hidden md:flex" />

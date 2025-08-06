@@ -1,16 +1,9 @@
+
 'use client';
 
 import { useEffect, useState } from "react";
 import { Calendar } from "lucide-react";
-import { parse, differenceInSeconds, isFuture, format, isToday, isSameDay } from 'date-fns';
-
-interface Festival {
-    name: string;
-    date: string;
-    link: string;
-    image: string;
-    hint: string;
-}
+import { format, differenceInSeconds, isFuture, isToday } from 'date-fns';
 
 interface TimeLeft {
     days: number;
@@ -26,10 +19,10 @@ const CountdownUnit = ({ value, label }: { value: number, label: string }) => (
     </div>
 );
 
-const calculateTimeLeft = (festivalDate: Date): TimeLeft | null => {
+const calculateTimeLeft = (targetDate: Date): TimeLeft | null => {
     const now = new Date();
-    if (isFuture(festivalDate) || isSameDay(festivalDate, now)) {
-        const totalSeconds = differenceInSeconds(festivalDate, now);
+    if (isFuture(targetDate)) {
+        const totalSeconds = differenceInSeconds(targetDate, now);
         if (totalSeconds > 0) {
             return {
                 days: Math.floor(totalSeconds / (3600 * 24)),
@@ -42,16 +35,11 @@ const calculateTimeLeft = (festivalDate: Date): TimeLeft | null => {
     return null;
 };
 
-export function UpcomingFestivalCardClient({ festival }: { festival: Festival }) {
-    const festivalDate = parse(festival.date, 'MMMM d, yyyy', new Date());
+export function UpcomingFestivalCardClient({ festivalDate, festivalName }: { festivalDate: Date, festivalName: string }) {
     
-    const [timeLeft, setTimeLeft] = useState<TimeLeft | null>(null);
+    const [timeLeft, setTimeLeft] = useState(calculateTimeLeft(festivalDate));
 
     useEffect(() => {
-        // Run initial calculation
-        setTimeLeft(calculateTimeLeft(festivalDate));
-
-        // Set up the timer
         const timer = setInterval(() => {
             const newTimeLeft = calculateTimeLeft(festivalDate);
             setTimeLeft(newTimeLeft);
@@ -60,10 +48,8 @@ export function UpcomingFestivalCardClient({ festival }: { festival: Festival })
             }
         }, 1000);
 
-        // Cleanup the interval on component unmount
         return () => clearInterval(timer);
-    }, [festival.date]);
-
+    }, [festivalDate]);
 
     return (
         <>
@@ -72,7 +58,7 @@ export function UpcomingFestivalCardClient({ festival }: { festival: Festival })
                 {isToday(festivalDate) ? (
                     <div className="flex items-center gap-2 text-xl text-accent font-bold text-center">
                         <Calendar className="w-6 h-6" />
-                        <span>It's Today! Happy {festival.name}!</span>
+                        <span>It's Today! Happy {festivalName}!</span>
                     </div>
                 ) : timeLeft ? (
                     <div className="grid grid-cols-4 gap-2 text-center w-full max-w-xs">
