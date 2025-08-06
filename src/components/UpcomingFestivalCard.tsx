@@ -33,12 +33,7 @@ export function UpcomingFestivalCard({ festival }: { festival: Festival }) {
                 }
 
                 if (festivalDate < now) {
-                    festivalDate.setFullYear(now.getFullYear() + 1);
-                     // If it's still in the past (e.g. festival was Jan, now is Dec), it means it's for next year.
-                    if (festivalDate < now) {
-                         // This condition might be redundant if the above setFullYear is sufficient
-                         // but it's a safeguard.
-                    }
+                    festivalDate.setFullYear(festivalDate.getFullYear() + 1);
                 }
                 
                 const diff = differenceInDays(festivalDate, now);

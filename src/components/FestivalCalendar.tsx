@@ -21,7 +21,7 @@ const allEvents = [
     { date: "Oct 02, 2024", name: "Gandhi Jayanti", region: "Nationwide", type: "Holiday", link: "/festivals/gandhi-jayanti" },
     { date: "Oct 03, 2024", name: "Navratri", region: "Nationwide", type: "Religious", link: "/festivals/navratri", longWeekend: true },
     { date: "Oct 09, 2024", name: "Durga Puja", region: "East", type: "Religious", link: "/festivals/durga-puja", longWeekend: true },
-    { date: "Oct 31, 2024", name: "Diwali (Lakshmi Puja)", region: "Nationwide", type: "Holiday", link: "/festivals/diwali", longWeekend: true },
+    { date: "Nov 01, 2024", name: "Diwali (Lakshmi Puja)", region: "Nationwide", type: "Holiday", link: "/festivals/diwali", longWeekend: true },
     { date: "Nov 15, 2024", name: "Guru Nanak Jayanti", region: "Nationwide", type: "Religious", link: "/festivals/guru-nanak-jayanti" },
     { date: "Dec 25, 2024", name: "Christmas", region: "Nationwide", type: "Religious", link: "/festivals/christmas" },
 
@@ -157,14 +157,15 @@ export function FestivalCalendar() {
         return allEvents.filter(event => {
             const eventEndDateStr = event.date.split(' - ').pop() || event.date;
             let eventEndDate;
-            if (eventEndDateStr.includes(',')) {
-                eventEndDate = parse(eventEndDateStr, 'MMM dd, yyyy', new Date());
-            } else {
-                const year = getYearFromDateString(event.date);
-                eventEndDate = parse(`${eventEndDateStr}, ${year}`, 'MMM dd, yyyy', new Date());
-            }
-            if (isNaN(eventEndDate.getTime())) return false;
 
+            try {
+                const yearStr = eventEndDateStr.split(', ')[1] || getYearFromDateString(event.date).toString();
+                const datePart = eventEndDateStr.includes(',') ? eventEndDateStr : `${eventEndDateStr}, ${yearStr}`;
+                eventEndDate = parse(datePart, 'MMM dd, yyyy', new Date());
+                 if (isNaN(eventEndDate.getTime())) return false;
+            } catch (e) {
+                return false;
+            }
 
             const eventMonth = getMonthFromDateString(event.date);
             const eventYear = getYearFromDateString(event.date);
