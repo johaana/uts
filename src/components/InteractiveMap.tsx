@@ -5,12 +5,12 @@ import Link from 'next/link';
 import { cn } from '@/lib/utils';
 
 const regions = [
-  { name: 'North', href: '/festivals?region=North', className: 'top-[15%] left-[50%] -translate-x-1/2' },
-  { name: 'West', href: '/festivals?region=West', className: 'top-[45%] left-[30%] -translate-x-1/2' },
-  { name: 'East', href: '/festivals?region=East', className: 'top-[45%] left-[70%] -translate-x-1/2' },
+  { name: 'North', href: '/festivals?region=North', className: 'top-[10%] left-[50%] -translate-x-1/2' },
+  { name: 'West', href: '/festivals?region=West', className: 'top-[45%] left-[28%] -translate-x-1/2' },
+  { name: 'East', href: '/festivals?region=East', className: 'top-[45%] left-[72%] -translate-x-1/2' },
   { name: 'Central', href: '/festivals?region=Central', className: 'top-[50%] left-[50%] -translate-x-1/2' },
-  { name: 'South', href: '/festivals?region=South', className: 'top-[75%] left-[50%] -translate-x-1/2' },
-  { name: 'Northeast', href: '/festivals?region=Northeast', className: 'top-[30%] left-[85%] -translate-x-1/2' },
+  { name: 'South', href: '/festivals?region=South', className: 'top-[80%] left-[50%] -translate-x-1/2' },
+  { name: 'Northeast', href: '/festivals?region=Northeast', className: 'top-[28%] left-[88%] -translate-x-1/2' },
 ];
 
 export function InteractiveMap() {
