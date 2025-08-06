@@ -22,7 +22,7 @@ export default function SingleBlogPage() {
                         </div>
 
                          <div className="relative h-96 w-full mb-8">
-                            <Image src="https://i.postimg.cc/y6n5HJLG/thrissur-puram-festival.jpg" alt="Thrissur Pooram" layout="fill" objectFit="contain" data-ai-hint="kerala temple festival" className="rounded-lg"/>
+                            <Image src="https://i.postimg.cc/j28kQ9WT/thrissur-puram-festival-2.jpg" alt="Thrissur Pooram" layout="fill" objectFit="contain" data-ai-hint="kerala temple festival" className="rounded-lg"/>
                         </div>
 
                         <h2>The Mother of all Poorams</h2>

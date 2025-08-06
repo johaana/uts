@@ -22,7 +22,7 @@ export default function SingleBlogPage() {
                         </div>
 
                          <div className="relative h-96 w-full mb-8">
-                            <Image src="https://i.postimg.cc/CKVJDYvD/gramam.jpg" alt="Kerala Village Fair" layout="fill" objectFit="contain" data-ai-hint="kerala village fair" className="rounded-lg"/>
+                            <Image src="https://i.postimg.cc/FKgpVqq6/gramam-kerala.jpg" alt="Kerala Village Fair" layout="fill" objectFit="contain" data-ai-hint="kerala village fair" className="rounded-lg"/>
                         </div>
 
                         <h2>An Authentic Glimpse of Rural Kerala</h2>

@@ -22,7 +22,7 @@ export default function SingleBlogPage() {
                         </div>
 
                          <div className="relative h-96 w-full mb-8">
-                            <Image src="https://i.postimg.cc/286t8zJS/long-weekend.jpg" alt="Planning calendar for 2025" layout="fill" objectFit="contain" data-ai-hint="holiday planning calendar" className="rounded-lg"/>
+                            <Image src="https://i.postimg.cc/m255PvfN/long-weekend-2.jpg" alt="Planning calendar for 2025" layout="fill" objectFit="contain" data-ai-hint="holiday planning calendar" className="rounded-lg"/>
                         </div>
 
                         <p>The year 2025 is dotted with numerous long weekends, offering perfect opportunities to escape the routine and immerse yourself in India's rich cultural tapestry. By smartly planning your leaves around these dates, you can turn a short break into a memorable vacation. Here’s a comprehensive guide to all the long weekends of 2025, complete with festival-based travel ideas to help you plan your next adventure.</p>

@@ -22,7 +22,7 @@ export default function SingleBlogPage() {
                         </div>
 
                          <div className="relative h-96 w-full mb-8">
-                            <Image src="https://i.postimg.cc/Wz453n5H/hampi-utsav.jpg" alt="Hampi Festival" layout="fill" objectFit="contain" data-ai-hint="hampi ruins" className="rounded-lg"/>
+                            <Image src="https://i.postimg.cc/9Qp5rxbW/hampi-utsav1.webp" alt="Hampi Festival" layout="fill" objectFit="contain" data-ai-hint="hampi ruins" className="rounded-lg"/>
                         </div>
 
                         <h2>Celebrating the Glory of Vijayanagar</h2>
