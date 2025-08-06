@@ -64,27 +64,25 @@ export function Header() {
         
         <div className="flex items-center gap-6">
             <Link href="/" className="flex items-center">
-                <Image src="https://i.postimg.cc/Dz3RFpRR/Beige-And-Orange-Traditional-Indian-Fashion-Business-Logo-20250803-235803-0002.png" alt="Utsavs Logo" width={120} height={40} data-ai-hint="logo" className="rounded-lg" />
+                <Image src="https://i.postimg.cc/qR7Vkp2M/utsavs-logo-cropped.png" alt="Utsavs Logo" width={150} height={50} data-ai-hint="logo" className="rounded-lg" />
             </Link>
+             {/* Desktop Navigation */}
+            <nav className="hidden md:flex items-center gap-6">
+            {navLinks.map((link) => (
+                <Link
+                key={link.href}
+                href={link.href}
+                className={cn(
+                    "text-base font-medium transition-colors hover:text-primary",
+                    pathname.startsWith(link.href) ? "text-primary font-bold" : "text-foreground/80"
+                )}
+                >
+                {link.label}
+                </Link>
+            ))}
+            </nav>
         </div>
         
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-6">
-           {navLinks.map((link) => (
-             <Link
-              key={link.href}
-              href={link.href}
-              className={cn(
-                "text-base font-medium transition-colors hover:text-primary",
-                pathname.startsWith(link.href) ? "text-primary font-bold" : "text-foreground/80"
-              )}
-            >
-              {link.label}
-            </Link>
-           ))}
-        </nav>
-
-
         <div className="flex items-center justify-end gap-2">
             <SearchDialog />
             <div className="md:hidden">
@@ -98,7 +96,7 @@ export function Header() {
                     <SheetContent side="left">
                         <div className="flex flex-col gap-6 pt-10">
                         <Link href="/" className="flex items-center gap-2 mb-4" onClick={() => setOpen(false)}>
-                           <Image src="https://i.postimg.cc/Dz3RFpRR/Beige-And-Orange-Traditional-Indian-Fashion-Business-Logo-20250803-235803-0002.png" alt="Utsavs Logo" width={180} height={60} data-ai-hint="logo" className="rounded-lg" />
+                           <Image src="https://i.postimg.cc/qR7Vkp2M/utsavs-logo-cropped.png" alt="Utsavs Logo" width={180} height={60} data-ai-hint="logo" className="rounded-lg" />
                         </Link>
                         {navLinks.map((link) => (
                             <Link
