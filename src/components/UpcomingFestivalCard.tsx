@@ -7,7 +7,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Calendar } from "lucide-react";
-import { parse, differenceInDays, format, getYear } from 'date-fns';
+import { parse, differenceInDays, format, getYear, addYears } from 'date-fns';
 
 interface Festival {
     name: string;
@@ -33,13 +33,13 @@ export function UpcomingFestivalCard({ festival }: { festival: Festival }) {
                     return; 
                 }
 
+                // If festival date in the current year has already passed, check for next year
                 if (festivalDate < now) {
-                    // If the date has passed this year, check for next year's date
-                    festivalDate.setFullYear(getYear(now) + 1);
+                   festivalDate = addYears(festivalDate, 1);
                 }
                 
                 const diff = differenceInDays(festivalDate, now);
-                setDaysLeft(diff < 0 ? 0 : diff);
+                setDaysLeft(diff);
                 setDisplayDate(format(festivalDate, 'MMMM d, yyyy'));
 
             } catch (error) {
@@ -50,7 +50,6 @@ export function UpcomingFestivalCard({ festival }: { festival: Festival }) {
         };
 
         calculateDaysLeft();
-        // Recalculate once a day
         const interval = setInterval(calculateDaysLeft, 1000 * 60 * 60 * 24); 
         return () => clearInterval(interval);
     }, [festival.date]);

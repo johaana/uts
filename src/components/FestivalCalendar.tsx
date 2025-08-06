@@ -9,7 +9,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { ArrowRight, Star } from "lucide-react";
-import { format, parse, getYear, addYears } from 'date-fns';
+import { format, parse, getYear, isAfter } from 'date-fns';
 
 const allEvents = [
     // 2024
@@ -68,8 +68,8 @@ const allEvents = [
     { date: "Nov 08, 2026", name: "Diwali (Lakshmi Puja)", region: "Nationwide", type: "Holiday", link: "/festivals/diwali", longWeekend: true },
     { date: "Nov 24, 2026", name: "Guru Nanak Jayanti", region: "Nationwide", type: "Religious", link: "/festivals/guru-nanak-jayanti" },
     { date: "Dec 25, 2026", name: "Christmas", region: "Nationwide", type: "Religious", link: "/festivals/christmas", longWeekend: true },
-
-    // Dummy data for future years
+    
+    // Future Dummy Data
     { date: "Oct 28, 2027", name: "Diwali", region: "Nationwide", type: "Holiday", link: "/festivals/diwali", longWeekend: true },
     { date: "Oct 17, 2028", name: "Diwali", region: "Nationwide", type: "Holiday", link: "/festivals/diwali", longWeekend: true },
     { date: "Nov 05, 2029", name: "Diwali", region: "Nationwide", type: "Holiday", link: "/festivals/diwali", longWeekend: true },
@@ -78,7 +78,6 @@ const allEvents = [
     { date: "Nov 02, 2032", name: "Diwali", region: "Nationwide", type: "Holiday", link: "/festivals/diwali", longWeekend: true },
     { date: "Oct 22, 2033", name: "Diwali", region: "Nationwide", type: "Holiday", link: "/festivals/diwali", longWeekend: true },
     { date: "Nov 10, 2034", name: "Diwali", region: "Nationwide", type: "Holiday", link: "/festivals/diwali", longWeekend: true },
-
 ].sort((a, b) => {
     const dateA = parse(a.date.split(' - ')[0], 'MMM dd, yyyy', new Date());
     const dateB = parse(b.date.split(' - ')[0], 'MMM dd, yyyy', new Date());
@@ -166,7 +165,7 @@ export function FestivalCalendar() {
 
             let yearMatch = true;
             if (selectedYear === 'upcoming') {
-                yearMatch = eventEndDate >= now;
+                yearMatch = isAfter(eventEndDate, now) || eventEndDate.getTime() === now.getTime();
             } else if (selectedYear !== 'all') {
                 yearMatch = eventYear === parseInt(selectedYear);
             }
