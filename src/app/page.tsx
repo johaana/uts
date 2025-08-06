@@ -69,7 +69,7 @@ export default function Home() {
        <section className="container mx-auto px-4">
         <FestivalCalendar />
       </section>
-
+      
       <section className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="font-headline text-3xl md:text-4xl font-bold">Explore by Region</h2>
@@ -77,7 +77,7 @@ export default function Home() {
         </div>
         <RegionShowcase />
       </section>
-      
+
       <section className="container mx-auto px-4 pb-16">
         <div className="text-center mb-12">
             <h2 className="font-headline text-3xl md:text-4xl font-bold">The Complete Festival Resource</h2>

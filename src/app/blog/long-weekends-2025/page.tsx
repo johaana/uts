@@ -1,3 +1,4 @@
+
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
@@ -22,55 +23,62 @@ export default function SingleBlogPage() {
                         </div>
 
                          <div className="relative h-96 w-full mb-8">
-                            <Image src="https://i.postimg.cc/m255PvfN/long-weekend-2.jpg" alt="Planning calendar for 2025" layout="fill" objectFit="contain" data-ai-hint="holiday planning calendar" className="rounded-lg"/>
+                            <Image src="https://i.postimg.cc/m255PvfN/long-weekend-2.jpg" alt="Planning calendar for 2025" layout="fill" objectFit="contain" data-ai-hint="holiday planning calendar"/>
                         </div>
 
                         <p>The year 2025 is dotted with numerous long weekends, offering perfect opportunities to escape the routine and immerse yourself in India's rich cultural tapestry. By smartly planning your leaves around these dates, you can turn a short break into a memorable vacation. Here’s a comprehensive guide to all the long weekends of 2025, complete with festival-based travel ideas to help you plan your next adventure.</p>
 
                         <h3>January: Kites and Carnivals</h3>
-                        <p><strong>The Weekend:</strong> January 24th (Friday) to January 26th (Sunday) - Republic Day weekend. <br/>
-                        <strong>Holidays:</strong> Republic Day (Jan 26). <br/>
-                        <strong>Travel Idea:</strong> Head to Gujarat for the International Kite Festival (Uttarayan), which often concludes around this time. Alternatively, experience the grand Republic Day parade in New Delhi.</p>
-
-                        <h3>February: Spring's Arrival and Coastal Vibes</h3>
-                        <p><strong>The Weekend:</strong> February 22nd (Saturday) to February 25th (Tuesday) - Goa Carnival. <br/>
-                        <strong>Holidays:</strong> Goa Carnival. Take one day off on Monday (Feb 24). <br/>
-                        <strong>Travel Idea:</strong> This is the perfect time to be in Goa! Immerse yourself in the vibrant parades, music, and festivities of the <Link href="/festivals/goa-carnival" className="text-accent">Goa Carnival</Link>, a unique celebration with Portuguese roots.</p>
+                        <p><strong>The Weekend:</strong> January 11 (Saturday) to January 14 (Tuesday). <br/>
+                        <strong>Holidays:</strong> Lohri (Jan 13, Monday), Makar Sankranti/Pongal (Jan 14, Tuesday). <br/>
+                        <strong>Travel Idea:</strong> Head to Gujarat for the International Kite Festival (Uttarayan), which often concludes around this time. Alternatively, experience the harvest celebrations of Lohri in Punjab.</p>
 
                         <h3>March: A Splash of Color</h3>
-                        <p><strong>The Weekend:</strong> March 13th (Thursday, Holika Dahan) to March 16th (Sunday). <br/>
-                        <strong>Holidays:</strong> Holi (Mar 14). Take one day off on Friday (Mar 14).<br/>
+                        <p><strong>The Weekend:</strong> March 13 (Thursday, Holika Dahan) to March 16 (Sunday). <br/>
+                        <strong>Holidays:</strong> Holi (Mar 14, Friday). <br/>
                         <strong>Travel Idea:</strong> There's no better place to celebrate <Link href="/festivals/holi" className="text-accent">Holi</Link> than the Braj region of Mathura and Vrindavan in Uttar Pradesh, where the celebrations are legendary and last for weeks.</p>
+                        
+                        <p><strong>The Weekend:</strong> March 29 (Saturday) to March 31 (Monday). <br/>
+                        <strong>Holidays:</strong> Eid-Ul-Fitr (Mar 31, Monday - Tentative). <br/>
+                        <strong>Travel Idea:</strong> Experience the joyous feasts and prayers of Eid in cities like Delhi, Lucknow, or Hyderabad.</p>
 
                         <h3>April: New Beginnings and Harvest Joy</h3>
-                        <p><strong>The Weekend:</strong> April 12th (Saturday) to April 14th (Monday). <br/>
+                        <p><strong>The Weekend:</strong> April 12 (Saturday) to April 14 (Monday). <br/>
                         <strong>Holidays:</strong> Vaisakhi / Bihu / Ambedkar Jayanti (Apr 14). <br/>
                         <strong>Travel Idea:</strong> Witness the vibrant harvest celebrations of <Link href="/festivals/bihu" className="text-accent">Bihu</Link> in Assam or Vaisakhi in Punjab. It's a time of joyous music, dance, and feasting.</p>
+                        
+                        <p><strong>The Weekend:</strong> April 18 (Friday) to April 20 (Sunday). <br/>
+                        <strong>Holidays:</strong> Good Friday (Apr 18). <br/>
+                        <strong>Travel Idea:</strong> A peaceful weekend getaway to places with Christian heritage like Goa or Kerala.</p>
 
-                        <h3>July: Chariots and Devotion</h3>
-                        <p><strong>The Weekend:</strong> June 27th (Friday) to June 29th (Sunday). The Rath Yatra often extends, giving more opportunities. <br/>
-                        <strong>Holidays:</strong> Rath Yatra begins. <br/>
-                        <strong>Travel Idea:</strong> Witness the monumental <Link href="/festivals/rath-yatra" className="text-accent">Rath Yatra</A> in Puri, Odisha, where massive chariots of deities are pulled by millions of devotees. It's a spectacle of pure faith and energy.</p>
-
+                        <h3>May: A Spiritual Retreat</h3>
+                        <p><strong>The Weekend:</strong> May 10 (Saturday) to May 12 (Monday). <br/>
+                        <strong>Holidays:</strong> Buddha Purnima (May 12, Monday). <br/>
+                        <strong>Travel Idea:</strong> Visit Buddhist pilgrimage sites like Bodh Gaya in Bihar or Sarnath in Uttar Pradesh for a serene experience.</p>
+                        
                         <h3>August: Sibling Bonds and Independence</h3>
-                        <p><strong>The Weekend:</strong> August 9th (Saturday, Raksha Bandhan) to August 11th (Monday - take leave). Or August 15th (Friday, Independence Day) to August 17th (Sunday).<br/>
-                        <strong>Holidays:</strong> Raksha Bandhan, Independence Day.<br/>
-                        <strong>Travel Idea:</strong> August offers two great long weekends. Plan a family trip for <Link href="/festivals/raksha-bandhan" className="text-accent">Raksha Bandhan</Link> or use the Independence Day weekend to explore a new city.</p>
+                        <p><strong>The Weekend:</strong> August 15 (Friday, Independence Day) to August 17 (Sunday). <br/>
+                        <strong>Holidays:</strong> Independence Day, Janmashtami (Aug 16).<br/>
+                        <strong>Travel Idea:</strong> Use the Independence Day weekend to explore a new city, or visit Mathura for spectacular Janmashtami celebrations.</p>
 
                         <h3>September: Divine Dances and Harvest Feasts</h3>
-                        <p><strong>The Weekend:</strong> September 27th (Saturday) to October 2nd (Thursday, Gandhi Jayanti).<br/>
-                        <strong>Holidays:</strong> Durga Puja, Navratri, Gandhi Jayanti. Take one or two days off.<br/>
-                        <strong>Travel Idea:</strong> This is a mega-weekend! Head to Kolkata for the incredible artistry of <Link href="/festivals/durga-puja" className="text-accent">Durga Puja</Link> pandals, or visit Gujarat for the electrifying nights of <Link href="/festivals/navratri" className="text-accent">Navratri Garba</Link>.</p>
+                         <p><strong>The Weekend:</strong> September 5 (Friday) to September 7 (Sunday).<br/>
+                        <strong>Holidays:</strong> Id-e-Milad, Onam.<br/>
+                        <strong>Travel Idea:</strong> Experience the grand Onam Sadya feast in Kerala or join the processions for Id-e-Milad.</p>
                         
                         <h3>October: The Grand Festival of Lights</h3>
-                        <p><strong>The Weekend:</strong> October 18th (Saturday) to October 21st (Tuesday, Diwali).<br/>
-                        <strong>Holidays:</strong> Diwali. Take one day off on Monday (Oct 20, Choti Diwali).<br/>
-                        <strong>Travel Idea:</strong> Experience the magic of <Link href="/festivals/diwali" className="text-accent">Diwali</Link> in cities famous for their grand celebrations like Jaipur or Varanasi, where the ghats are lit with thousands of diyas.</p>
+                        <p><strong>The Weekend:</strong> October 1 (Wednesday, Maha Navami) to October 5 (Sunday).<br/>
+                        <strong>Holidays:</strong> Dussehra (Oct 2, Thursday). Take a day off on Friday (Oct 3).<br/>
+                        <strong>Travel Idea:</strong> This is a mega-weekend! Head to Kolkata for the incredible artistry of <Link href="/festivals/durga-puja" className="text-accent">Durga Puja</Link> pandals, or visit Gujarat for the electrifying nights of <Link href="/festivals/navratri" className="text-accent">Navratri Garba</Link>.</p>
 
-                        <h3>December: Tribal Heritage and Festive Cheer</h3>
-                        <p><strong>The Weekend:</strong> December 25th (Thursday, Christmas) to December 28th (Sunday).<br/>
+                        <p><strong>The Weekend:</strong> October 18 (Saturday) to October 20 (Monday).<br/>
+                        <strong>Holidays:</strong> Diwali (Oct 20, Monday).<br/>
+                        <strong>Travel Idea:</strong> Experience the magic of <Link href="/festivals/diwali" className="text-accent">Diwali</Link> in cities famous for their grand celebrations like Jaipur or Varanasi, where the ghats are lit with thousands of diyas.</p>
+                        
+                        <h3>December: Festive Cheer</h3>
+                        <p><strong>The Weekend:</strong> December 25 (Thursday, Christmas) to December 28 (Sunday).<br/>
                         <strong>Holidays:</strong> Christmas. Take one day off on Friday (Dec 26).<br/>
-                        <strong>Travel Idea:</strong> For a unique Christmas experience, head to the <Link href="/festivals/hornbill-festival" className="text-accent">Hornbill Festival</Link> in Nagaland (Dec 1-10) to witness the vibrant culture of the Naga tribes. Alternatively, enjoy the Christmas festivities in places with colonial heritage like Goa or Puducherry.</p>
+                        <strong>Travel Idea:</strong> Enjoy the Christmas festivities in places with colonial heritage like Goa or Puducherry, or head to the hills for a white Christmas experience.</p>
 
                     </article>
                 </CardContent>

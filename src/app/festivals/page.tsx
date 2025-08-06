@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useEffect, useMemo, Suspense } from 'react';
+import { useState, useMemo, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -66,16 +66,16 @@ function FestivalsPageContent() {
     const [selectedRegion, setSelectedRegion] = useState(initialRegion);
     const [sortOrder, setSortOrder] = useState(sortOptions[0]);
 
-    useEffect(() => {
-        setSelectedRegion(initialRegion);
-    }, [initialRegion]);
-    
     const resetFilters = () => {
         setSearchTerm('');
         setSelectedRegion('all');
         setSortOrder(sortOptions[0]);
     };
 
+    useEffect(() => {
+        setSelectedRegion(initialRegion);
+    }, [initialRegion]);
+    
     const filteredAndSortedFestivals = useMemo(() => {
         let festivals = allFestivals.filter(festival => {
             const nameMatch = festival.name.toLowerCase().includes(searchTerm.toLowerCase());
@@ -173,5 +173,3 @@ export default function FestivalsPage() {
         </Suspense>
     );
 }
-
-    

@@ -13,15 +13,15 @@ import { format, parse } from 'date-fns';
 
 const allEvents = [
     // 2025
-    { date: "Jan 13, 2025", name: "Lohri", region: "North", type: "Harvest", link: "/festivals/lohri" },
+    { date: "Jan 13, 2025", name: "Lohri", region: "North", type: "Harvest", link: "/festivals/lohri", longWeekend: true },
     { date: "Jan 14, 2025", name: "Makar Sankranti / Pongal", region: "Nationwide", type: "Harvest", link: "/festivals/makar-sankranti" },
-    { date: "Jan 26, 2025", name: "Republic Day", region: "Nationwide", type: "Holiday", link: "/festivals/republic-day", longWeekend: true },
+    { date: "Jan 26, 2025", name: "Republic Day", region: "Nationwide", type: "Holiday", link: "/festivals/republic-day" },
     { date: "Feb 02, 2025", name: "Vasant Panchami", region: "Nationwide", type: "Seasonal", link: "/festivals/vasant-panchami" },
     { date: "Feb 11, 2025", name: "Thaipusam", region: "South", type: "Religious", link: "/festivals/thaipusam" },
     { date: "Feb 22 - Feb 25, 2025", name: "Goa Carnival", region: "West", type: "Cultural", link: "/festivals/goa-carnival", longWeekend: true },
     { date: "Mar 13 - Mar 14, 2025", name: "Holi", region: "Nationwide", type: "Holiday", link: "/festivals/holi", longWeekend: true },
     { date: "Mar 30, 2025", name: "Gudi Padwa / Ugadi", region: "West & South", type: "New Year", link: "/festivals/gudi-padwa" },
-    { date: "Mar 31, 2025", name: "Eid-al-Fitr", region: "Nationwide", type: "Religious", link: "/festivals/eid-al-fitr" },
+    { date: "Mar 31, 2025", name: "Eid-al-Fitr", region: "Nationwide", type: "Religious", link: "/festivals/eid-al-fitr", longWeekend: true },
     { date: "Apr 14, 2025", name: "Vaisakhi / Bihu", region: "North & Northeast", type: "Harvest", link: "/festivals/bihu", longWeekend: true },
     { date: "Apr 18, 2025", name: "Good Friday", region: "Nationwide", type: "Religious", link: "/festivals/good-friday", longWeekend: true },
     { date: "Apr 21, 2025", name: "Akshaya Tritiya", region: "Nationwide", type: "Religious", link: "/festivals/akshaya-tritiya" },
@@ -54,7 +54,7 @@ const allEvents = [
     { date: "Feb 01, 2026", name: "Thaipusam", region: "South", type: "Religious", link: "/festivals/thaipusam" },
     { date: "Feb 13 - Feb 16, 2026", name: "Goa Carnival", region: "West", type: "Cultural", link: "/festivals/goa-carnival", longWeekend: true },
     { date: "Mar 04, 2026", name: "Holi", region: "Nationwide", type: "Holiday", link: "/festivals/holi" },
-    { date: "Mar 20, 2026", name: "Eid-al-Fitr", region: "Nationwide", type: "Religious", link: "/festivals/eid-al-fitr" },
+    { date: "Mar 20, 2026", name: "Eid-al-Fitr", region: "Nationwide", type: "Religious", link: "/festivals/eid-al-fitr", longWeekend: true },
     { date: "Mar 21, 2026", name: "Gudi Padwa / Ugadi", region: "West & South", type: "New Year", link: "/festivals/gudi-padwa" },
     { date: "Apr 03, 2026", name: "Good Friday", region: "Nationwide", type: "Religious", link: "/festivals/good-friday", longWeekend: true },
     { date: "Apr 10, 2026", name: "Akshaya Tritiya", region: "Nationwide", type: "Religious", link: "/festivals/akshaya-tritiya" },
@@ -114,7 +114,16 @@ export function FestivalCalendar() {
         try {
             const startDate = parse(parts[0], 'MMM dd, yyyy', new Date());
             if (parts.length > 1) {
-                const endDate = parse(parts[1], 'MMM dd, yyyy', new Date());
+                const endDateStr = parts[1];
+                // Check if end date has a year, if not, use start date's year
+                let endDate;
+                if (endDateStr.includes(',')) {
+                    endDate = parse(endDateStr, 'MMM dd, yyyy', new Date());
+                } else {
+                    const year = format(startDate, 'yyyy');
+                    endDate = parse(`${endDateStr}, ${year}`, 'MMM dd, yyyy', new Date());
+                }
+
                 if (format(startDate, 'yyyy') !== format(endDate, 'yyyy')) {
                     return `${format(startDate, 'MMM dd, yyyy')} - ${format(endDate, 'MMM dd, yyyy')}`;
                 } else if (format(startDate, 'MMMM') !== format(endDate, 'MMMM')) {
