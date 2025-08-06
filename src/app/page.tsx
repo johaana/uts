@@ -78,7 +78,7 @@ function FestivalOfTheMonth() {
                     </div>
                 </Card>
             </section>
-        </section>
+        </Card>
     );
 }
 
