@@ -70,7 +70,7 @@ const allRecipes = [
     { link: "/recipes/avial" },
     { link: "/recipes/payasam" },
     { link: "/recipes/shrikhand" },
-    { link: "src/app/recipes/kothimbir-vadi" },
+    { link: "/recipes/kothimbir-vadi" },
     { link: "/recipes/pitha" },
     { link: "/recipes/laru" },
     { link: "/recipes/fish-curry" },
