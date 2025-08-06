@@ -63,6 +63,13 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=PT+Sans:wght@400;700&display=swap" rel="stylesheet" />
+
+        {/* --- Google Search Console Verification (To be filled in later) --- */}
+        <meta name="google-site-verification" content="YOUR_GOOGLE_VERIFICATION_CODE_HERE" />
+
+        {/* --- Google AdSense (To be enabled later) --- */}
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_ADSENSE_CLIENT_ID_HERE" crossOrigin="anonymous"></script>
+
       </head>
       <body className="font-body antialiased">
         <div className="flex min-h-screen flex-col">
