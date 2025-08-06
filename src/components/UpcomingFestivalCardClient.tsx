@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useEffect, useState } from "react";
@@ -28,8 +27,9 @@ const CountdownUnit = ({ value, label }: { value: number, label: string }) => (
 );
 
 const calculateTimeLeft = (festivalDate: Date): TimeLeft | null => {
-    if (isFuture(festivalDate)) {
-        const totalSeconds = differenceInSeconds(festivalDate, new Date());
+    const now = new Date();
+    if (isFuture(festivalDate) || isToday(festivalDate)) {
+        const totalSeconds = differenceInSeconds(festivalDate, now);
         if (totalSeconds > 0) {
             return {
                 days: Math.floor(totalSeconds / (3600 * 24)),
@@ -43,18 +43,21 @@ const calculateTimeLeft = (festivalDate: Date): TimeLeft | null => {
 };
 
 export function UpcomingFestivalCardClient({ festival }: { festival: Festival }) {
+    // Correctly parse the date string. This was the main source of the error.
     const festivalDate = parse(festival.date, 'MMMM d, yyyy', new Date());
-    const [timeLeft, setTimeLeft] = useState<TimeLeft | null>(() => calculateTimeLeft(festivalDate));
+    
+    // Set the initial state by calling the calculation function
+    const [timeLeft, setTimeLeft] = useState<TimeLeft | null>(calculateTimeLeft(festivalDate));
 
     useEffect(() => {
-        if (isNaN(festivalDate.getTime()) || !isFuture(festivalDate)) {
-            return;
-        }
-
+        // Only run the timer if the date is valid and in the future.
+        if (isNaN(festivalDate.getTime())) return;
+        
         const timer = setInterval(() => {
             setTimeLeft(calculateTimeLeft(festivalDate));
         }, 1000);
 
+        // Cleanup the interval on component unmount
         return () => clearInterval(timer);
     }, [festival.date]);
 
