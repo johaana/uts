@@ -75,7 +75,7 @@ export function Header() {
                 <SheetContent side="left">
                     <div className="flex flex-col gap-6 pt-10">
                     <Link href="/" className="flex items-center gap-2 mb-4" onClick={() => setIsOpen(false)}>
-                    <Image src="https://i.postimg.cc/Dz3RFpRR/Beige-And-Orange-Traditional-Indian-Fashion-Business-Logo-20250803-235803-0002.png" alt="Utsavs Logo" width={60} height={60}/>
+                    <Image src="https://i.postimg.cc/tJggpS12/utsavs-logo.png" alt="Utsavs Logo" width={60} height={60}/>
                     </Link>
                     {navLinks.map((link) => (
                         <Link
@@ -95,7 +95,7 @@ export function Header() {
             </Sheet>
             </div>
             <Link href="/" className="hidden md:flex items-center gap-2">
-                <Image src="https://i.postimg.cc/Dz3RFpRR/Beige-And-Orange-Traditional-Indian-Fashion-Business-Logo-20250803-235803-0002.png" alt="Utsavs Logo" width={60} height={60}/>
+                <Image src="https://i.postimg.cc/tJggpS12/utsavs-logo.png" alt="Utsavs Logo" width={60} height={60}/>
             </Link>
         </div>
 
