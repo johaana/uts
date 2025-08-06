@@ -20,14 +20,14 @@ import { UpcomingFestivalCardClient } from "@/components/UpcomingFestivalCardCli
 import { parse } from 'date-fns';
 
 const upcomingFestivals = [
-  { name: "Raksha Bandhan", date: "August 19, 2024", link: "/festivals/raksha-bandhan", image: "https://i.postimg.cc/9MXxXQhY/Raksha-Bandhan.jpg", hint: "rakhi festival" },
-  { name: "Ganesh Chaturthi", date: "September 07, 2024", link: "/festivals/ganesh-chaturthi", image: "https://i.postimg.cc/VNWGcb3N/ganesh-chaturthi-festival.jpg", hint: "ganesha idol" },
-  { name: "Onam", date: "September 15, 2024", link: "/festivals/onam", image: "https://i.postimg.cc/0564g0S7/nandu-menon-h-GHldb-Cg-YDA-unsplash.jpg", hint: "onam feast" },
-  { name: "Navratri", date: "October 03, 2024", link: "/festivals/navratri", image: "https://i.postimg.cc/GhWjwdnN/Navratri.jpg", hint: "garba dance" },
-  { name: "Durga Puja", date: "October 09, 2024", link: "/festivals/durga-puja", image: "https://i.postimg.cc/nL3Jwd9d/East-India-festivals.webp", hint: "durga idol" },
-  { name: "Diwali", date: "October 31, 2024", link: "/festivals/diwali", image: "https://i.postimg.cc/SjF8HhM1/Diwali2.jpg", hint: "diwali celebration" },
-  { name: "Lohri", date: "January 13, 2025", link: "/festivals/lohri", image: "https://i.postimg.cc/kGQ9w7QS/north-india-festivals.webp", hint: "lohri bonfire" },
-  { name: "Holi", date: "March 14, 2025", link: "/festivals/holi", image: "https://i.postimg.cc/fWFvx4J9/aceofnet-PNd98-z-An-U0-unsplash.jpg", hint: "holi celebration" }
+  { name: "Raksha Bandhan", date: "2024-08-19T00:00:00", link: "/festivals/raksha-bandhan", image: "https://i.postimg.cc/9MXxXQhY/Raksha-Bandhan.jpg", hint: "rakhi festival" },
+  { name: "Ganesh Chaturthi", date: "2024-09-07T00:00:00", link: "/festivals/ganesh-chaturthi", image: "https://i.postimg.cc/VNWGcb3N/ganesh-chaturthi-festival.jpg", hint: "ganesha idol" },
+  { name: "Onam", date: "2024-09-15T00:00:00", link: "/festivals/onam", image: "https://i.postimg.cc/0564g0S7/nandu-menon-h-GHldb-Cg-YDA-unsplash.jpg", hint: "onam feast" },
+  { name: "Navratri", date: "2024-10-03T00:00:00", link: "/festivals/navratri", image: "https://i.postimg.cc/GhWjwdnN/Navratri.jpg", hint: "garba dance" },
+  { name: "Durga Puja", date: "2024-10-09T00:00:00", link: "/festivals/durga-puja", image: "https://i.postimg.cc/nL3Jwd9d/East-India-festivals.webp", hint: "durga idol" },
+  { name: "Diwali", date: "2024-10-31T00:00:00", link: "/festivals/diwali", image: "https://i.postimg.cc/SjF8HhM1/Diwali2.jpg", hint: "diwali celebration" },
+  { name: "Lohri", date: "2025-01-13T00:00:00", link: "/festivals/lohri", image: "https://i.postimg.cc/kGQ9w7QS/north-india-festivals.webp", hint: "lohri bonfire" },
+  { name: "Holi", date: "2025-03-14T00:00:00", link: "/festivals/holi", image: "https://i.postimg.cc/fWFvx4J9/aceofnet-PNd98-z-An-U0-unsplash.jpg", hint: "holi celebration" }
 ];
 
 function ResourceSummary() {
@@ -93,7 +93,7 @@ export default function Home() {
           </p>
           <div className="mt-10">
             <Link href="/festivals">
-              <Button>
+              <Button variant="default" size="lg">
                 Explore All Festivals <ArrowRight className="ml-2" />
               </Button>
             </Link>
@@ -120,7 +120,6 @@ export default function Home() {
           >
             <CarouselContent>
               {upcomingFestivals.map((festival) => {
-                const festivalDate = parse(festival.date, 'MMMM d, yyyy', new Date());
                 return (
                     <CarouselItem key={festival.name} className="md:basis-1/2 lg:basis-1/3">
                         <div className="p-1 h-full">
@@ -131,7 +130,7 @@ export default function Home() {
                             <CardContent className="p-6 flex flex-col flex-grow">
                                 <h3 className="font-headline text-2xl font-bold text-primary">{festival.name}</h3>
                                 
-                                <UpcomingFestivalCardClient festivalDate={festivalDate} festivalName={festival.name} />
+                                <UpcomingFestivalCardClient festivalDateString={festival.date} festivalName={festival.name} />
 
                                 <div className="mt-auto pt-4">
                                     <Link href={festival.link}>

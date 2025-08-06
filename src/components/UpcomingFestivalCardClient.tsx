@@ -3,7 +3,7 @@
 
 import { useEffect, useState } from "react";
 import { Calendar } from "lucide-react";
-import { format, differenceInSeconds, isFuture, isToday } from 'date-fns';
+import { format, differenceInSeconds, isFuture, isToday, parseISO } from 'date-fns';
 
 interface TimeLeft {
     days: number;
@@ -35,8 +35,10 @@ const calculateTimeLeft = (targetDate: Date): TimeLeft | null => {
     return null;
 };
 
-export function UpcomingFestivalCardClient({ festivalDate, festivalName }: { festivalDate: Date, festivalName: string }) {
+export function UpcomingFestivalCardClient({ festivalDateString, festivalName }: { festivalDateString: string, festivalName: string }) {
     
+    // The prop is a string, so we must parse it into a Date object on the client.
+    const festivalDate = parseISO(festivalDateString);
     const [timeLeft, setTimeLeft] = useState(calculateTimeLeft(festivalDate));
 
     useEffect(() => {
