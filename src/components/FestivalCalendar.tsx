@@ -9,8 +9,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { ArrowRight, Star } from "lucide-react";
-import { format, parse, isAfter, startOfToday, addYears } from 'date-fns';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
+import { format, parse, isAfter, startOfToday, addYears, isValid } from 'date-fns';
 
 const allEvents = [
     // 2025
@@ -55,7 +54,7 @@ const allEvents = [
     { date: "Feb 13 - Feb 16, 2026", name: "Goa Carnival", region: "West", type: "Cultural", link: "/festivals/goa-carnival" },
     { date: "Mar 04, 2026", name: "Holi", region: "Nationwide", type: "Holiday", link: "/festivals/holi" },
     { date: "Mar 20, 2026", name: "Eid-al-Fitr", region: "Nationwide", type: "Religious", link: "/festivals/eid-al-fitr" },
-    { date: "Mar 21, 2026", name: "Ugadi / Gudi Padwa", region: "South & West", type: "New Year", link: "/festivals/ugadi" },
+    { date: "Mar 21, 2026", name: "Ugadi / Gudi Padwa", region: "South & West", type: "New Year", link: "/festivals/gudi-padwa" },
     { date: "Apr 03, 2026", name: "Good Friday", region: "Nationwide", type: "Religious", link: "/festivals/good-friday" },
     { date: "Apr 10, 2026", name: "Akshaya Tritiya", region: "Nationwide", type: "Religious", link: "/festivals/akshaya-tritiya" },
     { date: "Apr 14, 2026", name: "Vaisakhi / Bihu / Vishu", region: "North & Northeast & South", type: "Harvest", link: "/festivals/bihu" },
@@ -178,18 +177,41 @@ export function FestivalCalendar() {
         }
     };
 
-    const getDateObject = (dateString: string) => {
-        const datePart = dateString.split(' - ')[1] || dateString.split(' - ')[0];
+    const getStartDateObject = (dateString: string) => {
+        const datePart = dateString.split(' - ')[0];
         return parse(datePart, 'MMM dd, yyyy', new Date());
     };
+
+    const getEndDateObject = (dateString: string) => {
+        const dateParts = dateString.split(' - ');
+        const endDateStr = dateParts.length > 1 ? dateParts[1] : dateParts[0];
+         const year = getYearFromDateString(dateString);
+        // Handle cases like "Feb 22 - 25, 2025"
+        let fullEndDateStr = endDateStr;
+        if (!endDateStr.includes(',')) {
+            const month = getStartDateObject(dateString).toLocaleString('default', { month: 'short' });
+            fullEndDateStr = `${month} ${endDateStr}, ${year}`;
+        }
+        return parse(fullEndDateStr, 'MMM dd, yyyy', new Date());
+    };
+
+    const formatFullDate = (dateString: string) => {
+        const startDate = getStartDateObject(dateString);
+        if (!isValid(startDate)) {
+            return dateString; // Return original string if date is invalid
+        }
+        return format(startDate, 'EEEE, ') + dateString;
+    }
     
     const filteredEvents = allEvents.filter(event => {
-        const eventDate = getDateObject(event.date);
+        const eventEndDate = getEndDateObject(event.date);
         const today = startOfToday();
         
+        if (!isValid(eventEndDate)) return false; // Skip invalid dates
+
         if (selectedYear === 'upcoming' && isClient) {
             const oneYearFromNow = addYears(today, 1);
-            if (!isAfter(eventDate, today) || isAfter(eventDate, oneYearFromNow)) {
+            if (!isAfter(eventEndDate, today) || isAfter(eventEndDate, oneYearFromNow)) {
                 return false;
             }
         }
@@ -289,7 +311,7 @@ export function FestivalCalendar() {
                     <Table>
                         <TableHeader>
                             <TableRow>
-                                <TableHead className="w-[200px]">Date</TableHead>
+                                <TableHead className="w-[250px]">Date</TableHead>
                                 <TableHead>Name</TableHead>
                                 <TableHead>Region</TableHead>
                                 <TableHead>Type</TableHead>
@@ -300,7 +322,7 @@ export function FestivalCalendar() {
                             {filteredEvents.length > 0 ? (
                                 filteredEvents.map((event) => (
                                     <TableRow key={event.name + event.date}>
-                                        <TableCell className="font-medium">{event.date}</TableCell>
+                                        <TableCell className="font-medium">{formatFullDate(event.date)}</TableCell>
                                         <TableCell className="font-bold text-base flex items-center gap-2">
                                             {event.isLongWeekend && <Star className="w-4 h-4 text-amber-500 fill-amber-500" />}
                                             {event.name}
