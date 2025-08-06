@@ -61,9 +61,9 @@ export function Header() {
     <header className="bg-card/95 border-b backdrop-blur-sm sticky top-0 z-50">
       <div className="container mx-auto flex h-20 items-center justify-between px-4">
         
-        <div className="flex-1 flex justify-start">
+        <div className="flex items-center justify-start">
              <Link href="/" className="flex items-center gap-2">
-                <Image src="https://i.postimg.cc/tCYyQVjX/4.png" alt="Utsavs Logo" width={48} height={48} />
+                <Image src="https://i.postimg.cc/tCYyQVjX/4.png" alt="Utsavs Logo" width={64} height={64} className="h-16 w-16"/>
              </Link>
         </div>
 
@@ -82,7 +82,7 @@ export function Header() {
           ))}
         </nav>
         
-        <div className="flex-1 flex justify-end items-center">
+        <div className="flex justify-end items-center" style={{ flexBasis: 'content' }}>
             <div className="hidden md:flex">
                 <SearchDialog />
             </div>
