@@ -13,16 +13,16 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel"
-import { UpcomingFestivalCard } from "@/components/UpcomingFestivalCard";
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
+import { UpcomingFestivalCardClient } from "@/components/UpcomingFestivalCardClient";
 
 const upcomingFestivals = [
   { name: "Raksha Bandhan", date: "August 19, 2024", link: "/festivals/raksha-bandhan", image: "https://i.postimg.cc/9MXxXQhY/Raksha-Bandhan.jpg", hint: "rakhi festival" },
-  { name: "Ganesh Chaturthi", date: "September 7, 2024", link: "/festivals/ganesh-chaturthi", image: "https://i.postimg.cc/VNWGcb3N/ganesh-chaturthi-festival.jpg", hint: "ganesha idol" },
+  { name: "Ganesh Chaturthi", date: "September 07, 2024", link: "/festivals/ganesh-chaturthi", image: "https://i.postimg.cc/VNWGcb3N/ganesh-chaturthi-festival.jpg", hint: "ganesha idol" },
   { name: "Onam", date: "September 15, 2024", link: "/festivals/onam", image: "https://i.postimg.cc/0564g0S7/nandu-menon-h-GHldb-Cg-YDA-unsplash.jpg", hint: "onam feast" },
-  { name: "Navratri", date: "October 3, 2024", link: "/festivals/navratri", image: "https://i.postimg.cc/GhWjwdnN/Navratri.jpg", hint: "garba dance" },
-  { name: "Durga Puja", date: "October 9, 2024", link: "/festivals/durga-puja", image: "https://i.postimg.cc/nL3Jwd9d/East-India-festivals.webp", hint: "durga idol" },
+  { name: "Navratri", date: "October 03, 2024", link: "/festivals/navratri", image: "https://i.postimg.cc/GhWjwdnN/Navratri.jpg", hint: "garba dance" },
+  { name: "Durga Puja", date: "October 09, 2024", link: "/festivals/durga-puja", image: "https://i.postimg.cc/nL3Jwd9d/East-India-festivals.webp", hint: "durga idol" },
   { name: "Diwali", date: "October 31, 2024", link: "/festivals/diwali", image: "https://i.postimg.cc/SjF8HhM1/Diwali2.jpg", hint: "diwali celebration" },
   { name: "Lohri", date: "January 13, 2025", link: "/festivals/lohri", image: "https://i.postimg.cc/kGQ9w7QS/north-india-festivals.webp", hint: "lohri bonfire" },
   { name: "Holi", date: "March 14, 2025", link: "/festivals/holi", image: "https://i.postimg.cc/fWFvx4J9/aceofnet-PNd98-z-An-U0-unsplash.jpg", hint: "holi celebration" }
@@ -61,16 +61,16 @@ function FestivalOfTheMonth() {
                     <div className="grid grid-cols-1 md:grid-cols-2 items-center">
                          <div className="p-8 md:p-12 order-2 md:order-1">
                             <p className="text-sm font-semibold uppercase tracking-widest text-accent mb-2">September Feature</p>
-                            <h3 className="font-headline text-4xl font-bold mb-4">Onam</h3>
-                            <p className="text-foreground/80 mb-6">Experience the vibrant harvest festival of Kerala, a ten-day celebration of the mythical King Mahabali's homecoming. Discover the joy of the Onasadya feast, the beauty of Pookalam floral carpets, and the thrill of the Vallam Kali boat races.</p>
-                            <Link href="/festivals/onam">
+                            <h3 className="font-headline text-4xl font-bold mb-4">Ganesh Chaturthi</h3>
+                            <p className="text-foreground/80 mb-6">Celebrate the birth of the beloved elephant-headed god, Lord Ganesha. This vibrant festival is marked by the installation of beautiful Ganesha idols, prayers, feasting on modaks, and grand processions for the idol immersion.</p>
+                            <Link href="/festivals/ganesh-chaturthi">
                                 <Button>
-                                    Explore Onam <ArrowRight className="ml-2" />
+                                    Explore Ganesh Chaturthi <ArrowRight className="ml-2" />
                                 </Button>
                             </Link>
                         </div>
                         <div className="relative h-64 md:h-full order-1 md:order-2 min-h-[300px]">
-                             <Image src="https://i.postimg.cc/tJ3RkTB3/Onam.png" alt="Onam Festival" layout="fill" objectFit="cover" data-ai-hint="onam kathakali"/>
+                             <Image src="https://i.postimg.cc/VNWGcb3N/ganesh-chaturthi-festival.jpg" alt="Ganesh Chaturthi Festival" layout="fill" objectFit="cover" data-ai-hint="ganesha idol"/>
                         </div>
                     </div>
                 </Card>
@@ -91,7 +91,7 @@ export default function Home() {
           </p>
           <div className="mt-10">
             <Link href="/festivals">
-              <Button size="lg">
+              <Button>
                 Explore All Festivals <ArrowRight className="ml-2" />
               </Button>
             </Link>
@@ -119,7 +119,26 @@ export default function Home() {
             <CarouselContent>
               {upcomingFestivals.map((festival) => (
                 <CarouselItem key={festival.name} className="md:basis-1/2 lg:basis-1/3">
-                  <UpcomingFestivalCard festival={festival} />
+                    <div className="p-1 h-full">
+                      <Card className="overflow-hidden h-full flex flex-col group shadow-lg hover:shadow-2xl transition-shadow duration-300">
+                        <div className="relative h-64 w-full overflow-hidden bg-secondary">
+                           <Image src={festival.image} alt={festival.name} layout="fill" objectFit="cover" className="transition-transform duration-500 ease-in-out group-hover:scale-105" data-ai-hint={festival.hint}/>
+                        </div>
+                        <CardContent className="p-6 flex flex-col flex-grow">
+                            <h3 className="font-headline text-2xl font-bold text-primary">{festival.name}</h3>
+                            
+                            <UpcomingFestivalCardClient festival={festival} />
+
+                            <div className="mt-auto pt-4">
+                                <Link href={festival.link}>
+                                  <Button variant="link" className="p-0 text-accent hover:text-accent/90 font-bold">
+                                    Learn More <ArrowRight className="ml-1 h-4 w-4" />
+                                  </Button>
+                                </Link>
+                            </div>
+                        </CardContent>
+                      </Card>
+                    </div>
                 </CarouselItem>
               ))}
             </CarouselContent>

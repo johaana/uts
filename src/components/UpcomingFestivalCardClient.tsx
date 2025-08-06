@@ -28,7 +28,7 @@ const CountdownUnit = ({ value, label }: { value: number, label: string }) => (
 
 const calculateTimeLeft = (festivalDate: Date): TimeLeft | null => {
     const now = new Date();
-    if (isFuture(festivalDate) || isToday(festivalDate)) {
+    if (isFuture(festivalDate) || isSameDay(festivalDate, now)) {
         const totalSeconds = differenceInSeconds(festivalDate, now);
         if (totalSeconds > 0) {
             return {
@@ -43,18 +43,21 @@ const calculateTimeLeft = (festivalDate: Date): TimeLeft | null => {
 };
 
 export function UpcomingFestivalCardClient({ festival }: { festival: Festival }) {
-    // Correctly parse the date string. This was the main source of the error.
     const festivalDate = parse(festival.date, 'MMMM d, yyyy', new Date());
     
-    // Set the initial state by calling the calculation function
-    const [timeLeft, setTimeLeft] = useState<TimeLeft | null>(calculateTimeLeft(festivalDate));
+    const [timeLeft, setTimeLeft] = useState<TimeLeft | null>(null);
 
     useEffect(() => {
-        // Only run the timer if the date is valid and in the future.
-        if (isNaN(festivalDate.getTime())) return;
-        
+        // Run initial calculation
+        setTimeLeft(calculateTimeLeft(festivalDate));
+
+        // Set up the timer
         const timer = setInterval(() => {
-            setTimeLeft(calculateTimeLeft(festivalDate));
+            const newTimeLeft = calculateTimeLeft(festivalDate);
+            setTimeLeft(newTimeLeft);
+            if (!newTimeLeft) {
+                clearInterval(timer);
+            }
         }, 1000);
 
         // Cleanup the interval on component unmount
