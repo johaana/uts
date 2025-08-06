@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -16,19 +15,21 @@ import {
 } from "@/components/ui/carousel"
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
+import React from "react";
 import { UpcomingFestivalCardClient } from "@/components/UpcomingFestivalCardClient";
-import { parse } from 'date-fns';
 
-const upcomingFestivals = [
+
+const allUpcomingFestivals = [
   { name: "Raksha Bandhan", date: "2024-08-19T00:00:00", link: "/festivals/raksha-bandhan", image: "https://i.postimg.cc/9MXxXQhY/Raksha-Bandhan.jpg", hint: "rakhi festival" },
   { name: "Ganesh Chaturthi", date: "2024-09-07T00:00:00", link: "/festivals/ganesh-chaturthi", image: "https://i.postimg.cc/VNWGcb3N/ganesh-chaturthi-festival.jpg", hint: "ganesha idol" },
   { name: "Onam", date: "2024-09-15T00:00:00", link: "/festivals/onam", image: "https://i.postimg.cc/0564g0S7/nandu-menon-h-GHldb-Cg-YDA-unsplash.jpg", hint: "onam feast" },
   { name: "Navratri", date: "2024-10-03T00:00:00", link: "/festivals/navratri", image: "https://i.postimg.cc/GhWjwdnN/Navratri.jpg", hint: "garba dance" },
   { name: "Durga Puja", date: "2024-10-09T00:00:00", link: "/festivals/durga-puja", image: "https://i.postimg.cc/nL3Jwd9d/East-India-festivals.webp", hint: "durga idol" },
-  { name: "Diwali", date: "2024-10-31T00:00:00", link: "/festivals/diwali", image: "https://i.postimg.cc/SjF8HhM1/Diwali2.jpg", hint: "diwali celebration" },
+  { name: "Diwali", date: "2024-11-01T00:00:00", link: "/festivals/diwali", image: "https://i.postimg.cc/SjF8HhM1/Diwali2.jpg", hint: "diwali celebration" },
   { name: "Lohri", date: "2025-01-13T00:00:00", link: "/festivals/lohri", image: "https://i.postimg.cc/kGQ9w7QS/north-india-festivals.webp", hint: "lohri bonfire" },
   { name: "Holi", date: "2025-03-14T00:00:00", link: "/festivals/holi", image: "https://i.postimg.cc/fWFvx4J9/aceofnet-PNd98-z-An-U0-unsplash.jpg", hint: "holi celebration" }
 ];
+
 
 function ResourceSummary() {
   return (
@@ -76,7 +77,7 @@ function FestivalOfTheMonth() {
                         </div>
                     </div>
                 </Card>
-            </div>
+            </section>
         </section>
     );
 }
@@ -119,28 +120,11 @@ export default function Home() {
             className="w-full"
           >
             <CarouselContent>
-              {upcomingFestivals.map((festival) => {
+              {allUpcomingFestivals.map((festival, index) => {
                 return (
-                    <CarouselItem key={festival.name} className="md:basis-1/2 lg:basis-1/3">
+                    <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
                         <div className="p-1 h-full">
-                          <Card className="overflow-hidden h-full flex flex-col group shadow-lg hover:shadow-2xl transition-shadow duration-300">
-                            <div className="relative h-64 w-full overflow-hidden bg-secondary">
-                               <Image src={festival.image} alt={festival.name} layout="fill" objectFit="cover" className="transition-transform duration-500 ease-in-out group-hover:scale-105" data-ai-hint={festival.hint}/>
-                            </div>
-                            <CardContent className="p-6 flex flex-col flex-grow">
-                                <h3 className="font-headline text-2xl font-bold text-primary">{festival.name}</h3>
-                                
-                                <UpcomingFestivalCardClient festivalDateString={festival.date} festivalName={festival.name} />
-
-                                <div className="mt-auto pt-4">
-                                    <Link href={festival.link}>
-                                      <Button variant="link" className="p-0 text-accent hover:text-accent/90 font-bold">
-                                        Learn More <ArrowRight className="ml-1 h-4 w-4" />
-                                      </Button>
-                                    </Link>
-                                </div>
-                            </CardContent>
-                          </Card>
+                          <UpcomingFestivalCardClient festival={festival} />
                         </div>
                     </CarouselItem>
                 )
