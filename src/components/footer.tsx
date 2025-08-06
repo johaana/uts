@@ -2,7 +2,6 @@
 'use client';
 
 import Link from "next/link";
-import { UtsavsLogo } from "./icons";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { useRouter } from "next/navigation";
@@ -10,6 +9,7 @@ import React from "react";
 import { useToast } from "@/hooks/use-toast";
 import { subscribeToNewsletter } from "@/ai/flows/subscribe-flow";
 import { Search } from "lucide-react";
+import Image from "next/image";
 
 export function Footer() {
   const router = useRouter();
@@ -62,7 +62,17 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-12 gap-12">
             <div className="lg:col-span-3">
                  <Link href="/" className="flex items-center gap-2 mb-4">
-                    <UtsavsLogo />
+                    <div className="relative h-20 w-40">
+                      <Image 
+                        src="https://i.postimg.cc/Gh0W1Kj4/Beige-And-Orange-Traditional-Indian-Fashion-Business-Logo-20250803-235803-0002.png" 
+                        alt="Utsavs Logo" 
+                        layout="fill"
+                        objectFit="contain"
+                        objectPosition="center"
+                        priority 
+                        unoptimized
+                      />
+                    </div>
                 </Link>
                 <p className="text-foreground/80 max-w-xs text-sm">
                   Your guide to the vibrant world of Indian festivals.

@@ -1,18 +1,7 @@
 
 import Image from "next/image";
 
-export function UtsavsLogo() {
-  return (
-    <div className="relative h-20 w-40">
-      <Image 
-        src="https://i.postimg.cc/Gh0W1Kj4/Beige-And-Orange-Traditional-Indian-Fashion-Business-Logo-20250803-235803-0002.png" 
-        alt="Utsavs Logo" 
-        layout="fill"
-        objectFit="contain"
-        objectPosition="center"
-        priority 
-        unoptimized
-      />
-    </div>
-  );
-}
+// This file can be used for other icons if needed.
+// The UtsavsLogo component has been moved directly into the header and footer
+// to resolve a persistent hydration error.
+
