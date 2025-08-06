@@ -24,57 +24,44 @@ interface TimeLeft {
     seconds: number;
 }
 
+const CountdownUnit = ({ value, label }: { value: number, label: string }) => (
+    <div className="flex flex-col items-center">
+        <span className="text-2xl font-bold font-mono text-accent tracking-tighter">{String(value).padStart(2, '0')}</span>
+        <span className="text-xs text-muted-foreground">{label}</span>
+    </div>
+);
+
 export function UpcomingFestivalCard({ festival }: { festival: Festival }) {
     const [timeLeft, setTimeLeft] = useState<TimeLeft | null>(null);
-    const [isFestivalToday, setIsFestivalToday] = useState(false);
-    const [displayDate, setDisplayDate] = useState(festival.date);
+    const [isPast, setIsPast] = useState(false);
+
+    const festivalDate = parse(festival.date, 'MMMM d, yyyy', new Date());
 
     useEffect(() => {
-        const calculateTimeLeft = () => {
-            try {
-                const festivalDate = parse(festival.date, 'MMMM d, yyyy', new Date());
-                const now = new Date();
+        if (isNaN(festivalDate.getTime())) return;
 
-                if (isNaN(festivalDate.getTime())) {
-                    setTimeLeft(null);
-                    return;
-                }
-
-                setDisplayDate(format(festivalDate, 'MMMM d, yyyy'));
-
-                if (isToday(festivalDate)) {
-                    setIsFestivalToday(true);
-                    setTimeLeft(null);
-                    return;
-                }
-                
-                setIsFestivalToday(false);
-
-                if (isFuture(festivalDate)) {
-                    const totalSeconds = differenceInSeconds(festivalDate, now);
-                    if (totalSeconds <= 0) {
-                        setTimeLeft(null);
-                    } else {
-                        setTimeLeft({
-                            days: Math.floor(totalSeconds / (3600 * 24)),
-                            hours: Math.floor((totalSeconds % (3600 * 24)) / 3600),
-                            minutes: Math.floor((totalSeconds % 3600) / 60),
-                            seconds: Math.floor(totalSeconds % 60),
-                        });
-                    }
+        const timer = setInterval(() => {
+            if (isFuture(festivalDate)) {
+                const totalSeconds = differenceInSeconds(festivalDate, new Date());
+                 if (totalSeconds > 0) {
+                    setTimeLeft({
+                        days: Math.floor(totalSeconds / (3600 * 24)),
+                        hours: Math.floor((totalSeconds % (3600 * 24)) / 3600),
+                        minutes: Math.floor((totalSeconds % 3600) / 60),
+                        seconds: Math.floor(totalSeconds % 60),
+                    });
                 } else {
                     setTimeLeft(null);
+                    setIsPast(true);
                 }
-            } catch (error) {
-                console.error("Error calculating time left:", error);
+            } else {
                 setTimeLeft(null);
+                setIsPast(true);
             }
-        };
+        }, 1000);
 
-        calculateTimeLeft();
-        const timer = setInterval(calculateTimeLeft, 1000);
         return () => clearInterval(timer);
-    }, [festival.date]);
+    }, [festival.date, festivalDate]);
     
     return (
         <div className="p-1 h-full">
@@ -83,30 +70,36 @@ export function UpcomingFestivalCard({ festival }: { festival: Festival }) {
                <Image src={festival.image} alt={festival.name} layout="fill" objectFit="cover" className="transition-transform duration-500 ease-in-out group-hover:scale-105" data-ai-hint={festival.hint}/>
             </div>
             <CardContent className="p-6 flex flex-col flex-grow">
-                <h3 className="font-headline text-2xl font-bold flex-grow h-14 text-primary">{festival.name}</h3>
-                <div className="text-sm text-muted-foreground mb-4">
-                    <p>{displayDate}</p>
-                    <div className="flex items-center gap-2 mt-2 text-accent font-bold h-5">
-                       {isFestivalToday ? (
-                            <>
-                                <Calendar className="w-4 h-4" />
-                                <span>It's Today!</span>
-                            </>
-                       ) : timeLeft ? (
-                             <div className="flex items-baseline space-x-1 font-mono">
-                                <div><span className="text-lg">{timeLeft.days}</span><span className="text-xs">d</span></div>
-                                <div><span className="text-lg">{String(timeLeft.hours).padStart(2,'0')}</span><span className="text-xs">h</span></div>
-                                <div><span className="text-lg">{String(timeLeft.minutes).padStart(2, '0')}</span><span className="text-xs">m</span></div>
-                                <div><span className="text-lg">{String(timeLeft.seconds).padStart(2, '0')}</span><span className="text-xs">s</span></div>
-                            </div>
-                       ) : null}
-                    </div>
+                <h3 className="font-headline text-2xl font-bold text-primary">{festival.name}</h3>
+                <p className="text-sm text-muted-foreground mb-4">{format(festivalDate, 'MMMM d, yyyy')}</p>
+                
+                <div className="h-16 flex items-center justify-center my-2">
+                    {isToday(festivalDate) ? (
+                        <div className="flex items-center gap-2 text-2xl text-accent font-bold">
+                            <Calendar className="w-6 h-6" />
+                            <span>It's Today! Happy {festival.name}!</span>
+                        </div>
+                    ) : timeLeft ? (
+                        <div className="grid grid-cols-4 gap-2 text-center w-full max-w-xs">
+                           <CountdownUnit value={timeLeft.days} label="Days" />
+                           <CountdownUnit value={timeLeft.hours} label="Hours" />
+                           <CountdownUnit value={timeLeft.minutes} label="Mins" />
+                           <CountdownUnit value={timeLeft.seconds} label="Secs" />
+                        </div>
+                   ) : isPast ? (
+                        <div className="text-muted-foreground">This festival has passed.</div>
+                   ): (
+                        <div className="text-muted-foreground">Calculating...</div>
+                   ) }
                 </div>
-                <Link href={festival.link}>
-                  <Button variant="link" className="p-0 mt-auto text-accent hover:text-accent/90 font-bold">
-                    Learn More <ArrowRight className="ml-1 h-4 w-4" />
-                  </Button>
-                </Link>
+
+                <div className="mt-auto pt-4">
+                    <Link href={festival.link}>
+                      <Button variant="link" className="p-0 text-accent hover:text-accent/90 font-bold">
+                        Learn More <ArrowRight className="ml-1 h-4 w-4" />
+                      </Button>
+                    </Link>
+                </div>
             </CardContent>
           </Card>
         </div>
