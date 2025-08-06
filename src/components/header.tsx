@@ -14,7 +14,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { Input } from "./ui/input";
-import Image from "next/image";
 
 const navLinks = [
   { href: "/festivals", label: "Festivals" },
@@ -64,7 +63,7 @@ export function Header() {
         
         <div className="flex items-center gap-6">
             <Link href="/" className="flex items-center">
-                <Image src="https://i.postimg.cc/9F77pZ5f/Beige-And-Orange-Traditional-Indian-Fashion-Business-Logo-20250803-235803-0002.png" alt="Utsavs Logo" width={180} height={60} className="h-auto" data-ai-hint="logo" />
+                 <img src="https://i.postimg.cc/9F77pZ5f/Beige-And-Orange-Traditional-Indian-Fashion-Business-Logo-20250803-235803-0002.png" alt="Utsavs Logo" style={{height: '50px'}} />
             </Link>
              {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center gap-6">
@@ -96,7 +95,7 @@ export function Header() {
                     <SheetContent side="left">
                         <div className="flex flex-col gap-6 pt-10">
                         <Link href="/" className="flex items-center gap-2 mb-4" onClick={() => setOpen(false)}>
-                           <Image src="https://i.postimg.cc/9F77pZ5f/Beige-And-Orange-Traditional-Indian-Fashion-Business-Logo-20250803-235803-0002.png" alt="Utsavs Logo" width={180} height={60} data-ai-hint="logo" />
+                           <img src="https://i.postimg.cc/9F77pZ5f/Beige-And-Orange-Traditional-Indian-Fashion-Business-Logo-20250803-235803-0002.png" alt="Utsavs Logo" style={{height: '60px'}} />
                         </Link>
                         {navLinks.map((link) => (
                             <Link
