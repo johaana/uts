@@ -102,7 +102,7 @@ export function UpcomingFestivalCardClient({ festival }: { festival: Festival })
                 </div>
                 
                 <div className="h-[92px] flex items-center justify-center">
-                    {timeLeft && isClient ? (
+                    {isClient && timeLeft ? (
                         <div className="flex justify-center gap-2">
                             <CountdownBox value={timeLeft.days} label="Days" />
                             <CountdownBox value={timeLeft.hours} label="Hours" />
@@ -111,7 +111,7 @@ export function UpcomingFestivalCardClient({ festival }: { festival: Festival })
                         </div>
                     ) : (
                          <div className="text-center font-bold text-accent py-3 px-4 rounded-lg bg-accent/10">
-                            Happy Festival!
+                            {isClient ? 'Happy Festival!' : 'Loading Countdown...'}
                         </div>
                     )}
                 </div>
