@@ -19,41 +19,42 @@ const CountdownUnit = ({ value, label }: { value: number, label: string }) => (
     </div>
 );
 
+// This function now runs safely on the client
 const calculateTimeLeft = (targetDate: Date): TimeLeft | null => {
     const now = new Date();
-    if (isFuture(targetDate) || isToday(targetDate)) {
-        const totalSeconds = differenceInSeconds(targetDate, now);
-        if (totalSeconds > 0) {
-            return {
-                days: Math.floor(totalSeconds / (3600 * 24)),
-                hours: Math.floor((totalSeconds % (3600 * 24)) / 3600),
-                minutes: Math.floor((totalSeconds % 3600) / 60),
-                seconds: Math.floor(totalSeconds % 60),
-            };
-        }
+    if (!isFuture(targetDate) && !isToday(targetDate)) {
+        return null; // The date is in the past
     }
-    return null;
+    const totalSeconds = differenceInSeconds(targetDate, now);
+    if (totalSeconds <= 0) {
+        return null; // Time is up
+    }
+    return {
+        days: Math.floor(totalSeconds / (3600 * 24)),
+        hours: Math.floor((totalSeconds % (3600 * 24)) / 3600),
+        minutes: Math.floor((totalSeconds % 3600) / 60),
+        seconds: Math.floor(totalSeconds % 60),
+    };
 };
 
 export function UpcomingFestivalCardClient({ festivalDateString, festivalName }: { festivalDateString: string, festivalName: string }) {
     
-    // The prop is a string, so we must parse it into a Date object on the client.
-    // This was the main source of previous errors. parseISO correctly handles the format.
-    const [festivalDate] = useState(parseISO(festivalDateString));
+    // We start with null state and calculate it on the client to avoid hydration mismatch
     const [timeLeft, setTimeLeft] = useState<TimeLeft | null>(null);
+    const [festivalDate, setFestivalDate] = useState<Date | null>(null);
+    const [isClient, setIsClient] = useState(false);
 
     useEffect(() => {
-        // Set initial time left immediately
-        setTimeLeft(calculateTimeLeft(festivalDate));
+        // This ensures the component has mounted on the client
+        setIsClient(true);
+        const parsedDate = parseISO(festivalDateString);
+        setFestivalDate(parsedDate);
 
-        // Set up the timer only if the festival date is valid and in the future
-        if (!festivalDate || !isFuture(festivalDate)) {
-            setTimeLeft(null); // Clear any existing timer if the date has passed
-            return;
-        }
+        // Set initial time left
+        setTimeLeft(calculateTimeLeft(parsedDate));
 
         const timer = setInterval(() => {
-            const newTimeLeft = calculateTimeLeft(festivalDate);
+            const newTimeLeft = calculateTimeLeft(parsedDate);
             setTimeLeft(newTimeLeft);
             if (!newTimeLeft) {
                 clearInterval(timer);
@@ -62,7 +63,19 @@ export function UpcomingFestivalCardClient({ festivalDateString, festivalName }:
 
         // Clear the interval when the component is unmounted
         return () => clearInterval(timer);
-    }, [festivalDate]);
+    }, [festivalDateString]);
+
+    if (!isClient || !festivalDate) {
+        // Render a placeholder or nothing on the server and initial client render
+        return (
+             <>
+                <p className="text-sm text-muted-foreground mb-4">{format(parseISO(festivalDateString), 'MMMM d, yyyy')}</p>
+                <div className="h-20 flex items-center justify-center my-2">
+                    <div className="text-muted-foreground">Loading countdown...</div>
+                </div>
+            </>
+        )
+    }
 
     return (
         <>
