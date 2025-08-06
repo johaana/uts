@@ -14,41 +14,41 @@ export const useCountdown = (targetDateString: string): TimeLeft | null => {
     const [timeLeft, setTimeLeft] = useState<TimeLeft | null>(null);
 
     useEffect(() => {
+        // Ensure this code only runs on the client
         const targetDate = new Date(targetDateString);
-
         if (isNaN(targetDate.getTime())) {
-            // Invalid date string provided
             setTimeLeft(null);
             return;
         }
 
-        const timer = setInterval(() => {
+        // Function to calculate time left
+        const calculateTimeLeft = () => {
             const now = new Date();
             const difference = targetDate.getTime() - now.getTime();
 
             if (difference > 0) {
-                setTimeLeft({
+                return {
                     days: Math.floor(difference / (1000 * 60 * 60 * 24)),
                     hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
                     minutes: Math.floor((difference / 1000 / 60) % 60),
                     seconds: Math.floor((difference / 1000) % 60),
-                });
-            } else {
-                setTimeLeft(null);
-                clearInterval(timer);
+                };
             }
+            return null;
+        };
+        
+        // Set initial value
+        setTimeLeft(calculateTimeLeft());
+
+        // Set up interval to update every second
+        const timer = setInterval(() => {
+            setTimeLeft(calculateTimeLeft());
         }, 1000);
 
-        // Initial calculation
-        const now = new Date();
-        const difference = targetDate.getTime() - now.getTime();
-        if (difference <= 0) {
-            setTimeLeft(null);
-        }
-
-
+        // Cleanup interval on component unmount
         return () => clearInterval(timer);
-    }, [targetDateString]);
+        
+    }, [targetDateString]); // Rerun effect if targetDateString changes
 
     return timeLeft;
 };
