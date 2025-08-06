@@ -12,6 +12,19 @@ import { ArrowRight, Star } from "lucide-react";
 import { format, parse } from 'date-fns';
 
 const allEvents = [
+    // 2024
+    { date: "Aug 15, 2024", name: "Independence Day", region: "Nationwide", type: "Holiday", link: "/festivals/independence-day", longWeekend: true },
+    { date: "Aug 19, 2024", name: "Raksha Bandhan", region: "Nationwide", type: "Cultural", link: "/festivals/raksha-bandhan", longWeekend: true },
+    { date: "Aug 26, 2024", name: "Janmashtami", region: "Nationwide", type: "Religious", link: "#" },
+    { date: "Sep 07, 2024", name: "Ganesh Chaturthi", region: "West & South", type: "Religious", link: "/festivals/ganesh-chaturthi" },
+    { date: "Sep 15, 2024", name: "Onam", region: "South", type: "Harvest", link: "/festivals/onam", longWeekend: true },
+    { date: "Oct 02, 2024", name: "Gandhi Jayanti", region: "Nationwide", type: "Holiday", link: "/festivals/gandhi-jayanti" },
+    { date: "Oct 03, 2024", name: "Navratri", region: "Nationwide", type: "Religious", link: "/festivals/navratri", longWeekend: true },
+    { date: "Oct 09, 2024", name: "Durga Puja", region: "East", type: "Religious", link: "/festivals/durga-puja", longWeekend: true },
+    { date: "Oct 31, 2024", name: "Diwali (Lakshmi Puja)", region: "Nationwide", type: "Holiday", link: "/festivals/diwali", longWeekend: true },
+    { date: "Nov 15, 2024", name: "Guru Nanak Jayanti", region: "Nationwide", type: "Religious", link: "/festivals/guru-nanak-jayanti" },
+    { date: "Dec 25, 2024", name: "Christmas", region: "Nationwide", type: "Religious", link: "/festivals/christmas" },
+
     // 2025
     { date: "Jan 13, 2025", name: "Lohri", region: "North", type: "Harvest", link: "/festivals/lohri", longWeekend: true },
     { date: "Jan 14, 2025", name: "Makar Sankranti / Pongal", region: "Nationwide", type: "Harvest", link: "/festivals/makar-sankranti" },
@@ -82,7 +95,7 @@ const allEvents = [
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const regions = ["Nationwide", "North", "South", "East", "West", "Northeast", "Central"];
 const eventTypes = ["Festivals", "Holidays", "Long Weekends"];
-const availableYears = ["2025", "2026"];
+const availableYears = ["2024", "2025", "2026"];
 
 export function FestivalCalendar() {
     const [selectedMonth, setSelectedMonth] = useState('all');
@@ -139,19 +152,25 @@ export function FestivalCalendar() {
 
     const filteredEvents = useMemo(() => {
         const now = new Date();
-        const nextYear = new Date();
-        nextYear.setFullYear(now.getFullYear() + 1);
-
+        now.setHours(0,0,0,0); // set to start of today
+        
         return allEvents.filter(event => {
-            const eventStartDateStr = event.date.split(' - ')[0];
-            const eventStartDate = parse(eventStartDateStr, 'MMM dd, yyyy', new Date());
-            if (isNaN(eventStartDate.getTime())) return false;
+            const eventEndDateStr = event.date.split(' - ').pop() || event.date;
+            let eventEndDate;
+            if (eventEndDateStr.includes(',')) {
+                eventEndDate = parse(eventEndDateStr, 'MMM dd, yyyy', new Date());
+            } else {
+                const year = getYearFromDateString(event.date);
+                eventEndDate = parse(`${eventEndDateStr}, ${year}`, 'MMM dd, yyyy', new Date());
+            }
+            if (isNaN(eventEndDate.getTime())) return false;
+
 
             const eventMonth = getMonthFromDateString(event.date);
             const eventYear = getYearFromDateString(event.date);
 
             const yearMatch = selectedYear === 'all' ||
-                              (selectedYear === 'upcoming' && eventStartDate >= now && eventStartDate <= nextYear) ||
+                              (selectedYear === 'upcoming' && eventEndDate >= now) ||
                               eventYear === parseInt(selectedYear);
             const monthMatch = selectedMonth === 'all' || eventMonth === selectedMonth;
             const regionMatch = selectedRegion === 'all' || event.region === selectedRegion || event.region.includes(selectedRegion);
@@ -202,7 +221,7 @@ export function FestivalCalendar() {
                                 <SelectValue placeholder="Year" />
                             </SelectTrigger>
                             <SelectContent>
-                                <SelectItem value="upcoming">Upcoming (1 Year)</SelectItem>
+                                <SelectItem value="upcoming">Upcoming</SelectItem>
                                 <SelectItem value="all">All Years</SelectItem>
                                 {availableYears.map(year => <SelectItem key={year} value={String(year)}>{year}</SelectItem>)}
                             </SelectContent>

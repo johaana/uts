@@ -13,7 +13,7 @@ const allFestivals = [
     { name: "Diwali", region: "Nationwide", description: "The festival of lights, symbolizing the victory of light over darkness and good over evil.", link: "/festivals/diwali" },
     { name: "Holi", region: "Nationwide", description: "The vibrant festival of colors, celebrating the arrival of spring, love, and the triumph of good.", link: "/festivals/holi" },
     { name: "Eid-al-Fitr", region: "Nationwide", description: "Marking the end of Ramadan, this festival is a joyous celebration of feasting, prayer, and charity.", link: "/festivals/eid-al-fitr" },
-    { name: "Navratri", region: "West & North", description: "A nine-night festival dedicated to worshipping the nine forms of the goddess Durga, famous for its energetic Garba dances.", link: "/festivals/navratri" },
+    { name: "Navratri", region: "Nationwide", description: "A nine-night festival dedicated to worshipping the nine forms of the goddess Durga, famous for its energetic Garba dances.", link: "/festivals/navratri" },
     { name: "Durga Puja", region: "East", description: "A grand ten-day festival in Bengal celebrating the goddess Durga's victory over the demon Mahishasur.", link: "/festivals/durga-puja" },
     { name: "Ganesh Chaturthi", region: "West & South", description: "A spectacular festival celebrating the birth of Lord Ganesha, the god of new beginnings and wisdom.", link: "/festivals/ganesh-chaturthi" },
     { name: "Christmas", region: "Nationwide", description: "Celebrating the birth of Jesus Christ, marked by carols, feasts, and the spirit of giving.", link: "/festivals/christmas" },

@@ -7,7 +7,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Calendar } from "lucide-react";
-import { parse, differenceInDays } from 'date-fns';
+import { parse, differenceInDays, format } from 'date-fns';
 
 interface Festival {
     name: string;
@@ -32,13 +32,17 @@ export function UpcomingFestivalCard({ festival }: { festival: Festival }) {
                     return; 
                 }
 
-                // If festival date has passed for the current year, set it to next year.
                 if (festivalDate < now) {
-                    festivalDate.setFullYear(festivalDate.getFullYear() + 1);
+                    festivalDate.setFullYear(now.getFullYear() + 1);
+                     // If it's still in the past (e.g. festival was Jan, now is Dec), it means it's for next year.
+                    if (festivalDate < now) {
+                         // This condition might be redundant if the above setFullYear is sufficient
+                         // but it's a safeguard.
+                    }
                 }
                 
                 const diff = differenceInDays(festivalDate, now);
-                setDaysLeft(diff);
+                setDaysLeft(diff < 0 ? 0 : diff);
 
             } catch (error) {
                 console.error("Error parsing date:", festival.date, error);
@@ -60,7 +64,7 @@ export function UpcomingFestivalCard({ festival }: { festival: Festival }) {
             <CardContent className="p-6 flex flex-col flex-grow">
                 <h3 className="font-headline text-2xl font-bold flex-grow h-14 text-primary">{festival.name}</h3>
                 <div className="text-sm text-muted-foreground mb-4">
-                    <p>{festival.date}</p>
+                    <p>{format(parse(festival.date, 'MMMM d, yyyy', new Date()), 'MMMM d, yyyy')}</p>
                     {daysLeft !== null && (
                          <div className="flex items-center gap-2 mt-2 text-accent font-bold">
                             <Calendar className="w-4 h-4" />
