@@ -1,10 +1,10 @@
+
 'use client';
 
-import { useState, useEffect } from 'react';
-import { differenceInSeconds, isFuture, parseISO, isToday } from 'date-fns';
-import { Card, CardContent } from './ui/card';
 import Link from 'next/link';
 import Image from 'next/image';
+import { Card, CardContent } from './ui/card';
+import { useCountdown } from '@/hooks/useCountdown';
 
 interface Festival {
     name: string;
@@ -12,13 +12,6 @@ interface Festival {
     link: string;
     image: string;
     hint: string;
-}
-
-interface TimeLeft {
-    days: number;
-    hours: number;
-    minutes: number;
-    seconds: number;
 }
 
 function CountdownBox({ value, label }: { value: number, label: string }) {
@@ -30,53 +23,19 @@ function CountdownBox({ value, label }: { value: number, label: string }) {
     );
 }
 
+function FestivalDateDisplay({ dateString }: { dateString: string }) {
+    try {
+        const date = new Date(dateString);
+        return <p className="text-sm text-muted-foreground mb-4">{new Intl.DateTimeFormat('en-US', { dateStyle: 'full' }).format(date)}</p>;
+    } catch (e) {
+        return <p className="text-sm text-muted-foreground mb-4">Invalid Date</p>;
+    }
+}
+
+
 export function UpcomingFestivalCardClient({ festival }: { festival: Festival }) {
-    const [timeLeft, setTimeLeft] = useState<TimeLeft | null>(null);
-    const [isClient, setIsClient] = useState(false);
+    const timeLeft = useCountdown(festival.date);
 
-    useEffect(() => {
-        setIsClient(true);
-    }, []);
-
-    useEffect(() => {
-        if (!isClient) return;
-
-        const calculateAndSetTimeLeft = () => {
-            const now = new Date();
-            const festivalDate = parseISO(festival.date);
-            
-            if (isFuture(festivalDate) || isToday(festivalDate)) {
-                const totalSeconds = differenceInSeconds(festivalDate, now);
-                if (totalSeconds > 0) {
-                    setTimeLeft({
-                        days: Math.floor(totalSeconds / (3600 * 24)),
-                        hours: Math.floor((totalSeconds % (3600 * 24)) / 3600),
-                        minutes: Math.floor((totalSeconds % 3600) / 60),
-                        seconds: Math.floor(totalSeconds % 60),
-                    });
-                } else {
-                    setTimeLeft(null); // Festival has passed
-                }
-            } else {
-                setTimeLeft(null); // Festival has passed
-            }
-        };
-
-        calculateAndSetTimeLeft();
-        const timer = setInterval(calculateAndSetTimeLeft, 1000);
-
-        return () => clearInterval(timer);
-    }, [isClient, festival.date]);
-
-    const getFestivalDateDisplay = () => {
-        try {
-            const date = parseISO(festival.date);
-            return new Intl.DateTimeFormat('en-US', { dateStyle: 'full' }).format(date);
-        } catch (e) {
-            return "Invalid Date";
-        }
-    };
-    
     return (
         <Card className="h-full overflow-hidden group flex flex-col shadow-lg hover:shadow-2xl transition-shadow duration-300">
             <div className="relative h-64 w-full overflow-hidden">
@@ -97,17 +56,11 @@ export function UpcomingFestivalCardClient({ festival }: { festival: Festival })
                             {festival.name}
                         </Link>
                     </h3>
-                    <p className="text-sm text-muted-foreground mb-4">
-                        {getFestivalDateDisplay()}
-                    </p>
+                    <FestivalDateDisplay dateString={festival.date} />
                 </div>
                 
                 <div className="h-[92px] flex items-center justify-center">
-                    {!isClient ? (
-                         <div className="mt-4 text-center font-bold text-accent py-3 px-4 rounded-lg bg-accent/10 h-[92px] flex items-center justify-center">
-                            Loading Countdown...
-                        </div>
-                    ) : timeLeft ? (
+                    {timeLeft ? (
                         <div className="flex justify-center gap-2">
                             <CountdownBox value={timeLeft.days} label="Days" />
                             <CountdownBox value={timeLeft.hours} label="Hours" />
