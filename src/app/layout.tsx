@@ -7,12 +7,12 @@ import { Footer } from '@/components/footer';
 import { BackToTopButton } from '@/components/BackToTopButton';
 
 export const metadata: Metadata = {
-  title: "Utsavs - Your Guide to Indian Festivals",
-  description: "Explore the vibrant traditions, stories, and recipes of India's most celebrated festivals. Your essential guide for dates, rituals, and cultural insights.",
+  title: "Utsavs: Your Definitive Guide to Indian Festivals",
+  description: "Your essential guide to the dates, rituals, and stories behind India's vibrant celebrations. Discover authentic recipes, explore cultural traditions, and plan your year with our comprehensive festival calendar.",
 };
 
 export const viewport: Viewport = {
-  themeColor: "#ffffff",
+  themeColor: "#F8F5F1",
 };
 
 export default function RootLayout({

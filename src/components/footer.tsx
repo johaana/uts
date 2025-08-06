@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Search } from "lucide-react";
+import Image from "next/image";
 
 export function Footer() {
   const router = useRouter();
@@ -28,7 +29,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12">
             <div className="lg:col-span-4">
                  <Link href="/" className="flex items-center gap-2 mb-4">
-                    <img src="/logo.svg" alt="Utsavs Logo" style={{height: '60px'}} />
+                    <Image src="https://i.postimg.cc/Dz3RFpRR/Beige-And-Orange-Traditional-Indian-Fashion-Business-Logo-20250803-235803-0002.png" alt="Utsavs Logo" width={60} height={60} />
                 </Link>
                 <p className="text-foreground/80 max-w-xs text-sm">
                   Your definitive guide to the vibrant world of Indian festivals. Explore dates, traditions, recipes, and stories.

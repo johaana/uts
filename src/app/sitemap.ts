@@ -70,13 +70,21 @@ const allRecipes = [
     { link: "/recipes/avial" },
     { link: "/recipes/payasam" },
     { link: "/recipes/shrikhand" },
-    { link: "/recipes/kothimbir-vadi" },
+    { link: "src/app/recipes/kothimbir-vadi" },
     { link: "/recipes/pitha" },
     { link: "/recipes/laru" },
     { link: "/recipes/fish-curry" },
     { link: "/recipes/khechudi" },
     { link: "/recipes/dalma" },
     { link: "/recipes/poda-pitha" },
+    { link: "/recipes/aloo-gobi" },
+    { link: "/recipes/kaddu-bhaat" },
+    { link: "/recipes/rasia-kheer" },
+    { link: "/recipes/sakkarai-pongal" },
+    { link: "/recipes/sambar" },
+    { link: "/recipes/medu-vada" },
+    { link: "/recipes/ven-pongal" },
+    { link: "/recipes/tilgul" },
 ];
 
 const blogPosts = [

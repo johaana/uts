@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Button } from "./ui/button";
 import { Menu, Search } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import React from "react";
 import {
@@ -23,8 +23,21 @@ const navLinks = [
 ];
 
 function SearchDialog() {
+  const router = useRouter();
+  const [open, setOpen] = React.useState(false);
+
+  const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const searchQuery = formData.get('search') as string;
+    if (searchQuery.trim()) {
+      router.push(`/festivals?search=${searchQuery.trim()}`);
+      setOpen(false);
+    }
+  };
+
     return (
-        <Dialog>
+        <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
                 <Button variant="ghost" size="icon">
                     <Search className="h-5 w-5" />
@@ -36,7 +49,9 @@ function SearchDialog() {
                  <p className="text-sm text-muted-foreground">
                     Search for festivals, recipes, and blog posts.
                  </p>
-                 <Input placeholder="e.g. Diwali" />
+                 <form onSubmit={handleSearch}>
+                    <Input name="search" placeholder="e.g. Diwali" />
+                 </form>
             </DialogContent>
         </Dialog>
     )
@@ -44,13 +59,14 @@ function SearchDialog() {
 
 export function Header() {
   const pathname = usePathname();
+  const [isOpen, setIsOpen] = React.useState(false);
 
   return (
-    <header className="bg-background/95 border-b backdrop-blur-sm sticky top-0 z-50">
-      <div className="container mx-auto flex h-24 items-center px-4">
+    <header className="bg-background/80 border-b backdrop-blur-sm sticky top-0 z-50">
+      <div className="container mx-auto flex h-20 items-center justify-between px-4">
         
         <div className="md:hidden">
-          <Sheet>
+          <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon">
                 <Menu className="h-6 w-6" />
@@ -59,18 +75,18 @@ export function Header() {
             </SheetTrigger>
             <SheetContent side="left">
                 <div className="flex flex-col gap-6 pt-10">
-                <Link href="/" className="flex items-center gap-2 mb-4">
-                  <Image src="/logo.svg" alt="Utsavs Logo" width={40} height={40}/>
-                  <span className="font-bold font-headline text-2xl">Utsavs</span>
+                <Link href="/" className="flex items-center gap-2 mb-4" onClick={() => setIsOpen(false)}>
+                  <Image src="https://i.postimg.cc/Dz3RFpRR/Beige-And-Orange-Traditional-Indian-Fashion-Business-Logo-20250803-235803-0002.png" alt="Utsavs Logo" width={50} height={50}/>
                 </Link>
                 {navLinks.map((link) => (
                     <Link
-                    key={link.href}
-                    href={link.href}
-                    className={cn(
-                        "text-lg font-medium transition-colors hover:text-primary",
-                        pathname.startsWith(link.href) ? "text-primary" : "text-foreground"
-                    )}
+                      key={link.href}
+                      href={link.href}
+                      onClick={() => setIsOpen(false)}
+                      className={cn(
+                          "text-lg font-medium transition-colors hover:text-primary",
+                          pathname.startsWith(link.href) ? "text-primary" : "text-foreground"
+                      )}
                     >
                     {link.label}
                     </Link>
@@ -80,14 +96,13 @@ export function Header() {
           </Sheet>
         </div>
 
-        <div className="flex-1 flex justify-center md:justify-start">
+        <div className="flex-shrink-0">
              <Link href="/" className="flex items-center gap-2">
-                <Image src="/logo.svg" alt="Utsavs Logo" width={50} height={50}/>
-                <span className="font-bold font-headline text-3xl hidden md:inline-block">Utsavs</span>
+                <Image src="https://i.postimg.cc/Dz3RFpRR/Beige-And-Orange-Traditional-Indian-Fashion-Business-Logo-20250803-235803-0002.png" alt="Utsavs Logo" width={60} height={60}/>
             </Link>
         </div>
 
-        <nav className="hidden md:flex flex-1 justify-end items-center gap-6">
+        <nav className="hidden md:flex flex-1 justify-center items-center gap-8">
           {navLinks.map((link) => (
             <Link
               key={link.href}
@@ -100,10 +115,9 @@ export function Header() {
               {link.label}
             </Link>
           ))}
-           <SearchDialog />
         </nav>
         
-        <div className="md:hidden flex-1 flex justify-end">
+        <div className="flex-shrink-0">
             <SearchDialog />
         </div>
 
