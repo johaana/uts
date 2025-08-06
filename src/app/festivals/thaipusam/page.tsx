@@ -9,7 +9,6 @@ export default function ThaipusamPage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-primary/10">
-                 <Image src="https://i.postimg.cc/prgQW4B1/thaipusam.jpg" alt="Thaipusam" layout="fill" objectFit="cover" className="absolute opacity-20" data-ai-hint="tamil festival" />
                 <div className="relative text-center text-primary-foreground">
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-white shadow-lg">Thaipusam</h1>
                     <p className="text-xl md:text-2xl mt-4 text-white/90 shadow-md">A Festival of Faith and Penance</p>

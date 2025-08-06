@@ -15,7 +15,6 @@ export default function HoliPage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-primary/10">
-                 <Image src="https://i.postimg.cc/rsXF5WNy/holi.jpg" alt="Holi festival of colors" layout="fill" objectFit="cover" className="absolute opacity-20" data-ai-hint="holi colors"/>
                 <div className="relative text-center text-primary-foreground z-10">
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-white shadow-lg">Holi</h1>
                     <p className="text-xl md:text-2xl mt-4 text-white/90 shadow-md">The Festival of Colors</p>
@@ -142,7 +141,7 @@ export default function HoliPage() {
                                                     <div className="w-8 h-8 rounded-full bg-green-500 mr-4 mt-1 shrink-0"></div>
                                                     <div>
                                                         <h4 className="font-bold">Verdant Green</h4>
-                                                        <p>For a dry green, use pure henna (mehendi) powder mixed with flour to achieve the desired shade. You can also dry and powder leaves like neem or mint. For a wet green, simply make a paste from spinach, mint, or coriander leaves.</p>
+                                                        <p>For a dry green, use pure henna (mehendi) powder mixed with flour to achieve the desired shade. You can also make a paste from spinach, mint, or coriander leaves.</p>
                                                     </div>
                                                 </li>
                                                  <li className="flex items-start">

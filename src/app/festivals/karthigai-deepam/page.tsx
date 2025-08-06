@@ -8,7 +8,6 @@ export default function KarthigaiDeepamPage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-amber-500/10">
-                 <Image src="https://i.postimg.cc/brM9vjDZ/Diya-diwali.webp" alt="Oil Lamps" layout="fill" objectFit="cover" className="absolute opacity-20" data-ai-hint="oil lamps"/>
                 <div className="relative text-center text-primary-foreground z-10 p-4">
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-amber-900 drop-shadow-lg">Karthigai Deepam</h1>
                     <p className="text-xl md:text-2xl mt-4 text-amber-800/90 drop-shadow-md">The Tamil Festival of Lights</p>

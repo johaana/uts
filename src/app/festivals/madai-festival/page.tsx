@@ -8,7 +8,6 @@ export default function MadaiFestivalPage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-yellow-600/10">
-                 <Image src="https://i.postimg.cc/rmVJnj2w/Pushkar-Camel-Fair.avif" alt="Madai Festival" layout="fill" objectFit="cover" className="absolute opacity-20" data-ai-hint="tribal festival"/>
                 <div className="relative text-center z-10 p-4">
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-yellow-900 drop-shadow-lg">Madai Festival</h1>
                     <p className="text-xl md:text-2xl mt-4 text-yellow-800/90 drop-shadow-md">A Vibrant Tribal Fair of Chhattisgarh</p>

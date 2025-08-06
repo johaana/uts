@@ -15,7 +15,6 @@ export default function MakarSankrantiPage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-primary/10">
-                <Image src="https://i.postimg.cc/kgQyP7Ym/makar-sankranti1.webp" alt="Makar Sankranti kites" layout="fill" objectFit="cover" className="absolute opacity-20" data-ai-hint="kite festival" />
                 <div className="relative text-center text-primary-foreground">
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-white shadow-lg">Makar Sankranti</h1>
                     <p className="text-xl md:text-2xl mt-4 text-white/90 shadow-md">The Sun's Journey Northward</p>

@@ -8,7 +8,6 @@ export default function HareliFestivalPage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-green-700/10">
-                 <Image src="https://i.postimg.cc/rmVJnj2w/Pushkar-Camel-Fair.avif" alt="Hareli Festival" layout="fill" objectFit="cover" className="absolute opacity-20" data-ai-hint="chhattisgarh harvest"/>
                 <div className="relative text-center z-10 p-4">
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-green-900 drop-shadow-lg">Hareli Festival</h1>
                     <p className="text-xl md:text-2xl mt-4 text-green-800/90 drop-shadow-md">Chhattisgarh's Green Harvest Festival</p>

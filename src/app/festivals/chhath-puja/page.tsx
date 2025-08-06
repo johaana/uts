@@ -15,7 +15,6 @@ export default function ChhathPujaPage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-orange-500/10">
-                <Image src="https://i.postimg.cc/KYmDZCCg/chath-puja-festival1.webp" alt="Chhath Puja" layout="fill" objectFit="cover" className="absolute opacity-20" data-ai-hint="sun worship" />
                 <div className="relative text-center text-primary-foreground p-4">
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-orange-900 drop-shadow-lg">Chhath Puja</h1>
                     <p className="text-xl md:text-2xl mt-4 text-orange-800/90 drop-shadow-md">An Ancient Vedic Festival of Sun Worship</p>

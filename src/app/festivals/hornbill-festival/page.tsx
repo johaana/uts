@@ -9,7 +9,6 @@ export default function HornbillFestivalPage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-primary/10">
-                 <Image src="https://i.postimg.cc/tJnB8vjD/Hornbill-Festival.jpg" alt="Hornbill Festival" layout="fill" objectFit="cover" className="absolute opacity-30" data-ai-hint="naga festival" />
                 <div className="relative text-center text-primary-foreground z-10 p-4">
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-primary/90 drop-shadow-lg">Hornbill Festival</h1>
                     <p className="text-xl md:text-2xl mt-4 text-primary/90 drop-shadow-md">The Festival of Festivals</p>

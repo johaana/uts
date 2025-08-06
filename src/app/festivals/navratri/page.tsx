@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BookOpen, Sparkles, MessageSquareQuote, CalendarDays, Leaf } from "lucide-react";
@@ -20,7 +21,6 @@ export default function NavratriPage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-primary/10">
-                 <Image src="https://i.postimg.cc/BZRyqQpL/garba-navratri.jpg" alt="Garba dance" layout="fill" objectFit="cover" className="absolute opacity-20" data-ai-hint="garba dance"/>
                 <div className="relative text-center text-primary-foreground z-10">
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-white shadow-lg">Navratri</h1>
                     <p className="text-xl md:text-2xl mt-4 text-white/90 shadow-md">Nine Nights of Divine Feminine Power</p>

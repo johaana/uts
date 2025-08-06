@@ -15,7 +15,6 @@ export default function EidAlFitrPage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-primary/10">
-                 <Image src="https://i.postimg.cc/Dm3FbTFS/Eid2.jpg" alt="Eid prayers" layout="fill" objectFit="cover" className="absolute opacity-20" data-ai-hint="eid prayers"/>
                 <div className="relative text-center text-primary-foreground z-10">
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-white shadow-lg">Eid al-Fitr</h1>
                     <p className="text-xl md:text-2xl mt-4 text-white/90 shadow-md">The Festival of Breaking the Fast</p>

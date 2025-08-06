@@ -8,7 +8,6 @@ export default function TeejPage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-green-500/10">
-                 <Image src="https://i.postimg.cc/Kj45FYzX/festive-Indian-attire.png" alt="Women celebrating Teej" layout="fill" objectFit="cover" className="absolute opacity-20" data-ai-hint="indian women festival"/>
                 <div className="relative text-center text-primary-foreground z-10 p-4">
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-green-900 drop-shadow-lg">Teej</h1>
                     <p className="text-xl md:text-2xl mt-4 text-green-800/90 drop-shadow-md">The Monsoon Festival of Swings</p>

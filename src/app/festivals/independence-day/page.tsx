@@ -8,7 +8,6 @@ export default function IndependenceDayPage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-green-50/20">
-                 <Image src="https://i.postimg.cc/kG6pM4vB/Camel-Festival-Bikaner-Rajasthan.jpg" alt="Indian Flag" layout="fill" objectFit="cover" className="absolute opacity-20" data-ai-hint="indian flag"/>
                 <div className="relative text-center text-primary-foreground z-10">
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-primary shadow-lg">Independence Day</h1>
                     <p className="text-xl md:text-2xl mt-4 text-primary/90 shadow-md">Celebrating Freedom</p>

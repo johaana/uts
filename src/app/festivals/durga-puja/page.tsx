@@ -15,7 +15,6 @@ export default function DurgaPujaPage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-primary/10">
-                 <Image src="https://i.postimg.cc/GmnJ5kP3/nilendrajyoti-halder-v32-Ac-NJ4-Q-Q-unsplash.jpg" alt="Durga Puja" layout="fill" objectFit="cover" className="absolute opacity-20" data-ai-hint="durga idol" />
                 <div className="relative text-center text-primary-foreground">
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-white shadow-lg">Durga Puja</h1>
                     <p className="text-xl md:text-2xl mt-4 text-white/90 shadow-md">The Grand Celebration of the Mother Goddess</p>

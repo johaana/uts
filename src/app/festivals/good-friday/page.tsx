@@ -8,7 +8,6 @@ export default function GoodFridayPage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-gray-700/10">
-                 <Image src="https://i.postimg.cc/ncKMYdWy/christmas-2.jpg" alt="Cross silhouette" layout="fill" objectFit="cover" className="absolute opacity-20" data-ai-hint="crucifixion cross"/>
                 <div className="relative text-center text-primary-foreground z-10">
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-white shadow-lg">Good Friday</h1>
                     <p className="text-xl md:text-2xl mt-4 text-white/90 shadow-md">A Day of Solemn Remembrance</p>

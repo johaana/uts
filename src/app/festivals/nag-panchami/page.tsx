@@ -15,7 +15,6 @@ export default function NagPanchamiPage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-gray-500/10">
-                 <Image src="https://i.postimg.cc/T1gD4R6R/nag-panchami1.jpg" alt="Serpent deity" layout="fill" objectFit="cover" className="absolute opacity-20" data-ai-hint="snake worship"/>
                 <div className="relative text-center text-primary-foreground z-10">
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-white shadow-lg">Nag Panchami</h1>
                     <p className="text-xl md:text-2xl mt-4 text-white/90 shadow-md">A Day of Serpent Worship</p>

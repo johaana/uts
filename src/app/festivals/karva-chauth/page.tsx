@@ -8,7 +8,6 @@ export default function KarvaChauthPage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-pink-500/10">
-                 <Image src="https://i.postimg.cc/Kj45FYzX/festive-Indian-attire.png" alt="Woman in traditional attire" layout="fill" objectFit="cover" className="absolute opacity-20" data-ai-hint="indian woman festive"/>
                 <div className="relative text-center text-primary-foreground z-10 p-4">
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-pink-900 drop-shadow-lg">Karva Chauth</h1>
                     <p className="text-xl md:text-2xl mt-4 text-pink-800/90 drop-shadow-md">A Festival of Love and Devotion</p>

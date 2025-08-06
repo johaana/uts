@@ -8,7 +8,6 @@ export default function GandhiJayantiPage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-gray-100/20">
-                 <Image src="https://i.postimg.cc/kG6pM4vB/Camel-Festival-Bikaner-Rajasthan.jpg" alt="Mahatma Gandhi" layout="fill" objectFit="cover" className="absolute opacity-10" data-ai-hint="mahatma gandhi"/>
                 <div className="relative text-center z-10 p-4">
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-primary shadow-lg">Gandhi Jayanti</h1>
                     <p className="text-xl md:text-2xl mt-4 text-primary/90 shadow-md">Remembering the Father of the Nation</p>

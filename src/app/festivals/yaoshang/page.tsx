@@ -8,7 +8,6 @@ export default function YaoshangPage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-pink-500/10">
-                 <Image src="https://i.postimg.cc/rsXF5WNy/holi.jpg" alt="Yaoshang Festival" layout="fill" objectFit="cover" className="absolute opacity-20" data-ai-hint="manipur festival"/>
                 <div className="relative text-center z-10 p-4">
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-pink-900 drop-shadow-lg">Yaoshang</h1>
                     <p className="text-xl md:text-2xl mt-4 text-pink-800/90 drop-shadow-md">The Holi of Manipur</p>
