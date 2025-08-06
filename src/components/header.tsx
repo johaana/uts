@@ -63,7 +63,7 @@ export function Header() {
         
         <div className="flex items-center gap-6">
             <Link href="/" className="flex items-center">
-                 <img src="https://i.postimg.cc/9F77pZ5f/Beige-And-Orange-Traditional-Indian-Fashion-Business-Logo-20250803-235803-0002.png" alt="Utsavs Logo" style={{height: '50px'}} />
+                 <img src="https://i.postimg.cc/Dz3RFpRR/Beige-And-Orange-Traditional-Indian-Fashion-Business-Logo-20250803-235803-0002.png" alt="Utsavs Logo" style={{height: '50px'}} />
             </Link>
              {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center gap-6">
@@ -95,7 +95,7 @@ export function Header() {
                     <SheetContent side="left">
                         <div className="flex flex-col gap-6 pt-10">
                         <Link href="/" className="flex items-center gap-2 mb-4" onClick={() => setOpen(false)}>
-                           <img src="https://i.postimg.cc/9F77pZ5f/Beige-And-Orange-Traditional-Indian-Fashion-Business-Logo-20250803-235803-0002.png" alt="Utsavs Logo" style={{height: '60px'}} />
+                           <img src="https://i.postimg.cc/Dz3RFpRR/Beige-And-Orange-Traditional-Indian-Fashion-Business-Logo-20250803-235803-0002.png" alt="Utsavs Logo" style={{height: '60px'}} />
                         </Link>
                         {navLinks.map((link) => (
                             <Link
