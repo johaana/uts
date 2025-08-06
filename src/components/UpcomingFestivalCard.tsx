@@ -32,19 +32,11 @@ export function UpcomingFestivalCard({ festival }: { festival: Festival }) {
                     return; 
                 }
 
+                // If festival date has passed for the current year, set it to next year.
                 if (festivalDate < now) {
-                    festivalDate.setFullYear(now.getFullYear() + 1);
+                    festivalDate.setFullYear(festivalDate.getFullYear() + 1);
                 }
                 
-                const currentYear = new Date().getFullYear();
-                if (festivalDate.getFullYear() < currentYear) {
-                    festivalDate.setFullYear(currentYear);
-                }
-                 if (festivalDate < now) {
-                    festivalDate.setFullYear(currentYear + 1);
-                }
-
-
                 const diff = differenceInDays(festivalDate, now);
                 setDaysLeft(diff);
 
