@@ -9,8 +9,8 @@ export default function MuharramPage() {
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-gray-800/10">
                 <div className="relative text-center text-primary-foreground z-10">
-                    <h1 className="font-headline text-5xl md:text-7xl font-bold text-white shadow-lg">Muharram</h1>
-                    <p className="text-xl md:text-2xl mt-4 text-white/90 shadow-md">A Solemn Period of Remembrance</p>
+                    <h1 className="font-headline text-5xl md:text-7xl font-bold text-gray-800 shadow-lg">Muharram</h1>
+                    <p className="text-xl md:text-2xl mt-4 text-gray-700/90 shadow-md">A Solemn Period of Remembrance</p>
                 </div>
             </section>
             
