@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from 'next/link';
@@ -5,6 +6,7 @@ import Image from 'next/image';
 import { Card, CardContent } from './ui/card';
 import { cn } from '@/lib/utils';
 import { ArrowRight } from 'lucide-react';
+import { Button } from './ui/button';
 
 const regions = [
   { 
@@ -53,10 +55,10 @@ const regions = [
 
 export function RegionShowcase() {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       {regions.map((region) => (
         <Link href={region.href} key={region.name} className="group">
-          <Card className="h-full overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+          <Card className="h-full overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-2">
             <CardContent className="p-0">
               <div className="relative h-64 w-full bg-secondary/30">
                  <Image 
@@ -66,13 +68,16 @@ export function RegionShowcase() {
                     objectFit="cover"
                     data-ai-hint={region.hint}
                  />
+                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                 <h3 className="absolute bottom-4 left-4 font-headline text-3xl font-bold text-white">
+                  {region.name}
+                </h3>
               </div>
               <div className="p-6">
-                <h3 className="font-headline text-2xl font-bold text-primary flex justify-between items-center">
-                  {region.name}
-                  <ArrowRight className="h-6 w-6 text-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                </h3>
-                <p className="text-foreground/80 mt-2">{region.description}</p>
+                <p className="text-foreground/80">{region.description}</p>
+                 <Button variant="link" className="p-0 mt-4 text-accent font-bold">
+                    Explore {region.name} <ArrowRight className="ml-1 h-4 w-4" />
+                </Button>
               </div>
             </CardContent>
           </Card>

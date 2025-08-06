@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useMemo } from 'react';
@@ -114,7 +115,6 @@ export function FestivalCalendar() {
             const startDate = parse(parts[0], 'MMM dd, yyyy', new Date());
             if (parts.length > 1) {
                 const endDateStr = parts[1];
-                // Check if end date has a year, if not, use start date's year
                 let endDate;
                 if (endDateStr.includes(',')) {
                     endDate = parse(endDateStr, 'MMM dd, yyyy', new Date());
@@ -145,7 +145,7 @@ export function FestivalCalendar() {
         return allEvents.filter(event => {
             const eventStartDateStr = event.date.split(' - ')[0];
             const eventStartDate = parse(eventStartDateStr, 'MMM dd, yyyy', new Date());
-            if (isNaN(eventStartDate.getTime())) return false; // Invalid date
+            if (isNaN(eventStartDate.getTime())) return false;
 
             const eventMonth = getMonthFromDateString(event.date);
             const eventYear = getYearFromDateString(event.date);
@@ -172,7 +172,7 @@ export function FestivalCalendar() {
 
     const getBadgeClass = (type: string) => {
         switch(type) {
-            case 'Religious': return 'bg-primary/80 text-primary-foreground';
+            case 'Religious': return 'bg-sky-600/80 text-white';
             case 'Harvest': return 'bg-green-600/80 text-white';
             case 'Holiday': return 'border-blue-500/80 text-blue-500';
             case 'Cultural': return 'bg-purple-600/80 text-white';
@@ -187,7 +187,7 @@ export function FestivalCalendar() {
     return (
         <div className="w-full">
             <div className="text-center mb-12">
-                <h2 className="font-headline text-3xl md:text-4xl font-bold">Festival & Holiday Calendar</h2>
+                <h2 className="font-headline text-4xl md:text-5xl font-bold text-primary">Festival & Holiday Calendar</h2>
                 <p className="mt-3 text-lg text-foreground/80 max-w-2xl mx-auto">
                     Plan your year around the vibrant celebrations of India. Never miss a festival, holiday, or long weekend.
                 </p>
@@ -195,7 +195,7 @@ export function FestivalCalendar() {
             
             <Card className="p-6 mb-2">
                  <div className="flex flex-col md:flex-row gap-4 items-center">
-                    <p className="font-semibold text-lg mr-4 shrink-0">Filter by:</p>
+                    <p className="font-semibold text-lg mr-4 shrink-0 text-primary">Filter by:</p>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full">
                         <Select onValueChange={setSelectedYear} value={selectedYear}>
                             <SelectTrigger>
@@ -240,7 +240,7 @@ export function FestivalCalendar() {
 
             <div className="flex items-center justify-start text-sm text-muted-foreground mb-8 ml-2">
                 <Star className="w-4 h-4 mr-2 text-amber-500 fill-amber-500" />
-                <span>Indicates a long weekend opportunity.</span>
+                <span>Indicates a long weekend opportunity. See our <Link href="/blog/long-weekends-2025" className="underline hover:text-primary">Long Weekends Guide</Link> for travel ideas.</span>
             </div>
 
             <Card>
@@ -248,11 +248,11 @@ export function FestivalCalendar() {
                     <Table>
                         <TableHeader>
                             <TableRow>
-                                <TableHead className="w-[250px]">Date</TableHead>
-                                <TableHead>Name</TableHead>
-                                <TableHead>Region</TableHead>
-                                <TableHead>Type</TableHead>
-                                <TableHead className="text-right">Details</TableHead>
+                                <TableHead className="w-[250px] text-primary">Date</TableHead>
+                                <TableHead className="text-primary">Name</TableHead>
+                                <TableHead className="text-primary">Region</TableHead>
+                                <TableHead className="text-primary">Type</TableHead>
+                                <TableHead className="text-right text-primary">Details</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>

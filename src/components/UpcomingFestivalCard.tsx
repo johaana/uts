@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect, useState } from "react";
@@ -44,25 +45,25 @@ export function UpcomingFestivalCard({ festival }: { festival: Festival }) {
     
     return (
         <div className="p-1 h-full">
-          <Card className="overflow-hidden h-full flex flex-col group">
-            <div className="relative h-64 w-full overflow-hidden bg-black/5">
+          <Card className="overflow-hidden h-full flex flex-col group shadow-lg hover:shadow-2xl transition-shadow duration-300">
+            <div className="relative h-64 w-full overflow-hidden bg-secondary">
                <Image src={festival.image} alt={festival.name} layout="fill" objectFit="cover" className="transition-transform duration-500 ease-in-out group-hover:scale-105" data-ai-hint={festival.hint}/>
             </div>
             <CardContent className="p-6 flex flex-col flex-grow">
-                <h3 className="font-headline text-2xl font-bold flex-grow h-14">{festival.name}</h3>
+                <h3 className="font-headline text-2xl font-bold flex-grow h-14 text-primary">{festival.name}</h3>
                 <div className="text-sm text-muted-foreground mb-4">
                     <p>{festival.date}</p>
                     {daysLeft !== null && daysLeft >= 0 && (
                          <div className="flex items-center gap-2 mt-2 text-accent font-bold">
                             <Calendar className="w-4 h-4" />
                             <span>
-                                {daysLeft === 0 ? "Today!" : `Celebrated in ${daysLeft} ${daysLeft === 1 ? "day" : "days"}!`}
+                                {daysLeft === 0 ? "Today!" : `In ${daysLeft} ${daysLeft === 1 ? "day" : "days"}!`}
                             </span>
                         </div>
                     )}
                 </div>
                 <Link href={festival.link}>
-                  <Button variant="link" className="p-0 mt-auto text-accent hover:text-accent/90">
+                  <Button variant="link" className="p-0 mt-auto text-accent hover:text-accent/90 font-bold">
                     Learn More <ArrowRight className="ml-1 h-4 w-4" />
                   </Button>
                 </Link>

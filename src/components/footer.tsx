@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from "next/link";
@@ -6,6 +7,7 @@ import { Button } from "./ui/button";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { Search } from "lucide-react";
+import Image from "next/image";
 
 export function Footer() {
   const router = useRouter();
@@ -23,9 +25,9 @@ export function Footer() {
     <footer className="bg-secondary/50 border-t">
       <div className="container mx-auto max-w-7xl px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12">
-            <div className="lg:col-span-4">
-                 <Link href="/" className="flex items-center justify-center h-12 w-12 rounded-full bg-primary text-primary-foreground font-headline text-3xl mb-4">
-                    U
+            <div className="lg:col-span-4 flex flex-col items-center md:items-start text-center md:text-left">
+                 <Link href="/" className="flex items-center mb-4">
+                    <Image src="https://i.postimg.cc/tJggpS12/utsavs-logo.png" alt="Utsavs Logo" width={60} height={60} />
                 </Link>
                 <p className="text-foreground/80 max-w-xs text-sm">
                   Your definitive guide to the vibrant world of Indian festivals. Explore dates, traditions, recipes, and stories.
