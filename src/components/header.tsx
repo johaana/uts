@@ -61,39 +61,45 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-20 max-w-7xl items-center justify-between px-4">
-        <div className="flex items-center gap-8">
+        
+        {/* Desktop Navigation */}
+        <nav className="hidden md:flex items-center justify-start w-1/3">
+           <Link
+              href="/festivals"
+              className={cn(
+                "text-base font-medium transition-colors hover:text-primary pr-6",
+                pathname.startsWith("/festivals") ? "text-primary font-bold" : "text-foreground/80"
+              )}
+            >
+              Festivals
+            </Link>
+            <Link
+              href="/recipes"
+              className={cn(
+                "text-base font-medium transition-colors hover:text-primary",
+                pathname.startsWith("/recipes") ? "text-primary font-bold" : "text-foreground/80"
+              )}
+            >
+              Recipes
+            </Link>
+        </nav>
+
+        <div className="hidden md:flex justify-center w-1/3">
             <Link href="/" className="flex items-center gap-2">
                 <Image src="https://i.postimg.cc/Dz3RFpRR/Beige-And-Orange-Traditional-Indian-Fashion-Business-Logo-20250803-235803-0002.png" alt="Utsavs Logo" width={180} height={60} data-ai-hint="logo" />
             </Link>
         </div>
-
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-6">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={cn(
-                "text-base font-medium transition-colors hover:text-primary",
-                pathname.startsWith(link.href) ? "text-primary font-bold" : "text-foreground/80"
-              )}
-            >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
-
-        {/* Mobile Header */}
-        <div className="md:hidden flex items-center">
-             <SearchDialog />
-            <Sheet open={open} onOpenChange={setOpen}>
+        
+        {/* Mobile Header - Logo Centered */}
+         <div className="flex md:hidden justify-start w-1/3">
+             <Sheet open={open} onOpenChange={setOpen}>
                 <SheetTrigger asChild>
                     <Button variant="ghost" size="icon">
                     <Menu className="h-6 w-6" />
                     <span className="sr-only">Open menu</span>
                     </Button>
                 </SheetTrigger>
-                <SheetContent side="right">
+                <SheetContent side="left">
                     <div className="flex flex-col gap-6 pt-10">
                     <Link href="/" className="flex items-center gap-2 mb-4" onClick={() => setOpen(false)}>
                        <Image src="https://i.postimg.cc/Dz3RFpRR/Beige-And-Orange-Traditional-Indian-Fashion-Business-Logo-20250803-235803-0002.png" alt="Utsavs Logo" width={180} height={60} data-ai-hint="logo" />
@@ -115,11 +121,33 @@ export function Header() {
                 </SheetContent>
             </Sheet>
         </div>
-        
-        {/* Desktop Search */}
-        <div className="hidden md:flex items-center gap-2">
-          <SearchDialog />
+        <div className="flex md:hidden justify-center w-1/3">
+             <Link href="/" className="flex items-center gap-2">
+                <Image src="https://i.postimg.cc/Dz3RFpRR/Beige-And-Orange-Traditional-Indian-Fashion-Business-Logo-20250803-235803-0002.png" alt="Utsavs Logo" width={150} height={50} data-ai-hint="logo" />
+            </Link>
         </div>
+
+
+        <div className="flex items-center justify-end w-1/3">
+             {/* Desktop Navigation */}
+            <nav className="hidden md:flex items-center">
+                 <Link
+                  href="/blog"
+                  className={cn(
+                    "text-base font-medium transition-colors hover:text-primary pr-6",
+                    pathname.startsWith("/blog") ? "text-primary font-bold" : "text-foreground/80"
+                  )}
+                >
+                  Blog
+                </Link>
+              <SearchDialog />
+            </nav>
+            {/* Mobile Search */}
+            <div className="md:hidden">
+                <SearchDialog />
+            </div>
+        </div>
+
       </div>
     </header>
   );
