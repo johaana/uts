@@ -149,12 +149,13 @@ export function FestivalCalendar() {
         now.setHours(0,0,0,0);
         
         return allEvents.filter(event => {
-            const eventStartDateStr = event.date.split(' - ')[0];
             const eventEndDateStr = event.date.split(' - ').pop() || event.date;
             
             let eventEndDate;
             try {
-                 eventEndDate = parse(eventEndDateStr, 'MMM dd, yyyy', new Date());
+                 const yearStr = eventEndDateStr.includes(',') ? eventEndDateStr.split(', ')[1] : event.date.split(', ')[1];
+                 const dateToParse = eventEndDateStr.includes(',') ? eventEndDateStr : `${eventEndDateStr}, ${yearStr}`;
+                 eventEndDate = parse(dateToParse, 'MMM dd, yyyy', new Date());
                  if (isNaN(eventEndDate.getTime())) return false;
             } catch (e) {
                 return false;
@@ -166,9 +167,6 @@ export function FestivalCalendar() {
             let yearMatch = true;
             if (selectedYear === 'upcoming') {
                 yearMatch = eventEndDate >= now;
-            } else if (selectedYear === '2years') {
-                const twoYearsFromNow = addYears(now, 2);
-                yearMatch = eventEndDate >= now && eventEndDate <= twoYearsFromNow;
             } else if (selectedYear !== 'all') {
                 yearMatch = eventYear === parseInt(selectedYear);
             }
@@ -224,7 +222,6 @@ export function FestivalCalendar() {
                             <SelectContent>
                                 <SelectItem value="upcoming">Upcoming</SelectItem>
                                 <SelectItem value="all">All Years</SelectItem>
-                                <SelectItem value="2years">Next 2 Years</SelectItem>
                                 {availableYears.map(year => <SelectItem key={year} value={String(year)}>{year}</SelectItem>)}
                             </SelectContent>
                         </Select>
