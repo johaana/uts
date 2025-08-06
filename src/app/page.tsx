@@ -38,7 +38,7 @@ export default function Home() {
     { title: "Top 5 Rangoli Designs for Beginners", excerpt: "Get inspired with these easy-to-make yet beautiful rangoli patterns for any occasion.", link: "/blog/top-5-rangoli-designs-for-beginners", image: "https://i.postimg.cc/fRYfMpwb/Rangoli.jpg", hint: "rangoli design" },
   ]
   
-  const handleSubscription = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubscription = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const email = formData.get('email') as string;
@@ -70,7 +70,7 @@ export default function Home() {
         <div className="container mx-auto px-4 text-center relative z-10">
           <h1 className="font-headline text-4xl md:text-6xl font-bold text-primary">A Vibrant Celebration of India</h1>
           <p className="mt-4 text-lg md:text-xl text-foreground/80 max-w-3xl mx-auto">
-             Your definitive guide to the rich tapestry of Indian festivals. Explore traditions, dates for 2025-2028, recipes, and the stories that make each celebration unique.
+             Your definitive guide to the rich tapestry of Indian festivals. Explore traditions, dates, recipes, and the stories that make each celebration unique.
           </p>
           <div className="mt-8 flex justify-center">
             <Link href="/festivals">

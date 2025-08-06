@@ -23,7 +23,7 @@ export function Footer() {
     }
   };
 
-  const handleSubscription = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubscription = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const email = formData.get('email') as string;
