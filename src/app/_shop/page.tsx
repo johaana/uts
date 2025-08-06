@@ -1,0 +1,65 @@
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ShoppingBag, ArrowRight } from "lucide-react";
+import Link from "next/link";
+import Image from "next/image";
+
+const products = [
+    { name: "Embroidered Silk Saree", category: "Attire", price: "₹4,999", link: "#", image: "https://i.postimg.cc/g234zMc6/monoswita-palchowdhury-P7r11-LLRg-M-unsplash.jpg", hint: "silk saree" },
+    { name: "Hand-painted Clay Diyas (Set of 12)", category: "Decor", price: "₹499", link: "#", image: "https://i.postimg.cc/1XNwWtfN/Diwali1.png", hint: "clay diyas" },
+    { name: "Kundan & Pearl Jewelry Set", category: "Jewelry", price: "₹2,499", link: "#", image: "https://i.postimg.cc/KjKrdfsj/unfold-memory-Z9-WMZqg-ASJE-unsplash.jpg", hint: "indian jewelry" },
+    { name: "Men's Lucknowi Chikankari Kurta", category: "Attire", price: "₹2,299", link: "#", image: "https://i.postimg.cc/zB2Ft674/shaida-safi-ud-MCW2-C12-I-unsplash.jpg", hint: "mens kurta" },
+    { name: "Brass Puja Thali Set", category: "Decor", price: "₹1,299", link: "#", image: "https://i.postimg.cc/SjF8HhM1/Diwali2.jpg", hint: "puja thali" },
+    { name: "Bandhani Silk Dupatta", category: "Attire", price: "₹999", link: "#", image: "https://i.postimg.cc/fWFvx4J9/aceofnet-PNd98-z-An-U0-unsplash.jpg", hint: "silk dupatta" },
+    { name: "Antique Gold-Plated Jhumkas", category: "Jewelry", price: "₹1,299", link: "#", image: "https://i.postimg.cc/KjKrdfsj/unfold-memory-Z9-WMZqg-ASJE-unsplash.jpg", hint: "jhumka earrings" },
+    { name: "Marigold & Mango Leaf Toran", category: "Decor", price: "₹799", link: "#", image: "https://i.postimg.cc/1XNwWtfN/Diwali1.png", hint: "flower toran" },
+    { name: "Silver-Plated Rakhi for Brother", category: "Gifts", price: "₹399", link: "#", image: "https://i.postimg.cc/q7qRrp7r/raksha-bandhan.jpg", hint: "rakhi thread" },
+    { name: "Organic Holi Gulal (Pack of 5)", category: "Gifts", price: "₹599", link: "#", image: "https://i.postimg.cc/Cxm19RSJ/holi2.jpg", hint: "holi powder" },
+    { name: "Eco-Friendly Ganesha Idol", category: "Decor", price: "₹1,499", link: "#", image: "https://i.postimg.cc/vBZvvbrW/prchi-palwe-Wci-Kb-LIFGxc-unsplash.jpg", hint: "ganesha idol" },
+    { name: "Diwali Sweets & Dry Fruits Hamper", category: "Gifts", price: "₹1,999", link: "#", image: "https://i.postimg.cc/nzrvDTx2/Diwali-Sweets.jpg", hint: "sweets hamper" },
+];
+
+export default function ShopPage() {
+    return (
+        <div className="container mx-auto px-4 py-12">
+            <div className="text-center mb-12">
+                <ShoppingBag className="mx-auto h-16 w-16 text-primary mb-4" />
+                <h1 className="font-headline text-4xl md:text-5xl font-bold">Festive Shop</h1>
+                <p className="mt-4 text-lg text-foreground/80 max-w-2xl mx-auto">
+                    Find the perfect attire, decor, and gifts for your celebrations. We've curated a collection of beautiful products from our affiliate partners to make your festivals even more special.
+                </p>
+            </div>
+            
+            <div className="flex justify-center gap-4 mb-12 flex-wrap">
+                <Button variant="secondary" size="lg">All</Button>
+                <Button variant="outline" size="lg">Attire</Button>
+                <Button variant="outline" size="lg">Decor</Button>
+                <Button variant="outline" size="lg">Jewelry</Button>
+                <Button variant="outline" size="lg">Gifts</Button>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+                {products.map((product) => (
+                    <Card key={product.name} className="overflow-hidden group flex flex-col">
+                        <div className="relative h-80 w-full bg-black/5">
+                           <Image src={product.image} alt={product.name} layout="fill" objectFit="cover" data-ai-hint={product.hint}/>
+                        </div>
+                        <CardHeader className="flex-grow">
+                            <p className="text-sm text-muted-foreground">{product.category}</p>
+                            <CardTitle className="font-headline text-xl h-14">{product.name}</CardTitle>
+                        </CardHeader>
+                        <CardContent className="flex justify-between items-center mt-auto">
+                            <p className="text-lg font-bold text-primary">{product.price}</p>
+                            <Link href={product.link} target="_blank" rel="noopener noreferrer">
+                                <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">
+                                    Shop Now <ArrowRight className="ml-2 h-4 w-4" />
+                                </Button>
+                            </Link>
+                        </CardContent>
+                    </Card>
+                ))}
+            </div>
+             <p className="text-center mt-12 text-sm text-muted-foreground">Disclaimer: As an affiliate, we may earn from qualifying purchases. This helps support Utsavs.</p>
+        </div>
+    );
+}

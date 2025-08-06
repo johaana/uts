@@ -32,6 +32,19 @@ const allFestivals = [
     { name: "Independence Day", link: "/festivals/independence-day" },
     { name: "Gandhi Jayanti", link: "/festivals/gandhi-jayanti" },
     { name: "Good Friday", link: "/festivals/good-friday" },
+    { name: "Bastar Dussehra", link: "/festivals/bastar-dussehra" },
+    { name: "Hareli Festival", link: "/festivals/hareli-festival" },
+    { name: "Madai Festival", link: "/festivals/madai-festival" },
+    { name: "Teej", link: "/festivals/teej" },
+    { name: "Karva Chauth", link: "/festivals/karva-chauth" },
+    { name: "Ugadi", link: "/festivals/ugadi" },
+    { name: "Vishu", link: "/festivals/vishu" },
+    { name: "Karthigai Deepam", link: "/festivals/karthigai-deepam" },
+    { name: "Yaoshang", link: "/festivals/yaoshang" },
+    { name: "Chapchar Kut", link: "/festivals/chapchar-kut" },
+    { name: "Mopin", link: "/festivals/mopin" },
+    { name: "Wangala", link: "/festivals/wangala" },
+    { name: "Nuakhai", link: "/festivals/nuakhai" },
 ];
 
 const allRecipes = [
