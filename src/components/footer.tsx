@@ -57,7 +57,7 @@ export function Footer() {
                  <Link href="/" className="flex items-center gap-2 mb-4">
                     <div className="relative h-12 w-40">
                       <Image 
-                        src="https://i.postimg.cc/t4x7tYqY/Utsavs-Logo-Maroon.png" 
+                        src="https://i.postimg.cc/pV2LpWf2/Utsavs-Logo-Maroon.png" 
                         alt="Utsavs Logo" 
                         layout="fill"
                         objectFit="contain"
