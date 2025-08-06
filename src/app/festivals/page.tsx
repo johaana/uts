@@ -43,6 +43,16 @@ const allFestivals = [
     { name: "Madai Festival", region: "Central", description: "A prominent tribal festival of the Gond tribe in Chhattisgarh, involving rituals and folk dances.", link: "/festivals/madai-festival" },
     { name: "Bastar Dussehra", region: "Central", description: "A unique 75-day long Dussehra celebration in Chhattisgarh's Bastar region, focused on nature and local deities.", link: "/festivals/bastar-dussehra" },
     { name: "Hareli Festival", region: "Central", description: "A harvest festival in Chhattisgarh marking the beginning of the Shravan month with worship of farm equipment and cattle.", link: "/festivals/hareli-festival" },
+    { name: "Teej", region: "North", description: "A monsoon festival celebrating the union of Shiva and Parvati, observed by women with fasting and prayers.", link: "/festivals/teej" },
+    { name: "Karva Chauth", region: "North", description: "A traditional Hindu festival where married women fast for the longevity and well-being of their husbands.", link: "/festivals/karva-chauth" },
+    { name: "Ugadi", region: "South", description: "The New Year's Day for the people of Andhra Pradesh, Telangana, and Karnataka.", link: "/festivals/ugadi" },
+    { name: "Vishu", region: "South", description: "The astronomical new year festival celebrated in Kerala, marking the first day of Medam.", link: "/festivals/vishu" },
+    { name: "Karthigai Deepam", region: "South", description: "A festival of lights celebrated by Tamil Hindus, where homes are decorated with oil lamps.", link: "/festivals/karthigai-deepam" },
+    { name: "Yaoshang", region: "Northeast", description: "Manipur's biggest festival, celebrated for five days, combining Hindu and indigenous traditions.", link: "/festivals/yaoshang" },
+    { name: "Chapchar Kut", region: "Northeast", description: "A spring festival of Mizoram celebrated after the completion of their most arduous task of jhum cultivation.", link: "/festivals/chapchar-kut" },
+    { name: "Mopin", region: "Northeast", description: "A vibrant harvest festival of the Galo tribe in Arunachal Pradesh to drive away evil spirits.", link: "/festivals/mopin" },
+    { name: "Wangala", region: "Northeast", description: "A harvest festival of the Garo tribe in Meghalaya, also known as the 100 Drums festival.", link: "/festivals/wangala" },
+    { name: "Nuakhai", region: "East", description: "An agricultural festival in Odisha to welcome the new rice of the season.", link: "/festivals/nuakhai" },
 ];
 
 const regions = ["Nationwide", "North", "South", "East", "West", "Central", "Northeast"];
