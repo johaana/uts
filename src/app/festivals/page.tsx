@@ -71,10 +71,6 @@ function FestivalsPageContent() {
         setSelectedRegion('all');
         setSortOrder(sortOptions[0]);
     };
-
-    useEffect(() => {
-        setSelectedRegion(initialRegion);
-    }, [initialRegion]);
     
     const filteredAndSortedFestivals = useMemo(() => {
         let festivals = allFestivals.filter(festival => {
