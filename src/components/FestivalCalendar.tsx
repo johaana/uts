@@ -31,7 +31,7 @@ const allEvents = [
     { date: "Jul 29, 2025", name: "Nag Panchami", region: "Nationwide", type: "Cultural", link: "/festivals/nag-panchami" },
     { date: "Aug 09, 2025", name: "Raksha Bandhan", region: "Nationwide", type: "Cultural", link: "/festivals/raksha-bandhan" },
     { date: "Aug 15, 2025", name: "Independence Day", region: "Nationwide", type: "Holiday", link: "/festivals/independence-day", longWeekend: true },
-    { date: "Aug 26 - Aug 27, 2025", name: "Ganesh Chaturthi", region: "West", type: "Religious", link: "/festivals/ganesh-chaturthi" },
+    { date: "Aug 26, 2025", name: "Ganesh Chaturthi", region: "West", type: "Religious", link: "/festivals/ganesh-chaturthi" },
     { date: "Sep 07, 2025", name: "Onam", region: "South", type: "Harvest", link: "/festivals/onam" },
     { date: "Sep 22 - Oct 01, 2025", name: "Navratri", region: "Nationwide", type: "Religious", link: "/festivals/navratri", longWeekend: true },
     { date: "Sep 27 - Oct 01, 2025", name: "Durga Puja", region: "East", type: "Religious", link: "/festivals/durga-puja", longWeekend: true },
@@ -127,16 +127,19 @@ export function FestivalCalendar() {
 
     const formatDateString = (dateString: string) => {
         const parts = dateString.split(' - ');
-        const startDate = parse(parts[0], 'MMM dd, yyyy', new Date());
-
         if (parts.length > 1) {
+            const startDate = parse(parts[0], 'MMM dd, yyyy', new Date());
             const endDate = parse(parts[1], 'MMM dd, yyyy', new Date());
-            if (format(startDate, 'MMMM') === format(endDate, 'MMMM')) {
-                 return `${format(startDate, 'MMM dd')} - ${format(endDate, 'dd, yyyy (EEEE)')}`;
+            if (format(startDate, 'yyyy') !== format(endDate, 'yyyy')) {
+                return `${format(startDate, 'MMM dd, yyyy')} - ${format(endDate, 'MMM dd, yyyy')}`;
+            } else if (format(startDate, 'MMMM') !== format(endDate, 'MMMM')) {
+                return `${format(startDate, 'MMM dd')} - ${format(endDate, 'MMM dd, yyyy')}`;
+            } else {
+                return `${format(startDate, 'MMM dd')} - ${format(endDate, 'dd, yyyy')}`;
             }
-             return `${format(startDate, 'MMM dd, yyyy')} - ${format(endDate, 'MMM dd, yyyy')}`;
         }
-        return format(startDate, 'MMM dd, yyyy (EEEE)');
+        const singleDate = parse(dateString, 'MMM dd, yyyy', new Date());
+        return format(singleDate, 'MMM dd, yyyy (EEEE)');
     };
 
     const filteredEvents = useMemo(() => {

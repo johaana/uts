@@ -57,7 +57,7 @@ export function UpcomingFestivalCard({ festival }: { festival: Festival }) {
                          <div className="flex items-center gap-2 mt-2 text-accent font-bold">
                             <Calendar className="w-4 h-4" />
                             <span>
-                                {daysLeft === 0 ? "Celebrated today!" : `Celebrated in ${daysLeft} ${daysLeft === 1 ? "day" : "days"}!`}
+                                {daysLeft === 0 ? "Today!" : `In ${daysLeft} ${daysLeft === 1 ? "day" : "days"}`}
                             </span>
                         </div>
                     )}
