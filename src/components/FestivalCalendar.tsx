@@ -200,7 +200,7 @@ export function FestivalCalendar() {
         if (!isValid(startDate)) {
             return dateString; // Return original string if date is invalid
         }
-        return format(startDate, 'EEEE, ') + dateString;
+        return `${dateString} (${format(startDate, 'EEEE')})`;
     }
     
     const filteredEvents = allEvents.filter(event => {
