@@ -6,23 +6,23 @@ import { Footer } from '@/components/footer';
 import { BackToTopButton } from '@/components/BackToTopButton';
 
 const APP_NAME = "Utsavs";
-const APP_DESCRIPTION = "Explore the vibrant world of Indian festivals with Utsavs. Your complete guide to dates, history, traditions, recipes, and chants for Diwali, Holi, Navratri, and more for 2025 and 2026.";
+const APP_DESCRIPTION = "Your definitive guide to Indian festivals for 2025 and 2026. Explore dates, rituals, recipes, and the stories behind Diwali, Holi, Navratri, and more.";
 const APP_URL = "https://utsavs.com";
 
 export const metadata: Metadata = {
   title: {
-    default: "Utsavs: Your Guide to Indian Festivals, Traditions & Recipes",
+    default: "Utsavs: Indian Festival Calendar 2025 & 2026 | Recipes & Traditions",
     template: "%s | Utsavs",
   },
   description: APP_DESCRIPTION,
   applicationName: APP_NAME,
   metadataBase: new URL(APP_URL),
-  keywords: ['Indian festivals', 'Hindu festivals', 'Diwali', 'Holi', 'Navratri', 'Durga Puja', 'Ganesh Chaturthi', 'Indian culture', 'festival recipes', 'puja vidhi', 'festival calendar 2025', 'indian festival dates'],
+  keywords: ['Indian festivals', 'Hindu festivals 2025', 'Indian festival calendar', 'Diwali 2025', 'Holi 2025', 'Navratri 2025', 'Durga Puja', 'Ganesh Chaturthi', 'Indian culture', 'festival recipes', 'puja vidhi', 'festival dates 2026'],
   openGraph: {
     type: "website",
     url: APP_URL,
     title: {
-      default: "Utsavs: Your Guide to Indian Festivals, Traditions & Recipes",
+      default: "Utsavs: Indian Festival Calendar 2025 & 2026 | Recipes & Traditions",
       template: "%s | Utsavs",
     },
     description: APP_DESCRIPTION,
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: {
-      default: "Utsavs: Your Guide to Indian Festivals, Traditions & Recipes",
+      default: "Utsavs: Indian Festival Calendar 2025 & 2026 | Recipes & Traditions",
       template: "%s | Utsavs",
     },
     description: APP_DESCRIPTION,
@@ -63,13 +63,8 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=PT+Sans:wght@400;700&display=swap" rel="stylesheet" />
-
-        {/* --- Google Search Console Verification (To be filled in later) --- */}
         <meta name="google-site-verification" content="YOUR_GOOGLE_VERIFICATION_CODE_HERE" />
-
-        {/* --- Google AdSense (To be enabled later) --- */}
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_ADSENSE_CLIENT_ID_HERE" crossOrigin="anonymous"></script>
-
       </head>
       <body className="font-body antialiased">
         <div className="flex min-h-screen flex-col">

@@ -61,9 +61,9 @@ export function Header() {
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-20 max-w-7xl items-center px-4">
         
-        <div className="flex-1 flex justify-start">
-            <Link href="/" className="flex items-center gap-2">
-                 <img src="https://i.postimg.cc/Dz3RFpRR/Beige-And-Orange-Traditional-Indian-Fashion-Business-Logo-20250803-235803-0002.png" alt="Utsavs Logo" style={{ height: '50px' }} />
+        <div className="flex flex-1 justify-start">
+            <Link href="/" className="flex items-center">
+                 <img src="https://i.postimg.cc/Dz3RFpRR/Beige-And-Orange-Traditional-Indian-Fashion-Business-Logo-20250803-235803-0002.png" alt="Utsavs Logo" style={{ height: '60px' }} />
             </Link>
         </div>
 
@@ -97,7 +97,7 @@ export function Header() {
                     <SheetContent side="left">
                         <div className="flex flex-col gap-6 pt-10">
                         <Link href="/" className="flex items-center gap-2 mb-4" onClick={() => setOpen(false)}>
-                           <img src="https://i.postimg.cc/Dz3RFpRR/Beige-And-Orange-Traditional-Indian-Fashion-Business-Logo-20250803-235803-0002.png" alt="Utsavs Logo" style={{height: '50px'}}/>
+                           <img src="https://i.postimg.cc/Dz3RFpRR/Beige-And-Orange-Traditional-Indian-Fashion-Business-Logo-20250803-235803-0002.png" alt="Utsavs Logo" style={{height: '60px'}}/>
                         </Link>
                         {navLinks.map((link) => (
                             <Link
@@ -120,7 +120,6 @@ export function Header() {
                 </Sheet>
             </div>
         </div>
-
       </div>
     </header>
   );

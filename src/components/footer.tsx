@@ -22,46 +22,20 @@ export function Footer() {
     }
   };
 
-  const handleSubscription = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    const email = formData.get('email') as string;
-
-    if (!email) {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "Please enter a valid email address.",
-      });
-      return;
-    }
-    
-    // Simple mailto link generation
-    window.location.href = `mailto:contact@utsavs.com?subject=Newsletter Subscription&body=Please add ${email} to the newsletter.`;
-
-    toast({
-        title: "Redirecting to Email Client",
-        description: "Please send the pre-filled email to subscribe.",
-    });
-
-    (event.target as HTMLFormElement).reset();
-  };
-
-
   return (
     <footer className="bg-secondary/50 border-t">
       <div className="container mx-auto max-w-7xl px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-12 gap-12">
-            <div className="lg:col-span-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12">
+            <div className="lg:col-span-4">
                  <Link href="/" className="flex items-center gap-2 mb-4">
-                    <img src="https://i.postimg.cc/Dz3RFpRR/Beige-And-Orange-Traditional-Indian-Fashion-Business-Logo-20250803-235803-0002.png" alt="Utsavs Logo" style={{height: '50px'}} />
+                    <img src="https://i.postimg.cc/Dz3RFpRR/Beige-And-Orange-Traditional-Indian-Fashion-Business-Logo-20250803-235803-0002.png" alt="Utsavs Logo" style={{height: '60px'}} />
                 </Link>
                 <p className="text-foreground/80 max-w-xs text-sm">
-                  Your guide to the vibrant world of Indian festivals.
+                  Your definitive guide to the vibrant world of Indian festivals. Explore dates, traditions, recipes, and stories.
                 </p>
             </div>
 
-            <div className="md:col-span-2 lg:col-span-2">
+            <div className="lg:col-span-2">
               <h3 className="font-bold mb-4 font-headline text-lg">Explore</h3>
               <ul className="space-y-3">
                 <li><Link href="/festivals" className="text-foreground/80 hover:text-primary">Festivals</Link></li>
@@ -69,15 +43,8 @@ export function Footer() {
                  <li><Link href="/blog" className="text-foreground/80 hover:text-primary">Blog</Link></li>
               </ul>
             </div>
-            <div className="md:col-span-2 lg:col-span-3">
-              <h3 className="font-bold mb-4 font-headline text-lg">Stay Connected</h3>
-                <p className="text-foreground/80 mb-4 text-sm">Subscribe to our newsletter for the latest updates.</p>
-               <form className="flex flex-col sm:flex-row gap-2 max-w-sm" onSubmit={handleSubscription}>
-                    <Input name="email" type="email" placeholder="Enter your email" className="bg-background" />
-                    <Button type="submit">Subscribe</Button>
-                </form>
-            </div>
-             <div className="md:col-span-4 lg:col-span-4">
+            
+             <div className="md:col-span-2 lg:col-span-6">
               <h3 className="font-bold mb-4 font-headline text-lg">Search Utsavs</h3>
               <p className="text-foreground/80 mb-4 text-sm">Looking for something specific? Find it here.</p>
               <form className="flex gap-2 max-w-sm" onSubmit={handleSearch}>
