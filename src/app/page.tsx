@@ -46,10 +46,11 @@ function ResourceSummary() {
 export default function Home() {
   return (
     <div className="flex flex-col">
-      <section className="bg-secondary/30 text-center py-20 md:py-32">
-        <div className="container mx-auto px-4">
-          <h1 className="font-headline text-5xl md:text-7xl font-bold text-primary max-w-4xl mx-auto">Your Definitive Guide to Indian Festivals</h1>
-          <p className="mt-6 text-lg md:text-xl text-foreground/80 max-w-3xl mx-auto">
+      <section className="relative text-center py-20 md:py-32 bg-cover bg-center" style={{backgroundImage: "url('https://i.postimg.cc/rmVJnj2w/Pushkar-Camel-Fair.avif')"}}>
+        <div className="absolute inset-0 bg-black/50"></div>
+        <div className="container mx-auto px-4 relative z-10">
+          <h1 className="font-headline text-5xl md:text-7xl font-bold text-white drop-shadow-lg max-w-4xl mx-auto">Your Definitive Guide to Indian Festivals</h1>
+          <p className="mt-6 text-lg md:text-xl text-white/90 drop-shadow-md max-w-3xl mx-auto">
             Explore the rich tapestry of India's vibrant celebrations. Discover dates, rituals, stories, and authentic recipes for every occasion.
           </p>
           <div className="mt-10">

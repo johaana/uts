@@ -35,6 +35,15 @@ export function UpcomingFestivalCard({ festival }: { festival: Festival }) {
                 if (festivalDate < now) {
                     festivalDate.setFullYear(now.getFullYear() + 1);
                 }
+                
+                const currentYear = new Date().getFullYear();
+                if (festivalDate.getFullYear() < currentYear) {
+                    festivalDate.setFullYear(currentYear);
+                }
+                 if (festivalDate < now) {
+                    festivalDate.setFullYear(currentYear + 1);
+                }
+
 
                 const diff = differenceInDays(festivalDate, now);
                 setDaysLeft(diff);
