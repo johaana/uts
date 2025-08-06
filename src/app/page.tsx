@@ -11,7 +11,6 @@ import Image from "next/image";
 import { FestivalCalendar } from "@/components/FestivalCalendar";
 import { useToast } from "@/hooks/use-toast";
 import React from "react";
-import { subscribeToNewsletter } from "@/ai/flows/subscribe-flow";
 import { UpcomingFestivalCard } from "@/components/UpcomingFestivalCard";
 import { RegionShowcase } from "@/components/RegionShowcase";
 
@@ -52,32 +51,26 @@ export default function Home() {
       });
       return;
     }
+    
+    // Simple mailto link generation
+    window.location.href = `mailto:contact@utsavs.com?subject=Newsletter Subscription&body=Please add ${email} to the newsletter.`;
 
-    try {
-      const response = await subscribeToNewsletter(email);
-      toast({
-        title: "Subscribed!",
-        description: response,
-      });
-      (event.target as HTMLFormElement).reset();
-    } catch (error) {
-      console.error("Subscription failed:", error);
-      toast({
-        variant: "destructive",
-        title: "Subscription Failed",
-        description: "Could not subscribe. Please try again later.",
-      });
-    }
+    toast({
+        title: "Redirecting to Email Client",
+        description: "Please send the pre-filled email to subscribe.",
+    });
+
+    (event.target as HTMLFormElement).reset();
   };
 
   return (
     <div className="space-y-16 md:space-y-24">
       <section className="relative bg-secondary/50 py-16 md:py-24 flex items-center justify-center">
-        <Image src="https://i.postimg.cc/fWFvx4J9/aceofnet-PNd98-z-An-U0-unsplash.jpg" alt="Holi festival" layout="fill" objectFit="cover" className="absolute opacity-30" data-ai-hint="holi colors"/>
+        <Image src="https://i.postimg.cc/fWFvx4J9/aceofnet-PNd98-z-An-U0-unsplash.jpg" alt="Holi festival" layout="fill" objectFit="cover" className="absolute opacity-20" data-ai-hint="holi colors"/>
         <div className="container mx-auto px-4 text-center relative z-10">
           <h1 className="font-headline text-4xl md:text-6xl font-bold text-primary">A Vibrant Celebration of India</h1>
-          <p className="mt-4 text-lg md:text-xl text-primary/80 max-w-3xl mx-auto">
-            Your definitive guide to the rich tapestry of Indian festivals. Explore traditions, 2025-2028 dates, recipes, and the stories that make each celebration unique.
+          <p className="mt-4 text-lg md:text-xl text-foreground/80 max-w-3xl mx-auto">
+             Your definitive guide to the rich tapestry of Indian festivals. Explore traditions, dates for 2025-2028, recipes, and the stories that make each celebration unique.
           </p>
           <div className="mt-8 flex justify-center">
             <Link href="/festivals">

@@ -9,33 +9,33 @@ body {
 
 @layer base {
   :root {
-    --background: 0 65% 94%; /* Desaturated light red (#F8E7E7) */
-    --foreground: 39 24% 25%; /* Deep Brown */
+    --background: 210 20% 98%; /* Almost white with a hint of blue */
+    --foreground: 224 71% 4%; /* Very dark blue */
 
     --card: 0 0% 100%; /* White */
-    --card-foreground: 39 24% 25%;
+    --card-foreground: 224 71% 4%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 39 24% 25%;
+    --popover-foreground: 224 71% 4%;
 
-    --primary: 0 65% 51%; /* Saturated red (#D32F2F) */
+    --primary: 224 71% 15%; /* Deep Indigo */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 39 84% 90%;
-    --secondary-foreground: 39 24% 25%;
+    --secondary: 216 34% 91%; /* Light blue-gray */
+    --secondary-foreground: 224 71% 15%;
 
-    --muted: 39 84% 90%;
-    --muted-foreground: 39 24% 45%;
+    --muted: 216 34% 91%;
+    --muted-foreground: 224 71% 25%;
     
-    --accent: 29 95% 48%; /* Analogous orange (#F57C00) */
-    --accent-foreground: 0 0% 100%;
+    --accent: 38 92% 50%; /* Warm Gold */
+    --accent-foreground: 224 71% 4%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
     
-    --border: 0 10% 85%;
-    --input: 0 10% 90%;
-    --ring: 0 65% 51%; /* Saturated red (#D32F2F) */
+    --border: 216 34% 85%;
+    --input: 216 34% 93%;
+    --ring: 224 71% 15%;
 
     --chart-1: 12 76% 61%;
     --chart-2: 173 58% 39%;

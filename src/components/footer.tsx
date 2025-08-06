@@ -7,7 +7,6 @@ import { Button } from "./ui/button";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { useToast } from "@/hooks/use-toast";
-import { subscribeToNewsletter } from "@/ai/flows/subscribe-flow";
 import { Search } from "lucide-react";
 import Image from "next/image";
 
@@ -37,22 +36,16 @@ export function Footer() {
       });
       return;
     }
+    
+    // Simple mailto link generation
+    window.location.href = `mailto:contact@utsavs.com?subject=Newsletter Subscription&body=Please add ${email} to the newsletter.`;
 
-    try {
-      const response = await subscribeToNewsletter(email);
-      toast({
-        title: "Subscribed!",
-        description: response,
-      });
-      (event.target as HTMLFormElement).reset();
-    } catch (error) {
-      console.error("Subscription failed:", error);
-      toast({
-        variant: "destructive",
-        title: "Subscription Failed",
-        description: "Could not subscribe. Please try again later.",
-      });
-    }
+    toast({
+        title: "Redirecting to Email Client",
+        description: "Please send the pre-filled email to subscribe.",
+    });
+
+    (event.target as HTMLFormElement).reset();
   };
 
 
@@ -62,13 +55,13 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-12 gap-12">
             <div className="lg:col-span-3">
                  <Link href="/" className="flex items-center gap-2 mb-4">
-                    <div className="relative h-20 w-40">
+                    <div className="relative h-12 w-40">
                       <Image 
-                        src="https://i.postimg.cc/Gh0W1Kj4/Beige-And-Orange-Traditional-Indian-Fashion-Business-Logo-20250803-235803-0002.png" 
+                        src="https://i.postimg.cc/P50LzHXx/Utsavs-Logo-Indigo.png" 
                         alt="Utsavs Logo" 
                         layout="fill"
                         objectFit="contain"
-                        objectPosition="center"
+                        objectPosition="left"
                         priority 
                         unoptimized
                       />
