@@ -8,12 +8,48 @@ import { cn } from '@/lib/utils';
 import { ArrowRight } from 'lucide-react';
 
 const regions = [
-  { name: 'North', href: '/festivals?region=North', image: 'https://i.postimg.cc/kGQ9w7QS/north-india-festivals.webp', hint: 'north india festivals' },
-  { name: 'Northeast', href: '/festivals?region=Northeast', image: 'https://i.postimg.cc/52MbHQMm/North-East-festivals.jpg', hint: 'naga festival dancers' },
-  { name: 'East', href: '/festivals?region=East', image: 'https://i.postimg.cc/nL3Jwd9d/East-India-festivals.webp', hint: 'durga idol' },
-  { name: 'West', href: '/festivals?region=West', image: 'https://i.postimg.cc/jjxTcV2w/Western-India-festivals-1.jpg', hint: 'gujarat fair' },
-  { name: 'Central', href: '/festivals?region=Central', image: 'https://i.postimg.cc/rmVJnj2w/Pushkar-Camel-Fair.avif', hint: 'pushkar camel fair' },
-  { name: 'South', href: '/festivals?region=South', image: 'https://i.postimg.cc/j5CbVzzR/south-indian-festivals.jpg', hint: 'kerala temple festival' },
+  { 
+    name: 'North', 
+    href: '/festivals?region=North', 
+    image: 'https://i.postimg.cc/kGQ9w7QS/north-india-festivals.webp', 
+    hint: 'north india festivals',
+    description: "Home to vibrant festivals like Holi, Diwali, Lohri, and Baisakhi." 
+  },
+  { 
+    name: 'Northeast', 
+    href: '/festivals?region=Northeast', 
+    image: 'https://i.postimg.cc/52MbHQMm/North-East-festivals.jpg', 
+    hint: 'naga festival dancers',
+    description: "Experience unique cultural celebrations like Hornbill, Yaoshang, and Chapchar Kut."
+  },
+  { 
+    name: 'East', 
+    href: '/festivals?region=East', 
+    image: 'https://i.postimg.cc/nL3Jwd9d/East-India-festivals.webp', 
+    hint: 'durga idol',
+    description: "Celebrate grand festivals like Durga Puja, Chhath Puja, and Rath Yatra."
+  },
+  { 
+    name: 'West', 
+    href: '/festivals?region=West', 
+    image: 'https://i.postimg.cc/jjxTcV2w/Western-India-festivals-1.jpg', 
+    hint: 'gujarat fair',
+    description: "Immerse yourself in Ganesh Chaturthi, Navratri Garba, and Gudi Padwa."
+  },
+  { 
+    name: 'Central', 
+    href: '/festivals?region=Central', 
+    image: 'https://i.postimg.cc/rmVJnj2w/Pushkar-Camel-Fair.avif', 
+    hint: 'pushkar camel fair',
+    description: "Discover the tribal heritage with Bastar Dussehra, Madai Festival, and Hareli."
+  },
+  { 
+    name: 'South', 
+    href: '/festivals?region=South', 
+    image: 'https://i.postimg.cc/j5CbVzzR/south-indian-festivals.jpg', 
+    hint: 'kerala temple festival',
+    description: "Witness the grandeur of Onam, Pongal, Ugadi, and Karthigai Deepam."
+  },
 ];
 
 export function RegionShowcase() {
@@ -37,6 +73,7 @@ export function RegionShowcase() {
                   {region.name}
                   <ArrowRight className="h-6 w-6 text-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                 </h3>
+                <p className="text-foreground/80 mt-2">{region.description}</p>
               </div>
             </CardContent>
           </Card>
