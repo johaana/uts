@@ -28,7 +28,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12">
             <div className="lg:col-span-4">
                  <Link href="/" className="flex items-center gap-2 mb-4">
-                    <img src="https://i.postimg.cc/Dz3RFpRR/Beige-And-Orange-Traditional-Indian-Fashion-Business-Logo-20250803-235803-0002.png" alt="Utsavs Logo" style={{height: '60px'}} />
+                    <img src="/logo.svg" alt="Utsavs Logo" style={{height: '60px'}} />
                 </Link>
                 <p className="text-foreground/80 max-w-xs text-sm">
                   Your definitive guide to the vibrant world of Indian festivals. Explore dates, traditions, recipes, and stories.

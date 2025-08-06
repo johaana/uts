@@ -1,49 +1,46 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
-import { ArrowRight, Star } from "lucide-react";
-import { format, parse, isAfter, startOfToday, addYears, isValid } from 'date-fns';
+import { ArrowRight } from "lucide-react";
+import { format, parse } from 'date-fns';
 
 const allEvents = [
     // 2025
     { date: "Jan 13, 2025", name: "Lohri", region: "North", type: "Harvest", link: "/festivals/lohri" },
     { date: "Jan 14, 2025", name: "Makar Sankranti / Pongal", region: "Nationwide", type: "Harvest", link: "/festivals/makar-sankranti" },
-    { date: "Jan 26, 2025", name: "Republic Day", region: "Nationwide", type: "Holiday", link: "/festivals/republic-day", isLongWeekend: true },
+    { date: "Jan 26, 2025", name: "Republic Day", region: "Nationwide", type: "Holiday", link: "/festivals/republic-day" },
     { date: "Feb 02, 2025", name: "Vasant Panchami", region: "Nationwide", type: "Seasonal", link: "/festivals/vasant-panchami" },
     { date: "Feb 11, 2025", name: "Thaipusam", region: "South", type: "Religious", link: "/festivals/thaipusam" },
-    { date: "Feb 22 - Feb 25, 2025", name: "Goa Carnival", region: "West", type: "Cultural", link: "/festivals/goa-carnival", isLongWeekend: true },
-    { date: "Mar 13 - Mar 14, 2025", name: "Holi", region: "Nationwide", type: "Holiday", link: "/festivals/holi", isLongWeekend: true },
-    { date: "Mar 29, 2025", name: "Ugadi / Gudi Padwa", region: "South & West", type: "New Year", link: "/festivals/ugadi" },
-    { date: "Mar 31, 2025", name: "Eid-al-Fitr", region: "Nationwide", type: "Religious", link: "/festivals/eid-al-fitr", isLongWeekend: true },
-    { date: "Apr 14, 2025", name: "Vaisakhi / Bihu / Vishu", region: "North & Northeast & South", type: "Harvest", link: "/festivals/bihu", isLongWeekend: true },
-    { date: "Apr 18, 2025", name: "Good Friday", region: "Nationwide", type: "Religious", link: "/festivals/good-friday", isLongWeekend: true },
+    { date: "Feb 22 - Feb 25, 2025", name: "Goa Carnival", region: "West", type: "Cultural", link: "/festivals/goa-carnival" },
+    { date: "Mar 13 - Mar 14, 2025", name: "Holi", region: "Nationwide", type: "Holiday", link: "/festivals/holi" },
+    { date: "Mar 30, 2025", name: "Gudi Padwa / Ugadi", region: "West & South", type: "New Year", link: "/festivals/gudi-padwa" },
+    { date: "Mar 31, 2025", name: "Eid-al-Fitr", region: "Nationwide", type: "Religious", link: "/festivals/eid-al-fitr" },
+    { date: "Apr 14, 2025", name: "Vaisakhi / Bihu", region: "North & Northeast", type: "Harvest", link: "/festivals/bihu" },
+    { date: "Apr 18, 2025", name: "Good Friday", region: "Nationwide", type: "Religious", link: "/festivals/good-friday" },
     { date: "Apr 21, 2025", name: "Akshaya Tritiya", region: "Nationwide", type: "Religious", link: "/festivals/akshaya-tritiya" },
     { date: "Jun 27 - Jul 05, 2025", name: "Rath Yatra", region: "East", type: "Religious", link: "/festivals/rath-yatra" },
     { date: "Jun 28, 2025", name: "Muharram (Starts)", region: "Nationwide", type: "Religious", link: "/festivals/muharram" },
     { date: "Jul 06, 2025", name: "Day of Ashura", region: "Nationwide", type: "Religious", link: "/festivals/muharram" },
     { date: "Jul 29, 2025", name: "Nag Panchami", region: "Nationwide", type: "Cultural", link: "/festivals/nag-panchami" },
-    { date: "Aug 09, 2025", name: "Raksha Bandhan", region: "Nationwide", type: "Cultural", link: "/festivals/raksha-bandhan", isLongWeekend: true },
-    { date: "Aug 11, 2025", name: "Teej", region: "North", type: "Monsoon", link: "/festivals/teej" },
-    { date: "Aug 15, 2025", name: "Independence Day", region: "Nationwide", type: "Holiday", link: "/festivals/independence-day", isLongWeekend: true },
+    { date: "Aug 09, 2025", name: "Raksha Bandhan", region: "Nationwide", type: "Cultural", link: "/festivals/raksha-bandhan" },
+    { date: "Aug 15, 2025", name: "Independence Day", region: "Nationwide", type: "Holiday", link: "/festivals/independence-day" },
     { date: "Aug 26 - Aug 27, 2025", name: "Ganesh Chaturthi", region: "West", type: "Religious", link: "/festivals/ganesh-chaturthi" },
     { date: "Sep 07, 2025", name: "Onam", region: "South", type: "Harvest", link: "/festivals/onam" },
-    { date: "Sep 22 - Oct 01, 2025", name: "Navratri", region: "Nationwide", type: "Religious", link: "/festivals/navratri", isLongWeekend: true },
-    { date: "Sep 27 - Oct 01, 2025", name: "Durga Puja", region: "East", type: "Religious", link: "/festivals/durga-puja", isLongWeekend: true },
-    { date: "Oct 02, 2025", name: "Gandhi Jayanti", region: "Nationwide", type: "Holiday", link: "/festivals/gandhi-jayanti", isLongWeekend: true },
-    { date: "Oct 11, 2025", name: "Karva Chauth", region: "North", type: "Cultural", link: "/festivals/karva-chauth" },
-    { date: "Oct 21, 2025", name: "Diwali (Lakshmi Puja)", region: "Nationwide", type: "Holiday", link: "/festivals/diwali", isLongWeekend: true },
+    { date: "Sep 22 - Oct 01, 2025", name: "Navratri", region: "Nationwide", type: "Religious", link: "/festivals/navratri" },
+    { date: "Sep 27 - Oct 01, 2025", name: "Durga Puja", region: "East", type: "Religious", link: "/festivals/durga-puja" },
+    { date: "Oct 02, 2025", name: "Gandhi Jayanti", region: "Nationwide", type: "Holiday", link: "/festivals/gandhi-jayanti" },
+    { date: "Oct 21, 2025", name: "Diwali (Lakshmi Puja)", region: "Nationwide", type: "Holiday", link: "/festivals/diwali" },
     { date: "Oct 27, 2025", name: "Chhath Puja", region: "East", type: "Solar", link: "/festivals/chhath-puja" },
     { date: "Nov 05, 2025", name: "Guru Nanak Jayanti", region: "Nationwide", type: "Religious", link: "/festivals/guru-nanak-jayanti" },
-    { date: "Nov 14, 2025", name: "Karthigai Deepam", region: "South", type: "Light", link: "/festivals/karthigai-deepam" },
     { date: "Dec 01 - Dec 10, 2025", name: "Hornbill Festival", region: "Northeast", type: "Cultural", link: "/festivals/hornbill-festival" },
-    { date: "Dec 25, 2025", name: "Christmas", region: "Nationwide", type: "Religious", link: "/festivals/christmas", isLongWeekend: true },
+    { date: "Dec 25, 2025", name: "Christmas", region: "Nationwide", type: "Religious", link: "/festivals/christmas" },
 
     // 2026
     { date: "Jan 13, 2026", name: "Lohri", region: "North", type: "Harvest", link: "/festivals/lohri" },
@@ -54,10 +51,10 @@ const allEvents = [
     { date: "Feb 13 - Feb 16, 2026", name: "Goa Carnival", region: "West", type: "Cultural", link: "/festivals/goa-carnival" },
     { date: "Mar 04, 2026", name: "Holi", region: "Nationwide", type: "Holiday", link: "/festivals/holi" },
     { date: "Mar 20, 2026", name: "Eid-al-Fitr", region: "Nationwide", type: "Religious", link: "/festivals/eid-al-fitr" },
-    { date: "Mar 21, 2026", name: "Ugadi / Gudi Padwa", region: "South & West", type: "New Year", link: "/festivals/gudi-padwa" },
+    { date: "Mar 21, 2026", name: "Gudi Padwa / Ugadi", region: "West & South", type: "New Year", link: "/festivals/gudi-padwa" },
     { date: "Apr 03, 2026", name: "Good Friday", region: "Nationwide", type: "Religious", link: "/festivals/good-friday" },
     { date: "Apr 10, 2026", name: "Akshaya Tritiya", region: "Nationwide", type: "Religious", link: "/festivals/akshaya-tritiya" },
-    { date: "Apr 14, 2026", name: "Vaisakhi / Bihu / Vishu", region: "North & Northeast & South", type: "Harvest", link: "/festivals/bihu" },
+    { date: "Apr 14, 2026", name: "Vaisakhi / Bihu", region: "North & Northeast", type: "Harvest", link: "/festivals/bihu" },
     { date: "Jun 17, 2026", name: "Muharram (Ashura)", region: "Nationwide", type: "Religious", link: "/festivals/muharram" },
     { date: "Jun 18, 2026", name: "Rath Yatra", region: "East", type: "Religious", link: "/festivals/rath-yatra" },
     { date: "Jul 29, 2026", name: "Nag Panchami", region: "Nationwide", type: "Cultural", link: "/festivals/nag-panchami" },
@@ -72,70 +69,6 @@ const allEvents = [
     { date: "Nov 24, 2026", name: "Guru Nanak Jayanti", region: "Nationwide", type: "Religious", link: "/festivals/guru-nanak-jayanti" },
     { date: "Dec 01 - Dec 10, 2026", name: "Hornbill Festival", region: "Northeast", type: "Cultural", link: "/festivals/hornbill-festival" },
     { date: "Dec 25, 2026", name: "Christmas", region: "Nationwide", type: "Religious", link: "/festivals/christmas" },
-
-    // 2027
-    { date: "Jan 13, 2027", name: "Lohri", region: "North", type: "Harvest", link: "/festivals/lohri" },
-    { date: "Jan 14, 2027", name: "Makar Sankranti / Pongal", region: "Nationwide", type: "Harvest", link: "/festivals/makar-sankranti" },
-    { date: "Jan 26, 2027", name: "Republic Day", region: "Nationwide", type: "Holiday", link: "/festivals/republic-day" },
-    { date: "Jan 22, 2027", name: "Thaipusam", region: "South", type: "Religious", link: "/festivals/thaipusam" },
-    { date: "Feb 06 - Feb 09, 2027", name: "Goa Carnival", region: "West", type: "Cultural", link: "/festivals/goa-carnival" },
-    { date: "Feb 10, 2027", name: "Vasant Panchami", region: "Nationwide", type: "Seasonal", link: "/festivals/vasant-panchami" },
-    { date: "Mar 10, 2027", name: "Eid-al-Fitr", region: "Nationwide", type: "Religious", link: "/festivals/eid-al-fitr" },
-    { date: "Mar 24, 2027", name: "Holi", region: "Nationwide", type: "Holiday", link: "/festivals/holi" },
-    { date: "Mar 26, 2027", name: "Good Friday", region: "Nationwide", type: "Religious", link: "/festivals/good-friday" },
-    { date: "Mar 30, 2027", name: "Ugadi / Gudi Padwa", region: "South & West", type: "New Year", link: "/festivals/ugadi" },
-    { date: "Apr 12, 2027", name: "Akshaya Tritiya", region: "Nationwide", type: "Religious", link: "/festivals/akshaya-tritiya" },
-    { date: "Apr 14, 2027", name: "Vaisakhi / Bihu / Vishu", region: "North & Northeast & South", type: "Harvest", link: "/festivals/bihu" },
-    { date: "Jun 06, 2027", name: "Muharram (Ashura)", region: "Nationwide", type: "Religious", link: "/festivals/muharram" },
-    { date: "Jul 07, 2027", name: "Rath Yatra", region: "East", type: "Religious", link: "/festivals/rath-yatra" },
-    { date: "Aug 15, 2027", name: "Independence Day", region: "Nationwide", type: "Holiday", link: "/festivals/independence-day" },
-    { date: "Aug 18, 2027", name: "Nag Panchami", region: "Nationwide", type: "Cultural", link: "/festivals/nag-panchami" },
-    { date: "Aug 19, 2027", name: "Teej", region: "North", type: "Monsoon", link: "/festivals/teej" },
-    { date: "Aug 26, 2027", name: "Raksha Bandhan", region: "Nationwide", type: "Cultural", link: "/festivals/raksha-bandhan" },
-    { date: "Sep 04, 2027", name: "Ganesh Chaturthi", region: "West", type: "Religious", link: "/festivals/ganesh-chaturthi" },
-    { date: "Sep 15, 2027", name: "Onam", region: "South", type: "Harvest", link: "/festivals/onam" },
-    { date: "Oct 02, 2027", name: "Gandhi Jayanti", region: "Nationwide", type: "Holiday", link: "/festivals/gandhi-jayanti" },
-    { date: "Oct 02 - Oct 10, 2027", name: "Navratri", region: "Nationwide", type: "Religious", link: "/festivals/navratri" },
-    { date: "Oct 06 - Oct 10, 2027", name: "Durga Puja", region: "East", type: "Religious", link: "/festivals/durga-puja" },
-    { date: "Oct 20, 2027", name: "Karva Chauth", region: "North", type: "Cultural", link: "/festivals/karva-chauth" },
-    { date: "Oct 30, 2027", name: "Diwali (Lakshmi Puja)", region: "Nationwide", type: "Holiday", link: "/festivals/diwali" },
-    { date: "Nov 04, 2027", name: "Chhath Puja", region: "East", type: "Solar", link: "/festivals/chhath-puja" },
-    { date: "Nov 13, 2027", name: "Guru Nanak Jayanti", region: "Nationwide", type: "Religious", link: "/festivals/guru-nanak-jayanti" },
-    { date: "Dec 01 - Dec 10, 2027", name: "Hornbill Festival", region: "Northeast", type: "Cultural", link: "/festivals/hornbill-festival" },
-    { date: "Dec 03, 2027", name: "Karthigai Deepam", region: "South", type: "Light", link: "/festivals/karthigai-deepam" },
-    { date: "Dec 25, 2027", name: "Christmas", region: "Nationwide", type: "Religious", link: "/festivals/christmas" },
-
-    // 2028
-    { date: "Jan 13, 2028", name: "Lohri", region: "North", type: "Harvest", link: "/festivals/lohri" },
-    { date: "Jan 14, 2028", name: "Makar Sankranti / Pongal", region: "Nationwide", type: "Harvest", link: "/festivals/makar-sankranti" },
-    { date: "Jan 26, 2028", name: "Republic Day", region: "Nationwide", type: "Holiday", link: "/festivals/republic-day" },
-    { date: "Jan 30, 2028", name: "Vasant Panchami", region: "Nationwide", type: "Seasonal", link: "/festivals/vasant-panchami" },
-    { date: "Feb 10, 2028", name: "Thaipusam", region: "South", type: "Religious", link: "/festivals/thaipusam" },
-    { date: "Feb 26 - Feb 29, 2028", name: "Goa Carnival", region: "West", type: "Cultural", link: "/festivals/goa-carnival" },
-    { date: "Feb 27, 2028", name: "Eid-al-Fitr", region: "Nationwide", type: "Religious", link: "/festivals/eid-al-fitr" },
-    { date: "Mar 12, 2028", name: "Holi", region: "Nationwide", type: "Holiday", link: "/festivals/holi" },
-    { date: "Mar 28, 2028", name: "Ugadi / Gudi Padwa", region: "South & West", type: "New Year", link: "/festivals/ugadi" },
-    { date: "Apr 14, 2028", name: "Good Friday", region: "Nationwide", type: "Religious", link: "/festivals/good-friday" },
-    { date: "Apr 14, 2028", name: "Vaisakhi / Bihu / Vishu", region: "North & Northeast & South", type: "Harvest", link: "/festivals/bihu" },
-    { date: "May 01, 2028", name: "Akshaya Tritiya", region: "Nationwide", type: "Religious", link: "/festivals/akshaya-tritiya" },
-    { date: "May 26, 2028", name: "Muharram (Ashura)", region: "Nationwide", type: "Religious", link: "/festivals/muharram" },
-    { date: "Jun 26, 2028", name: "Rath Yatra", region: "East", type: "Religious", link: "/festivals/rath-yatra" },
-    { date: "Aug 07, 2028", name: "Nag Panchami", region: "Nationwide", type: "Cultural", link: "/festivals/nag-panchami" },
-    { date: "Aug 08, 2028", name: "Teej", region: "North", type: "Monsoon", link: "/festivals/teej" },
-    { date: "Aug 15, 2028", name: "Independence Day", region: "Nationwide", type: "Holiday", link: "/festivals/independence-day" },
-    { date: "Aug 15, 2028", name: "Raksha Bandhan", region: "Nationwide", type: "Cultural", link: "/festivals/raksha-bandhan" },
-    { date: "Aug 24, 2028", name: "Ganesh Chaturthi", region: "West", type: "Religious", link: "/festivals/ganesh-chaturthi" },
-    { date: "Sep 04, 2028", name: "Onam", region: "South", type: "Harvest", link: "/festivals/onam" },
-    { date: "Sep 21 - Sep 29, 2028", name: "Navratri", region: "Nationwide", type: "Religious", link: "/festivals/navratri" },
-    { date: "Sep 25 - Sep 29, 2028", name: "Durga Puja", region: "East", type: "Religious", link: "/festivals/durga-puja" },
-    { date: "Oct 02, 2028", name: "Gandhi Jayanti", region: "Nationwide", type: "Holiday", link: "/festivals/gandhi-jayanti" },
-    { date: "Oct 09, 2028", name: "Karva Chauth", region: "North", type: "Cultural", link: "/festivals/karva-chauth" },
-    { date: "Oct 19, 2028", name: "Diwali (Lakshmi Puja)", region: "Nationwide", type: "Holiday", link: "/festivals/diwali" },
-    { date: "Oct 24, 2028", name: "Chhath Puja", region: "East", type: "Solar", link: "/festivals/chhath-puja" },
-    { date: "Nov 02, 2028", name: "Guru Nanak Jayanti", region: "Nationwide", type: "Religious", link: "/festivals/guru-nanak-jayanti" },
-    { date: "Nov 22, 2028", name: "Karthigai Deepam", region: "South", type: "Light", link: "/festivals/karthigai-deepam" },
-    { date: "Dec 01 - Dec 10, 2028", name: "Hornbill Festival", region: "Northeast", type: "Cultural", link: "/festivals/hornbill-festival" },
-    { date: "Dec 25, 2028", name: "Christmas", region: "Nationwide", type: "Religious", link: "/festivals/christmas" },
 ].sort((a, b) => {
     const dateA = parse(a.date.split(' - ')[0], 'MMM dd, yyyy', new Date());
     const dateB = parse(b.date.split(' - ')[0], 'MMM dd, yyyy', new Date());
@@ -145,18 +78,13 @@ const allEvents = [
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const regions = ["Nationwide", "North", "South", "East", "West", "Northeast"];
 const eventTypes = ["Festivals", "Holidays"];
-const years = ["2025", "2026", "2027", "2028"];
+const years = ["2025", "2026"];
 
 export function FestivalCalendar() {
     const [selectedMonth, setSelectedMonth] = useState('all');
     const [selectedRegion, setSelectedRegion] = useState('all');
     const [selectedEventType, setSelectedEventType] = useState('all');
-    const [selectedYear, setSelectedYear] = useState('upcoming'); // Default to upcoming
-    const [isClient, setIsClient] = useState(false);
-
-    useEffect(() => {
-        setIsClient(true);
-    }, []);
+    const [selectedYear, setSelectedYear] = useState('all');
 
     const getMonthFromDateString = (dateString: string) => {
         try {
@@ -176,50 +104,12 @@ export function FestivalCalendar() {
             return 0;
         }
     };
-
-    const getStartDateObject = (dateString: string) => {
-        const datePart = dateString.split(' - ')[0];
-        return parse(datePart, 'MMM dd, yyyy', new Date());
-    };
-
-    const getEndDateObject = (dateString: string) => {
-        const dateParts = dateString.split(' - ');
-        const endDateStr = dateParts.length > 1 ? dateParts[1] : dateParts[0];
-         const year = getYearFromDateString(dateString);
-        // Handle cases like "Feb 22 - 25, 2025"
-        let fullEndDateStr = endDateStr;
-        if (!endDateStr.includes(',')) {
-            const month = getStartDateObject(dateString).toLocaleString('default', { month: 'short' });
-            fullEndDateStr = `${month} ${endDateStr}, ${year}`;
-        }
-        return parse(fullEndDateStr, 'MMM dd, yyyy', new Date());
-    };
-
-    const formatFullDate = (dateString: string) => {
-        const startDate = getStartDateObject(dateString);
-        if (!isValid(startDate)) {
-            return dateString; // Return original string if date is invalid
-        }
-        return `${dateString} (${format(startDate, 'EEEE')})`;
-    }
     
     const filteredEvents = allEvents.filter(event => {
-        const eventEndDate = getEndDateObject(event.date);
-        const today = startOfToday();
-        
-        if (!isValid(eventEndDate)) return false; // Skip invalid dates
-
-        if (selectedYear === 'upcoming' && isClient) {
-            const oneYearFromNow = addYears(today, 1);
-            if (!isAfter(eventEndDate, today) || isAfter(eventEndDate, oneYearFromNow)) {
-                return false;
-            }
-        }
-
         const eventMonth = getMonthFromDateString(event.date);
         const eventYear = getYearFromDateString(event.date);
-        
-        const yearMatch = selectedYear === 'all' || selectedYear === 'upcoming' || eventYear === parseInt(selectedYear);
+
+        const yearMatch = selectedYear === 'all' || eventYear === parseInt(selectedYear);
         const monthMatch = selectedMonth === 'all' || eventMonth === selectedMonth;
         const regionMatch = selectedRegion === 'all' || event.region === selectedRegion || event.region.includes(selectedRegion);
         
@@ -230,21 +120,31 @@ export function FestivalCalendar() {
             eventTypeMatch = event.type === 'Holiday';
         }
 
+
         return yearMatch && monthMatch && regionMatch && eventTypeMatch;
     });
+
+    const getBadgeVariant = (type: string) => {
+        switch(type) {
+            case 'Religious': return 'default';
+            case 'Cultural': return 'secondary';
+            case 'Harvest': return 'default';
+            case 'Holiday': return 'outline';
+            case 'Diwali': return 'default';
+            default: return 'secondary';
+        }
+    };
 
      const getBadgeClass = (type: string) => {
         switch(type) {
             case 'Religious': return 'bg-primary/80 text-primary-foreground';
             case 'Harvest': return 'bg-green-600/80 text-white';
             case 'Holiday': return 'border-blue-500/80 text-blue-500';
-            case 'Cultural': return 'bg-purple-600/80 text-white';
+            case 'Diwali': return 'bg-amber-500/80 text-white';
+            case 'New Year': return 'bg-purple-600/80 text-white';
             case 'Seasonal': return 'bg-yellow-500/80 text-white';
-            case 'New Year': return 'bg-pink-500/80 text-white';
             case 'Solar': return 'bg-orange-500/80 text-white';
-            case 'Light': return 'bg-amber-500/80 text-white';
-            case 'Monsoon': return 'bg-teal-500/80 text-white';
-            default: return 'bg-secondary text-secondary-foreground';
+            default: return '';
         }
     };
 
@@ -266,7 +166,6 @@ export function FestivalCalendar() {
                                 <SelectValue placeholder="Year" />
                             </SelectTrigger>
                             <SelectContent>
-                                <SelectItem value="upcoming">Upcoming (1 Year)</SelectItem>
                                 <SelectItem value="all">All Years</SelectItem>
                                 {years.map(year => <SelectItem key={year} value={year}>{year}</SelectItem>)}
                             </SelectContent>
@@ -300,10 +199,6 @@ export function FestivalCalendar() {
                         </Select>
                     </div>
                 </div>
-                 <div className="flex items-center gap-2 mt-4 pt-4 border-t border-dashed">
-                    <Star className="w-4 h-4 text-amber-500 fill-amber-500" /> 
-                    <p className="text-sm text-muted-foreground">Indicates a festival that falls on or creates a long weekend.</p>
-                </div>
             </Card>
 
             <Card>
@@ -311,7 +206,7 @@ export function FestivalCalendar() {
                     <Table>
                         <TableHeader>
                             <TableRow>
-                                <TableHead className="w-[250px]">Date</TableHead>
+                                <TableHead className="w-[200px]">Date</TableHead>
                                 <TableHead>Name</TableHead>
                                 <TableHead>Region</TableHead>
                                 <TableHead>Type</TableHead>
@@ -322,14 +217,11 @@ export function FestivalCalendar() {
                             {filteredEvents.length > 0 ? (
                                 filteredEvents.map((event) => (
                                     <TableRow key={event.name + event.date}>
-                                        <TableCell className="font-medium">{formatFullDate(event.date)}</TableCell>
-                                        <TableCell className="font-bold text-base flex items-center gap-2">
-                                            {event.isLongWeekend && <Star className="w-4 h-4 text-amber-500 fill-amber-500" />}
-                                            {event.name}
-                                        </TableCell>
+                                        <TableCell className="font-medium">{event.date}</TableCell>
+                                        <TableCell className="font-bold text-base">{event.name}</TableCell>
                                         <TableCell>{event.region}</TableCell>
                                         <TableCell>
-                                            <Badge className={getBadgeClass(event.type)}>
+                                            <Badge variant={getBadgeVariant(event.type)} className={getBadgeClass(event.type)}>
                                                 {event.type}
                                             </Badge>
                                         </TableCell>
