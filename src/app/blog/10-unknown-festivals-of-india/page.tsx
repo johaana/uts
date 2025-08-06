@@ -22,7 +22,7 @@ export default function SingleBlogPage() {
                         </div>
 
                          <div className="relative h-96 w-full mb-8">
-                            <Image src="https://i.postimg.cc/1XRjFP3M/unique-Indian-festivals.jpg" alt="Indian tribal festival" layout="fill" objectFit="contain" data-ai-hint="tribal festival" className="rounded-lg"/>
+                            <Image src="https://i.postimg.cc/ncrHbfGv/unique-festivals-1.jpg" alt="Indian tribal festival" layout="fill" objectFit="contain" data-ai-hint="tribal festival" className="rounded-lg"/>
                         </div>
 
                         <p>While Diwali's lights and Holi's colors capture global attention, India's cultural heart beats strongest in its lesser-known regional festivals. These are not just events; they are raw, authentic celebrations of life, community, and ancient traditions. For the traveler seeking to go beyond the tourist trail, these festivals offer an unparalleled window into the soul of India. Here are 10 such celebrations that promise an unforgettable experience.</p>

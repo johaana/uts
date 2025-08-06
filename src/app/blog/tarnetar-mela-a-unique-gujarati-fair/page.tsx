@@ -22,7 +22,7 @@ export default function SingleBlogPage() {
                         </div>
 
                          <div className="relative h-96 w-full mb-8">
-                            <Image src="https://i.postimg.cc/0Nffmbwk/sanin-sn-B4-ZQ2m-KEiq-Y-unsplash.jpg" alt="Tarnetar Mela" layout="fill" objectFit="contain" data-ai-hint="gujarat fair" className="rounded-lg"/>
+                            <Image src="https://i.postimg.cc/N0qYH9q4/tarnetar-mela.jpg" alt="Tarnetar Mela" layout="fill" objectFit="contain" data-ai-hint="gujarat fair" className="rounded-lg"/>
                         </div>
 
                         <h2>A Celebration of Love, Dance, and Tradition</h2>
