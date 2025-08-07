@@ -9,7 +9,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { ArrowRight, Star } from "lucide-react";
-import { format, parse, getYear, isAfter, isSameDay, addDays, isBefore, isValid } from 'date-fns';
+import { format, parse, getYear, isValid } from 'date-fns';
 
 const allEvents = [
     // 2024
@@ -129,7 +129,7 @@ export function FestivalCalendar() {
     const [selectedMonth, setSelectedMonth] = useState('all');
     const [selectedRegion, setSelectedRegion] = useState('all');
     const [selectedEventType, setSelectedEventType] = useState('all');
-    const [selectedYear, setSelectedYear] = useState('upcoming');
+    const [selectedYear, setSelectedYear] = useState(String(new Date().getFullYear()));
 
     const formatDateString = (dateString: string) => {
         const parts = dateString.split(' - ');
@@ -177,42 +177,25 @@ export function FestivalCalendar() {
     };
     
     const filteredEvents = useMemo(() => {
-    const now = new Date();
-    now.setHours(0, 0, 0, 0);
+        return allEvents.filter(event => {
+            const eventYear = getYear(safeParseDate(event.date.split(' - ')[0]));
 
-    let yearFilteredEvents = allEvents;
+            const yearMatch = selectedYear === 'all' || eventYear === parseInt(selectedYear);
+            const monthMatch = selectedMonth === 'all' || getMonthFromDateString(event.date) === selectedMonth;
+            const regionMatch = selectedRegion === 'all' || event.region === selectedRegion || event.region.includes(selectedRegion);
+            
+            let eventTypeMatch = true;
+            if (selectedEventType === 'Festivals') {
+                eventTypeMatch = event.type !== 'Holiday' && event.type !== 'Diwali';
+            } else if (selectedEventType === 'Holidays') {
+                eventTypeMatch = event.type === 'Holiday';
+            } else if (selectedEventType === 'Long Weekends') {
+                eventTypeMatch = !!event.longWeekend;
+            }
 
-    if (selectedYear === 'upcoming') {
-      const oneYearFromNow = addDays(now, 365);
-      yearFilteredEvents = allEvents.filter(event => {
-        const eventStartDate = safeParseDate(event.date.split(' - ')[0]);
-        if (!isValid(eventStartDate)) return false;
-        return (isAfter(eventStartDate, now) || isSameDay(eventStartDate, now)) && isBefore(eventStartDate, oneYearFromNow);
-      });
-    } else if (selectedYear !== 'all') {
-      yearFilteredEvents = allEvents.filter(event => {
-        const eventStartDate = safeParseDate(event.date.split(' - ')[0]);
-        if (!isValid(eventStartDate)) return false;
-        return getYear(eventStartDate) === parseInt(selectedYear, 10);
-      });
-    }
-
-    return yearFilteredEvents.filter(event => {
-      const monthMatch = selectedMonth === 'all' || getMonthFromDateString(event.date) === selectedMonth;
-      const regionMatch = selectedRegion === 'all' || event.region === selectedRegion || event.region.includes(selectedRegion);
-      
-      let eventTypeMatch = true;
-      if (selectedEventType === 'Festivals') {
-          eventTypeMatch = event.type !== 'Holiday' && event.type !== 'Diwali';
-      } else if (selectedEventType === 'Holidays') {
-          eventTypeMatch = event.type === 'Holiday';
-      } else if (selectedEventType === 'Long Weekends') {
-          eventTypeMatch = !!event.longWeekend;
-      }
-
-      return monthMatch && regionMatch && eventTypeMatch;
-    });
-  }, [selectedYear, selectedMonth, selectedRegion, selectedEventType]);
+            return yearMatch && monthMatch && regionMatch && eventTypeMatch;
+        });
+    }, [selectedYear, selectedMonth, selectedRegion, selectedEventType]);
 
 
     const getBadgeClass = (type: string) => {
@@ -262,7 +245,6 @@ export function FestivalCalendar() {
                                 <SelectValue placeholder="Year" />
                             </SelectTrigger>
                             <SelectContent>
-                                <SelectItem value="upcoming">Upcoming (1 year)</SelectItem>
                                 <SelectItem value="all">All Years</SelectItem>
                                 {availableYears.map(year => <SelectItem key={year} value={String(year)}>{year}</SelectItem>)}
                             </SelectContent>
