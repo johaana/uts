@@ -68,16 +68,6 @@ const allEvents = [
     { date: "Nov 08, 2026", name: "Diwali (Lakshmi Puja)", region: "Nationwide", type: "Holiday", link: "/festivals/diwali", longWeekend: true },
     { date: "Nov 24, 2026", name: "Guru Nanak Jayanti", region: "Nationwide", type: "Religious", link: "/festivals/guru-nanak-jayanti" },
     { date: "Dec 25, 2026", name: "Christmas", region: "Nationwide", type: "Religious", link: "/festivals/christmas", longWeekend: true },
-    
-    // Future Dummy Data
-    { date: "Oct 28, 2027", name: "Diwali", region: "Nationwide", type: "Holiday", link: "/festivals/diwali", longWeekend: true },
-    { date: "Oct 17, 2028", name: "Diwali", region: "Nationwide", type: "Holiday", link: "/festivals/diwali", longWeekend: true },
-    { date: "Nov 05, 2029", name: "Diwali", region: "Nationwide", type: "Holiday", link: "/festivals/diwali", longWeekend: true },
-    { date: "Oct 25, 2030", name: "Diwali", region: "Nationwide", type: "Holiday", link: "/festivals/diwali", longWeekend: true },
-    { date: "Nov 14, 2031", name: "Diwali", region: "Nationwide", type: "Holiday", link: "/festivals/diwali", longWeekend: true },
-    { date: "Nov 02, 2032", name: "Diwali", region: "Nationwide", type: "Holiday", link: "/festivals/diwali", longWeekend: true },
-    { date: "Oct 22, 2033", name: "Diwali", region: "Nationwide", type: "Holiday", link: "/festivals/diwali", longWeekend: true },
-    { date: "Nov 10, 2034", name: "Diwali", region: "Nationwide", type: "Holiday", link: "/festivals/diwali", longWeekend: true },
 ].sort((a, b) => {
     const dateA = parse(a.date.split(' - ')[0], 'MMM dd, yyyy', new Date());
     const dateB = parse(b.date.split(' - ')[0], 'MMM dd, yyyy', new Date());
@@ -87,14 +77,13 @@ const allEvents = [
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const regions = ["Nationwide", "North", "South", "East", "West", "Northeast", "Central"];
 const eventTypes = ["Festivals", "Holidays", "Long Weekends"];
-const currentFullYear = getYear(new Date());
-const availableYears = [...new Set(allEvents.map(e => getYearFromDateString(e.date)))].sort();
-
+const availableYears = [...new Set(allEvents.map(e => getYear(parse(e.date.split(' - ')[0], 'MMM dd, yyyy', new Date()))))].sort();
 
 function getYearFromDateString(dateString: string): number {
     try {
-        const yearStr = dateString.split(', ')[1].split(' - ')[0];
-        return parseInt(yearStr, 10);
+        const datePart = dateString.split(' - ')[0];
+        const date = parse(datePart, 'MMM dd, yyyy', new Date());
+        return getYear(date);
     } catch (e) {
         return 0;
     }
@@ -115,7 +104,6 @@ export function FestivalCalendar() {
             return 'Unknown';
         }
     };
-    
 
     const formatDateString = (dateString: string) => {
         const parts = dateString.split(' - ');
@@ -124,11 +112,15 @@ export function FestivalCalendar() {
             if (parts.length > 1) {
                 const endDateStr = parts[1];
                 let endDate;
-                if (endDateStr.includes(',')) {
-                    endDate = parse(endDateStr, 'MMM dd, yyyy', new Date());
+                // If end date part doesn't have a year, use the start date's year
+                if (endDateStr.split(',').length < 2) {
+                     endDate = parse(`${endDateStr}, ${getYear(startDate)}`, 'MMM dd, yyyy', new Date());
                 } else {
-                    const year = format(startDate, 'yyyy');
-                    endDate = parse(`${endDateStr}, ${year}`, 'MMM dd, yyyy', new Date());
+                     endDate = parse(endDateStr, 'MMM dd, yyyy', new Date());
+                }
+
+                if (isNaN(endDate.getTime())) { // Fallback for invalid end date format
+                     return format(startDate, 'MMM dd, yyyy (EEEE)');
                 }
 
                 if (format(startDate, 'yyyy') !== format(endDate, 'yyyy')) {
@@ -151,21 +143,13 @@ export function FestivalCalendar() {
         
         return allEvents.filter(event => {
             const eventStartDateStr = event.date.split(' - ')[0];
-            const eventEndDateStr = event.date.split(' - ').pop() || event.date;
-
-            let eventStartDate, eventEndDate;
-             try {
+            let eventStartDate;
+            try {
                 eventStartDate = parse(eventStartDateStr, 'MMM dd, yyyy', new Date());
-
-                const yearStr = eventEndDateStr.includes(',') ? eventEndDateStr.split(', ')[1].split(' ')[0] : event.date.split(', ')[1].split(' ')[0];
-                const dateToParse = eventEndDateStr.includes(',') ? eventEndDateStr : `${eventEndDateStr}, ${yearStr}`;
-                eventEndDate = parse(dateToParse, 'MMM dd, yyyy', new Date());
-
-                if (isNaN(eventStartDate.getTime()) || isNaN(eventEndDate.getTime())) return false;
-            } catch(e) {
+                if(isNaN(eventStartDate.getTime())) return false; // Skip invalid dates
+            } catch (e) {
                 return false;
             }
-
 
             const eventMonth = getMonthFromDateString(event.date);
             const eventYear = getYearFromDateString(event.date);
