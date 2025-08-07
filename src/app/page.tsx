@@ -78,20 +78,6 @@ export default function Home() {
       <section className="py-16 md:py-24 bg-secondary/30">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="font-headline text-4xl md:text-5xl font-bold text-primary">AI-Powered Holiday Planner</h2>
-            <p className="mt-4 text-lg text-foreground/80 max-w-2xl mx-auto">
-              Unsure where to go? Let our AI assistant craft personalized festival-based travel suggestions for you.
-            </p>
-          </div>
-          <div className="flex justify-center">
-            <HolidayPlanner />
-          </div>
-        </div>
-      </section>
-
-      <section className="py-16 md:py-24 bg-background">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
             <h2 className="font-headline text-4xl md:text-5xl font-bold text-primary">Discover by Region</h2>
             <p className="mt-4 text-lg text-foreground/80 max-w-2xl mx-auto">
                 India's cultural landscape is incredibly diverse. Explore festivals unique to each part of the country.
@@ -101,7 +87,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-16 md:py-24 bg-secondary/30">
+      <section className="py-16 md:py-24 bg-background">
         <div className="container mx-auto px-4">
             <div className="text-center mb-12">
                 <h2 className="font-headline text-4xl md:text-5xl font-bold text-primary">A World of Flavor & Tradition</h2>
