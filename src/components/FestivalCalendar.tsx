@@ -9,7 +9,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { ArrowRight, Star } from "lucide-react";
-import { format, parse, getYear, isValid, isWithinInterval, startOfToday, endOfDay, addDays, isToday, isFuture } from 'date-fns';
+import { format, parse, getYear, isValid, isWithinInterval, startOfToday, endOfDay, addDays, isToday, isFuture, isPast, endOfToday } from 'date-fns';
 import { allEvents } from '@/lib/festival-data';
 
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -57,7 +57,8 @@ export function FestivalCalendar() {
             if (parts.length > 1) {
                 const endDateStr = parts[1];
                 let parsedEndDate;
-                if (endDateStr.split(',').length < 2) {
+                // Handles cases like "Oct 29 - Nov 02, 2024" where the year is only at the end.
+                if (endDateStr.split(',').length < 2) { 
                     parsedEndDate = parse(`${endDateStr}, ${getYear(startDate)}`, 'MMM dd, yyyy', new Date());
                 } else {
                     parsedEndDate = parse(endDateStr, 'MMM dd, yyyy', new Date());
@@ -66,7 +67,7 @@ export function FestivalCalendar() {
                     endDate = parsedEndDate;
                 }
             }
-            return { start: startDate, end: endDate };
+            return { start: startDate, end: endOfDay(endDate) };
         } catch (e) {
             return null;
         }
@@ -75,25 +76,29 @@ export function FestivalCalendar() {
     const filteredEvents = useMemo(() => {
         const today = startOfToday();
 
-        // Step 1: Filter by Year/Upcoming
-        let yearFilteredEvents = allEvents.filter(event => {
+        let dateFilteredEvents = allEvents.filter(event => {
             const range = getEventDateRange(event.date);
             if (!range) return false;
 
             if (selectedYear === 'Upcoming (1 year)') {
                 const oneYearFromNow = endOfDay(addDays(today, 365));
-                // Show if the event starts within the next year, or if it's currently ongoing
-                 return (isWithinInterval(range.start, { start: today, end: oneYearFromNow })) || (isToday(range.start) || (range.start < today && range.end >= today));
+                // Event must not have ended before today
+                // Event start must be within the next year
+                return range.end >= today && isWithinInterval(range.start, { start: today, end: oneYearFromNow });
             }
+
             if (selectedYear === 'all') {
-                return isFuture(range.end) || isToday(range.end);
+                 // Show all events that haven't ended yet
+                return range.end >= today;
             }
+
             const yearNum = parseInt(selectedYear, 10);
+            // Show events that occur in the selected year
             return getYear(range.start) === yearNum || getYear(range.end) === yearNum;
         });
 
-        // Step 2: Apply other filters
-        return yearFilteredEvents.filter(event => {
+        // Apply other filters to the date-filtered list
+        return dateFilteredEvents.filter(event => {
             const range = getEventDateRange(event.date);
             if (!range) return false;
 
