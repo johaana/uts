@@ -66,7 +66,7 @@ export function HolidayPlanner() {
         <div className="space-y-4 h-64 overflow-y-auto p-4 border rounded-md bg-muted/50">
           {messages.length === 0 ? (
              <div className="flex items-center justify-center h-full text-muted-foreground">
-                <p>Ask me something like "Plan a trip to Rajasthan for Holi" or "What are some good festivals in the monsoon?".</p>
+                <p>e.g., 'Suggest a 5-day trip to see the best of Diwali' or 'Which festivals are best for photographers in February?'</p>
              </div>
           ) : (
             messages.map((msg, index) => (

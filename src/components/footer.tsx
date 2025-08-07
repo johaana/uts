@@ -30,7 +30,7 @@ export function Footer() {
                     <Image src="https://i.postimg.cc/tCYyQVjX/4.png" alt="Utsavs Logo" width={48} height={48} />
                 </Link>
                 <p className="text-foreground/80 max-w-xs text-sm">
-                  Your definitive guide to the vibrant world of Indian festivals. Explore dates, traditions, recipes, and stories.
+                  Your definitive guide to the vibrant world of Indian festivals. Explore dates, traditions, recipes, and the stories that bring them to life.
                 </p>
             </div>
 
@@ -54,7 +54,7 @@ export function Footer() {
 
              <div className="md:col-span-2 lg:col-span-4">
               <h3 className="font-bold mb-4 font-headline text-lg text-primary">Search Utsavs</h3>
-              <p className="text-foreground/80 mb-4 text-sm">Looking for something specific? Find it here.</p>
+              <p className="text-foreground/80 mb-4 text-sm">Looking for a specific festival or recipe? Find it here.</p>
               <form className="flex gap-2 max-w-sm" onSubmit={handleSearch}>
                 <Input name="search" type="search" placeholder="Search festivals..." className="bg-background"/>
                 <Button type="submit" size="icon" className="shrink-0">

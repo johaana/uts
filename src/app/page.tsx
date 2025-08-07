@@ -36,7 +36,7 @@ function FestivalOfTheMonth() {
         <section className="py-16 md:py-24 bg-background">
             <div className="container mx-auto px-4">
                  <div className="text-center mb-12">
-                    <h2 className="font-headline text-4xl md:text-5xl font-bold text-primary">Upcoming Festivals & Holidays</h2>
+                    <h2 className="font-headline text-4xl md:text-5xl font-bold text-primary">Festivals and Holidays</h2>
                     <p className="mt-4 text-lg text-foreground/80 max-w-2xl mx-auto">
                         A special highlight on the significant celebrations happening soon.
                     </p>
@@ -55,7 +55,7 @@ export default function Home() {
         <div className="container mx-auto px-4 relative z-10">
           <h1 className="font-headline text-5xl md:text-7xl font-bold text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] max-w-4xl mx-auto">Your Definitive Guide to Indian Festivals</h1>
           <p className="mt-6 text-lg md:text-xl text-white/90 drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] max-w-3xl mx-auto">
-            Explore the rich tapestry of India's vibrant celebrations. Discover dates, rituals, stories, and authentic recipes for every occasion.
+            Immerse yourself in the soul of India's vibrant celebrations. Discover authentic rituals, explore fascinating stories, and cook traditional recipes for every festival.
           </p>
           <div className="mt-10">
             <Link href="/festivals">
@@ -78,9 +78,9 @@ export default function Home() {
       <section className="py-16 md:py-24 bg-secondary/30">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="font-headline text-4xl md:text-5xl font-bold text-primary">Plan Your Holiday With AI</h2>
+            <h2 className="font-headline text-4xl md:text-5xl font-bold text-primary">AI-Powered Holiday Planner</h2>
             <p className="mt-4 text-lg text-foreground/80 max-w-2xl mx-auto">
-              Ask our AI assistant for festival recommendations and travel ideas!
+              Unsure where to go? Let our AI assistant craft personalized festival-based travel suggestions for you.
             </p>
           </div>
           <div className="flex justify-center">
