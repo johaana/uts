@@ -33,7 +33,7 @@ export function Header() {
     <header 
       className={cn(
         "bg-background/80 backdrop-blur-sm border-b sticky top-0 z-50 transition-all duration-300",
-        isScrolled ? "h-16" : "h-24"
+        isScrolled ? "h-16" : "h-20"
       )}
     >
       <div className="container mx-auto flex items-center justify-between px-4 h-full">
@@ -43,8 +43,8 @@ export function Header() {
                 <Image 
                   src="https://i.postimg.cc/vZTZ0Br5/utsavs-logo.png" 
                   alt="Utsavs Logo" 
-                  width={isScrolled ? 80 : 91}
-                  height={isScrolled ? 80 : 91}
+                  width={isScrolled ? 64 : 72}
+                  height={isScrolled ? 64 : 72}
                   className="transition-all duration-300"
                 />
              </Link>
@@ -78,7 +78,7 @@ export function Header() {
                       size={isScrolled ? "sm" : "default"}
                       className={cn(
                         "bg-blue-600 hover:bg-blue-700 text-white font-bold tracking-wide uppercase shadow-lg hover:shadow-blue-500/50 rounded-full px-4 hover:scale-105 transition-all duration-300",
-                        isScrolled ? "py-1" : "py-2"
+                         isScrolled ? "py-1" : "py-2"
                       )}
                     >
                         AI Holiday Planner
