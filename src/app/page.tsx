@@ -1,9 +1,8 @@
 
-
 'use client';
 
 import { Button } from "@/components/ui/button";
-import { ArrowRight, CalendarHeart } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { FestivalCalendar } from "@/components/FestivalCalendar";
 import { RegionShowcase } from "@/components/RegionShowcase";
@@ -15,9 +14,9 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel"
 import Image from "next/image";
-import { Card, CardContent } from "@/components/ui/card";
 import React from "react";
 import { UpcomingFestivalCard } from "@/components/UpcomingFestivalCard";
+import { Card } from "@/components/ui/card";
 
 
 const allUpcomingFestivals = [

@@ -4,8 +4,8 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Card, CardContent } from './ui/card';
-import { parseISO, differenceInSeconds } from 'date-fns';
-import React, { useEffect, useState } from 'react';
+import { parseISO, differenceInSeconds, format } from 'date-fns';
+import { useEffect, useState } from 'react';
 
 interface Festival {
     name: string;
@@ -15,70 +15,84 @@ interface Festival {
     hint: string;
 }
 
-function CountdownBox({ value, label }: { value: number, label: string }) {
+interface TimeLeft {
+    days: number;
+    hours: number;
+    minutes: number;
+    seconds: number;
+}
+
+function CountdownBox({ value, label }: { value: number; label: string }) {
     return (
         <div className="flex flex-col items-center justify-center bg-primary/10 p-3 rounded-lg w-20 h-20">
             <span className="text-3xl font-bold text-primary tabular-nums">
-                 {String(value).padStart(2, '0')}
+                {String(value).padStart(2, '0')}
             </span>
             <span className="text-xs text-muted-foreground mt-1">{label}</span>
         </div>
     );
 }
 
-function FestivalDateDisplay({ dateString }: { dateString: string }) {
-    const date = parseISO(dateString);
-    return <p className="text-sm text-muted-foreground mb-4">{new Intl.DateTimeFormat('en-US', { dateStyle: 'full' }).format(date)}</p>;
-}
-
 export function UpcomingFestivalCard({ festival }: { festival: Festival }) {
     const [isClient, setIsClient] = useState(false);
-    const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-    
+    const [timeLeft, setTimeLeft] = useState<TimeLeft | null>(null);
+
     useEffect(() => {
         setIsClient(true);
     }, []);
 
     useEffect(() => {
-        if (!isClient) return;
+        if (!isClient) {
+            return;
+        }
 
-        const targetDate = parseISO(festival.date);
-        
-        const timer = setInterval(() => {
-            const now = new Date();
-            const secondsLeft = differenceInSeconds(targetDate, now);
+        const calculateTimeLeft = () => {
+            try {
+                const target = parseISO(festival.date);
+                const now = new Date();
+                const seconds = differenceInSeconds(target, now);
 
-            if (secondsLeft < 0) {
-                clearInterval(timer);
-                setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-                return;
+                if (seconds <= 0) {
+                    return null;
+                }
+
+                return {
+                    days: Math.floor(seconds / 86400),
+                    hours: Math.floor((seconds % 86400) / 3600),
+                    minutes: Math.floor((seconds % 3600) / 60),
+                    seconds: seconds % 60,
+                };
+            } catch (error) {
+                console.error("Error parsing date:", festival.date, error);
+                return null;
             }
+        };
 
-            setTimeLeft({
-                days: Math.floor(secondsLeft / 86400),
-                hours: Math.floor((secondsLeft % 86400) / 3600),
-                minutes: Math.floor((secondsLeft % 3600) / 60),
-                seconds: secondsLeft % 60,
-            });
+        const timer = setInterval(() => {
+            setTimeLeft(calculateTimeLeft());
         }, 1000);
+
+        setTimeLeft(calculateTimeLeft());
 
         return () => clearInterval(timer);
     }, [isClient, festival.date]);
 
-    const isFinished = isClient && differenceInSeconds(parseISO(festival.date), new Date()) < 0;
+    const formattedDate = format(parseISO(festival.date), 'EEEE, MMMM dd, yyyy');
 
     return (
         <Card className="h-full overflow-hidden group flex flex-col shadow-lg hover:shadow-2xl transition-shadow duration-300">
             <div className="relative h-64 w-full overflow-hidden">
-                <Image
-                    src={festival.image}
-                    alt={festival.name}
-                    layout="fill"
-                    objectFit="cover"
-                    data-ai-hint={festival.hint}
-                    className="transition-transform duration-500 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                <Link href={festival.link}>
+                    <Image
+                        src={festival.image}
+                        alt={festival.name}
+                        layout="fill"
+                        objectFit="cover"
+                        data-ai-hint={festival.hint}
+                        className="transition-transform duration-500 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                </Link>
             </div>
             <CardContent className="p-6 flex flex-col flex-grow items-center text-center">
                 <div className="flex-grow">
@@ -87,24 +101,20 @@ export function UpcomingFestivalCard({ festival }: { festival: Festival }) {
                             {festival.name}
                         </Link>
                     </h3>
-                    {isClient && <FestivalDateDisplay dateString={festival.date} />}
+                    <p className="text-sm text-muted-foreground mb-4">{formattedDate}</p>
                 </div>
-                
-                <div className="h-[92px] flex items-center justify-center">
-                    {isClient && !isFinished ? (
+
+                <div className="w-full flex items-center justify-center">
+                     {isClient && timeLeft ? (
                         <div className="flex justify-center gap-2">
                             <CountdownBox value={timeLeft.days} label="Days" />
                             <CountdownBox value={timeLeft.hours} label="Hours" />
                             <CountdownBox value={timeLeft.minutes} label="Mins" />
                             <CountdownBox value={timeLeft.seconds} label="Secs" />
                         </div>
-                    ) : isClient && isFinished ? (
-                         <div className="text-center font-bold text-accent py-3 px-4 rounded-lg bg-accent/10">
-                            Happy Festival!
-                        </div>
                     ) : (
-                        <div className="h-[92px] w-full bg-muted/50 animate-pulse rounded-lg flex items-center justify-center">
-                            <p className="text-muted-foreground">Loading Countdown...</p>
+                         <div className="text-center font-bold text-accent py-3 px-4 rounded-lg bg-accent/10 w-full">
+                            Happy Festival!
                         </div>
                     )}
                 </div>
@@ -112,3 +122,4 @@ export function UpcomingFestivalCard({ festival }: { festival: Festival }) {
         </Card>
     );
 }
+
