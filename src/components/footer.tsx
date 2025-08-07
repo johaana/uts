@@ -6,7 +6,7 @@ import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { useRouter } from "next/navigation";
 import React from "react";
-import { Search } from "lucide-react";
+import { Search, Mail } from "lucide-react";
 import Image from "next/image";
 
 export function Footer() {
@@ -25,7 +25,7 @@ export function Footer() {
     <footer className="bg-secondary/50 border-t">
       <div className="container mx-auto max-w-7xl px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12">
-            <div className="lg:col-span-4 flex flex-col items-center md:items-start text-center md:text-left">
+            <div className="lg:col-span-3 flex flex-col items-center md:items-start text-center md:text-left">
                  <Link href="/" className="flex items-center gap-2 mb-4">
                     <Image src="https://i.postimg.cc/tCYyQVjX/4.png" alt="Utsavs Logo" width={48} height={48} />
                 </Link>
@@ -43,7 +43,15 @@ export function Footer() {
               </ul>
             </div>
             
-             <div className="md:col-span-2 lg:col-span-6">
+            <div className="lg:col-span-3">
+              <h3 className="font-bold mb-4 font-headline text-lg text-primary">Contact</h3>
+                <a href="mailto:celebrate@utsavs.com" className="flex items-center gap-2 text-foreground/80 hover:text-primary">
+                    <Mail className="w-4 h-4"/>
+                    <span>celebrate@utsavs.com</span>
+                </a>
+            </div>
+
+             <div className="md:col-span-2 lg:col-span-4">
               <h3 className="font-bold mb-4 font-headline text-lg text-primary">Search Utsavs</h3>
               <p className="text-foreground/80 mb-4 text-sm">Looking for something specific? Find it here.</p>
               <form className="flex gap-2 max-w-sm" onSubmit={handleSearch}>
