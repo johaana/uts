@@ -1,7 +1,7 @@
-
-import { ShareButtons } from "@/components/ShareButtons";
+'use client';
 import { cn } from "@/lib/utils";
 import React from "react";
+import { ShareButtons } from "./ShareButtons";
 
 export function RecipeCardLayout({ children, className, recipeName }: { children: React.ReactNode, className?: string, recipeName: string }) {
     return (
