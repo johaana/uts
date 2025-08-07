@@ -2,7 +2,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CheckCircle, BookOpen, Sparkles, MessageSquareQuote } from "lucide-react";
-import Link from "next/link";
 import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
 
@@ -10,6 +9,7 @@ export default function ThaipusamPage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-primary/10">
+                 <Image src="https://i.postimg.cc/4y7fTLZd/thaipusam.webp" alt="Thaipusam festival" layout="fill" objectFit="cover" className="absolute inset-0 z-0 opacity-30" data-ai-hint="kavadi" />
                 <div className="relative text-center text-primary-foreground">
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-primary shadow-lg">Thaipusam</h1>
                     <p className="text-xl md:text-2xl mt-4 text-primary/90 shadow-md">A Festival of Faith and Penance</p>

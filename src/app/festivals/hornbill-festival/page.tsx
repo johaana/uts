@@ -2,7 +2,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote } from "lucide-react";
-import Link from "next/link";
 import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
 
@@ -10,6 +9,7 @@ export default function HornbillFestivalPage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-primary/10">
+                 <Image src="https://i.postimg.cc/6pL9wGsd/Hornbill-Festival.webp" alt="Hornbill Festival" layout="fill" objectFit="cover" className="absolute inset-0 z-0 opacity-30" data-ai-hint="naga festival" />
                 <div className="relative text-center text-primary-foreground z-10 p-4">
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-primary/90 drop-shadow-lg">Hornbill Festival</h1>
                     <p className="text-xl md:text-2xl mt-4 text-primary/90 drop-shadow-md">The Festival of Festivals</p>

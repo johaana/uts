@@ -3,11 +3,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BookOpen, Sparkles, MessageSquareQuote, CheckCircle, Utensils } from "lucide-react";
 import Image from "next/image";
+import { ShareButtons } from "@/components/ShareButtons";
 
 export default function VishuPage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-yellow-500/10">
+                <div className="absolute inset-0 z-0 opacity-30">
+                    <Image src="https://i.postimg.cc/7PdPNkMT/vishu-celebration.png" alt="Vishu Kani" layout="fill" objectFit="cover" data-ai-hint="vishu kani" />
+                </div>
                 <div className="relative text-center text-primary-foreground z-10 p-4">
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-yellow-900 drop-shadow-lg">Vishu</h1>
                     <p className="text-xl md:text-2xl mt-4 text-yellow-800/90 drop-shadow-md">Kerala's Astronomical New Year</p>
@@ -72,6 +76,7 @@ export default function VishuPage() {
                                 </div>
                             </TabsContent>
                         </Tabs>
+                        <ShareButtons title="Vishu" />
                     </CardContent>
                 </Card>
             </div>

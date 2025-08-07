@@ -9,6 +9,9 @@ export default function GoaCarnivalPage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-purple-500/10">
+                <div className="absolute inset-0 z-0 opacity-30">
+                    <Image src="https://i.postimg.cc/4xZYzGsQ/Goa-Carnival.jpg" alt="Goa Carnival" layout="fill" objectFit="cover" data-ai-hint="carnival parade float" />
+                </div>
                 <div className="relative text-center text-primary-foreground z-10 p-4">
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-purple-900 drop-shadow-lg">Goa Carnival</h1>
                     <p className="text-xl md:text-2xl mt-4 text-purple-800/90 drop-shadow-md">The Ultimate Street Party</p>

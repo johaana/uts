@@ -16,6 +16,9 @@ export default function VasantPanchamiPage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-yellow-400/10">
+                <div className="absolute inset-0 z-0 opacity-30">
+                    <Image src="https://i.postimg.cc/zBPz6ms6/Vasant-Panchami1.avif" alt="Vasant Panchami" layout="fill" objectFit="cover" data-ai-hint="saraswati puja" />
+                </div>
                 <div className="relative text-center text-primary-foreground z-10 p-4">
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-yellow-800 shadow-lg">Vasant Panchami</h1>
                     <p className="text-xl md:text-2xl mt-4 text-yellow-700/90 shadow-md">Heralding Spring with the Goddess of Wisdom</p>

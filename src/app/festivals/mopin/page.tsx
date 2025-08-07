@@ -8,6 +8,9 @@ export default function MopinFestivalPage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-green-500/10">
+                <div className="absolute inset-0 z-0 opacity-30">
+                    <Image src="https://i.postimg.cc/Dzv7zyFR/mopin-festival.jpg" alt="Mopin Festival" layout="fill" objectFit="cover" data-ai-hint="galo tribe" />
+                </div>
                 <div className="relative text-center text-primary-foreground z-10 p-4">
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-green-900 drop-shadow-lg">Mopin Festival</h1>
                     <p className="text-xl md:text-2xl mt-4 text-green-800/90 drop-shadow-md">Arunachal's Harvest Celebration</p>

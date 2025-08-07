@@ -4,6 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { ShareButtons } from "@/components/ShareButtons";
 
 const recipes = [
     { name: "Ugadi Pachadi", link: "#" },
@@ -15,6 +16,9 @@ export default function UgadiPage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-primary/10">
+                <div className="absolute inset-0 z-0 opacity-30">
+                    <Image src="https://i.postimg.cc/ZnGTY8KL/ugadi.jpg" alt="Ugadi" layout="fill" objectFit="cover" data-ai-hint="ugadi pachadi" />
+                </div>
                 <div className="relative text-center text-primary-foreground">
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-primary shadow-lg">Ugadi</h1>
                     <p className="text-xl md:text-2xl mt-4 text-primary/90 shadow-md">The New Year of the Deccan</p>
@@ -89,6 +93,7 @@ export default function UgadiPage() {
                                 </div>
                             </TabsContent>
                         </Tabs>
+                         <ShareButtons title="Ugadi" />
                     </CardContent>
                 </Card>
             </div>

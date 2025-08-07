@@ -12,6 +12,7 @@ export default function ChapcharKutPage() {
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-green-900 drop-shadow-lg">Chapchar Kut</h1>
                     <p className="text-xl md:text-2xl mt-4 text-green-800/90 drop-shadow-md">Mizoram's Biggest Spring Festival</p>
                 </div>
+                 <Image src="https://i.postimg.cc/G2NRzFY1/chapchar-kut1.jpg" alt="Chapchar Kut Festival" layout="fill" objectFit="cover" className="absolute inset-0 z-0 opacity-30" data-ai-hint="mizo dance" />
             </section>
             
             <div className="container mx-auto px-4 py-12 -mt-24">

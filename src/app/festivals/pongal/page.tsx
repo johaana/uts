@@ -16,6 +16,7 @@ export default function PongalPage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-primary/10">
+                 <Image src="https://i.postimg.cc/bvmpScwr/pongal.jpg" alt="Pongal festival" layout="fill" objectFit="cover" className="absolute inset-0 z-0 opacity-30" data-ai-hint="pongal dish" />
                 <div className="relative text-center text-primary-foreground">
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-primary shadow-lg">Pongal</h1>
                     <p className="text-xl md:text-2xl mt-4 text-primary/90 shadow-md">Tamil Nadu's Harvest Festival</p>

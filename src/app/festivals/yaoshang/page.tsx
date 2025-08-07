@@ -3,11 +3,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BookOpen, Sparkles, Music } from "lucide-react";
 import Image from "next/image";
+import { ShareButtons } from "@/components/ShareButtons";
 
 export default function YaoshangPage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-pink-500/10">
+                <div className="absolute inset-0 z-0 opacity-30">
+                    <Image src="https://i.postimg.cc/LXs4x4bj/yaoshang.webp" alt="Yaoshang festival" layout="fill" objectFit="cover" data-ai-hint="manipur festival" />
+                </div>
                 <div className="relative text-center z-10 p-4">
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-pink-900 drop-shadow-lg">Yaoshang</h1>
                     <p className="text-xl md:text-2xl mt-4 text-pink-800/90 drop-shadow-md">The Holi of Manipur</p>
@@ -53,6 +57,7 @@ export default function YaoshangPage() {
                                 </div>
                             </TabsContent>
                         </Tabs>
+                        <ShareButtons title="Yaoshang" />
                     </CardContent>
                 </Card>
             </div>
