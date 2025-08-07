@@ -23,7 +23,7 @@
     --muted-foreground: 25 10% 45%;
  
     --accent: 35 91% 55%; /* Muted Saffron */
-    --accent-foreground: 24 9.8% 10%;
+    --accent-foreground: 25 25% 15%;
  
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
@@ -61,7 +61,7 @@
     --muted-foreground: 24 5% 64%;
  
     --accent: 35 91% 55%; /* Muted Saffron */
-    --accent-foreground: 24 9.8% 10%;
+    --accent-foreground: 25 25% 15%;
  
     --destructive: 0 63% 31%;
     --destructive-foreground: 0 0% 98%;
