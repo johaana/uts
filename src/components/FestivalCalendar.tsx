@@ -9,7 +9,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { ArrowRight, Star } from "lucide-react";
-import { format, parse, getYear, isAfter, isSameDay, addYears, isBefore } from 'date-fns';
+import { format, parse, getYear, isAfter, isSameDay, addYears, isBefore, isValid } from 'date-fns';
 
 const allEvents = [
     // 2024
@@ -71,22 +71,23 @@ const allEvents = [
 ].sort((a, b) => {
     const dateA = parse(a.date.split(' - ')[0], 'MMM dd, yyyy', new Date());
     const dateB = parse(b.date.split(' - ')[0], 'MMM dd, yyyy', new Date());
+    if (!isValid(dateA) || !isValid(dateB)) return 0;
     return dateA.getTime() - dateB.getTime();
 });
 
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const regions = ["Nationwide", "North", "South", "East", "West", "Northeast", "Central"];
 const eventTypes = ["Festivals", "Holidays", "Long Weekends"];
-const availableYears = [...new Set(allEvents.map(e => getYear(parse(e.date.split(' - ')[0], 'MMM dd, yyyy', new Date()))))].sort();
 
-function getYearFromDateString(dateString: string): number {
-    try {
-        const datePart = dateString.split(', ')[1].split(' - ')[0];
-        return parseInt(datePart, 10);
-    } catch (e) {
-        return 0;
-    }
-};
+const safeParseDate = (dateStr: string) => parse(dateStr, 'MMM dd, yyyy', new Date());
+
+const availableYears = [
+    ...new Set(
+        allEvents
+            .map(e => getYear(safeParseDate(e.date.split(' - ')[0])))
+            .filter(year => !isNaN(year))
+    ),
+].sort();
 
 export function FestivalCalendar() {
     const [selectedMonth, setSelectedMonth] = useState('all');
@@ -98,6 +99,7 @@ export function FestivalCalendar() {
         try {
             const datePart = dateString.split(' - ')[0];
             const date = parse(datePart, "MMM dd, yyyy", new Date());
+            if (!isValid(date)) return 'Unknown';
             return format(date, 'MMMM');
         } catch (e) {
             return 'Unknown';
@@ -108,30 +110,38 @@ export function FestivalCalendar() {
         const parts = dateString.split(' - ');
         try {
             const startDate = parse(parts[0], 'MMM dd, yyyy', new Date());
+            if (!isValid(startDate)) return dateString;
+
             if (parts.length > 1) {
                 const endDateStr = parts[1];
                 let endDate;
-                // If end date part doesn't have a year, use the start date's year
+                // Check if endDateStr has a year, if not, use the start date's year
                 if (endDateStr.split(',').length < 2) {
                      endDate = parse(`${endDateStr}, ${getYear(startDate)}`, 'MMM dd, yyyy', new Date());
                 } else {
                      endDate = parse(endDateStr, 'MMM dd, yyyy', new Date());
                 }
 
-                if (isNaN(endDate.getTime())) { // Fallback for invalid end date format
+                if (!isValid(endDate)) {
+                     // Fallback for invalid end date
                      return format(startDate, 'MMM dd, yyyy (EEEE)');
                 }
 
                 if (format(startDate, 'yyyy') !== format(endDate, 'yyyy')) {
+                    // Spans across years: Jan 28, 2024 - Jan 05, 2025
                     return `${format(startDate, 'MMM dd, yyyy')} - ${format(endDate, 'MMM dd, yyyy')}`;
                 } else if (format(startDate, 'MMMM') !== format(endDate, 'MMMM')) {
+                    // Spans across months: Oct 29 - Nov 02, 2024
                     return `${format(startDate, 'MMM dd')} - ${format(endDate, 'MMM dd, yyyy')}`;
                 } else {
+                    // Within the same month: Oct 09 - 13, 2024
                     return `${format(startDate, 'MMM dd')} - ${format(endDate, 'dd, yyyy')}`;
                 }
             }
+            // Single day event
             return format(startDate, 'MMM dd, yyyy (EEEE)');
         } catch (error) {
+            // Failsafe for any unexpected format
             return dateString;
         }
     };
@@ -142,16 +152,11 @@ export function FestivalCalendar() {
         
         return allEvents.filter(event => {
             const eventStartDateStr = event.date.split(' - ')[0];
-            let eventStartDate;
-            try {
-                eventStartDate = parse(eventStartDateStr, 'MMM dd, yyyy', new Date());
-                if(isNaN(eventStartDate.getTime())) return false; // Skip invalid dates
-            } catch (e) {
-                return false;
-            }
+            const eventStartDate = safeParseDate(eventStartDateStr);
+            if(!isValid(eventStartDate)) return false;
 
             const eventMonth = getMonthFromDateString(event.date);
-            const eventYear = getYearFromDateString(event.date);
+            const eventYear = getYear(eventStartDate);
 
             let yearMatch = true;
             if (selectedYear === 'upcoming') {
