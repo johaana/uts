@@ -9,7 +9,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { ArrowRight, Star } from "lucide-react";
-import { format, parse, getYear, isValid } from 'date-fns';
+import { format, parse, getYear, isValid, isWithinInterval, startOfToday, addDays } from 'date-fns';
 
 const allEvents = [
     // 2024
@@ -117,7 +117,7 @@ const eventTypes = ["Festivals", "Holidays", "Long Weekends"];
 
 const safeParseDate = (dateStr: string) => parse(dateStr, 'MMM dd, yyyy', new Date());
 
-const availableYears = [
+const allAvailableYears = [
     ...new Set(
         allEvents
             .map(e => getYear(safeParseDate(e.date.split(' - ')[0])))
@@ -129,7 +129,9 @@ export function FestivalCalendar() {
     const [selectedMonth, setSelectedMonth] = useState('all');
     const [selectedRegion, setSelectedRegion] = useState('all');
     const [selectedEventType, setSelectedEventType] = useState('all');
-    const [selectedYear, setSelectedYear] = useState(String(new Date().getFullYear()));
+    const [selectedYear, setSelectedYear] = useState('Upcoming (1 year)');
+
+    const availableYears = ['Upcoming (1 year)', ...allAvailableYears.map(String)];
 
     const formatDateString = (dateString: string) => {
         const parts = dateString.split(' - ');
@@ -177,10 +179,25 @@ export function FestivalCalendar() {
     };
     
     const filteredEvents = useMemo(() => {
-        return allEvents.filter(event => {
-            const eventYear = getYear(safeParseDate(event.date.split(' - ')[0]));
-
-            const yearMatch = selectedYear === 'all' || eventYear === parseInt(selectedYear);
+        let baseEvents = allEvents;
+        
+        // 1. Filter by Year or Upcoming
+        if (selectedYear === 'Upcoming (1 year)') {
+            const today = startOfToday();
+            const oneYearFromNow = addDays(today, 365);
+            baseEvents = allEvents.filter(event => {
+                const eventStartDate = safeParseDate(event.date.split(' - ')[0]);
+                return isValid(eventStartDate) && isWithinInterval(eventStartDate, { start: today, end: oneYearFromNow });
+            });
+        } else if (selectedYear !== 'all') {
+            baseEvents = allEvents.filter(event => {
+                const eventYear = getYear(safeParseDate(event.date.split(' - ')[0]));
+                return eventYear === parseInt(selectedYear);
+            });
+        }
+    
+        // 2. Apply other filters on the base list
+        return baseEvents.filter(event => {
             const monthMatch = selectedMonth === 'all' || getMonthFromDateString(event.date) === selectedMonth;
             const regionMatch = selectedRegion === 'all' || event.region === selectedRegion || event.region.includes(selectedRegion);
             
@@ -193,7 +210,7 @@ export function FestivalCalendar() {
                 eventTypeMatch = !!event.longWeekend;
             }
 
-            return yearMatch && monthMatch && regionMatch && eventTypeMatch;
+            return monthMatch && regionMatch && eventTypeMatch;
         });
     }, [selectedYear, selectedMonth, selectedRegion, selectedEventType]);
 
@@ -246,7 +263,7 @@ export function FestivalCalendar() {
                             </SelectTrigger>
                             <SelectContent>
                                 <SelectItem value="all">All Years</SelectItem>
-                                {availableYears.map(year => <SelectItem key={year} value={String(year)}>{year}</SelectItem>)}
+                                {availableYears.map(year => <SelectItem key={year} value={year}>{year}</SelectItem>)}
                             </SelectContent>
                         </Select>
                         <Select onValueChange={setSelectedMonth} value={selectedMonth}>
@@ -341,3 +358,5 @@ export function FestivalCalendar() {
         </div>
     );
 }
+
+    
