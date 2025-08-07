@@ -4,6 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { ShareButtons } from "@/components/ShareButtons";
 
 const recipes = [
     { name: "Khechudi", link: "/recipes/khechudi" },
@@ -74,7 +75,7 @@ export default function RathYatraPage() {
                                        <Link href={recipe.link} key={recipe.name}>
                                             <Card className="overflow-hidden h-full hover:shadow-xl transition-shadow duration-300">
                                                 <CardContent className="p-4">
-                                                    <h3 className="font-headline text-xl font-bold text-center text-primary">{recipe.name}</h3>
+                                                    <h3 className="font-headline text-xl font-bold text-center text-primary h-14 flex items-center justify-center">{recipe.name}</h3>
                                                 </CardContent>
                                             </Card>
                                         </Link>
@@ -106,6 +107,7 @@ export default function RathYatraPage() {
                                 </div>
                             </TabsContent>
                         </Tabs>
+                        <ShareButtons title="Rath Yatra" />
                     </CardContent>
                 </Card>
             </div>

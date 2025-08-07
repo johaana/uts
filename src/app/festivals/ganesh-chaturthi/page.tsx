@@ -4,6 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote, Leaf } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { ShareButtons } from "@/components/ShareButtons";
 
 const recipes = [
     { name: "Modak", link: "/recipes/modak" },
@@ -15,7 +16,7 @@ export default function GaneshChaturthiPage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-primary/10">
-                <div className="relative text-center text-primary-foreground z-10">
+                <div className="relative text-center text-primary-foreground z-10 p-4">
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-primary shadow-lg">Ganesh Chaturthi</h1>
                     <p className="text-xl md:text-2xl mt-4 text-primary/90 shadow-md">Celebrating the Birth of the Elephant God</p>
                 </div>
@@ -25,19 +26,19 @@ export default function GaneshChaturthiPage() {
                 <Card className="mb-12">
                     <CardContent className="p-6 md:p-10">
                         <Tabs defaultValue="overview">
-                            <TabsList className="grid w-full grid-cols-2 md:grid-cols-5 mb-6">
-                                <TabsTrigger value="overview"><BookOpen className="w-4 h-4 mr-2" />Overview</TabsTrigger>
-                                <TabsTrigger value="traditions"><Sparkles className="w-4 h-4 mr-2" />Traditions</TabsTrigger>
-                                <TabsTrigger value="recipes"><Utensils className="w-4 h-4 mr-2" />Recipes</TabsTrigger>
-                                <TabsTrigger value="chants"><MessageSquareQuote className="w-4 h-4 mr-2" />Aartis</TabsTrigger>
-                                <TabsTrigger value="eco-friendly"><Leaf className="w-4 h-4 mr-2" />Eco-Friendly</TabsTrigger>
+                            <TabsList className="grid w-full grid-cols-2 md:grid-cols-5 mb-6 h-auto">
+                                <TabsTrigger value="overview" className="py-2"><BookOpen className="w-4 h-4 mr-2" />Overview</TabsTrigger>
+                                <TabsTrigger value="traditions" className="py-2"><Sparkles className="w-4 h-4 mr-2" />Traditions</TabsTrigger>
+                                <TabsTrigger value="recipes" className="py-2"><Utensils className="w-4 h-4 mr-2" />Recipes</TabsTrigger>
+                                <TabsTrigger value="chants" className="py-2"><MessageSquareQuote className="w-4 h-4 mr-2" />Aartis</TabsTrigger>
+                                <TabsTrigger value="eco-friendly" className="py-2"><Leaf className="w-4 h-4 mr-2" />Eco-Friendly</TabsTrigger>
                             </TabsList>
 
                             <TabsContent value="overview">
                                 <h2 className="font-headline text-3xl font-bold mb-4">The Story of Ganesh Chaturthi</h2>
                                 <div className="space-y-4 text-foreground/80 prose max-w-none">
                                     <p>Ganesh Chaturthi is a spectacular festival that celebrates the birth of Lord Ganesha, the beloved elephant-headed son of Shiva and Parvati. Revered as the god of wisdom, prosperity, and good fortune, and the remover of obstacles ('Vighnaharta'), Ganesha's birth is a story of divine creation and devotion. Legend has it that Goddess Parvati created Ganesha from sandalwood paste to guard her chambers. When Lord Shiva returned and was denied entry by the boy, a fierce battle ensued, and Shiva, in his rage, severed Ganesha's head. A distraught Parvati explained what had happened, and a remorseful Shiva promised to bring the boy back to life, replacing his head with that of the first living creature he could find—an elephant.</p>
-                                    <p>The festival was transformed from a private, household celebration into a grand public event by the freedom fighter Lokmanya Tilak in the late 19th century. He envisioned it as a way to bridge the gap between different castes and unite the people of India against British rule. Today, the festival is celebrated with immense fervor, especially in Maharashtra. Devotees bring home beautifully crafted clay idols of Ganesha, worshipping him for ten days with prayers, songs, and his favorite sweet, 'modak'. The festival culminates in the 'visarjan' (immersion) ceremony, where the idol is carried in a grand procession to a nearby body of water. This symbolizes Ganesha's journey back to his celestial abode, taking with him the misfortunes of his devotees and promising to return the following year.</p>
+                                    <p>The festival was transformed from a private, household celebration into a grand public event by the freedom fighter Lokmanya Tilak in the late 19th century. He envisioned it as a way to bridge the gap between different castes and unite the people of India against British rule. Today, the festival is celebrated with immense fervor, especially in Maharashtra. Devotees bring home beautifully crafted clay idols of Ganesha, worshipping him for ten days with prayers, songs, and his favorite sweet, 'modak'. The festival culminates in the 'visarjan' (immersion) ceremony on Anant Chaturdashi, where the idol is carried in a grand procession to a nearby body of water. This symbolizes Ganesha's journey back to his celestial abode, taking with him the misfortunes of his devotees and promising to return the following year.</p>
                                 </div>
                             </TabsContent>
                             
@@ -62,7 +63,7 @@ export default function GaneshChaturthiPage() {
                                         <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
                                         <div>
                                             <h4 className="font-bold">Immersion (Visarjan)</h4>
-                                            <p className="text-foreground/80">After 1, 3, 5, 7, or 10 days, the idol is taken in a grand procession for immersion in a river or the sea, accompanied by singing and dancing.</p>
+                                            <p className="text-foreground/80">After 1.5, 3, 5, 7, or 10 days, the idol is taken in a grand procession for immersion in a river or the sea, accompanied by singing and dancing. The final day of immersion is known as Anant Chaturdashi.</p>
                                         </div>
                                     </li>
                                 </ul>
@@ -75,7 +76,7 @@ export default function GaneshChaturthiPage() {
                                        <Link href={recipe.link} key={recipe.name}>
                                             <Card className="overflow-hidden h-full hover:shadow-xl transition-shadow duration-300">
                                                 <CardContent className="p-4">
-                                                    <h3 className="font-headline text-xl font-bold text-center text-primary">{recipe.name}</h3>
+                                                    <h3 className="font-headline text-xl font-bold text-center text-primary h-14 flex items-center justify-center">{recipe.name}</h3>
                                                 </CardContent>
                                             </Card>
                                         </Link>
@@ -178,6 +179,7 @@ export default function GaneshChaturthiPage() {
                                 </div>
                             </TabsContent>
                         </Tabs>
+                        <ShareButtons title="Ganesh Chaturthi" />
                     </CardContent>
                 </Card>
             </div>

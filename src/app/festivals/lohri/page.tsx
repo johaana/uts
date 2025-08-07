@@ -4,6 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { ShareButtons } from "@/components/ShareButtons";
 
 const recipes = [
     { name: "Sarson ka Saag & Makki ki Roti", link: "#" },
@@ -15,7 +16,7 @@ export default function LohriPage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-amber-900/10">
-                <div className="relative text-center text-primary-foreground z-10">
+                <div className="relative text-center text-primary-foreground z-10 p-4">
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-amber-900 shadow-lg">Lohri</h1>
                     <p className="text-xl md:text-2xl mt-4 text-amber-800/90 shadow-md">The Bonfire Festival of Punjab</p>
                 </div>
@@ -97,6 +98,7 @@ export default function LohriPage() {
                                 </div>
                             </TabsContent>
                         </Tabs>
+                        <ShareButtons title="Lohri" />
                     </CardContent>
                 </Card>
             </div>

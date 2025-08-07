@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CheckCircle, BookOpen, Utensils, Sparkles, Music } from "lucide-react";
 import Image from "next/image";
+import { ShareButtons } from "@/components/ShareButtons";
 
 export default function GoaCarnivalPage() {
     return (
@@ -73,6 +74,7 @@ export default function GoaCarnivalPage() {
                                 </div>
                             </TabsContent>
                         </Tabs>
+                        <ShareButtons title="Goa Carnival" />
                     </CardContent>
                 </Card>
             </div>

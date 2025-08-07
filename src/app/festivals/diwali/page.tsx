@@ -16,7 +16,7 @@ export default function DiwaliPage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-primary/10">
-                <div className="relative text-center text-primary-foreground z-10">
+                <div className="relative text-center text-primary-foreground z-10 p-4">
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-primary shadow-lg">Diwali</h1>
                     <p className="text-xl md:text-2xl mt-4 text-primary/90 shadow-md">The Festival of Lights: A Triumph of Good Over Evil</p>
                 </div>
@@ -26,13 +26,13 @@ export default function DiwaliPage() {
                 <Card className="mb-12">
                     <CardContent className="p-6 md:p-10">
                         <Tabs defaultValue="overview">
-                            <TabsList className="grid w-full grid-cols-2 md:grid-cols-6 mb-6">
-                                <TabsTrigger value="overview"><BookOpen className="w-4 h-4 mr-2" />Overview</TabsTrigger>
-                                <TabsTrigger value="five-days"><CalendarDays className="w-4 h-4 mr-2" />The Five Days</TabsTrigger>
-                                <TabsTrigger value="rituals"><CheckCircle className="w-4 h-4 mr-2" />Rituals</TabsTrigger>
-                                <TabsTrigger value="recipes"><Utensils className="w-4 h-4 mr-2" />Recipes</TabsTrigger>
-                                <TabsTrigger value="chants"><MessageSquareQuote className="w-4 h-4 mr-2" />Chants</TabsTrigger>
-                                <TabsTrigger value="eco-friendly"><Leaf className="w-4 h-4 mr-2" />Eco-Friendly</TabsTrigger>
+                            <TabsList className="grid w-full grid-cols-2 md:grid-cols-6 mb-6 h-auto">
+                                <TabsTrigger value="overview" className="py-2"><BookOpen className="w-4 h-4 mr-2" />Overview</TabsTrigger>
+                                <TabsTrigger value="five-days" className="py-2"><CalendarDays className="w-4 h-4 mr-2" />The Five Days</TabsTrigger>
+                                <TabsTrigger value="rituals" className="py-2"><CheckCircle className="w-4 h-4 mr-2" />Rituals</TabsTrigger>
+                                <TabsTrigger value="recipes" className="py-2"><Utensils className="w-4 h-4 mr-2" />Recipes</TabsTrigger>
+                                <TabsTrigger value="chants" className="py-2"><MessageSquareQuote className="w-4 h-4 mr-2" />Chants</TabsTrigger>
+                                <TabsTrigger value="eco-friendly" className="py-2"><Leaf className="w-4 h-4 mr-2" />Eco-Friendly</TabsTrigger>
                             </TabsList>
 
                             <TabsContent value="overview">
@@ -156,7 +156,7 @@ export default function DiwaliPage() {
                                        <Link href={recipe.link} key={recipe.name}>
                                             <Card className="overflow-hidden h-full hover:shadow-xl transition-shadow duration-300">
                                                 <CardContent className="p-4">
-                                                    <h3 className="font-headline text-xl font-bold text-center text-primary">{recipe.name}</h3>
+                                                    <h3 className="font-headline text-xl font-bold text-center text-primary h-14 flex items-center justify-center">{recipe.name}</h3>
                                                 </CardContent>
                                             </Card>
                                         </Link>

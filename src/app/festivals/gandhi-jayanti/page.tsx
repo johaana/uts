@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BookOpen, Sparkles, MessageSquareQuote } from "lucide-react";
 import Image from "next/image";
+import { ShareButtons } from "@/components/ShareButtons";
 
 export default function GandhiJayantiPage() {
     return (
@@ -52,6 +53,7 @@ export default function GandhiJayantiPage() {
                                 </div>
                             </TabsContent>
                         </Tabs>
+                        <ShareButtons title="Gandhi Jayanti" />
                     </CardContent>
                 </Card>
             </div>

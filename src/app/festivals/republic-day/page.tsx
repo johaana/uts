@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BookOpen, Sparkles, Flag } from "lucide-react";
 import Image from "next/image";
+import { ShareButtons } from "@/components/ShareButtons";
 
 export default function RepublicDayPage() {
     return (
@@ -52,6 +53,7 @@ export default function RepublicDayPage() {
                                 </div>
                             </TabsContent>
                         </Tabs>
+                        <ShareButtons title="Republic Day" />
                     </CardContent>
                 </Card>
             </div>

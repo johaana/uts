@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BookOpen, Sparkles, MessageSquareQuote, CalendarDays, Leaf } from "lucide-react";
 import Image from "next/image";
+import { ShareButtons } from "@/components/ShareButtons";
 
 const dayColors = [
     { day: "Day 1: Pratipada", goddess: "Shailaputri", color: "Orange", significance: "Energy & Happiness" },
@@ -21,7 +22,7 @@ export default function NavratriPage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-primary/10">
-                <div className="relative text-center text-primary-foreground z-10">
+                <div className="relative text-center text-primary-foreground z-10 p-4">
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-primary shadow-lg">Navratri</h1>
                     <p className="text-xl md:text-2xl mt-4 text-primary/90 shadow-md">Nine Nights of Divine Feminine Power</p>
                 </div>
@@ -31,19 +32,19 @@ export default function NavratriPage() {
                 <Card className="mb-12">
                     <CardContent className="p-6 md:p-10">
                         <Tabs defaultValue="overview">
-                            <TabsList className="grid w-full grid-cols-2 md:grid-cols-5 mb-6">
-                                <TabsTrigger value="overview"><BookOpen className="w-4 h-4 mr-2" />Overview</TabsTrigger>
-                                <TabsTrigger value="nine-nights"><CalendarDays className="w-4 h-4 mr-2" />The Nine Nights</TabsTrigger>
-                                <TabsTrigger value="culture"><Sparkles className="w-4 h-4 mr-2" />Culture & Dance</TabsTrigger>
-                                <TabsTrigger value="chants"><MessageSquareQuote className="w-4 h-4 mr-2" />Chants</TabsTrigger>
-                                <TabsTrigger value="eco-friendly"><Leaf className="w-4 h-4 mr-2" />Eco-Friendly</TabsTrigger>
+                            <TabsList className="grid w-full grid-cols-2 md:grid-cols-5 mb-6 h-auto">
+                                <TabsTrigger value="overview" className="py-2"><BookOpen className="w-4 h-4 mr-2" />Overview</TabsTrigger>
+                                <TabsTrigger value="nine-nights" className="py-2"><CalendarDays className="w-4 h-4 mr-2" />The Nine Nights</TabsTrigger>
+                                <TabsTrigger value="culture" className="py-2"><Sparkles className="w-4 h-4 mr-2" />Culture & Dance</TabsTrigger>
+                                <TabsTrigger value="chants" className="py-2"><MessageSquareQuote className="w-4 h-4 mr-2" />Chants</TabsTrigger>
+                                <TabsTrigger value="eco-friendly" className="py-2"><Leaf className="w-4 h-4 mr-2" />Eco-Friendly</TabsTrigger>
                             </TabsList>
 
                             <TabsContent value="overview">
                                 <h2 className="font-headline text-3xl font-bold mb-4">The Story of Navratri</h2>
                                 <div className="space-y-4 text-foreground/80 prose max-w-none">
-                                    <p>Navratri, meaning 'nine nights' in Sanskrit, is one of Hinduism's most vibrant festivals, celebrating the victory of Goddess Durga over the demon Mahishasura. This grand festival is dedicated to the divine feminine, honoring her nine forms over nine nights. The legend begins with the demon king Mahishasur, who was granted a boon of near-invincibility. Drunk with power, he waged war on the heavens. The gods, in desperation, combined their energies to create the magnificent Goddess Durga.</p>
-                                    <p>Endowed with divine weapons, Durga battled Mahishasur for nine days and nights, ultimately slaying him on the tenth day. Each night of Navratri celebrates one of her avatars, showcasing her different facets, from gentle and nurturing to fierce and protective. The festival is a period of fasting, feasting, music, and dance, symbolizing the triumph of good over evil.</p>
+                                    <p>Navratri, which translates to 'nine nights' in Sanskrit, is a magnificent Hindu festival dedicated to the worship of the divine feminine, or Shakti. This vibrant celebration, spanning nine nights and ten days, honors the nine distinct forms of Goddess Durga and culminates in the victory of good over evil. The festival is steeped in ancient legend, most prominently the story of Goddess Durga's epic battle with the formidable buffalo demon, Mahishasura. Through intense penance, Mahishasura had obtained a boon from Lord Brahma that made him nearly invincible—no man or god could kill him. Consumed by power, he unleashed a reign of terror across the heavens and the earth.</p>
+                                    <p>In a desperate plea, the gods converged their divine energies, giving rise to the magnificent, ten-armed warrior goddess, Durga. Endowed with the weapons of all the gods, she rode a lion into battle. The fierce conflict raged for nine days and nights. On the tenth day, Vijayadashami, Goddess Durga finally triumphed, slaying Mahishasura and restoring peace and order to the universe. Each night of Navratri is thus a celebration of one of her powerful avatars, from the gentle Shailaputri to the fierce Kalaratri, representing the various facets of feminine power. The festival is a period of fasting, feasting, vibrant music, and electrifying dance, most famously the Garba and Dandiya Raas, which symbolize the cyclical nature of life and the joyous victory of dharma (righteousness).</p>
                                 </div>
                             </TabsContent>
                             
@@ -147,6 +148,7 @@ export default function NavratriPage() {
                                 </div>
                             </TabsContent>
                         </Tabs>
+                        <ShareButtons title="Navratri" />
                     </CardContent>
                 </Card>
             </div>

@@ -4,6 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote, Leaf } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { ShareButtons } from "@/components/ShareButtons";
 
 const recipes = [
     { name: "Gujiya", link: "/recipes/gujiya" },
@@ -15,7 +16,7 @@ export default function HoliPage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-primary/10">
-                <div className="relative text-center text-primary-foreground z-10">
+                <div className="relative text-center text-primary-foreground z-10 p-4">
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-primary shadow-lg">Holi</h1>
                     <p className="text-xl md:text-2xl mt-4 text-primary/90 shadow-md">The Festival of Colors</p>
                 </div>
@@ -25,12 +26,12 @@ export default function HoliPage() {
                 <Card className="mb-12">
                     <CardContent className="p-6 md:p-10">
                         <Tabs defaultValue="overview">
-                            <TabsList className="grid w-full grid-cols-2 md:grid-cols-5 mb-6">
-                                <TabsTrigger value="overview"><BookOpen className="w-4 h-4 mr-2" />Overview</TabsTrigger>
-                                <TabsTrigger value="traditions"><Sparkles className="w-4 h-4 mr-2" />Traditions</TabsTrigger>
-                                <TabsTrigger value="recipes"><Utensils className="w-4 h-4 mr-2" />Recipes</TabsTrigger>
-                                <TabsTrigger value="chants"><MessageSquareQuote className="w-4 h-4 mr-2" />Chants</TabsTrigger>
-                                <TabsTrigger value="eco-friendly"><Leaf className="w-4 h-4 mr-2" />Eco-Friendly</TabsTrigger>
+                            <TabsList className="grid w-full grid-cols-2 md:grid-cols-5 mb-6 h-auto">
+                                <TabsTrigger value="overview" className="py-2"><BookOpen className="w-4 h-4 mr-2" />Overview</TabsTrigger>
+                                <TabsTrigger value="traditions" className="py-2"><Sparkles className="w-4 h-4 mr-2" />Traditions</TabsTrigger>
+                                <TabsTrigger value="recipes" className="py-2"><Utensils className="w-4 h-4 mr-2" />Recipes</TabsTrigger>
+                                <TabsTrigger value="chants" className="py-2"><MessageSquareQuote className="w-4 h-4 mr-2" />Chants</TabsTrigger>
+                                <TabsTrigger value="eco-friendly" className="py-2"><Leaf className="w-4 h-4 mr-2" />Eco-Friendly</TabsTrigger>
                             </TabsList>
 
                             <TabsContent value="overview">
@@ -160,6 +161,7 @@ export default function HoliPage() {
                                 </div>
                             </TabsContent>
                         </Tabs>
+                        <ShareButtons title="Holi" />
                     </CardContent>
                 </Card>
             </div>

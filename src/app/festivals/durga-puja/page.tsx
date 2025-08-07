@@ -4,6 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { ShareButtons } from "@/components/ShareButtons";
 
 const recipes = [
     { name: "Khichuri", link: "/recipes/khichuri" },
@@ -110,6 +111,7 @@ export default function DurgaPujaPage() {
                                 </div>
                             </TabsContent>
                         </Tabs>
+                        <ShareButtons title="Durga Puja" />
                     </CardContent>
                 </Card>
             </div>

@@ -4,6 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { ShareButtons } from "@/components/ShareButtons";
 
 export default function HornbillFestivalPage() {
     return (
@@ -74,6 +75,7 @@ export default function HornbillFestivalPage() {
                                 </div>
                             </TabsContent>
                         </Tabs>
+                        <ShareButtons title="Hornbill Festival" />
                     </CardContent>
                 </Card>
             </div>

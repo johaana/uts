@@ -4,6 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { ShareButtons } from "@/components/ShareButtons";
 
 const recipes = [
     { name: "Meethe Chawal", link: "/recipes/meethe-chawal" },
@@ -15,7 +16,7 @@ export default function VasantPanchamiPage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-yellow-400/10">
-                <div className="relative text-center text-primary-foreground z-10">
+                <div className="relative text-center text-primary-foreground z-10 p-4">
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-yellow-800 shadow-lg">Vasant Panchami</h1>
                     <p className="text-xl md:text-2xl mt-4 text-yellow-700/90 shadow-md">Heralding Spring with the Goddess of Wisdom</p>
                 </div>
@@ -75,7 +76,7 @@ export default function VasantPanchamiPage() {
                                        <Link href={recipe.link} key={recipe.name}>
                                             <Card className="overflow-hidden h-full hover:shadow-xl transition-shadow duration-300">
                                                 <CardContent className="p-4">
-                                                    <h3 className="font-headline text-xl font-bold text-center text-primary">{recipe.name}</h3>
+                                                    <h3 className="font-headline text-xl font-bold text-center text-primary h-14 flex items-center justify-center">{recipe.name}</h3>
                                                 </CardContent>
                                             </Card>
                                         </Link>
@@ -98,6 +99,7 @@ export default function VasantPanchamiPage() {
                                 </div>
                             </TabsContent>
                         </Tabs>
+                        <ShareButtons title="Vasant Panchami" />
                     </CardContent>
                 </Card>
             </div>

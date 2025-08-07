@@ -3,12 +3,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BookOpen, Sparkles, Flag } from "lucide-react";
 import Image from "next/image";
+import { ShareButtons } from "@/components/ShareButtons";
 
 export default function IndependenceDayPage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-green-50/20">
-                <div className="relative text-center text-primary-foreground z-10">
+                <div className="relative text-center text-primary-foreground z-10 p-4">
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-primary shadow-lg">Independence Day</h1>
                     <p className="text-xl md:text-2xl mt-4 text-primary/90 shadow-md">Celebrating Freedom</p>
                 </div>
@@ -52,6 +53,7 @@ export default function IndependenceDayPage() {
                                 </div>
                             </TabsContent>
                         </Tabs>
+                        <ShareButtons title="Independence Day" />
                     </CardContent>
                 </Card>
             </div>

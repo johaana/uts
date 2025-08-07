@@ -4,6 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { ShareButtons } from "@/components/ShareButtons";
 
 const recipes = [
     { name: "Lemon Rice", link: "#" },
@@ -98,6 +99,7 @@ export default function AkshayaTritiyaPage() {
                                 </div>
                             </TabsContent>
                         </Tabs>
+                        <ShareButtons title="Akshaya Tritiya" />
                     </CardContent>
                 </Card>
             </div>

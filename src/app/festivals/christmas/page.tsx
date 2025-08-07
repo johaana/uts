@@ -4,6 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { ShareButtons } from "@/components/ShareButtons";
 
 const recipes = [
     { name: "Christmas Cake", link: "/recipes/christmas-cake" },
@@ -123,6 +124,7 @@ export default function ChristmasPage() {
                                 </div>
                             </TabsContent>
                         </Tabs>
+                        <ShareButtons title="Christmas" />
                     </CardContent>
                 </Card>
             </div>

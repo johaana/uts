@@ -4,6 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { ShareButtons } from "@/components/ShareButtons";
 
 const recipes = [
     { name: "Pitha", link: "/recipes/pitha" },
@@ -104,6 +105,7 @@ export default function BihuPage() {
                                 </div>
                             </TabsContent>
                         </Tabs>
+                        <ShareButtons title="Bihu" />
                     </CardContent>
                 </Card>
             </div>
