@@ -1,10 +1,13 @@
+
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { ShareButtons } from "@/components/ShareButtons";
 
 export default function SingleBlogPage() {
+    const title = "Festive Fashion: A Guide to Traditional Indian Attire";
     return (
         <div className="container mx-auto px-4 py-12">
             <Card>
@@ -18,11 +21,11 @@ export default function SingleBlogPage() {
                     <article className="prose max-w-none text-foreground/80">
                          <div className="text-center mb-8">
                             <p className="text-sm text-muted-foreground">By Riya Desai on August 25, 2025</p>
-                            <h1 className="font-headline text-4xl font-bold text-primary mt-2">Festive Fashion: A Guide to Traditional Indian Attire</h1>
+                            <h1 className="font-headline text-4xl font-bold text-primary mt-2">{title}</h1>
                         </div>
 
                         <div className="relative h-96 w-full mb-8">
-                           <Image src="https://i.postimg.cc/Kj45FYzX/festive-Indian-attire.png" alt="Festive Fashion: A Guide to Traditional Indian Attire" layout="fill" objectFit="contain" data-ai-hint="indian fashion" className="rounded-lg"/>
+                           <Image src="https://i.postimg.cc/Kj45FYzX/festive-Indian-attire.png" alt={title} layout="fill" objectFit="contain" data-ai-hint="indian fashion" className="rounded-lg"/>
                         </div>
                         
                         <p>From vibrant sarees and lehengas to elegant kurtas and sherwanis, find inspiration for your festive wardrobe. We explore the significance of different colors and fabrics in Indian festive wear.</p>
@@ -36,6 +39,7 @@ export default function SingleBlogPage() {
                         <h2>Color Symbolism</h2>
                         <p>Colors play a huge role in festive attire. Red symbolizes purity and celebration, yellow represents auspiciousness, and green signifies new beginnings. Understanding these nuances can add another layer of meaning to your festive dressing.</p>
                     </article>
+                    <ShareButtons title={title} />
                 </CardContent>
             </Card>
         </div>

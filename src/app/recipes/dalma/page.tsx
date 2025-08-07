@@ -1,10 +1,11 @@
+
 import { RecipeBody, RecipeCardLayout, RecipeHeader } from "@/components/RecipeCardLayout";
 import { Check } from "lucide-react";
 import Image from "next/image";
 
 export default function DalmaPage() {
     return (
-        <RecipeCardLayout>
+        <RecipeCardLayout recipeName="Dalma">
             <RecipeHeader>
                 <h1 className="font-headline text-4xl mb-4">Dalma</h1>
                 <div className="flex flex-col md:flex-row gap-6">

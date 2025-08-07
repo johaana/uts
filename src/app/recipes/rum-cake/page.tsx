@@ -1,10 +1,11 @@
+
 import { RecipeBody, RecipeCardLayout, RecipeHeader } from "@/components/RecipeCardLayout";
 import { Check } from "lucide-react";
 import Image from "next/image";
 
 export default function RumCakePage() {
     return (
-        <RecipeCardLayout>
+        <RecipeCardLayout recipeName="Classic Rum Cake">
             <RecipeHeader>
                 <h1 className="font-headline text-4xl mb-4">Classic Rum Cake</h1>
                 <div className="flex flex-col md:flex-row gap-6">

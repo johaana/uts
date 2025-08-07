@@ -1,10 +1,13 @@
+
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { ShareButtons } from "@/components/ShareButtons";
 
 export default function SingleBlogPage() {
+    const title = "The Significance of Diyas in Diwali";
     return (
         <div className="container mx-auto px-4 py-12">
             <Card>
@@ -18,11 +21,11 @@ export default function SingleBlogPage() {
                     <article className="prose max-w-none text-foreground/80">
                         <div className="text-center mb-8">
                             <p className="text-sm text-muted-foreground">By Priya Sharma on October 20, 2025</p>
-                            <h1 className="font-headline text-4xl font-bold text-primary mt-2">The Significance of Diyas in Diwali</h1>
+                            <h1 className="font-headline text-4xl font-bold text-primary mt-2">{title}</h1>
                         </div>
 
                         <div className="relative h-96 w-full mb-8">
-                            <Image src="https://i.postimg.cc/brM9vjDZ/Diya-diwali.webp" alt="The Significance of Diyas in Diwali" layout="fill" objectFit="contain" data-ai-hint="diwali lamps" className="rounded-lg" />
+                            <Image src="https://i.postimg.cc/brM9vjDZ/Diya-diwali.webp" alt={title} layout="fill" objectFit="contain" data-ai-hint="diwali lamps" className="rounded-lg" />
                         </div>
 
                         <h2>The Symbolism of Light</h2>
@@ -34,6 +37,7 @@ export default function SingleBlogPage() {
                         <h2>A Story from the Ramayana</h2>
                         <p>The tradition of lighting diyas is also tied to the epic Ramayana. Diwali celebrates the return of Lord Rama, his wife Sita, and his brother Lakshmana to their kingdom of Ayodhya after 14 years of exile and defeating the demon king Ravana. The people of Ayodhya, overjoyed by the return of their rightful king, illuminated the entire city with rows of earthen lamps. This grand celebration of homecoming is recreated every year, making the lighting of diyas a central part of the Diwali festivities.</p>
                     </article>
+                    <ShareButtons title={title} />
                 </CardContent>
             </Card>
         </div>

@@ -4,8 +4,10 @@ import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { ShareButtons } from "@/components/ShareButtons";
 
 export default function SingleBlogPage() {
+    const title = "Maximize Your Vacations: Your Ultimate Guide to India's Long Weekends in 2025";
     return (
         <div className="container mx-auto px-4 py-12">
             <Card>
@@ -19,7 +21,7 @@ export default function SingleBlogPage() {
                     <article className="prose max-w-none text-foreground/80">
                          <div className="text-center mb-8">
                             <p className="text-sm text-muted-foreground">By Utsavs Team on October 15, 2024</p>
-                            <h1 className="font-headline text-4xl font-bold text-primary mt-2">Maximize Your Vacations: Your Ultimate Guide to India's Long Weekends in 2025</h1>
+                            <h1 className="font-headline text-4xl font-bold text-primary mt-2">{title}</h1>
                         </div>
 
                          <div className="relative h-96 w-full mb-8">
@@ -81,6 +83,7 @@ export default function SingleBlogPage() {
                         <strong>Travel Idea:</strong> Enjoy the Christmas festivities in places with colonial heritage like Goa or Puducherry, or head to the hills for a white Christmas experience.</p>
 
                     </article>
+                    <ShareButtons title={title} />
                 </CardContent>
             </Card>
         </div>

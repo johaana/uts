@@ -1,10 +1,13 @@
+
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { ShareButtons } from "@/components/ShareButtons";
 
 export default function SingleBlogPage() {
+    const title = "Top 5 Rangoli Designs for Beginners";
     return (
         <div className="container mx-auto px-4 py-12">
             <Card>
@@ -18,11 +21,11 @@ export default function SingleBlogPage() {
                     <article className="prose max-w-none text-foreground/80">
                          <div className="text-center mb-8">
                             <p className="text-sm text-muted-foreground">By Anjali Mehta on October 18, 2025</p>
-                            <h1 className="font-headline text-4xl font-bold text-primary mt-2">Top 5 Rangoli Designs for Beginners</h1>
+                            <h1 className="font-headline text-4xl font-bold text-primary mt-2">{title}</h1>
                         </div>
 
                         <div className="relative h-96 w-full mb-8">
-                             <Image src="https://i.postimg.cc/fRYfMpwb/Rangoli.jpg" alt="Top 5 Rangoli Designs for Beginners" layout="fill" objectFit="contain" data-ai-hint="rangoli design" className="rounded-lg"/>
+                             <Image src="https://i.postimg.cc/fRYfMpwb/Rangoli.jpg" alt={title} layout="fill" objectFit="contain" data-ai-hint="rangoli design" className="rounded-lg"/>
                         </div>
                         
                         <p>Get inspired with these easy-to-make yet beautiful rangoli patterns. From simple floral designs to geometric wonders, we provide step-by-step guides to adorn your home for any festive occasion.</p>
@@ -42,6 +45,7 @@ export default function SingleBlogPage() {
                         <h3>5. Swastika Rangoli</h3>
                         <p>The swastika is an ancient symbol of good fortune. Create a swastika in the center and surround it with a circular border of intricate patterns. This design is both auspicious and beautiful.</p>
                     </article>
+                    <ShareButtons title={title} />
                 </CardContent>
             </Card>
         </div>

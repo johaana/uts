@@ -1,12 +1,15 @@
+
+import { ShareButtons } from "@/components/ShareButtons";
 import { cn } from "@/lib/utils";
 import React from "react";
 
-export function RecipeCardLayout({ children, className }: { children: React.ReactNode, className?: string }) {
+export function RecipeCardLayout({ children, className, recipeName }: { children: React.ReactNode, className?: string, recipeName: string }) {
     return (
         <div className={cn("bg-transparent py-12", className)}>
             <div className="container mx-auto px-4">
                  <div className="max-w-4xl mx-auto bg-card p-6 md:p-10 rounded-2xl shadow-2xl ring-1 ring-border/50">
                     {children}
+                    <ShareButtons title={`${recipeName} Recipe`} />
                 </div>
             </div>
         </div>

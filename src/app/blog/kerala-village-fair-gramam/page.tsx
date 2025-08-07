@@ -1,10 +1,13 @@
+
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { ShareButtons } from "@/components/ShareButtons";
 
 export default function SingleBlogPage() {
+    const title = "Gramam: Step Into the Heart of Kerala's Culture";
     return (
         <div className="container mx-auto px-4 py-12">
             <Card>
@@ -18,7 +21,7 @@ export default function SingleBlogPage() {
                     <article className="prose max-w-none text-foreground/80">
                          <div className="text-center mb-8">
                             <p className="text-sm text-muted-foreground">By Adotrip on January 15, 2025</p>
-                            <h1 className="font-headline text-4xl font-bold text-primary mt-2">Gramam: Step Into the Heart of Kerala's Culture</h1>
+                            <h1 className="font-headline text-4xl font-bold text-primary mt-2">{title}</h1>
                         </div>
 
                          <div className="relative h-96 w-full mb-8">
@@ -41,6 +44,7 @@ export default function SingleBlogPage() {
 
                         <p>The Kerala Village Fair is more than just a festival; it's an immersive cultural experience that offers a deep and meaningful connection to the heritage of Kerala. It's a perfect destination for travelers seeking authenticity and a deeper understanding of regional Indian life.</p>
                     </article>
+                    <ShareButtons title={title} />
                 </CardContent>
             </Card>
         </div>

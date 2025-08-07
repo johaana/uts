@@ -1,10 +1,11 @@
+
 import { RecipeBody, RecipeCardLayout, RecipeHeader } from "@/components/RecipeCardLayout";
 import { Check } from "lucide-react";
 import Image from "next/image";
 
 export default function FishCurryPage() {
     return (
-        <RecipeCardLayout>
+        <RecipeCardLayout recipeName="Assamese Fish Curry (Masor Tenga)">
             <RecipeHeader>
                 <h1 className="font-headline text-4xl mb-4">Assamese Fish Curry (Masor Tenga)</h1>
                 <div className="flex flex-col md:flex-row gap-6">

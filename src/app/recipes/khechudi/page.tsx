@@ -1,10 +1,11 @@
+
 import { RecipeBody, RecipeCardLayout, RecipeHeader } from "@/components/RecipeCardLayout";
 import { Check } from "lucide-react";
 import Image from "next/image";
 
 export default function KhechudiPage() {
     return (
-        <RecipeCardLayout>
+        <RecipeCardLayout recipeName="Khechudi">
             <RecipeHeader>
                 <h1 className="font-headline text-4xl mb-4">Khechudi</h1>
                 <div className="flex flex-col md:flex-row gap-6">

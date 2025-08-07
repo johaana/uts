@@ -1,6 +1,8 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check } from "lucide-react";
 import Image from "next/image";
+import { ShareButtons } from "@/components/ShareButtons";
 
 export default function LadooPage() {
     return (
@@ -42,6 +44,7 @@ export default function LadooPage() {
                             </ol>
                         </div>
                     </div>
+                    <ShareButtons title="Besan Ladoo Recipe" />
                 </CardContent>
             </Card>
         </div>

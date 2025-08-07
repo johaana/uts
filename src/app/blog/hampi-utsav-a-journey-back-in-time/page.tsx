@@ -1,10 +1,13 @@
+
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { ShareButtons } from "@/components/ShareButtons";
 
 export default function SingleBlogPage() {
+    const title = "Hampi Utsav: Where Ancient Ruins Come Alive";
     return (
         <div className="container mx-auto px-4 py-12">
             <Card>
@@ -18,7 +21,7 @@ export default function SingleBlogPage() {
                     <article className="prose max-w-none text-foreground/80">
                          <div className="text-center mb-8">
                             <p className="text-sm text-muted-foreground">By Jignesh Gohel on January 3, 2025</p>
-                            <h1 className="font-headline text-4xl font-bold text-primary mt-2">Hampi Utsav: Where Ancient Ruins Come Alive</h1>
+                            <h1 className="font-headline text-4xl font-bold text-primary mt-2">{title}</h1>
                         </div>
 
                          <div className="relative h-96 w-full mb-8">
@@ -42,6 +45,7 @@ export default function SingleBlogPage() {
                         
                         <p>The Hampi Festival is a must-visit for anyone interested in history, culture, and the performing arts. It offers a unique opportunity to experience the magic of a bygone era in one of the world's most enchanting historical sites.</p>
                     </article>
+                    <ShareButtons title={title} />
                 </CardContent>
             </Card>
         </div>

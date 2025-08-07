@@ -1,10 +1,13 @@
+
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { ShareButtons } from "@/components/ShareButtons";
 
 export default function SingleBlogPage() {
+    const title = "Torgya: The Masked Dances of Tawang Monastery";
     return (
         <div className="container mx-auto px-4 py-12">
             <Card>
@@ -18,7 +21,7 @@ export default function SingleBlogPage() {
                     <article className="prose max-w-none text-foreground/80">
                          <div className="text-center mb-8">
                             <p className="text-sm text-muted-foreground">By Jignesh Gohel on January 20, 2025</p>
-                            <h1 className="font-headline text-4xl font-bold text-primary mt-2">Torgya: The Masked Dances of Tawang Monastery</h1>
+                            <h1 className="font-headline text-4xl font-bold text-primary mt-2">{title}</h1>
                         </div>
 
                          <div className="relative h-96 w-full mb-8">
@@ -40,6 +43,7 @@ export default function SingleBlogPage() {
                         
                         <p>The Torgya festival offers a captivating and epic view of the region's spiritual heritage, leaving spectators mesmerized. It's a unique opportunity to witness a living tradition that has been preserved for centuries in the remote and beautiful landscape of Arunachal Pradesh.</p>
                     </article>
+                    <ShareButtons title={title} />
                 </CardContent>
             </Card>
         </div>

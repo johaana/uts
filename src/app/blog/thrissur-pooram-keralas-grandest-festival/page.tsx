@@ -1,10 +1,13 @@
+
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { ShareButtons } from "@/components/ShareButtons";
 
 export default function SingleBlogPage() {
+    const title = "Thrissur Pooram: Kerala's Spectacle of Elephants and Percussion";
     return (
         <div className="container mx-auto px-4 py-12">
             <Card>
@@ -18,7 +21,7 @@ export default function SingleBlogPage() {
                     <article className="prose max-w-none text-foreground/80">
                          <div className="text-center mb-8">
                             <p className="text-sm text-muted-foreground">By Jignesh Gohel on April 29, 2025</p>
-                            <h1 className="font-headline text-4xl font-bold text-primary mt-2">Thrissur Pooram: Kerala's Spectacle of Elephants and Percussion</h1>
+                            <h1 className="font-headline text-4xl font-bold text-primary mt-2">{title}</h1>
                         </div>
 
                          <div className="relative h-96 w-full mb-8">
@@ -41,6 +44,7 @@ export default function SingleBlogPage() {
                         
                         <p>Thrissur Pooram is an unforgettable, magical experience that offers a fascinating glimpse into the rich cultural heritage of India. It's a must-see for anyone wanting to experience the grandeur of a traditional Indian festival.</p>
                     </article>
+                    <ShareButtons title={title} />
                 </CardContent>
             </Card>
         </div>

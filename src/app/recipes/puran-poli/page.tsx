@@ -1,10 +1,11 @@
+
 import { RecipeBody, RecipeCardLayout, RecipeHeader } from "@/components/RecipeCardLayout";
 import { Check } from "lucide-react";
 import Image from "next/image";
 
 export default function PuranPoliPage() {
     return (
-        <RecipeCardLayout>
+        <RecipeCardLayout recipeName="Puran Poli">
             <RecipeHeader>
                 <h1 className="font-headline text-4xl mb-4">Puran Poli</h1>
                 <div className="flex flex-col md:flex-row gap-6">

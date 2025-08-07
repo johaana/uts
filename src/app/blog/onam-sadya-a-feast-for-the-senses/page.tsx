@@ -1,10 +1,13 @@
+
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { ShareButtons } from "@/components/ShareButtons";
 
 export default function SingleBlogPage() {
+    const title = "Onam Sadya: A Feast for the Senses";
     return (
         <div className="container mx-auto px-4 py-12">
             <Card>
@@ -18,11 +21,11 @@ export default function SingleBlogPage() {
                     <article className="prose max-w-none text-foreground/80">
                          <div className="text-center mb-8">
                             <p className="text-sm text-muted-foreground">By Lakshmi Nair on September 07, 2025</p>
-                            <h1 className="font-headline text-4xl font-bold text-primary mt-2">Onam Sadya: A Feast for the Senses</h1>
+                            <h1 className="font-headline text-4xl font-bold text-primary mt-2">{title}</h1>
                         </div>
 
                         <div className="relative h-96 w-full mb-8">
-                            <Image src="https://i.postimg.cc/0564g0S7/nandu-menon-h-GHldb-Cg-YDA-unsplash.jpg" alt="Onam Sadya: A Feast for the Senses" layout="fill" objectFit="contain" data-ai-hint="onam feast" className="rounded-lg"/>
+                            <Image src="https://i.postimg.cc/0564g0S7/nandu-menon-h-GHldb-Cg-YDA-unsplash.jpg" alt={title} layout="fill" objectFit="contain" data-ai-hint="onam feast" className="rounded-lg"/>
                         </div>
 
                         <p>The Onam Sadya is more than just a meal; it's a grand vegetarian feast that is the centerpiece of Onam celebrations. We take you through the 26+ dishes that make up this incredible culinary experience.</p>
@@ -38,10 +41,9 @@ export default function SingleBlogPage() {
                             <li><strong>Payasam:</strong> The delicious dessert, a sweet pudding made with milk, rice, or lentils.</li>
                         </ul>
                     </article>
+                    <ShareButtons title={title} />
                 </CardContent>
             </Card>
         </div>
     );
 }
-
-    

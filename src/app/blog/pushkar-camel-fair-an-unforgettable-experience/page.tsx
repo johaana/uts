@@ -1,10 +1,13 @@
+
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { ShareButtons } from "@/components/ShareButtons";
 
 export default function SingleBlogPage() {
+    const title = "Pushkar Camel Fair: More Than Just a Market";
     return (
         <div className="container mx-auto px-4 py-12">
             <Card>
@@ -18,7 +21,7 @@ export default function SingleBlogPage() {
                     <article className="prose max-w-none text-foreground/80">
                          <div className="text-center mb-8">
                             <p className="text-sm text-muted-foreground">By Jignesh Gohel on November 1, 2025</p>
-                            <h1 className="font-headline text-4xl font-bold text-primary mt-2">Pushkar Camel Fair: More Than Just a Market</h1>
+                            <h1 className="font-headline text-4xl font-bold text-primary mt-2">{title}</h1>
                         </div>
 
                          <div className="relative h-96 w-full mb-8">
@@ -42,6 +45,7 @@ export default function SingleBlogPage() {
                         
                         <p>The Pushkar Camel Fair is an unforgettable experience, offering a unique blend of tradition, spirituality, and vibrant celebration. It's a must-visit for anyone looking to experience the authentic soul of Rajasthan.</p>
                     </article>
+                    <ShareButtons title={title} />
                 </CardContent>
             </Card>
         </div>

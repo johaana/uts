@@ -1,10 +1,13 @@
+
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { ShareButtons } from "@/components/ShareButtons";
 
 export default function SingleBlogPage() {
+    const title = "A Guide to Natural Holi Colors";
     return (
         <div className="container mx-auto px-4 py-12">
             <Card>
@@ -18,11 +21,11 @@ export default function SingleBlogPage() {
                     <article className="prose max-w-none text-foreground/80">
                          <div className="text-center mb-8">
                             <p className="text-sm text-muted-foreground">By Raj Patel on March 10, 2026</p>
-                            <h1 className="font-headline text-4xl font-bold text-primary mt-2">A Guide to Natural Holi Colors</h1>
+                            <h1 className="font-headline text-4xl font-bold text-primary mt-2">{title}</h1>
                         </div>
 
                          <div className="relative h-96 w-full mb-8">
-                            <Image src="https://i.postimg.cc/gkXKTrQ8/organic-holi-colours.webp" alt="A Guide to Natural Holi Colors" layout="fill" objectFit="contain" data-ai-hint="holi colors" className="rounded-lg"/>
+                            <Image src="https://i.postimg.cc/gkXKTrQ8/organic-holi-colours.webp" alt={title} layout="fill" objectFit="contain" data-ai-hint="holi colors" className="rounded-lg"/>
                         </div>
 
                         <h2>The Problem with Chemical Colors</h2>
@@ -38,6 +41,7 @@ export default function SingleBlogPage() {
                         <h3>Green (Hara)</h3>
                         <p>For a natural green, use pure henna (mehendi) powder mixed with flour. You can also make a paste of spinach or mint leaves for a wet green color.</p>
                     </article>
+                    <ShareButtons title={title} />
                 </CardContent>
             </Card>
         </div>

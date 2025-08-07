@@ -1,10 +1,11 @@
+
 import { RecipeBody, RecipeCardLayout, RecipeHeader } from "@/components/RecipeCardLayout";
 import { Check } from "lucide-react";
 import Image from "next/image";
 
 export default function PodaPithaPage() {
     return (
-        <RecipeCardLayout>
+        <RecipeCardLayout recipeName="Poda Pitha">
             <RecipeHeader>
                 <h1 className="font-headline text-4xl mb-4">Poda Pitha</h1>
                 <div className="flex flex-col md:flex-row gap-6">

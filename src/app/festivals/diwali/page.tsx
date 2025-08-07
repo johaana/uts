@@ -4,6 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote, CalendarDays, Leaf } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { ShareButtons } from "@/components/ShareButtons";
 
 const recipes = [
     { name: "Ladoo", link: "/recipes/ladoo" },
@@ -229,6 +230,7 @@ export default function DiwaliPage() {
                                 </div>
                             </TabsContent>
                         </Tabs>
+                        <ShareButtons title="Diwali" />
                     </CardContent>
                 </Card>
             </div>

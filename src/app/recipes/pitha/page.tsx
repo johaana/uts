@@ -1,10 +1,11 @@
+
 import { RecipeBody, RecipeCardLayout, RecipeHeader } from "@/components/RecipeCardLayout";
 import { Check } from "lucide-react";
 import Image from "next/image";
 
 export default function PithaPage() {
     return (
-        <RecipeCardLayout>
+        <RecipeCardLayout recipeName="Til Pitha (Sesame Rice Cakes)">
             <RecipeHeader>
                 <h1 className="font-headline text-4xl mb-4">Til Pitha (Sesame Rice Cakes)</h1>
                 <div className="flex flex-col md:flex-row gap-6">
