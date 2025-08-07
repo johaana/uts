@@ -41,10 +41,10 @@ export function Header() {
         <div className="flex items-center justify-start flex-1">
              <Link href="/" className="flex items-center gap-2">
                 <Image 
-                  src="https://i.postimg.cc/tCYyQVjX/4.png" 
+                  src="https://i.postimg.cc/vZTZ0Br5/utsavs-logo.png" 
                   alt="Utsavs Logo" 
-                  width={isScrolled ? 60 : 72} 
-                  height={isScrolled ? 60 : 72}
+                  width={isScrolled ? 72 : 90} 
+                  height={isScrolled ? 72 : 90}
                   className="transition-all duration-300"
                 />
              </Link>
@@ -90,7 +90,7 @@ export function Header() {
                     <SheetContent side="left">
                         <div className="flex flex-col gap-6 pt-10">
                         <Link href="/" className="flex items-center gap-2 mb-4" onClick={() => setIsOpen(false)}>
-                            <Image src="https://i.postimg.cc/tCYyQVjX/4.png" alt="Utsavs Logo" width={64} height={64} />
+                            <Image src="https://i.postimg.cc/vZTZ0Br5/utsavs-logo.png" alt="Utsavs Logo" width={80} height={80} />
                         </Link>
                         {navLinks.map((link) => (
                             <Link
