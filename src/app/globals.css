@@ -22,7 +22,7 @@
     --muted: 4 30% 91%;
     --muted-foreground: 25 10% 45%;
  
-    --accent: 45 93% 47%; /* Gold - #E4A10F */
+    --accent: 35 91% 55%; /* Muted Saffron */
     --accent-foreground: 24 9.8% 10%;
  
     --destructive: 0 84.2% 60.2%;
@@ -60,7 +60,7 @@
     --muted: 12 6% 15%;
     --muted-foreground: 24 5% 64%;
  
-    --accent: 45 93% 47%; /* Gold - #E4A10F */
+    --accent: 35 91% 55%; /* Muted Saffron */
     --accent-foreground: 24 9.8% 10%;
  
     --destructive: 0 63% 31%;
