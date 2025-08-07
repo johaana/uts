@@ -9,7 +9,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { ArrowRight, Star } from "lucide-react";
-import { format, parse, getYear, isValid, isWithinInterval, startOfToday, addDays, isFuture } from 'date-fns';
+import { format, parse, getYear, isValid, isWithinInterval, startOfToday, addDays, isFuture, isToday } from 'date-fns';
 
 const allEvents = [
     // 2024
@@ -180,33 +180,30 @@ export function FestivalCalendar() {
     
     const filteredEvents = useMemo(() => {
         const today = startOfToday();
-        const oneYearFromNow = addDays(today, 365);
-
-        // 1. Filter out past events first (base list)
-        const futureEvents = allEvents.filter(event => {
-            const dateStr = event.date.split(' - ')[0];
-            const eventStartDate = safeParseDate(dateStr);
-            return isValid(eventStartDate) && isFuture(eventStartDate)
+        
+        // 1. Filter out past events
+        let relevantEvents = allEvents.filter(event => {
+            const dateStr = event.date.split(' - ')[1] || event.date.split(' - ')[0];
+            const eventEndDate = safeParseDate(dateStr);
+            return isValid(eventEndDate) && (isFuture(eventEndDate) || isToday(eventEndDate));
         });
 
-        // 2. Apply year/upcoming filter
-        let yearFilteredEvents;
+        // 2. Filter by Year or "Upcoming"
         if (selectedYear === 'Upcoming (1 year)') {
-            yearFilteredEvents = futureEvents.filter(event => {
-                 const eventStartDate = safeParseDate(event.date.split(' - ')[0]);
-                 return isValid(eventStartDate) && isWithinInterval(eventStartDate, { start: today, end: oneYearFromNow });
+            const oneYearFromNow = addDays(today, 365);
+            relevantEvents = relevantEvents.filter(event => {
+                const eventStartDate = safeParseDate(event.date.split(' - ')[0]);
+                return isValid(eventStartDate) && isWithinInterval(eventStartDate, { start: today, end: oneYearFromNow });
             });
-        } else if (selectedYear === 'all') {
-            yearFilteredEvents = futureEvents;
-        } else {
-            yearFilteredEvents = futureEvents.filter(event => {
+        } else if (selectedYear !== 'all') {
+            relevantEvents = relevantEvents.filter(event => {
                 const eventStartDate = safeParseDate(event.date.split(' - ')[0]);
                 return isValid(eventStartDate) && getYear(eventStartDate) === parseInt(selectedYear, 10);
             });
         }
 
-        // 3. Apply remaining filters
-        return yearFilteredEvents.filter(event => {
+        // 3. Apply other filters
+        return relevantEvents.filter(event => {
             const monthMatch = selectedMonth === 'all' || getMonthFromDateString(event.date) === selectedMonth;
             const regionMatch = selectedRegion === 'all' || event.region === selectedRegion || event.region.includes(selectedRegion);
             
