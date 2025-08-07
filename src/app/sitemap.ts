@@ -85,6 +85,9 @@ const allRecipes = [
     { link: "/recipes/medu-vada" },
     { link: "/recipes/ven-pongal" },
     { link: "/recipes/tilgul" },
+    { link: "/recipes/sabudana-khichdi" },
+    { link: "/recipes/kuttu-ki-puri" },
+    { link: "/recipes/makhane-ki-kheer" },
 ];
 
 const blogPosts = [

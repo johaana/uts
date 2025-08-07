@@ -45,9 +45,9 @@ const allRecipes = [
     { name: "Ven Pongal", festival: "Pongal", region: "South", description: "A savory and comforting rice and lentil dish.", link: "/recipes/ven-pongal", image: "https://i.postimg.cc/tJ3RkTB3/Onam.png", hint: "savory rice pudding" },
     { name: "Tilgul", festival: "Makar Sankranti", region: "West", description: "Ladoos made from sesame seeds and jaggery.", link: "/recipes/tilgul", image: "https://i.postimg.cc/nzrvDTx2/Diwali-Sweets.jpg", hint: "sesame ladoo" },
     { name: "Khichdi", festival: "Makar Sankranti", region: "Nationwide", description: "A comforting one-pot dish of rice and lentils.", link: "/recipes/khichdi", image: "https://i.postimg.cc/wvFzzvZZ/khechudi.jpg", hint: "rice and lentils" },
-    { name: "Kaddu Bhaat", festival: "Chhath Puja", region: "East", description: "A simple pumpkin curry served with rice, eaten on 'Nahay Khay'.", link: "/recipes/kaddu-bhaat", image: "https://i.postimg.cc/KYmDZCCg/chath-puja-festival1.webp", hint: "pumpkin curry rice" },
-    { name: "Rasia Kheer", festival: "Chhath Puja", region: "East", description: "A special rice pudding made with jaggery, prepared for Kharna.", link: "/recipes/rasia-kheer", image: "https://i.postimg.cc/d1N07T3K/thekua1.webp", hint: "jaggery rice pudding" },
-
+    { name: "Sabudana Khichdi", festival: "Maha Shivaratri", region: "Nationwide", description: "A popular fasting dish made from tapioca pearls, potatoes, and peanuts.", link: "/recipes/sabudana-khichdi", image: "https://i.postimg.cc/3wRdZZ1y/sabudana-khichdi.jpg", hint: "tapioca pearl dish" },
+    { name: "Kuttu ki Puri", festival: "Maha Shivaratri", region: "North", description: "A gluten-free, deep-fried bread made from buckwheat flour for fasting.", link: "/recipes/kuttu-ki-puri", image: "https://i.postimg.cc/RV76Chq0/kuttu-ki-puri.jpg", hint: "buckwheat bread" },
+    { name: "Makhane ki Kheer", festival: "Maha Shivaratri", region: "Nationwide", description: "A creamy pudding made from fox nuts, perfect for festive fasting.", link: "/recipes/makhane-ki-kheer", image: "https://i.postimg.cc/bwLZb5xc/Makhane-ki-kheer.jpg", hint: "fox nut pudding" },
 ];
 
 const festivals = [...new Set(allRecipes.map(r => r.festival))].sort();

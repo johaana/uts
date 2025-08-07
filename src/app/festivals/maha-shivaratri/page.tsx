@@ -7,9 +7,9 @@ import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
 
 const recipes = [
-    { name: "Sabudana Khichdi", link: "#" },
-    { name: "Kuttu ki Puri", link: "#" },
-    { name: "Makhane ki Kheer", link: "#" },
+    { name: "Sabudana Khichdi", link: "/recipes/sabudana-khichdi" },
+    { name: "Kuttu ki Puri", link: "/recipes/kuttu-ki-puri" },
+    { name: "Makhane ki Kheer", link: "/recipes/makhane-ki-kheer" },
 ]
 
 export default function MahaShivaratriPage() {
