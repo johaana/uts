@@ -21,11 +21,11 @@ const allEvents = [
     { date: "Oct 02, 2024", name: "Gandhi Jayanti", region: "Nationwide", type: "Holiday", link: "/festivals/gandhi-jayanti" },
     { date: "Oct 03 - Oct 11, 2024", name: "Navratri", region: "Nationwide", type: "Religious", link: "/festivals/navratri", longWeekend: true },
     { date: "Oct 09 - Oct 13, 2024", name: "Durga Puja", region: "East", type: "Religious", link: "/festivals/durga-puja", longWeekend: true },
-    { date: "Oct 29, 2024", name: "Dhanteras", region: "Nationwide", type: "Diwali", link: "/festivals/diwali", longWeekend: true },
-    { date: "Oct 30, 2024", name: "Naraka Chaturdashi", region: "Nationwide", type: "Diwali", link: "/festivals/diwali" },
-    { date: "Oct 31, 2024", name: "Diwali (Lakshmi Puja)", region: "Nationwide", type: "Holiday", link: "/festivals/diwali", longWeekend: true },
-    { date: "Nov 01, 2024", name: "Govardhan Puja / Padwa", region: "North & West", type: "Diwali", link: "/festivals/diwali" },
-    { date: "Nov 02, 2024", name: "Bhai Dooj", region: "North & West", type: "Diwali", link: "/festivals/diwali" },
+    { date: "Oct 29, 2024", name: "Dhanteras (Diwali Day 1)", region: "Nationwide", type: "Diwali", link: "/festivals/diwali", longWeekend: true },
+    { date: "Oct 30, 2024", name: "Naraka Chaturdashi (Diwali Day 2)", region: "Nationwide", type: "Diwali", link: "/festivals/diwali" },
+    { date: "Oct 31, 2024", name: "Diwali (Lakshmi Puja) (Day 3)", region: "Nationwide", type: "Holiday", link: "/festivals/diwali", longWeekend: true },
+    { date: "Nov 01, 2024", name: "Govardhan Puja (Diwali Day 4)", region: "North & West", type: "Diwali", link: "/festivals/diwali" },
+    { date: "Nov 02, 2024", name: "Bhai Dooj (Diwali Day 5)", region: "North & West", type: "Diwali", link: "/festivals/diwali" },
     { date: "Nov 15, 2024", name: "Guru Nanak Jayanti", region: "Nationwide", type: "Religious", link: "/festivals/guru-nanak-jayanti" },
     { date: "Dec 01 - Dec 10, 2024", name: "Hornbill Festival", region: "Northeast", type: "Cultural", link: "/festivals/hornbill-festival" },
     { date: "Dec 25, 2024", name: "Christmas", region: "Nationwide", type: "Religious", link: "/festivals/christmas" },
@@ -68,11 +68,11 @@ const allEvents = [
     { date: "Oct 02, 2025", name: "Dussehra", region: "Nationwide", type: "Religious", link: "#", longWeekend: true },
     { date: "Oct 02, 2025", name: "Gandhi Jayanti", region: "Nationwide", type: "Holiday", link: "/festivals/gandhi-jayanti", longWeekend: true },
     { date: "Oct 11, 2025", name: "Karva Chauth", region: "North", type: "Cultural", link: "/festivals/karva-chauth" },
-    { date: "Oct 19, 2025", name: "Dhanteras", region: "Nationwide", type: "Diwali", link: "/festivals/diwali", longWeekend: true },
-    { date: "Oct 20, 2025", name: "Naraka Chaturdashi", region: "Nationwide", type: "Diwali", link: "/festivals/diwali", longWeekend: true },
-    { date: "Oct 21, 2025", name: "Diwali (Lakshmi Puja)", region: "Nationwide", type: "Holiday", link: "/festivals/diwali", longWeekend: true },
-    { date: "Oct 22, 2025", name: "Govardhan Puja / Padwa", region: "North & West", type: "Diwali", link: "/festivals/diwali" },
-    { date: "Oct 23, 2025", name: "Bhai Dooj", region: "North & West", type: "Diwali", link: "/festivals/diwali" },
+    { date: "Oct 19, 2025", name: "Dhanteras (Diwali Day 1)", region: "Nationwide", type: "Diwali", link: "/festivals/diwali", longWeekend: true },
+    { date: "Oct 20, 2025", name: "Naraka Chaturdashi (Diwali Day 2)", region: "Nationwide", type: "Diwali", link: "/festivals/diwali", longWeekend: true },
+    { date: "Oct 21, 2025", name: "Diwali (Lakshmi Puja) (Day 3)", region: "Nationwide", type: "Holiday", link: "/festivals/diwali", longWeekend: true },
+    { date: "Oct 22, 2025", name: "Govardhan Puja (Diwali Day 4)", region: "North & West", type: "Diwali", link: "/festivals/diwali" },
+    { date: "Oct 23, 2025", name: "Bhai Dooj (Diwali Day 5)", region: "North & West", type: "Diwali", link: "/festivals/diwali" },
     { date: "Nov 05, 2025", name: "Guru Nanak Jayanti", region: "Nationwide", type: "Religious", link: "/festivals/guru-nanak-jayanti" },
     { date: "Nov 11, 2025", name: "Karthigai Deepam", region: "South", type: "Religious", link: "/festivals/karthigai-deepam" },
     { date: "Nov 12, 2025", name: "Wangala", region: "Northeast", type: "Harvest", link: "/festivals/wangala" },
@@ -98,10 +98,10 @@ const allEvents = [
     { date: "Sep 25, 2026", name: "Anant Chaturdashi", region: "West", type: "Religious", link: "/festivals/ganesh-chaturthi" },
     { date: "Sep 26, 2026", name: "Onam", region: "South", type: "Harvest", link: "/festivals/onam" },
     { date: "Oct 20, 2026", name: "Dussehra", region: "Nationwide", type: "Religious", link: "#", longWeekend: true },
-    { date: "Nov 07, 2026", name: "Dhanteras", region: "Nationwide", type: "Diwali", link: "/festivals/diwali", longWeekend: true },
-    { date: "Nov 08, 2026", name: "Diwali (Lakshmi Puja)", region: "Nationwide", type: "Holiday", link: "/festivals/diwali", longWeekend: true },
-    { date: "Nov 09, 2026", name: "Govardhan Puja / Padwa", region: "North & West", type: "Diwali", link: "/festivals/diwali" },
-    { date: "Nov 10, 2026", name: "Bhai Dooj", region: "North & West", type: "Diwali", link: "/festivals/diwali" },
+    { date: "Nov 07, 2026", name: "Dhanteras (Diwali Day 1)", region: "Nationwide", type: "Diwali", link: "/festivals/diwali", longWeekend: true },
+    { date: "Nov 08, 2026", name: "Diwali (Lakshmi Puja) (Day 3)", region: "Nationwide", type: "Holiday", link: "/festivals/diwali", longWeekend: true },
+    { date: "Nov 09, 2026", name: "Govardhan Puja (Diwali Day 4)", region: "North & West", type: "Diwali", link: "/festivals/diwali" },
+    { date: "Nov 10, 2026", name: "Bhai Dooj (Diwali Day 5)", region: "North & West", type: "Diwali", link: "/festivals/diwali" },
     { date: "Nov 24, 2026", name: "Guru Nanak Jayanti", region: "Nationwide", type: "Religious", link: "/festivals/guru-nanak-jayanti" },
     { date: "Dec 25, 2026", name: "Christmas", region: "Nationwide", type: "Religious", link: "/festivals/christmas", longWeekend: true },
 ].sort((a, b) => {
@@ -140,6 +140,7 @@ export function FestivalCalendar() {
             if (parts.length > 1) {
                 const endDateStr = parts[1];
                 let endDate;
+                // Handle cases like "Oct 09 - Oct 13, 2024" vs "Feb 22 - 25, 2025"
                 if (endDateStr.split(',').length < 2) {
                      endDate = parse(`${endDateStr}, ${getYear(startDate)}`, 'MMM dd, yyyy', new Date());
                 } else {
@@ -147,6 +148,7 @@ export function FestivalCalendar() {
                 }
 
                 if (!isValid(endDate)) {
+                     // Fallback for single day format if end date is invalid
                      return format(startDate, 'MMM dd, yyyy (EEEE)');
                 }
 
@@ -160,6 +162,7 @@ export function FestivalCalendar() {
             }
             return format(startDate, 'MMM dd, yyyy (EEEE)');
         } catch (error) {
+            console.error("Error formatting date:", dateString, error);
             return dateString;
         }
     };
