@@ -38,7 +38,7 @@ export function Header() {
     >
       <div className="container mx-auto flex items-center justify-between px-4 h-full">
         
-        <div className="flex items-center justify-start flex-1">
+        <div className="flex items-center justify-start flex-1 md:flex-none">
              <Link href="/" className="flex items-center gap-2 py-1">
                 <Image 
                   src="https://i.postimg.cc/vZTZ0Br5/utsavs-logo.png" 
@@ -71,7 +71,7 @@ export function Header() {
           ))}
         </nav>
         
-        <div className="flex justify-end items-center flex-1 gap-2">
+        <div className="flex justify-end items-center flex-1 md:flex-none">
             <div className="hidden md:flex">
                  <Link href="/planner">
                     <Button 

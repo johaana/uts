@@ -11,7 +11,7 @@ export default function PlannerPage() {
               Unsure where to go? Let our AI assistant craft personalized festival-based travel suggestions for you.
             </p>
           </div>
-        <div className="flex justify-center">
+        <div className="w-full max-w-2xl mx-auto">
             <HolidayPlanner />
         </div>
     </PageLayout>
