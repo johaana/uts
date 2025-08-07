@@ -306,7 +306,7 @@ export function FestivalCalendar() {
                                 filteredEvents.map((event, index) => (
                                     <TableRow key={event.name + event.date + index}>
                                         <TableCell className="font-medium">{formatDateString(event.date)}</TableCell>
-                                        <TableCell className="font-bold text-base flex items-center gap-2">
+                                        <TableCell className="text-base flex items-center gap-2">
                                             {event.name}
                                             {event.longWeekend && <Star className="w-4 h-4 text-amber-500 fill-amber-500" />}
                                         </TableCell>
@@ -345,3 +345,4 @@ export function FestivalCalendar() {
         </div>
     );
 }
+
