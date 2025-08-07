@@ -9,7 +9,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { ArrowRight, Star } from "lucide-react";
-import { format, parse, getYear, isValid, isWithinInterval, startOfToday, addDays, isFuture, isToday } from 'date-fns';
+import { format, parse, getYear, isValid, isWithinInterval, startOfToday, addDays, isFuture, isToday, parseISO } from 'date-fns';
 
 const allEvents = [
     // 2024
@@ -142,6 +142,7 @@ export function FestivalCalendar() {
             if (parts.length > 1) {
                 const endDateStr = parts[1];
                 let endDate;
+                // Handle cases like "Oct 09 - Oct 13, 2024" where year is only at the end
                 if (endDateStr.split(',').length < 2) {
                      endDate = parse(`${endDateStr}, ${getYear(startDate)}`, 'MMM dd, yyyy', new Date());
                 } else {
@@ -152,7 +153,7 @@ export function FestivalCalendar() {
                      return format(startDate, 'MMM dd, yyyy (EEEE)');
                 }
 
-                if (format(startDate, 'yyyy') !== format(endDate, 'yyyy')) {
+                if (getYear(startDate) !== getYear(endDate)) {
                     return `${format(startDate, 'MMM dd, yyyy')} - ${format(endDate, 'MMM dd, yyyy')}`;
                 } else if (format(startDate, 'MMMM') !== format(endDate, 'MMMM')) {
                     return `${format(startDate, 'MMM dd')} - ${format(endDate, 'MMM dd, yyyy')}`;
@@ -180,30 +181,38 @@ export function FestivalCalendar() {
     
     const filteredEvents = useMemo(() => {
         const today = startOfToday();
-        
-        // 1. Filter out past events
-        let relevantEvents = allEvents.filter(event => {
-            const dateStr = event.date.split(' - ')[1] || event.date.split(' - ')[0];
-            const eventEndDate = safeParseDate(dateStr);
-            return isValid(eventEndDate) && (isFuture(eventEndDate) || isToday(eventEndDate));
-        });
 
-        // 2. Filter by Year or "Upcoming"
+        let dateFilteredEvents;
+
         if (selectedYear === 'Upcoming (1 year)') {
             const oneYearFromNow = addDays(today, 365);
-            relevantEvents = relevantEvents.filter(event => {
-                const eventStartDate = safeParseDate(event.date.split(' - ')[0]);
-                return isValid(eventStartDate) && isWithinInterval(eventStartDate, { start: today, end: oneYearFromNow });
+            dateFilteredEvents = allEvents.filter(event => {
+                const parts = event.date.split(' - ');
+                const startDate = safeParseDate(parts[0]);
+                const endDateStr = parts[1] || parts[0];
+                const endDate = safeParseDate(endDateStr.split(',').length < 2 ? `${endDateStr}, ${getYear(startDate)}` : endDateStr);
+                
+                if (!isValid(startDate)) return false;
+
+                // Event is in the future and its start date is within the 1-year window
+                return (isFuture(endDate) || isToday(endDate)) && isWithinInterval(startDate, { start: today, end: oneYearFromNow });
             });
-        } else if (selectedYear !== 'all') {
-            relevantEvents = relevantEvents.filter(event => {
-                const eventStartDate = safeParseDate(event.date.split(' - ')[0]);
-                return isValid(eventStartDate) && getYear(eventStartDate) === parseInt(selectedYear, 10);
+        } else if (selectedYear === 'all') {
+             dateFilteredEvents = allEvents.filter(event => {
+                const endDateStr = event.date.split(' - ')[1] || event.date.split(' - ')[0];
+                const endDate = safeParseDate(endDateStr);
+                return isValid(endDate) && (isFuture(endDate) || isToday(endDate));
+            });
+        } else {
+            const yearNum = parseInt(selectedYear, 10);
+            dateFilteredEvents = allEvents.filter(event => {
+                 const startDate = safeParseDate(event.date.split(' - ')[0]);
+                 return isValid(startDate) && getYear(startDate) === yearNum;
             });
         }
 
-        // 3. Apply other filters
-        return relevantEvents.filter(event => {
+
+        return dateFilteredEvents.filter(event => {
             const monthMatch = selectedMonth === 'all' || getMonthFromDateString(event.date) === selectedMonth;
             const regionMatch = selectedRegion === 'all' || event.region === selectedRegion || event.region.includes(selectedRegion);
             
@@ -218,6 +227,7 @@ export function FestivalCalendar() {
 
             return monthMatch && regionMatch && eventTypeMatch;
         });
+
     }, [selectedYear, selectedMonth, selectedRegion, selectedEventType]);
 
 
@@ -363,3 +373,5 @@ export function FestivalCalendar() {
         </div>
     );
 }
+
+    
