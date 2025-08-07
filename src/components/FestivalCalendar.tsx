@@ -16,28 +16,7 @@ const months = ["January", "February", "March", "April", "May", "June", "July", 
 const regions = ["Nationwide", "North", "South", "East", "West", "Northeast", "Central"];
 const eventTypes = ["Festivals", "Holidays", "Long Weekends"];
 
-const allAvailableYears = [
-    ...new Set(
-        allEvents
-            .flatMap(e => {
-                const parts = e.date.split(' - ');
-                const year1 = getYear(parse(parts[0], 'MMM dd, yyyy', new Date()));
-                if (parts.length > 1) {
-                    const endDateStr = parts[1];
-                    let year2;
-                     if (endDateStr.split(',').length < 2) {
-                        year2 = year1;
-                     } else {
-                        year2 = getYear(parse(endDateStr, 'MMM dd, yyyy', new Date()));
-                     }
-                     return [year1, year2];
-                }
-                return [year1];
-            })
-            .filter(year => !isNaN(year))
-    ),
-].sort();
-
+const availableYears = ['Upcoming (1 year)', '2025', '2026'];
 
 export function FestivalCalendar() {
     const [selectedMonth, setSelectedMonth] = useState('all');
@@ -45,7 +24,6 @@ export function FestivalCalendar() {
     const [selectedEventType, setSelectedEventType] = useState('all');
     const [selectedYear, setSelectedYear] = useState('Upcoming (1 year)');
     
-    const availableYears = ['Upcoming (1 year)', ...allAvailableYears.map(String), 'all'];
 
     const getEventDateRange = (dateString: string): { start: Date, end: Date } | null => {
         try {
@@ -284,5 +262,3 @@ export function FestivalCalendar() {
         </div>
     );
 }
-
-    
