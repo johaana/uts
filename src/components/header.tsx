@@ -109,7 +109,7 @@ export function Header() {
                             </Link>
                         ))}
                          <Link href="/planner" onClick={() => setIsOpen(false)}>
-                            <Button className="bg-blue-600 hover:bg-blue-700 text-white font-bold tracking-wide uppercase shadow-lg rounded-full px-5 py-2 w-full mt-4">
+                            <Button className="bg-blue-600 hover:bg-blue-700 text-white font-bold tracking-wide uppercase shadow-lg hover:shadow-blue-500/50 rounded-full px-5 py-2 w-full mt-4 hover:scale-105 transition-all duration-200">
                                 AI Holiday Planner
                             </Button>
                         </Link>

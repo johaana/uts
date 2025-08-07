@@ -46,6 +46,7 @@ const allRecipes = [
 ];
 
 const blogPosts = [
+    { slug: "raksha-bandhan-the-true-spirit-of-siblinghood" },
     { slug: "significance-of-diyas-in-diwali" },
     { slug: "guide-to-natural-holi-colors" },
     { slug: "top-5-rangoli-designs-for-beginners" },
@@ -88,6 +89,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         { url: `${URL}/recipes`, lastModified: new Date().toISOString() },
         { url: `${URL}/blog`, lastModified: new Date().toISOString() },
         { url: `${URL}/api`, lastModified: new Date().toISOString() },
+        { url: `${URL}/planner`, lastModified: new Date().toISOString() },
     ];
 
     return [...staticRoutes, ...festivalRoutes, ...recipeRoutes, ...blogRoutes];
