@@ -15,29 +15,42 @@ function CountdownBox({ value, label }: { value: number, label: string }) {
     );
 }
 
-
 export function FestivalCountdown({ targetDate }: { targetDate: string }) {
+    const [isClient, setIsClient] = useState(false);
+
+    useEffect(() => {
+        setIsClient(true);
+    }, []);
+
     const calculateTimeLeft = () => {
-        const target = parseISO(targetDate);
-        const now = new Date();
-        const seconds = differenceInSeconds(target, now);
+        try {
+            const target = parseISO(targetDate);
+            const now = new Date();
+            const seconds = differenceInSeconds(target, now);
 
-        if (seconds <= 0) {
-            return { days: 0, hours: 0, minutes: 0, seconds: 0, isFinished: true };
+            if (seconds <= 0) {
+                return { days: 0, hours: 0, minutes: 0, seconds: 0, isFinished: true };
+            }
+
+            return {
+                days: Math.floor(seconds / 86400),
+                hours: Math.floor((seconds % 86400) / 3600),
+                minutes: Math.floor((seconds % 3600) / 60),
+                seconds: seconds % 60,
+                isFinished: false
+            };
+        } catch (e) {
+             return { days: 0, hours: 0, minutes: 0, seconds: 0, isFinished: true };
         }
-
-        return {
-            days: Math.floor(seconds / 86400),
-            hours: Math.floor((seconds % 86400) / 3600),
-            minutes: Math.floor((seconds % 3600) / 60),
-            seconds: seconds % 60,
-            isFinished: false
-        };
     };
 
     const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
 
     useEffect(() => {
+        if (!isClient) {
+            return;
+        }
+
         const timer = setInterval(() => {
             setTimeLeft(calculateTimeLeft());
         }, 1000);
@@ -48,7 +61,11 @@ export function FestivalCountdown({ targetDate }: { targetDate: string }) {
 
         return () => clearInterval(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [targetDate, timeLeft.isFinished]);
+    }, [isClient, targetDate, timeLeft.isFinished]);
+
+    if (!isClient) {
+        return <div className="h-20"></div>; // Placeholder for SSR
+    }
 
     if (timeLeft.isFinished) {
         return (

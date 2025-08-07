@@ -85,6 +85,7 @@ function FestivalOfTheMonth() {
 
 const getUpcomingFestivals = () => {
     const now = new Date();
+    now.setHours(0, 0, 0, 0); // Set time to beginning of the day for accurate comparison
     return allUpcomingFestivals.filter(festival => {
         try {
             const festivalDate = parseISO(festival.date);
@@ -150,7 +151,7 @@ export default function Home() {
               <CarouselNext className="hidden md:flex" />
             </Carousel>
           ) : (
-             <div className="text-center text-foreground/80">
+             <div className="text-center text-foreground/80 py-10">
                 <p>Stay tuned for more upcoming festivals!</p>
              </div>
           )}

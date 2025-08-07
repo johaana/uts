@@ -4,8 +4,8 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Card, CardContent } from './ui/card';
-import { parseISO, differenceInSeconds, format } from 'date-fns';
-import { useEffect, useState } from 'react';
+import { parseISO, format } from 'date-fns';
+import { FestivalCountdown } from './FestivalCountdown';
 
 interface Festival {
     name: string;
@@ -15,75 +15,7 @@ interface Festival {
     hint: string;
 }
 
-interface TimeLeft {
-    days: number;
-    hours: number;
-    minutes: number;
-    seconds: number;
-}
-
-function CountdownBox({ value, label }: { value: number; label: string }) {
-    return (
-        <div className="flex flex-col items-center justify-center bg-primary/10 p-3 rounded-lg w-20 h-20">
-            <span className="text-3xl font-bold text-primary tabular-nums">
-                {String(value).padStart(2, '0')}
-            </span>
-            <span className="text-xs text-muted-foreground mt-1">{label}</span>
-        </div>
-    );
-}
-
 export function UpcomingFestivalCard({ festival }: { festival: Festival }) {
-    const [isClient, setIsClient] = useState(false);
-    const [timeLeft, setTimeLeft] = useState<TimeLeft | null>(null);
-
-    useEffect(() => {
-        setIsClient(true);
-    }, []);
-
-    useEffect(() => {
-        if (!isClient) {
-            return;
-        }
-
-        const calculateTimeLeft = () => {
-            try {
-                const target = parseISO(festival.date);
-                const now = new Date();
-                const seconds = differenceInSeconds(target, now);
-
-                if (seconds <= 0) {
-                    return null;
-                }
-
-                return {
-                    days: Math.floor(seconds / 86400),
-                    hours: Math.floor((seconds % 86400) / 3600),
-                    minutes: Math.floor((seconds % 3600) / 60),
-                    seconds: seconds % 60,
-                };
-            } catch (error) {
-                console.error("Error parsing date:", festival.date, error);
-                return null;
-            }
-        };
-        
-        setTimeLeft(calculateTimeLeft());
-
-        const timer = setInterval(() => {
-            const newTimeLeft = calculateTimeLeft();
-            if (newTimeLeft) {
-                setTimeLeft(newTimeLeft);
-            } else {
-                setTimeLeft(null);
-                clearInterval(timer);
-            }
-        }, 1000);
-
-
-        return () => clearInterval(timer);
-    }, [isClient, festival.date]);
-    
     if (!festival) {
         return null;
     }
@@ -116,18 +48,7 @@ export function UpcomingFestivalCard({ festival }: { festival: Festival }) {
                 </div>
 
                 <div className="w-full flex items-center justify-center">
-                     {isClient && timeLeft ? (
-                        <div className="flex justify-center gap-2">
-                            <CountdownBox value={timeLeft.days} label="Days" />
-                            <CountdownBox value={timeLeft.hours} label="Hours" />
-                            <CountdownBox value={timeLeft.minutes} label="Mins" />
-                            <CountdownBox value={timeLeft.seconds} label="Secs" />
-                        </div>
-                    ) : (
-                         <div className="text-center font-bold text-accent py-3 px-4 rounded-lg bg-accent/10 w-full">
-                            Happy Festival!
-                        </div>
-                    )}
+                    <FestivalCountdown targetDate={festival.date} />
                 </div>
             </CardContent>
         </Card>
