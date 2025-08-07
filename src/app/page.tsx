@@ -83,7 +83,9 @@ export default function Home() {
               Ask our AI assistant for festival recommendations and travel ideas!
             </p>
           </div>
-          <HolidayPlanner />
+          <div className="flex justify-center">
+            <HolidayPlanner />
+          </div>
         </div>
       </section>
 

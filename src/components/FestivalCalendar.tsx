@@ -140,7 +140,6 @@ export function FestivalCalendar() {
             if (parts.length > 1) {
                 const endDateStr = parts[1];
                 let endDate;
-                // Handle cases like "Oct 09 - Oct 13, 2024" vs "Feb 22 - 25, 2025"
                 if (endDateStr.split(',').length < 2) {
                      endDate = parse(`${endDateStr}, ${getYear(startDate)}`, 'MMM dd, yyyy', new Date());
                 } else {
@@ -148,7 +147,6 @@ export function FestivalCalendar() {
                 }
 
                 if (!isValid(endDate)) {
-                     // Fallback for single day format if end date is invalid
                      return format(startDate, 'MMM dd, yyyy (EEEE)');
                 }
 
@@ -180,25 +178,27 @@ export function FestivalCalendar() {
     
     const filteredEvents = useMemo(() => {
         const now = new Date();
-        now.setHours(0,0,0,0);
+        now.setHours(0, 0, 0, 0);
+
+        let events = allEvents;
+
+        if (selectedYear === 'upcoming') {
+            const oneYearFromNow = addDays(now, 365);
+            events = allEvents.filter(event => {
+                const eventStartDate = safeParseDate(event.date.split(' - ')[0]);
+                if (!isValid(eventStartDate)) return false;
+                return (isAfter(eventStartDate, now) || isSameDay(eventStartDate, now)) && isBefore(eventStartDate, oneYearFromNow);
+            });
+        } else if (selectedYear !== 'all') {
+            events = allEvents.filter(event => {
+                const eventStartDate = safeParseDate(event.date.split(' - ')[0]);
+                if (!isValid(eventStartDate)) return false;
+                return getYear(eventStartDate) === parseInt(selectedYear);
+            });
+        }
         
-        return allEvents.filter(event => {
-            const eventStartDateStr = event.date.split(' - ')[0];
-            const eventStartDate = safeParseDate(eventStartDateStr);
-            if(!isValid(eventStartDate)) return false;
-
-            const eventMonth = getMonthFromDateString(event.date);
-            const eventYear = getYear(eventStartDate);
-
-            let yearMatch = true;
-            if (selectedYear === 'upcoming') {
-                const oneYearFromNow = addDays(now, 365);
-                yearMatch = (isAfter(eventStartDate, now) || isSameDay(eventStartDate, now)) && isBefore(eventStartDate, oneYearFromNow);
-            } else if (selectedYear !== 'all') {
-                yearMatch = eventYear === parseInt(selectedYear);
-            }
-            
-            const monthMatch = selectedMonth === 'all' || eventMonth === selectedMonth;
+        return events.filter(event => {
+            const monthMatch = selectedMonth === 'all' || getMonthFromDateString(event.date) === selectedMonth;
             const regionMatch = selectedRegion === 'all' || event.region === selectedRegion || event.region.includes(selectedRegion);
             
             let eventTypeMatch = true;
@@ -210,7 +210,7 @@ export function FestivalCalendar() {
                 eventTypeMatch = !!event.longWeekend;
             }
 
-            return yearMatch && monthMatch && regionMatch && eventTypeMatch;
+            return monthMatch && regionMatch && eventTypeMatch;
         });
     }, [selectedYear, selectedMonth, selectedRegion, selectedEventType]);
 
