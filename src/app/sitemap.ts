@@ -87,6 +87,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         { url: `${URL}/festivals`, lastModified: new Date().toISOString() },
         { url: `${URL}/recipes`, lastModified: new Date().toISOString() },
         { url: `${URL}/blog`, lastModified: new Date().toISOString() },
+        { url: `${URL}/api`, lastModified: new Date().toISOString() },
     ];
 
     return [...staticRoutes, ...festivalRoutes, ...recipeRoutes, ...blogRoutes];
