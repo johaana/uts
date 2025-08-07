@@ -36,9 +36,9 @@ function FestivalOfTheMonth() {
         <section className="py-16 md:py-24 bg-background">
             <div className="container mx-auto px-4">
                  <div className="text-center mb-12">
-                    <h2 className="font-headline text-4xl md:text-5xl font-bold text-primary">Upcoming Festivals</h2>
+                    <h2 className="font-headline text-4xl md:text-5xl font-bold text-primary">Upcoming Festivals & Holidays</h2>
                     <p className="mt-4 text-lg text-foreground/80 max-w-2xl mx-auto">
-                        A special highlight on a significant celebration happening now.
+                        A special highlight on the significant celebrations happening soon.
                     </p>
                 </div>
                 <UpcomingFestivalsCarousel />

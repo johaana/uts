@@ -10,8 +10,8 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel"
 import { UpcomingFestivalCard } from "./UpcomingFestivalCard";
-import { parse, parseISO, isFuture, isToday } from 'date-fns';
-import { allEvents } from '@/lib/festival-data';
+import { parse, isFuture, isToday } from 'date-fns';
+import { allEvents, allFestivals } from '@/lib/festival-data';
 
 interface Festival {
     name: string;
@@ -21,21 +21,10 @@ interface Festival {
     hint: string;
 }
 
-const festivalImages: Record<string, {image: string, hint: string}> = {
-  "Raksha Bandhan": { image: "https://i.postimg.cc/9MXxXQhY/Raksha-Bandhan.jpg", hint: "rakhi thread" },
-  "Ganesh Chaturthi": { image: "https://i.postimg.cc/VNWGcb3N/ganesh-chaturthi-festival.jpg", hint: "ganesha idol" },
-  "Onam": { image: "https://i.postimg.cc/0564g0S7/nandu-menon-h-GHldb-Cg-YDA-unsplash.jpg", hint: "onam feast" },
-  "Navratri": { image: "https://i.postimg.cc/GhWjwdnN/Navratri.jpg", hint: "garba dance" },
-  "Diwali (Lakshmi Puja) (Day 3)": { image: "https://i.postimg.cc/SjF8HhM1/Diwali2.jpg", hint: "diwali celebration" },
-  "Diwali": { image: "https://i.postimg.cc/SjF8HhM1/Diwali2.jpg", hint: "diwali celebration" },
-  "Guru Nanak Jayanti": { image: "https://i.postimg.cc/zXgfBv19/karah-prasad.jpg", hint: "sikh prayer" },
-  "Christmas": { image: "https://i.postimg.cc/ncKMYdWy/christmas-2.jpg", hint: "christmas decor" },
-  "Lohri": { image: "https://i.postimg.cc/kGQ9w7QS/north-india-festivals.webp", hint: "lohri bonfire" },
-  "Pongal": { image: "https://i.postimg.cc/tJ3RkTB3/Onam.png", hint: "pongal dish" },
-  "Makar Sankranti / Pongal": { image: "https://i.postimg.cc/tJ3RkTB3/Onam.png", hint: "pongal dish" },
-  "Holi": { image: "https://i.postimg.cc/fWFvx4J9/aceofnet-PNd98-z-An-U0-unsplash.jpg", hint: "holi celebration" },
-  "Eid-al-Fitr": { image: "https://i.postimg.cc/sQC9PHmM/sheer-khurma.jpg", hint: "eid food" },
-};
+// Create a mapping from festival name to its image and hint for quick lookup
+const festivalImageMap = new Map(
+  allFestivals.map(f => [f.name, { image: f.image, hint: f.hint }])
+);
 
 
 const parseFestivalDate = (dateStr: string): Date | null => {
@@ -73,7 +62,10 @@ export function UpcomingFestivalsCarousel() {
                 .filter(event => event.parsedDate && (isFuture(event.parsedDate) || isToday(event.parsedDate)))
                 .sort((a, b) => a.parsedDate!.getTime() - b.parsedDate!.getTime())
                 .map(event => {
-                    const imageData = festivalImages[event.name] || { image: "https://placehold.co/600x400.png", hint: "festival celebration" };
+                    // Match the name, handling cases like "Diwali (Lakshmi Puja) (Day 3)"
+                    const baseName = event.name.split(' (')[0];
+                    const imageData = festivalImageMap.get(event.name) || festivalImageMap.get(baseName) || { image: "https://placehold.co/600x400.png", hint: "festival celebration" };
+                    
                     return {
                         name: event.name,
                         date: event.parsedDate!.toISOString(),
