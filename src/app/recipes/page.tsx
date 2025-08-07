@@ -146,25 +146,30 @@ export default function RecipesPage() {
                 </div>
             </Card>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                 {filteredAndSortedRecipes.length > 0 ? filteredAndSortedRecipes.map((recipe) => (
-                    <Card key={recipe.name} className="overflow-hidden group flex flex-col">
-                        <div className="relative h-64 w-full bg-black/5 overflow-hidden">
-                          <Image src={recipe.image} alt={recipe.name} layout="fill" objectFit="cover" data-ai-hint={recipe.hint} className="transition-transform duration-500 ease-in-out group-hover:scale-105"/>
-                        </div>
+                    <Card key={recipe.name} className="overflow-hidden group flex flex-col transition-all duration-300 hover:shadow-2xl hover:-translate-y-2">
+                        <Link href={recipe.link} className="block">
+                            <div className="relative h-56 w-full bg-black/5 overflow-hidden">
+                            <Image src={recipe.image} alt={recipe.name} layout="fill" objectFit="cover" data-ai-hint={recipe.hint} className="transition-transform duration-500 ease-in-out group-hover:scale-110"/>
+                             <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/70 to-transparent"></div>
+                            </div>
+                        </Link>
                         <CardHeader>
-                            <CardTitle className="font-headline text-xl h-14">{recipe.name}</CardTitle>
-                            <p className="text-sm text-primary">{recipe.festival} | {recipe.region}</p>
+                            <CardTitle className="font-headline text-xl h-14">
+                                <Link href={recipe.link}>{recipe.name}</Link>
+                            </CardTitle>
+                            <p className="text-sm text-primary font-semibold">{recipe.festival} | {recipe.region}</p>
                         </CardHeader>
                         <CardContent className="flex flex-col flex-grow">
-                            <p className="text-sm text-foreground/70 h-16 flex-grow">{recipe.description}</p>
-                            <Link href={recipe.link}>
-                                <Button variant="outline" className="mt-4 w-full">View Recipe</Button>
+                            <p className="text-sm text-foreground/70 flex-grow">{recipe.description}</p>
+                             <Link href={recipe.link} className="mt-4">
+                                <Button variant="secondary" className="w-full">View Recipe</Button>
                             </Link>
                         </CardContent>
                     </Card>
                 )) : (
-                     <p className="text-center md:col-span-4">No recipes found matching your criteria.</p>
+                     <p className="text-center sm:col-span-2 lg:col-span-4">No recipes found matching your criteria.</p>
                 )}
             </div>
         </div>

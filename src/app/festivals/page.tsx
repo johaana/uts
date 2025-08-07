@@ -32,7 +32,7 @@ function FestivalsPageContent() {
     const filteredAndSortedFestivals = useMemo(() => {
         let festivals = allFestivals.filter(festival => {
             const nameMatch = festival.name.toLowerCase().includes(searchTerm.toLowerCase());
-            const regionMatch = selectedRegion === 'all' || festival.region.toLowerCase().includes(selectedRegion.toLowerCase());
+            const regionMatch = selectedRegion === 'all' || festival.region.toLowerCase().includes(selectedRegion.toLowerCase()) || festival.region === 'Nationwide';
             return nameMatch && regionMatch;
         });
 
@@ -98,16 +98,21 @@ function FestivalsPageContent() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {filteredAndSortedFestivals.length > 0 ? filteredAndSortedFestivals.map((festival) => (
-                    <Card key={festival.name} className="overflow-hidden group flex flex-col">
-                        <div className="relative h-64 w-full bg-black/5 overflow-hidden">
-                          <Image src={festival.image} alt={festival.name} layout="fill" objectFit="cover" data-ai-hint={festival.hint} className="transition-transform duration-500 ease-in-out group-hover:scale-105"/>
-                        </div>
+                    <Card key={festival.name} className="overflow-hidden group flex flex-col transition-all duration-300 hover:shadow-2xl hover:-translate-y-2">
+                         <Link href={festival.link} className="block">
+                            <div className="relative h-64 w-full bg-black/5 overflow-hidden">
+                            <Image src={festival.image} alt={festival.name} layout="fill" objectFit="cover" data-ai-hint={festival.hint} className="transition-transform duration-500 ease-in-out group-hover:scale-110"/>
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                             <div className="absolute bottom-4 left-6 right-6">
+                                <p className="text-sm text-white/80 font-semibold mb-1">{festival.region}</p>
+                                <h2 className="font-headline text-2xl font-bold text-white drop-shadow-md">{festival.name}</h2>
+                             </div>
+                            </div>
+                        </Link>
                         <CardContent className="p-6 flex flex-col flex-grow">
-                            <p className="text-sm text-primary font-semibold mb-1">{festival.region}</p>
-                            <h2 className="font-headline text-2xl font-bold mb-2 h-14">{festival.name}</h2>
                             <p className="text-foreground/70 mb-4 flex-grow">{festival.description}</p>
                             <Link href={festival.link}>
-                                <Button variant="link" className="p-0 text-accent hover:text-accent/90">
+                                <Button variant="link" className="p-0 text-accent hover:text-accent/90 font-bold">
                                     Explore Festival <ArrowRight className="ml-1 h-4 w-4" />
                                 </Button>
                             </Link>
