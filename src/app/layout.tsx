@@ -5,6 +5,7 @@ import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { BackToTopButton } from '@/components/BackToTopButton';
 import { Playfair_Display, PT_Sans } from 'next/font/google'
+import Script from 'next/script';
 
 const playfair = Playfair_Display({
   subsets: ['latin'],
@@ -37,6 +38,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6080650236579757"
+          crossOrigin="anonymous"
+          strategy="lazyOnload"
+        />
+      </head>
       <body className={`${playfair.variable} ${ptSans.variable} font-body antialiased`}>
         <div className="flex min-h-screen flex-col">
           <Header />
