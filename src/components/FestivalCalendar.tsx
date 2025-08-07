@@ -177,44 +177,42 @@ export function FestivalCalendar() {
     };
     
     const filteredEvents = useMemo(() => {
-        const now = new Date();
-        now.setHours(0, 0, 0, 0);
+    const now = new Date();
+    now.setHours(0, 0, 0, 0);
 
-        return allEvents.filter(event => {
-            const eventStartDate = safeParseDate(event.date.split(' - ')[0]);
-            if (!isValid(eventStartDate)) return false;
+    let yearFilteredEvents = allEvents;
 
-            // Year filter
-            if (selectedYear === 'upcoming') {
-                const oneYearFromNow = addDays(now, 365);
-                if (!(isAfter(eventStartDate, now) || isSameDay(eventStartDate, now)) || isAfter(eventStartDate, oneYearFromNow)) {
-                    return false;
-                }
-            } else if (selectedYear !== 'all') {
-                if (getYear(eventStartDate) !== parseInt(selectedYear, 10)) {
-                    return false;
-                }
-            }
+    if (selectedYear === 'upcoming') {
+      const oneYearFromNow = addDays(now, 365);
+      yearFilteredEvents = allEvents.filter(event => {
+        const eventStartDate = safeParseDate(event.date.split(' - ')[0]);
+        if (!isValid(eventStartDate)) return false;
+        return (isAfter(eventStartDate, now) || isSameDay(eventStartDate, now)) && isBefore(eventStartDate, oneYearFromNow);
+      });
+    } else if (selectedYear !== 'all') {
+      yearFilteredEvents = allEvents.filter(event => {
+        const eventStartDate = safeParseDate(event.date.split(' - ')[0]);
+        if (!isValid(eventStartDate)) return false;
+        return getYear(eventStartDate) === parseInt(selectedYear, 10);
+      });
+    }
 
-            // Month filter
-            const monthMatch = selectedMonth === 'all' || getMonthFromDateString(event.date) === selectedMonth;
+    return yearFilteredEvents.filter(event => {
+      const monthMatch = selectedMonth === 'all' || getMonthFromDateString(event.date) === selectedMonth;
+      const regionMatch = selectedRegion === 'all' || event.region === selectedRegion || event.region.includes(selectedRegion);
+      
+      let eventTypeMatch = true;
+      if (selectedEventType === 'Festivals') {
+          eventTypeMatch = event.type !== 'Holiday' && event.type !== 'Diwali';
+      } else if (selectedEventType === 'Holidays') {
+          eventTypeMatch = event.type === 'Holiday';
+      } else if (selectedEventType === 'Long Weekends') {
+          eventTypeMatch = !!event.longWeekend;
+      }
 
-            // Region filter
-            const regionMatch = selectedRegion === 'all' || event.region === selectedRegion || event.region.includes(selectedRegion);
-            
-            // Event type filter
-            let eventTypeMatch = true;
-            if (selectedEventType === 'Festivals') {
-                eventTypeMatch = event.type !== 'Holiday' && event.type !== 'Diwali';
-            } else if (selectedEventType === 'Holidays') {
-                eventTypeMatch = event.type === 'Holiday';
-            } else if (selectedEventType === 'Long Weekends') {
-                eventTypeMatch = !!event.longWeekend;
-            }
-
-            return monthMatch && regionMatch && eventTypeMatch;
-        });
-    }, [selectedYear, selectedMonth, selectedRegion, selectedEventType]);
+      return monthMatch && regionMatch && eventTypeMatch;
+    });
+  }, [selectedYear, selectedMonth, selectedRegion, selectedEventType]);
 
 
     const getBadgeClass = (type: string) => {
