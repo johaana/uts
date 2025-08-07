@@ -60,12 +60,15 @@ const allEvents = [
     { date: "Aug 22, 2025", name: "Nuakhai", region: "East", type: "Harvest", link: "/festivals/nuakhai" },
     { date: "Aug 27, 2025", name: "Ganesh Chaturthi", region: "West & South", type: "Religious", link: "/festivals/ganesh-chaturthi" },
     { date: "Sep 05, 2025", name: "Onam", region: "South", type: "Harvest", link: "/festivals/onam" },
+    { date: "Sep 06, 2025", name: "Anant Chaturdashi", region: "West & South", type: "Religious", link: "/festivals/ganesh-chaturthi" },
     { date: "Sep 22 - Oct 01, 2025", name: "Navratri", region: "Nationwide", type: "Religious", link: "/festivals/navratri", longWeekend: true },
     { date: "Sep 23 - Dec 06, 2025", name: "Bastar Dussehra", region: "Central", type: "Cultural", link: "/festivals/bastar-dussehra" },
-    { date: "Oct 01, 2025", name: "Dussehra", region: "Nationwide", type: "Religious", link: "#", longWeekend: true },
+    { date: "Oct 02, 2025", name: "Dussehra", region: "Nationwide", type: "Religious", link: "#", longWeekend: true },
     { date: "Oct 02, 2025", name: "Gandhi Jayanti", region: "Nationwide", type: "Holiday", link: "/festivals/gandhi-jayanti", longWeekend: true },
     { date: "Oct 11, 2025", name: "Karva Chauth", region: "North", type: "Cultural", link: "/festivals/karva-chauth" },
-    { date: "Oct 20, 2025", name: "Diwali (Lakshmi Puja)", region: "Nationwide", type: "Holiday", link: "/festivals/diwali", longWeekend: true },
+    { date: "Oct 19, 2025", name: "Dhanteras", region: "Nationwide", type: "Diwali", link: "/festivals/diwali", longWeekend: true },
+    { date: "Oct 21, 2025", name: "Diwali (Lakshmi Puja)", region: "Nationwide", type: "Holiday", link: "/festivals/diwali", longWeekend: true },
+    { date: "Oct 23, 2025", name: "Bhai Dooj", region: "North & West", type: "Diwali", link: "/festivals/diwali" },
     { date: "Nov 05, 2025", name: "Guru Nanak Jayanti", region: "Nationwide", type: "Religious", link: "/festivals/guru-nanak-jayanti" },
     { date: "Nov 11, 2025", name: "Karthigai Deepam", region: "South", type: "Religious", link: "/festivals/karthigai-deepam" },
     { date: "Nov 12, 2025", name: "Wangala", region: "Northeast", type: "Harvest", link: "/festivals/wangala" },
@@ -73,6 +76,7 @@ const allEvents = [
     { date: "Dec 25, 2025", name: "Christmas", region: "Nationwide", type: "Religious", link: "/festivals/christmas", longWeekend: true },
 
     // 2026
+    { date: "Jan 13, 2026", name: "Lohri", region: "North", type: "Harvest", link: "/festivals/lohri" },
     { date: "Jan 14, 2026", name: "Makar Sankranti / Pongal", region: "Nationwide", type: "Harvest", link: "/festivals/makar-sankranti" },
     { date: "Jan 26, 2026", name: "Republic Day", region: "Nationwide", type: "Holiday", link: "/festivals/republic-day" },
     { date: "Feb 14, 2026", name: "Maha Shivaratri", region: "Nationwide", type: "Religious", link: "#" },
@@ -80,13 +84,18 @@ const allEvents = [
     { date: "Mar 04, 2026", name: "Holi", region: "Nationwide", type: "Holiday", link: "/festivals/holi" },
     { date: "Mar 20, 2026", name: "Eid-al-Fitr", region: "Nationwide", type: "Religious", link: "/festivals/eid-al-fitr", longWeekend: true },
     { date: "Mar 21, 2026", name: "Gudi Padwa / Ugadi", region: "West & South", type: "New Year", link: "/festivals/gudi-padwa" },
+    { date: "Mar 28, 2026", name: "Ram Navami", region: "Nationwide", type: "Religious", link: "#" },
     { date: "Apr 03, 2026", name: "Good Friday", region: "Nationwide", type: "Religious", link: "/festivals/good-friday", longWeekend: true },
     { date: "Apr 14, 2026", name: "Vaisakhi / Bihu", region: "North & Northeast", type: "Harvest", link: "/festivals/bihu" },
     { date: "Aug 15, 2026", name: "Independence Day", region: "Nationwide", type: "Holiday", link: "/festivals/independence-day", longWeekend: true },
     { date: "Aug 28, 2026", name: "Raksha Bandhan", region: "Nationwide", type: "Cultural", link: "/festivals/raksha-bandhan", longWeekend: true },
+    { date: "Sep 05, 2026", name: "Janmashtami", region: "Nationwide", type: "Religious", link: "#" },
+    { date: "Sep 15, 2026", name: "Ganesh Chaturthi", region: "West", type: "Religious", link: "/festivals/ganesh-chaturthi" },
+    { date: "Sep 25, 2026", name: "Anant Chaturdashi", region: "West", type: "Religious", link: "/festivals/ganesh-chaturthi" },
     { date: "Sep 26, 2026", name: "Onam", region: "South", type: "Harvest", link: "/festivals/onam" },
     { date: "Oct 20, 2026", name: "Dussehra", region: "Nationwide", type: "Religious", link: "#", longWeekend: true },
     { date: "Nov 08, 2026", name: "Diwali (Lakshmi Puja)", region: "Nationwide", type: "Holiday", link: "/festivals/diwali", longWeekend: true },
+    { date: "Nov 10, 2026", name: "Bhai Dooj", region: "North & West", type: "Diwali", link: "/festivals/diwali" },
     { date: "Nov 24, 2026", name: "Guru Nanak Jayanti", region: "Nationwide", type: "Religious", link: "/festivals/guru-nanak-jayanti" },
     { date: "Dec 25, 2026", name: "Christmas", region: "Nationwide", type: "Religious", link: "/festivals/christmas", longWeekend: true },
 ].sort((a, b) => {
@@ -125,7 +134,6 @@ export function FestivalCalendar() {
             if (parts.length > 1) {
                 const endDateStr = parts[1];
                 let endDate;
-                // Check if endDateStr has a year, if not, use the start date's year
                 if (endDateStr.split(',').length < 2) {
                      endDate = parse(`${endDateStr}, ${getYear(startDate)}`, 'MMM dd, yyyy', new Date());
                 } else {
@@ -133,25 +141,19 @@ export function FestivalCalendar() {
                 }
 
                 if (!isValid(endDate)) {
-                     // Fallback for invalid end date
                      return format(startDate, 'MMM dd, yyyy (EEEE)');
                 }
 
                 if (format(startDate, 'yyyy') !== format(endDate, 'yyyy')) {
-                    // Spans across years: Jan 28, 2024 - Jan 05, 2025
                     return `${format(startDate, 'MMM dd, yyyy')} - ${format(endDate, 'MMM dd, yyyy')}`;
                 } else if (format(startDate, 'MMMM') !== format(endDate, 'MMMM')) {
-                    // Spans across months: Oct 29 - Nov 02, 2024
                     return `${format(startDate, 'MMM dd')} - ${format(endDate, 'MMM dd, yyyy')}`;
                 } else {
-                    // Within the same month: Oct 09 - 13, 2024
                     return `${format(startDate, 'MMM dd')} - ${format(endDate, 'dd, yyyy')}`;
                 }
             }
-            // Single day event
             return format(startDate, 'MMM dd, yyyy (EEEE)');
         } catch (error) {
-            // Failsafe for any unexpected format
             return dateString;
         }
     };
