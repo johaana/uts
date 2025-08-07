@@ -69,6 +69,12 @@ export default function Home() {
 
       <FestivalOfTheMonth />
       
+      <section className="py-16 md:py-24 bg-background">
+        <div className="container mx-auto px-4">
+           <FestivalCalendar />
+        </div>
+      </section>
+
       <section className="py-16 md:py-24 bg-secondary/30">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
@@ -83,12 +89,6 @@ export default function Home() {
 
       <section className="py-16 md:py-24 bg-background">
         <div className="container mx-auto px-4">
-           <FestivalCalendar />
-        </div>
-      </section>
-
-      <section className="py-16 md:py-24 bg-secondary/30">
-        <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="font-headline text-4xl md:text-5xl font-bold text-primary">Discover by Region</h2>
             <p className="mt-4 text-lg text-foreground/80 max-w-2xl mx-auto">
@@ -99,7 +99,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-16 md:py-24 bg-background">
+      <section className="py-16 md:py-24 bg-secondary/30">
         <div className="container mx-auto px-4">
             <div className="text-center mb-12">
                 <h2 className="font-headline text-4xl md:text-5xl font-bold text-primary">A World of Flavor & Tradition</h2>
