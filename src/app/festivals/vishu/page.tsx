@@ -31,7 +31,7 @@ export default function VishuPage() {
                             <TabsContent value="overview">
                                 <h2 className="font-headline text-3xl font-bold mb-4">Auspicious Sights</h2>
                                 <div className="space-y-4 text-foreground/80 prose max-w-none">
-                                    <p>Vishu is the traditional New Year festival celebrated in the South Indian state of Kerala. It falls on the first day of the month of Medam in the Malayalam calendar, which usually corresponds to mid-April. Vishu is not just a New Year celebration; it's a festival of hope, new beginnings, and auspiciousness, centered around the belief that the first thing one sees on Vishu day influences their fortune for the entire year.</p>
+                                    <p>Vishu is the traditional astronomical New Year festival celebrated with quiet devotion and joyous anticipation in the South Indian state of Kerala, and by Keralites worldwide. It falls on the first day of the month of Medam in the Malayalam calendar, which usually corresponds to mid-April. This day marks the sun's transition into the first zodiac sign, Aries, and is considered a time of great auspiciousness. Unlike many other New Year festivals that are marked by boisterous public celebrations, Vishu is a more family-oriented festival centered around the profound belief that the fortune and prosperity of the coming year depend on the first thing one sees on Vishu morning.</p>
                                 </div>
                             </TabsContent>
                             
@@ -42,21 +42,21 @@ export default function VishuPage() {
                                         <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
                                         <div>
                                             <h4 className="font-bold">Vishukkani</h4>
-                                            <p className="text-foreground/80">The most important ritual is the 'Vishukkani', which means "the first thing seen on Vishu". It is a carefully arranged tray of auspicious items (rice, fruits, vegetables, flowers, gold, money) placed before an idol of Lord Krishna. Family members are blindfolded and led to see the Vishukkani first thing in the morning.</p>
+                                            <p className="text-foreground/80">The most important ritual of the festival is the 'Vishukkani', which literally means "the first thing seen on Vishu". This is a beautiful, elaborate arrangement of auspicious items, meticulously prepared by the matriarch of the family on the eve of Vishu. A gleaming brass vessel ('uruli') is filled with raw rice, fresh fruits and vegetables (like golden cucumber, jackfruit, and mangoes), betel leaves, areca nuts, a holy text, a mirror, gold ornaments, and fresh 'konna' flowers (Cassia fistula), which bloom with golden-yellow flowers only at this time of year. This arrangement, placed before an idol of Lord Krishna, is the first sight for every family member on Vishu morning, who are led from their beds with their eyes closed to behold this symbol of prosperity.</p>
                                         </div>
                                     </li>
                                      <li className="flex items-start">
                                         <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
                                         <div>
                                             <h4 className="font-bold">Vishu Kaineettam</h4>
-                                            <p className="text-foreground/80">This is the tradition of elders giving money to the younger members of the family as a symbol of blessing and prosperity for the year ahead.</p>
+                                            <p className="text-foreground/80">This is the cherished tradition of elders giving money, usually in the form of coins, to the younger members of the family. This act is a symbol of sharing wealth and bestowing blessings for a year filled with prosperity.</p>
                                         </div>
                                     </li>
                                      <li className="flex items-start">
                                         <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
                                         <div>
                                             <h4 className="font-bold">Vishu Sadya</h4>
-                                            <p className="text-foreground/80">A grand vegetarian feast, similar to the Onam Sadya, is prepared, featuring a balance of all flavors.</p>
+                                            <p className="text-foreground/80">A grand vegetarian feast, similar to the Onam Sadya, is prepared and enjoyed by the family. The Sadya features a delightful balance of all flavors, symbolizing the varied experiences of life.</p>
                                         </div>
                                     </li>
                                 </ul>
@@ -70,7 +70,7 @@ export default function VishuPage() {
                                             <CardTitle>Hope and Renewal</CardTitle>
                                         </CardHeader>
                                         <CardContent>
-                                            <p className="text-foreground/80">Vishu is a festival that celebrates hope and the promise of a prosperous new year. The ritual of Vishukkani symbolizes the desire to see good and auspicious things throughout the coming year, setting a positive tone for new beginnings. The bursting of firecrackers ('Vishupadakkam') is also a major part of the celebration, symbolizing the dispelling of evil spirits.</p>
+                                            <p className="text-foreground/80">Vishu is a festival that celebrates hope and the promise of a prosperous and fulfilling new year. The ritual of Vishukkani symbolizes the collective desire to see good and auspicious things throughout the coming year, setting a positive and hopeful tone for new beginnings. The bursting of firecrackers ('Vishupadakkam') is also a major part of the celebration, symbolizing the dispelling of evil spirits and the triumphant arrival of a new dawn.</p>
                                         </CardContent>
                                     </Card>
                                 </div>

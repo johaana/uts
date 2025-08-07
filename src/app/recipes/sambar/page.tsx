@@ -2,6 +2,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check } from "lucide-react";
 import Image from "next/image";
+import { ShareButtons } from "@/components/ShareButtons";
 
 export default function SambarPage() {
     return (
@@ -14,7 +15,7 @@ export default function SambarPage() {
                             <p className="text-lg text-muted-foreground">A staple in South Indian cuisine, Sambar is a flavorful and tangy lentil-based vegetable stew, an essential component of the Onam Sadya.</p>
                         </div>
                         <div className="md:w-1/3">
-                           <Image src="https://i.postimg.cc/0564g0S7/nandu-menon-h-GHldb-Cg-YDA-unsplash.jpg" alt="Sambar" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="lentil vegetable stew"/>
+                           <Image src="https://i.postimg.cc/Th86vnRv/Sambar-Recipe.jpg" alt="Sambar" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="lentil vegetable stew"/>
                         </div>
                     </div>
                 </CardHeader>
@@ -53,6 +54,7 @@ export default function SambarPage() {
                             </ol>
                         </div>
                     </div>
+                    <ShareButtons title="Sambar Recipe" />
                 </CardContent>
             </Card>
         </div>

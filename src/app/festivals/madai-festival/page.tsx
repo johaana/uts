@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BookOpen, Sparkles, Music } from "lucide-react";
 import Image from "next/image";
+import { ShareButtons } from "@/components/ShareButtons";
 
 export default function MadaiFestivalPage() {
     return (
@@ -28,15 +29,15 @@ export default function MadaiFestivalPage() {
                             <TabsContent value="overview">
                                 <h2 className="font-headline text-3xl font-bold mb-4">The Traveling Festival of the Gonds</h2>
                                 <div className="space-y-4 text-foreground/80 prose max-w-none">
-                                    <p>The Madai Festival is one of the most prominent and vibrant festivals of the Gond tribe in the central Indian state of Chhattisgarh. What makes it unique is its traveling nature; the festival moves from one village to another, creating a chain of celebrations across the region from December to March. It is a time of great religious fervor, community bonding, and cultural exchange among various tribal groups.</p>
-                                    <p>The festival begins with a procession of the local deity. Devotees and tribal chiefs from surrounding villages gather, offering prayers and seeking blessings for their prosperity and well-being. It's a grand fair where people trade handicrafts, agricultural produce, and other goods, making it an important social and economic event for the community.</p>
+                                    <p>The Madai Festival is one of the most prominent and vibrant festivals of the Gond tribe, celebrated with great fervor across the state of Chhattisgarh. What makes this festival particularly unique is its traveling nature. The celebrations begin in the Bastar region and move from village to village, creating a chain of festive fairs across different regions from December through March. The festival is a time of immense religious fervor, a grand cultural exchange, and a powerful reaffirmation of community bonds among the various tribal groups of the region.</p>
+                                    <p>The festival is inaugurated with a procession of the local deity, carried in a palanquin. Devotees and tribal chiefs from neighboring villages congregate to offer prayers and seek blessings from the goddess for a prosperous year and a bountiful harvest. The event also serves as a massive fair, an important social and economic occasion where people trade local handicrafts, agricultural produce, and other essential goods, making it a bustling hub of activity.</p>
                                 </div>
                             </TabsContent>
                             
                             <TabsContent value="traditions">
                                 <h2 className="font-headline text-3xl font-bold mb-4">Rituals and Offerings</h2>
                                 <div className="space-y-4 text-foreground/80 prose max-w-none">
-                                   <p>The main ritual involves the worship of the presiding deity. A goat is often sacrificed to the goddess, and the celebrations begin. The atmosphere is filled with the sounds of folk music, the sight of colorful traditional attire, and the energy of folk dances. The fair that accompanies the festival is a major attraction, bustling with activity and showcasing the rich craft traditions of the region.</p>
+                                   <p>The central ritual of the Madai festival involves the worship of the presiding deity of the area. A goat is often sacrificed to the goddess to appease her, after which the grand celebrations commence. The atmosphere becomes electric, filled with the sounds of traditional folk music, the sight of people adorned in colorful traditional attire, and the infectious energy of vibrant folk dances. The bustling fair that accompanies the festival is a major attraction, featuring numerous stalls selling everything from local crafts to delicious tribal food, offering a complete sensory experience of the region's rich cultural tapestry.</p>
                                 </div>
                             </TabsContent>
 
@@ -48,12 +49,13 @@ export default function MadaiFestivalPage() {
                                             <CardTitle>Saila, Karma, and Panthi</CardTitle>
                                         </CardHeader>
                                         <CardContent>
-                                            <p className="text-foreground/80">The festival is a platform for showcasing vibrant folk dances and music. Groups of dancers perform traditional forms like the Saila dance, Karma, and Panthi, narrating stories from mythology and daily life. The rhythmic beats and energetic movements are a feast for the senses.</p>
+                                            <p className="text-foreground/80">The festival serves as a dynamic platform for showcasing a rich variety of folk art forms. Troupes of dancers, adorned in traditional costumes, perform energetic folk dances like the Saila dance, Karma, and Panthi. These performances, accompanied by the rhythmic beats of traditional drums and instruments, narrate stories from mythology, depict scenes from daily life, and express the community's joys and sorrows. The music and dance are not just entertainment; they are a vital, living part of the cultural heritage of the Gond tribe.</p>
                                         </CardContent>
                                     </Card>
                                 </div>
                             </TabsContent>
                         </Tabs>
+                        <ShareButtons title="Madai Festival" />
                     </CardContent>
                 </Card>
             </div>

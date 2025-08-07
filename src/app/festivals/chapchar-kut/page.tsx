@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BookOpen, Sparkles, Music } from "lucide-react";
 import Image from "next/image";
+import { ShareButtons } from "@/components/ShareButtons";
 
 export default function ChapcharKutPage() {
     return (
@@ -28,15 +29,15 @@ export default function ChapcharKutPage() {
                             <TabsContent value="overview">
                                 <h2 className="font-headline text-3xl font-bold mb-4">A Festival of Joyful Harvest</h2>
                                 <div className="space-y-4 text-foreground/80 prose max-w-none">
-                                    <p>Chapchar Kut is the most important festival of the Mizo people in Mizoram. It's a vibrant and joyous spring festival celebrated in March after the completion of 'jhum' cultivation, the slash-and-burn agriculture practice. This is a period of rest for farmers before they begin sowing, and the festival is a time of thanksgiving and celebration for the hard work done.</p>
-                                    <p>The festival is a wonderful showcase of Mizo culture, with people of all ages donning their traditional and colorful attire. It's a community event that brings everyone together, filled with music, dance, and feasting, promoting unity and cultural pride.</p>
+                                    <p>Chapchar Kut is the most important and joyous festival of the Mizo people in the northeastern state of Mizoram. It is a vibrant spring festival celebrated in March, after the completion of 'jhum' cultivation—a traditional form of slash-and-burn agriculture. This period marks a brief moment of rest and respite for farmers before they begin the arduous task of sowing seeds. The festival is a time of immense thanksgiving for the hard work of clearing the forests and a collective prayer for a bountiful harvest ahead. It's a grand showcase of Mizo culture, where people of all ages, dressed in their magnificent, colorful traditional attire, come together to celebrate life, nature, and community.</p>
+                                    <p>The festival is a symbol of Mizo unity and cultural pride, a time when social bonds are renewed and strengthened. It's an event filled with infectious energy, where the sounds of traditional music, the sight of graceful dances, and the joy of community feasting create an unforgettable atmosphere. Chapchar Kut is a beautiful expression of the symbiotic relationship between the Mizo people and the natural world they inhabit.</p>
                                 </div>
                             </TabsContent>
                             
                             <TabsContent value="traditions">
                                 <h2 className="font-headline text-3xl font-bold mb-4">Feasting and Festivities</h2>
                                 <div className="space-y-4 text-foreground/80 prose max-w-none">
-                                   <p>Chapchar Kut is celebrated with great enthusiasm. The festivities include a grand community feast, exhibitions of traditional crafts, and various cultural performances. It is a time for reconciliation, for strengthening bonds, and for celebrating the vibrant spirit of the Mizo community.</p>
+                                   <p>Chapchar Kut is celebrated with great enthusiasm across Mizoram. The festivities are marked by a grand community feast where traditional Mizo delicacies are prepared and shared. The event also features impressive exhibitions of indigenous crafts, showcasing the intricate handloom and bamboo work of the Mizo artisans. It is a time for forgiveness, for reconciliation, and for celebrating the vibrant and resilient spirit of the Mizo community, fostering a deep sense of belonging and cultural identity.</p>
                                 </div>
                             </TabsContent>
 
@@ -48,12 +49,13 @@ export default function ChapcharKutPage() {
                                             <CardTitle>Cheraw Dance</CardTitle>
                                         </CardHeader>
                                         <CardContent>
-                                            <p className="text-foreground/80">The highlight of Chapchar Kut is the 'Cheraw', or the bamboo dance. It's a beautiful and rhythmic dance where men tap long bamboo staves on the ground in a grid formation, while women gracefully step in and out of the moving bamboos. The dance requires great skill and timing and is a mesmerizing spectacle to behold.</p>
+                                            <p className="text-foreground/80">The undisputed highlight and main attraction of Chapchar Kut is the 'Cheraw', famously known as the bamboo dance. It is a mesmerizing and rhythmic performance that requires incredible skill, timing, and grace. In this dance, men sit on the ground and tap long pairs of bamboo staves in a grid-like formation, opening and closing them in a rhythmic beat. Women, in their vibrant traditional dresses, gracefully step in and out of the moving bamboos, their movements perfectly synchronized with the beat. The Cheraw is not just a dance; it's a spectacle of Mizo culture, a beautiful symbol of community and coordination.</p>
                                         </CardContent>
                                     </Card>
                                 </div>
                             </TabsContent>
                         </Tabs>
+                        <ShareButtons title="Chapchar Kut" />
                     </CardContent>
                 </Card>
             </div>

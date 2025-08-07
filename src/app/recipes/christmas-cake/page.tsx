@@ -2,6 +2,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check } from "lucide-react";
 import Image from "next/image";
+import { ShareButtons } from "@/components/ShareButtons";
 
 export default function ChristmasCakePage() {
     return (
@@ -14,7 +15,7 @@ export default function ChristmasCakePage() {
                             <p className="text-lg text-muted-foreground">A classic, non-alcoholic fruit cake that's perfect for Christmas celebrations. This recipe is packed with dried fruits, nuts, and warm spices, and is a joy to make and share.</p>
                         </div>
                         <div className="md:w-1/3">
-                            <Image src="https://i.postimg.cc/kDmD9PDV/christmas-cake.jpg" alt="Christmas Cake" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="fruit cake"/>
+                            <Image src="https://i.postimg.cc/rFWd0JRW/christmas-cake.jpg" alt="Christmas Cake" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="fruit cake"/>
                         </div>
                     </div>
                 </CardHeader>
@@ -50,6 +51,7 @@ export default function ChristmasCakePage() {
                             </ol>
                         </div>
                     </div>
+                     <ShareButtons title="Traditional Christmas Cake Recipe" />
                 </CardContent>
             </Card>
         </div>

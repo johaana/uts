@@ -2,6 +2,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check } from "lucide-react";
 import Image from "next/image";
+import { ShareButtons } from "@/components/ShareButtons";
 
 export default function SheerKhurmaPage() {
     return (
@@ -14,7 +15,7 @@ export default function SheerKhurmaPage() {
                             <p className="text-lg text-muted-foreground">A rich and creamy vermicelli pudding made with milk, dates, nuts, and aromatic spices. It's the quintessential dessert for Eid-al-Fitr celebrations.</p>
                         </div>
                          <div className="md:w-1/3">
-                           <Image src="https://i.postimg.cc/JnRRRNYr/sheer-kurma.jpg" alt="Sheer Khurma" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="vermicelli pudding"/>
+                           <Image src="https://i.postimg.cc/Hk9V3k2k/sheer-kurma.jpg" alt="Sheer Khurma" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="vermicelli pudding"/>
                         </div>
                     </div>
                 </CardHeader>
@@ -47,6 +48,7 @@ export default function SheerKhurmaPage() {
                             </ol>
                         </div>
                     </div>
+                    <ShareButtons title="Sheer Khurma Recipe" />
                 </CardContent>
             </Card>
         </div>

@@ -31,15 +31,14 @@ export default function YaoshangPage() {
                             <TabsContent value="overview">
                                 <h2 className="font-headline text-3xl font-bold mb-4">A Five-Day Extravaganza</h2>
                                 <div className="space-y-4 text-foreground/80 prose max-w-none">
-                                    <p>Yaoshang is considered one of the most important festivals of Manipur. Often called the 'Holi of Manipur', it is celebrated for five days, commencing on the full moon day of the Phalguna month (February/March). While it shares the tradition of playing with colors like Holi, Yaoshang has its own unique customs and a deeper cultural significance for the Meitei people of Manipur.</p>
-                                    <p>The festival is a vibrant blend of indigenous Meitei traditions and Vaishnavite Hindu beliefs. It is a time of great joy, community bonding, and cultural expression, with a special emphasis on sports and the performing arts.</p>
+                                    <p>Yaoshang is widely considered to be the most important festival of Manipur, celebrated with immense zeal and fervor. Often called the 'Holi of Manipur' due to its timing and the tradition of playing with colors, Yaoshang is a vibrant five-day extravaganza that commences on the full moon day of the Phalguna month (February/March). While it coincides with Holi, Yaoshang has its own unique customs and a deeper cultural significance for the Meitei people of Manipur, blending indigenous Meitei traditions with elements of Vaishnavite Hinduism. It's a time of great joy, community bonding, cultural expression, and sporting spirit, making it a unique celebration in the Indian festival landscape.</p>
                                 </div>
                             </TabsContent>
                             
                             <TabsContent value="traditions">
                                 <h2 className="font-headline text-3xl font-bold mb-4">Unique Customs</h2>
                                 <div className="space-y-4 text-foreground/80 prose max-w-none">
-                                   <p>The festival begins with the burning of a symbolic thatch hut, known as 'Yaoshang Meithaba', similar to Holika Dahan. A unique tradition is 'Nakatheng', where children go from house to house to collect monetary donations for their festive expenses. The festival is also a time for friendly sporting competitions, with many local clubs organizing events. And, of course, there is the joyous playing with 'abeer' (colored powder) and water.</p>
+                                   <p>The festival kicks off in the evening with 'Yaoshang Meithaba', the burning of a symbolic thatch hut, which is similar in spirit to the Holika Dahan of North India. A unique and charming tradition of Yaoshang is 'Nakatheng', where children, dressed in their finest, go from house to house to collect monetary donations, which they use for their festive expenses. In a significant departure from other festivals, Yaoshang has evolved to become a major platform for sports. Local clubs and communities organize a wide range of sporting events, from football and athletics to tug-of-war, encouraging a spirit of friendly competition and physical fitness among the youth. And, of course, the festival is also marked by the joyous playing with 'abeer' (colored powder) and water, bringing everyone together in a spirit of fun and camaraderie.</p>
                                 </div>
                             </TabsContent>
 
@@ -51,7 +50,7 @@ export default function YaoshangPage() {
                                             <CardTitle>The Moonlight Dance</CardTitle>
                                         </CardHeader>
                                         <CardContent>
-                                            <p className="text-foreground/80">'Thabal Chongba', which means 'dancing in the moonlight', is a traditional Manipuri folk dance that is a major highlight of the Yaoshang festival. Boys and girls from different localities gather in open grounds and dance together in a circle to the rhythm of folk music, creating a lively and inclusive atmosphere. It is a beautiful celebration of community and togetherness.</p>
+                                            <p className="text-foreground/80">'Thabal Chongba', which translates to 'dancing in the moonlight', is a traditional Manipuri folk dance that is the pulsating heart of Yaoshang celebrations. In the evenings, young boys and girls from different localities gather in open grounds under the full moon. They join hands, form a circle, and dance together to the rhythmic beat of folk music, particularly the dholak (drum). This dance, which allows young people to meet and socialize, is a beautiful, lively, and inclusive celebration of community, spring, and togetherness.</p>
                                         </CardContent>
                                     </Card>
                                 </div>

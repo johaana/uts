@@ -2,6 +2,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check } from "lucide-react";
 import Image from "next/image";
+import { ShareButtons } from "@/components/ShareButtons";
 
 export default function MeduVadaPage() {
     return (
@@ -14,7 +15,7 @@ export default function MeduVadaPage() {
                             <p className="text-lg text-muted-foreground">A popular South Indian fritter, Medu Vada is a crispy, fluffy, and savory donut-shaped snack, often served as part of the Pongal feast with sambar and chutney.</p>
                         </div>
                         <div className="md:w-1/3">
-                           <Image src="https://i.postimg.cc/tJ3RkTB3/Onam.png" alt="Medu Vada" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="savory fritter"/>
+                           <Image src="https://i.postimg.cc/BZRLnyb4/Medu-Vada.jpg" alt="Medu Vada" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="savory fritter"/>
                         </div>
                     </div>
                 </CardHeader>
@@ -46,6 +47,7 @@ export default function MeduVadaPage() {
                             </ol>
                         </div>
                     </div>
+                    <ShareButtons title="Medu Vada Recipe" />
                 </CardContent>
             </Card>
         </div>

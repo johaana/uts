@@ -39,8 +39,7 @@ export default function UgadiPage() {
                             <TabsContent value="overview">
                                 <h2 className="font-headline text-3xl font-bold mb-4">Auspicious Beginnings</h2>
                                 <div className="space-y-4 text-foreground/80 prose max-w-none">
-                                    <p>Ugadi, also known as Yugadi, is the New Year's Day for the people of Andhra Pradesh, Telangana, and Karnataka. The name is derived from the Sanskrit words 'yuga' (age) and 'adi' (beginning), signifying "the beginning of a new age." It falls on the first day of the Chaitra month and is celebrated with great joy and enthusiasm, marking the arrival of spring and new life.</p>
-                                    <p>The festival is a time for fresh starts, with people cleaning their homes, wearing new clothes, and decorating their doorways with mango leaves. It's a day of feasting, family gatherings, and looking forward to a prosperous year ahead.</p>
+                                    <p>Ugadi, also known as Yugadi, is the traditional New Year's Day celebrated with immense joy and fervor by the people of the Deccan region, particularly in the states of Andhra Pradesh, Telangana, and Karnataka. The name itself is derived from the Sanskrit words 'yuga' (age) and 'adi' (beginning), signifying "the beginning of a new age." It falls on the first day of the Hindu lunisolar calendar month of Chaitra. This day is considered highly auspicious, as it is believed to be the day on which Lord Brahma, the Creator of the Universe, began his creation. Ugadi marks the arrival of spring, a time of new life, fresh starts, and renewed hope for a prosperous year ahead.</p>
                                 </div>
                             </TabsContent>
                             
@@ -51,14 +50,21 @@ export default function UgadiPage() {
                                         <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
                                         <div>
                                             <h4 className="font-bold">Ugadi Pachadi</h4>
-                                            <p className="text-foreground/80">The most important ritual is the preparation and consumption of 'Ugadi Pachadi', a special chutney that combines six different tastes - sweet, sour, salty, bitter, pungent, and spicy. This mixture symbolizes the different experiences of life that one should expect in the coming year.</p>
+                                            <p className="text-foreground/80">The most important and symbolic ritual of Ugadi is the preparation and consumption of 'Ugadi Pachadi'. This special chutney is a unique concoction that combines six different tastes - sweet (jaggery), sour (tamarind), salty (salt), bitter (neem flowers), pungent (raw mango), and spicy (chili powder). This mixture symbolizes the different experiences one can expect in the coming year, teaching that life is a blend of joy, sorrow, anger, fear, surprise, and sadness, and one should learn to accept them all with equanimity.</p>
                                         </div>
                                     </li>
                                     <li className="flex items-start">
                                         <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
                                         <div>
                                             <h4 className="font-bold">Panchanga Sravanam</h4>
-                                            <p className="text-foreground/80">Families gather to listen to the 'Panchanga Sravanam', the reading of the new year's astrological predictions and almanac by a priest.</p>
+                                            <p className="text-foreground/80">Families and communities gather to listen to the 'Panchanga Sravanam', which is the ceremonial reading of the new year's astrological predictions and almanac by a priest or an elder. This gives a general forecast for the year ahead.</p>
+                                        </div>
+                                    </li>
+                                    <li className="flex items-start">
+                                        <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
+                                        <div>
+                                            <h4 className="font-bold">Decorations and Feasting</h4>
+                                            <p className="text-foreground/80">Homes are cleaned and decorated with intricate 'rangoli' designs and strings of fresh mango leaves ('torana'), which are considered auspicious. People wear new clothes and prepare a grand festive feast to share with family and friends.</p>
                                         </div>
                                     </li>
                                 </ul>
@@ -87,7 +93,7 @@ export default function UgadiPage() {
                                             <CardTitle>The Philosophy of Pachadi</CardTitle>
                                         </CardHeader>
                                         <CardContent>
-                                            <p className="text-foreground/80">The Ugadi Pachadi is a profound reminder that life is a mixture of different experiences - joy, sorrow, anger, fear, disgust, and surprise. The festival teaches one to accept all these experiences with equanimity and to make the most of the coming year.</p>
+                                            <p className="text-foreground/80">The Ugadi Pachadi is a profound philosophical reminder that life is not monolithic; it's a complex mixture of different experiences. The festival teaches one to embrace all facets of life with grace and to make the most of the opportunities that the new year brings. It encourages a balanced and realistic approach to life, accepting both the good and the bad with a sense of equanimity and resilience.</p>
                                         </CardContent>
                                     </Card>
                                 </div>

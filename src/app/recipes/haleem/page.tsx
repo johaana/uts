@@ -2,6 +2,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check } from "lucide-react";
 import Image from "next/image";
+import { ShareButtons } from "@/components/ShareButtons";
 
 export default function HaleemPage() {
     return (
@@ -14,7 +15,7 @@ export default function HaleemPage() {
                            <p className="text-lg text-muted-foreground">A rich and savory stew, Haleem is a popular dish during Ramadan and Eid. It's a slow-cooked wonder of meat, lentils, and pounded wheat, resulting in a thick, paste-like consistency.</p>
                         </div>
                          <div className="md:w-1/3">
-                           <Image src="https://i.postimg.cc/rzJCWJrp/haleem1.jpg" alt="Haleem" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="meat stew"/>
+                           <Image src="https://i.postimg.cc/FFYkmm9T/HALEEM.webp" alt="Haleem" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="meat stew"/>
                         </div>
                     </div>
                 </CardHeader>
@@ -51,6 +52,7 @@ export default function HaleemPage() {
                             </ol>
                         </div>
                     </div>
+                     <ShareButtons title="Haleem Recipe" />
                 </CardContent>
             </Card>
         </div>

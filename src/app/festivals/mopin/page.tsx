@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote } from "lucide-react";
 import Image from "next/image";
+import { ShareButtons } from "@/components/ShareButtons";
 
 export default function MopinFestivalPage() {
     return (
@@ -30,8 +31,8 @@ export default function MopinFestivalPage() {
                             <TabsContent value="overview">
                                 <h2 className="font-headline text-3xl font-bold mb-4">The Galo Tribe's Harvest</h2>
                                 <div className="space-y-4 text-foreground/80 prose max-w-none">
-                                    <p>The Mopin festival is a vibrant harvest festival celebrated by the Galo tribe of Arunachal Pradesh. It is held in the Galo months of Lumi and Luki, which correspond to March and April in the Gregorian calendar. The festival is a celebration of fertility and prosperity, dedicated to the goddess Mopin Ane, a central figure in the animist religion of Donyi-Polo.</p>
-                                    <p>Mopin signifies the start of the new agricultural season and is a time for the Galo community to pray for a bountiful harvest, and prosperity and to ward off evil spirits. The festival has become a major cultural event, with a large-scale joint celebration organized in the state capital, Itanagar, attracting people from all over the state.</p>
+                                    <p>The Mopin festival is a vibrant and significant agricultural festival celebrated by the Galo tribe, one of the major communities of Arunachal Pradesh. It is held in the Galo months of 'Lumi' and 'Luki', which correspond to March and April in the Gregorian calendar, marking the beginning of the new agrarian season. The festival is a joyous celebration of fertility and prosperity, dedicated to the benevolent goddess Mopin Ane. The Galo people offer their prayers to the goddess to drive away evil spirits, to be blessed with good health and, most importantly, for a bountiful harvest and communal prosperity.</p>
+                                    <p>Mopin has grown from a local tribal celebration to become a major cultural event in the state, with a large-scale joint celebration organized in the state capital, Itanagar. This attracts people from all over, offering a fantastic window into the rich cultural heritage and animist traditions of the Galo people.</p>
                                 </div>
                             </TabsContent>
                             
@@ -41,22 +42,22 @@ export default function MopinFestivalPage() {
                                     <li className="flex items-start">
                                         <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
                                         <div>
-                                            <h4 className="font-bold">White Attire</h4>
-                                            <p className="text-foreground/80">A unique feature of Mopin is that participants dress in traditional all-white attire, creating a striking visual spectacle.</p>
+                                            <h4 className="font-bold">Popir Dance</h4>
+                                            <p className="text-foreground/80">The traditional dance of the festival is the 'Popir', an energetic and rhythmic folk dance performed by young Galo women in their traditional white attire. It's a beautiful and joyous spectacle.</p>
                                         </div>
                                     </li>
-                                    <li className="flex items-start">
+                                     <li className="flex items-start">
                                         <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
                                         <div>
-                                            <h4 className="font-bold">Popir Dance</h4>
-                                            <p className="text-foreground/80">The traditional dance of the festival is the Popir, an energetic and rhythmic performance that is a joy to watch.</p>
+                                            <h4 className="font-bold">Applying Rice Powder</h4>
+                                            <p className="text-foreground/80">A key ritual of Mopin involves smearing rice powder ('eti') on each other's faces, a gesture of social harmony, love, and goodwill.</p>
                                         </div>
                                     </li>
                                     <li className="flex items-start">
                                         <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
                                         <div>
                                             <h4 className="font-bold">Mithun Sacrifice</h4>
-                                            <p className="text-foreground/80">A key ritual of the festival is the sacrifice of a mithun (a bovine creature). The blood of the animal is then distributed among the community as a blessing or prasad.</p>
+                                            <p className="text-foreground/80">A central ritual of the festival is the sacrifice of a mithun (a semi-domesticated bovine creature), which is considered sacred. The blood of the animal is then distributed among the community as a blessing or 'prasad'.</p>
                                         </div>
                                     </li>
                                 </ul>
@@ -70,12 +71,13 @@ export default function MopinFestivalPage() {
                                             <CardTitle>Apung and Aamin</CardTitle>
                                         </CardHeader>
                                         <CardContent>
-                                            <p className="text-foreground/80">During the festival, people consume Apung or Poka, a locally-brewed rice beer. A special festive dish called Aamin, made of rice, meat, and bamboo shoots, is also prepared and shared.</p>
+                                            <p className="text-foreground/80">During the festival, people consume 'Apung' or 'Poka', a locally-brewed, traditional rice beer which is an integral part of any celebration. A special festive dish called 'Aamin', made of rice, meat, and bamboo shoots, is also prepared and shared among the community, adding to the feasting and merriment.</p>
                                         </CardContent>
                                     </Card>
                                 </div>
                             </TabsContent>
                         </Tabs>
+                        <ShareButtons title="Mopin Festival" />
                     </CardContent>
                 </Card>
             </div>

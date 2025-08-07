@@ -2,6 +2,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check } from "lucide-react";
 import Image from "next/image";
+import { ShareButtons } from "@/components/ShareButtons";
 
 export default function SakkaraiPongalPage() {
     return (
@@ -14,7 +15,7 @@ export default function SakkaraiPongalPage() {
                            <p className="text-lg text-muted-foreground">A sweet and fragrant rice and lentil pudding, Sakkarai Pongal is a quintessential dish prepared during the Pongal festival in Tamil Nadu as an offering to the gods.</p>
                         </div>
                          <div className="md:w-1/3">
-                           <Image src="https://i.postimg.cc/tJ3RkTB3/Onam.png" alt="Sakkarai Pongal" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="sweet rice pudding"/>
+                           <Image src="https://i.postimg.cc/j2nb1MYh/sakkarai-pongal.webp" alt="Sakkarai Pongal" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="sweet rice pudding"/>
                         </div>
                     </div>
                 </CardHeader>
@@ -47,6 +48,7 @@ export default function SakkaraiPongalPage() {
                             </ol>
                         </div>
                     </div>
+                     <ShareButtons title="Sakkarai Pongal Recipe" />
                 </CardContent>
             </Card>
         </div>

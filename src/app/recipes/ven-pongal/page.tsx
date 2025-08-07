@@ -2,6 +2,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check } from "lucide-react";
 import Image from "next/image";
+import { ShareButtons } from "@/components/ShareButtons";
 
 export default function VenPongalPage() {
     return (
@@ -14,7 +15,7 @@ export default function VenPongalPage() {
                             <p className="text-lg text-muted-foreground">A savory and comforting South Indian dish made from rice and moong dal, tempered with ghee, cumin, peppercorns, and cashews. It's a popular breakfast and a key dish for Pongal festival.</p>
                         </div>
                         <div className="md:w-1/3">
-                           <Image src="https://i.postimg.cc/tJ3RkTB3/Onam.png" alt="Ven Pongal" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="savory rice pudding"/>
+                           <Image src="https://i.postimg.cc/5001BxPT/Ven-Pongal.webp" alt="Ven Pongal" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="savory rice pudding"/>
                         </div>
                     </div>
                 </CardHeader>
@@ -51,6 +52,7 @@ export default function VenPongalPage() {
                             </ol>
                         </div>
                     </div>
+                    <ShareButtons title="Ven Pongal Recipe" />
                 </CardContent>
             </Card>
         </div>

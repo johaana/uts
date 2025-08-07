@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BookOpen, Sparkles, MessageSquareQuote } from "lucide-react";
 import Image from "next/image";
+import { ShareButtons } from "@/components/ShareButtons";
 
 export default function HareliFestivalPage() {
     return (
@@ -28,14 +29,14 @@ export default function HareliFestivalPage() {
                             <TabsContent value="overview">
                                 <h2 className="font-headline text-3xl font-bold mb-4">Celebrating the Monsoon Greenery</h2>
                                 <div className="space-y-4 text-foreground/80 prose max-w-none">
-                                    <p>Hareli, which means 'greenery' in the local dialect, is a significant harvest festival celebrated by the farming communities of Chhattisgarh. It falls on the new moon day (Amavasya) of the Shravan month, marking the onset of the monsoon season. The festival is a vibrant expression of gratitude to the earth and a prayer for a good harvest. It's a day when the fields are lush green, and farmers celebrate a brief respite before the hard work of transplantation begins.</p>
+                                    <p>Hareli, which literally translates to 'greenery' in the local Chhattisgarhi dialect, is a significant and ancient harvest festival celebrated by the farming communities of Chhattisgarh. It is observed on the new moon day (Amavasya) of the Hindu month of Shravan, which typically falls in July or August. The festival marks the beginning of the vibrant monsoon season when the fields are lush and green, and nature is at its most bountiful. It is a day of immense gratitude to the earth and a collective prayer for a bountiful harvest, representing a brief, joyous respite for farmers before the hard work of paddy transplantation begins.</p>
                                 </div>
                             </TabsContent>
                             
                             <TabsContent value="traditions">
                                 <h2 className="font-headline text-3xl font-bold mb-4">Worship of Farm Tools</h2>
                                 <div className="space-y-4 text-foreground/80 prose max-w-none">
-                                   <p>A unique aspect of Hareli is the worship of farm equipment. On this day, farmers clean their ploughs, sickles, and other agricultural tools, and offer prayers to them. This ritual symbolizes respect for the instruments that are vital to their livelihood. Cattle are also bathed and worshipped. Another fun tradition is 'Gedi', where children and adults walk on long bamboo stilts, a practice that is both a game and a way to navigate muddy village paths during the monsoon.</p>
+                                   <p>A unique and central aspect of the Hareli festival is the worship of agricultural implements and cattle. On this day, farmers clean their ploughs, sickles, axes, and other farm tools, and offer prayers to them in a special puja. This ritual symbolizes a deep respect for the instruments that are vital to their livelihood and partnership with the land. Cattle, being an integral part of the agricultural economy, are also bathed, decorated, and worshipped. Another fun and iconic tradition associated with Hareli is the 'Gedi', where children and adults alike enjoy walking on long bamboo stilts. This is not just a playful game but also traditionally served a practical purpose, helping people navigate the muddy village paths during the monsoon season.</p>
                                 </div>
                             </TabsContent>
 
@@ -47,12 +48,13 @@ export default function HareliFestivalPage() {
                                             <CardTitle>Ecological Importance</CardTitle>
                                         </CardHeader>
                                         <CardContent>
-                                            <p className="text-foreground/80">Hareli is a beautiful reflection of the deep-rooted connection between the tribal communities and the natural world. It underscores the importance of sustainable agriculture and living in harmony with the environment. The festival is not just a cultural event but also a reminder of the reverence for the tools and animals that support human life.</p>
+                                            <p className="text-foreground/80">Hareli is a beautiful and poignant reflection of the deep-rooted, symbiotic connection between the tribal and farming communities of Chhattisgarh and the natural world. It underscores the importance of sustainable agriculture and the philosophy of living in harmony with the environment. The festival is not just a cultural event; it is a powerful annual reminder of the reverence that should be held for the tools, animals, and natural elements that support and sustain human life.</p>
                                         </CardContent>
                                     </Card>
                                 </div>
                             </TabsContent>
                         </Tabs>
+                        <ShareButtons title="Hareli Festival" />
                     </CardContent>
                 </Card>
             </div>
