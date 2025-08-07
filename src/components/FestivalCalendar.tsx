@@ -230,6 +230,20 @@ export function FestivalCalendar() {
         }
     };
 
+    const renderEventName = (name: string) => {
+        const match = name.match(/^(.*?) (\(.*\))$/);
+        if (match) {
+            return (
+                <div className="text-base">
+                    <span className="font-bold">{match[1]}</span>
+                    <span className="font-normal text-muted-foreground ml-1">{match[2]}</span>
+                </div>
+            );
+        }
+        return <span className="font-bold text-base">{name}</span>;
+    };
+
+
     return (
         <div className="w-full">
             <div className="text-center mb-12">
@@ -306,8 +320,8 @@ export function FestivalCalendar() {
                                 filteredEvents.map((event, index) => (
                                     <TableRow key={event.name + event.date + index}>
                                         <TableCell className="font-medium">{formatDateString(event.date)}</TableCell>
-                                        <TableCell className="text-base flex items-center gap-2">
-                                            {event.name}
+                                        <TableCell className="flex items-center gap-2">
+                                            {renderEventName(event.name)}
                                             {event.longWeekend && <Star className="w-4 h-4 text-amber-500 fill-amber-500" />}
                                         </TableCell>
                                         <TableCell>{event.region}</TableCell>
@@ -345,4 +359,3 @@ export function FestivalCalendar() {
         </div>
     );
 }
-
