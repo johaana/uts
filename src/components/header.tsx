@@ -38,12 +38,12 @@ export function Header() {
       <div className="container mx-auto flex items-center justify-between px-4">
         
         <div className="flex items-center justify-start flex-1">
-             <Link href="/" className="flex items-center gap-2">
+             <Link href="/" className="flex items-center gap-2 py-2">
                 <Image 
                   src="https://i.postimg.cc/vZTZ0Br5/utsavs-logo.png" 
                   alt="Utsavs Logo" 
-                  width={isScrolled ? 60 : 72} 
-                  height={isScrolled ? 60 : 72}
+                  width={72} 
+                  height={72}
                   className="transition-all duration-300"
                 />
              </Link>
@@ -75,7 +75,7 @@ export function Header() {
                  <Link href="/planner">
                     <Button 
                       size="sm" 
-                      className="bg-emerald-700 hover:bg-emerald-800 text-white font-bold tracking-wide uppercase shadow-lg hover:shadow-emerald-400/50 rounded-full px-5 py-2 hover:scale-105 transition-all duration-200"
+                      className="bg-blue-600 hover:bg-blue-700 text-white font-bold tracking-wide uppercase shadow-lg hover:shadow-blue-500/50 rounded-full px-5 py-2 hover:scale-105 transition-all duration-200"
                     >
                         AI Holiday Planner
                     </Button>
@@ -108,7 +108,7 @@ export function Header() {
                             </Link>
                         ))}
                          <Link href="/planner" onClick={() => setIsOpen(false)}>
-                            <Button className="bg-emerald-700 hover:bg-emerald-800 text-white font-bold tracking-wide uppercase shadow-lg rounded-full px-5 py-2 w-full mt-4">
+                            <Button className="bg-blue-600 hover:bg-blue-700 text-white font-bold tracking-wide uppercase shadow-lg rounded-full px-5 py-2 w-full mt-4">
                                 AI Holiday Planner
                             </Button>
                         </Link>
