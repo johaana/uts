@@ -32,8 +32,7 @@ export function Header() {
   return (
     <header 
       className={cn(
-        "bg-background/80 backdrop-blur-sm border-b sticky top-0 z-50 transition-all duration-300",
-        isScrolled ? "py-1" : "py-1"
+        "bg-background/80 backdrop-blur-sm border-b sticky top-0 z-50 transition-all duration-300 py-1"
       )}
     >
       <div className="container mx-auto flex items-center justify-between px-4">
@@ -74,7 +73,10 @@ export function Header() {
         <div className="flex justify-end items-center flex-1 gap-2">
             <div className="hidden md:flex">
                  <Link href="/planner">
-                    <Button size="sm" className="bg-accent text-accent-foreground hover:bg-accent/90">
+                    <Button 
+                      size="sm" 
+                      className="bg-teal-500 hover:bg-teal-600 text-white font-bold tracking-wide uppercase shadow-lg hover:shadow-teal-400/50 rounded-full px-5 py-2 hover:scale-105 transition-all duration-200"
+                    >
                         AI Holiday Planner
                     </Button>
                 </Link>
@@ -106,7 +108,7 @@ export function Header() {
                             </Link>
                         ))}
                          <Link href="/planner" onClick={() => setIsOpen(false)}>
-                            <Button className="bg-accent text-accent-foreground hover:bg-accent/90 w-full mt-4">
+                            <Button className="bg-teal-500 hover:bg-teal-600 text-white font-bold tracking-wide uppercase shadow-lg rounded-full px-5 py-2 w-full mt-4">
                                 AI Holiday Planner
                             </Button>
                         </Link>
