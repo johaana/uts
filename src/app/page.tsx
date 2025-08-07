@@ -1,4 +1,5 @@
 
+
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
@@ -8,6 +9,7 @@ import Image from "next/image";
 import React from "react";
 import { Card } from "@/components/ui/card";
 import { UpcomingFestivalsCarousel } from "@/components/UpcomingFestivalsCarousel";
+import { HolidayPlanner } from "@/components/HolidayPlanner";
 
 
 function ResourceSummary() {
@@ -66,6 +68,18 @@ export default function Home() {
       </section>
 
       <FestivalOfTheMonth />
+      
+      <section className="py-16 md:py-24 bg-secondary/30">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="font-headline text-4xl md:text-5xl font-bold text-primary">Plan Your Holiday With AI</h2>
+            <p className="mt-4 text-lg text-foreground/80 max-w-2xl mx-auto">
+              Ask our AI assistant for festival recommendations and travel ideas!
+            </p>
+          </div>
+          <HolidayPlanner />
+        </div>
+      </section>
 
       <section className="py-16 md:py-24 bg-background">
         <div className="container mx-auto px-4">
