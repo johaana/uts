@@ -81,9 +81,8 @@ const availableYears = [...new Set(allEvents.map(e => getYear(parse(e.date.split
 
 function getYearFromDateString(dateString: string): number {
     try {
-        const datePart = dateString.split(' - ')[0];
-        const date = parse(datePart, 'MMM dd, yyyy', new Date());
-        return getYear(date);
+        const datePart = dateString.split(', ')[1].split(' - ')[0];
+        return parseInt(datePart, 10);
     } catch (e) {
         return 0;
     }

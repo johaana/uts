@@ -34,23 +34,29 @@ interface Festival {
 
 export function UpcomingFestivalsCarousel() {
     const [upcomingFestivals, setUpcomingFestivals] = useState<Festival[]>([]);
+    const [isClient, setIsClient] = useState(false);
 
     useEffect(() => {
-        // This logic now runs only on the client, after hydration.
-        const now = new Date();
-        now.setHours(0, 0, 0, 0); 
-        const filtered = allFestivalsData.filter(festival => {
-            try {
-                const festivalDate = parseISO(festival.date);
-                return isFuture(festivalDate) || isToday(festivalDate);
-            } catch (e) {
-                return false;
-            }
-        });
-        setUpcomingFestivals(filtered);
+        setIsClient(true);
     }, []);
 
-    if (upcomingFestivals.length === 0) {
+    useEffect(() => {
+        if (isClient) {
+            const now = new Date();
+            now.setHours(0, 0, 0, 0); 
+            const filtered = allFestivalsData.filter(festival => {
+                try {
+                    const festivalDate = parseISO(festival.date);
+                    return isFuture(festivalDate) || isToday(festivalDate);
+                } catch (e) {
+                    return false;
+                }
+            });
+            setUpcomingFestivals(filtered);
+        }
+    }, [isClient]);
+
+    if (!isClient || upcomingFestivals.length === 0) {
         return (
             <div className="text-center text-foreground/80 py-10">
                 <p>Stay tuned for more upcoming festivals!</p>
@@ -62,7 +68,7 @@ export function UpcomingFestivalsCarousel() {
         <Carousel
             opts={{
                 align: "start",
-                loop: upcomingFestivals.length > 1,
+                loop: upcomingFestivals.length > 2,
             }}
             className="w-full"
         >

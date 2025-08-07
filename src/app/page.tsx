@@ -34,28 +34,12 @@ function FestivalOfTheMonth() {
         <section className="py-16 md:py-24 bg-background">
             <div className="container mx-auto px-4">
                  <div className="text-center mb-12">
-                    <h2 className="font-headline text-4xl md:text-5xl font-bold text-primary">Festival of the Month</h2>
+                    <h2 className="font-headline text-4xl md:text-5xl font-bold text-primary">Upcoming Festivals</h2>
                     <p className="mt-4 text-lg text-foreground/80 max-w-2xl mx-auto">
                         A special highlight on a significant celebration happening now.
                     </p>
                 </div>
-                <Card className="overflow-hidden shadow-2xl rounded-2xl">
-                    <div className="grid grid-cols-1 md:grid-cols-2 items-center">
-                         <div className="p-8 md:p-12 order-2 md:order-1">
-                            <p className="text-sm font-semibold uppercase tracking-widest text-accent mb-2">September Feature</p>
-                            <h3 className="font-headline text-4xl font-bold mb-4">Ganesh Chaturthi</h3>
-                            <p className="text-foreground/80 mb-6">Celebrate the birth of the beloved elephant-headed god, Lord Ganesha. This vibrant festival is marked by the installation of beautiful Ganesha idols, prayers, feasting on modaks, and grand processions for the idol immersion.</p>
-                            <Link href="/festivals/ganesh-chaturthi">
-                                <Button>
-                                    Explore Ganesh Chaturthi <ArrowRight className="ml-2" />
-                                </Button>
-                            </Link>
-                        </div>
-                        <div className="relative h-64 md:h-full order-1 md:order-2 min-h-[300px]">
-                             <Image src="https://i.postimg.cc/VNWGcb3N/ganesh-chaturthi-festival.jpg" alt="Ganesh Chaturthi Festival" layout="fill" objectFit="cover" data-ai-hint="ganesha idol"/>
-                        </div>
-                    </div>
-                </Card>
+                <UpcomingFestivalsCarousel />
             </div>
         </section>
     );
