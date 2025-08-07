@@ -73,7 +73,7 @@ export default function SingleBlogPage() {
                         <p><strong>The Diwali Weekend:</strong> October 18 (Saturday) to October 21 (Tuesday).<br/>
                         <strong>Holidays:</strong> Diwali (Oct 20, Monday). <br/>
                         <strong>Plan:</strong> A 4-day festival of lights. <br/>
-                        <strong>Travel Idea:</strong> Experience the magic of <Link href="/festivals/diwali" className="text-accent">Diwali</sabh> in cities famous for their grand celebrations like Jaipur or Varanasi, where the ghats are lit with thousands of diyas.</p>
+                        <strong>Travel Idea:</strong> Experience the magic of <Link href="/festivals/diwali" className="text-accent">Diwali</Link> in cities famous for their grand celebrations like Jaipur or Varanasi, where the ghats are lit with thousands of diyas.</p>
                         
                         <h3>December: Festive Cheer and a Year-End Escape</h3>
                         <p><strong>The Christmas Weekend:</strong> December 25 (Thursday) to December 28 (Sunday).<br/>
