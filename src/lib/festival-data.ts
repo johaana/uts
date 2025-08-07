@@ -97,7 +97,7 @@ export const allEvents = [
     { date: "Aug 09, 2025", name: "Raksha Bandhan", region: "Nationwide", type: "Cultural", link: "/festivals/raksha-bandhan" },
     { date: "Aug 15, 2025", name: "Independence Day", region: "Nationwide", type: "Holiday", link: "/festivals/independence-day", longWeekend: true },
     { date: "Aug 17, 2025", name: "Janmashtami", region: "Nationwide", type: "Religious", link: "/festivals/janmashtami" },
-    { date: "Aug 22, 2025", name: "Nuakhai", region: "East", type: "Harvest", link: "/festivals/nuakhai" },
+    { date: "Aug 22, 2025", name: "Nuakhai", region: "East", type: "Harvest", link: "/festivals/nuakhai", longWeekend: true },
     { date: "Aug 27, 2025", name: "Ganesh Chaturthi", region: "West & South", type: "Religious", link: "/festivals/ganesh-chaturthi" },
     { date: "Sep 05, 2025", name: "Onam", region: "South", type: "Harvest", link: "/festivals/onam", longWeekend: true },
     { date: "Sep 06, 2025", name: "Anant Chaturdashi", region: "West & South", type: "Religious", link: "/festivals/anant-chaturdashi" },
