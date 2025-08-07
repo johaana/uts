@@ -42,8 +42,8 @@ export function Header() {
                 <Image 
                   src="https://i.postimg.cc/vZTZ0Br5/utsavs-logo.png" 
                   alt="Utsavs Logo" 
-                  width={isScrolled ? 72 : 90} 
-                  height={isScrolled ? 72 : 90}
+                  width={isScrolled ? 60 : 72} 
+                  height={isScrolled ? 60 : 72}
                   className="transition-all duration-300"
                 />
              </Link>
@@ -75,7 +75,7 @@ export function Header() {
                  <Link href="/planner">
                     <Button 
                       size="sm" 
-                      className="bg-teal-500 hover:bg-teal-600 text-white font-bold tracking-wide uppercase shadow-lg hover:shadow-teal-400/50 rounded-full px-5 py-2 hover:scale-105 transition-all duration-200"
+                      className="bg-lime-500 hover:bg-lime-600 text-lime-950 font-bold tracking-wide uppercase shadow-lg hover:shadow-lime-400/50 rounded-full px-5 py-2 hover:scale-105 transition-all duration-200"
                     >
                         AI Holiday Planner
                     </Button>
@@ -108,7 +108,7 @@ export function Header() {
                             </Link>
                         ))}
                          <Link href="/planner" onClick={() => setIsOpen(false)}>
-                            <Button className="bg-teal-500 hover:bg-teal-600 text-white font-bold tracking-wide uppercase shadow-lg rounded-full px-5 py-2 w-full mt-4">
+                            <Button className="bg-lime-500 hover:bg-lime-600 text-lime-950 font-bold tracking-wide uppercase shadow-lg rounded-full px-5 py-2 w-full mt-4">
                                 AI Holiday Planner
                             </Button>
                         </Link>
