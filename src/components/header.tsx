@@ -32,10 +32,11 @@ export function Header() {
   return (
     <header 
       className={cn(
-        "bg-background/80 backdrop-blur-sm border-b sticky top-0 z-50 transition-all duration-300"
+        "bg-background/80 backdrop-blur-sm border-b sticky top-0 z-50 transition-all duration-300",
+        isScrolled ? "h-16" : "h-24"
       )}
     >
-      <div className="container mx-auto flex items-center justify-between px-4 h-16">
+      <div className="container mx-auto flex items-center justify-between px-4 h-full">
         
         <div className="flex items-center justify-start flex-1">
              <Link href="/" className="flex items-center gap-2 py-1">
@@ -74,8 +75,11 @@ export function Header() {
             <div className="hidden md:flex">
                  <Link href="/planner">
                     <Button 
-                      size="sm" 
-                      className="bg-blue-600 hover:bg-blue-700 text-white font-bold tracking-wide uppercase shadow-lg hover:shadow-blue-500/50 rounded-full px-4 py-2 hover:scale-105 transition-all duration-200"
+                      size={isScrolled ? "sm" : "default"}
+                      className={cn(
+                        "bg-blue-600 hover:bg-blue-700 text-white font-bold tracking-wide uppercase shadow-lg hover:shadow-blue-500/50 rounded-full px-4 hover:scale-105 transition-all duration-300",
+                        isScrolled ? "py-1" : "py-2"
+                      )}
                     >
                         AI Holiday Planner
                     </Button>
