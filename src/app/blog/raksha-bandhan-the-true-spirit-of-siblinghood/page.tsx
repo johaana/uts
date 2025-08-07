@@ -20,7 +20,7 @@ export default function SingleBlogPage() {
 
                     <article className="prose max-w-none text-foreground/80">
                          <div className="text-center mb-8">
-                            <p className="text-sm text-muted-foreground">By Team Utsavs on August 10, 2025</p>
+                            <p className="text-sm text-muted-foreground">By Team Utsavs on August 8, 2025</p>
                             <h1 className="font-headline text-4xl font-bold text-primary mt-2">{title}</h1>
                         </div>
 
