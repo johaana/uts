@@ -83,21 +83,22 @@ function FestivalOfTheMonth() {
     );
 }
 
-export default function Home() {
-  const [upcomingFestivals, setUpcomingFestivals] = React.useState<typeof allUpcomingFestivals>([]);
-
-  React.useEffect(() => {
+const getUpcomingFestivals = () => {
     const now = new Date();
-    const futureFestivals = allUpcomingFestivals.filter(festival => {
+    return allUpcomingFestivals.filter(festival => {
         try {
             const festivalDate = parseISO(festival.date);
             return isFuture(festivalDate) || isToday(festivalDate);
         } catch (e) {
+            console.error("Error parsing date for festival:", festival.name, e);
             return false;
         }
     });
-    setUpcomingFestivals(futureFestivals);
-  }, []);
+};
+
+
+export default function Home() {
+  const upcomingFestivals = getUpcomingFestivals();
 
   return (
     <div className="flex flex-col">
@@ -128,27 +129,31 @@ export default function Home() {
                     Plan your celebrations. Here's a look at what's coming up next on the festive calendar.
                 </p>
             </div>
-          <Carousel
-            opts={{
-              align: "start",
-              loop: true,
-            }}
-            className="w-full"
-          >
-            <CarouselContent>
-              {upcomingFestivals.map((festival, index) => {
-                return (
+          {upcomingFestivals.length > 0 ? (
+            <Carousel
+              opts={{
+                align: "start",
+                loop: upcomingFestivals.length > 1,
+              }}
+              className="w-full"
+            >
+              <CarouselContent>
+                {upcomingFestivals.map((festival, index) => (
                     <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
                         <div className="p-1 h-full">
                           <UpcomingFestivalCard festival={festival} />
                         </div>
                     </CarouselItem>
-                )
-            })}
-            </CarouselContent>
-            <CarouselPrevious className="hidden md:flex" />
-            <CarouselNext className="hidden md:flex" />
-          </Carousel>
+                ))}
+              </CarouselContent>
+              <CarouselPrevious className="hidden md:flex" />
+              <CarouselNext className="hidden md:flex" />
+            </Carousel>
+          ) : (
+             <div className="text-center text-foreground/80">
+                <p>Stay tuned for more upcoming festivals!</p>
+             </div>
+          )}
         </div>
       </section>
 

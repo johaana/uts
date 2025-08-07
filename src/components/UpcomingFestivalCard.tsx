@@ -67,12 +67,17 @@ export function UpcomingFestivalCard({ festival }: { festival: Festival }) {
                 return null;
             }
         };
-
-        // Set initial value
+        
         setTimeLeft(calculateTimeLeft());
 
         const timer = setInterval(() => {
-            setTimeLeft(calculateTimeLeft());
+            const newTimeLeft = calculateTimeLeft();
+            if (newTimeLeft) {
+                setTimeLeft(newTimeLeft);
+            } else {
+                setTimeLeft(null);
+                clearInterval(timer);
+            }
         }, 1000);
 
 
