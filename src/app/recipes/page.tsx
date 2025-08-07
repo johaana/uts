@@ -38,6 +38,13 @@ const allRecipes = [
     { name: "Khechudi", festival: "Rath Yatra", region: "East", description: "Simple rice and lentil dish, part of Jagannath's Mahaprasad.", link: "/recipes/khechudi", image: "https://i.postimg.cc/wvFzzvZZ/khechudi.jpg", hint: "rice lentils" },
     { name: "Dalma", festival: "Rath Yatra", region: "East", description: "Nutritious lentil and vegetable stew from Odisha.", link: "/recipes/dalma", image: "https://i.postimg.cc/1XjZgd9K/Dalma-jpg.webp", hint: "lentil stew" },
     { name: "Poda Pitha", festival: "Rath Yatra", region: "East", description: "Slow-cooked, baked rice cake, a favorite of Lord Jagannath.", link: "/recipes/poda-pitha", image: "https://i.postimg.cc/zXQJ3yv1/podapitha.jpg", hint: "baked rice cake" },
+    { name: "Aloo Gobi", festival: "Guru Nanak Jayanti", region: "North", description: "A classic North Indian dish of potatoes and cauliflower.", link: "/recipes/aloo-gobi", image: "https://i.postimg.cc/d0qQ49TY/Langar-Wali-Dal.jpg", hint: "potato cauliflower" },
+    { name: "Sakkarai Pongal", festival: "Pongal", region: "South", description: "A sweet rice and lentil pudding offered to the gods.", link: "/recipes/sakkarai-pongal", image: "https://i.postimg.cc/tJ3RkTB3/Onam.png", hint: "sweet rice pudding" },
+    { name: "Sambar", festival: "Onam", region: "South", description: "A tangy and flavorful lentil-based vegetable stew.", link: "/recipes/sambar", image: "https://i.postimg.cc/0564g0S7/nandu-menon-h-GHldb-Cg-YDA-unsplash.jpg", hint: "lentil vegetable stew" },
+    { name: "Medu Vada", festival: "Pongal", region: "South", description: "Crispy, savory donut-shaped fritters served with sambar.", link: "/recipes/medu-vada", image: "https://i.postimg.cc/tJ3RkTB3/Onam.png", hint: "savory fritter" },
+    { name: "Ven Pongal", festival: "Pongal", region: "South", description: "A savory and comforting rice and lentil dish.", link: "/recipes/ven-pongal", image: "https://i.postimg.cc/tJ3RkTB3/Onam.png", hint: "savory rice pudding" },
+    { name: "Tilgul", festival: "Makar Sankranti", region: "West", description: "Ladoos made from sesame seeds and jaggery.", link: "/recipes/tilgul", image: "https://i.postimg.cc/nzrvDTx2/Diwali-Sweets.jpg", hint: "sesame ladoo" },
+    { name: "Khichdi", festival: "Makar Sankranti", region: "Nationwide", description: "A comforting one-pot dish of rice and lentils.", link: "/recipes/khichdi", image: "https://i.postimg.cc/wvFzzvZZ/khechudi.jpg", hint: "rice and lentils" },
 ];
 
 const festivals = [...new Set(allRecipes.map(r => r.festival))].sort();
