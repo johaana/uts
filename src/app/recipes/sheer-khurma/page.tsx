@@ -14,7 +14,7 @@ export default function SheerKhurmaPage() {
                             <p className="text-lg text-muted-foreground">A rich and creamy vermicelli pudding made with milk, dates, nuts, and aromatic spices. It's the quintessential dessert for Eid-al-Fitr celebrations.</p>
                         </div>
                          <div className="md:w-1/3">
-                           <Image src="https://i.postimg.cc/sQC9PHmM/sheer-khurma.jpg" alt="Sheer Khurma" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="vermicelli pudding"/>
+                           <Image src="https://i.postimg.cc/JnRRRNYr/sheer-kurma.jpg" alt="Sheer Khurma" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="vermicelli pudding"/>
                         </div>
                     </div>
                 </CardHeader>

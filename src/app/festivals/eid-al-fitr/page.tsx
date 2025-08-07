@@ -43,7 +43,7 @@ export default function EidAlFitrPage() {
                                         </div>
                                     </div>
                                     <div className="md:w-1/3">
-                                        <Image src="https://i.postimg.cc/zB2Ft674/shaida-safi-ud-MCW2-C12-I-unsplash.jpg" alt="Family celebrating Eid" width={400} height={600} className="rounded-lg shadow-lg" data-ai-hint="eid family"/>
+                                        <Image src="https://i.postimg.cc/1tMsX8bp/eid-al-fitr.avif" alt="Family celebrating Eid" width={400} height={600} className="rounded-lg shadow-lg" data-ai-hint="eid family"/>
                                     </div>
                                 </div>
                             </TabsContent>
