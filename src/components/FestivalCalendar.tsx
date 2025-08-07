@@ -180,27 +180,29 @@ export function FestivalCalendar() {
         const now = new Date();
         now.setHours(0, 0, 0, 0);
 
-        let events = allEvents;
+        return allEvents.filter(event => {
+            const eventStartDate = safeParseDate(event.date.split(' - ')[0]);
+            if (!isValid(eventStartDate)) return false;
 
-        if (selectedYear === 'upcoming') {
-            const oneYearFromNow = addDays(now, 365);
-            events = allEvents.filter(event => {
-                const eventStartDate = safeParseDate(event.date.split(' - ')[0]);
-                if (!isValid(eventStartDate)) return false;
-                return (isAfter(eventStartDate, now) || isSameDay(eventStartDate, now)) && isBefore(eventStartDate, oneYearFromNow);
-            });
-        } else if (selectedYear !== 'all') {
-            events = allEvents.filter(event => {
-                const eventStartDate = safeParseDate(event.date.split(' - ')[0]);
-                if (!isValid(eventStartDate)) return false;
-                return getYear(eventStartDate) === parseInt(selectedYear);
-            });
-        }
-        
-        return events.filter(event => {
+            // Year filter
+            if (selectedYear === 'upcoming') {
+                const oneYearFromNow = addDays(now, 365);
+                if (!(isAfter(eventStartDate, now) || isSameDay(eventStartDate, now)) || isAfter(eventStartDate, oneYearFromNow)) {
+                    return false;
+                }
+            } else if (selectedYear !== 'all') {
+                if (getYear(eventStartDate) !== parseInt(selectedYear, 10)) {
+                    return false;
+                }
+            }
+
+            // Month filter
             const monthMatch = selectedMonth === 'all' || getMonthFromDateString(event.date) === selectedMonth;
+
+            // Region filter
             const regionMatch = selectedRegion === 'all' || event.region === selectedRegion || event.region.includes(selectedRegion);
             
+            // Event type filter
             let eventTypeMatch = true;
             if (selectedEventType === 'Festivals') {
                 eventTypeMatch = event.type !== 'Holiday' && event.type !== 'Diwali';
