@@ -7,7 +7,7 @@ export default function ApiPage() {
     return (
         <div className="container mx-auto px-4 py-12">
             <div className="text-center mb-12">
-                <h1 className="font-headline text-4xl md:text-5xl font-bold">API & B2B Partnerships</h1>
+                <h1 className="font-headline text-4xl md:text-5xl font-bold">Partnerships</h1>
                 <p className="mt-4 text-lg text-foreground/80 max-w-3xl mx-auto">
                     Leverage our comprehensive and structured data on Indian festivals to enrich your applications, platforms, and services.
                 </p>
