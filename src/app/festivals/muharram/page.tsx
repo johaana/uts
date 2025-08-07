@@ -27,10 +27,17 @@ export default function MuharramPage() {
                             </TabsList>
 
                             <TabsContent value="overview">
-                                <h2 className="font-headline text-3xl font-bold mb-4">The First Month of the Islamic Calendar</h2>
-                                <div className="space-y-4 text-foreground/80 prose max-w-none">
-                                    <p>Muharram is the first month of the Islamic calendar, holding the distinction of being one of the four sacred months of the year when warfare is forbidden. While it marks the beginning of the Islamic New Year for all Muslims, it holds a particularly profound and solemn significance for Shia Muslims, for whom it is a period of intense grief and mourning. The entire month is observed in remembrance of the tragic martyrdom of Imam Hussein ibn Ali, the beloved grandson of the Prophet Muhammad, along with his family and companions in the Battle of Karbala in the year 680 AD.</p>
-                                    <p>The event of Karbala stands as a pivotal moment in Islamic history, a heart-wrenching tale of sacrifice, and an unwavering stand for justice and truth against the forces of tyranny and corruption. Imam Hussein's courageous refusal to pledge allegiance to the corrupt and unjust caliph, Yazid, led to a brutal siege where he and his small band of loyal supporters, deprived of water and resources, were martyred with unimaginable cruelty. Muharram, therefore, is not a festival of celebration but a time for deep reflection on the immense sacrifices made by Imam Hussein and his followers. It is a period for Muslims to reconnect with the core principles of justice, compassion, and human dignity that the Imam's stand so powerfully represents.</p>
+                                <div className="flex flex-col md:flex-row gap-8 items-center">
+                                    <div className="md:w-2/3">
+                                        <h2 className="font-headline text-3xl font-bold mb-4">The First Month of the Islamic Calendar</h2>
+                                        <div className="space-y-4 text-foreground/80 prose max-w-none">
+                                            <p>Muharram is the first month of the Islamic calendar, holding the distinction of being one of the four sacred months of the year when warfare is forbidden. While it marks the beginning of the Islamic New Year for all Muslims, it holds a particularly profound and solemn significance for Shia Muslims, for whom it is a period of intense grief and mourning. The entire month is observed in remembrance of the tragic martyrdom of Imam Hussein ibn Ali, the beloved grandson of the Prophet Muhammad, along with his family and companions in the Battle of Karbala in the year 680 AD.</p>
+                                            <p>The event of Karbala stands as a pivotal moment in Islamic history, a heart-wrenching tale of sacrifice, and an unwavering stand for justice and truth against the forces of tyranny and corruption. Imam Hussein's courageous refusal to pledge allegiance to the corrupt and unjust caliph, Yazid, led to a brutal siege where he and his small band of loyal supporters, deprived of water and resources, were martyred with unimaginable cruelty. Muharram, therefore, is not a festival of celebration but a time for deep reflection on the immense sacrifices made by Imam Hussein and his followers. It is a period for Muslims to reconnect with the core principles of justice, compassion, and human dignity that the Imam's stand so powerfully represents.</p>
+                                        </div>
+                                    </div>
+                                    <div className="md:w-1/3">
+                                        <Image src="https://i.postimg.cc/j5JRknP4/Muharram.webp" alt="Muharram Procession" width={400} height={400} className="rounded-lg shadow-lg" data-ai-hint="muharram procession"/>
+                                    </div>
                                 </div>
                             </TabsContent>
 

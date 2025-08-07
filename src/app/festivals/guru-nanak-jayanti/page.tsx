@@ -34,10 +34,17 @@ export default function GuruNanakJayantiPage() {
                             </TabsList>
 
                             <TabsContent value="overview">
-                                <h2 className="font-headline text-3xl font-bold mb-4">The Life and Teachings of Guru Nanak Dev Ji</h2>
-                                <div className="space-y-4 text-foreground/80 prose max-w-none">
-                                    <p>Guru Nanak Jayanti, also known as Gurpurab, is one of the most sacred festivals in Sikhism, a day of profound reverence celebrating the birth of the first Sikh Guru, Guru Nanak Dev Ji. Born in 1469 in the village of Talwandi (now Nankana Sahib, Pakistan), Guru Nanak was a revolutionary spiritual teacher whose wisdom illuminated a path of truth and equality for all of humanity. He preached a simple yet powerful message of 'Ik Onkar' (One God), emphasizing that the same divine light resides in every person, regardless of their caste, creed, or gender.</p>
-                                    <p>At a time of great social and religious strife, Guru Nanak challenged the rigid structures of society, speaking out against the oppressive caste system, meaningless rituals, and religious hypocrisy. His teachings, which form the bedrock of Sikhism, are enshrined in the holy scripture, the Guru Granth Sahib. He was not a Guru who stayed in one place; instead, he undertook four long and arduous spiritual journeys, known as 'Udasis', traveling thousands of miles on foot across Asia to spread his message of peace, compassion, and selfless service. The celebration of his birth is a time for Sikhs and admirers worldwide to reflect on his timeless teachings, to remember his life of humble service, and to recommit themselves to the path of spiritual wisdom and social responsibility that he so beautifully laid down.</p>
+                                <div className="flex flex-col md:flex-row gap-8 items-center">
+                                    <div className="md:w-2/3">
+                                        <h2 className="font-headline text-3xl font-bold mb-4">The Life and Teachings of Guru Nanak Dev Ji</h2>
+                                        <div className="space-y-4 text-foreground/80 prose max-w-none">
+                                            <p>Guru Nanak Jayanti, also known as Gurpurab, is one of the most sacred festivals in Sikhism, a day of profound reverence celebrating the birth of the first Sikh Guru, Guru Nanak Dev Ji. Born in 1469 in the village of Talwandi (now Nankana Sahib, Pakistan), Guru Nanak was a revolutionary spiritual teacher whose wisdom illuminated a path of truth and equality for all of humanity. He preached a simple yet powerful message of 'Ik Onkar' (One God), emphasizing that the same divine light resides in every person, regardless of their caste, creed, or gender.</p>
+                                            <p>At a time of great social and religious strife, Guru Nanak challenged the rigid structures of society, speaking out against the oppressive caste system, meaningless rituals, and religious hypocrisy. His teachings, which form the bedrock of Sikhism, are enshrined in the holy scripture, the Guru Granth Sahib. He was not a Guru who stayed in one place; instead, he undertook four long and arduous spiritual journeys, known as 'Udasis', traveling thousands of miles on foot across Asia to spread his message of peace, compassion, and selfless service. The celebration of his birth is a time for Sikhs and admirers worldwide to reflect on his timeless teachings, to remember his life of humble service, and to recommit themselves to the path of spiritual wisdom and social responsibility that he so beautifully laid down.</p>
+                                        </div>
+                                    </div>
+                                    <div className="md:w-1/3">
+                                        <Image src="https://i.postimg.cc/029q7BWf/guru-nanak-jayanti.webp" alt="Guru Nanak Dev Ji" width={400} height={400} className="rounded-lg shadow-lg" data-ai-hint="sikh guru"/>
+                                    </div>
                                 </div>
                             </TabsContent>
                             

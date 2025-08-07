@@ -43,7 +43,7 @@ export default function ChristmasPage() {
                                         </div>
                                     </div>
                                     <div className="md:w-1/3">
-                                        <Image src="https://i.postimg.cc/ncKMYdWy/christmas-2.jpg" alt="Nativity Scene" width={400} height={600} className="rounded-lg shadow-lg" data-ai-hint="nativity scene"/>
+                                        <Image src="https://i.postimg.cc/1XrhLGtw/Christmas1.webp" alt="Nativity Scene" width={400} height={600} className="rounded-lg shadow-lg" data-ai-hint="nativity scene"/>
                                     </div>
                                 </div>
                             </TabsContent>

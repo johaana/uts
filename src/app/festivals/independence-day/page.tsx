@@ -26,9 +26,16 @@ export default function IndependenceDayPage() {
                             </TabsList>
 
                             <TabsContent value="overview">
-                                <h2 className="font-headline text-3xl font-bold mb-4">The Dawn of a New Era</h2>
-                                <div className="space-y-4 text-foreground/80 prose max-w-none">
-                                    <p>Independence Day, observed with great patriotic fervor on the 15th of August every year, commemorates the day India achieved freedom from British colonial rule in 1947. This historic day marked the end of nearly 200 years of struggle, sacrifice, and relentless protest. It was the dawn of a new era, the birth of the world's largest democracy, and a moment of immense triumph for a nation that had fought for its sovereignty with the powerful ideals of non-violence and civil disobedience. It is a day of immense national pride, a time to remember and pay heartfelt tribute to the sacrifices of the countless freedom fighters—men and women from all walks of life—who laid down their lives for the cherished dream of a free India.</p>
+                                <div className="flex flex-col md:flex-row gap-8 items-center">
+                                    <div className="md:w-2/3">
+                                        <h2 className="font-headline text-3xl font-bold mb-4">The Dawn of a New Era</h2>
+                                        <div className="space-y-4 text-foreground/80 prose max-w-none">
+                                            <p>Independence Day, observed with great patriotic fervor on the 15th of August every year, commemorates the day India achieved freedom from British colonial rule in 1947. This historic day marked the end of nearly 200 years of struggle, sacrifice, and relentless protest. It was the dawn of a new era, the birth of the world's largest democracy, and a moment of immense triumph for a nation that had fought for its sovereignty with the powerful ideals of non-violence and civil disobedience. It is a day of immense national pride, a time to remember and pay heartfelt tribute to the sacrifices of the countless freedom fighters—men and women from all walks of life—who laid down their lives for the cherished dream of a free India.</p>
+                                        </div>
+                                    </div>
+                                    <div className="md:w-1/3">
+                                        <Image src="https://i.postimg.cc/W4kyBGYz/independence-day.avif" alt="Indian Flag" width={400} height={400} className="rounded-lg shadow-lg" data-ai-hint="indian flag"/>
+                                    </div>
                                 </div>
                             </TabsContent>
                             

@@ -45,7 +45,7 @@ export default function DiwaliPage() {
                                         </div>
                                     </div>
                                     <div className="md:w-1/3">
-                                        <Image src="https://i.postimg.cc/SjF8HhM1/Diwali2.jpg" alt="Woman lighting Diwali Diya" width={400} height={600} className="rounded-lg shadow-lg" data-ai-hint="diwali celebration"/>
+                                        <Image src="https://i.postimg.cc/DwZkMbK4/Lakshmi-puja-diwali.jpg" alt="Woman lighting Diwali Diya" width={400} height={600} className="rounded-lg shadow-lg" data-ai-hint="diwali celebration"/>
                                     </div>
                                 </div>
                             </TabsContent>
@@ -59,7 +59,10 @@ export default function DiwaliPage() {
                                             <p className="text-sm text-muted-foreground">The Festival of Wealth</p>
                                         </CardHeader>
                                         <CardContent>
-                                            <p className="text-foreground/80">The festival officially begins with Dhanteras. Homes are cleaned and purified, and it is considered highly auspicious to purchase new items, especially gold, silver, or utensils. This act symbolizes the welcoming of Goddess Lakshmi and a year of prosperity. Evenings are spent worshipping Lord Dhanvantari, the physician of the gods and an incarnation of Vishnu, praying for good health and well-being.</p>
+                                            <div className="flex flex-col sm:flex-row gap-4">
+                                                <Image src="https://i.postimg.cc/QMKLXGCX/dhanteras.webp" alt="Dhanteras" width={200} height={150} className="rounded-lg shadow-md" data-ai-hint="gold coins"/>
+                                                <p className="text-foreground/80">The festival officially begins with Dhanteras. Homes are cleaned and purified, and it is considered highly auspicious to purchase new items, especially gold, silver, or utensils. This act symbolizes the welcoming of Goddess Lakshmi and a year of prosperity. Evenings are spent worshipping Lord Dhanvantari, the physician of the gods and an incarnation of Vishnu, praying for good health and well-being.</p>
+                                            </div>
                                         </CardContent>
                                     </Card>
                                     <Card>
@@ -68,7 +71,10 @@ export default function DiwaliPage() {
                                              <p className="text-sm text-muted-foreground">The Day of Liberation</p>
                                         </CardHeader>
                                         <CardContent>
-                                            <p className="text-foreground/80">Known as 'Small Diwali', this day celebrates Lord Krishna's victory over the demon Narakasura. It is a day for rituals to cleanse the soul of all sins and impurities. Many wake before sunrise to perform a ritual bath with aromatic oils and pastes. It is a day that reaffirms the power of good to overcome all that is evil and oppressive, paving the way for the main celebration.</p>
+                                             <div className="flex flex-col sm:flex-row gap-4">
+                                                <Image src="https://i.postimg.cc/sDKCm4bR/naraka-chaturdashi.jpg" alt="Naraka Chaturdashi" width={200} height={150} className="rounded-lg shadow-md" data-ai-hint="diya light"/>
+                                                <p className="text-foreground/80">Known as 'Small Diwali', this day celebrates Lord Krishna's victory over the demon Narakasura. It is a day for rituals to cleanse the soul of all sins and impurities. Many wake before sunrise to perform a ritual bath with aromatic oils and pastes. It is a day that reaffirms the power of good to overcome all that is evil and oppressive, paving the way for the main celebration.</p>
+                                            </div>
                                         </CardContent>
                                     </Card>
                                      <Card>
@@ -77,7 +83,10 @@ export default function DiwaliPage() {
                                              <p className="text-sm text-muted-foreground">The Main Celebration</p>
                                         </CardHeader>
                                         <CardContent>
-                                            <p className="text-foreground/80">This is the most significant day of Diwali. After sunset, families gather to perform the Lakshmi Puja, an elaborate worship of the Goddess of Wealth. The home, brightly lit with diyas and decorated with rangoli, becomes a shrine. Offerings are made, mantras are chanted, and the air fills with devotion. It's a magical evening of family, feasting, and fireworks, celebrating the divine blessings of prosperity and light.</p>
+                                            <div className="flex flex-col sm:flex-row gap-4">
+                                                <Image src="https://i.postimg.cc/DwZkMbK4/Lakshmi-puja-diwali.jpg" alt="Lakshmi Puja" width={200} height={150} className="rounded-lg shadow-md" data-ai-hint="diwali puja"/>
+                                                <p className="text-foreground/80">This is the most significant day of Diwali. After sunset, families gather to perform the Lakshmi Puja, an elaborate worship of the Goddess of Wealth. The home, brightly lit with diyas and decorated with rangoli, becomes a shrine. Offerings are made, mantras are chanted, and the air fills with devotion. It's a magical evening of family, feasting, and fireworks, celebrating the divine blessings of prosperity and light.</p>
+                                            </div>
                                         </CardContent>
                                     </Card>
                                      <Card>
@@ -86,7 +95,10 @@ export default function DiwaliPage() {
                                              <p className="text-sm text-muted-foreground">Honoring Nature and Marital Bonds</p>
                                         </CardHeader>
                                         <CardContent>
-                                            <p className="text-foreground/80">This day holds dual significance. In North India, Govardhan Puja commemorates Lord Krishna lifting the Govardhan Hill to protect the villagers of Vrindavan from the wrath of Lord Indra. Devotees create miniature hills of food to represent the mountain. In other regions, it is celebrated as Padwa, a day that honors the sacred bond of marriage, where spouses exchange gifts and reaffirm their commitment.</p>
+                                             <div className="flex flex-col sm:flex-row gap-4">
+                                                <Image src="https://i.postimg.cc/SQ7BQGSz/govardhan-puja.png" alt="Govardhan Puja" width={200} height={150} className="rounded-lg shadow-md" data-ai-hint="annakut"/>
+                                                <p className="text-foreground/80">This day holds dual significance. In North India, Govardhan Puja commemorates Lord Krishna lifting the Govardhan Hill to protect the villagers of Vrindavan from the wrath of Lord Indra. Devotees create miniature hills of food to represent the mountain. In other regions, it is celebrated as Padwa, a day that honors the sacred bond of marriage, where spouses exchange gifts and reaffirm their commitment.</p>
+                                            </div>
                                         </CardContent>
                                     </Card>
                                      <Card>
@@ -95,7 +107,10 @@ export default function DiwaliPage() {
                                              <p className="text-sm text-muted-foreground">Celebrating Siblings</p>
                                         </CardHeader>
                                         <CardContent>
-                                            <p className="text-foreground/80">The festival concludes with Bhai Dooj, a day dedicated to the beautiful bond between brothers and sisters. Sisters apply a tilak (a ceremonial mark) on their brothers' foreheads, praying for their long life and happiness. Brothers, in turn, shower their sisters with gifts. It is a heartwarming conclusion to the festivities, reinforcing family ties and love.</p>
+                                             <div className="flex flex-col sm:flex-row gap-4">
+                                                <Image src="https://i.postimg.cc/FHB55s9W/Bhai-Dooj.jpg" alt="Bhai Dooj" width={200} height={150} className="rounded-lg shadow-md" data-ai-hint="brother sister"/>
+                                                <p className="text-foreground/80">The festival concludes with Bhai Dooj, a day dedicated to the beautiful bond between brothers and sisters. Sisters apply a tilak (a ceremonial mark) on their brothers' foreheads, praying for their long life and happiness. Brothers, in turn, shower their sisters with gifts. It is a heartwarming conclusion to the festivities, reinforcing family ties and love.</p>
+                                            </div>
                                         </CardContent>
                                     </Card>
                                 </div>

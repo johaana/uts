@@ -34,10 +34,17 @@ export default function RathYatraPage() {
                             </TabsList>
 
                             <TabsContent value="overview">
-                                <h2 className="font-headline text-3xl font-bold mb-4">The Journey of the Deities</h2>
-                                <div className="space-y-4 text-foreground/80 prose max-w-none">
-                                    <p>Rath Yatra, the Festival of Chariots, is a monumental spectacle of faith that unfolds on the streets of Puri, Odisha. It is one of the most ancient and largest religious gatherings in the world, centered around Lord Jagannath—a form of Lord Krishna—and his siblings, Lord Balabhadra and Subhadra. The festival commemorates their annual ceremonial journey from their home in the Jagannath Temple to their aunt's residence, the Gundicha Temple, just two kilometers away. This journey is not merely a procession; it is a deeply symbolic act where the deities themselves come out of the sanctum sanctorum to meet their devotees, transcending all barriers of caste, creed, and religion.</p>
-                                    <p>The sight is awe-inspiring: three massive, temple-like chariots, built anew each year and decorated with vibrant colors, are pulled by millions of devotees, their hands gripping the thick coir ropes in a collective act of service and devotion. The belief that pulling the chariot of the Lord cleanses one of all sins draws people from every corner of the globe. The air resonates with the sound of gongs, conches, and the chanting of 'Jai Jagannath!', creating an atmosphere of unparalleled spiritual fervor. The festival is a powerful testament to the idea of a living, accessible god who leaves his divine abode to mingle with the common people, reaffirming his love and connection with humanity.</p>
+                                 <div className="flex flex-col md:flex-row gap-8 items-center">
+                                    <div className="md:w-2/3">
+                                        <h2 className="font-headline text-3xl font-bold mb-4">The Journey of the Deities</h2>
+                                        <div className="space-y-4 text-foreground/80 prose max-w-none">
+                                            <p>Rath Yatra, the Festival of Chariots, is a monumental spectacle of faith that unfolds on the streets of Puri, Odisha. It is one of the most ancient and largest religious gatherings in the world, centered around Lord Jagannath—a form of Lord Krishna—and his siblings, Lord Balabhadra and Subhadra. The festival commemorates their annual ceremonial journey from their home in the Jagannath Temple to their aunt's residence, the Gundicha Temple, just two kilometers away. This journey is not merely a procession; it is a deeply symbolic act where the deities themselves come out of the sanctum sanctorum to meet their devotees, transcending all barriers of caste, creed, and religion.</p>
+                                            <p>The sight is awe-inspiring: three massive, temple-like chariots, built anew each year and decorated with vibrant colors, are pulled by millions of devotees, their hands gripping the thick coir ropes in a collective act of service and devotion. The belief that pulling the chariot of the Lord cleanses one of all sins draws people from every corner of the globe. The air resonates with the sound of gongs, conches, and the chanting of 'Jai Jagannath!', creating an atmosphere of unparalleled spiritual fervor. The festival is a powerful testament to the idea of a living, accessible god who leaves his divine abode to mingle with the common people, reaffirming his love and connection with humanity.</p>
+                                        </div>
+                                    </div>
+                                    <div className="md:w-1/3">
+                                        <Image src="https://i.postimg.cc/kXC7f44W/rath-yatra.jpg" alt="Rath Yatra Chariots" width={400} height={400} className="rounded-lg shadow-lg" data-ai-hint="chariot festival"/>
+                                    </div>
                                 </div>
                             </TabsContent>
                             

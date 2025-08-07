@@ -24,10 +24,17 @@ export default function WangalaPage() {
                             </TabsList>
 
                             <TabsContent value="overview">
-                                <h2 className="font-headline text-3xl font-bold mb-4">A Garo Tribe Celebration</h2>
-                                <div className="space-y-4 text-foreground/80 prose max-w-none">
-                                    <p>Wangala, also famously known as the 'Hundred Drums Festival', is a major post-harvest festival of the Garo tribe, who reside in Meghalaya, Nagaland, and Assam. It marks the end of the agricultural year and is a time of thanksgiving to the Sun God of fertility, Misi-A-Gilpa-Saljong-Galapa.</p>
-                                    <p>The festival is a vibrant showcase of Garo culture, filled with music, dance, and feasting. The dates for Wangala vary from village to village and are typically held between September and December. It's a time for the community to come together and celebrate the fruits of their labor.</p>
+                                 <div className="flex flex-col md:flex-row gap-8 items-center">
+                                    <div className="md:w-2/3">
+                                        <h2 className="font-headline text-3xl font-bold mb-4">A Garo Tribe Celebration</h2>
+                                        <div className="space-y-4 text-foreground/80 prose max-w-none">
+                                            <p>Wangala, also famously known as the 'Hundred Drums Festival', is a major post-harvest festival of the Garo tribe, who reside in Meghalaya, Nagaland, and Assam. It marks the end of the agricultural year and is a time of thanksgiving to the Sun God of fertility, Misi-A-Gilpa-Saljong-Galapa.</p>
+                                            <p>The festival is a vibrant showcase of Garo culture, filled with music, dance, and feasting. The dates for Wangala vary from village to village and are typically held between September and December. It's a time for the community to come together and celebrate the fruits of their labor.</p>
+                                        </div>
+                                    </div>
+                                    <div className="md:w-1/3">
+                                        <Image src="https://i.postimg.cc/50vMmdWP/Wangala.webp" alt="Wangala Dance" width={400} height={400} className="rounded-lg shadow-lg" data-ai-hint="garo dance"/>
+                                    </div>
                                 </div>
                             </TabsContent>
                             

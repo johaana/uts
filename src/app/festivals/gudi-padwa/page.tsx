@@ -34,10 +34,17 @@ export default function GudiPadwaPage() {
                             </TabsList>
 
                             <TabsContent value="overview">
-                                <h2 className="font-headline text-3xl font-bold mb-4">Auspicious Beginnings</h2>
-                                <div className="space-y-4 text-foreground/80 prose max-w-none">
-                                    <p>Gudi Padwa, celebrated with immense fervor primarily in Maharashtra and by Konkani communities, marks the vibrant arrival of spring and the dawn of the New Year. It falls on the first day of the Chaitra month, according to the lunisolar Hindu calendar. This day is considered exceptionally auspicious, believed to be the very day on which Lord Brahma, the Creator, fashioned the universe. The festival is a rich symbol of new beginnings, hope, renewal, and the victory of good over evil, heralding a time of prosperity and happiness.</p>
-                                    <p>The name of the festival itself tells a profound story. 'Padwa' is derived from the Sanskrit word 'pratipada', signifying the first day of a lunar fortnight. The 'Gudi', however, is the festival's most iconic and visually striking element—a special flag-like emblem hoisted with great reverence outside homes. This Gudi is not just a decoration; it is a powerful symbol of victory and a divine protector that is believed to ward off evil and attract prosperity. Legend holds that the Gudi commemorates the glorious victory of the Maratha warrior Chhatrapati Shivaji Maharaj, as well as the triumphant return of Lord Rama to Ayodhya after defeating Ravana. By raising the Gudi, families symbolically welcome a new year filled with health, wealth, and good fortune, celebrating the day by cleaning their homes, wearing new clothes, and preparing special festive dishes to share with loved ones.</p>
+                                 <div className="flex flex-col md:flex-row gap-8 items-center">
+                                    <div className="md:w-2/3">
+                                        <h2 className="font-headline text-3xl font-bold mb-4">Auspicious Beginnings</h2>
+                                        <div className="space-y-4 text-foreground/80 prose max-w-none">
+                                            <p>Gudi Padwa, celebrated with immense fervor primarily in Maharashtra and by Konkani communities, marks the vibrant arrival of spring and the dawn of the New Year. It falls on the first day of the Chaitra month, according to the lunisolar Hindu calendar. This day is considered exceptionally auspicious, believed to be the very day on which Lord Brahma, the Creator, fashioned the universe. The festival is a rich symbol of new beginnings, hope, renewal, and the victory of good over evil, heralding a time of prosperity and happiness.</p>
+                                            <p>The name of the festival itself tells a profound story. 'Padwa' is derived from the Sanskrit word 'pratipada', signifying the first day of a lunar fortnight. The 'Gudi', however, is the festival's most iconic and visually striking element—a special flag-like emblem hoisted with great reverence outside homes. This Gudi is not just a decoration; it is a powerful symbol of victory and a divine protector that is believed to ward off evil and attract prosperity. Legend holds that the Gudi commemorates the glorious victory of the Maratha warrior Chhatrapati Shivaji Maharaj, as well as the triumphant return of Lord Rama to Ayodhya after defeating Ravana. By raising the Gudi, families symbolically welcome a new year filled with health, wealth, and good fortune, celebrating the day by cleaning their homes, wearing new clothes, and preparing special festive dishes to share with loved ones.</p>
+                                        </div>
+                                    </div>
+                                    <div className="md:w-1/3">
+                                        <Image src="https://i.postimg.cc/DwjFvPcc/gudi-padwa.webp" alt="Gudi" width={400} height={600} className="rounded-lg shadow-lg" data-ai-hint="gudi flag"/>
+                                    </div>
                                 </div>
                             </TabsContent>
                             

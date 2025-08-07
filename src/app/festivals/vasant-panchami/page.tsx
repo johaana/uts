@@ -34,10 +34,17 @@ export default function VasantPanchamiPage() {
                             </TabsList>
 
                             <TabsContent value="overview">
-                                <h2 className="font-headline text-3xl font-bold mb-4">The Arrival of Spring</h2>
-                                <div className="space-y-4 text-foreground/80 prose max-w-none">
-                                    <p>Vasant Panchami, also reverently known as Saraswati Puja, marks the formal beginning of spring's arrival and the end of winter's slumber. The word 'Vasant' means spring, and 'Panchami' signifies that it is celebrated on the fifth day of the bright fortnight of the lunar month of Magha. It is a festival painted in the cheerful and vibrant hues of yellow, a color that symbolizes the brilliance of nature, the bloom of life, and the ripening of mustard fields. Across North India, vast fields of mustard crops create a stunning yellow carpet under the gentle sun, a sight that is mirrored in the yellow clothes worn by people celebrating the day.</p>
-                                    <p>The festival is primarily dedicated to Saraswati, the serene Hindu goddess of knowledge, music, art, and wisdom. It is believed that on this day, Goddess Saraswati was born, and the universe was filled with the sound of her veena, dispelling chaos and bestowing consciousness. Students, scholars, artists, and musicians seek her blessings for enlightenment and success in their creative and academic pursuits. For many young children, it is a particularly important day as they are often initiated into their first formal lesson of writing, a beautiful ritual known as 'Akshar-Abhyasam' or 'Vidya-Arambham'. The festival is a graceful reminder of the paramount importance of knowledge, learning, and the creative arts in the tapestry of human life.</p>
+                                 <div className="flex flex-col md:flex-row gap-8 items-center">
+                                    <div className="md:w-2/3">
+                                        <h2 className="font-headline text-3xl font-bold mb-4">The Arrival of Spring</h2>
+                                        <div className="space-y-4 text-foreground/80 prose max-w-none">
+                                            <p>Vasant Panchami, also reverently known as Saraswati Puja, marks the formal beginning of spring's arrival and the end of winter's slumber. The word 'Vasant' means spring, and 'Panchami' signifies that it is celebrated on the fifth day of the bright fortnight of the lunar month of Magha. It is a festival painted in the cheerful and vibrant hues of yellow, a color that symbolizes the brilliance of nature, the bloom of life, and the ripening of mustard fields. Across North India, vast fields of mustard crops create a stunning yellow carpet under the gentle sun, a sight that is mirrored in the yellow clothes worn by people celebrating the day.</p>
+                                            <p>The festival is primarily dedicated to Saraswati, the serene Hindu goddess of knowledge, music, art, and wisdom. It is believed that on this day, Goddess Saraswati was born, and the universe was filled with the sound of her veena, dispelling chaos and bestowing consciousness. Students, scholars, artists, and musicians seek her blessings for enlightenment and success in their creative and academic pursuits. For many young children, it is a particularly important day as they are often initiated into their first formal lesson of writing, a beautiful ritual known as 'Akshar-Abhyasam' or 'Vidya-Arambham'. The festival is a graceful reminder of the paramount importance of knowledge, learning, and the creative arts in the tapestry of human life.</p>
+                                        </div>
+                                    </div>
+                                    <div className="md:w-1/3">
+                                        <Image src="https://i.postimg.cc/15KsTQn2/Vasant-Panchami.webp" alt="Saraswati Puja" width={400} height={400} className="rounded-lg shadow-lg" data-ai-hint="saraswati idol"/>
+                                    </div>
                                 </div>
                             </TabsContent>
                             
