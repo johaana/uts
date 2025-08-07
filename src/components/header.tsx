@@ -74,7 +74,7 @@ export function Header() {
         <div className="flex justify-end items-center flex-1 gap-2">
             <div className="hidden md:flex">
                  <Link href="/planner">
-                    <Button size="sm" variant="default" className="bg-accent hover:bg-accent/90">
+                    <Button size="sm" className="bg-accent text-accent-foreground hover:bg-accent/90">
                         AI Holiday Planner
                     </Button>
                 </Link>
@@ -106,7 +106,7 @@ export function Header() {
                             </Link>
                         ))}
                          <Link href="/planner" onClick={() => setIsOpen(false)}>
-                            <Button variant="default" className="bg-accent hover:bg-accent/90 w-full mt-4">
+                            <Button className="bg-accent text-accent-foreground hover:bg-accent/90 w-full mt-4">
                                 AI Holiday Planner
                             </Button>
                         </Link>
