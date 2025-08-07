@@ -17,6 +17,7 @@ import Image from "next/image";
 import React from "react";
 import { UpcomingFestivalCard } from "@/components/UpcomingFestivalCard";
 import { Card } from "@/components/ui/card";
+import { parseISO, isFuture, isToday } from 'date-fns';
 
 
 const allUpcomingFestivals = [
@@ -83,6 +84,21 @@ function FestivalOfTheMonth() {
 }
 
 export default function Home() {
+  const [upcomingFestivals, setUpcomingFestivals] = React.useState<typeof allUpcomingFestivals>([]);
+
+  React.useEffect(() => {
+    const now = new Date();
+    const futureFestivals = allUpcomingFestivals.filter(festival => {
+        try {
+            const festivalDate = parseISO(festival.date);
+            return isFuture(festivalDate) || isToday(festivalDate);
+        } catch (e) {
+            return false;
+        }
+    });
+    setUpcomingFestivals(futureFestivals);
+  }, []);
+
   return (
     <div className="flex flex-col">
        <section className="relative text-center py-20 md:py-32 bg-cover bg-center" style={{backgroundImage: "url('https://i.postimg.cc/rmVJnj2w/Pushkar-Camel-Fair.avif')"}}>
@@ -120,7 +136,7 @@ export default function Home() {
             className="w-full"
           >
             <CarouselContent>
-              {allUpcomingFestivals.map((festival, index) => {
+              {upcomingFestivals.map((festival, index) => {
                 return (
                     <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
                         <div className="p-1 h-full">

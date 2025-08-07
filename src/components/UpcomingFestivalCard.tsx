@@ -68,14 +68,20 @@ export function UpcomingFestivalCard({ festival }: { festival: Festival }) {
             }
         };
 
+        // Set initial value
+        setTimeLeft(calculateTimeLeft());
+
         const timer = setInterval(() => {
             setTimeLeft(calculateTimeLeft());
         }, 1000);
 
-        setTimeLeft(calculateTimeLeft());
 
         return () => clearInterval(timer);
     }, [isClient, festival.date]);
+    
+    if (!festival) {
+        return null;
+    }
 
     const formattedDate = format(parseISO(festival.date), 'EEEE, MMMM dd, yyyy');
 
@@ -122,4 +128,3 @@ export function UpcomingFestivalCard({ festival }: { festival: Festival }) {
         </Card>
     );
 }
-
