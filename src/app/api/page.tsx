@@ -1,24 +1,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Copy, Mail } from "lucide-react";
+import { Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-const jsonResponse = `[
-  {
-    "name": "Diwali",
-    "date": "2025-10-21T00:00:00.000Z",
-    "region": "Nationwide",
-    "description": "The festival of lights, symbolizing the victory of light over darkness.",
-    "url": "https://utsavs.com/festivals/diwali"
-  },
-  {
-    "name": "Holi",
-    "date": "2025-03-14T00:00:00.000Z",
-    "region": "Nationwide",
-    "description": "The vibrant festival of colors, celebrating the arrival of spring and love.",
-    "url": "https://utsavs.com/festivals/holi"
-  }
-]`;
 
 export default function ApiPage() {
     return (
@@ -45,21 +28,6 @@ export default function ApiPage() {
                             <li><strong>Digital Calendars:</strong> Integrate accurate festival dates into your calendar applications.</li>
                             <li><strong>Content Platforms:</strong> Enrich your articles, videos, and social media with verified festival details.</li>
                         </ul>
-
-                        <h3 className="font-headline text-2xl font-bold text-primary">Sample API Response</h3>
-                        <p>Below is a sample of what a basic API response could look like. Our full API offers much deeper, more structured data points for each festival.</p>
-
-                        <div className="bg-secondary p-4 rounded-lg relative">
-                            <pre className="text-sm whitespace-pre-wrap text-secondary-foreground"><code>{jsonResponse}</code></pre>
-                            <Button 
-                                variant="ghost" 
-                                size="icon" 
-                                className="absolute top-2 right-2"
-                                onClick={() => navigator.clipboard.writeText(jsonResponse)}
-                            >
-                                <Copy className="h-4 w-4"/>
-                            </Button>
-                        </div>
 
                         <div className="text-center p-8 bg-primary/10 rounded-lg">
                             <h3 className="font-headline text-2xl font-bold text-primary">Let's Collaborate</h3>
