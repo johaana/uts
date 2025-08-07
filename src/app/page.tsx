@@ -82,18 +82,6 @@ export default function Home() {
       </section>
 
       <FestivalOfTheMonth />
-      
-      <section className="py-16 md:py-24 bg-secondary/30">
-        <div className="container mx-auto px-4">
-           <div className="text-center mb-12">
-                <h2 className="font-headline text-4xl md:text-5xl font-bold text-primary">Upcoming Festivals</h2>
-                <p className="mt-4 text-lg text-foreground/80 max-w-2xl mx-auto">
-                    Plan your celebrations. Here's a look at what's coming up next on the festive calendar.
-                </p>
-            </div>
-            <UpcomingFestivalsCarousel />
-        </div>
-      </section>
 
       <section className="py-16 md:py-24 bg-background">
         <div className="container mx-auto px-4">

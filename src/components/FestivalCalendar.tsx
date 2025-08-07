@@ -324,5 +324,3 @@ export function FestivalCalendar() {
         </div>
     );
 }
-
-    
