@@ -75,7 +75,7 @@ export function Header() {
                  <Link href="/planner">
                     <Button 
                       size="sm" 
-                      className="bg-yellow-400 hover:bg-yellow-500 text-yellow-950 font-bold tracking-wide uppercase shadow-lg hover:shadow-yellow-400/50 rounded-full px-5 py-2 hover:scale-105 transition-all duration-200"
+                      className="bg-emerald-700 hover:bg-emerald-800 text-white font-bold tracking-wide uppercase shadow-lg hover:shadow-emerald-400/50 rounded-full px-5 py-2 hover:scale-105 transition-all duration-200"
                     >
                         AI Holiday Planner
                     </Button>
@@ -108,7 +108,7 @@ export function Header() {
                             </Link>
                         ))}
                          <Link href="/planner" onClick={() => setIsOpen(false)}>
-                            <Button className="bg-yellow-400 hover:bg-yellow-500 text-yellow-950 font-bold tracking-wide uppercase shadow-lg rounded-full px-5 py-2 w-full mt-4">
+                            <Button className="bg-emerald-700 hover:bg-emerald-800 text-white font-bold tracking-wide uppercase shadow-lg rounded-full px-5 py-2 w-full mt-4">
                                 AI Holiday Planner
                             </Button>
                         </Link>
