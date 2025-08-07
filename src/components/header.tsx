@@ -36,14 +36,14 @@ export function Header() {
               key={link.href}
               href={link.href}
               className={cn(
-                "text-base font-medium transition-colors hover:text-primary relative py-2",
+                "text-base font-medium transition-colors hover:text-primary relative py-2 group",
                 pathname.startsWith(link.href) ? "text-primary font-bold" : "text-foreground/80"
               )}
             >
               {link.label}
               <span
                 className={cn(
-                  "absolute bottom-0 left-0 w-full h-0.5 bg-accent transform scale-x-0 transition-transform duration-300 ease-in-out group-hover:scale-x-100",
+                  "absolute bottom-0 left-0 w-full h-0.5 bg-accent transform scale-x-0 origin-left transition-transform duration-300 ease-in-out group-hover:scale-x-100",
                   { "scale-x-100": pathname.startsWith(link.href) }
                 )}
               />
