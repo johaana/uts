@@ -43,8 +43,8 @@ export function Header() {
                 <Image 
                   src="https://i.postimg.cc/vZTZ0Br5/utsavs-logo.png" 
                   alt="Utsavs Logo" 
-                  width={isScrolled ? 72 : 80}
-                  height={isScrolled ? 72 : 80}
+                  width={isScrolled ? 56 : 64}
+                  height={isScrolled ? 56 : 64}
                   className="transition-all duration-300"
                 />
              </Link>
