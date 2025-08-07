@@ -1,23 +1,14 @@
 
-'use client';
-
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { FestivalCalendar } from "@/components/FestivalCalendar";
 import { RegionShowcase } from "@/components/RegionShowcase";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel"
 import Image from "next/image";
 import React from "react";
-import { UpcomingFestivalCard } from "@/components/UpcomingFestivalCard";
 import { Card } from "@/components/ui/card";
 import { parseISO, isFuture, isToday } from 'date-fns';
+import { UpcomingFestivalsCarousel } from "@/components/UpcomingFestivalsCarousel";
 
 
 const allUpcomingFestivals = [
@@ -85,13 +76,12 @@ function FestivalOfTheMonth() {
 
 const getUpcomingFestivals = () => {
     const now = new Date();
-    now.setHours(0, 0, 0, 0); // Set time to beginning of the day for accurate comparison
+    now.setHours(0, 0, 0, 0); 
     return allUpcomingFestivals.filter(festival => {
         try {
             const festivalDate = parseISO(festival.date);
             return isFuture(festivalDate) || isToday(festivalDate);
         } catch (e) {
-            console.error("Error parsing date for festival:", festival.name, e);
             return false;
         }
     });
@@ -130,31 +120,7 @@ export default function Home() {
                     Plan your celebrations. Here's a look at what's coming up next on the festive calendar.
                 </p>
             </div>
-          {upcomingFestivals.length > 0 ? (
-            <Carousel
-              opts={{
-                align: "start",
-                loop: upcomingFestivals.length > 1,
-              }}
-              className="w-full"
-            >
-              <CarouselContent>
-                {upcomingFestivals.map((festival, index) => (
-                    <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
-                        <div className="p-1 h-full">
-                          <UpcomingFestivalCard festival={festival} />
-                        </div>
-                    </CarouselItem>
-                ))}
-              </CarouselContent>
-              <CarouselPrevious className="hidden md:flex" />
-              <CarouselNext className="hidden md:flex" />
-            </Carousel>
-          ) : (
-             <div className="text-center text-foreground/80 py-10">
-                <p>Stay tuned for more upcoming festivals!</p>
-             </div>
-          )}
+            <UpcomingFestivalsCarousel festivals={upcomingFestivals} />
         </div>
       </section>
 
@@ -190,3 +156,4 @@ export default function Home() {
     </div>
   );
 }
+

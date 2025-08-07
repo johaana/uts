@@ -20,7 +20,15 @@ export function UpcomingFestivalCard({ festival }: { festival: Festival }) {
         return null;
     }
 
-    const formattedDate = format(parseISO(festival.date), 'EEEE, MMMM dd, yyyy');
+    let formattedDate = "";
+    try {
+        const date = parseISO(festival.date);
+        if(!isNaN(date.getTime())) {
+            formattedDate = format(date, 'EEEE, MMMM dd, yyyy');
+        }
+    } catch (e) {
+        // console.error("Could not parse date", festival.date);
+    }
 
     return (
         <Card className="h-full overflow-hidden group flex flex-col shadow-lg hover:shadow-2xl transition-shadow duration-300">
