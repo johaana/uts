@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useMemo, Suspense } from 'react';
@@ -11,7 +12,7 @@ import Link from "next/link";
 import Image from 'next/image';
 
 const allFestivals = [
-    { name: "Diwali", region: "Nationwide", description: "The festival of lights, symbolizing the victory of light over darkness and good over evil.", link: "/festivals/diwali", image: "https://i.postimg.cc/DwZkMbK4/Lakshmi-puja-diwali.jpg", hint: "diwali celebration" },
+    { name: "Diwali", region: "Nationwide", description: "The festival of lights, symbolizing the victory of light over darkness and good over evil.", link: "/festivals/diwali", image: "https://i.postimg.cc/SjF8HhM1/Diwali2.jpg", hint: "diwali celebration" },
     { name: "Holi", region: "Nationwide", description: "The vibrant festival of colors, celebrating the arrival of spring, love, and the triumph of good.", link: "/festivals/holi", image: "https://i.postimg.cc/fWFvx4J9/aceofnet-PNd98-z-An-U0-unsplash.jpg", hint: "holi celebration" },
     { name: "Eid-al-Fitr", region: "Nationwide", description: "Marking the end of Ramadan, this festival is a joyous celebration of feasting, prayer, and charity.", link: "/festivals/eid-al-fitr", image: "https://i.postimg.cc/sQC9PHmM/sheer-khurma.jpg", hint: "eid food" },
     { name: "Navratri", region: "Nationwide", description: "A nine-night festival dedicated to worshipping the nine forms of the goddess Durga, famous for its energetic Garba dances.", link: "/festivals/navratri", image: "https://i.postimg.cc/GhWjwdnN/Navratri.jpg", hint: "garba dance" },
@@ -20,7 +21,7 @@ const allFestivals = [
     { name: "Christmas", region: "Nationwide", description: "Celebrating the birth of Jesus Christ, marked by carols, feasts, and the spirit of giving.", link: "/festivals/christmas", image: "https://i.postimg.cc/rpDTKRn2/Christmas.webp", hint: "christmas decor" },
     { name: "Pongal", region: "South", description: "A four-day harvest festival in Tamil Nadu to thank the Sun God, Surya, for a bountiful harvest.", link: "/festivals/pongal", image: "https://i.postimg.cc/tJ3RkTB3/Onam.png", hint: "pongal dish" },
     { name: "Onam", region: "South", description: "Kerala's most important harvest festival, celebrating the homecoming of the mythical King Mahabali.", link: "/festivals/onam", image: "https://i.postimg.cc/0564g0S7/nandu-menon-h-GHldb-Cg-YDA-unsplash.jpg", hint: "onam feast" },
-    { name: "Bihu", region: "Northeast", description: "A set of three Assamese festivals celebrating different phases of the farming calendar with folk dance and music.", link: "/festivals/bihu", image: "https://i.postimg.cc/52MbHQMm/North-East-festivals.jpg", hint: "bihu dance" },
+    { name: "Bihu", region: "Northeast", description: "A set of three Assamese festivals celebrating different phases of the farming calendar with folk dance and music.", link: "/festivals/bihu", image: "https://i.postimg.cc/k5GJKp5Z/vaisakhi.webp", hint: "bihu dance" },
     { name: "Makar Sankranti", region: "Nationwide", description: "A festival marking the sun's transit into Capricorn, celebrated with kite flying, bonfires, and feasts.", link: "/festivals/makar-sankranti", image: "https://i.postimg.cc/tJ3RkTB3/Onam.png", hint: "pongal dish" },
     { name: "Guru Nanak Jayanti", region: "Nationwide", description: "Celebrating the birth of the first Sikh Guru, Guru Nanak Dev Ji, with prayers and hymns.", link: "/festivals/guru-nanak-jayanti", image: "https://i.postimg.cc/029q7BWf/guru-nanak-jayanti.webp", hint: "sikh prayer" },
     { name: "Raksha Bandhan", region: "Nationwide", description: "A festival that celebrates the cherished bond between brothers and sisters, marked by the tying of a sacred thread.", link: "/festivals/raksha-bandhan", image: "https://i.postimg.cc/9MXxXQhY/Raksha-Bandhan.jpg", hint: "rakhi thread" },
@@ -53,11 +54,11 @@ const allFestivals = [
     { name: "Mopin", region: "Northeast", description: "A vibrant harvest festival of the Galo tribe in Arunachal Pradesh to drive away evil spirits.", link: "/festivals/mopin", image: "https://i.postimg.cc/52MbHQMm/North-East-festivals.jpg", hint: "galo tribe" },
     { name: "Wangala", region: "Northeast", description: "A harvest festival of the Garo tribe in Meghalaya, also known as the 100 Drums festival.", link: "/festivals/wangala", image: "https://i.postimg.cc/50vMmdWP/Wangala.webp", hint: "garo dance" },
     { name: "Nuakhai", region: "East", description: "An agricultural festival in Odisha to welcome the new rice of the season.", link: "/festivals/nuakhai", image: "https://i.postimg.cc/zGMM2tj4/nuakhai.avif", hint: "odisha festival" },
-    { name: "Maha Shivaratri", region: "Nationwide", description: "A major festival dedicated to the worship of Lord Shiva, the god of destruction.", link: "#", image: "https://i.postimg.cc/52NbWR80/mahashivratri.jpg", hint: "shiva statue" },
-    { name: "Ram Navami", region: "Nationwide", description: "Celebrating the birth of Lord Rama, the seventh avatar of Vishnu.", link: "#", image: "https://i.postimg.cc/Vvqmzy7S/ram-navami.webp", hint: "lord rama" },
+    { name: "Maha Shivaratri", region: "Nationwide", description: "A major festival dedicated to the worship of Lord Shiva, the god of destruction.", link: "/festivals/maha-shivaratri", image: "https://i.postimg.cc/52NbWR80/mahashivratri.jpg", hint: "shiva statue" },
+    { name: "Ram Navami", region: "Nationwide", description: "Celebrating the birth of Lord Rama, the seventh avatar of Vishnu.", link: "/festivals/ram-navami", image: "https://i.postimg.cc/Vvqmzy7S/ram-navami.webp", hint: "lord rama" },
     { name: "Anant Chaturdashi", region: "West & South", description: "The final day of the Ganesh Chaturthi festival, marking the immersion of Ganesha idols.", link: "/festivals/anant-chaturdashi", image: "https://i.postimg.cc/RVSjWnhp/anant-chaturdashi.jpg", hint: "ganesh visarjan" },
-    { name: "Eid-al-Adha", region: "Nationwide", description: "The 'Festival of Sacrifice', one of the two main Islamic holidays.", link: "#", image: "https://i.postimg.cc/KYWZNDkY/eid-al-adha.webp", hint: "eid prayer" },
-    { name: "Janmashtami", region: "Nationwide", description: "Celebrating the birth of Lord Krishna, the eighth avatar of Vishnu.", link: "#", image: "https://i.postimg.cc/02VhD2Jk/janmashtami.jpg", hint: "krishna idol" },
+    { name: "Eid-al-Adha", region: "Nationwide", description: "The 'Festival of Sacrifice', one of the two main Islamic holidays.", link: "/festivals/eid-al-adha", image: "https://i.postimg.cc/KYWZNDkY/eid-al-adha.webp", hint: "eid prayer" },
+    { name: "Janmashtami", region: "Nationwide", description: "Celebrating the birth of Lord Krishna, the eighth avatar of Vishnu.", link: "/festivals/janmashtami", image: "https://i.postimg.cc/02VhD2Jk/janmashtami.jpg", hint: "krishna idol" },
 ];
 
 
@@ -178,3 +179,5 @@ export default function FestivalsPage() {
         </Suspense>
     );
 }
+
+    

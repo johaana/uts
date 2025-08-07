@@ -45,7 +45,7 @@ export default function DiwaliPage() {
                                         </div>
                                     </div>
                                     <div className="md:w-1/3">
-                                        <Image src="https://i.postimg.cc/DwZkMbK4/Lakshmi-puja-diwali.jpg" alt="Woman lighting Diwali Diya" width={400} height={600} className="rounded-lg shadow-lg" data-ai-hint="diwali celebration"/>
+                                        <Image src="https://i.postimg.cc/SjF8HhM1/Diwali2.jpg" alt="Woman lighting Diwali Diya" width={400} height={600} className="rounded-lg shadow-lg" data-ai-hint="diwali celebration"/>
                                     </div>
                                 </div>
                             </TabsContent>
@@ -60,7 +60,7 @@ export default function DiwaliPage() {
                                         </CardHeader>
                                         <CardContent>
                                             <div className="flex flex-col sm:flex-row gap-4">
-                                                <Image src="https://i.postimg.cc/QMKLXGCX/dhanteras.webp" alt="Dhanteras" width={200} height={150} className="rounded-lg shadow-md" data-ai-hint="gold coins"/>
+                                                <Image src="https://i.postimg.cc/Rh92QWRF/dhanteras1.webp" alt="Dhanteras" width={200} height={150} className="rounded-lg shadow-md" data-ai-hint="gold coins"/>
                                                 <p className="text-foreground/80">The festival officially begins with Dhanteras. Homes are cleaned and purified, and it is considered highly auspicious to purchase new items, especially gold, silver, or utensils. This act symbolizes the welcoming of Goddess Lakshmi and a year of prosperity. Evenings are spent worshipping Lord Dhanvantari, the physician of the gods and an incarnation of Vishnu, praying for good health and well-being.</p>
                                             </div>
                                         </CardContent>
@@ -252,3 +252,5 @@ export default function DiwaliPage() {
         </div>
     );
 }
+
+    
