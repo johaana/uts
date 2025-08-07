@@ -21,6 +21,9 @@ const ptSans = PT_Sans({
 export const metadata: Metadata = {
   title: "Utsavs: Your Definitive Guide to Indian Festivals",
   description: "Your essential guide to the dates, rituals, and stories behind India's vibrant celebrations. Discover authentic recipes, explore cultural traditions, and plan your year with our comprehensive festival calendar.",
+  other: {
+    "google-adsense-account": "ca-pub-6080650236579757",
+  },
 };
 
 export const viewport: Viewport = {
