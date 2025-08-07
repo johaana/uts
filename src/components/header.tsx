@@ -5,53 +5,15 @@ import Image from "next/image";
 import { Button } from "./ui/button";
 import { Menu, Search } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import React from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogTrigger,
-} from "@/components/ui/dialog"
-import { Input } from "./ui/input";
 
 const navLinks = [
   { href: "/festivals", label: "Festivals" },
   { href: "/recipes", label: "Recipes" },
   { href: "/blog", label: "Blog" },
 ];
-
-function SearchDialog() {
-  const router = useRouter();
-  const [open, setOpen] = React.useState(false);
-
-  const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    const searchQuery = formData.get('search') as string;
-    if (searchQuery.trim()) {
-      router.push(`/festivals?search=${searchQuery.trim()}`);
-      setOpen(false);
-    }
-  };
-
-    return (
-        <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger asChild>
-                <Button variant="ghost" size="icon">
-                    <Search className="h-5 w-5" />
-                    <span className="sr-only">Search</span>
-                </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
-                 <h2 className="font-headline text-xl font-bold mb-4 text-primary">Search Utsavs</h2>
-                 <form onSubmit={handleSearch}>
-                    <Input name="search" placeholder="e.g. Diwali, Holi, Onam..." />
-                 </form>
-            </DialogContent>
-        </Dialog>
-    )
-}
 
 export function Header() {
   const pathname = usePathname();
@@ -84,7 +46,12 @@ export function Header() {
         
         <div className="flex justify-end items-center flex-1">
             <div className="hidden md:flex">
-                <SearchDialog />
+                 <Link href="/festivals">
+                    <Button variant="ghost" size="icon">
+                        <Search className="h-5 w-5" />
+                        <span className="sr-only">Search</span>
+                    </Button>
+                </Link>
             </div>
              <div className="md:hidden">
                 <Sheet open={isOpen} onOpenChange={setIsOpen}>

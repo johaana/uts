@@ -2,10 +2,11 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { PageLayout } from "@/components/PageLayout";
 
 export default function ApiPage() {
     return (
-        <div className="container mx-auto px-4 py-12">
+        <PageLayout>
             <div className="text-center mb-12">
                 <h1 className="font-headline text-4xl md:text-5xl font-bold">Partnerships</h1>
                 <p className="mt-4 text-lg text-foreground/80 max-w-3xl mx-auto">
@@ -42,6 +43,6 @@ export default function ApiPage() {
                     </div>
                 </CardContent>
             </Card>
-        </div>
+        </PageLayout>
     );
 }

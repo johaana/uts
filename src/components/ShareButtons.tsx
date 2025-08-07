@@ -3,7 +3,7 @@
 
 import { usePathname } from 'next/navigation';
 import { Button } from './ui/button';
-import { Facebook, Twitter } from 'lucide-react';
+import { Facebook, Twitter, Mail } from 'lucide-react';
 
 const WhatsAppIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
@@ -20,6 +20,7 @@ export function ShareButtons({ title }: { title: string }) {
     const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
     const twitterShareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`;
     const whatsappShareUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(`${title} - ${url}`)}`;
+    const emailShareUrl = `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(`Check this out: ${url}`)}`;
 
     return (
         <div className="flex flex-col items-center gap-4 my-8 p-6 bg-secondary/30 rounded-lg">
@@ -41,6 +42,12 @@ export function ShareButtons({ title }: { title: string }) {
                     <Button variant="outline" size="icon">
                         <WhatsAppIcon />
                         <span className="sr-only">Share on WhatsApp</span>
+                    </Button>
+                </a>
+                 <a href={emailShareUrl} target="_blank" rel="noopener noreferrer">
+                    <Button variant="outline" size="icon">
+                        <Mail className="h-4 w-4" />
+                        <span className="sr-only">Share via Email</span>
                     </Button>
                 </a>
             </div>
