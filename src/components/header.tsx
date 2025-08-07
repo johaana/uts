@@ -8,7 +8,7 @@ import { Menu } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 const navLinks = [
   { href: "/festivals", label: "Festivals" },
@@ -18,15 +18,35 @@ const navLinks = [
 
 export function Header() {
   const pathname = usePathname();
-  const [isOpen, setIsOpen] = React.useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
-    <header className="bg-background/80 backdrop-blur-sm border-b sticky top-0 z-50">
-      <div className="container mx-auto flex items-center justify-between px-4 py-2">
+    <header 
+      className={cn(
+        "bg-background/80 backdrop-blur-sm border-b sticky top-0 z-50 transition-all duration-300",
+        isScrolled ? "py-1" : "py-2"
+      )}
+    >
+      <div className="container mx-auto flex items-center justify-between px-4">
         
         <div className="flex items-center justify-start flex-1">
              <Link href="/" className="flex items-center gap-2">
-                <Image src="https://i.postimg.cc/tCYyQVjX/4.png" alt="Utsavs Logo" width={80} height={80} />
+                <Image 
+                  src="https://i.postimg.cc/tCYyQVjX/4.png" 
+                  alt="Utsavs Logo" 
+                  width={isScrolled ? 50 : 60} 
+                  height={isScrolled ? 50 : 60}
+                  className="transition-all duration-300"
+                />
              </Link>
         </div>
 
@@ -54,7 +74,7 @@ export function Header() {
         <div className="flex justify-end items-center flex-1 gap-2">
             <div className="hidden md:flex">
                  <Link href="/planner">
-                    <Button variant="default" className="bg-accent hover:bg-accent/90">
+                    <Button size="sm" variant="default" className="bg-accent hover:bg-accent/90">
                         AI Holiday Planner
                     </Button>
                 </Link>
