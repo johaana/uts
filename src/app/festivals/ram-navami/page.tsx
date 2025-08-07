@@ -1,7 +1,8 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { BookOpen, Sparkles, MessageSquareQuote } from "lucide-react";
+import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote } from "lucide-react";
+import Link from "next/link";
 import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
 
@@ -19,34 +20,57 @@ export default function RamNavamiPage() {
                 <Card className="mb-12">
                     <CardContent className="p-6 md:p-10">
                         <Tabs defaultValue="overview">
-                            <TabsList className="grid w-full grid-cols-1 md:grid-cols-2 mb-6 h-auto">
+                            <TabsList className="grid w-full grid-cols-2 md:grid-cols-3 mb-6 h-auto">
                                 <TabsTrigger value="overview" className="py-2"><BookOpen className="w-4 h-4 mr-2" />Overview</TabsTrigger>
-                                <TabsTrigger value="significance" className="py-2"><MessageSquareQuote className="w-4 h-4 mr-2" />Significance</TabsTrigger>
+                                <TabsTrigger value="traditions" className="py-2"><Sparkles className="w-4 h-4 mr-2" />Traditions</TabsTrigger>
+                                <TabsTrigger value="chants" className="py-2"><MessageSquareQuote className="w-4 h-4 mr-2" />Chants</TabsTrigger>
                             </TabsList>
 
                             <TabsContent value="overview">
-                                <div className="flex flex-col md:flex-row gap-8 items-center">
-                                    <div className="md:w-2/3">
-                                        <h2 className="font-headline text-3xl font-bold mb-4">The Prince of Ayodhya</h2>
-                                        <div className="space-y-4 text-foreground/80 prose max-w-none">
-                                            <p>Ram Navami is a Hindu festival that celebrates the birthday of Lord Rama, the seventh avatar of the god Vishnu. He is the central figure of the Hindu epic Ramayana and is revered as the epitome of righteousness, morality, and dharma. The festival is celebrated on the ninth day of the bright half of the Chaitra month.</p>
-                                        </div>
-                                    </div>
-                                    <div className="md:w-1/3">
-                                        <Image src="https://i.postimg.cc/Vvqmzy7S/ram-navami.webp" alt="Lord Rama" width={400} height={400} className="rounded-lg shadow-lg" data-ai-hint="lord rama"/>
-                                    </div>
+                                <h2 className="font-headline text-3xl font-bold mb-4">The Advent of the Ideal Man</h2>
+                                <div className="space-y-4 text-foreground/80 prose max-w-none">
+                                    <p>Ram Navami is a cherished Hindu festival that celebrates the birth of Lord Rama, the seventh and one of the most revered avatars of Lord Vishnu. Observed on the ninth day (Navami) of the bright fortnight (Shukla Paksha) in the Hindu month of Chaitra, this day marks a momentous occasion in Hindu tradition. Lord Rama is the central figure of the epic Ramayana, a story that is not just a religious text but a guiding light on morality, duty, and righteousness. He is revered as 'Maryada Purushottam', the perfect or ideal man, the very embodiment of dharma, compassion, courage, and devotion.</p>
+                                    <p>The story of his birth is one of divine intervention. The noble King Dasharatha of Ayodhya, despite having three wives, was childless and longed for an heir. On the advice of the sages, he performed a grand 'Putrakameshti Yajna' (a sacred fire ritual for progeny). From the sacrificial fire, a divine being emerged, bestowing upon the king a bowl of divine kheer (pudding) to be shared among his queens. As a result, his eldest queen, Kaushalya, gave birth to Rama. His birth was a divine answer to the prayers of the gods and the earth, to vanquish the tyrannical demon king Ravana of Lanka. Ram Navami, therefore, is not just a birthday celebration; it is a festival that reaffirms the power of good, the importance of living a righteous life, and the promise that divinity will always descend to Earth to conquer the forces of evil.</p>
                                 </div>
                             </TabsContent>
                             
-                             <TabsContent value="significance">
-                                <h2 className="font-headline text-3xl font-bold mb-4">Victory of Good over Evil</h2>
+                            <TabsContent value="traditions">
+                                <h2 className="font-headline text-3xl font-bold mb-4">How to Celebrate Ram Navami</h2>
+                                <ul className="space-y-4 pl-4">
+                                    <li className="flex items-start">
+                                        <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
+                                        <div>
+                                            <h4 className="font-bold">Prayers and Fasting</h4>
+                                            <p className="text-foreground/80">Devotees observe a day-long fast, breaking it only at midnight, the time of Rama's birth. Temples dedicated to Lord Rama are beautifully decorated, and special prayers and pujas are conducted. An image or idol of infant Rama is often placed in a cradle and rocked by devotees.</p>
+                                        </div>
+                                    </li>
+                                    <li className="flex items-start">
+                                        <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
+                                        <div>
+                                            <h4 className="font-bold">Reading the Ramayana</h4>
+                                            <p className="text-foreground/80">Continuous chanting of the epic Ramayana, especially the 'Akhand Path' (unbroken reading), is organized in many temples and homes. This immersion in his life story is a key part of the celebration.</p>
+                                        </div>
+                                    </li>
+                                    <li className="flex items-start">
+                                        <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
+                                        <div>
+                                            <h4 className="font-bold">Rathayatras</h4>
+                                            <p className="text-foreground/80">In several places, chariot processions, known as 'Rathayatras', are taken out, with people dressed as Rama, Sita, Lakshmana, and Hanuman, reenacting scenes from their lives.</p>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </TabsContent>
+
+                             <TabsContent value="chants">
+                                <h2 className="font-headline text-3xl font-bold mb-4">Sacred Mantras of Rama</h2>
                                 <div className="space-y-6">
                                     <Card>
                                         <CardHeader>
-                                            <CardTitle>A Story of Dharma</CardTitle>
+                                            <CardTitle>The Taraka Mantra</CardTitle>
                                         </CardHeader>
                                         <CardContent>
-                                            <p className="text-foreground/80">The festival celebrates the victory of good over evil and the establishment of dharma. Devotees observe fasts, visit temples dedicated to Lord Rama, and listen to recitations of the Ramayana. The celebrations in Ayodhya, the birthplace of Rama, are particularly grand.</p>
+                                            <p className="text-lg font-serif italic">"Shri Ram Jai Ram Jai Jai Ram"</p>
+                                            <p className="mt-2 text-foreground/80">This powerful and popular mantra, known as the 'Taraka Mantra' (the chant that liberates), is chanted by devotees. It is believed that its continuous repetition brings peace, purifies the soul, and leads one across the ocean of worldly existence.</p>
                                         </CardContent>
                                     </Card>
                                 </div>
@@ -59,5 +83,3 @@ export default function RamNavamiPage() {
         </div>
     );
 }
-
-    

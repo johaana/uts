@@ -1,7 +1,8 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { BookOpen, Sparkles, MessageSquareQuote } from "lucide-react";
+import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote } from "lucide-react";
+import Link from "next/link";
 import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
 
@@ -19,34 +20,57 @@ export default function JanmashtamiPage() {
                 <Card className="mb-12">
                     <CardContent className="p-6 md:p-10">
                         <Tabs defaultValue="overview">
-                            <TabsList className="grid w-full grid-cols-1 md:grid-cols-2 mb-6 h-auto">
+                            <TabsList className="grid w-full grid-cols-2 md:grid-cols-3 mb-6 h-auto">
                                 <TabsTrigger value="overview" className="py-2"><BookOpen className="w-4 h-4 mr-2" />Overview</TabsTrigger>
                                 <TabsTrigger value="traditions" className="py-2"><Sparkles className="w-4 h-4 mr-2" />Traditions</TabsTrigger>
+                                <TabsTrigger value="chants" className="py-2"><MessageSquareQuote className="w-4 h-4 mr-2" />Chants</TabsTrigger>
                             </TabsList>
 
                             <TabsContent value="overview">
-                                <div className="flex flex-col md:flex-row gap-8 items-center">
-                                    <div className="md:w-2/3">
-                                        <h2 className="font-headline text-3xl font-bold mb-4">The Divine Birth</h2>
-                                        <div className="space-y-4 text-foreground/80 prose max-w-none">
-                                            <p>Janmashtami is a Hindu festival celebrating the birth of Lord Krishna, the eighth avatar of the god Vishnu. It is observed on the eighth day (Ashtami) of the Krishna Paksha (dark fortnight) in the month of Shraavana or Bhadrapad. The festival is celebrated with great devotion, with fasting, night vigils, and the singing of bhajans (devotional songs).</p>
-                                        </div>
-                                    </div>
-                                    <div className="md:w-1/3">
-                                        <Image src="https://i.postimg.cc/02VhD2Jk/janmashtami.jpg" alt="Lord Krishna" width={400} height={400} className="rounded-lg shadow-lg" data-ai-hint="krishna idol"/>
-                                    </div>
+                                <h2 className="font-headline text-3xl font-bold mb-4">The Divine Advent</h2>
+                                <div className="space-y-4 text-foreground/80 prose max-w-none">
+                                    <p>Janmashtami, also known as Krishna Janmashtami, is a vibrant and joyous festival celebrating the birth of Lord Krishna, the eighth and one of the most beloved avatars of Lord Vishnu. The festival is observed with immense devotion on the eighth day (Ashtami) of the dark fortnight (Krishna Paksha) of the Hindu month of Bhadrapada. Lord Krishna is a central figure in Hinduism, revered as a mischievous child, a divine lover, a compassionate guide who revealed the sacred wisdom of the Bhagavad Gita, and the ultimate protector of dharma.</p>
+                                    <p>His birth story is a tale of hope in a time of darkness. He was born in a prison cell in Mathura to Devaki and Vasudeva. Devaki's tyrannical brother, King Kansa, had imprisoned them after a prophecy foretold that their eighth son would be his destroyer. On the stormy night of Krishna's birth, a series of miracles occurred. The prison guards fell into a deep slumber, the chains fell open, and the prison doors unlocked. To save him from Kansa's wrath, his father Vasudeva carried the divine infant across the raging Yamuna river to the safety of Nanda and Yashoda's home in Gokul. Janmashtami celebrates this divine birth, a symbol of the victory of good over evil and a promise of hope and liberation for all humanity.</p>
                                 </div>
                             </TabsContent>
                             
-                             <TabsContent value="traditions">
-                                <h2 className="font-headline text-3xl font-bold mb-4">Dahi Handi and Ras Leela</h2>
+                            <TabsContent value="traditions">
+                                <h2 className="font-headline text-3xl font-bold mb-4">How to Celebrate Janmashtami</h2>
+                                <ul className="space-y-4 pl-4">
+                                    <li className="flex items-start">
+                                        <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
+                                        <div>
+                                            <h4 className="font-bold">Fasting and Puja</h4>
+                                            <p className="text-foreground/80">Devotees observe a fast throughout the day, which is broken at midnight, the traditional hour of Krishna's birth. Temples and homes are decorated, and idols of infant Krishna are bathed, adorned, and placed in cradles.</p>
+                                        </div>
+                                    </li>
+                                    <li className="flex items-start">
+                                        <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
+                                        <div>
+                                            <h4 className="font-bold">Dahi Handi</h4>
+                                            <p className="text-foreground/80">In Maharashtra and other regions, the boisterous 'Dahi Handi' tradition reenacts Krishna's playful childhood love for butter and curd. Young men, or 'Govindas', form human pyramids to reach and break an earthen pot filled with curd that is hung high in the air.</p>
+                                        </div>
+                                    </li>
+                                    <li className="flex items-start">
+                                        <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
+                                        <div>
+                                            <h4 className="font-bold">Ras Leela</h4>
+                                            <p className="text-foreground/80">In places like Mathura and Vrindavan, 'Ras Leela' performances, which are dramatic enactments of Krishna's life, are organized. These dance-dramas beautifully depict his playful antics and his divine love story with Radha.</p>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </TabsContent>
+
+                             <TabsContent value="chants">
+                                <h2 className="font-headline text-3xl font-bold mb-4">The Hare Krishna Mahamantra</h2>
                                 <div className="space-y-6">
                                     <Card>
                                         <CardHeader>
-                                            <CardTitle>Celebrations</CardTitle>
+                                            <CardTitle>The Great Chant for Deliverance</CardTitle>
                                         </CardHeader>
                                         <CardContent>
-                                            <p className="text-foreground/80">A major tradition in Maharashtra is 'Dahi Handi', where young men form human pyramids to break an earthen pot filled with curd, hung high in the air. This reenacts Krishna's playful and mischievous childhood. In other parts of India, dance-dramas called 'Ras Leela' are performed, depicting scenes from Krishna's life.</p>
+                                            <p className="text-lg font-serif italic">"Hare Krishna, Hare Krishna, Krishna Krishna, Hare Hare, Hare Rama, Hare Rama, Rama Rama, Hare Hare"</p>
+                                            <p className="mt-2 text-foreground/80">This sixteen-word mantra is one of the most widely recognized and chanted mantras in the world. It is a call to the divine energies of Krishna and Rama. Chanting it with devotion, especially on Janmashtami, is believed to purify the consciousness, bring inner peace, and foster a deep connection with the divine.</p>
                                         </CardContent>
                                     </Card>
                                 </div>
@@ -59,5 +83,3 @@ export default function JanmashtamiPage() {
         </div>
     );
 }
-
-    
