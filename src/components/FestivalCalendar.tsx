@@ -9,106 +9,95 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { ArrowRight, Star } from "lucide-react";
-import { format, parse, getYear, isValid, isWithinInterval, startOfToday, addDays, isFuture, isToday, parseISO, endOfDay } from 'date-fns';
+import { format, parse, getYear, isValid, isWithinInterval, startOfToday, endOfDay, addDays, isToday, isFuture } from 'date-fns';
 import { allEvents } from '@/lib/festival-data';
 
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const regions = ["Nationwide", "North", "South", "East", "West", "Northeast", "Central"];
 const eventTypes = ["Festivals", "Holidays", "Long Weekends"];
 
-const safeParseDate = (dateStr: string) => parse(dateStr, 'MMM dd, yyyy', new Date());
-
 const allAvailableYears = [
     ...new Set(
         allEvents
-            .map(e => getYear(safeParseDate(e.date.split(' - ')[0])))
+            .flatMap(e => {
+                const parts = e.date.split(' - ');
+                const year1 = getYear(parse(parts[0], 'MMM dd, yyyy', new Date()));
+                if (parts.length > 1) {
+                    const endDateStr = parts[1];
+                    let year2;
+                     if (endDateStr.split(',').length < 2) {
+                        year2 = year1;
+                     } else {
+                        year2 = getYear(parse(endDateStr, 'MMM dd, yyyy', new Date()));
+                     }
+                     return [year1, year2];
+                }
+                return [year1];
+            })
             .filter(year => !isNaN(year))
     ),
 ].sort();
+
 
 export function FestivalCalendar() {
     const [selectedMonth, setSelectedMonth] = useState('all');
     const [selectedRegion, setSelectedRegion] = useState('all');
     const [selectedEventType, setSelectedEventType] = useState('all');
     const [selectedYear, setSelectedYear] = useState('Upcoming (1 year)');
-
+    
     const availableYears = ['Upcoming (1 year)', ...allAvailableYears.map(String), 'all'];
 
-    const formatDateString = (dateString: string) => {
-        const parts = dateString.split(' - ');
+    const getEventDateRange = (dateString: string): { start: Date, end: Date } | null => {
         try {
+            const parts = dateString.split(' - ');
             const startDate = parse(parts[0], 'MMM dd, yyyy', new Date());
-            if (!isValid(startDate)) return dateString;
+            if (!isValid(startDate)) return null;
 
+            let endDate = startDate;
             if (parts.length > 1) {
                 const endDateStr = parts[1];
-                let endDate;
+                let parsedEndDate;
                 if (endDateStr.split(',').length < 2) {
-                     endDate = parse(`${endDateStr}, ${getYear(startDate)}`, 'MMM dd, yyyy', new Date());
+                    parsedEndDate = parse(`${endDateStr}, ${getYear(startDate)}`, 'MMM dd, yyyy', new Date());
                 } else {
-                     endDate = parse(endDateStr, 'MMM dd, yyyy', new Date());
+                    parsedEndDate = parse(endDateStr, 'MMM dd, yyyy', new Date());
                 }
-
-                if (!isValid(endDate)) {
-                     return format(startDate, 'MMM dd, yyyy (EEEE)');
-                }
-
-                if (getYear(startDate) !== getYear(endDate)) {
-                    return `${format(startDate, 'MMM dd, yyyy')} - ${format(endDate, 'MMM dd, yyyy')}`;
-                } else if (format(startDate, 'MMMM') !== format(endDate, 'MMMM')) {
-                    return `${format(startDate, 'MMM dd')} - ${format(endDate, 'MMM dd, yyyy')}`;
-                } else {
-                    return `${format(startDate, 'MMM dd')} - ${format(endDate, 'dd, yyyy')}`;
+                if (isValid(parsedEndDate)) {
+                    endDate = parsedEndDate;
                 }
             }
-            return format(startDate, 'MMM dd, yyyy (EEEE)');
-        } catch (error) {
-            console.error("Error formatting date:", dateString, error);
-            return dateString;
-        }
-    };
-    
-    const getMonthFromDateString = (dateString: string) => {
-        try {
-            const datePart = dateString.split(' - ')[0];
-            const date = parse(datePart, "MMM dd, yyyy", new Date());
-            if (!isValid(date)) return 'Unknown';
-            return format(date, 'MMMM');
+            return { start: startDate, end: endDate };
         } catch (e) {
-            return 'Unknown';
+            return null;
         }
     };
     
     const filteredEvents = useMemo(() => {
         const today = startOfToday();
-        
-        // 1. Filter by Year or Upcoming
-        let dateFilteredEvents;
-        if (selectedYear === 'Upcoming (1 year)') {
-            const oneYearFromNow = endOfDay(addDays(today, 365));
-            dateFilteredEvents = allEvents.filter(event => {
-                const startDate = safeParseDate(event.date.split(' - ')[0]);
-                if (!isValid(startDate)) return false;
-                // An event is "upcoming" if its start date is between today and one year from now
-                return isWithinInterval(startDate, { start: today, end: oneYearFromNow });
-            });
-        } else if (selectedYear === 'all') {
-            dateFilteredEvents = allEvents.filter(event => {
-                const startDate = safeParseDate(event.date.split(' - ')[0]);
-                if (!isValid(startDate)) return false;
-                return isFuture(startDate) || isToday(startDate);
-            });
-        } else {
-            const yearNum = parseInt(selectedYear, 10);
-            dateFilteredEvents = allEvents.filter(event => {
-                const startDate = safeParseDate(event.date.split(' - ')[0]);
-                return isValid(startDate) && getYear(startDate) === yearNum;
-            });
-        }
 
-        // 2. Apply other filters to the already date-filtered list
-        return dateFilteredEvents.filter(event => {
-            const monthMatch = selectedMonth === 'all' || getMonthFromDateString(event.date) === selectedMonth;
+        // Step 1: Filter by Year/Upcoming
+        let yearFilteredEvents = allEvents.filter(event => {
+            const range = getEventDateRange(event.date);
+            if (!range) return false;
+
+            if (selectedYear === 'Upcoming (1 year)') {
+                const oneYearFromNow = endOfDay(addDays(today, 365));
+                // Show if the event starts within the next year, or if it's currently ongoing
+                 return (isWithinInterval(range.start, { start: today, end: oneYearFromNow })) || (isToday(range.start) || (range.start < today && range.end >= today));
+            }
+            if (selectedYear === 'all') {
+                return isFuture(range.end) || isToday(range.end);
+            }
+            const yearNum = parseInt(selectedYear, 10);
+            return getYear(range.start) === yearNum || getYear(range.end) === yearNum;
+        });
+
+        // Step 2: Apply other filters
+        return yearFilteredEvents.filter(event => {
+            const range = getEventDateRange(event.date);
+            if (!range) return false;
+
+            const monthMatch = selectedMonth === 'all' || format(range.start, 'MMMM') === selectedMonth;
             const regionMatch = selectedRegion === 'all' || event.region === selectedRegion || event.region.includes(selectedRegion);
             
             let eventTypeMatch = true;
@@ -121,10 +110,32 @@ export function FestivalCalendar() {
             }
 
             return monthMatch && regionMatch && eventTypeMatch;
+        }).sort((a, b) => {
+             const dateA = getEventDateRange(a.date)?.start.getTime() || 0;
+             const dateB = getEventDateRange(b.date)?.start.getTime() || 0;
+             return dateA - dateB;
         });
 
     }, [selectedYear, selectedMonth, selectedRegion, selectedEventType]);
+    
+     const formatDateString = (dateString: string) => {
+        const range = getEventDateRange(dateString);
+        if (!range) return dateString;
 
+        const { start, end } = range;
+
+        if (format(start, 'yyyy-MM-dd') === format(end, 'yyyy-MM-dd')) {
+            return format(start, 'MMM dd, yyyy (EEEE)');
+        }
+
+        if (getYear(start) !== getYear(end)) {
+            return `${format(start, 'MMM dd, yyyy')} - ${format(end, 'MMM dd, yyyy')}`;
+        } else if (format(start, 'MMMM') !== format(end, 'MMMM')) {
+            return `${format(start, 'MMM dd')} - ${format(end, 'MMM dd, yyyy')}`;
+        } else {
+            return `${format(start, 'MMM dd')} - ${format(end, 'dd, yyyy')}`;
+        }
+    };
 
     const getBadgeClass = (type: string) => {
         switch(type) {
