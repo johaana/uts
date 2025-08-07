@@ -13,7 +13,7 @@ import { UpcomingFestivalCard } from "./UpcomingFestivalCard";
 import { parseISO, isFuture, isToday } from 'date-fns';
 
 const allFestivalsData = [
-  { name: "Raksha Bandhan", date: "2025-08-09T00:00:00", link: "/festivals/raksha-bandhan", image: "https://i.postimg.cc/k5yL5d42/rakhi.webp", hint: "rakhi thread" },
+  { name: "Raksha Bandhan", date: "2025-08-19T00:00:00", link: "/festivals/raksha-bandhan", image: "https://i.postimg.cc/9MXxXQhY/Raksha-Bandhan.jpg", hint: "rakhi thread" },
   { name: "Ganesh Chaturthi", date: "2025-08-27T00:00:00", link: "/festivals/ganesh-chaturthi", image: "https://i.postimg.cc/VNWGcb3N/ganesh-chaturthi-festival.jpg", hint: "ganesha idol" },
   { name: "Onam", date: "2025-09-05T00:00:00", link: "/festivals/onam", image: "https://i.postimg.cc/0564g0S7/nandu-menon-h-GHldb-Cg-YDA-unsplash.jpg", hint: "onam feast" },
   { name: "Navratri", date: "2025-09-22T00:00:00", link: "/festivals/navratri", image: "https://i.postimg.cc/GhWjwdnN/Navratri.jpg", hint: "garba dance" },
