@@ -33,18 +33,18 @@ export function Header() {
     <header 
       className={cn(
         "bg-background/80 backdrop-blur-sm border-b sticky top-0 z-50 transition-all duration-300",
-        isScrolled ? "py-0" : "py-1"
+        isScrolled ? "py-0" : "py-0"
       )}
     >
       <div className="container mx-auto flex items-center justify-between px-4">
         
         <div className="flex items-center justify-start flex-1">
-             <Link href="/" className="flex items-center gap-2 py-2">
+             <Link href="/" className="flex items-center gap-2 py-1">
                 <Image 
                   src="https://i.postimg.cc/vZTZ0Br5/utsavs-logo.png" 
                   alt="Utsavs Logo" 
-                  width={isScrolled ? 64 : 72}
-                  height={isScrolled ? 64 : 72}
+                  width={isScrolled ? 72 : 80}
+                  height={isScrolled ? 72 : 80}
                   className="transition-all duration-300"
                 />
              </Link>
