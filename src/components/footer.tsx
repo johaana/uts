@@ -47,9 +47,9 @@ export function Footer() {
             
             <div className="lg:col-span-3">
               <h3 className="font-bold mb-4 font-headline text-lg text-primary">Contact</h3>
-                <a href="mailto:celebrate@utsavs.com" className="flex items-center gap-2 text-foreground/80 hover:text-primary">
+                <a href="mailto:joy@utsavs.com" className="flex items-center gap-2 text-foreground/80 hover:text-primary">
                     <Mail className="w-4 h-4"/>
-                    <span>celebrate@utsavs.com</span>
+                    <span>joy@utsavs.com</span>
                 </a>
             </div>
 
