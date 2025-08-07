@@ -40,8 +40,8 @@ const regions = [
   { 
     name: 'Central', 
     href: '/festivals?region=Central', 
-    image: 'https://i.postimg.cc/j5G0WqQ2/bastar-dussehra.webp', 
-    hint: 'bastar dussehra',
+    image: 'https://i.postimg.cc/1tQKkPvr/central-india-fest-maha-kumbh.avif', 
+    hint: 'maha kumbh',
     description: "Discover ancient tribal heritage with Bastar Dussehra, Madai Festival, and Hareli."
   },
   { 
