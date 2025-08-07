@@ -45,6 +45,9 @@ const allRecipes = [
     { name: "Ven Pongal", festival: "Pongal", region: "South", description: "A savory and comforting rice and lentil dish.", link: "/recipes/ven-pongal", image: "https://i.postimg.cc/tJ3RkTB3/Onam.png", hint: "savory rice pudding" },
     { name: "Tilgul", festival: "Makar Sankranti", region: "West", description: "Ladoos made from sesame seeds and jaggery.", link: "/recipes/tilgul", image: "https://i.postimg.cc/nzrvDTx2/Diwali-Sweets.jpg", hint: "sesame ladoo" },
     { name: "Khichdi", festival: "Makar Sankranti", region: "Nationwide", description: "A comforting one-pot dish of rice and lentils.", link: "/recipes/khichdi", image: "https://i.postimg.cc/wvFzzvZZ/khechudi.jpg", hint: "rice and lentils" },
+    { name: "Kaddu Bhaat", festival: "Chhath Puja", region: "East", description: "A simple pumpkin curry served with rice, eaten on 'Nahay Khay'.", link: "/recipes/kaddu-bhaat", image: "https://i.postimg.cc/KYmDZCCg/chath-puja-festival1.webp", hint: "pumpkin curry rice" },
+    { name: "Rasia Kheer", festival: "Chhath Puja", region: "East", description: "A special rice pudding made with jaggery, prepared for Kharna.", link: "/recipes/rasia-kheer", image: "https://i.postimg.cc/d1N07T3K/thekua1.webp", hint: "jaggery rice pudding" },
+
 ];
 
 const festivals = [...new Set(allRecipes.map(r => r.festival))].sort();
