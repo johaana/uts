@@ -9,7 +9,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { ArrowRight, Star } from "lucide-react";
-import { format, parse, getYear, isAfter, isSameDay, addYears, isBefore, isValid } from 'date-fns';
+import { format, parse, getYear, isAfter, isSameDay, addDays, isBefore, isValid } from 'date-fns';
 
 const allEvents = [
     // 2024
@@ -192,7 +192,7 @@ export function FestivalCalendar() {
 
             let yearMatch = true;
             if (selectedYear === 'upcoming') {
-                const oneYearFromNow = addYears(now, 1);
+                const oneYearFromNow = addDays(now, 365);
                 yearMatch = (isAfter(eventStartDate, now) || isSameDay(eventStartDate, now)) && isBefore(eventStartDate, oneYearFromNow);
             } else if (selectedYear !== 'all') {
                 yearMatch = eventYear === parseInt(selectedYear);
@@ -359,5 +359,3 @@ export function FestivalCalendar() {
         </div>
     );
 }
-
-    
