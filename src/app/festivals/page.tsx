@@ -50,13 +50,13 @@ function FestivalsPageContent() {
     return (
         <div className="container mx-auto px-4 py-12">
             <div className="text-center mb-12">
-                <h1 className="font-headline text-4xl md:text-5xl font-bold">Discover Indian Festivals</h1>
-                <p className="mt-4 text-lg text-foreground/80 max-w-2xl mx-auto">
+                <h1 className="font-headline text-3xl md:text-5xl font-bold">Discover Indian Festivals</h1>
+                <p className="mt-3 text-base md:text-lg text-foreground/80 max-w-2xl mx-auto">
                     From the snow-capped Himalayas to the sun-drenched coasts, explore the diverse and colorful festivals that form the heartbeat of India. An essential guide to dates, rituals, and stories.
                 </p>
             </div>
 
-            <Card className="p-6 mb-12">
+            <Card className="p-4 md:p-6 mb-12">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 items-center">
                     <div className="relative w-full lg:col-span-2">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
@@ -88,7 +88,7 @@ function FestivalsPageContent() {
                             ))}
                         </SelectContent>
                     </Select>
-                    <div className="md:col-span-full flex justify-end">
+                    <div className="col-span-full flex justify-end">
                          <Button variant="ghost" onClick={resetFilters}>
                             <RotateCcw className="mr-2 h-4 w-4" />
                             Reset Filters
@@ -106,14 +106,14 @@ function FestivalsPageContent() {
                             <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
                              <div className="absolute bottom-2 left-3 right-3 md:bottom-4 md:left-6 md:right-6">
                                 <p className="text-xs font-semibold text-white/80 mb-1">{festival.region}</p>
-                                <h2 className="font-headline text-base md:text-2xl font-bold text-white drop-shadow-md leading-tight">{festival.name}</h2>
+                                <h2 className="font-headline text-lg md:text-2xl font-bold text-white drop-shadow-md leading-tight">{festival.name}</h2>
                              </div>
                             </div>
                         </Link>
                         <CardContent className="p-3 md:p-6 flex flex-col flex-grow">
-                            <p className="text-xs text-foreground/70 mb-3 flex-grow">{festival.description}</p>
+                            <p className="text-sm text-foreground/70 mb-3 flex-grow">{festival.description}</p>
                             <Link href={festival.link}>
-                                <Button variant="link" className="p-0 text-accent hover:text-accent/90 font-bold text-xs md:text-sm">
+                                <Button variant="link" className="p-0 text-accent hover:text-accent/90 font-bold text-sm">
                                     Explore <ArrowRight className="ml-1 h-3 w-3" />
                                 </Button>
                             </Link>

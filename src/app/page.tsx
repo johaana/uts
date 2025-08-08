@@ -33,11 +33,11 @@ function ResourceSummary() {
 
 function FestivalOfTheMonth() {
     return (
-        <section className="py-16 md:py-24 bg-background">
+        <section className="py-12 md:py-24 bg-background">
             <div className="container mx-auto px-4">
                  <div className="text-center mb-12">
-                    <h2 className="font-headline text-4xl md:text-5xl font-bold text-primary">Festivals and Holidays</h2>
-                    <p className="mt-4 text-lg text-foreground/80 max-w-2xl mx-auto">
+                    <h2 className="font-headline text-3xl md:text-5xl font-bold text-primary">Festivals and Holidays</h2>
+                    <p className="mt-3 text-base md:text-lg text-foreground/80 max-w-2xl mx-auto">
                         A special highlight on the significant celebrations happening soon.
                     </p>
                 </div>
@@ -56,7 +56,7 @@ export default function Home() {
            <Image src="https://i.postimg.cc/rmVJnj2w/Pushkar-Camel-Fair.avif" layout="fill" objectFit="cover" alt="Pushkar Camel Fair" priority data-ai-hint="pushkar camel fair" />
         </div>
         <div className="absolute inset-0 z-20 flex flex-col items-center justify-end text-center md:items-start md:text-left p-4 md:p-6 lg:p-24 pb-12 lg:pb-20">
-          <h1 className="font-headline text-4xl md:text-7xl font-bold text-white drop-shadow-[0_2px_2px_rgba(0,0,0,0.9)] max-w-4xl">Your Definitive Guide to Indian Festivals</h1>
+          <h1 className="font-headline text-4xl lg:text-7xl font-bold text-white drop-shadow-[0_2px_2px_rgba(0,0,0,0.9)] max-w-4xl">Your Definitive Guide to Indian Festivals</h1>
           <p className="hidden md:block mt-4 text-md md:text-lg text-white/90 drop-shadow-[0_2px_2px_rgba(0,0,0,0.7)] max-w-2xl">
             Immerse yourself in the soul of India's vibrant celebrations. Discover authentic rituals, explore fascinating stories, and cook traditional recipes for every festival.
           </p>
@@ -72,17 +72,17 @@ export default function Home() {
 
       <FestivalOfTheMonth />
       
-      <section className="py-16 md:py-24 bg-background">
+      <section className="py-12 md:py-24 bg-background">
         <div className="container mx-auto px-4">
            <FestivalCalendar />
         </div>
       </section>
 
-      <section className="py-16 md:py-24 bg-secondary/30">
+      <section className="py-12 md:py-24 bg-secondary/30">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="font-headline text-4xl md:text-5xl font-bold text-primary">Discover by Region</h2>
-            <p className="mt-4 text-lg text-foreground/80 max-w-2xl mx-auto">
+            <h2 className="font-headline text-3xl md:text-5xl font-bold text-primary">Discover by Region</h2>
+            <p className="mt-3 text-base md:text-lg text-foreground/80 max-w-2xl mx-auto">
                 India's cultural landscape is incredibly diverse. Explore festivals unique to each part of the country.
             </p>
           </div>
@@ -90,11 +90,11 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-16 md:py-24 bg-background">
+      <section className="py-12 md:py-24 bg-background">
         <div className="container mx-auto px-4">
             <div className="text-center mb-12">
-                <h2 className="font-headline text-4xl md:text-5xl font-bold text-primary">A World of Flavor & Tradition</h2>
-                <p className="mt-4 text-lg text-foreground/80 max-w-2xl mx-auto">
+                <h2 className="font-headline text-3xl md:text-5xl font-bold text-primary">A World of Flavor & Tradition</h2>
+                <p className="mt-3 text-base md:text-lg text-foreground/80 max-w-2xl mx-auto">
                     Utsavs is more than a calendar. It's a rich library of cultural knowledge, helping you connect with the heart of India.
                 </p>
             </div>

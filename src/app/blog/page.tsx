@@ -31,8 +31,8 @@ export default function BlogPage() {
     return (
         <div className="container mx-auto px-4 py-12">
             <div className="text-center mb-12">
-                <h1 className="font-headline text-4xl md:text-5xl font-bold">Utsavs Blog</h1>
-                <p className="mt-4 text-lg text-foreground/80 max-w-2xl mx-auto">
+                <h1 className="font-headline text-3xl md:text-5xl font-bold">Utsavs Blog</h1>
+                <p className="mt-3 text-base md:text-lg text-foreground/80 max-w-2xl mx-auto">
                     Dive deeper into the culture, stories, and traditions that make Indian festivals so special. Your definitive source for festive knowledge.
                 </p>
             </div>
@@ -44,12 +44,12 @@ export default function BlogPage() {
                            <Image src={post.image} alt={post.title} layout="fill" objectFit="cover" data-ai-hint={post.hint}/>
                         </div>
                         <CardHeader className="p-3 md:p-4 flex-grow">
-                            <CardTitle className="font-headline text-base md:text-xl">{post.title}</CardTitle>
+                            <CardTitle className="font-headline text-lg md:text-xl">{post.title}</CardTitle>
                              <p className="text-xs text-muted-foreground pt-1">By {post.author} on {post.date}</p>
                         </CardHeader>
-                        <CardContent className="p-3 pt-0 md:p-4 md:pt-0">
-                            <p className="text-xs md:text-sm text-foreground/80 mb-4">{post.excerpt}</p>
-                            <Link href={`/blog/${post.slug}`}>
+                        <CardContent className="p-3 pt-0 md:p-4 md:pt-0 flex flex-col">
+                            <p className="text-xs md:text-sm text-foreground/80 mb-4 flex-grow">{post.excerpt}</p>
+                            <Link href={`/blog/${post.slug}`} className="mt-auto">
                                 <Button variant="link" className="p-0 text-accent hover:text-accent/90">
                                     Read More <ArrowRight className="ml-1 h-4 w-4" />
                                 </Button>

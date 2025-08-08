@@ -149,52 +149,49 @@ export function FestivalCalendar() {
     return (
         <div className="w-full">
             <div className="text-center mb-12">
-                <h2 className="font-headline text-4xl md:text-5xl font-bold text-primary">Festival & Holiday Calendar</h2>
-                <p className="mt-3 text-lg text-foreground/80 max-w-2xl mx-auto">
+                <h2 className="font-headline text-3xl md:text-5xl font-bold text-primary">Festival & Holiday Calendar</h2>
+                <p className="mt-3 text-base md:text-lg text-foreground/80 max-w-2xl mx-auto">
                     Plan your year around the vibrant celebrations of India. Never miss a festival, holiday, or long weekend.
                 </p>
             </div>
             
-            <Card className="p-6 mb-2">
-                 <div className="flex flex-col md:flex-row gap-4 items-center">
-                    <p className="font-semibold text-lg mr-4 shrink-0 text-primary">Filter by:</p>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full">
-                        <Select onValueChange={setSelectedYear} value={selectedYear}>
-                            <SelectTrigger>
-                                <SelectValue placeholder="Year" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                {availableYears.map(year => <SelectItem key={year} value={year}>{year}</SelectItem>)}
-                            </SelectContent>
-                        </Select>
-                        <Select onValueChange={setSelectedMonth} value={selectedMonth}>
-                            <SelectTrigger>
-                                <SelectValue placeholder="Month" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="all">All Months</SelectItem>
-                                {months.map(month => <SelectItem key={month} value={month}>{month}</SelectItem>)}
-                            </SelectContent>
-                        </Select>
-                         <Select onValueChange={setSelectedRegion} value={selectedRegion}>
-                            <SelectTrigger>
-                                <SelectValue placeholder="Region" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                 <SelectItem value="all">All Regions</SelectItem>
-                                {regions.map(region => <SelectItem key={region} value={region}>{region}</SelectItem>)}
-                            </SelectContent>
-                        </Select>
-                        <Select onValueChange={setSelectedEventType} value={selectedEventType}>
-                            <SelectTrigger>
-                                <SelectValue placeholder="Type" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                 <SelectItem value="all">All Types</SelectItem>
-                                {eventTypes.map(type => <SelectItem key={type} value={type}>{type}</SelectItem>)}
-                            </SelectContent>
-                        </Select>
-                    </div>
+            <Card className="p-4 md:p-6 mb-2">
+                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 items-center">
+                    <Select onValueChange={setSelectedYear} value={selectedYear}>
+                        <SelectTrigger>
+                            <SelectValue placeholder="Year" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {availableYears.map(year => <SelectItem key={year} value={year}>{year}</SelectItem>)}
+                        </SelectContent>
+                    </Select>
+                    <Select onValueChange={setSelectedMonth} value={selectedMonth}>
+                        <SelectTrigger>
+                            <SelectValue placeholder="Month" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="all">All Months</SelectItem>
+                            {months.map(month => <SelectItem key={month} value={month}>{month}</SelectItem>)}
+                        </SelectContent>
+                    </Select>
+                     <Select onValueChange={setSelectedRegion} value={selectedRegion}>
+                        <SelectTrigger>
+                            <SelectValue placeholder="Region" />
+                        </SelectTrigger>
+                        <SelectContent>
+                             <SelectItem value="all">All Regions</SelectItem>
+                            {regions.map(region => <SelectItem key={region} value={region}>{region}</SelectItem>)}
+                        </SelectContent>
+                    </Select>
+                    <Select onValueChange={setSelectedEventType} value={selectedEventType}>
+                        <SelectTrigger>
+                            <SelectValue placeholder="Type" />
+                        </SelectTrigger>
+                        <SelectContent>
+                             <SelectItem value="all">All Types</SelectItem>
+                            {eventTypes.map(type => <SelectItem key={type} value={type}>{type}</SelectItem>)}
+                        </SelectContent>
+                    </Select>
                 </div>
             </Card>
 

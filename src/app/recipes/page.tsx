@@ -89,13 +89,13 @@ export default function RecipesPage() {
     return (
         <div className="container mx-auto px-4 py-12">
             <div className="text-center mb-12">
-                <h1 className="font-headline text-4xl md:text-5xl font-bold">The Utsavs Recipe Library</h1>
-                <p className="mt-4 text-lg text-foreground/80 max-w-2xl mx-auto">
+                <h1 className="font-headline text-3xl md:text-5xl font-bold">The Utsavs Recipe Library</h1>
+                <p className="mt-3 text-base md:text-lg text-foreground/80 max-w-2xl mx-auto">
                     Savor the authentic tastes of India. Find traditional, easy-to-follow recipes for every festival and region, from Diwali sweets to Onam feasts.
                 </p>
             </div>
 
-            <Card className="p-6 mb-12">
+            <Card className="p-4 md:p-6 mb-12">
                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 items-center">
                     <div className="relative w-full lg:col-span-2">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
@@ -157,13 +157,13 @@ export default function RecipesPage() {
                             </div>
                         </Link>
                         <CardHeader className="p-3 md:p-4">
-                            <CardTitle className="font-headline text-base md:text-xl">
+                            <CardTitle className="font-headline text-lg md:text-xl">
                                 <Link href={recipe.link}>{recipe.name}</Link>
                             </CardTitle>
                             <p className="text-xs md:text-sm text-primary font-semibold">{recipe.festival} | {recipe.region}</p>
                         </CardHeader>
                         <CardContent className="p-3 pt-0 md:p-4 md:pt-0 flex flex-col flex-grow">
-                            <p className="text-xs text-foreground/70 flex-grow mb-3">{recipe.description}</p>
+                            <p className="text-sm text-foreground/70 flex-grow mb-3">{recipe.description}</p>
                              <Link href={recipe.link} className="mt-auto">
                                 <Button variant="secondary" className="w-full h-8 text-xs md:h-9 md:text-sm">View Recipe</Button>
                             </Link>
