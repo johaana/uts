@@ -96,30 +96,30 @@ function FestivalsPageContent() {
                 </div>
             </Card>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8">
                 {filteredAndSortedFestivals.length > 0 ? filteredAndSortedFestivals.map((festival) => (
-                    <Card key={festival.name} className="overflow-hidden group flex flex-col transition-all duration-300 hover:shadow-2xl hover:-translate-y-2">
+                    <Card key={festival.name} className="overflow-hidden group flex flex-col transition-all duration-300 hover:shadow-lg hover:scale-105">
                          <Link href={festival.link} className="block">
-                            <div className="relative h-64 w-full bg-black/5 overflow-hidden">
+                            <div className="relative h-40 md:h-56 w-full bg-black/5 overflow-hidden">
                             <Image src={festival.image} alt={festival.name} layout="fill" objectFit="cover" data-ai-hint={festival.hint} className="transition-transform duration-500 ease-in-out group-hover:scale-110"/>
                             <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
-                             <div className="absolute bottom-4 left-6 right-6">
-                                <p className="text-sm text-white/80 font-semibold mb-1">{festival.region}</p>
-                                <h2 className="font-headline text-2xl font-bold text-white drop-shadow-md">{festival.name}</h2>
+                             <div className="absolute bottom-2 left-3 right-3 md:bottom-4 md:left-6 md:right-6">
+                                <p className="text-xs md:text-sm text-white/80 font-semibold mb-1">{festival.region}</p>
+                                <h2 className="font-headline text-lg md:text-2xl font-bold text-white drop-shadow-md leading-tight">{festival.name}</h2>
                              </div>
                             </div>
                         </Link>
-                        <CardContent className="p-6 flex flex-col flex-grow">
-                            <p className="text-foreground/70 mb-4 flex-grow">{festival.description}</p>
+                        <CardContent className="p-3 md:p-6 flex flex-col flex-grow">
+                            <p className="text-xs md:text-sm text-foreground/70 mb-3 flex-grow">{festival.description}</p>
                             <Link href={festival.link}>
-                                <Button variant="link" className="p-0 text-accent hover:text-accent/90 font-bold">
-                                    Explore Festival <ArrowRight className="ml-1 h-4 w-4" />
+                                <Button variant="link" className="p-0 text-accent hover:text-accent/90 font-bold text-sm">
+                                    Explore <ArrowRight className="ml-1 h-3 w-3" />
                                 </Button>
                             </Link>
                         </CardContent>
                     </Card>
                 )) : (
-                    <p className="text-center md:col-span-3">No festivals found matching your criteria.</p>
+                    <p className="text-center col-span-full">No festivals found matching your criteria.</p>
                 )}
             </div>
         </div>
