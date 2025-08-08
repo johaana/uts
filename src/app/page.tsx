@@ -50,10 +50,10 @@ function FestivalOfTheMonth() {
 export default function Home() {
   return (
     <div className="flex flex-col">
-       <section className="relative text-center bg-cover bg-center" style={{minHeight: '50vh'}}>
+       <section className="relative text-center bg-cover bg-center min-h-[40vh] md:min-h-[50vh]">
         <div className="absolute inset-0 bg-black/60"></div>
          <Image src="https://i.postimg.cc/rmVJnj2w/Pushkar-Camel-Fair.avif" layout="fill" objectFit="cover" alt="Pushkar Camel Fair" priority />
-        <div className="container mx-auto px-4 relative z-10 flex flex-col items-center justify-center h-full" style={{minHeight: '50vh'}}>
+        <div className="container mx-auto px-4 relative z-10 flex flex-col items-center justify-center h-full min-h-[40vh] md:min-h-[50vh]">
           <h1 className="font-headline text-4xl md:text-7xl font-bold text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] max-w-4xl mx-auto">Your Definitive Guide to Indian Festivals</h1>
           <p className="mt-6 text-base md:text-xl text-white/90 drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] max-w-3xl mx-auto">
             Immerse yourself in the soul of India's vibrant celebrations. Discover authentic rituals, explore fascinating stories, and cook traditional recipes for every festival.
