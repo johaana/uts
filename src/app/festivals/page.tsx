@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { useState, useMemo, Suspense } from 'react';
@@ -96,9 +97,9 @@ function FestivalsPageContent() {
                 </div>
             </Card>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8">
                 {filteredAndSortedFestivals.length > 0 ? filteredAndSortedFestivals.map((festival) => (
-                    <Card key={festival.name} className="overflow-hidden group flex flex-col">
+                    <Card key={festival.name} className="overflow-hidden group flex flex-col transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-xl">
                          <Link href={festival.link} className="block">
                             <div className="relative h-40 md:h-56 w-full bg-black/5">
                             <Image src={festival.image} alt={festival.name} layout="fill" objectFit="cover" data-ai-hint={festival.hint}/>

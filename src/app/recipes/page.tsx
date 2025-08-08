@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { useState, useMemo } from 'react';
@@ -146,9 +147,9 @@ export default function RecipesPage() {
                 </div>
             </Card>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
                 {filteredAndSortedRecipes.length > 0 ? filteredAndSortedRecipes.map((recipe) => (
-                    <Card key={recipe.name} className="overflow-hidden group flex flex-col">
+                    <Card key={recipe.name} className="overflow-hidden group flex flex-col transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-xl">
                         <Link href={recipe.link} className="block">
                             <div className="relative h-40 md:h-56 w-full bg-black/5">
                             <Image src={recipe.image} alt={recipe.name} layout="fill" objectFit="cover" data-ai-hint={recipe.hint}/>
