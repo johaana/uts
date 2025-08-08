@@ -103,8 +103,8 @@ export function UpcomingFestivalsCarousel() {
                     </CarouselItem>
                 ))}
             </CarouselContent>
-            <CarouselPrevious className="hidden md:flex" />
-            <CarouselNext className="hidden md:flex" />
+            <CarouselPrevious className="absolute -left-4" />
+            <CarouselNext className="absolute -right-4" />
         </Carousel>
     );
 }

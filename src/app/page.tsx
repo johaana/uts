@@ -55,12 +55,12 @@ export default function Home() {
         <div className="w-full aspect-[4/3] md:aspect-[16/7] lg:aspect-[21/9]">
            <Image src="https://i.postimg.cc/rmVJnj2w/Pushkar-Camel-Fair.avif" layout="fill" objectFit="cover" alt="Pushkar Camel Fair" priority data-ai-hint="pushkar camel fair" />
         </div>
-        <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center pt-20 lg:items-start lg:text-left lg:justify-end p-4 md:pt-4 lg:p-24 lg:pb-20">
-          <h1 className="font-headline text-5xl md:text-7xl font-bold text-white drop-shadow-[0_2px_2px_rgba(0,0,0,0.9)] max-w-4xl">Your Definitive Guide to Indian Festivals</h1>
-          <p className="mt-4 text-md md:text-lg text-white/90 drop-shadow-[0_2px_2px_rgba(0,0,0,0.7)] max-w-2xl">
+        <div className="absolute inset-0 z-20 flex flex-col items-center justify-end text-center md:items-start md:text-left p-4 md:p-6 lg:p-24 pb-12 lg:pb-20">
+          <h1 className="font-headline text-4xl md:text-7xl font-bold text-white drop-shadow-[0_2px_2px_rgba(0,0,0,0.9)] max-w-4xl">Your Definitive Guide to Indian Festivals</h1>
+          <p className="hidden md:block mt-4 text-md md:text-lg text-white/90 drop-shadow-[0_2px_2px_rgba(0,0,0,0.7)] max-w-2xl">
             Immerse yourself in the soul of India's vibrant celebrations. Discover authentic rituals, explore fascinating stories, and cook traditional recipes for every festival.
           </p>
-          <div className="mt-10">
+          <div className="mt-8">
             <Link href="/festivals">
               <Button variant="default" size="lg" className="text-base md:text-lg group transition-transform hover:scale-105">
                 Explore All Festivals <ArrowRight className="ml-2 transition-transform group-hover:translate-x-1" />
