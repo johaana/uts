@@ -48,7 +48,7 @@ function FestivalsPageContent() {
 
 
     return (
-        <div className="container mx-auto px-4 py-12">
+        <div className="container mx-auto px-4 py-12 md:py-16">
             <div className="text-center mb-12">
                 <h1 className="font-headline text-3xl md:text-5xl font-bold">Discover Indian Festivals</h1>
                 <p className="mt-3 text-base md:text-lg text-foreground/80 max-w-2xl mx-auto">
@@ -99,7 +99,7 @@ function FestivalsPageContent() {
 
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8">
                 {filteredAndSortedFestivals.length > 0 ? filteredAndSortedFestivals.map((festival) => (
-                    <Card key={festival.name} className="overflow-hidden group flex flex-col transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-xl">
+                    <Card key={festival.name} className="overflow-hidden group flex flex-col transition-transform duration-300 ease-in-out hover:scale-105 hover:-translate-y-1 hover:shadow-xl">
                          <Link href={festival.link} className="block">
                             <div className="relative h-40 md:h-56 w-full bg-black/5">
                             <Image src={festival.image} alt={festival.name} layout="fill" objectFit="cover" data-ai-hint={festival.hint}/>
