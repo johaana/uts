@@ -18,13 +18,13 @@ const months = ["January", "February", "March", "April", "May", "June", "July", 
 const regions = ["Nationwide", "North", "South", "East", "West", "Northeast", "Central"];
 const eventTypes = ["Festivals", "Holidays", "Long Weekends"];
 
-const availableYears = ['Upcoming (1 year)', '2025', '2026'];
+const availableYears = ['Upcoming', '2025', '2026'];
 
 export function FestivalCalendar() {
     const [selectedMonth, setSelectedMonth] = useState('all');
     const [selectedRegion, setSelectedRegion] = useState('all');
     const [selectedEventType, setSelectedEventType] = useState('all');
-    const [selectedYear, setSelectedYear] = useState('Upcoming (1 year)');
+    const [selectedYear, setSelectedYear] = useState('Upcoming');
     
 
     const getEventDateRange = (dateString: string): { start: Date, end: Date } | null => {
@@ -60,7 +60,7 @@ export function FestivalCalendar() {
             const range = getEventDateRange(event.date);
             if (!range) return false;
 
-            if (selectedYear === 'Upcoming (1 year)') {
+            if (selectedYear === 'Upcoming') {
                 const oneYearFromNow = endOfDay(addDays(today, 365));
                 return range.end >= today && isWithinInterval(range.start, { start: today, end: oneYearFromNow });
             }
@@ -205,10 +205,10 @@ export function FestivalCalendar() {
 
             {/* Desktop Table */}
             <div className="hidden md:block">
-                <Card>
-                    <CardContent className="p-0">
-                        <Table>
-                            <TableHeader>
+                <Card className="h-[60vh] flex flex-col">
+                    <div className="flex-shrink-0">
+                         <Table>
+                            <TableHeader className="sticky top-0 bg-background z-10">
                                 <TableRow>
                                     <TableHead className="w-[250px] text-primary">Date</TableHead>
                                     <TableHead className="text-primary">Name</TableHead>
@@ -217,11 +217,15 @@ export function FestivalCalendar() {
                                     <TableHead className="text-right text-primary">Details</TableHead>
                                 </TableRow>
                             </TableHeader>
+                         </Table>
+                    </div>
+                    <div className="overflow-y-auto flex-grow">
+                        <Table>
                             <TableBody>
                                 {filteredEvents.length > 0 ? (
                                     filteredEvents.map((event, index) => (
                                         <TableRow key={event.name + event.date + index}>
-                                            <TableCell className="font-medium">{formatDateString(event.date)}</TableCell>
+                                            <TableCell className="w-[250px] font-medium">{formatDateString(event.date)}</TableCell>
                                             <TableCell className="flex items-center gap-2">
                                                 {renderEventName(event.name)}
                                                 {event.longWeekend && <Star className="w-4 h-4 text-amber-500 fill-amber-500" />}
@@ -239,7 +243,7 @@ export function FestivalCalendar() {
                                                             <ArrowRight className="h-4 w-4" />
                                                         </Button>
                                                     </Link>
-                                                ) : <div />}
+                                                ) : <div className="h-10 w-10"/>}
                                             </TableCell>
                                         </TableRow>
                                     ))
@@ -252,12 +256,12 @@ export function FestivalCalendar() {
                                 )}
                             </TableBody>
                         </Table>
-                    </CardContent>
+                    </div>
                 </Card>
             </div>
 
              {/* Mobile Card List */}
-            <div className="md:hidden space-y-4">
+            <div className="md:hidden space-y-4 h-[70vh] overflow-y-auto pr-2">
                  {filteredEvents.length > 0 ? (
                     filteredEvents.map((event, index) => (
                         <Card key={event.name + event.date + index} className="p-4">
