@@ -96,6 +96,15 @@
     @apply float-left text-7xl font-bold font-headline text-primary mr-4 leading-[0.8];
   }
 
+  /* Improved Prose Readability */
+  .prose {
+    @apply leading-relaxed;
+  }
+  .prose ul li, .prose ol li {
+    @apply my-2;
+  }
+
+
   /* Magazine-style blockquote */
   .prose blockquote {
     @apply border-l-4 border-accent bg-secondary/30 p-4 my-8 italic;

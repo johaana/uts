@@ -9,8 +9,8 @@ export default function KarvaChauthPage() {
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-pink-500/10">
                 <div className="relative text-center text-primary-foreground z-10 p-4">
-                    <h1 className="font-headline text-5xl md:text-7xl font-bold text-pink-900 drop-shadow-lg">Karva Chauth</h1>
-                    <p className="text-xl md:text-2xl mt-4 text-pink-800/90 drop-shadow-md">A Festival of Love and Devotion</p>
+                    <h1 className="font-headline text-4xl md:text-5xl lg:text-7xl font-bold text-pink-900 drop-shadow-lg">Karva Chauth</h1>
+                    <p className="text-lg md:text-xl lg:text-2xl mt-4 text-pink-800/90 drop-shadow-md">A Festival of Love and Devotion</p>
                 </div>
             </section>
             
@@ -26,15 +26,15 @@ export default function KarvaChauthPage() {
 
                             <TabsContent value="overview">
                                  <div className="flex flex-col md:flex-row gap-8 items-center">
-                                    <div className="md:w-2/3">
+                                    <div className="md:order-2 md:w-1/3">
+                                        <Image src="https://i.postimg.cc/k500G1RW/karva-chauth.webp" alt="Karva Chauth Puja" width={400} height={400} className="rounded-lg shadow-lg w-full" data-ai-hint="karva chauth puja"/>
+                                    </div>
+                                    <div className="md:order-1 md:w-2/3">
                                         <h2 className="font-headline text-3xl font-bold mb-4">The Day-long Fast</h2>
                                         <div className="space-y-4 text-foreground/80 prose max-w-none">
                                             <p>Karva Chauth is a traditional Hindu festival celebrated primarily in North India, where married women observe a day-long fast, from sunrise to moonrise, for the safety, prosperity, and long life of their husbands. The festival is a beautiful testament to love, sacrifice, and the sacred bond of marriage. In modern times, it has also become a symbol of mutual love and respect, with many husbands also observing the fast alongside their wives.</p>
                                             <p>The name itself is significant: 'Karva' refers to the earthen pot through which water is offered to the moon, and 'Chauth' means the fourth day, as it falls on the fourth day after the full moon in the Hindu month of Kartik.</p>
                                         </div>
-                                    </div>
-                                    <div className="md:w-1/3">
-                                        <Image src="https://i.postimg.cc/k500G1RW/karva-chauth.webp" alt="Karva Chauth Puja" width={400} height={400} className="rounded-lg shadow-lg" data-ai-hint="karva chauth puja"/>
                                     </div>
                                 </div>
                             </TabsContent>

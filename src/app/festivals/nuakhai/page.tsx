@@ -9,8 +9,8 @@ export default function NuakhaiPage() {
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-green-700/10">
                 <div className="relative text-center text-primary-foreground z-10 p-4">
-                    <h1 className="font-headline text-5xl md:text-7xl font-bold text-green-900 drop-shadow-lg">Nuakhai</h1>
-                    <p className="text-xl md:text-2xl mt-4 text-green-800/90 drop-shadow-md">The Harvest Festival of Western Odisha</p>
+                    <h1 className="font-headline text-4xl md:text-5xl lg:text-7xl font-bold text-green-900 drop-shadow-lg">Nuakhai</h1>
+                    <p className="text-lg md:text-xl lg:text-2xl mt-4 text-green-800/90 drop-shadow-md">The Harvest Festival of Western Odisha</p>
                 </div>
             </section>
             
@@ -25,15 +25,15 @@ export default function NuakhaiPage() {
 
                             <TabsContent value="overview">
                                  <div className="flex flex-col md:flex-row gap-8 items-center">
-                                    <div className="md:w-2/3">
+                                    <div className="md:order-2 md:w-1/3">
+                                        <Image src="https://i.postimg.cc/zGMM2tj4/nuakhai.avif" alt="Nuakhai Festival" width={400} height={400} className="rounded-lg shadow-lg w-full" data-ai-hint="odisha festival"/>
+                                    </div>
+                                    <div className="md:order-1 md:w-2/3">
                                         <h2 className="font-headline text-3xl font-bold mb-4">Welcoming the New Rice</h2>
                                         <div className="space-y-4 text-foreground/80 prose max-w-none">
                                             <p>Nuakhai, which translates to 'new food', is a major agricultural festival in Western Odisha. It is the equivalent of Baisakhi for Punjabis and is celebrated to welcome the new rice of the season. The festival is a time of thanksgiving to the deities and ancestors for the harvest and to pray for prosperity.</p>
                                             <p>It is believed to have started in the 20th century under Maharaja Fatenarayan Deo and typically falls in August or September. Nuakhai is a festival that reinforces family and social bonds, with people returning to their native villages to celebrate with their families.</p>
                                         </div>
-                                    </div>
-                                    <div className="md:w-1/3">
-                                        <Image src="https://i.postimg.cc/zGMM2tj4/nuakhai.avif" alt="Nuakhai Festival" width={400} height={400} className="rounded-lg shadow-lg" data-ai-hint="odisha festival"/>
                                     </div>
                                 </div>
                             </TabsContent>

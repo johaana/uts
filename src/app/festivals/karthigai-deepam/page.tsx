@@ -9,8 +9,8 @@ export default function KarthigaiDeepamPage() {
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-amber-500/10">
                 <div className="relative text-center text-primary-foreground z-10 p-4">
-                    <h1 className="font-headline text-5xl md:text-7xl font-bold text-amber-900 drop-shadow-lg">Karthigai Deepam</h1>
-                    <p className="text-xl md:text-2xl mt-4 text-amber-800/90 drop-shadow-md">The Tamil Festival of Lights</p>
+                    <h1 className="font-headline text-4xl md:text-5xl lg:text-7xl font-bold text-amber-900 drop-shadow-lg">Karthigai Deepam</h1>
+                    <p className="text-lg md:text-xl lg:text-2xl mt-4 text-amber-800/90 drop-shadow-md">The Tamil Festival of Lights</p>
                 </div>
             </section>
             
@@ -26,15 +26,15 @@ export default function KarthigaiDeepamPage() {
 
                             <TabsContent value="overview">
                                 <div className="flex flex-col md:flex-row gap-8 items-center">
-                                    <div className="md:w-2/3">
+                                    <div className="md:order-2 md:w-1/3">
+                                        <Image src="https://i.postimg.cc/Y26HGH30/karthigai-deepam.jpg" alt="Karthigai Deepam Lamps" width={400} height={400} className="rounded-lg shadow-lg w-full" data-ai-hint="diya lamps"/>
+                                    </div>
+                                    <div className="md:order-1 md:w-2/3">
                                         <h2 className="font-headline text-3xl font-bold mb-4">A Luminous Tradition</h2>
                                         <div className="space-y-4 text-foreground/80 prose max-w-none">
                                             <p>Karthigai Deepam is an ancient and significant festival of lights celebrated by Tamil Hindus. It falls in the Tamil month of Karthigai when the moon is in conjunction with the Karthigai star (Pleiades). The festival is a beautiful spectacle where millions of oil lamps (agal vilakkus) are lit in homes, on streets, and in temples, creating a divine and mesmerizing glow that dispels the darkness.</p>
                                             <p>The festival is particularly famous in Tiruvannamalai, where a massive fire lamp, known as the Mahadeepam, is lit atop the Annamalai hill, visible for miles around. It is a symbol of the cosmic light of Lord Shiva and is believed to bring immense blessings and prosperity.</p>
                                         </div>
-                                    </div>
-                                    <div className="md:w-1/3">
-                                        <Image src="https://i.postimg.cc/Y26HGH30/karthigai-deepam.jpg" alt="Karthigai Deepam Lamps" width={400} height={400} className="rounded-lg shadow-lg" data-ai-hint="diya lamps"/>
                                     </div>
                                 </div>
                             </TabsContent>

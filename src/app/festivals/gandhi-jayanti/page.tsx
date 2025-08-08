@@ -10,8 +10,8 @@ export default function GandhiJayantiPage() {
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-gray-100/20">
                 <div className="relative text-center z-10 p-4">
-                    <h1 className="font-headline text-5xl md:text-7xl font-bold text-primary shadow-lg">Gandhi Jayanti</h1>
-                    <p className="text-xl md:text-2xl mt-4 text-primary/90 shadow-md">Remembering the Father of the Nation</p>
+                    <h1 className="font-headline text-4xl md:text-5xl lg:text-7xl font-bold text-primary shadow-lg">Gandhi Jayanti</h1>
+                    <p className="text-lg md:text-xl lg:text-2xl mt-4 text-primary/90 shadow-md">Remembering the Father of the Nation</p>
                 </div>
             </section>
             
@@ -27,14 +27,14 @@ export default function GandhiJayantiPage() {
 
                             <TabsContent value="overview">
                                  <div className="flex flex-col md:flex-row gap-8 items-center">
-                                    <div className="md:w-2/3">
+                                    <div className="md:order-2 md:w-1/3">
+                                        <Image src="https://i.postimg.cc/bJ1Ktx1W/gandhi-jayanti.webp" alt="Mahatma Gandhi" width={400} height={400} className="rounded-lg shadow-lg w-full" data-ai-hint="mahatma gandhi"/>
+                                    </div>
+                                    <div className="md:order-1 md:w-2/3">
                                         <h2 className="font-headline text-3xl font-bold mb-4">A Tribute to the Mahatma</h2>
                                         <div className="space-y-4 text-foreground/80 prose max-w-none">
                                             <p>Gandhi Jayanti, celebrated annually on the 2nd of October, marks the birth anniversary of Mohandas Karamchand Gandhi, who is lovingly and respectfully known as Mahatma Gandhi, the 'Father of the Nation' in India. It is one of the three official national holidays of India and is observed with great reverence across the country. The day is not just a commemoration of a great leader's birth but a celebration of his life, his philosophy, and his enduring legacy. In a testament to the global impact of his ideals, the United Nations has also declared October 2nd as the International Day of Non-Violence, in honor of Gandhi's lifelong and successful struggle for freedom through peaceful and non-violent means.</p>
                                         </div>
-                                    </div>
-                                    <div className="md:w-1/3">
-                                        <Image src="https://i.postimg.cc/bJ1Ktx1W/gandhi-jayanti.webp" alt="Mahatma Gandhi" width={400} height={400} className="rounded-lg shadow-lg" data-ai-hint="mahatma gandhi"/>
                                     </div>
                                 </div>
                             </TabsContent>

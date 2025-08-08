@@ -10,8 +10,8 @@ export default function AnantChaturdashiPage() {
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-primary/10">
                 <div className="relative text-center text-primary-foreground z-10 p-4">
-                    <h1 className="font-headline text-5xl md:text-7xl font-bold text-primary shadow-lg">Anant Chaturdashi</h1>
-                    <p className="text-xl md:text-2xl mt-4 text-primary/90 shadow-md">The Grand Finale of Ganesh Chaturthi</p>
+                    <h1 className="font-headline text-4xl md:text-5xl lg:text-7xl font-bold text-primary shadow-lg">Anant Chaturdashi</h1>
+                    <p className="text-lg md:text-xl lg:text-2xl mt-4 text-primary/90 shadow-md">The Grand Finale of Ganesh Chaturthi</p>
                 </div>
             </section>
             
@@ -26,15 +26,15 @@ export default function AnantChaturdashiPage() {
 
                             <TabsContent value="overview">
                                 <div className="flex flex-col md:flex-row gap-8 items-center">
-                                    <div className="md:w-2/3">
+                                    <div className="md:order-2 md:w-1/3">
+                                        <Image src="https://i.postimg.cc/RVSjWnhp/anant-chaturdashi.jpg" alt="Ganesh Visarjan" width={400} height={400} className="rounded-lg shadow-lg w-full" data-ai-hint="ganesh visarjan"/>
+                                    </div>
+                                    <div className="md:order-1 md:w-2/3">
                                         <h2 className="font-headline text-3xl font-bold mb-4">A Day of Visarjan</h2>
                                         <div className="space-y-4 text-foreground/80 prose max-w-none">
                                             <p>Anant Chaturdashi, which falls on the 14th day of the bright half of the Bhadrapada month, is a significant day in the Hindu calendar. It is most famously known as the final day of the 10-day long Ganesh Chaturthi festival. On this day, the idols of Lord Ganesha that were installed in homes and public pandals are taken in grand processions for immersion, or 'visarjan', in a nearby body of water.</p>
                                             <p>The streets come alive with music, dance, and chants of "Ganpati Bappa Morya, Pudhchya Varshi Lavkar Ya" (O Lord Ganesha, come again soon next year). It's a vibrant and emotional farewell to the beloved deity, symbolizing his return to his celestial abode.</p>
                                         </div>
-                                    </div>
-                                    <div className="md:w-1/3">
-                                        <Image src="https://i.postimg.cc/RVSjWnhp/anant-chaturdashi.jpg" alt="Ganesh Visarjan" width={400} height={400} className="rounded-lg shadow-lg" data-ai-hint="ganesh visarjan"/>
                                     </div>
                                 </div>
                             </TabsContent>
