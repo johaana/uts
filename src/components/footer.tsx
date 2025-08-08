@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import Link from "next/link";
@@ -34,7 +35,7 @@ export function Footer() {
                 </p>
             </div>
 
-            <div className="lg:col-span-2">
+            <div className="lg:col-span-2 text-center md:text-left">
               <h3 className="font-bold mb-4 font-headline text-lg text-primary">Explore</h3>
               <ul className="space-y-3">
                 <li><Link href="/festivals" className="text-foreground/80 hover:text-primary">Festivals</Link></li>
@@ -45,18 +46,18 @@ export function Footer() {
               </ul>
             </div>
             
-            <div className="lg:col-span-3">
+            <div className="lg:col-span-3 text-center md:text-left">
               <h3 className="font-bold mb-4 font-headline text-lg text-primary">Contact</h3>
-                <a href="mailto:joy@utsavs.com" className="flex items-center gap-2 text-foreground/80 hover:text-primary">
+                <a href="mailto:joy@utsavs.com" className="inline-flex items-center gap-2 text-foreground/80 hover:text-primary">
                     <Mail className="w-4 h-4"/>
                     <span>joy@utsavs.com</span>
                 </a>
             </div>
 
-             <div className="md:col-span-2 lg:col-span-4">
+             <div className="md:col-span-2 lg:col-span-4 text-center md:text-left">
               <h3 className="font-bold mb-4 font-headline text-lg text-primary">Search Utsavs</h3>
               <p className="text-foreground/80 mb-4 text-sm">Looking for a specific festival or recipe? Find it here.</p>
-              <form className="flex gap-2 max-w-sm" onSubmit={handleSearch}>
+              <form className="flex gap-2 max-w-sm mx-auto md:mx-0" onSubmit={handleSearch}>
                 <Input name="search" type="search" placeholder="Search festivals..." className="bg-background"/>
                 <Button type="submit" size="icon" className="shrink-0">
                     <Search className="h-4 w-4"/>
