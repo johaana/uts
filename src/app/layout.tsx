@@ -6,6 +6,7 @@ import { Footer } from '@/components/footer';
 import { BackToTopButton } from '@/components/BackToTopButton';
 import { Playfair_Display, PT_Sans } from 'next/font/google'
 import Script from 'next/script';
+import { BottomNavBar } from '@/components/BottomNavBar';
 
 const playfair = Playfair_Display({
   subsets: ['latin'],
@@ -47,11 +48,12 @@ export default function RootLayout({
         />
       </head>
       <body className={`${playfair.variable} ${ptSans.variable} font-body antialiased`}>
-        <div className="flex min-h-screen flex-col">
+        <div className="flex min-h-screen flex-col pb-20 md:pb-0">
           <Header />
           <main className="flex-1">{children}</main>
           <Footer />
         </div>
+        <BottomNavBar />
         <BackToTopButton />
         <Toaster />
       </body>
