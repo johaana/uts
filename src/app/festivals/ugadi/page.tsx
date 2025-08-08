@@ -7,7 +7,6 @@ import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
 
 const recipes = [
-    { name: "Ugadi Pachadi", link: "#" },
     { name: "Puran Poli", link: "/recipes/puran-poli" },
     { name: "Payasam", link: "/recipes/payasam" },
 ]
@@ -26,7 +25,7 @@ export default function UgadiPage() {
             </section>
             
             <div className="container mx-auto px-4 py-12 -mt-24">
-                <Card className="mb-12">
+                <Card className="mb-12 overflow-hidden">
                     <CardContent className="p-6 md:p-10">
                         <Tabs defaultValue="overview">
                             <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 mb-6 h-auto">
@@ -72,6 +71,7 @@ export default function UgadiPage() {
 
                             <TabsContent value="recipes">
                                 <h2 className="font-headline text-3xl font-bold mb-4">Ugadi Feast</h2>
+                                 <p className="mb-6 text-foreground/80 prose max-w-none">The centerpiece of the Ugadi feast is the symbolic Ugadi Pachadi. Other sweets are also prepared.</p>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                                     {recipes.map(recipe => (
                                         <Link href={recipe.link || "#"} key={recipe.name}>

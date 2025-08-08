@@ -7,7 +7,6 @@ import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
 
 const recipes = [
-    { name: "Lemon Rice", link: "#" },
     { name: "Sweet Pongal", link: "/recipes/sakkarai-pongal" },
     { name: "Payasam", link: "/recipes/payasam" },
 ]
@@ -23,7 +22,7 @@ export default function AkshayaTritiyaPage() {
             </section>
             
             <div className="container mx-auto px-4 py-12 -mt-24">
-                <Card className="mb-12">
+                <Card className="mb-12 overflow-hidden">
                     <CardContent className="p-6 md:p-10">
                         <Tabs defaultValue="overview">
                             <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 mb-6 h-auto">
