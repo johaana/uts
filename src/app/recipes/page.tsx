@@ -157,7 +157,7 @@ export default function RecipesPage() {
                             </div>
                         </Link>
                         <CardHeader className="p-3 md:p-4">
-                            <CardTitle className="font-headline text-base md:text-xl h-12">
+                            <CardTitle className="font-headline text-base md:text-xl">
                                 <Link href={recipe.link}>{recipe.name}</Link>
                             </CardTitle>
                             <p className="text-xs md:text-sm text-primary font-semibold">{recipe.festival} | {recipe.region}</p>

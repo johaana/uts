@@ -40,17 +40,15 @@ export default function BlogPage() {
             <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
                 {blogPosts.map((post) => (
                     <Card key={post.slug} className="overflow-hidden group flex flex-col transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-xl">
-                        <div className="relative h-40 md:h-64 w-full bg-black/5">
+                        <div className="relative h-40 md:h-56 w-full bg-black/5">
                            <Image src={post.image} alt={post.title} layout="fill" objectFit="cover" data-ai-hint={post.hint}/>
                         </div>
-                        <CardHeader className="p-3 md:p-4">
-                            <CardTitle className="font-headline text-base md:text-xl h-14 md:h-16">{post.title}</CardTitle>
-                            <p className="text-xs md:text-sm text-muted-foreground">By {post.author} on {post.date}</p>
+                        <CardHeader className="p-3 md:p-4 flex-grow">
+                            <CardTitle className="font-headline text-base md:text-xl">{post.title}</CardTitle>
+                             <p className="text-xs text-muted-foreground pt-1">By {post.author} on {post.date}</p>
                         </CardHeader>
-                        <CardContent className="p-3 pt-0 md:p-4 md:pt-0 flex-grow">
-                            <p className="text-xs md:text-sm text-foreground/80">{post.excerpt}</p>
-                        </CardContent>
                         <CardContent className="p-3 pt-0 md:p-4 md:pt-0">
+                            <p className="text-xs md:text-sm text-foreground/80 mb-4">{post.excerpt}</p>
                             <Link href={`/blog/${post.slug}`}>
                                 <Button variant="link" className="p-0 text-accent hover:text-accent/90">
                                     Read More <ArrowRight className="ml-1 h-4 w-4" />

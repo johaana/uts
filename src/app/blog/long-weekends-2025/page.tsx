@@ -10,27 +10,21 @@ export default function SingleBlogPage() {
     const title = "Maximize Your Vacations: Your Ultimate Guide to India's Long Weekends in 2025";
     return (
         <div className="container mx-auto px-4 py-12">
-            <Card className="overflow-hidden">
-                <CardContent className="p-0 md:p-6 md:p-10">
-                    <div className="md:hidden relative h-64 w-full mb-8">
-                        <Image src="https://i.postimg.cc/VLQf0kKF/long-weekend-1.jpg" alt="Woman enjoying a scenic view on a long weekend trip" layout="fill" objectFit="cover" data-ai-hint="scenic view trip"/>
+            <div className="relative h-64 md:h-96 w-full mb-8">
+                <Image src="https://i.postimg.cc/VLQf0kKF/long-weekend-1.jpg" alt="Woman enjoying a scenic view on a long weekend trip" layout="fill" objectFit="cover" data-ai-hint="scenic view trip" className="rounded-lg"/>
+            </div>
+            <Card className="overflow-hidden md:-mt-16 relative z-10 md:rounded-t-2xl">
+                <CardContent className="p-6 md:p-10">
+                    <div className="mb-8">
+                        <Link href="/blog">
+                            <Button variant="outline"><ArrowLeft className="mr-2 h-4 w-4" />Back to Blog</Button>
+                        </Link>
                     </div>
-                     <div className="p-6 md:p-0">
-                        <div className="mb-8">
-                            <Link href="/blog">
-                                <Button variant="outline"><ArrowLeft className="mr-2 h-4 w-4" />Back to Blog</Button>
-                            </Link>
-                        </div>
-                     </div>
 
-                    <article className="prose max-w-none text-foreground/80 p-6 pt-0 md:p-0">
+                    <article className="prose max-w-none text-foreground/80">
                          <div className="text-center mb-8">
                             <p className="text-sm text-muted-foreground">By Team Utsavs on January 18, 2025</p>
                             <h1 className="font-headline text-4xl font-bold text-primary mt-2">{title}</h1>
-                        </div>
-
-                         <div className="hidden md:block relative h-96 w-full mb-8">
-                            <Image src="https://i.postimg.cc/VLQf0kKF/long-weekend-1.jpg" alt="Woman enjoying a scenic view on a long weekend trip" layout="fill" objectFit="contain" data-ai-hint="scenic view trip"/>
                         </div>
 
                         <p>The year 2025 is a treasure trove for savvy travelers, packed with numerous long weekends just waiting to be claimed. By strategically planning your leaves around India's rich calendar of festivals and holidays, you can transform a few days off into a truly memorable escape. This is your ultimate 2025 long weekend planner, designed to help you maximize your vacation time and immerse yourself in the cultural heartbeat of India. Get ready to pack your bags and explore!</p>
@@ -88,9 +82,7 @@ export default function SingleBlogPage() {
                         
                         <p>With a little planning, 2025 can be your most travel-filled year yet. Use this guide to chart your adventures, book your tickets early, and get ready to create lasting memories. Happy travels!</p>
                     </article>
-                    <div className="p-6 md:p-0">
-                        <ShareButtons title={title} />
-                    </div>
+                    <ShareButtons title={title} />
                 </CardContent>
             </Card>
         </div>

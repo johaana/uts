@@ -10,27 +10,21 @@ export default function SingleBlogPage() {
     const title = "Sula Fest: India's Premier Vineyard Music Festival";
     return (
         <div className="container mx-auto px-4 py-12">
-            <Card className="overflow-hidden">
-                <CardContent className="p-0 md:p-6 md:p-10">
-                     <div className="md:hidden relative h-64 w-full mb-8">
-                        <Image src="https://i.postimg.cc/Gpm0Ykgv/sula-fest-1.jpg" alt="Sula Fest" layout="fill" objectFit="cover" data-ai-hint="sula vineyards" />
+            <div className="relative h-64 md:h-96 w-full mb-8">
+                <Image src="https://i.postimg.cc/Gpm0Ykgv/sula-fest-1.jpg" alt="Sula Fest" layout="fill" objectFit="cover" data-ai-hint="sula vineyards" className="rounded-lg"/>
+            </div>
+            <Card className="overflow-hidden md:-mt-16 relative z-10 md:rounded-t-2xl">
+                <CardContent className="p-6 md:p-10">
+                    <div className="mb-8">
+                        <Link href="/blog">
+                            <Button variant="outline"><ArrowLeft className="mr-2 h-4 w-4" />Back to Blog</Button>
+                        </Link>
                     </div>
-                     <div className="p-6 md:p-0">
-                        <div className="mb-8">
-                            <Link href="/blog">
-                                <Button variant="outline"><ArrowLeft className="mr-2 h-4 w-4" />Back to Blog</Button>
-                            </Link>
-                        </div>
-                     </div>
 
-                    <article className="prose max-w-none text-foreground/80 p-6 pt-0 md:p-0">
+                    <article className="prose max-w-none text-foreground/80">
                          <div className="text-center mb-8">
                             <p className="text-sm text-muted-foreground">By Team Utsavs on June 02, 2025</p>
                             <h1 className="font-headline text-4xl font-bold text-primary mt-2">{title}</h1>
-                        </div>
-
-                         <div className="hidden md:block relative h-96 w-full mb-8">
-                            <Image src="https://i.postimg.cc/Gpm0Ykgv/sula-fest-1.jpg" alt="Sula Fest" layout="fill" objectFit="contain" data-ai-hint="sula vineyards" className="rounded-lg"/>
                         </div>
 
                         <h2>Where Wine, Music, and Culture Converge</h2>
@@ -50,9 +44,7 @@ export default function SingleBlogPage() {
                         
                         <p>Sula Fest provides a relaxed, vibrant, and sophisticated atmosphere, making it a unique and sought-after event in India's festival calendar. It's a celebration of the good life, combining great music with the pleasures of food and wine.</p>
                     </article>
-                    <div className="p-6 md:p-0">
-                        <ShareButtons title={title} />
-                    </div>
+                    <ShareButtons title={title} />
                 </CardContent>
             </Card>
         </div>
