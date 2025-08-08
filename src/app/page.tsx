@@ -51,19 +51,19 @@ export default function Home() {
   return (
     <div className="flex flex-col">
        <section className="relative w-full">
-        <div className="absolute inset-0 bg-black/60 z-10"></div>
+        <div className="absolute inset-0 bg-black/50 z-10"></div>
         <div className="w-full aspect-[4/3] md:aspect-[16/7] lg:aspect-[18/7]">
            <Image src="https://i.postimg.cc/rmVJnj2w/Pushkar-Camel-Fair.avif" layout="fill" objectFit="cover" alt="Pushkar Camel Fair" priority data-ai-hint="pushkar camel fair" />
         </div>
         <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center p-4">
-          <h1 className="font-headline text-3xl md:text-5xl font-bold text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] max-w-4xl">Your Definitive Guide to Indian Festivals</h1>
-          <p className="mt-6 text-base md:text-xl text-white/90 drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] max-w-3xl">
+          <h1 className="font-headline text-3xl md:text-5xl font-bold text-white drop-shadow-[0_2px_2px_rgba(0,0,0,0.9)] p-4 rounded-lg bg-black/20 backdrop-blur-sm max-w-4xl">Your Definitive Guide to Indian Festivals</h1>
+          <p className="mt-4 text-base md:text-xl text-white/90 drop-shadow-[0_2px_2px_rgba(0,0,0,0.7)] max-w-3xl">
             Immerse yourself in the soul of India's vibrant celebrations. Discover authentic rituals, explore fascinating stories, and cook traditional recipes for every festival.
           </p>
-          <div className="mt-8">
+          <div className="mt-10">
             <Link href="/festivals">
-              <Button variant="default" size="lg" className="text-base md:text-lg">
-                Explore All Festivals <ArrowRight className="ml-2" />
+              <Button variant="default" size="lg" className="text-base md:text-lg group transition-transform hover:scale-105">
+                Explore All Festivals <ArrowRight className="ml-2 transition-transform group-hover:translate-x-1" />
               </Button>
             </Link>
           </div>
