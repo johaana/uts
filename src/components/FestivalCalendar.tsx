@@ -258,7 +258,7 @@ export function FestivalCalendar() {
             </div>
 
              {/* Mobile Card List */}
-            <div className="md:hidden space-y-4 h-[70vh] overflow-y-auto pr-2">
+            <div className="md:hidden space-y-4 h-[50vh] overflow-y-auto pr-2">
                  {filteredEvents.length > 0 ? (
                     filteredEvents.map((event, index) => (
                         <Card key={event.name + event.date + index} className="p-4">
