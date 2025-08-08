@@ -55,7 +55,7 @@ export default function Home() {
         <div className="w-full aspect-[4/3] md:aspect-[16/7] lg:aspect-[18/7]">
            <Image src="https://i.postimg.cc/rmVJnj2w/Pushkar-Camel-Fair.avif" layout="fill" objectFit="cover" alt="Pushkar Camel Fair" priority data-ai-hint="pushkar camel fair" />
         </div>
-        <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center lg:items-start lg:text-left lg:justify-end p-4 lg:p-24 lg:pb-32">
+        <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center lg:items-start lg:text-left lg:justify-end p-4 pt-20 md:pt-4 lg:p-24 lg:pb-32">
           <h1 className="font-headline text-5xl md:text-7xl font-bold text-white drop-shadow-[0_2px_2px_rgba(0,0,0,0.9)] max-w-4xl">Your Definitive Guide to Indian Festivals</h1>
           <p className="mt-4 text-md md:text-lg text-white/90 drop-shadow-[0_2px_2px_rgba(0,0,0,0.7)] max-w-2xl">
             Immerse yourself in the soul of India's vibrant celebrations. Discover authentic rituals, explore fascinating stories, and cook traditional recipes for every festival.
