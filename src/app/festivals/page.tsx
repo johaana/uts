@@ -88,7 +88,7 @@ function FestivalsPageContent() {
                             ))}
                         </SelectContent>
                     </Select>
-                    <div className="col-span-full flex justify-end">
+                    <div className="md:col-span-full flex justify-end mt-2 md:mt-0">
                          <Button variant="ghost" onClick={resetFilters}>
                             <RotateCcw className="mr-2 h-4 w-4" />
                             Reset Filters

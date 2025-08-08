@@ -156,7 +156,7 @@ export function FestivalCalendar() {
             </div>
             
             <Card className="p-4 md:p-6 mb-2">
-                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 items-center">
+                 <div className="grid grid-cols-2 sm:grid-cols-2 gap-4 items-center md:grid-cols-4">
                     <Select onValueChange={setSelectedYear} value={selectedYear}>
                         <SelectTrigger>
                             <SelectValue placeholder="Year" />
