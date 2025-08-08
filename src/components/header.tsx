@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import Link from "next/link";
@@ -32,7 +33,8 @@ export function Header() {
   return (
     <header 
       className={cn(
-        "bg-background/80 backdrop-blur-sm border-b sticky top-0 z-50 transition-all duration-300"
+        "bg-background/80 backdrop-blur-sm border-b sticky top-0 z-50 transition-all duration-300",
+        isScrolled ? "py-0" : "py-2"
       )}
     >
       <div className="container mx-auto flex flex-col px-4">
