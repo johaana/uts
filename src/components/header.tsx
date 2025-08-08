@@ -37,76 +37,104 @@ export function Header() {
         isScrolled ? "py-0" : "py-2"
       )}
     >
-      <div className="container mx-auto flex flex-col px-4">
-        <div className="flex items-center justify-between w-full h-16">
-          <div className="flex items-center justify-start flex-1 md:flex-none">
-              <Link href="/" className="flex items-center gap-2 py-1">
-                  <Image 
-                    src="https://i.postimg.cc/vZTZ0Br5/utsavs-logo.png" 
-                    alt="Utsavs Logo" 
-                    width={72}
-                    height={72}
-                    className="transition-all duration-300"
-                  />
+      <div className="container mx-auto flex items-center justify-between h-16 px-4">
+        
+        {/* Mobile Nav Trigger */}
+        <div className="flex-1 md:hidden">
+          <Sheet open={isOpen} onOpenChange={setIsOpen}>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon">
+                <Menu />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="left">
+              <Link href="/" className="mb-8" onClick={() => setIsOpen(false)}>
+                <Image 
+                  src="https://i.postimg.cc/vZTZ0Br5/utsavs-logo.png" 
+                  alt="Utsavs Logo" 
+                  width={80}
+                  height={80}
+                />
               </Link>
-          </div>
-          
-          <div className="flex justify-end items-center flex-1 md:flex-none">
-              <Link href="/planner">
-                  <Button 
-                    size="sm"
+              <nav className="flex flex-col gap-4">
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setIsOpen(false)}
                     className={cn(
-                      "bg-blue-600 hover:bg-blue-700 text-white font-bold tracking-wide uppercase shadow-lg hover:shadow-blue-500/50 rounded-full px-4 hover:scale-105 transition-all duration-300 py-1"
+                      "text-lg font-medium transition-colors hover:text-primary",
+                      pathname.startsWith(link.href) ? "text-primary" : "text-foreground"
                     )}
                   >
-                      AI Holiday Planner
-                  </Button>
-              </Link>
-          </div>
+                    {link.label}
+                  </Link>
+                ))}
+              </nav>
+            </SheetContent>
+          </Sheet>
         </div>
-        
-        <nav className="flex md:hidden items-center justify-around w-full border-t">
-          {navLinks.map((link) => (
-          <Link
-            key={link.href}
-            href={link.href}
-            className={cn(
-              "text-sm font-medium transition-colors hover:text-primary relative py-2 group flex-1 text-center",
-              pathname.startsWith(link.href) ? "text-primary font-bold" : "text-foreground/80"
-            )}
-          >
-            {link.label}
-            <span
-              className={cn(
-                "absolute bottom-0 left-0 w-full h-0.5 bg-accent transform scale-x-0 origin-center transition-transform duration-300 ease-in-out group-hover:scale-x-100",
-                { "scale-x-100": pathname.startsWith(link.href) }
-              )}
-            />
-          </Link>
-        ))}
-      </nav>
 
-      <nav className="hidden md:flex flex-1 justify-center items-center gap-8 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-            {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={cn(
-                "text-base font-medium transition-colors hover:text-primary relative py-2 group",
-                pathname.startsWith(link.href) ? "text-primary font-bold" : "text-foreground/80"
-              )}
-            >
-              {link.label}
-              <span
-                className={cn(
-                  "absolute bottom-0 left-0 w-full h-0.5 bg-accent transform scale-x-0 origin-left transition-transform duration-300 ease-in-out group-hover:scale-x-100",
-                  { "scale-x-100": pathname.startsWith(link.href) }
-                )}
-              />
+        {/* Logo */}
+        <div className="flex-1 md:flex-none justify-start">
+            <Link href="/" className="flex items-center gap-2 py-1">
+                <Image 
+                  src="https://i.postimg.cc/vZTZ0Br5/utsavs-logo.png" 
+                  alt="Utsavs Logo" 
+                  width={72}
+                  height={72}
+                  className="transition-all duration-300"
+                />
             </Link>
-          ))}
-        </nav>
+        </div>
 
+        {/* Desktop Navigation */}
+        <div className="hidden md:flex flex-1 items-center justify-end gap-6">
+          <nav className="flex items-center gap-6">
+              {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={cn(
+                  "text-base font-medium transition-colors hover:text-primary relative py-2 group",
+                  pathname.startsWith(link.href) ? "text-primary font-bold" : "text-foreground/80"
+                )}
+              >
+                {link.label}
+                <span
+                  className={cn(
+                    "absolute bottom-0 left-0 w-full h-0.5 bg-accent transform scale-x-0 origin-left transition-transform duration-300 ease-in-out group-hover:scale-x-100",
+                    { "scale-x-100": pathname.startsWith(link.href) }
+                  )}
+                />
+              </Link>
+            ))}
+          </nav>
+           <Link href="/planner">
+                <Button 
+                  size="sm"
+                  className={cn(
+                    "bg-blue-600 hover:bg-blue-700 text-white font-bold tracking-wide uppercase shadow-lg hover:shadow-blue-500/50 rounded-full px-4 hover:scale-105 transition-all duration-300 py-1"
+                  )}
+                >
+                    AI Holiday Planner
+                </Button>
+            </Link>
+        </div>
+
+        {/* Mobile Planner Button */}
+        <div className="flex-1 flex justify-end md:hidden">
+          <Link href="/planner">
+              <Button 
+                size="sm"
+                className={cn(
+                  "bg-blue-600 hover:bg-blue-700 text-white font-bold tracking-wide uppercase shadow-lg hover:shadow-blue-500/50 rounded-full px-4 hover:scale-105 transition-all duration-300 py-1 text-xs"
+                )}
+              >
+                  AI Planner
+              </Button>
+          </Link>
+        </div>
       </div>
     </header>
   );
