@@ -157,13 +157,13 @@ export default function RecipesPage() {
                             </div>
                         </Link>
                         <CardHeader className="p-3 md:p-4">
-                            <CardTitle className="font-headline text-base md:text-xl h-12 md:h-14">
+                            <CardTitle className="font-headline text-base md:text-xl h-12">
                                 <Link href={recipe.link}>{recipe.name}</Link>
                             </CardTitle>
                             <p className="text-xs md:text-sm text-primary font-semibold">{recipe.festival} | {recipe.region}</p>
                         </CardHeader>
                         <CardContent className="p-3 pt-0 md:p-4 md:pt-0 flex flex-col flex-grow">
-                            <p className="text-xs md:text-sm text-foreground/70 flex-grow mb-3">{recipe.description}</p>
+                            <p className="text-xs text-foreground/70 flex-grow mb-3">{recipe.description}</p>
                              <Link href={recipe.link} className="mt-auto">
                                 <Button variant="secondary" className="w-full h-8 text-xs md:h-9 md:text-sm">View Recipe</Button>
                             </Link>

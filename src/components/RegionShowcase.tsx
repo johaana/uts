@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import Link from 'next/link';
@@ -55,7 +56,7 @@ const regions = [
 
 export function RegionShowcase() {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
       {regions.map((region) => (
         <Link href={region.href} key={region.name} className="group">
           <Card className="h-full overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-2">
@@ -69,12 +70,12 @@ export function RegionShowcase() {
                     data-ai-hint={region.hint}
                  />
                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                 <h3 className="absolute bottom-4 left-4 font-headline text-3xl font-bold text-white">
+                 <h3 className="absolute bottom-4 left-4 font-headline text-2xl md:text-3xl font-bold text-white">
                   {region.name}
                 </h3>
               </div>
-              <div className="p-6">
-                <p className="text-foreground/80">{region.description}</p>
+              <div className="p-4 md:p-6">
+                <p className="text-sm md:text-base text-foreground/80">{region.description}</p>
                  <Button variant="link" className="p-0 mt-4 text-accent font-bold">
                     Explore {region.name} <ArrowRight className="ml-1 h-4 w-4" />
                 </Button>

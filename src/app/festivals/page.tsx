@@ -105,15 +105,15 @@ function FestivalsPageContent() {
                             <Image src={festival.image} alt={festival.name} layout="fill" objectFit="cover" data-ai-hint={festival.hint}/>
                             <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
                              <div className="absolute bottom-2 left-3 right-3 md:bottom-4 md:left-6 md:right-6">
-                                <p className="text-xs md:text-sm text-white/80 font-semibold mb-1">{festival.region}</p>
-                                <h2 className="font-headline text-lg md:text-2xl font-bold text-white drop-shadow-md leading-tight">{festival.name}</h2>
+                                <p className="text-xs font-semibold text-white/80 mb-1">{festival.region}</p>
+                                <h2 className="font-headline text-base md:text-2xl font-bold text-white drop-shadow-md leading-tight">{festival.name}</h2>
                              </div>
                             </div>
                         </Link>
                         <CardContent className="p-3 md:p-6 flex flex-col flex-grow">
-                            <p className="text-xs md:text-sm text-foreground/70 mb-3 flex-grow">{festival.description}</p>
+                            <p className="text-xs text-foreground/70 mb-3 flex-grow">{festival.description}</p>
                             <Link href={festival.link}>
-                                <Button variant="link" className="p-0 text-accent hover:text-accent/90 font-bold text-sm">
+                                <Button variant="link" className="p-0 text-accent hover:text-accent/90 font-bold text-xs md:text-sm">
                                     Explore <ArrowRight className="ml-1 h-3 w-3" />
                                 </Button>
                             </Link>

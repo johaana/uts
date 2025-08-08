@@ -1,16 +1,18 @@
 
+
 'use client';
 
 import { useState, useMemo } from 'react';
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
-import { ArrowRight, Star } from "lucide-react";
-import { format, parse, getYear, isValid, isWithinInterval, startOfToday, endOfDay, addDays, isToday, isFuture, isPast, endOfToday } from 'date-fns';
+import { ArrowRight, Star, Calendar, MapPin, Tag } from "lucide-react";
+import { format, parse, getYear, isValid, isWithinInterval, startOfToday, endOfDay, addDays } from 'date-fns';
 import { allEvents } from '@/lib/festival-data';
+import { cn } from '@/lib/utils';
 
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const regions = ["Nationwide", "North", "South", "East", "West", "Northeast", "Central"];
@@ -60,22 +62,17 @@ export function FestivalCalendar() {
 
             if (selectedYear === 'Upcoming (1 year)') {
                 const oneYearFromNow = endOfDay(addDays(today, 365));
-                // Event must not have ended before today
-                // Event start must be within the next year
                 return range.end >= today && isWithinInterval(range.start, { start: today, end: oneYearFromNow });
             }
 
             if (selectedYear === 'all') {
-                 // Show all events that haven't ended yet
                 return range.end >= today;
             }
 
             const yearNum = parseInt(selectedYear, 10);
-            // Show events that occur in the selected year
             return getYear(range.start) === yearNum || getYear(range.end) === yearNum;
         });
 
-        // Apply other filters to the date-filtered list
         return dateFilteredEvents.filter(event => {
             const range = getEventDateRange(event.date);
             if (!range) return false;
@@ -206,59 +203,100 @@ export function FestivalCalendar() {
                 <span>Indicates a long weekend opportunity. See our <Link href="/blog/long-weekends-2025" className="underline hover:text-primary">Long Weekends Guide</Link> for travel ideas.</span>
             </div>
 
-            <Card>
-                <CardContent className="p-0">
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead className="w-[250px] text-primary">Date</TableHead>
-                                <TableHead className="text-primary">Name</TableHead>
-                                <TableHead className="text-primary">Region</TableHead>
-                                <TableHead className="text-primary">Type</TableHead>
-                                <TableHead className="text-right text-primary">Details</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {filteredEvents.length > 0 ? (
-                                filteredEvents.map((event, index) => (
-                                    <TableRow key={event.name + event.date + index}>
-                                        <TableCell className="font-medium">{formatDateString(event.date)}</TableCell>
-                                        <TableCell className="flex items-center gap-2">
-                                            {renderEventName(event.name)}
-                                            {event.longWeekend && <Star className="w-4 h-4 text-amber-500 fill-amber-500" />}
-                                        </TableCell>
-                                        <TableCell>{event.region}</TableCell>
-                                        <TableCell>
-                                            <Badge variant="outline" className={getBadgeClass(event.type)}>
-                                                {event.type}
-                                            </Badge>
-                                        </TableCell>
-                                        <TableCell className="text-right">
-                                            {event.link && (event.link.startsWith('/') || event.link.startsWith('http')) ? (
-                                                <Link href={event.link}>
-                                                    <Button variant="ghost" size="icon">
-                                                        <ArrowRight className="h-4 w-4" />
-                                                    </Button>
-                                                </Link>
-                                            ) : (
-                                                <Button variant="ghost" size="icon" disabled className="opacity-0">
-                                                    <ArrowRight className="h-4 w-4" />
-                                                </Button>
-                                            )}
+            {/* Desktop Table */}
+            <div className="hidden md:block">
+                <Card>
+                    <CardContent className="p-0">
+                        <Table>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead className="w-[250px] text-primary">Date</TableHead>
+                                    <TableHead className="text-primary">Name</TableHead>
+                                    <TableHead className="text-primary">Region</TableHead>
+                                    <TableHead className="text-primary">Type</TableHead>
+                                    <TableHead className="text-right text-primary">Details</TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                {filteredEvents.length > 0 ? (
+                                    filteredEvents.map((event, index) => (
+                                        <TableRow key={event.name + event.date + index}>
+                                            <TableCell className="font-medium">{formatDateString(event.date)}</TableCell>
+                                            <TableCell className="flex items-center gap-2">
+                                                {renderEventName(event.name)}
+                                                {event.longWeekend && <Star className="w-4 h-4 text-amber-500 fill-amber-500" />}
+                                            </TableCell>
+                                            <TableCell>{event.region}</TableCell>
+                                            <TableCell>
+                                                <Badge variant="outline" className={getBadgeClass(event.type)}>
+                                                    {event.type}
+                                                </Badge>
+                                            </TableCell>
+                                            <TableCell className="text-right">
+                                                {event.link && (event.link.startsWith('/') || event.link.startsWith('http')) ? (
+                                                    <Link href={event.link}>
+                                                        <Button variant="ghost" size="icon">
+                                                            <ArrowRight className="h-4 w-4" />
+                                                        </Button>
+                                                    </Link>
+                                                ) : <div />}
+                                            </TableCell>
+                                        </TableRow>
+                                    ))
+                                ) : (
+                                    <TableRow>
+                                        <TableCell colSpan={5} className="text-center h-24">
+                                            No events found for the selected filters.
                                         </TableCell>
                                     </TableRow>
-                                ))
-                            ) : (
-                                <TableRow>
-                                    <TableCell colSpan={5} className="text-center h-24">
-                                        No events found for the selected filters.
-                                    </TableCell>
-                                </TableRow>
-                            )}
-                        </TableBody>
-                    </Table>
-                </CardContent>
-            </Card>
+                                )}
+                            </TableBody>
+                        </Table>
+                    </CardContent>
+                </Card>
+            </div>
+
+             {/* Mobile Card List */}
+            <div className="md:hidden space-y-4">
+                 {filteredEvents.length > 0 ? (
+                    filteredEvents.map((event, index) => (
+                        <Card key={event.name + event.date + index} className="p-4">
+                            <CardContent className="p-0 flex items-center justify-between">
+                                <div className="flex-1">
+                                    <div className="flex items-center gap-2 mb-2">
+                                        {renderEventName(event.name)}
+                                        {event.longWeekend && <Star className="w-4 h-4 text-amber-500 fill-amber-500" />}
+                                    </div>
+                                     <p className="text-sm text-muted-foreground flex items-center gap-2 mb-2">
+                                        <Calendar className="w-4 h-4" />
+                                        {formatDateString(event.date)}
+                                     </p>
+                                     <div className="flex items-center gap-4">
+                                         <p className="text-sm text-muted-foreground flex items-center gap-2">
+                                            <MapPin className="w-4 h-4" />
+                                            {event.region}
+                                         </p>
+                                         <Badge variant="outline" className={cn("text-xs", getBadgeClass(event.type))}>
+                                            {event.type}
+                                         </Badge>
+                                     </div>
+                                </div>
+                                {event.link && (event.link.startsWith('/') || event.link.startsWith('http')) && (
+                                    <Link href={event.link} className="ml-4">
+                                        <Button variant="ghost" size="icon">
+                                            <ArrowRight className="h-5 w-5" />
+                                        </Button>
+                                    </Link>
+                                )}
+                            </CardContent>
+                        </Card>
+                    ))
+                ) : (
+                    <Card className="text-center h-24 flex items-center justify-center text-muted-foreground">
+                        No events found for the selected filters.
+                    </Card>
+                )}
+            </div>
         </div>
     );
 }
