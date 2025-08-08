@@ -96,12 +96,12 @@ function FestivalsPageContent() {
                 </div>
             </Card>
 
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8">
                 {filteredAndSortedFestivals.length > 0 ? filteredAndSortedFestivals.map((festival) => (
-                    <Card key={festival.name} className="overflow-hidden group flex flex-col transition-all duration-300 hover:shadow-lg hover:scale-105">
+                    <Card key={festival.name} className="overflow-hidden group flex flex-col">
                          <Link href={festival.link} className="block">
-                            <div className="relative h-40 md:h-56 w-full bg-black/5 overflow-hidden">
-                            <Image src={festival.image} alt={festival.name} layout="fill" objectFit="cover" data-ai-hint={festival.hint} className="transition-transform duration-500 ease-in-out group-hover:scale-110"/>
+                            <div className="relative h-40 md:h-56 w-full bg-black/5">
+                            <Image src={festival.image} alt={festival.name} layout="fill" objectFit="cover" data-ai-hint={festival.hint}/>
                             <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
                              <div className="absolute bottom-2 left-3 right-3 md:bottom-4 md:left-6 md:right-6">
                                 <p className="text-xs md:text-sm text-white/80 font-semibold mb-1">{festival.region}</p>
