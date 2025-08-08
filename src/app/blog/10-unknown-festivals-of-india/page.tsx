@@ -10,21 +10,26 @@ export default function SingleBlogPage() {
     const title = "10 Indian Festivals You've Probably Never Heard Of";
     return (
         <div className="container mx-auto px-4 py-12">
-            <Card>
-                <CardContent className="p-6 md:p-10">
-                     <div className="mb-8">
-                        <Link href="/blog">
-                            <Button variant="outline"><ArrowLeft className="mr-2 h-4 w-4" />Back to Blog</Button>
-                        </Link>
+            <Card className="overflow-hidden">
+                <CardContent className="p-0 md:p-6 md:p-10">
+                    <div className="md:hidden relative h-64 w-full mb-8">
+                        <Image src="https://i.postimg.cc/ncrHbfGv/unique-festivals-1.jpg" alt="Indian tribal festival" layout="fill" objectFit="cover" data-ai-hint="tribal festival" />
                     </div>
+                     <div className="p-6 md:p-0">
+                        <div className="mb-8">
+                            <Link href="/blog">
+                                <Button variant="outline"><ArrowLeft className="mr-2 h-4 w-4" />Back to Blog</Button>
+                            </Link>
+                        </div>
+                     </div>
 
-                    <article className="prose max-w-none text-foreground/80">
+                    <article className="prose max-w-none text-foreground/80 p-6 pt-0 md:p-0">
                          <div className="text-center mb-8">
                             <p className="text-sm text-muted-foreground">By Team Utsavs on July 15, 2025</p>
                             <h1 className="font-headline text-4xl font-bold text-primary mt-2">{title}</h1>
                         </div>
 
-                         <div className="relative h-96 w-full mb-8">
+                         <div className="hidden md:block relative h-96 w-full mb-8">
                             <Image src="https://i.postimg.cc/ncrHbfGv/unique-festivals-1.jpg" alt="Indian tribal festival" layout="fill" objectFit="contain" data-ai-hint="tribal festival" className="rounded-lg"/>
                         </div>
 
@@ -61,7 +66,9 @@ export default function SingleBlogPage() {
                         <p>Celebrated in the Coorg (Kodagu) region, Kaila Polud is a unique festival dedicated to weapons. It marks the end of the agricultural season, and on this day, the Kodava community takes out their arms, cleans them, and worships them. The festival also includes rural sports and games.</p>
 
                     </article>
-                    <ShareButtons title={title} />
+                    <div className="p-6 md:p-0">
+                        <ShareButtons title={title} />
+                    </div>
                 </CardContent>
             </Card>
         </div>

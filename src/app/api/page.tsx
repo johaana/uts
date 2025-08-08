@@ -7,7 +7,7 @@ import { PageLayout } from "@/components/PageLayout";
 export default function ApiPage() {
     return (
         <PageLayout>
-            <div className="text-center mb-12">
+            <div className="text-center mb-12 px-4">
                 <h1 className="font-headline text-4xl md:text-5xl font-bold">Partnerships</h1>
                 <p className="mt-4 text-lg text-foreground/80 max-w-3xl mx-auto">
                     Leverage our comprehensive and structured data on Indian festivals to enrich your applications, platforms, and services.
