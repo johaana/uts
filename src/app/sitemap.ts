@@ -43,6 +43,7 @@ const allRecipes = [
     { link: "/recipes/kuttu-ki-puri" },
     { link: "/recipes/makhane-ki-kheer" },
     { link: "/recipes/sali-boti" },
+    { link: "/recipes/patra-ni-machchi" },
 ];
 
 const blogPosts = [

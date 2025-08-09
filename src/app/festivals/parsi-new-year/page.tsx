@@ -8,6 +8,7 @@ import { ShareButtons } from "@/components/ShareButtons";
 
 const recipes = [
     { name: "Sali Boti", link: "/recipes/sali-boti" },
+    { name: "Patra ni Machchi", link: "/recipes/patra-ni-machchi" },
 ]
 
 export default function ParsiNewYearPage() {
@@ -52,7 +53,7 @@ export default function ParsiNewYearPage() {
 
                             <TabsContent value="recipes">
                                 <h2 className="font-headline text-3xl font-bold mb-4">Festive Foods</h2>
-                                 <p className="mb-6 text-foreground/80 prose max-w-none">Parsi cuisine is a rich blend of Persian and Gujarati flavors. Here is a classic dish enjoyed during Navroz.</p>
+                                 <p className="mb-6 text-foreground/80 prose max-w-none">Parsi cuisine is a rich blend of Persian and Gujarati flavors. Here are some classic dishes enjoyed during Navroz.</p>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                                     {recipes.map(recipe => (
                                        <Link href={recipe.link} key={recipe.name}>
