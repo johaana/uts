@@ -62,32 +62,6 @@ export const allFestivals = [
 ];
 
 export const allEvents = [
-    // 2024
-    { date: "Jul 17, 2024", name: "Ashadhi Ekadashi", region: "West", type: "Religious", link: "/festivals/ashadhi-ekadashi" },
-    { date: "Aug 15, 2024", name: "Independence Day", region: "Nationwide", type: "Holiday", link: "/festivals/independence-day", longWeekend: true },
-    { date: "Aug 15, 2024", name: "Pateti", region: "Nationwide", type: "Religious", link: "/festivals/parsi-new-year" },
-    { date: "Aug 16, 2024", name: "Navroz (Parsi New Year)", region: "Nationwide", type: "New Year", link: "/festivals/parsi-new-year" },
-    { date: "Aug 19, 2024", name: "Raksha Bandhan", region: "Nationwide", type: "Cultural", link: "/festivals/raksha-bandhan", longWeekend: true },
-    { date: "Aug 19, 2024", name: "Narali Purnima", region: "West", type: "Cultural", link: "/festivals/narali-purnima" },
-    { date: "Aug 26, 2024", name: "Janmashtami", region: "Nationwide", type: "Religious", link: "/festivals/janmashtami", longWeekend: true },
-    { date: "Sep 06, 2024", name: "Hartalika Teej", region: "North", type: "Cultural", link: "/festivals/hartalika-teej" },
-    { date: "Sep 07, 2024", name: "Ganesh Chaturthi", region: "West & South", type: "Religious", link: "/festivals/ganesh-chaturthi" },
-    { date: "Sep 15, 2024", name: "Onam", region: "South", type: "Harvest", link: "/festivals/onam" },
-    { date: "Sep 16, 2024", name: "Kojagiri Purnima", region: "West & East", type: "Religious", link: "/festivals/kojagiri-purnima" },
-    { date: "Sep 17, 2024", name: "Anant Chaturdashi", region: "West & South", type: "Religious", link: "/festivals/anant-chaturdashi" },
-    { date: "Oct 02, 2024", name: "Gandhi Jayanti", region: "Nationwide", type: "Holiday", link: "/festivals/gandhi-jayanti" },
-    { date: "Oct 03 - Oct 11, 2024", name: "Navratri", region: "Nationwide", type: "Religious", link: "/festivals/navratri", longWeekend: true },
-    { date: "Oct 09 - Oct 13, 2024", name: "Durga Puja", region: "East", type: "Religious", link: "/festivals/durga-puja", longWeekend: true },
-    { date: "Oct 29, 2024", name: "Dhanteras (Diwali Day 1)", region: "Nationwide", type: "Diwali", link: "/festivals/diwali" },
-    { date: "Oct 30, 2024", name: "Naraka Chaturdashi (Diwali Day 2)", region: "Nationwide", type: "Diwali", link: "/festivals/diwali" },
-    { date: "Oct 31, 2024", name: "Diwali (Lakshmi Puja) (Day 3)", region: "Nationwide", type: "Holiday", link: "/festivals/diwali", longWeekend: true },
-    { date: "Nov 01, 2024", name: "Govardhan Puja (Diwali Day 4)", region: "North & West", type: "Diwali", link: "/festivals/diwali", longWeekend: true },
-    { date: "Nov 02, 2024", name: "Bhai Dooj (Diwali Day 5)", region: "North & West", type: "Diwali", link: "/festivals/diwali" },
-    { date: "Nov 12, 2024", name: "Tulsi Vivah", region: "Nationwide", type: "Religious", link: "/festivals/tulsi-vivah" },
-    { date: "Nov 15, 2024", name: "Guru Nanak Jayanti", region: "Nationwide", type: "Religious", link: "/festivals/guru-nanak-jayanti", longWeekend: true },
-    { date: "Dec 01 - Dec 10, 2024", name: "Hornbill Festival", region: "Northeast", type: "Cultural", link: "/festivals/hornbill-festival" },
-    { date: "Dec 25, 2024", name: "Christmas", region: "Nationwide", type: "Religious", link: "/festivals/christmas" },
-
     // 2025
     { date: "Jan 13, 2025", name: "Lohri", region: "North", type: "Harvest", link: "/festivals/lohri", longWeekend: true },
     { date: "Jan 14, 2025", name: "Makar Sankranti / Pongal", region: "Nationwide", type: "Harvest", link: "/festivals/makar-sankranti", longWeekend: true },
