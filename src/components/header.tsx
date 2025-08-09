@@ -1,5 +1,4 @@
 
-
 "use client";
 
 import Link from "next/link";
@@ -75,7 +74,7 @@ export function Header() {
                 <Button 
                   size="sm"
                   className={cn(
-                    "bg-blue-600 hover:bg-blue-700 text-white font-bold tracking-wide uppercase shadow-lg hover:shadow-blue-500/50 rounded-full px-4 hover:scale-105 transition-all duration-300 py-1"
+                    "text-white font-bold tracking-wide uppercase shadow-lg hover:shadow-blue-500/50 rounded-full px-4 hover:scale-105 transition-all duration-300 py-1 bg-gradient-to-r from-blue-500 to-blue-600"
                   )}
                 >
                     AI Holiday Planner
@@ -89,7 +88,7 @@ export function Header() {
               <Button 
                 size="sm"
                 className={cn(
-                  "bg-blue-600 hover:bg-blue-700 text-white font-bold tracking-wide uppercase shadow-lg hover:shadow-blue-500/50 rounded-full px-4 hover:scale-105 transition-all duration-300 py-1 text-xs"
+                  "text-white font-bold tracking-wide uppercase shadow-lg hover:shadow-blue-500/50 rounded-full px-4 hover:scale-105 transition-all duration-300 py-1 text-xs bg-gradient-to-r from-blue-500 to-blue-600"
                 )}
               >
                   AI Planner
