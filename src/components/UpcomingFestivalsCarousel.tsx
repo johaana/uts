@@ -23,7 +23,7 @@ interface Festival {
 
 // Create a mapping from festival name to its image and hint for quick lookup
 const festivalImageMap = new Map(
-  allFestivals.map(f => [f.name, { image: f.image, hint: f.hint }])
+  allFestivals.map(f => [f.name, { image: f.image, hint: f.hint, link: f.link }])
 );
 
 
@@ -64,7 +64,16 @@ export function UpcomingFestivalsCarousel() {
                 .map(event => {
                     // Match the name, handling cases like "Diwali (Lakshmi Puja) (Day 3)"
                     const baseName = event.name.split(' (')[0];
-                    const imageData = festivalImageMap.get(event.name) || festivalImageMap.get(baseName) || { image: "https://placehold.co/600x400.png", hint: "festival celebration" };
+                    let imageData = festivalImageMap.get(event.name) || festivalImageMap.get(baseName);
+                    
+                    // Specific override for Pateti and Navroz
+                    if (event.name.includes('Pateti') || event.name.includes('Navroz')) {
+                        imageData = festivalImageMap.get('Parsi New Year (Navroz)');
+                    }
+
+                    if (!imageData) {
+                        imageData = { image: "https://placehold.co/600x400.png", hint: "festival celebration", link: event.link };
+                    }
                     
                     return {
                         name: event.name,
