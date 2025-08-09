@@ -66,29 +66,31 @@ const blogPosts = [
     { slug: "long-weekends-2025" },
 ];
 
+const siteUrl = 'https://utsavs.com';
+
 export default function sitemap(): MetadataRoute.Sitemap {
     const festivalRoutes = allFestivals.map((festival) => ({
-        url: festival.link,
+        url: `${siteUrl}${festival.link}`,
         lastModified: new Date().toISOString(),
     }));
 
     const recipeRoutes = allRecipes.map((recipe) => ({
-        url: recipe.link,
+        url: `${siteUrl}${recipe.link}`,
         lastModified: new Date().toISOString(),
     }));
 
     const blogRoutes = blogPosts.map((post) => ({
-        url: `/blog/${post.slug}`,
+        url: `${siteUrl}/blog/${post.slug}`,
         lastModified: new Date().toISOString(),
     }));
 
     const staticRoutes: MetadataRoute.Sitemap = [
-        { url: '/', lastModified: new Date().toISOString() },
-        { url: '/festivals', lastModified: new Date().toISOString() },
-        { url: '/recipes', lastModified: new Date().toISOString() },
-        { url: '/blog', lastModified: new Date().toISOString() },
-        { url: '/api', lastModified: new Date().toISOString() },
-        { url: '/planner', lastModified: new Date().toISOString() },
+        { url: siteUrl, lastModified: new Date().toISOString() },
+        { url: `${siteUrl}/festivals`, lastModified: new Date().toISOString() },
+        { url: `${siteUrl}/recipes`, lastModified: new Date().toISOString() },
+        { url: `${siteUrl}/blog`, lastModified: new Date().toISOString() },
+        { url: `${siteUrl}/api`, lastModified: new Date().toISOString() },
+        { url: `${siteUrl}/planner`, lastModified: new Date().toISOString() },
     ];
 
     return [...staticRoutes, ...festivalRoutes, ...recipeRoutes, ...blogRoutes];
