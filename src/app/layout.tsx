@@ -27,9 +27,9 @@ const defaultOgImage = "https://i.postimg.cc/mD8h1LzB/default-preview.jpg";
 
 
 export const metadata: Metadata = {
+  metadataBase: new URL(defaultUrl),
   title: defaultTitle,
   description: defaultDescription,
-  metadataBase: new URL(defaultUrl),
   openGraph: {
     title: defaultTitle,
     description: defaultDescription,

@@ -2,8 +2,6 @@
 import { MetadataRoute } from 'next';
 import { allFestivals } from '@/lib/festival-data';
 
-const URL = 'https://utsavs.com';
-
 const allRecipes = [
     { link: "/recipes/gajar-ka-halwa" },
     { link: "/recipes/puran-poli" },
@@ -47,6 +45,7 @@ const allRecipes = [
 
 const blogPosts = [
     { slug: "raksha-bandhan-the-true-spirit-of-siblinghood" },
+    { slug: "celebrate-with-conscience-eco-friendly-festivals" },
     { slug: "significance-of-diyas-in-diwali" },
     { slug: "guide-to-natural-holi-colors" },
     { slug: "top-5-rangoli-designs-for-beginners" },
@@ -69,27 +68,27 @@ const blogPosts = [
 
 export default function sitemap(): MetadataRoute.Sitemap {
     const festivalRoutes = allFestivals.map((festival) => ({
-        url: `${URL}${festival.link}`,
+        url: festival.link,
         lastModified: new Date().toISOString(),
     }));
 
     const recipeRoutes = allRecipes.map((recipe) => ({
-        url: `${URL}${recipe.link}`,
+        url: recipe.link,
         lastModified: new Date().toISOString(),
     }));
 
     const blogRoutes = blogPosts.map((post) => ({
-        url: `${URL}/blog/${post.slug}`,
+        url: `/blog/${post.slug}`,
         lastModified: new Date().toISOString(),
     }));
 
-    const staticRoutes = [
-        { url: URL, lastModified: new Date().toISOString() },
-        { url: `${URL}/festivals`, lastModified: new Date().toISOString() },
-        { url: `${URL}/recipes`, lastModified: new Date().toISOString() },
-        { url: `${URL}/blog`, lastModified: new Date().toISOString() },
-        { url: `${URL}/api`, lastModified: new Date().toISOString() },
-        { url: `${URL}/planner`, lastModified: new Date().toISOString() },
+    const staticRoutes: MetadataRoute.Sitemap = [
+        { url: '/', lastModified: new Date().toISOString() },
+        { url: '/festivals', lastModified: new Date().toISOString() },
+        { url: '/recipes', lastModified: new Date().toISOString() },
+        { url: '/blog', lastModified: new Date().toISOString() },
+        { url: '/api', lastModified: new Date().toISOString() },
+        { url: '/planner', lastModified: new Date().toISOString() },
     ];
 
     return [...staticRoutes, ...festivalRoutes, ...recipeRoutes, ...blogRoutes];
