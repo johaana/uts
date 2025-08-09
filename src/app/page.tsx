@@ -1,6 +1,6 @@
 
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Calendar, Utensils, BookOpen } from "lucide-react";
 import Link from "next/link";
 import { FestivalCalendar } from "@/components/FestivalCalendar";
 import { RegionShowcase } from "@/components/RegionShowcase";
@@ -12,15 +12,18 @@ import { HeroCarousel } from "@/components/HeroCarousel";
 function ResourceSummary() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-      <div className="bg-secondary/30 p-8 rounded-lg">
+      <div className="bg-secondary/30 p-8 rounded-lg flex flex-col items-center">
+        <Calendar className="w-12 h-12 text-accent mb-4"/>
         <h3 className="font-headline text-3xl font-bold text-primary mb-2">40+ Festivals</h3>
         <p className="text-foreground/80">Explore detailed guides on major and regional Indian festivals.</p>
       </div>
-      <div className="bg-secondary/30 p-8 rounded-lg">
+      <div className="bg-secondary/30 p-8 rounded-lg flex flex-col items-center">
+        <Utensils className="w-12 h-12 text-accent mb-4"/>
         <h3 className="font-headline text-3xl font-bold text-primary mb-2">30+ Recipes</h3>
         <p className="text-foreground/80">Cook authentic festive food with our easy-to-follow recipes.</p>
       </div>
-      <div className="bg-secondary/30 p-8 rounded-lg">
+      <div className="bg-secondary/30 p-8 rounded-lg flex flex-col items-center">
+        <BookOpen className="w-12 h-12 text-accent mb-4"/>
         <h3 className="font-headline text-3xl font-bold text-primary mb-2">15+ Stories</h3>
         <p className="text-foreground/80">Dive deep into the culture and stories behind the celebrations.</p>
       </div>
@@ -58,7 +61,11 @@ export default function Home() {
             </p>
             <div className="mt-8">
                 <Link href="/festivals">
-                <Button variant="default" size="lg" className="text-lg group transition-all duration-300 hover:scale-105 hover:shadow-2xl text-primary-foreground font-bold bg-gradient-to-r from-primary to-accent shadow-lg border-none">
+                <Button 
+                  variant="default" 
+                  size="lg" 
+                  className="text-lg group transition-all duration-300 hover:scale-105 hover:shadow-2xl text-primary-foreground font-bold bg-gradient-to-r from-primary to-accent shadow-lg border-none"
+                >
                     Explore All Festivals <ArrowRight className="ml-2 transition-transform group-hover:translate-x-1" />
                 </Button>
                 </Link>
@@ -74,7 +81,11 @@ export default function Home() {
             </p>
             <div className="mt-6">
                 <Link href="/festivals">
-                <Button variant="default" size="default" className="text-base group transition-all duration-300 hover:scale-105 hover:shadow-xl text-primary-foreground font-bold bg-gradient-to-r from-primary to-accent shadow-lg border-none">
+                <Button 
+                  variant="default" 
+                  size="default" 
+                  className="text-base group transition-all duration-300 hover:scale-105 hover:shadow-xl text-primary-foreground font-bold bg-gradient-to-r from-primary to-accent shadow-lg border-none"
+                >
                     Explore All Festivals <ArrowRight className="ml-2 transition-transform group-hover:translate-x-1" />
                 </Button>
                 </Link>
