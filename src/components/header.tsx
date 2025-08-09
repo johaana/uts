@@ -43,8 +43,8 @@ export function Header() {
                   src="https://i.postimg.cc/vZTZ0Br5/utsavs-logo.png" 
                   alt="Utsavs Logo" 
                   className={cn("transition-all duration-300 group-hover:scale-105", isScrolled ? "w-16 h-16" : "w-20 h-20")}
-                  width={80}
-                  height={80}
+                  width="80"
+                  height="80"
                   style={{ objectFit: 'contain' }}
                 />
                 <span className="hidden md:block font-headline text-2xl font-bold self-center drop-shadow-sm transition-transform duration-300 group-hover:scale-105 text-primary" style={{textShadow: '1px 1px 3px rgba(0,0,0,0.1)'}}>Utsavs</span>
