@@ -16,7 +16,7 @@ export default function PatraNiMachchiPage() {
                             <p className="text-lg text-muted-foreground">An iconic Parsi wedding and Navroz dish, Patra ni Machchi features fish fillets (usually pomfret) coated in a vibrant green chutney, wrapped in banana leaves, and steamed to perfection.</p>
                         </div>
                         <div className="md:w-1/3">
-                            <Image src="https://i.postimg.cc/nL5gKz5m/Patra-Ni-Macchi.jpg" alt="Patra ni Machchi" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="steamed fish"/>
+                            <Image src="https://i.postimg.cc/VvD3hL17/Patra-ni-Macchi-1.jpg" alt="Patra ni Machchi" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="steamed fish"/>
                         </div>
                     </div>
                 </CardHeader>

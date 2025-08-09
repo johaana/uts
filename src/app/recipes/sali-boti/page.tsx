@@ -16,7 +16,7 @@ export default function SaliBotiPage() {
                             <p className="text-lg text-muted-foreground">A quintessential Parsi mutton curry, Sali Boti is a delicious preparation of tender mutton chunks in a tangy, sweet, and spicy tomato-based gravy, famously garnished with crispy potato straws (sali).</p>
                         </div>
                         <div className="md:w-1/3">
-                            <Image src="https://i.postimg.cc/W3PTpYv4/sali-boti.jpg" alt="Sali Boti" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="parsi meal"/>
+                            <Image src="https://i.postimg.cc/mDqnJ9xM/Salli-Boti.jpeg" alt="Sali Boti" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="parsi meal"/>
                         </div>
                     </div>
                 </CardHeader>
