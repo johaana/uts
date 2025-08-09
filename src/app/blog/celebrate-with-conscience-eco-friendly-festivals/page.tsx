@@ -14,15 +14,15 @@ const post = {
 };
 
 export const metadata: Metadata = {
-  title: post.title,
+  title: `${post.title} | Utsavs`,
   description: post.excerpt,
   openGraph: {
-    title: post.title,
+    title: `${post.title} | Utsavs`,
     description: post.excerpt,
     images: [{ url: post.image, width: 1200, height: 630, alt: "Eco-friendly festival decorations" }],
   },
   twitter: {
-    title: post.title,
+    title: `${post.title} | Utsavs`,
     description: post.excerpt,
     images: [post.image],
   },
@@ -86,4 +86,3 @@ export default function SingleBlogPage() {
         </div>
     );
 }
-

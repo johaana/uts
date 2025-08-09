@@ -1,3 +1,4 @@
+
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
@@ -13,15 +14,15 @@ const post = {
 };
 
 export const metadata: Metadata = {
-  title: post.title,
+  title: `${post.title} | Utsavs`,
   description: post.excerpt,
   openGraph: {
-    title: post.title,
+    title: `${post.title} | Utsavs`,
     description: post.excerpt,
     images: [{ url: post.image, width: 1200, height: 630, alt: post.title }],
   },
   twitter: {
-    title: post.title,
+    title: `${post.title} | Utsavs`,
     description: post.excerpt,
     images: [post.image],
   },

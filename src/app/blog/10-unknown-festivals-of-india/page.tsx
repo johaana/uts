@@ -1,3 +1,4 @@
+
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
@@ -13,15 +14,15 @@ const post = {
 };
 
 export const metadata: Metadata = {
-  title: post.title,
+  title: `${post.title} | Utsavs`,
   description: post.excerpt,
   openGraph: {
-    title: post.title,
+    title: `${post.title} | Utsavs`,
     description: post.excerpt,
     images: [{ url: post.image, width: 1200, height: 630, alt: post.title }],
   },
   twitter: {
-    title: post.title,
+    title: `${post.title} | Utsavs`,
     description: post.excerpt,
     images: [post.image],
   },
@@ -47,7 +48,7 @@ export default function SingleBlogPage() {
                             <h1 className="font-headline text-4xl font-bold text-primary mt-2">{post.title}</h1>
                         </div>
 
-                        <p>While Diwali's lights and Holi's colors capture global attention, India's cultural heart beats strongest in its lesser-known regional festivals. These are not just events; they are raw, authentic celebrations of life, community, and ancient traditions. For the traveler seeking to go beyond the tourist trail, these festivals offer an unparalleled window into the soul of India. Here are 10 such celebrations that promise an unforgettable experience.</p>
+                        <p>While Diwali's lights and Holi's colors capture global attention, India's cultural heart beats strongest in its lesser-known regional festivals. These are not just events; they are raw, authentic celebrations of life, community, and ancient traditions. For the traveler seeking to go beyond the tourist trail, a these festivals offer an unparalleled window into the soul of India. Here are 10 such celebrations that promise an unforgettable experience.</p>
 
                         <h3>1. Sekrenyi Festival, Nagaland</h3>
                         <p>Celebrated by the Angami Naga tribe in February, Sekrenyi is a ten-day festival of purification and sanctification. It involves elaborate rituals, traditional songs, and feasting, all aimed at cleansing the body and soul. The highlight is the 'Thekra Hie', where young people of the village gather to sing, dance, and feast together.</p>

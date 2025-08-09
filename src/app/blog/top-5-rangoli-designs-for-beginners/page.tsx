@@ -5,13 +5,34 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ShareButtons } from "@/components/ShareButtons";
+import type { Metadata } from 'next';
+
+const post = {
+    title: "Top 5 Rangoli Designs for Beginners",
+    image: "https://i.postimg.cc/fRYfMpwb/Rangoli.jpg",
+    excerpt: "Get inspired with these easy-to-make yet beautiful rangoli patterns. From simple floral designs to geometric wonders, we provide step-by-step guides to adorn your home for any festive occasion."
+};
+
+export const metadata: Metadata = {
+  title: `${post.title} | Utsavs`,
+  description: post.excerpt,
+  openGraph: {
+    title: `${post.title} | Utsavs`,
+    description: post.excerpt,
+    images: [{ url: post.image, width: 1200, height: 630, alt: post.title }],
+  },
+  twitter: {
+    title: `${post.title} | Utsavs`,
+    description: post.excerpt,
+    images: [post.image],
+  },
+};
 
 export default function SingleBlogPage() {
-    const title = "Top 5 Rangoli Designs for Beginners";
     return (
         <div className="container mx-auto px-4 py-12">
             <div className="relative h-64 md:h-96 w-full mb-8">
-                <Image src="https://i.postimg.cc/fRYfMpwb/Rangoli.jpg" alt={title} layout="fill" objectFit="cover" data-ai-hint="rangoli design" className="rounded-lg"/>
+                <Image src={post.image} alt={post.title} layout="fill" objectFit="cover" data-ai-hint="rangoli design" className="rounded-lg"/>
             </div>
             <Card className="overflow-hidden md:-mt-16 relative z-10 md:rounded-t-2xl">
                 <CardContent className="p-6 md:p-10">
@@ -24,7 +45,7 @@ export default function SingleBlogPage() {
                     <article className="prose max-w-none text-foreground/80">
                          <div className="text-center mb-8">
                             <p className="text-sm text-muted-foreground">By Team Utsavs on June 18, 2025</p>
-                            <h1 className="font-headline text-4xl font-bold text-primary mt-2">{title}</h1>
+                            <h1 className="font-headline text-4xl font-bold text-primary mt-2">{post.title}</h1>
                         </div>
                         
                         <p>Get inspired with these easy-to-make yet beautiful rangoli patterns. From simple floral designs to geometric wonders, we provide step-by-step guides to adorn your home for any festive occasion.</p>
@@ -44,7 +65,7 @@ export default function SingleBlogPage() {
                         <h3>5. Swastika Rangoli</h3>
                         <p>The swastika is an ancient symbol of good fortune. Create a swastika in the center and surround it with a circular border of intricate patterns. This design is both auspicious and beautiful.</p>
                     </article>
-                    <ShareButtons title={title} />
+                    <ShareButtons title={post.title} />
                 </CardContent>
             </Card>
         </div>

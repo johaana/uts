@@ -5,9 +5,30 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ShareButtons } from "@/components/ShareButtons";
+import type { Metadata } from 'next';
+
+const post = {
+    title: "More Than a Thread: The True Spirit of Raksha Bandhan",
+    image: "https://i.postimg.cc/9MXxXQhY/Raksha-Bandhan.jpg",
+    excerpt: "Explore the deep history and heartfelt traditions of Raksha Bandhan. Discover thoughtful gift ideas that go beyond the material to truly celebrate the unbreakable bond between siblings."
+};
+
+export const metadata: Metadata = {
+  title: `${post.title} | Utsavs`,
+  description: post.excerpt,
+  openGraph: {
+    title: `${post.title} | Utsavs`,
+    description: post.excerpt,
+    images: [{ url: post.image, width: 1200, height: 630, alt: post.title }],
+  },
+  twitter: {
+    title: `${post.title} | Utsavs`,
+    description: post.excerpt,
+    images: [post.image],
+  },
+};
 
 export default function SingleBlogPage() {
-    const title = "More Than a Thread: The True Spirit of Raksha Bandhan";
     return (
         <div className="container mx-auto px-4 py-12">
             <div className="relative h-64 md:h-96 w-full mb-8">
@@ -24,7 +45,7 @@ export default function SingleBlogPage() {
                     <article className="prose max-w-none text-foreground/80">
                          <div className="text-center mb-8">
                             <p className="text-sm text-muted-foreground">By Team Utsavs on August 8, 2025</p>
-                            <h1 className="font-headline text-4xl font-bold text-primary mt-2">{title}</h1>
+                            <h1 className="font-headline text-4xl font-bold text-primary mt-2">{post.title}</h1>
                         </div>
 
                         <p>Every year, as the monsoon rains soften the earth, a festival of profound emotional depth arrives, weaving together threads of love, memory, and an unspoken promise. Raksha Bandhan, the "bond of protection," is a celebration of the unique, irreplaceable relationship between siblings. It's a day that transcends the simple tying of a thread; it’s a reaffirmation of a connection that has weathered childhood squabbles, shared secrets, and the test of time. It’s a day to honor the person who is both your first friend and your fiercest rival, your confidant and your constant.</p>
@@ -57,7 +78,7 @@ export default function SingleBlogPage() {
                         <p>Ultimately, Raksha Bandhan is a celebration of a promise—a promise to look out for each other, to be a pillar of support, and to be a keeper of each other's stories. The rakhi tied on the wrist is just the beautiful, visible reminder of the invisible thread that connects your hearts, forever.</p>
 
                     </article>
-                    <ShareButtons title={title} />
+                    <ShareButtons title={post.title} />
                 </CardContent>
             </Card>
         </div>

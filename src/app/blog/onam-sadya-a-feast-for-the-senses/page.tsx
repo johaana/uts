@@ -5,13 +5,34 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ShareButtons } from "@/components/ShareButtons";
+import type { Metadata } from 'next';
+
+const post = {
+    title: "Onam Sadya: A Feast for the Senses",
+    image: "https://i.postimg.cc/0564g0S7/nandu-menon-h-GHldb-Cg-YDA-unsplash.jpg",
+    excerpt: "The Onam Sadya is more than just a meal; it's a grand vegetarian feast that is the centerpiece of Onam celebrations. We take you through the 26+ dishes that make up this incredible culinary experience."
+};
+
+export const metadata: Metadata = {
+  title: `${post.title} | Utsavs`,
+  description: post.excerpt,
+  openGraph: {
+    title: `${post.title} | Utsavs`,
+    description: post.excerpt,
+    images: [{ url: post.image, width: 1200, height: 630, alt: post.title }],
+  },
+  twitter: {
+    title: `${post.title} | Utsavs`,
+    description: post.excerpt,
+    images: [post.image],
+  },
+};
 
 export default function SingleBlogPage() {
-    const title = "Onam Sadya: A Feast for the Senses";
     return (
         <div className="container mx-auto px-4 py-12">
             <div className="relative h-64 md:h-96 w-full mb-8">
-                <Image src="https://i.postimg.cc/0564g0S7/nandu-menon-h-GHldb-Cg-YDA-unsplash.jpg" alt={title} layout="fill" objectFit="cover" data-ai-hint="onam feast" className="rounded-lg"/>
+                <Image src={post.image} alt={post.title} layout="fill" objectFit="cover" data-ai-hint="onam feast" className="rounded-lg"/>
             </div>
             <Card className="overflow-hidden md:-mt-16 relative z-10 md:rounded-t-2xl">
                 <CardContent className="p-6 md:p-10">
@@ -24,7 +45,7 @@ export default function SingleBlogPage() {
                     <article className="prose max-w-none text-foreground/80">
                          <div className="text-center mb-8">
                             <p className="text-sm text-muted-foreground">By Team Utsavs on July 07, 2025</p>
-                            <h1 className="font-headline text-4xl font-bold text-primary mt-2">{title}</h1>
+                            <h1 className="font-headline text-4xl font-bold text-primary mt-2">{post.title}</h1>
                         </div>
 
                         <p>The Onam Sadya is more than just a meal; it's a grand vegetarian feast that is the centerpiece of Onam celebrations. We take you through the 26+ dishes that make up this incredible culinary experience.</p>
@@ -40,7 +61,7 @@ export default function SingleBlogPage() {
                             <li><strong>Payasam:</strong> The delicious dessert, a sweet pudding made with milk, rice, or lentils.</li>
                         </ul>
                     </article>
-                    <ShareButtons title={title} />
+                    <ShareButtons title={post.title} />
                 </CardContent>
             </Card>
         </div>

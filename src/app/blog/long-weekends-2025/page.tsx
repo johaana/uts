@@ -5,9 +5,30 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ShareButtons } from "@/components/ShareButtons";
+import type { Metadata } from 'next';
+
+const post = {
+    title: "Maximize Your Vacations: Your Ultimate Guide to India's Long Weekends in 2025",
+    image: "https://i.postimg.cc/VLQf0kKF/long-weekend-1.jpg",
+    excerpt: "Unlock your 2025 travel potential! This guide details all the long weekends in India, offering festival-based travel ideas to help you plan your holidays and make the most of every break."
+};
+
+export const metadata: Metadata = {
+  title: `${post.title} | Utsavs`,
+  description: post.excerpt,
+  openGraph: {
+    title: `${post.title} | Utsavs`,
+    description: post.excerpt,
+    images: [{ url: post.image, width: 1200, height: 630, alt: post.title }],
+  },
+  twitter: {
+    title: `${post.title} | Utsavs`,
+    description: post.excerpt,
+    images: [post.image],
+  },
+};
 
 export default function SingleBlogPage() {
-    const title = "Maximize Your Vacations: Your Ultimate Guide to India's Long Weekends in 2025";
     return (
         <div className="container mx-auto px-4 py-12">
             <div className="relative h-64 md:h-96 w-full mb-8">
@@ -24,7 +45,7 @@ export default function SingleBlogPage() {
                     <article className="prose max-w-none text-foreground/80">
                          <div className="text-center mb-8">
                             <p className="text-sm text-muted-foreground">By Team Utsavs on January 18, 2025</p>
-                            <h1 className="font-headline text-4xl font-bold text-primary mt-2">{title}</h1>
+                            <h1 className="font-headline text-4xl font-bold text-primary mt-2">{post.title}</h1>
                         </div>
 
                         <p>The year 2025 is a treasure trove for savvy travelers, packed with numerous long weekends just waiting to be claimed. By strategically planning your leaves around India's rich calendar of festivals and holidays, you can transform a few days off into a truly memorable escape. This is your ultimate 2025 long weekend planner, designed to help you maximize your vacation time and immerse yourself in the cultural heartbeat of India. Get ready to pack your bags and explore!</p>
@@ -82,7 +103,7 @@ export default function SingleBlogPage() {
                         
                         <p>With a little planning, 2025 can be your most travel-filled year yet. Use this guide to chart your adventures, book your tickets early, and get ready to create lasting memories. Happy travels!</p>
                     </article>
-                    <ShareButtons title={title} />
+                    <ShareButtons title={post.title} />
                 </CardContent>
             </Card>
         </div>

@@ -5,13 +5,34 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ShareButtons } from "@/components/ShareButtons";
+import type { Metadata } from 'next';
+
+const post = {
+    title: "Festive Fashion: A Guide to Traditional Indian Attire",
+    image: "https://i.postimg.cc/Kj45FYzX/festive-Indian-attire.png",
+    excerpt: "From vibrant sarees and lehengas to elegant kurtas and sherwanis, find inspiration for your festive wardrobe. We explore the significance of different colors and fabrics in Indian festive wear."
+};
+
+export const metadata: Metadata = {
+  title: `${post.title} | Utsavs`,
+  description: post.excerpt,
+  openGraph: {
+    title: `${post.title} | Utsavs`,
+    description: post.excerpt,
+    images: [{ url: post.image, width: 1200, height: 630, alt: post.title }],
+  },
+  twitter: {
+    title: `${post.title} | Utsavs`,
+    description: post.excerpt,
+    images: [post.image],
+  },
+};
 
 export default function SingleBlogPage() {
-    const title = "Festive Fashion: A Guide to Traditional Indian Attire";
     return (
         <div className="container mx-auto px-4 py-12">
             <div className="relative h-64 md:h-96 w-full mb-8">
-                <Image src="https://i.postimg.cc/Kj45FYzX/festive-Indian-attire.png" alt={title} layout="fill" objectFit="cover" data-ai-hint="indian fashion" className="rounded-lg"/>
+                <Image src={post.image} alt={post.title} layout="fill" objectFit="cover" data-ai-hint="indian fashion" className="rounded-lg"/>
             </div>
             <Card className="overflow-hidden md:-mt-16 relative z-10 md:rounded-t-2xl">
                 <CardContent className="p-6 md:p-10">
@@ -24,7 +45,7 @@ export default function SingleBlogPage() {
                     <article className="prose max-w-none text-foreground/80">
                          <div className="text-center mb-8">
                             <p className="text-sm text-muted-foreground">By Team Utsavs on July 05, 2025</p>
-                            <h1 className="font-headline text-4xl font-bold text-primary mt-2">{title}</h1>
+                            <h1 className="font-headline text-4xl font-bold text-primary mt-2">{post.title}</h1>
                         </div>
                         
                         <p>From vibrant sarees and lehengas to elegant kurtas and sherwanis, find inspiration for your festive wardrobe. We explore the significance of different colors and fabrics in Indian festive wear.</p>
@@ -38,7 +59,7 @@ export default function SingleBlogPage() {
                         <h2>Color Symbolism</h2>
                         <p>Colors play a huge role in festive attire. Red symbolizes purity and celebration, yellow represents auspiciousness, and green signifies new beginnings. Understanding these nuances can add another layer of meaning to your festive dressing.</p>
                     </article>
-                    <ShareButtons title={title} />
+                    <ShareButtons title={post.title} />
                 </CardContent>
             </Card>
         </div>
