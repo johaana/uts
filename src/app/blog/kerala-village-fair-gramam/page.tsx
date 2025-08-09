@@ -1,17 +1,37 @@
-
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ShareButtons } from "@/components/ShareButtons";
+import type { Metadata } from 'next';
+
+const post = { 
+    title: "Gramam: Step Into the Heart of Kerala's Culture", 
+    image: "https://i.postimg.cc/FKgpVqq6/gramam-kerala.jpg",
+    excerpt: "Experience the authentic culture of Kerala at the Gramam village fair. A celebration of traditional arts, crafts, and food near Kovalam."
+};
+
+export const metadata: Metadata = {
+  title: post.title,
+  description: post.excerpt,
+  openGraph: {
+    title: post.title,
+    description: post.excerpt,
+    images: [{ url: post.image, width: 1200, height: 630, alt: post.title }],
+  },
+  twitter: {
+    title: post.title,
+    description: post.excerpt,
+    images: [post.image],
+  },
+};
 
 export default function SingleBlogPage() {
-    const title = "Gramam: Step Into the Heart of Kerala's Culture";
     return (
         <div className="container mx-auto px-4 py-12">
             <div className="relative h-64 md:h-96 w-full mb-8">
-                <Image src="https://i.postimg.cc/FKgpVqq6/gramam-kerala.jpg" alt="Kerala Village Fair" layout="fill" objectFit="cover" data-ai-hint="kerala village fair" className="rounded-lg"/>
+                <Image src={post.image} alt="Kerala Village Fair" layout="fill" objectFit="cover" data-ai-hint="kerala village fair" className="rounded-lg"/>
             </div>
             <Card className="overflow-hidden md:-mt-16 relative z-10 md:rounded-t-2xl">
                 <CardContent className="p-6 md:p-10">
@@ -24,7 +44,7 @@ export default function SingleBlogPage() {
                     <article className="prose max-w-none text-foreground/80">
                          <div className="text-center mb-8">
                             <p className="text-sm text-muted-foreground">By Team Utsavs on May 24, 2025</p>
-                            <h1 className="font-headline text-4xl font-bold text-primary mt-2">{title}</h1>
+                            <h1 className="font-headline text-4xl font-bold text-primary mt-2">{post.title}</h1>
                         </div>
 
                         <h2>An Authentic Glimpse of Rural Kerala</h2>
@@ -43,7 +63,7 @@ export default function SingleBlogPage() {
 
                         <p>The Kerala Village Fair is more than just a festival; it's an immersive cultural experience that offers a deep and meaningful connection to the heritage of Kerala. It's a perfect destination for travelers seeking authenticity and a deeper understanding of regional Indian life.</p>
                     </article>
-                    <ShareButtons title={title} />
+                    <ShareButtons title={post.title} />
                 </CardContent>
             </Card>
         </div>

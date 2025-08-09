@@ -1,17 +1,37 @@
-
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ShareButtons } from "@/components/ShareButtons";
+import type { Metadata } from 'next';
+
+const post = { 
+    title: "Losar Festival: Celebrating the Tibetan New Year in the Himalayas", 
+    image: "https://i.postimg.cc/mDBXxRCR/losar-2.jpg",
+    excerpt: "Discover the Losar festival, a vibrant celebration marking the Tibetan New Year with colorful rituals, music, and dance in Sikkim and Ladakh."
+};
+
+export const metadata: Metadata = {
+  title: post.title,
+  description: post.excerpt,
+  openGraph: {
+    title: post.title,
+    description: post.excerpt,
+    images: [{ url: post.image, width: 1200, height: 630, alt: post.title }],
+  },
+  twitter: {
+    title: post.title,
+    description: post.excerpt,
+    images: [post.image],
+  },
+};
 
 export default function SingleBlogPage() {
-    const title = "Losar Festival: Celebrating the Tibetan New Year in the Himalayas";
     return (
         <div className="container mx-auto px-4 py-12">
             <div className="relative h-64 md:h-96 w-full mb-8">
-                <Image src="https://i.postimg.cc/mDBXxRCR/losar-2.jpg" alt="Losar Festival" layout="fill" objectFit="cover" data-ai-hint="ladakh festival" className="rounded-lg"/>
+                <Image src={post.image} alt="Losar Festival" layout="fill" objectFit="cover" data-ai-hint="ladakh festival" className="rounded-lg"/>
             </div>
             <Card className="overflow-hidden md:-mt-16 relative z-10 md:rounded-t-2xl">
                 <CardContent className="p-6 md:p-10">
@@ -24,7 +44,7 @@ export default function SingleBlogPage() {
                     <article className="prose max-w-none text-foreground/80">
                          <div className="text-center mb-8">
                             <p className="text-sm text-muted-foreground">By Team Utsavs on June 10, 2025</p>
-                            <h1 className="font-headline text-4xl font-bold text-primary mt-2">{title}</h1>
+                            <h1 className="font-headline text-4xl font-bold text-primary mt-2">{post.title}</h1>
                         </div>
 
                         <h2>Welcoming a New Beginning</h2>
@@ -42,7 +62,7 @@ export default function SingleBlogPage() {
                         
                         <p>Experiencing the Losar festival is a unique opportunity to witness the rich cultural and spiritual traditions of the Himalayan region. It's a celebration that beautifully blends solemn ritual with exuberant joy, offering a memorable experience for any traveler.</p>
                     </article>
-                    <ShareButtons title={title} />
+                    <ShareButtons title={post.title} />
                 </CardContent>
             </Card>
         </div>

@@ -20,9 +20,37 @@ const ptSans = PT_Sans({
   variable: '--font-body',
 })
 
+const defaultTitle = "Utsavs - Festivals, Recipes & Travel Guides";
+const defaultDescription = "Discover Indian festivals, recipes, travel tips, and cultural stories all in one place.";
+const defaultUrl = "https://utsavs.com";
+const defaultOgImage = "https://i.postimg.cc/mD8h1LzB/default-preview.jpg";
+
+
 export const metadata: Metadata = {
-  title: "Utsavs: Your Definitive Guide to Indian Festivals",
-  description: "Your essential guide to the dates, rituals, and stories behind India's vibrant celebrations. Discover authentic recipes, explore cultural traditions, and plan your year with our comprehensive festival calendar.",
+  title: defaultTitle,
+  description: defaultDescription,
+  metadataBase: new URL(defaultUrl),
+  openGraph: {
+    title: defaultTitle,
+    description: defaultDescription,
+    url: defaultUrl,
+    siteName: 'Utsavs',
+    images: [
+      {
+        url: defaultOgImage,
+        width: 1200,
+        height: 630,
+        alt: 'A vibrant collage of Indian festivals',
+      },
+    ],
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: defaultTitle,
+    description: defaultDescription,
+    images: [defaultOgImage],
+  },
   other: {
     "google-adsense-account": "ca-pub-6080650236579757",
   },

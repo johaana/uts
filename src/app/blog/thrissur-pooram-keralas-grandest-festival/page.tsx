@@ -1,17 +1,37 @@
-
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ShareButtons } from "@/components/ShareButtons";
+import type { Metadata } from 'next';
+
+const post = { 
+    title: "Thrissur Pooram: Kerala's Spectacle of Elephants and Percussion", 
+    image: "https://i.postimg.cc/j28kQ9WT/thrissur-puram-festival-2.jpg",
+    excerpt: "Experience the magic of Thrissur Pooram, a grand temple festival in Kerala featuring caparisoned elephants, traditional music, and a dazzling fireworks display."
+};
+
+export const metadata: Metadata = {
+  title: post.title,
+  description: post.excerpt,
+  openGraph: {
+    title: post.title,
+    description: post.excerpt,
+    images: [{ url: post.image, width: 1200, height: 630, alt: post.title }],
+  },
+  twitter: {
+    title: post.title,
+    description: post.excerpt,
+    images: [post.image],
+  },
+};
 
 export default function SingleBlogPage() {
-    const title = "Thrissur Pooram: Kerala's Spectacle of Elephants and Percussion";
     return (
         <div className="container mx-auto px-4 py-12">
             <div className="relative h-64 md:h-96 w-full mb-8">
-                <Image src="https://i.postimg.cc/j28kQ9WT/thrissur-puram-festival-2.jpg" alt="Thrissur Pooram" layout="fill" objectFit="cover" data-ai-hint="kerala temple festival" className="rounded-lg"/>
+                <Image src={post.image} alt="Thrissur Pooram" layout="fill" objectFit="cover" data-ai-hint="kerala temple festival" className="rounded-lg"/>
             </div>
             <Card className="overflow-hidden md:-mt-16 relative z-10 md:rounded-t-2xl">
                 <CardContent className="p-6 md:p-10">
@@ -24,7 +44,7 @@ export default function SingleBlogPage() {
                     <article className="prose max-w-none text-foreground/80">
                          <div className="text-center mb-8">
                             <p className="text-sm text-muted-foreground">By Team Utsavs on June 15, 2025</p>
-                            <h1 className="font-headline text-4xl font-bold text-primary mt-2">{title}</h1>
+                            <h1 className="font-headline text-4xl font-bold text-primary mt-2">{post.title}</h1>
                         </div>
 
                         <h2>The Mother of all Poorams</h2>
@@ -43,7 +63,7 @@ export default function SingleBlogPage() {
                         
                         <p>Thrissur Pooram is an unforgettable, magical experience that offers a fascinating glimpse into the rich cultural heritage of India. It's a must-see for anyone wanting to experience the grandeur of a traditional Indian festival.</p>
                     </article>
-                    <ShareButtons title={title} />
+                    <ShareButtons title={post.title} />
                 </CardContent>
             </Card>
         </div>

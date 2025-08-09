@@ -1,17 +1,37 @@
-
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ShareButtons } from "@/components/ShareButtons";
+import type { Metadata } from 'next';
+
+const post = { 
+    title: "10 Indian Festivals You've Probably Never Heard Of", 
+    image: "https://i.postimg.cc/ncrHbfGv/unique-festivals-1.jpg",
+    excerpt: "Venture off the beaten path and discover some of India's most unique and fascinating regional festivals, from tribal celebrations to ancient rituals."
+};
+
+export const metadata: Metadata = {
+  title: post.title,
+  description: post.excerpt,
+  openGraph: {
+    title: post.title,
+    description: post.excerpt,
+    images: [{ url: post.image, width: 1200, height: 630, alt: post.title }],
+  },
+  twitter: {
+    title: post.title,
+    description: post.excerpt,
+    images: [post.image],
+  },
+};
 
 export default function SingleBlogPage() {
-    const title = "10 Indian Festivals You've Probably Never Heard Of";
     return (
         <div className="container mx-auto px-4 py-12">
             <div className="relative h-64 md:h-96 w-full mb-8">
-                <Image src="https://i.postimg.cc/ncrHbfGv/unique-festivals-1.jpg" alt="Indian tribal festival" layout="fill" objectFit="cover" data-ai-hint="tribal festival" className="rounded-lg"/>
+                <Image src={post.image} alt="Indian tribal festival" layout="fill" objectFit="cover" data-ai-hint="tribal festival" className="rounded-lg"/>
             </div>
             <Card className="overflow-hidden md:-mt-16 relative z-10 md:rounded-t-2xl">
                 <CardContent className="p-6 md:p-10">
@@ -24,7 +44,7 @@ export default function SingleBlogPage() {
                     <article className="prose max-w-none text-foreground/80">
                          <div className="text-center mb-8">
                             <p className="text-sm text-muted-foreground">By Team Utsavs on July 15, 2025</p>
-                            <h1 className="font-headline text-4xl font-bold text-primary mt-2">{title}</h1>
+                            <h1 className="font-headline text-4xl font-bold text-primary mt-2">{post.title}</h1>
                         </div>
 
                         <p>While Diwali's lights and Holi's colors capture global attention, India's cultural heart beats strongest in its lesser-known regional festivals. These are not just events; they are raw, authentic celebrations of life, community, and ancient traditions. For the traveler seeking to go beyond the tourist trail, these festivals offer an unparalleled window into the soul of India. Here are 10 such celebrations that promise an unforgettable experience.</p>
@@ -60,7 +80,7 @@ export default function SingleBlogPage() {
                         <p>Celebrated in the Coorg (Kodagu) region, Kaila Polud is a unique festival dedicated to weapons. It marks the end of the agricultural season, and on this day, the Kodava community takes out their arms, cleans them, and worships them. The festival also includes rural sports and games.</p>
 
                     </article>
-                    <ShareButtons title={title} />
+                    <ShareButtons title={post.title} />
                 </CardContent>
             </Card>
         </div>

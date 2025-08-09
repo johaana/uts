@@ -1,17 +1,37 @@
-
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ShareButtons } from "@/components/ShareButtons";
+import type { Metadata } from 'next';
+
+const post = { 
+    title: "Pushkar Camel Fair: More Than Just a Market", 
+    image: "https://i.postimg.cc/rmVJnj2w/Pushkar-Camel-Fair.avif",
+    excerpt: "Discover the world's largest camel fair in Pushkar, Rajasthan. A vibrant blend of livestock trading, cultural events, and spiritual experiences."
+};
+
+export const metadata: Metadata = {
+  title: post.title,
+  description: post.excerpt,
+  openGraph: {
+    title: post.title,
+    description: post.excerpt,
+    images: [{ url: post.image, width: 1200, height: 630, alt: post.title }],
+  },
+  twitter: {
+    title: post.title,
+    description: post.excerpt,
+    images: [post.image],
+  },
+};
 
 export default function SingleBlogPage() {
-    const title = "Pushkar Camel Fair: More Than Just a Market";
     return (
         <div className="container mx-auto px-4 py-12">
             <div className="relative h-64 md:h-96 w-full mb-8">
-                <Image src="https://i.postimg.cc/rmVJnj2w/Pushkar-Camel-Fair.avif" alt="Pushkar Camel Fair" layout="fill" objectFit="cover" data-ai-hint="pushkar camel fair" className="rounded-lg"/>
+                <Image src={post.image} alt="Pushkar Camel Fair" layout="fill" objectFit="cover" data-ai-hint="pushkar camel fair" className="rounded-lg"/>
             </div>
             <Card className="overflow-hidden md:-mt-16 relative z-10 md:rounded-t-2xl">
                 <CardContent className="p-6 md:p-10">
@@ -24,7 +44,7 @@ export default function SingleBlogPage() {
                     <article className="prose max-w-none text-foreground/80">
                          <div className="text-center mb-8">
                             <p className="text-sm text-muted-foreground">By Team Utsavs on June 25, 2025</p>
-                            <h1 className="font-headline text-4xl font-bold text-primary mt-2">{title}</h1>
+                            <h1 className="font-headline text-4xl font-bold text-primary mt-2">{post.title}</h1>
                         </div>
 
                         <h2>The World's Largest Camel Fair</h2>
@@ -44,7 +64,7 @@ export default function SingleBlogPage() {
                         
                         <p>The Pushkar Camel Fair is an unforgettable experience, offering a unique blend of tradition, spirituality, and vibrant celebration. It's a must-visit for anyone looking to experience the authentic soul of Rajasthan.</p>
                     </article>
-                    <ShareButtons title={title} />
+                    <ShareButtons title={post.title} />
                 </CardContent>
             </Card>
         </div>

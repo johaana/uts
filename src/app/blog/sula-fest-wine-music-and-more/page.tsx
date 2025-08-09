@@ -1,17 +1,37 @@
-
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ShareButtons } from "@/components/ShareButtons";
+import type { Metadata } from 'next';
+
+const post = { 
+    title: "Sula Fest: India's Premier Vineyard Music Festival", 
+    image: "https://i.postimg.cc/Gpm0Ykgv/sula-fest-1.jpg",
+    excerpt: "Discover Sula Fest, a unique blend of live music, gourmet food, and fine wine in the picturesque vineyards of Nashik."
+};
+
+export const metadata: Metadata = {
+  title: post.title,
+  description: post.excerpt,
+  openGraph: {
+    title: post.title,
+    description: post.excerpt,
+    images: [{ url: post.image, width: 1200, height: 630, alt: post.title }],
+  },
+  twitter: {
+    title: post.title,
+    description: post.excerpt,
+    images: [post.image],
+  },
+};
 
 export default function SingleBlogPage() {
-    const title = "Sula Fest: India's Premier Vineyard Music Festival";
     return (
         <div className="container mx-auto px-4 py-12">
             <div className="relative h-64 md:h-96 w-full mb-8">
-                <Image src="https://i.postimg.cc/Gpm0Ykgv/sula-fest-1.jpg" alt="Sula Fest" layout="fill" objectFit="cover" data-ai-hint="sula vineyards" className="rounded-lg"/>
+                <Image src={post.image} alt="Sula Fest" layout="fill" objectFit="cover" data-ai-hint="sula vineyards" className="rounded-lg"/>
             </div>
             <Card className="overflow-hidden md:-mt-16 relative z-10 md:rounded-t-2xl">
                 <CardContent className="p-6 md:p-10">
@@ -24,7 +44,7 @@ export default function SingleBlogPage() {
                     <article className="prose max-w-none text-foreground/80">
                          <div className="text-center mb-8">
                             <p className="text-sm text-muted-foreground">By Team Utsavs on June 02, 2025</p>
-                            <h1 className="font-headline text-4xl font-bold text-primary mt-2">{title}</h1>
+                            <h1 className="font-headline text-4xl font-bold text-primary mt-2">{post.title}</h1>
                         </div>
 
                         <h2>Where Wine, Music, and Culture Converge</h2>
@@ -44,7 +64,7 @@ export default function SingleBlogPage() {
                         
                         <p>Sula Fest provides a relaxed, vibrant, and sophisticated atmosphere, making it a unique and sought-after event in India's festival calendar. It's a celebration of the good life, combining great music with the pleasures of food and wine.</p>
                     </article>
-                    <ShareButtons title={title} />
+                    <ShareButtons title={post.title} />
                 </CardContent>
             </Card>
         </div>
