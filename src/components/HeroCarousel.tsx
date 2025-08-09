@@ -34,7 +34,7 @@ export function HeroCarousel() {
           layout="fill"
           objectFit="cover"
           data-ai-hint={image.hint}
-          priority={index === 0}
+          priority
           className={cn(
             'absolute inset-0 transition-opacity duration-1000 ease-in-out',
             index === currentIndex ? 'opacity-100' : 'opacity-0'
