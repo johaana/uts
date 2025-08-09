@@ -49,8 +49,8 @@ const allRecipes = [
     { name: "Sabudana Khichdi", festival: "Maha Shivaratri", region: "Nationwide", description: "A popular fasting dish made from tapioca pearls, potatoes, and peanuts.", link: "/recipes/sabudana-khichdi", image: "https://i.postimg.cc/3wRdZZ1y/sabudana-khichdi.jpg", hint: "tapioca pearl dish" },
     { name: "Kuttu ki Puri", festival: "Maha Shivaratri", region: "North", description: "A gluten-free, deep-fried bread made from buckwheat flour for fasting.", link: "/recipes/kuttu-ki-puri", image: "https://i.postimg.cc/RV76Chq0/kuttu-ki-puri.jpg", hint: "buckwheat bread" },
     { name: "Makhane ki Kheer", festival: "Maha Shivaratri", region: "Nationwide", description: "A creamy pudding made from fox nuts, perfect for festive fasting.", link: "/recipes/makhane-ki-kheer", image: "https://i.postimg.cc/bwLZb5xc/Makhane-ki-kheer.jpg", hint: "fox nut pudding" },
-    { name: "Sali Boti", festival: "Parsi New Year", region: "West", description: "A classic Parsi mutton curry with a tangy and sweet flavor, topped with crispy potato straws.", link: "/recipes/sali-boti", image: "https://i.postimg.cc/W3PTpYv4/sali-boti.jpg", hint: "parsi meal" },
-    { name: "Patra ni Machchi", festival: "Parsi New Year", region: "West", description: "Steamed fish fillets coated in a vibrant green chutney and wrapped in a banana leaf.", link: "/recipes/patra-ni-machchi", image: "https://i.postimg.cc/nL5gKz5m/Patra-Ni-Macchi.jpg", hint: "steamed fish" },
+    { name: "Sali Boti", festival: "Parsi New Year", region: "West", description: "A classic Parsi mutton curry with a tangy and sweet flavor, topped with crispy potato straws.", link: "/recipes/sali-boti", image: "https://i.postimg.cc/mDqnJ9xM/Salli-Boti.jpeg", hint: "parsi meal" },
+    { name: "Patra ni Machchi", festival: "Parsi New Year", region: "West", description: "Steamed fish fillets coated in a vibrant green chutney and wrapped in a banana leaf.", link: "/recipes/patra-ni-machchi", image: "https://i.postimg.cc/VvD3hL17/Patra-ni-Macchi-1.jpg", hint: "steamed fish" },
 ];
 
 const festivals = [...new Set(allRecipes.map(r => r.festival))].sort();
