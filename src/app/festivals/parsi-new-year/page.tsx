@@ -16,7 +16,7 @@ export default function ParsiNewYearPage() {
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-red-800/10">
                 <div className="absolute inset-0 z-0 opacity-20">
-                    <Image src="https://i.postimg.cc/d3p6FFnw/pateti-parsi-new-year.jpg" alt="Parsi New Year" layout="fill" objectFit="cover" data-ai-hint="parsi celebration" />
+                    <Image src="https://i.postimg.cc/bwD0xd8T/navroz1.webp" alt="Parsi New Year" layout="fill" objectFit="cover" data-ai-hint="parsi celebration" />
                 </div>
                 <div className="relative text-center text-primary-foreground z-10 p-4">
                     <h1 className="font-headline text-4xl md:text-5xl lg:text-7xl font-bold text-red-900 drop-shadow-lg">Parsi New Year (Navroz)</h1>
