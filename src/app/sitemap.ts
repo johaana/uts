@@ -6,7 +6,7 @@ import { metadata } from './layout';
 const allRecipes = [
     { link: "/recipes/gajar-ka-halwa" },
     { link: "/recipes/puran-poli" },
-    { link: "/recipes/ras-malai" },
+    { link: "src/app/recipes/ras-malai/page.tsx" },
     { link: "/recipes/modak" },
     { link: "/recipes/thekua" },
     { link: "/recipes/ladoo" },
