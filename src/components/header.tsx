@@ -38,15 +38,15 @@ export function Header() {
         
         {/* Logo */}
         <div className="flex-1 md:flex-none justify-start">
-            <Link href="/" className="flex items-center gap-2 py-1">
+            <Link href="/" className="flex items-center gap-2 py-1 group">
                 <Image 
                   src="https://i.postimg.cc/vZTZ0Br5/utsavs-logo.png" 
                   alt="Utsavs Logo" 
                   width={80}
                   height={80}
-                  className={cn("transition-all duration-300", isScrolled ? "w-16 h-16" : "w-20 h-20")}
+                  className={cn("transition-all duration-300 group-hover:scale-105", isScrolled ? "w-16 h-16" : "w-20 h-20")}
                 />
-                <span className="font-headline text-2xl font-bold text-primary self-center">Utsavs</span>
+                <span className="font-headline text-2xl font-bold text-primary self-center drop-shadow-sm transition-transform duration-300 group-hover:scale-105">Utsavs</span>
             </Link>
         </div>
 
