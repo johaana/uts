@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -34,7 +35,7 @@ export function BackToTopButton() {
     <Button
       size="icon"
       className={cn(
-        'fixed bottom-8 right-8 z-50 rounded-full transition-opacity duration-300',
+        'fixed bottom-8 right-8 z-50 rounded-full transition-opacity duration-300 hidden md:inline-flex',
         isVisible ? 'opacity-100' : 'opacity-0'
       )}
       onClick={scrollToTop}
