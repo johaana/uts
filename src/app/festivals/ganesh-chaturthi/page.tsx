@@ -1,7 +1,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote, Leaf } from "lucide-react";
+import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote, Leaf, CalendarDays } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
@@ -26,8 +26,9 @@ export default function GaneshChaturthiPage() {
                 <Card className="mb-12">
                     <CardContent className="p-6 md:p-10">
                         <Tabs defaultValue="overview">
-                            <TabsList className="grid w-full grid-cols-2 md:grid-cols-5 mb-6 h-auto">
+                            <TabsList className="grid w-full grid-cols-2 md:grid-cols-6 mb-6 h-auto">
                                 <TabsTrigger value="overview" className="py-2"><BookOpen className="w-4 h-4 mr-2" />Overview</TabsTrigger>
+                                <TabsTrigger value="ten-days" className="py-2"><CalendarDays className="w-4 h-4 mr-2" />The Festival</TabsTrigger>
                                 <TabsTrigger value="traditions" className="py-2"><Sparkles className="w-4 h-4 mr-2" />Traditions</TabsTrigger>
                                 <TabsTrigger value="recipes" className="py-2"><Utensils className="w-4 h-4 mr-2" />Recipes</TabsTrigger>
                                 <TabsTrigger value="chants" className="py-2"><MessageSquareQuote className="w-4 h-4 mr-2" />Aartis</TabsTrigger>
@@ -39,6 +40,24 @@ export default function GaneshChaturthiPage() {
                                 <div className="space-y-4 text-foreground/80 prose max-w-none">
                                     <p>Ganesh Chaturthi is a spectacular festival that celebrates the birth of Lord Ganesha, the beloved elephant-headed son of Shiva and Parvati. Revered as the god of wisdom, prosperity, and good fortune, and the remover of obstacles ('Vighnaharta'), Ganesha's birth is a story of divine creation and devotion. Legend has it that Goddess Parvati created Ganesha from sandalwood paste to guard her chambers. When Lord Shiva returned and was denied entry by the boy, a fierce battle ensued, and Shiva, in his rage, severed Ganesha's head. A distraught Parvati explained what had happened, and a remorseful Shiva promised to bring the boy back to life, replacing his head with that of the first living creature he could find—an elephant.</p>
                                     <p>The festival was transformed from a private, household celebration into a grand public event by the freedom fighter Lokmanya Tilak in the late 19th century. He envisioned it as a way to bridge the gap between different castes and unite the people of India against British rule. Today, the festival is celebrated with immense fervor, especially in Maharashtra. Devotees bring home beautifully crafted clay idols of Ganesha, worshipping him for ten days with prayers, songs, and his favorite sweet, 'modak'. The festival culminates in the 'visarjan' (immersion) ceremony on Anant Chaturdashi, where the idol is carried in a grand procession to a nearby body of water. This symbolizes Ganesha's journey back to his celestial abode, taking with him the misfortunes of his devotees and promising to return the following year.</p>
+                                </div>
+                            </TabsContent>
+
+                            <TabsContent value="ten-days">
+                                <h2 className="font-headline text-3xl font-bold mb-4">The Ten-Day Celebration</h2>
+                                <div className="space-y-8 prose max-w-none text-foreground/80">
+                                    <div>
+                                        <h3 className="font-headline text-2xl text-primary">Day 1: Avahana and Sthapana</h3>
+                                        <p>The festival begins with the installation of a clay idol of Ganesha in the home or a public pandal. A priest performs the 'Pranapratishtha' puja, a ritual to invoke the holy presence of Ganesha into the idol. This is followed by offerings of modaks, flowers (especially red hibiscus), and durva grass.</p>
+                                    </div>
+                                    <div>
+                                        <h3 className="font-headline text-2xl text-primary">Days 2 to 9: Daily Worship and Gauri Avahan</h3>
+                                        <p>For the duration of the festival, daily morning and evening pujas and aartis are performed. The atmosphere is filled with the sound of devotional songs and mantras. A significant event during this period is the worship of Goddess Gauri (an incarnation of Parvati, Ganesha's mother). Idols of Gauri are brought home, and a special puja is performed to celebrate the mother-son bond. This is particularly important in Maharashtra, where married women observe a fast and pray for a long and happy married life.</p>
+                                    </div>
+                                    <div>
+                                        <h3 className="font-headline text-2xl text-primary">Day 10/11: Anant Chaturdashi and Visarjan</h3>
+                                        <p>The festival culminates on Anant Chaturdashi. The idols of Ganesha are taken in a vibrant and grand procession to a nearby river, lake, or the sea for immersion ('visarjan'). The streets are filled with music, dance, and chants of "Ganpati Bappa Morya, Pudhchya Varshi Lavkar Ya" (Oh Lord Ganesha, come again soon next year). The immersion symbolizes Ganesha's return to his celestial abode, taking with him the obstacles and misfortunes of his devotees, and the cyclical nature of life and creation.</p>
+                                    </div>
                                 </div>
                             </TabsContent>
                             

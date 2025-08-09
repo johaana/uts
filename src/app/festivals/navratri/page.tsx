@@ -5,19 +5,6 @@ import { BookOpen, Sparkles, MessageSquareQuote, CalendarDays, Leaf } from "luci
 import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
 
-const dayColors = [
-    { day: "Day 1: Pratipada", goddess: "Shailaputri", color: "Orange", significance: "Energy & Happiness" },
-    { day: "Day 2: Dwitiya", goddess: "Brahmacharini", color: "White", significance: "Purity & Peace" },
-    { day: "Day 3: Tritiya", goddess: "Chandraghanta", color: "Red", significance: "Beauty & Fearlessness" },
-    { day: "Day 4: Chaturthi", goddess: "Kushmanda", color: "Royal Blue", significance: "Health & Wealth" },
-    { day: "Day 5: Panchami", goddess: "Skandamata", color: "Yellow", significance: "Happiness & Brightness" },
-    { day: "Day 6: Shashthi", goddess: "Katyayani", color: "Green", significance: "New Beginnings & Growth" },
-    { day: "Day 7: Saptami", goddess: "Kalaratri", color: "Grey", significance: "Strength & Protection" },
-    { day: "Day 8: Ashtami", goddess: "Mahagauri", color: "Purple", significance: "Intellect & Peace" },
-    { day: "Day 9: Navami", goddess: "Siddhidatri", color: "Peacock Green", significance: "Wisdom & Fulfillment" },
-];
-
-
 export default function NavratriPage() {
     return (
         <div className="bg-background">
@@ -49,21 +36,53 @@ export default function NavratriPage() {
                             </TabsContent>
                             
                             <TabsContent value="nine-nights">
-                                <h2 className="font-headline text-3xl font-bold mb-4">The Nine Nights of Navratri</h2>
-                                 <p className="mb-6 text-foreground/80 prose max-w-none">Each night of Navratri is dedicated to one of the nine avatars of Goddess Durga. Devotees often wear specific colors associated with each day's goddess, adding a visual splendor to the festivities.</p>
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                    {dayColors.map((day) => (
-                                         <Card key={day.day} className="flex flex-col items-center text-center p-4">
-                                            <div className="w-24 h-24 rounded-full border-4 mb-4" style={{borderColor: day.color.toLowerCase().replace(' ', '')}}></div>
-                                            <p className="font-bold">{day.day}</p>
-                                            <h3 className="font-headline text-2xl text-primary my-1">{day.goddess}</h3>
-                                            <p className="text-foreground/80">{day.significance}</p>
-                                            <div className="mt-2 flex items-center gap-2">
-                                                <div className="w-4 h-4 rounded-full" style={{backgroundColor: day.color.toLowerCase().replace(' ', '')}}></div>
-                                                <span className="font-semibold text-sm">{day.color}</span>
-                                            </div>
-                                        </Card>
-                                    ))}
+                                <h2 className="font-headline text-3xl font-bold mb-4">The Nine Avatars of Durga: A Day-by-Day Guide</h2>
+                                <div className="space-y-8 prose max-w-none text-foreground/80">
+                                    <div>
+                                        <h3 className="font-headline text-2xl text-primary">Day 1: Shailaputri - The Daughter of the Mountains</h3>
+                                        <p><strong>Color:</strong> Orange. Represents energy, warmth, and exuberance.</p>
+                                        <p>The first night of Navratri is dedicated to Shailaputri, which means 'Daughter of the Mountain' (Shaila = mountain, Putri = daughter). She is the incarnation of Goddess Parvati, born to Himavan, the king of the Himalayas. In this form, she holds a trident (Trishul) in one hand and a lotus in the other, riding Nandi the bull. Her worship marks the beginning of the nine-day spiritual journey, invoking her power to bring stability and strength, just like the mountains she hails from. Devotees pray to her for fortitude and for setting their spiritual discipline in motion for the days to come.</p>
+                                    </div>
+                                    <div>
+                                        <h3 className="font-headline text-2xl text-primary">Day 2: Brahmacharini - The Ascetic</h3>
+                                        <p><strong>Color:</strong> White. Symbolizes purity, peace, and meditation.</p>
+                                        <p>The second day honors Brahmacharini, the form of Parvati when she undertook severe penance to win Lord Shiva as her husband. The name signifies a female who pursues the sacred path of spirituality. She holds a rosary (japa mala) and a water pot (kamandalu), walking barefoot. Her form is serene and blissful, representing deep meditation, devotion, and determination. Worshipping her is believed to bless devotees with immense emotional strength, mental balance, and the resolve to overcome any obstacle in their spiritual path.</p>
+                                    </div>
+                                    <div>
+                                        <h3 className="font-headline text-2xl text-primary">Day 3: Chandraghanta - The Bearer of the Half-Moon Bell</h3>
+                                        <p><strong>Color:</strong> Red. Represents passion, beauty, and fearlessness.</p>
+                                        <p>On the third day, Goddess Durga is worshipped as Chandraghanta. After her marriage to Shiva, she adorned her forehead with a half-moon shaped like a bell (Chandra = moon, Ghanta = bell). She is depicted with ten hands holding various weapons, ready for battle, yet her face is serene and compassionate. Her worship instills bravery and courage in her devotees, and the sound of her bell is believed to drive away all evil spirits and negative energies.</p>
+                                    </div>
+                                     <div>
+                                        <h3 className="font-headline text-2xl text-primary">Day 4: Kushmanda - The Cosmic Creator</h3>
+                                        <p><strong>Color:</strong> Royal Blue. Symbolizes health, wealth, and strength.</p>
+                                        <p>The fourth form of Durga is Kushmanda. It is believed that when the universe was non-existent and darkness prevailed, she created the 'cosmic egg' (Brahmanda) with her divine smile. Her name breaks down to 'Ku' (a little), 'Ushma' (warmth), and 'Anda' (egg). She resides in the core of the sun, radiating light and energy to the entire cosmos. Worshipping her is said to improve health, bestow wealth, and grant power.</p>
+                                    </div>
+                                    <div>
+                                        <h3 className="font-headline text-2xl text-primary">Day 5: Skandamata - The Mother of Skanda</h3>
+                                        <p><strong>Color:</strong> Yellow. Represents happiness, brightness, and knowledge.</p>
+                                        <p>On Panchami, the fifth day, Durga is revered as Skandamata, the mother of the war god Skanda (also known as Kartikeya). She is depicted holding the infant Skanda in her lap. Riding a lion, she embodies the pure, selfless love of a mother. By worshipping Skandamata, a devotee gets the added blessing of worshipping Lord Skanda as well. It is believed that she awards her devotees with salvation, power, and prosperity.</p>
+                                    </div>
+                                     <div>
+                                        <h3 className="font-headline text-2xl text-primary">Day 6: Katyayani - The Warrior Goddess</h3>
+                                        <p><strong>Color:</strong> Green. Symbolizes new beginnings, nature, and growth.</p>
+                                        <p>Katyayani is the sixth form of Durga. She was born to the great sage Kata as an answer to his prayers for a daughter who would be a goddess. It was in this fierce form that Durga eventually destroyed the demon Mahishasura. She is the warrior goddess, embodying courage and righteous anger against injustice. Unmarried girls often worship her, seeking blessings for a good husband.</p>
+                                    </div>
+                                     <div>
+                                        <h3 className="font-headline text-2xl text-primary">Day 7: Kalaratri - The Dark Night</h3>
+                                        <p><strong>Color:</strong> Grey. Symbolizes the power to destroy evil and ignorance.</p>
+                                        <p>The seventh day is dedicated to Kalaratri, the most ferocious form of Goddess Durga. Her appearance is formidable—dark skin, disheveled hair, and a fearsome posture. She is a symbol of the night and the destroyer of all darkness, demons, and negative energies. While her form is terrifying, she is also 'Shubhankari'—the giver of auspicious results. Her worship is believed to make devotees fearless and to protect them from all harm and evil.</p>
+                                    </div>
+                                     <div>
+                                        <h3 className="font-headline text-2xl text-primary">Day 8: Mahagauri - The Great White Goddess</h3>
+                                        <p><strong>Color:</strong> Purple. Represents intellect, peace, and ambition.</p>
+                                        <p>Ashtami, the eighth day, honors Mahagauri. After her intense penance as Brahmacharini, Parvati's body had turned black. Lord Shiva cleansed her with the holy water of the Ganga, and she regained her radiant white complexion. 'Maha' means great, and 'Gauri' means white. She represents purity, serenity, and the absolution of all sins. Her worship is believed to cleanse the soul and fulfill all desires.</p>
+                                    </div>
+                                     <div>
+                                        <h3 className="font-headline text-2xl text-primary">Day 9: Siddhidatri - The Bestower of Powers</h3>
+                                        <p><strong>Color:</strong> Peacock Green. Symbolizes wisdom, fulfillment, and compassion.</p>
+                                        <p>The final night of Navratri is dedicated to Siddhidatri. 'Siddhi' means supernatural power or meditative ability, and 'datri' means giver. She is the bestower of all eight 'siddhis' (supernatural powers). It is believed that one side of Lord Shiva’s body is that of Goddess Siddhidatri, which is why he is also known as 'Ardhanarishvara'. By worshipping her, devotees are blessed with wisdom and spiritual enlightenment, attaining perfection and fulfillment in life.</p>
+                                    </div>
                                 </div>
                             </TabsContent>
 

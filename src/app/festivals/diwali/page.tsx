@@ -51,68 +51,28 @@ export default function DiwaliPage() {
                             </TabsContent>
                             
                             <TabsContent value="five-days">
-                                <h2 className="font-headline text-3xl font-bold mb-4">The Five Days of Diwali (2025)</h2>
-                                <div className="space-y-6">
-                                    <Card>
-                                        <CardHeader>
-                                            <CardTitle>Day 1: Dhanteras (October 19, 2025)</CardTitle>
-                                            <p className="text-sm text-muted-foreground">The Festival of Wealth</p>
-                                        </CardHeader>
-                                        <CardContent>
-                                            <div className="flex flex-col sm:flex-row gap-4">
-                                                <Image src="https://i.postimg.cc/Rh92QWRF/dhanteras1.webp" alt="Dhanteras" width={200} height={150} className="rounded-lg shadow-md" data-ai-hint="gold coins"/>
-                                                <p className="text-foreground/80">The festival officially begins with Dhanteras. Homes are cleaned and purified, and it is considered highly auspicious to purchase new items, especially gold, silver, or utensils. This act symbolizes the welcoming of Goddess Lakshmi and a year of prosperity. Evenings are spent worshipping Lord Dhanvantari, the physician of the gods and an incarnation of Vishnu, praying for good health and well-being.</p>
-                                            </div>
-                                        </CardContent>
-                                    </Card>
-                                    <Card>
-                                        <CardHeader>
-                                            <CardTitle>Day 2: Naraka Chaturdashi / Choti Diwali (October 20, 2025)</CardTitle>
-                                             <p className="text-sm text-muted-foreground">The Day of Liberation</p>
-                                        </CardHeader>
-                                        <CardContent>
-                                             <div className="flex flex-col sm:flex-row gap-4">
-                                                <Image src="https://i.postimg.cc/sDKCm4bR/naraka-chaturdashi.jpg" alt="Naraka Chaturdashi" width={200} height={150} className="rounded-lg shadow-md" data-ai-hint="diya light"/>
-                                                <p className="text-foreground/80">Known as 'Small Diwali', this day celebrates Lord Krishna's victory over the demon Narakasura. It is a day for rituals to cleanse the soul of all sins and impurities. Many wake before sunrise to perform a ritual bath with aromatic oils and pastes. It is a day that reaffirms the power of good to overcome all that is evil and oppressive, paving the way for the main celebration.</p>
-                                            </div>
-                                        </CardContent>
-                                    </Card>
-                                     <Card>
-                                        <CardHeader>
-                                            <CardTitle>Day 3: Lakshmi Puja (October 21, 2025)</CardTitle>
-                                             <p className="text-sm text-muted-foreground">The Main Celebration</p>
-                                        </CardHeader>
-                                        <CardContent>
-                                            <div className="flex flex-col sm:flex-row gap-4">
-                                                <Image src="https://i.postimg.cc/DwZkMbK4/Lakshmi-puja-diwali.jpg" alt="Lakshmi Puja" width={200} height={150} className="rounded-lg shadow-md" data-ai-hint="diwali puja"/>
-                                                <p className="text-foreground/80">This is the most significant day of Diwali. After sunset, families gather to perform the Lakshmi Puja, an elaborate worship of the Goddess of Wealth. The home, brightly lit with diyas and decorated with rangoli, becomes a shrine. Offerings are made, mantras are chanted, and the air fills with devotion. It's a magical evening of family, feasting, and fireworks, celebrating the divine blessings of prosperity and light.</p>
-                                            </div>
-                                        </CardContent>
-                                    </Card>
-                                     <Card>
-                                        <CardHeader>
-                                            <CardTitle>Day 4: Govardhan Puja / Padwa (October 22, 2025)</CardTitle>
-                                             <p className="text-sm text-muted-foreground">Honoring Nature and Marital Bonds</p>
-                                        </CardHeader>
-                                        <CardContent>
-                                             <div className="flex flex-col sm:flex-row gap-4">
-                                                <Image src="https://i.postimg.cc/SQ7BQGSz/govardhan-puja.png" alt="Govardhan Puja" width={200} height={150} className="rounded-lg shadow-md" data-ai-hint="annakut"/>
-                                                <p className="text-foreground/80">This day holds dual significance. In North India, Govardhan Puja commemorates Lord Krishna lifting the Govardhan Hill to protect the villagers of Vrindavan from the wrath of Lord Indra. Devotees create miniature hills of food to represent the mountain. In other regions, it is celebrated as Padwa, a day that honors the sacred bond of marriage, where spouses exchange gifts and reaffirm their commitment.</p>
-                                            </div>
-                                        </CardContent>
-                                    </Card>
-                                     <Card>
-                                        <CardHeader>
-                                            <CardTitle>Day 5: Bhai Dooj / Bhaubeej (October 23, 2025)</CardTitle>
-                                             <p className="text-sm text-muted-foreground">Celebrating Siblings</p>
-                                        </CardHeader>
-                                        <CardContent>
-                                             <div className="flex flex-col sm:flex-row gap-4">
-                                                <Image src="https://i.postimg.cc/FHB55s9W/Bhai-Dooj.jpg" alt="Bhai Dooj" width={200} height={150} className="rounded-lg shadow-md" data-ai-hint="brother sister"/>
-                                                <p className="text-foreground/80">The festival concludes with Bhai Dooj, a day dedicated to the beautiful bond between brothers and sisters. Sisters apply a tilak (a ceremonial mark) on their brothers' foreheads, praying for their long life and happiness. Brothers, in turn, shower their sisters with gifts. It is a heartwarming conclusion to the festivities, reinforcing family ties and love.</p>
-                                            </div>
-                                        </CardContent>
-                                    </Card>
+                                <h2 className="font-headline text-3xl font-bold mb-4">The Five Days of Diwali: A Detailed Guide</h2>
+                                <div className="space-y-8 prose max-w-none text-foreground/80">
+                                    <div>
+                                        <h3 className="font-headline text-2xl text-primary">Day 1: Dhanteras - The Festival of Wealth</h3>
+                                        <p>The Diwali festivities begin with Dhanteras, which falls two days before the main night of Diwali. 'Dhan' means wealth and 'Teras' means the 13th day of a lunar fortnight. On this day, homes are deep-cleaned and decorated to welcome Goddess Lakshmi. The most significant tradition is the purchasing of new items, particularly gold, silver, or new utensils. This act symbolizes bringing prosperity and good fortune into the home. In the evening, a puja is performed for Lord Dhanvantari, the physician of the gods and an incarnation of Vishnu, praying for good health. A single diya, known as the 'Yama Deepam', is lit and placed outside the main door, facing south, to ward off untimely death.</p>
+                                    </div>
+                                    <div>
+                                        <h3 className="font-headline text-2xl text-primary">Day 2: Naraka Chaturdashi - The Day of Liberation</h3>
+                                        <p>Also known as 'Choti Diwali' (Small Diwali), the second day celebrates Lord Krishna's triumphant victory over the demon Narakasura, through which he liberated 16,000 captive princesses. This day signifies the victory of good over evil and the liberation from suffering. The main ritual involves taking a sacred bath before sunrise, known as 'Abhyanga Snan', using aromatic oils and a special paste called 'ubtan'. This ritual bath is symbolic of cleansing the body and soul of all sins and impurities, preparing oneself for the main celebration of Diwali.</p>
+                                    </div>
+                                    <div>
+                                        <h3 className="font-headline text-2xl text-primary">Day 3: Lakshmi Puja - The Worship of the Goddess</h3>
+                                        <p>This is the most important day of the festival, the night of the new moon (Amavasya). After sunset, families gather to perform the Lakshmi Puja, an elaborate worship ceremony dedicated to Goddess Lakshmi, the bestower of wealth and prosperity. Homes are brightly illuminated with rows of diyas, candles, and electric lights. Beautiful 'rangoli' patterns adorn the entrance. Alongside Lakshmi, Lord Ganesha is also worshipped as the remover of obstacles. The puja involves chanting mantras, offering sweets, fruits, and flowers, and singing aartis. The evening is a magical one, filled with family bonding, feasting, and the joyous bursting of firecrackers.</p>
+                                    </div>
+                                    <div>
+                                        <h3 className="font-headline text-2xl text-primary">Day 4: Govardhan Puja - Honouring Nature's Bounty</h3>
+                                        <p>The fourth day holds different significance across India. In North India, it is celebrated as Govardhan Puja. This commemorates the day Lord Krishna lifted the entire Govardhan Hill with his little finger to shelter the villagers of Vrindavan from the torrential rains sent by an enraged Lord Indra. To honor this event, devotees create a miniature hillock made of cow dung or food, known as 'Annakut' (mountain of food), and worship it. In states like Maharashtra and Gujarat, this day is celebrated as 'Bali Pratipada' or 'Padwa', which honours the victory of Vamana, an incarnation of Vishnu, over the demon King Bali and the sacred bond between a husband and wife.</p>
+                                    </div>
+                                    <div>
+                                        <h3 className="font-headline text-2xl text-primary">Day 5: Bhai Dooj - Celebrating the Sibling Bond</h3>
+                                        <p>The five-day festival culminates with Bhai Dooj (or Bhaubeej), a day that celebrates the beautiful and eternal bond between brothers and sisters. It is similar in spirit to Raksha Bandhan. On this day, sisters perform a ceremony where they apply a 'tilak' (a sacred mark) on their brother's forehead, praying for his long life, happiness, and success. They offer him sweets, and in return, the brother gives his sister gifts and takes a vow to protect her. It's a heartwarming conclusion that reinforces the strong family ties that are central to Indian culture.</p>
+                                    </div>
                                 </div>
                             </TabsContent>
 
@@ -252,5 +212,3 @@ export default function DiwaliPage() {
         </div>
     );
 }
-
-    
