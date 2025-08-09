@@ -3,6 +3,9 @@
 
 import { useEffect, useState } from 'react';
 import { parseISO, differenceInSeconds } from 'date-fns';
+import { Button } from './ui/button';
+import Link from 'next/link';
+import { ArrowRight } from 'lucide-react';
 
 function CountdownBox({ value, label }: { value: number, label: string }) {
     return (
@@ -15,7 +18,13 @@ function CountdownBox({ value, label }: { value: number, label: string }) {
     );
 }
 
-export function FestivalCountdown({ targetDate }: { targetDate: string }) {
+interface FestivalCountdownProps {
+    targetDate: string;
+    festivalName: string;
+    festivalLink: string;
+}
+
+export function FestivalCountdown({ targetDate, festivalName, festivalLink }: FestivalCountdownProps) {
     const [isClient, setIsClient] = useState(false);
 
     useEffect(() => {
@@ -64,13 +73,19 @@ export function FestivalCountdown({ targetDate }: { targetDate: string }) {
     }, [isClient, targetDate, timeLeft.isFinished]);
 
     if (!isClient) {
-        return <div className="h-20"></div>; // Placeholder for SSR
+        return <div className="h-20 w-full"></div>; // Placeholder for SSR
     }
 
     if (timeLeft.isFinished) {
+        const simpleFestivalName = festivalName.split(' (')[0];
         return (
-            <div className="text-center font-bold text-accent py-3 px-4 rounded-lg bg-accent/10">
-                Happy Festival!
+            <div className="text-center flex flex-col items-center gap-3 py-3 px-4 rounded-lg bg-accent/10 w-full">
+                <p className="font-bold text-lg text-accent">Happy {simpleFestivalName}!</p>
+                <Link href={festivalLink}>
+                    <Button>
+                        Explore <ArrowRight className="w-4 h-4 ml-2"/>
+                    </Button>
+                </Link>
             </div>
         );
     }

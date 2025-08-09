@@ -56,7 +56,11 @@ export function UpcomingFestivalCard({ festival }: { festival: Festival }) {
                 </div>
 
                 <div className="w-full flex items-center justify-center">
-                    <FestivalCountdown targetDate={festival.date} />
+                    <FestivalCountdown 
+                        targetDate={festival.date} 
+                        festivalName={festival.name}
+                        festivalLink={festival.link}
+                    />
                 </div>
             </CardContent>
         </Card>
