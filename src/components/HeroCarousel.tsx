@@ -18,6 +18,8 @@ const images = [
   { src: 'https://i.postimg.cc/52MbHQMm/North-East-festivals.jpg', alt: 'Northeast India Festival', hint: 'naga festival dancers' },
   { src: 'https://i.postimg.cc/50vMmdWP/Wangala.webp', alt: 'Wangala Festival', hint: 'garo dance' },
   { src: 'https://i.postimg.cc/bvmpScwr/pongal.jpg', alt: 'Pongal', hint: 'pongal dish' },
+  { src: 'https://i.postimg.cc/J4JFtVYT/navratri1.jpg', alt: 'Navratri Garba Dance', hint: 'garba dance' },
+  { src: 'https://i.postimg.cc/nL3Jwd9d/East-India-festivals.webp', alt: 'Durga Puja Pandal', hint: 'durga idol' },
 ];
 
 export function HeroCarousel() {
