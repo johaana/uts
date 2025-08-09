@@ -7,6 +7,7 @@ import { Button } from "./ui/button";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import React, { useState, useEffect } from "react";
+import { Bot } from "lucide-react";
 
 const navLinks = [
   { href: "/festivals", label: "Festivals" },
@@ -74,9 +75,10 @@ export function Header() {
                 <Button 
                   size="sm"
                   className={cn(
-                    "text-white font-bold tracking-wide uppercase shadow-lg hover:shadow-blue-500/50 rounded-full px-4 hover:scale-105 transition-all duration-300 py-1 bg-gradient-to-r from-blue-500 to-blue-600"
+                    "text-white font-bold tracking-wide shadow-lg hover:shadow-blue-500/50 rounded-full px-4 hover:scale-105 transition-all duration-300 py-1 bg-gradient-to-r from-blue-500 to-blue-600"
                   )}
                 >
+                    <Bot className="w-4 h-4 mr-2"/>
                     AI Holiday Planner
                 </Button>
             </Link>
@@ -88,9 +90,10 @@ export function Header() {
               <Button 
                 size="sm"
                 className={cn(
-                  "text-white font-bold tracking-wide uppercase shadow-lg hover:shadow-blue-500/50 rounded-full px-4 hover:scale-105 transition-all duration-300 py-1 text-xs bg-gradient-to-r from-blue-500 to-blue-600"
+                  "text-white font-bold tracking-wide shadow-lg hover:shadow-blue-500/50 rounded-full px-4 hover:scale-105 transition-all duration-300 py-1 text-xs bg-gradient-to-r from-blue-500 to-blue-600"
                 )}
               >
+                  <Bot className="w-4 h-4 mr-1.5"/>
                   AI Planner
               </Button>
           </Link>
