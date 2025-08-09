@@ -2,14 +2,14 @@
 
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
-import { ArrowRight, Star, Calendar, MapPin, Tag } from "lucide-react";
+import { ArrowRight, Star, Calendar, MapPin, Tag, Loader2 } from "lucide-react";
 import { format, parse, getYear, isValid, isWithinInterval, startOfToday, endOfDay, addDays } from 'date-fns';
 import { allEvents } from '@/lib/festival-data';
 import { cn } from '@/lib/utils';
@@ -21,10 +21,15 @@ const eventTypes = ["Festivals", "Holidays", "Long Weekends"];
 const availableYears = ['Upcoming', '2025', '2026'];
 
 export function FestivalCalendar() {
+    const [isClient, setIsClient] = useState(false);
     const [selectedMonth, setSelectedMonth] = useState('all');
     const [selectedRegion, setSelectedRegion] = useState('all');
     const [selectedEventType, setSelectedEventType] = useState('all');
     const [selectedYear, setSelectedYear] = useState('Upcoming');
+
+    useEffect(() => {
+        setIsClient(true);
+    }, []);
     
 
     const getEventDateRange = (dateString: string): { start: Date, end: Date } | null => {
@@ -54,6 +59,10 @@ export function FestivalCalendar() {
     };
     
     const filteredEvents = useMemo(() => {
+        if (!isClient) {
+            return [];
+        }
+
         const today = startOfToday();
 
         let dateFilteredEvents = allEvents.filter(event => {
@@ -96,7 +105,7 @@ export function FestivalCalendar() {
              return dateA - dateB;
         });
 
-    }, [selectedYear, selectedMonth, selectedRegion, selectedEventType]);
+    }, [isClient, selectedYear, selectedMonth, selectedRegion, selectedEventType]);
     
      const formatDateString = (dateString: string) => {
         const range = getEventDateRange(dateString);
@@ -219,7 +228,16 @@ export function FestivalCalendar() {
                     <div className="overflow-y-auto flex-grow">
                         <Table>
                             <TableBody>
-                                {filteredEvents.length > 0 ? (
+                                {!isClient ? (
+                                    <TableRow>
+                                        <TableCell colSpan={5} className="text-center h-24">
+                                            <div className="flex items-center justify-center">
+                                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                                Loading calendar...
+                                            </div>
+                                        </TableCell>
+                                    </TableRow>
+                                ) : filteredEvents.length > 0 ? (
                                     filteredEvents.map((event, index) => (
                                         <TableRow key={event.name + event.date + index}>
                                             <TableCell className="w-[250px] font-medium">{formatDateString(event.date)}</TableCell>
@@ -259,7 +277,14 @@ export function FestivalCalendar() {
 
              {/* Mobile Card List */}
             <div className="md:hidden space-y-4 h-[28rem] overflow-y-auto pr-2">
-                 {filteredEvents.length > 0 ? (
+                 {!isClient ? (
+                    <Card className="text-center h-24 flex items-center justify-center text-muted-foreground">
+                        <div className="flex items-center">
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            Loading calendar...
+                        </div>
+                    </Card>
+                 ) : filteredEvents.length > 0 ? (
                     filteredEvents.map((event, index) => (
                         <Card key={event.name + event.date + index} className="p-4">
                             <CardContent className="p-0 flex items-center justify-between">
