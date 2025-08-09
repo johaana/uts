@@ -7,11 +7,10 @@ import { cn } from '@/lib/utils';
 
 const images = [
   { src: 'https://i.postimg.cc/rmVJnj2w/Pushkar-Camel-Fair.avif', alt: 'Pushkar Camel Fair', hint: 'pushkar camel fair' },
-  { src: 'https://i.postimg.cc/SjF8HhM1/Diwali2.jpg', alt: 'Diwali Celebration', hint: 'diwali celebration' },
-  { src: 'https://i.postimg.cc/0276MjRN/Holi.jpg', alt: 'Holi Festival of Colors', hint: 'holi celebration' },
-  { src: 'https://i.postimg.cc/nL3Jwd9d/East-India-festivals.webp', alt: 'Durga Puja', hint: 'durga idol' },
   { src: 'https://i.postimg.cc/j5CbVzzR/south-indian-festivals.jpg', alt: 'Thrissur Pooram', hint: 'kerala temple festival' },
+  { src: 'https://i.postimg.cc/nL3Jwd9d/East-India-festivals.webp', alt: 'Durga Puja', hint: 'durga idol' },
   { src: 'https://i.postimg.cc/J4JFtVYT/navratri1.jpg', alt: 'Navratri Garba Dance', hint: 'garba dance' },
+  { src: 'https://i.postimg.cc/6pL9wGsd/Hornbill-Festival.webp', alt: 'Hornbill Festival', hint: 'naga festival' },
 ];
 
 export function HeroCarousel() {
