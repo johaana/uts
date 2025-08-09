@@ -51,7 +51,7 @@ export default function Home() {
        <section className="relative w-full">
         <div className="absolute inset-0 bg-black/50 z-10"></div>
          <HeroCarousel />
-        <div className="absolute inset-0 z-20 flex flex-col items-start justify-end text-left p-4 md:p-6 lg:p-24 pb-24 md:pb-24 lg:pb-24">
+        <div className="absolute inset-0 z-20 flex flex-col items-start justify-end text-left p-6 md:p-8 lg:p-12">
           <h1 className="font-headline text-3xl md:text-5xl lg:text-7xl font-bold text-white drop-shadow-[0_2px_2px_rgba(0,0,0,0.9)] max-w-4xl">Your Definitive Guide to Indian Festivals</h1>
           <p className="hidden md:block mt-4 text-md md:text-lg text-white/90 drop-shadow-[0_2px_2px_rgba(0,0,0,0.7)] max-w-2xl">
             Immerse yourself in the soul of India's vibrant celebrations. Discover authentic rituals, explore fascinating stories, and cook traditional recipes for every festival.
