@@ -34,7 +34,7 @@ export function HeroCarousel() {
   }, []);
 
   return (
-    <div className="w-full aspect-[4/3] md:aspect-[16/7] lg:aspect-[21/9] relative overflow-hidden">
+    <div className="w-full aspect-[4/3.2] md:aspect-[16/7] lg:aspect-[21/9] relative overflow-hidden">
       {images.map((image, index) => (
         <Image
           key={index}
@@ -45,7 +45,7 @@ export function HeroCarousel() {
           data-ai-hint={image.hint}
           priority
           className={cn(
-            'absolute inset-0 transition-opacity duration-1000 ease-in-out object-cover',
+            'absolute inset-0 transition-opacity duration-1000 ease-in-out',
             index === currentIndex ? 'opacity-100' : 'opacity-0'
           )}
         />
