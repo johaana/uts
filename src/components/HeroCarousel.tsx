@@ -11,6 +11,13 @@ const images = [
   { src: 'https://i.postimg.cc/SNGxJ8VJ/ganesh-chaturthi-festival.jpg', alt: 'Ganesh Chaturthi', hint: 'ganesha idol' },
   { src: 'https://i.postimg.cc/1tMsX8bp/eid-al-fitr.avif', alt: 'Eid al-Fitr', hint: 'eid family' },
   { src: 'https://i.postimg.cc/6pL9wGsd/Hornbill-Festival.webp', alt: 'Hornbill Festival', hint: 'naga festival' },
+  { src: 'https://i.postimg.cc/kGQ9w7QS/north-india-festivals.webp', alt: 'Teej festival', hint: 'teej swings' },
+  { src: 'https://i.postimg.cc/kXC7f44W/rath-yatra.jpg', alt: 'Rath Yatra', hint: 'chariot festival' },
+  { src: 'https://i.postimg.cc/MZCMpRL4/hareli.png', alt: 'Hareli Festival', hint: 'tribal festival' },
+  { src: 'https://i.postimg.cc/1tQKkPvr/central-india-fest-maha-kumbh.avif', alt: 'Central India Festival', hint: 'maha kumbh' },
+  { src: 'https://i.postimg.cc/52MbHQMm/North-East-festivals.jpg', alt: 'Northeast India Festival', hint: 'naga festival dancers' },
+  { src: 'https://i.postimg.cc/50vMmdWP/Wangala.webp', alt: 'Wangala Festival', hint: 'garo dance' },
+  { src: 'https://i.postimg.cc/bvmpScwr/pongal.jpg', alt: 'Pongal', hint: 'pongal dish' },
 ];
 
 export function HeroCarousel() {
