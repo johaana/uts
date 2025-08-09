@@ -5,11 +5,9 @@ import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { FestivalCalendar } from "@/components/FestivalCalendar";
 import { RegionShowcase } from "@/components/RegionShowcase";
-import Image from "next/image";
 import React from "react";
-import { Card } from "@/components/ui/card";
 import { UpcomingFestivalsCarousel } from "@/components/UpcomingFestivalsCarousel";
-import { HolidayPlanner } from "@/components/HolidayPlanner";
+import { HeroCarousel } from "@/components/HeroCarousel";
 
 
 function ResourceSummary() {
@@ -52,9 +50,7 @@ export default function Home() {
     <div className="flex flex-col">
        <section className="relative w-full">
         <div className="absolute inset-0 bg-black/50 z-10"></div>
-        <div className="w-full aspect-[4/3] md:aspect-[16/7] lg:aspect-[21/9]">
-           <Image src="https://i.postimg.cc/rmVJnj2w/Pushkar-Camel-Fair.avif" layout="fill" objectFit="cover" alt="Pushkar Camel Fair" priority data-ai-hint="pushkar camel fair" />
-        </div>
+         <HeroCarousel />
         <div className="absolute inset-0 z-20 flex flex-col items-start justify-end text-left p-4 md:p-6 lg:p-24 pb-24 md:pb-24 lg:pb-24">
           <h1 className="font-headline text-3xl md:text-5xl lg:text-7xl font-bold text-white drop-shadow-[0_2px_2px_rgba(0,0,0,0.9)] max-w-4xl">Your Definitive Guide to Indian Festivals</h1>
           <p className="hidden md:block mt-4 text-md md:text-lg text-white/90 drop-shadow-[0_2px_2px_rgba(0,0,0,0.7)] max-w-2xl">
