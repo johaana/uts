@@ -46,6 +46,7 @@ export function Header() {
                   height={80}
                   className={cn("transition-all duration-300", isScrolled ? "w-16 h-16" : "w-20 h-20")}
                 />
+                <span className="font-headline text-2xl font-bold text-primary self-center">Utsavs</span>
             </Link>
         </div>
 

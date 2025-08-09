@@ -29,9 +29,10 @@ export function Footer() {
             <div className="lg:col-span-3 flex flex-col items-center md:items-start text-center md:text-left">
                  <Link href="/" className="flex items-center gap-2 mb-4">
                     <Image src="https://i.postimg.cc/vZTZ0Br5/utsavs-logo.png" alt="Utsavs Logo" width={64} height={64} />
+                    <span className="font-headline text-2xl font-bold text-primary self-center">Utsavs</span>
                 </Link>
                 <p className="text-foreground/80 max-w-xs text-sm">
-                  Your definitive guide to the vibrant world of Indian festivals. Explore dates, traditions, recipes, and the stories that bring them to life.
+                  Utsavs is your definitive guide to the vibrant world of Indian festivals. Explore dates, traditions, recipes, and the stories that bring them to life.
                 </p>
             </div>
 
