@@ -52,16 +52,33 @@ export default function Home() {
          <HeroCarousel />
         <div className="absolute inset-0 z-20 flex flex-col items-start justify-end text-left p-6 md:p-8 lg:p-12">
           <h1 className="font-headline text-4xl md:text-5xl lg:text-7xl font-bold text-white drop-shadow-[0_2px_2px_rgba(0,0,0,0.9)] max-w-4xl">Every Festival Tells a Story</h1>
-          <p className="mt-4 text-sm md:text-lg text-white/90 drop-shadow-[0_2px_2px_rgba(0,0,0,0.7)] max-w-2xl">
-            Journey through the rich tapestry of Indian culture. We uncover the legends, rituals, and traditions that bring each celebration to life. Discover the soul of every 'utsav'.
-          </p>
-          <div className="mt-6 md:mt-8">
-            <Link href="/festivals">
-              <Button variant="default" size="lg" className="text-base md:text-lg group transition-transform hover:scale-105">
-                Explore All Festivals <ArrowRight className="ml-2 transition-transform group-hover:translate-x-1" />
-              </Button>
-            </Link>
+          <div className="hidden md:block">
+            <p className="mt-4 text-lg text-white/90 drop-shadow-[0_2px_2px_rgba(0,0,0,0.7)] max-w-2xl">
+                Journey through the rich tapestry of Indian culture. We uncover the legends, rituals, and traditions that bring each celebration to life. Discover the soul of every 'utsav'.
+            </p>
+            <div className="mt-8">
+                <Link href="/festivals">
+                <Button variant="default" size="lg" className="text-lg group transition-transform hover:scale-105">
+                    Explore All Festivals <ArrowRight className="ml-2 transition-transform group-hover:translate-x-1" />
+                </Button>
+                </Link>
+            </div>
           </div>
+        </div>
+      </section>
+
+      <section className="md:hidden bg-background">
+        <div className="container mx-auto px-6 py-8 text-left">
+             <p className="text-base text-foreground/80">
+                Journey through the rich tapestry of Indian culture. We uncover the legends, rituals, and traditions that bring each celebration to life. Discover the soul of every 'utsav'.
+            </p>
+            <div className="mt-6">
+                <Link href="/festivals">
+                <Button variant="default" size="default" className="text-base group transition-transform hover:scale-105">
+                    Explore All Festivals <ArrowRight className="ml-2 transition-transform group-hover:translate-x-1" />
+                </Button>
+                </Link>
+            </div>
         </div>
       </section>
 
