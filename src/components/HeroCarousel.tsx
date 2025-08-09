@@ -8,8 +8,8 @@ import { cn } from '@/lib/utils';
 const images = [
   { src: 'https://i.postimg.cc/rmVJnj2w/Pushkar-Camel-Fair.avif', alt: 'Pushkar Camel Fair', hint: 'pushkar camel fair' },
   { src: 'https://i.postimg.cc/4xZYzGsQ/Goa-Carnival.jpg', alt: 'Goa Carnival', hint: 'carnival parade float' },
-  { src: 'https://i.postimg.cc/nL3Jwd9d/East-India-festivals.webp', alt: 'Durga Puja', hint: 'durga idol' },
-  { src: 'https://i.postimg.cc/0564g0S7/nandu-menon-h-GHldb-Cg-YDA-unsplash.jpg', alt: 'Onam Sadya Feast', hint: 'onam feast' },
+  { src: 'https://i.postimg.cc/SNGxJ8VJ/ganesh-chaturthi-festival.jpg', alt: 'Ganesh Chaturthi', hint: 'ganesha idol' },
+  { src: 'https://i.postimg.cc/1tMsX8bp/eid-al-fitr.avif', alt: 'Eid al-Fitr', hint: 'eid family' },
   { src: 'https://i.postimg.cc/6pL9wGsd/Hornbill-Festival.webp', alt: 'Hornbill Festival', hint: 'naga festival' },
 ];
 
