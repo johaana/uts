@@ -2,6 +2,7 @@
 import { MetadataRoute } from 'next';
 import { allFestivals } from '@/lib/festival-data';
 import { metadata } from './layout';
+import { blogPosts } from '@/lib/blog-data';
 
 const allRecipes = [
     { link: "/recipes/gajar-ka-halwa" },
@@ -42,29 +43,6 @@ const allRecipes = [
     { link: "/recipes/sabudana-khichdi" },
     { link: "/recipes/kuttu-ki-puri" },
     { link: "/recipes/makhane-ki-kheer" },
-];
-
-const blogPosts = [
-    { slug: "raksha-bandhan-the-true-spirit-of-siblinghood" },
-    { slug: "celebrate-with-conscience-eco-friendly-festivals" },
-    { slug: "significance-of-diyas-in-diwali" },
-    { slug: "guide-to-natural-holi-colors" },
-    { slug: "top-5-rangoli-designs-for-beginners" },
-    { slug: "9-avatars-of-durga-a-navratri-special" },
-    { slug: "onam-sadya-a-feast-for-the-senses" },
-    { slug: "festive-fashion-a-guide-to-traditional-indian-attire" },
-    { slug: "bikaner-camel-festival-a-royal-spectacle" },
-    { slug: "kerala-village-fair-gramam" },
-    { slug: "pushkar-camel-fair-an-unforgettable-experience" },
-    { slug: "hampi-utsav-a-journey-back-in-time" },
-    { slug: "kumbh-mela-a-dip-in-immortality" },
-    { slug: "sula-fest-wine-music-and-more" },
-    { slug: "tarnetar-mela-a-unique-gujarati-fair" },
-    { slug: "losar-festival-the-tibetan-new-year" },
-    { slug: "torgya-monastery-festival-a-splash-of-color" },
-    { slug: "thrissur-pooram-keralas-grandest-festival" },
-    { slug: "10-unknown-festivals-of-india" },
-    { slug: "long-weekends-2025" },
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
