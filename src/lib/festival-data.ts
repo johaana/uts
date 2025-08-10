@@ -55,7 +55,7 @@ export const allFestivals = [
     { name: "Kojagiri Purnima", region: "West & East", description: "The autumn harvest moon festival, celebrated by worshipping Goddess Lakshmi.", link: "/festivals/kojagiri-purnima", image: "https://i.postimg.cc/L8BWtqNP/kojagiri-purnima.webp", hint: "full moon" },
     { name: "Mando Festival", region: "West", description: "A Goan festival celebrating its unique musical heritage of lyrical dance-songs.", link: "/festivals/mando-festival", image: "https://i.postimg.cc/mktjKkYm/Mando.jpg", hint: "goan folk dance" },
     { name: "Narali Purnima", region: "West", description: "The coconut festival of coastal Maharashtra, where offerings are made to the sea god.", link: "/festivals/narali-purnima", image: "https://i.postimg.cc/4xz5DrcR/Narali-purnima.avif", hint: "coconut offering sea" },
-    { name: "Parsi New Year (Navroz)", region: "Nationwide", description: "The joyous New Year celebration of the Parsi community, marking renewal and rejuvenation.", link: "/festivals/parsi-new-year", image: "https://i.postimg.cc/bwD0xd8T/navroz1.webp", hint: "parsi celebration" },
+    { name: "Parsi New Year (Pateti & Navroz)", region: "Nationwide", description: "The joyous New Year celebration of the Parsi community, marking renewal and rejuvenation.", link: "/festivals/parsi-new-year", image: "https://i.postimg.cc/bwD0xd8T/navroz1.webp", hint: "parsi celebration" },
     { name: "Shigmo Festival", region: "West", description: "Goa's vibrant spring festival, similar to Holi, with grand parades and folk dances.", link: "/festivals/shigmo-festival", image: "https://i.postimg.cc/T24CgjxF/Shigmo2.png", hint: "goa parade" },
     { name: "Vat Purnima", region: "West", description: "A celebration of marital fidelity, where women pray for their husband's long life under a banyan tree.", link: "/festivals/vat-purnima", image: "https://i.postimg.cc/02SFNXSc/vat-purnima.webp", hint: "banyan tree worship" },
     { name: "Tulsi Vivah", region: "Nationwide", description: "The ceremonial wedding of the holy basil plant (Tulsi) to Lord Vishnu.", link: "/festivals/tulsi-vivah", image: "https://i.postimg.cc/dVLB1Lgv/tulsi-vivah.jpg", hint: "sacred marriage" },
@@ -97,7 +97,7 @@ export const allEvents = [
     { date: "Aug 09, 2025", name: "Raksha Bandhan", region: "Nationwide", type: "Cultural", link: "/festivals/raksha-bandhan" },
     { date: "Aug 09, 2025", name: "Narali Purnima", region: "West", type: "Cultural", link: "/festivals/narali-purnima" },
     { date: "Aug 15, 2025", name: "Independence Day", region: "Nationwide", type: "Holiday", link: "/festivals/independence-day", longWeekend: true },
-    { date: "Aug 16, 2025", name: "Parsi New Year (Navroz)", region: "Nationwide", type: "New Year", link: "/festivals/parsi-new-year" },
+    { date: "Aug 16, 2025", name: "Parsi New Year (Pateti & Navroz)", region: "Nationwide", type: "New Year", link: "/festivals/parsi-new-year" },
     { date: "Aug 17, 2025", name: "Janmashtami", region: "Nationwide", type: "Religious", link: "/festivals/janmashtami" },
     { date: "Aug 22, 2025", name: "Nuakhai", region: "East", type: "Harvest", link: "/festivals/nuakhai", longWeekend: true },
     { date: "Aug 27, 2025", name: "Ganesh Chaturthi", region: "West & South", type: "Religious", link: "/festivals/ganesh-chaturthi" },
@@ -152,7 +152,7 @@ export const allEvents = [
     { date: "Aug 07, 2026", name: "Narali Purnima", region: "West", type: "Cultural", link: "/festivals/narali-purnima" },
     { date: "Aug 15, 2026", name: "Independence Day", region: "Nationwide", type: "Holiday", link: "/festivals/independence-day" },
     { date: "Aug 16, 2026", name: "Hartalika Teej", region: "North", type: "Cultural", link: "/festivals/hartalika-teej" },
-    { date: "Aug 16, 2026", name: "Parsi New Year (Navroz)", region: "Nationwide", type: "New Year", link: "/festivals/parsi-new-year" },
+    { date: "Aug 16, 2026", name: "Parsi New Year (Pateti & Navroz)", region: "Nationwide", type: "New Year", link: "/festivals/parsi-new-year" },
     { date: "Aug 26, 2026", name: "Onam", region: "South", type: "Harvest", link: "/festivals/onam" },
     { date: "Sep 15, 2026", name: "Ganesh Chaturthi", region: "West", type: "Religious", link: "/festivals/ganesh-chaturthi" },
     { date: "Sep 25, 2026", name: "Kojagiri Purnima", region: "West & East", type: "Religious", link: "/festivals/kojagiri-purnima" },
@@ -263,5 +263,7 @@ export const allEvents = [
     { date: "Oct 22, 2034", name: "Diwali (Lakshmi Puja) (Day 3)", region: "Nationwide", type: "Holiday", link: "/festivals/diwali" },
     { date: "Dec 25, 2034", name: "Christmas", region: "Nationwide", type: "Religious", link: "/festivals/christmas" },
 ];
+
+    
 
     

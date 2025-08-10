@@ -17,7 +17,7 @@ export default function ParsiNewYearPage() {
                     <Image src="https://i.postimg.cc/bwD0xd8T/navroz1.webp" alt="Parsi New Year" layout="fill" objectFit="cover" data-ai-hint="parsi celebration" />
                 </div>
                 <div className="relative text-center text-primary-foreground z-10 p-4">
-                    <h1 className="font-headline text-4xl md:text-5xl lg:text-7xl font-bold text-red-900 drop-shadow-lg">Parsi New Year (Navroz)</h1>
+                    <h1 className="font-headline text-4xl md:text-5xl lg:text-7xl font-bold text-red-900 drop-shadow-lg">Parsi New Year (Pateti & Navroz)</h1>
                     <p className="text-lg md:text-xl lg:text-2xl mt-4 text-red-800/90 drop-shadow-md">A Celebration of Renewal and New Beginnings</p>
                 </div>
             </section>
@@ -70,12 +70,14 @@ export default function ParsiNewYearPage() {
                                 </div>
                             </TabsContent>
                         </Tabs>
-                        <ShareButtons title="Parsi New Year (Navroz)" />
+                        <ShareButtons title="Parsi New Year (Pateti & Navroz)" />
                     </CardContent>
                 </Card>
             </div>
         </div>
     );
 }
+
+    
 
     
