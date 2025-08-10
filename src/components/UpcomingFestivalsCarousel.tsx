@@ -68,7 +68,7 @@ export function UpcomingFestivalsCarousel() {
                     
                     // Specific override for Pateti and Navroz
                     if (event.name.includes('Pateti') || event.name.includes('Navroz')) {
-                        imageData = festivalImageMap.get('Parsi New Year (Navroz)');
+                        imageData = festivalImageMap.get('Parsi New Year (Pateti & Navroz)');
                     }
 
                     if (!imageData) {
