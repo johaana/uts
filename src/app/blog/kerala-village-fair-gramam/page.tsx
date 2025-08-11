@@ -6,6 +6,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ShareButtons } from "@/components/ShareButtons";
 import type { Metadata } from 'next';
+import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 
 const post = { 
     title: "Gramam: Step Into the Heart of Kerala's Culture", 
@@ -28,6 +29,33 @@ export const metadata: Metadata = {
     images: [post.image],
   },
 };
+
+const relatedContent: RelatedItem[] = [
+    {
+        slug: "onam",
+        title: "Onam Festival Guide",
+        image: "https://i.postimg.cc/0564g0S7/nandu-menon-h-GHldb-Cg-YDA-unsplash.jpg",
+        type: "Festival",
+        link: "/festivals/onam",
+        hint: "onam feast"
+    },
+    {
+        slug: "thrissur-pooram-keralas-grandest-festival",
+        title: "Thrissur Pooram",
+        image: "https://i.postimg.cc/j28kQ9WT/thrissur-puram-festival-2.jpg",
+        type: "Blog",
+        link: "/blog/thrissur-pooram-keralas-grandest-festival",
+        hint: "kerala temple festival"
+    },
+    {
+        slug: "vishu",
+        title: "Vishu",
+        image: "https://i.postimg.cc/7PdPNkMT/vishu-celebration.png",
+        type: "Festival",
+        link: "/festivals/vishu",
+        hint: "vishu kani"
+    }
+];
 
 export default function SingleBlogPage() {
     return (
@@ -66,6 +94,7 @@ export default function SingleBlogPage() {
                         <p>The Kerala Village Fair is more than just a festival; it's an immersive cultural experience that offers a deep and meaningful connection to the heritage of Kerala. It's a perfect destination for travelers seeking authenticity and a deeper understanding of regional Indian life.</p>
                     </article>
                     <ShareButtons title={post.title} />
+                    <RelatedContent items={relatedContent} />
                 </CardContent>
             </Card>
         </div>

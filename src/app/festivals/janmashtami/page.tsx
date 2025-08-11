@@ -5,6 +5,34 @@ import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote } from "l
 import Link from "next/link";
 import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
+import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
+
+const relatedContent: RelatedItem[] = [
+    {
+        slug: "ladoo",
+        title: "Besan Ladoo Recipe",
+        image: "https://i.postimg.cc/9MkWX5gm/Besan-Laddoo.webp",
+        type: "Recipe",
+        link: "/recipes/ladoo",
+        hint: "gram flour ladoo"
+    },
+    {
+        slug: "payasam",
+        title: "Payasam Recipe",
+        image: "https://i.postimg.cc/59n9d7My/payasam.jpg",
+        type: "Recipe",
+        link: "/recipes/payasam",
+        hint: "rice pudding"
+    },
+    {
+        slug: "maha-shivaratri",
+        title: "Maha Shivaratri",
+        image: "https://i.postimg.cc/52NbWR80/mahashivratri.jpg",
+        type: "Festival",
+        link: "/festivals/maha-shivaratri",
+        hint: "shiva statue"
+    }
+];
 
 export default function JanmashtamiPage() {
     return (
@@ -77,6 +105,7 @@ export default function JanmashtamiPage() {
                             </TabsContent>
                         </Tabs>
                         <ShareButtons title="Janmashtami" />
+                        <RelatedContent items={relatedContent} />
                     </CardContent>
                 </Card>
             </div>

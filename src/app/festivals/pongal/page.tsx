@@ -5,12 +5,40 @@ import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote } from "l
 import Link from "next/link";
 import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
+import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 
 const recipes = [
     { name: "Sakkarai Pongal", link: "/recipes/sakkarai-pongal" },
     { name: "Ven Pongal", link: "/recipes/ven-pongal" },
     { name: "Medu Vada", link: "/recipes/medu-vada" },
 ]
+
+const relatedContent: RelatedItem[] = [
+    {
+        slug: "sakkarai-pongal",
+        title: "Sakkarai Pongal Recipe",
+        image: "https://i.postimg.cc/j2nb1MYh/sakkarai-pongal.webp",
+        type: "Recipe",
+        link: "/recipes/sakkarai-pongal",
+        hint: "sweet rice pudding"
+    },
+    {
+        slug: "ven-pongal",
+        title: "Ven Pongal Recipe",
+        image: "https://i.postimg.cc/5001BxPT/Ven-Pongal.webp",
+        type: "Recipe",
+        link: "/recipes/ven-pongal",
+        hint: "savory rice pudding"
+    },
+    {
+        slug: "makar-sankranti",
+        title: "Makar Sankranti",
+        image: "https://i.postimg.cc/gJrdvSxD/makar-sankranti.jpg",
+        type: "Festival",
+        link: "/festivals/makar-sankranti",
+        hint: "kites festival"
+    }
+];
 
 export default function PongalPage() {
     return (
@@ -114,6 +142,7 @@ export default function PongalPage() {
                             </TabsContent>
                         </Tabs>
                         <ShareButtons title="Pongal" />
+                        <RelatedContent items={relatedContent} />
                     </CardContent>
                 </Card>
             </div>

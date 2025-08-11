@@ -5,6 +5,34 @@ import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote } from "l
 import Link from "next/link";
 import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
+import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
+
+const relatedContent: RelatedItem[] = [
+    {
+        slug: "dussehra",
+        title: "Dussehra",
+        image: "https://i.postimg.cc/wMVZW9fk/dussehra.jpg",
+        type: "Festival",
+        link: "/festivals/dussehra",
+        hint: "dussehra celebration"
+    },
+    {
+        slug: "hanuman-jayanti",
+        title: "Hanuman Jayanti",
+        image: "https://i.postimg.cc/9fCpCJPR/hanuman-jayanti3.jpg",
+        type: "Festival",
+        link: "/festivals/hanuman-jayanti",
+        hint: "hanuman idol"
+    },
+    {
+        slug: "diwali",
+        title: "Diwali",
+        image: "https://i.postimg.cc/SjF8HhM1/Diwali2.jpg",
+        type: "Festival",
+        link: "/festivals/diwali",
+        hint: "diwali celebration"
+    }
+];
 
 export default function RamNavamiPage() {
     return (
@@ -77,6 +105,7 @@ export default function RamNavamiPage() {
                             </TabsContent>
                         </Tabs>
                         <ShareButtons title="Ram Navami" />
+                        <RelatedContent items={relatedContent} />
                     </CardContent>
                 </Card>
             </div>

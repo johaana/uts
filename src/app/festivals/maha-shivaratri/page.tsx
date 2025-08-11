@@ -5,12 +5,40 @@ import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote } from "l
 import Link from "next/link";
 import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
+import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 
 const recipes = [
     { name: "Sabudana Khichdi", link: "/recipes/sabudana-khichdi" },
     { name: "Kuttu ki Puri", link: "/recipes/kuttu-ki-puri" },
     { name: "Makhane ki Kheer", link: "/recipes/makhane-ki-kheer" },
 ]
+
+const relatedContent: RelatedItem[] = [
+    {
+        slug: "sabudana-khichdi",
+        title: "Sabudana Khichdi Recipe",
+        image: "https://i.postimg.cc/3wRdZZ1y/sabudana-khichdi.jpg",
+        type: "Recipe",
+        link: "/recipes/sabudana-khichdi",
+        hint: "tapioca pearl dish"
+    },
+    {
+        slug: "makhane-ki-kheer",
+        title: "Makhane ki Kheer Recipe",
+        image: "https://i.postimg.cc/bwLZb5xc/Makhane-ki-kheer.jpg",
+        type: "Recipe",
+        link: "/recipes/makhane-ki-kheer",
+        hint: "fox nut pudding"
+    },
+    {
+        slug: "janmashtami",
+        title: "Janmashtami",
+        image: "https://i.postimg.cc/02VhD2Jk/janmashtami.jpg",
+        type: "Festival",
+        link: "/festivals/janmashtami",
+        hint: "krishna idol"
+    }
+];
 
 export default function MahaShivaratriPage() {
     return (
@@ -116,6 +144,7 @@ export default function MahaShivaratriPage() {
                             </TabsContent>
                         </Tabs>
                         <ShareButtons title="Maha Shivaratri" />
+                        <RelatedContent items={relatedContent} />
                     </CardContent>
                 </Card>
             </div>

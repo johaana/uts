@@ -5,12 +5,40 @@ import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote } from "l
 import Link from "next/link";
 import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
+import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 
 const recipes = [
     { name: "Shrikhand", link: "/recipes/shrikhand" },
     { name: "Puran Poli", link: "/recipes/puran-poli" },
     { name: "Kothimbir Vadi", link: "/recipes/kothimbir-vadi" },
 ]
+
+const relatedContent: RelatedItem[] = [
+    {
+        slug: "puran-poli",
+        title: "Puran Poli Recipe",
+        image: "https://i.postimg.cc/jj8gBsCj/puranpoli.jpg",
+        type: "Recipe",
+        link: "/recipes/puran-poli",
+        hint: "sweet flatbread"
+    },
+    {
+        slug: "shrikhand",
+        title: "Shrikhand Recipe",
+        image: "https://i.postimg.cc/BbQqPD2J/shrikhand.webp",
+        type: "Recipe",
+        link: "/recipes/shrikhand",
+        hint: "yogurt dessert"
+    },
+    {
+        slug: "ugadi",
+        title: "Ugadi",
+        image: "https://i.postimg.cc/ZnGTY8KL/ugadi.jpg",
+        type: "Festival",
+        link: "/festivals/ugadi",
+        hint: "ugadi pachadi"
+    }
+];
 
 export default function GudiPadwaPage() {
     return (
@@ -111,6 +139,7 @@ export default function GudiPadwaPage() {
                             </TabsContent>
                         </Tabs>
                         <ShareButtons title="Gudi Padwa" />
+                        <RelatedContent items={relatedContent} />
                     </CardContent>
                 </Card>
             </div>

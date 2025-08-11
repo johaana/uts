@@ -6,6 +6,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ShareButtons } from "@/components/ShareButtons";
 import type { Metadata } from 'next';
+import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 
 const post = { 
     title: "Kumbh Mela: A Spiritual Gathering of Millions", 
@@ -28,6 +29,33 @@ export const metadata: Metadata = {
     images: [post.image],
   },
 };
+
+const relatedContent: RelatedItem[] = [
+    {
+        slug: "maha-shivaratri",
+        title: "Maha Shivaratri",
+        image: "https://i.postimg.cc/52NbWR80/mahashivratri.jpg",
+        type: "Festival",
+        link: "/festivals/maha-shivaratri",
+        hint: "shiva statue"
+    },
+    {
+        slug: "ganga-sagar-mela",
+        title: "Makar Sankranti",
+        image: "https://i.postimg.cc/gJrdvSxD/makar-sankranti.jpg",
+        type: "Festival",
+        link: "/festivals/makar-sankranti",
+        hint: "kites festival"
+    },
+    {
+        slug: "ram-navami",
+        title: "Ram Navami",
+        image: "https://i.postimg.cc/Vvqmzy7S/ram-navami.webp",
+        type: "Festival",
+        link: "/festivals/ram-navami",
+        hint: "lord rama"
+    }
+];
 
 export default function SingleBlogPage() {
     return (
@@ -66,6 +94,7 @@ export default function SingleBlogPage() {
                         <p>Attending the Kumbh Mela is to witness a tradition that has continued unbroken for centuries, a powerful testament to the enduring power of faith in India.</p>
                     </article>
                     <ShareButtons title={post.title} />
+                    <RelatedContent items={relatedContent} />
                 </CardContent>
             </Card>
         </div>

@@ -4,6 +4,34 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BookOpen, Sparkles, MessageSquareQuote } from "lucide-react";
 import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
+import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
+
+const relatedContent: RelatedItem[] = [
+    {
+        slug: "navratri",
+        title: "Navratri Festival Guide",
+        image: "https://i.postimg.cc/J4JFtVYT/navratri1.jpg",
+        type: "Festival",
+        link: "/festivals/navratri",
+        hint: "garba dance"
+    },
+    {
+        slug: "durga-puja",
+        title: "Durga Puja",
+        image: "https://i.postimg.cc/nL3Jwd9d/East-India-festivals.webp",
+        type: "Festival",
+        link: "/festivals/durga-puja",
+        hint: "durga idol"
+    },
+    {
+        slug: "ram-navami",
+        title: "Ram Navami",
+        image: "https://i.postimg.cc/Vvqmzy7S/ram-navami.webp",
+        type: "Festival",
+        link: "/festivals/ram-navami",
+        hint: "lord rama"
+    }
+];
 
 export default function DussehraPage() {
     return (
@@ -63,6 +91,7 @@ export default function DussehraPage() {
                             </TabsContent>
                         </Tabs>
                         <ShareButtons title="Dussehra" />
+                        <RelatedContent items={relatedContent} />
                     </CardContent>
                 </Card>
             </div>

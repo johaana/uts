@@ -6,6 +6,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ShareButtons } from "@/components/ShareButtons";
 import type { Metadata } from 'next';
+import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 
 const post = { 
     title: "Pushkar Camel Fair: More Than Just a Market", 
@@ -28,6 +29,33 @@ export const metadata: Metadata = {
     images: [post.image],
   },
 };
+
+const relatedContent: RelatedItem[] = [
+    {
+        slug: "bikaner-camel-festival-a-royal-spectacle",
+        title: "Bikaner Camel Festival",
+        image: "https://i.postimg.cc/1tK9P9dK/bikaner-camel.jpg",
+        type: "Blog",
+        link: "/blog/bikaner-camel-festival-a-royal-spectacle",
+        hint: "bikaner camel festival"
+    },
+    {
+        slug: "holi",
+        title: "Holi Festival Guide",
+        image: "https://i.postimg.cc/0276MjRN/Holi.jpg",
+        type: "Festival",
+        link: "/festivals/holi",
+        hint: "holi celebration"
+    },
+    {
+        slug: "teej",
+        title: "Teej",
+        image: "https://i.postimg.cc/kGQ9w7QS/north-india-festivals.webp",
+        type: "Festival",
+        link: "/festivals/teej",
+        hint: "teej swings"
+    }
+];
 
 export default function SingleBlogPage() {
     return (
@@ -67,6 +95,7 @@ export default function SingleBlogPage() {
                         <p>The Pushkar Camel Fair is an unforgettable experience, offering a unique blend of tradition, spirituality, and vibrant celebration. It's a must-visit for anyone looking to experience the authentic soul of Rajasthan.</p>
                     </article>
                     <ShareButtons title={post.title} />
+                    <RelatedContent items={relatedContent} />
                 </CardContent>
             </Card>
         </div>

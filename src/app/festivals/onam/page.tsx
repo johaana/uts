@@ -5,12 +5,40 @@ import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote } from "l
 import Link from "next/link";
 import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
+import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 
 const recipes = [
     { name: "Avial", link: "/recipes/avial" },
     { name: "Sambar", link: "/recipes/sambar" },
     { name: "Payasam", link: "/recipes/payasam" },
 ]
+
+const relatedContent: RelatedItem[] = [
+    {
+        slug: "onam-sadya-a-feast-for-the-senses",
+        title: "Onam Sadya: A Feast for the Senses",
+        image: "https://i.postimg.cc/0564g0S7/nandu-menon-h-GHldb-Cg-YDA-unsplash.jpg",
+        type: "Blog",
+        link: "/blog/onam-sadya-a-feast-for-the-senses",
+        hint: "onam feast"
+    },
+    {
+        slug: "avial",
+        title: "Avial Recipe",
+        image: "https://i.postimg.cc/MpJpjw6X/Aviyal.webp",
+        type: "Recipe",
+        link: "/recipes/avial",
+        hint: "vegetable stew"
+    },
+    {
+        slug: "payasam",
+        title: "Payasam Recipe",
+        image: "https://i.postimg.cc/59n9d7My/payasam.jpg",
+        type: "Recipe",
+        link: "/recipes/payasam",
+        hint: "rice pudding"
+    }
+];
 
 export default function OnamPage() {
     return (
@@ -107,6 +135,7 @@ export default function OnamPage() {
                             </TabsContent>
                         </Tabs>
                         <ShareButtons title="Onam" />
+                        <RelatedContent items={relatedContent} />
                     </CardContent>
                 </Card>
             </div>

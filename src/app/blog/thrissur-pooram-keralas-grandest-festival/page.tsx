@@ -6,6 +6,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ShareButtons } from "@/components/ShareButtons";
 import type { Metadata } from 'next';
+import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 
 const post = { 
     title: "Thrissur Pooram: Kerala's Spectacle of Elephants and Percussion", 
@@ -28,6 +29,33 @@ export const metadata: Metadata = {
     images: [post.image],
   },
 };
+
+const relatedContent: RelatedItem[] = [
+    {
+        slug: "onam",
+        title: "Onam Festival Guide",
+        image: "https://i.postimg.cc/0564g0S7/nandu-menon-h-GHldb-Cg-YDA-unsplash.jpg",
+        type: "Festival",
+        link: "/festivals/onam",
+        hint: "onam feast"
+    },
+    {
+        slug: "vishu",
+        title: "Vishu",
+        image: "https://i.postimg.cc/7PdPNkMT/vishu-celebration.png",
+        type: "Festival",
+        link: "/festivals/vishu",
+        hint: "vishu kani"
+    },
+    {
+        slug: "thaipusam",
+        title: "Thaipusam",
+        image: "https://i.postimg.cc/4y7fTLZd/thaipusam.webp",
+        type: "Festival",
+        link: "/festivals/thaipusam",
+        hint: "kavadi"
+    }
+];
 
 export default function SingleBlogPage() {
     return (
@@ -66,6 +94,7 @@ export default function SingleBlogPage() {
                         <p>Thrissur Pooram is an unforgettable, magical experience that offers a fascinating glimpse into the rich cultural heritage of India. It's a must-see for anyone wanting to experience the grandeur of a traditional Indian festival.</p>
                     </article>
                     <ShareButtons title={post.title} />
+                    <RelatedContent items={relatedContent} />
                 </CardContent>
             </Card>
         </div>

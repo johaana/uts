@@ -6,6 +6,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ShareButtons } from "@/components/ShareButtons";
 import type { Metadata } from 'next';
+import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 
 const post = { 
     title: "Hampi Utsav: Where Ancient Ruins Come Alive", 
@@ -28,6 +29,33 @@ export const metadata: Metadata = {
     images: [post.image],
   },
 };
+
+const relatedContent: RelatedItem[] = [
+    {
+        slug: "ugadi",
+        title: "Ugadi",
+        image: "https://i.postimg.cc/ZnGTY8KL/ugadi.jpg",
+        type: "Festival",
+        link: "/festivals/ugadi",
+        hint: "ugadi pachadi"
+    },
+    {
+        slug: "dussehra",
+        title: "Dussehra",
+        image: "https://i.postimg.cc/wMVZW9fk/dussehra.jpg",
+        type: "Festival",
+        link: "/festivals/dussehra",
+        hint: "dussehra celebration"
+    },
+    {
+        slug: "onam",
+        title: "Onam Festival Guide",
+        image: "https://i.postimg.cc/0564g0S7/nandu-menon-h-GHldb-Cg-YDA-unsplash.jpg",
+        type: "Festival",
+        link: "/festivals/onam",
+        hint: "onam feast"
+    }
+];
 
 export default function SingleBlogPage() {
     return (
@@ -67,6 +95,7 @@ export default function SingleBlogPage() {
                         <p>The Hampi Festival is a must-visit for anyone interested in history, culture, and the performing arts. It offers a unique opportunity to experience the magic of a bygone era in one of the world's most enchanting historical sites.</p>
                     </article>
                     <ShareButtons title={post.title} />
+                    <RelatedContent items={relatedContent} />
                 </CardContent>
             </Card>
         </div>
