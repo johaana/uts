@@ -10,7 +10,7 @@ export default function VeniceCarnivalPage() {
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-purple-700/10">
                 <div className="absolute inset-0 z-0 opacity-20">
-                    <Image src="https://i.postimg.cc/JnX3hBwT/venice-carnival.jpg" alt="Venice Carnival" layout="fill" objectFit="cover" data-ai-hint="venetian masks" />
+                    <Image src="https://i.postimg.cc/QCVN56qC/Venice-Carnival-Italy.jpg" alt="Venice Carnival" layout="fill" objectFit="cover" data-ai-hint="venetian masks" />
                 </div>
                 <div className="relative text-center text-primary-foreground z-10 p-4">
                     <h1 className="font-headline text-4xl md:text-5xl lg:text-7xl font-bold text-purple-900 drop-shadow-lg">Venice Carnival</h1>
@@ -56,3 +56,5 @@ export default function VeniceCarnivalPage() {
         </div>
     );
 }
+
+    

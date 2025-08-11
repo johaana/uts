@@ -10,7 +10,7 @@ export default function YiPengPage() {
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-amber-500/10">
                 <div className="absolute inset-0 z-0 opacity-20">
-                    <Image src="https://i.postimg.cc/d1wzC9rY/yi-peng.jpg" alt="Yi Peng Lantern Festival" layout="fill" objectFit="cover" data-ai-hint="sky lanterns" />
+                    <Image src="https://i.postimg.cc/XJs7rMdt/Yi-Peng-Lantern-Festival-Thailand.webp" alt="Yi Peng Lantern Festival" layout="fill" objectFit="cover" data-ai-hint="sky lanterns" />
                 </div>
                 <div className="relative text-center text-primary-foreground z-10 p-4">
                     <h1 className="font-headline text-4xl md:text-5xl lg:text-7xl font-bold text-amber-900 drop-shadow-lg">Yi Peng Lantern Festival</h1>
@@ -56,3 +56,5 @@ export default function YiPengPage() {
         </div>
     );
 }
+
+    

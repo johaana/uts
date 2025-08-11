@@ -10,7 +10,7 @@ export default function StPatricksDayPage() {
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-green-700/10">
                 <div className="absolute inset-0 z-0 opacity-20">
-                    <Image src="https://i.postimg.cc/SsgNf6kH/st-patricks-day.jpg" alt="St. Patrick's Day Parade" layout="fill" objectFit="cover" data-ai-hint="irish parade" />
+                    <Image src="https://i.postimg.cc/1XTmKpWH/St-Patrick-s-Day-Ireland-Global.avif" alt="St. Patrick's Day Parade" layout="fill" objectFit="cover" data-ai-hint="irish parade" />
                 </div>
                 <div className="relative text-center text-primary-foreground z-10 p-4">
                     <h1 className="font-headline text-4xl md:text-5xl lg:text-7xl font-bold text-green-900 drop-shadow-lg">St. Patrick's Day</h1>
@@ -64,3 +64,5 @@ export default function StPatricksDayPage() {
         </div>
     );
 }
+
+    

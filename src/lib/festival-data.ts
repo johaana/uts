@@ -274,11 +274,11 @@ export const internationalFestivals = [
     { name: "Songkran", region: "Thailand", description: "Thailand's wild and joyous New Year celebration, famous for its nationwide water fights symbolizing purification.", link: "/festivals/songkran", image: "https://i.postimg.cc/RhHJcbgG/songkran.avif", hint: "water festival" },
     { name: "Boun Ok Phansa", region: "Laos", description: "A beautiful Laotian festival marking the end of Buddhist Lent by releasing illuminated boats on rivers.", link: "/festivals/boun-ok-phansa", image: "https://i.postimg.cc/RF8nJzLN/Boun-Ok-Phansa-Festival-of-Lights.jpg", hint: "laos light festival" },
     { name: "Harbin Ice and Snow Festival", region: "China", description: "A breathtaking winter festival featuring gigantic, illuminated ice and snow sculptures in a frozen city.", link: "/festivals/harbin-ice-festival", image: "https://i.postimg.cc/Xvs535ZK/Harbin-Ice-and-Snow-Festival.webp", hint: "ice sculptures" },
-    { name: "Yi Peng Lantern Festival", region: "Thailand", description: "A magical festival in Northern Thailand where thousands of paper lanterns are released into the sky.", link: "/festivals/yi-peng-lantern-festival", image: "https://i.postimg.cc/d1wzC9rY/yi-peng.jpg", hint: "sky lanterns" },
-    { name: "St. Patrick's Day", region: "Ireland & Global", description: "A global celebration of Irish culture with parades, green attire, and festivities.", link: "/festivals/st-patricks-day", image: "https://i.postimg.cc/SsgNf6kH/st-patricks-day.jpg", hint: "irish parade" },
-    { name: "Hogmanay", region: "Scotland", description: "Scotland's famous New Year's Eve celebration with torchlight processions and street parties.", link: "/festivals/hogmanay", image: "https://i.postimg.cc/k47rGgG2/hogmanay.jpg", hint: "torchlight procession" },
-    { name: "Venice Carnival", region: "Italy", description: "A historic festival famous for its intricate masks, grand balls, and artistic atmosphere.", link: "/festivals/venice-carnival", image: "https://i.postimg.cc/JnX3hBwT/venice-carnival.jpg", hint: "venetian masks" },
-    { name: "Oktoberfest", region: "Germany", description: "The world's largest beer festival, a celebration of Bavarian culture, food, and traditions.", link: "/festivals/oktoberfest", image: "https://i.postimg.cc/wMPyvM8p/oktoberfest.jpg", hint: "beer festival" },
+    { name: "Yi Peng Lantern Festival", region: "Thailand", description: "A magical festival in Northern Thailand where thousands of paper lanterns are released into the sky.", link: "/festivals/yi-peng-lantern-festival", image: "https://i.postimg.cc/XJs7rMdt/Yi-Peng-Lantern-Festival-Thailand.webp", hint: "sky lanterns" },
+    { name: "St. Patrick's Day", region: "Ireland & Global", description: "A global celebration of Irish culture with parades, green attire, and festivities.", link: "/festivals/st-patricks-day", image: "https://i.postimg.cc/1XTmKpWH/St-Patrick-s-Day-Ireland-Global.avif", hint: "irish parade" },
+    { name: "Hogmanay", region: "Scotland", description: "Scotland's famous New Year's Eve celebration with torchlight processions and street parties.", link: "/festivals/hogmanay", image: "https://i.postimg.cc/fLzRWWtx/Hogmanay-Scotland.webp", hint: "torchlight procession" },
+    { name: "Venice Carnival", region: "Italy", description: "A historic festival famous for its intricate masks, grand balls, and artistic atmosphere.", link: "/festivals/venice-carnival", image: "https://i.postimg.cc/QCVN56qC/Venice-Carnival-Italy.jpg", hint: "venetian masks" },
+    { name: "Oktoberfest", region: "Germany", description: "The world's largest beer festival, a celebration of Bavarian culture, food, and traditions.", link: "/festivals/oktoberfest", image: "https://i.postimg.cc/g0q0PLJz/Oktoberfest-Munich.jpg", hint: "beer festival" },
 ];
 
 export const internationalEvents = [
@@ -315,3 +315,5 @@ export const internationalEvents = [
     { date: "Nov 26, 2026", name: "Thanksgiving", region: "USA", type: "Holiday", link: "/festivals/thanksgiving" },
     { date: "Dec 31, 2026", name: "Hogmanay", region: "Scotland", type: "New Year", link: "/festivals/hogmanay" },
 ];
+
+    

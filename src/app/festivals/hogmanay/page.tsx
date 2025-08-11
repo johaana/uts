@@ -10,7 +10,7 @@ export default function HogmanayPage() {
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-blue-900/10">
                 <div className="absolute inset-0 z-0 opacity-20">
-                    <Image src="https://i.postimg.cc/k47rGgG2/hogmanay.jpg" alt="Hogmanay Torchlight Procession" layout="fill" objectFit="cover" data-ai-hint="torchlight procession" />
+                    <Image src="https://i.postimg.cc/fLzRWWtx/Hogmanay-Scotland.webp" alt="Hogmanay Torchlight Procession" layout="fill" objectFit="cover" data-ai-hint="torchlight procession" />
                 </div>
                 <div className="relative text-center text-primary-foreground z-10 p-4">
                     <h1 className="font-headline text-4xl md:text-5xl lg:text-7xl font-bold text-blue-900 drop-shadow-lg">Hogmanay</h1>
@@ -65,3 +65,5 @@ export default function HogmanayPage() {
         </div>
     );
 }
+
+    
