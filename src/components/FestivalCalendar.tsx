@@ -303,9 +303,9 @@ export function FestivalCalendar({
                         <Card key={event.name + event.date + index} className="p-4">
                             <CardContent className="p-0 flex items-center justify-between">
                                 <div className="flex-1">
-                                    <div className="flex items-center gap-2 mb-2">
+                                    <div className="items-center gap-2 mb-2">
                                         {renderEventName(event.name)}
-                                        {event.longWeekend && <Star className="w-4 h-4 text-amber-500 fill-amber-500" />}
+                                        {event.longWeekend && <Star className="w-4 h-4 text-amber-500 fill-amber-500 inline-block ml-2" />}
                                     </div>
                                      <p className="text-sm text-muted-foreground flex items-center gap-2 mb-2">
                                         <Calendar className="w-4 h-4" />
