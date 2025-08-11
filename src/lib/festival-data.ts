@@ -24,7 +24,7 @@ export const allFestivals = [
     { name: "Hornbill Festival", region: "Northeast", description: "A vibrant festival in Nagaland showcasing the rich culture and traditions of the Naga tribes.", link: "/festivals/hornbill-festival", image: "https://i.postimg.cc/6pL9wGsd/Hornbill-Festival.webp", hint: "naga festival" },
     { name: "Thaipusam", region: "South", description: "A powerful Tamil festival of faith, endurance, and penance dedicated to Lord Murugan.", link: "/festivals/thaipusam", image: "https://i.postimg.cc/4y7fTLZd/thaipusam.webp", hint: "kavadi" },
     { name: "Hemis Tsechu", region: "North", description: "A colorful Buddhist festival in Ladakh with masked dances celebrating the birth of Guru Padmasambhava.", link: "/festivals/hemis-tsechu", image: "https://i.postimg.cc/mDBXxRCR/losar-2.jpg", hint: "ladakh festival" },
-    { name: "Goa Carnival", region: "West", description: "A vibrant and energetic carnival in Goa with Portuguese roots, featuring parades, music, and dance.", link: "/festivals/goa-carnival", image: "https://i.postimg.cc/4xZYzGsQ/Goa-Carnival.jpg", hint: "goa carnival" },
+    { name: "Goa Carnival", region: "West", description: "A vibrant and energetic carnival in Goa with Portuguese roots, featuring parades, music, and dance.", link: "/festivals/goa-carnival", image: "https://i.postimg.cc/0r1MZd3v/Carnival.jpg", hint: "goa carnival" },
     { name: "Republic Day", region: "Nationwide", description: "Celebrating the adoption of the Indian Constitution with a grand parade in the capital.", link: "/festivals/republic-day", image: "https://i.postimg.cc/W4kyBGYz/independence-day.avif", hint: "indian army parade" },
     { name: "Independence Day", region: "Nationwide", description: "Commemorating India's freedom from British rule, marked by flag-hoisting ceremonies.", link: "/festivals/independence-day", image: "https://i.postimg.cc/W4kyBGYz/independence-day.avif", hint: "indian flag" },
     { name: "Gandhi Jayanti", region: "Nationwide", description: "Marking the birth anniversary of Mahatma Gandhi, the 'Father of the Nation'.", link: "/festivals/gandhi-jayanti", image: "https://i.postimg.cc/bJ1Ktx1W/gandhi-jayanti.webp", hint: "mahatma gandhi" },
@@ -267,7 +267,7 @@ export const allEvents = [
 export const internationalFestivals = [
     { name: "Chinese New Year", region: "China", description: "The vibrant 15-day celebration of the lunar new year, filled with dragon dances, red lanterns, and feasting.", link: "/festivals/chinese-new-year", image: "https://i.postimg.cc/TYb4tV14/chinese-new-year.webp", hint: "dragon dance" },
     { name: "Cherry Blossom Festival (Hanami)", region: "Japan", description: "Japan's serene festival celebrating the transient beauty of cherry blossoms with picnics under the sakura trees.", link: "/festivals/cherry-blossom-festival", image: "https://i.postimg.cc/htb3BK98/cherry-blossom-festival.jpg", hint: "cherry blossoms" },
-    { name: "Dia de los Muertos", region: "Mexico", description: "A colorful Mexican holiday honoring deceased loved ones with altars, sugar skulls, and marigolds.", link: "/festivals/dia-de-los-muertos", image: "https://i.postimg.cc/CxV6XRfL/Dia-de-los-Muertos-Day-of-the-Dead.webp", hint: "day of the dead" },
+    { name: "Dia de los Muertos", region: "Mexico", description: "A colorful Mexican holiday honoring deceased loved ones with altars, sugar skulls, and marigolds.", link: "/festivals/dia-de-los-muertos", image: "https://i.postimg.cc/05F4GWkS/Dia-de-los-Muertos-Day-of-the-Dead-3.avif", hint: "day of the dead" },
     { name: "Carnival", region: "Brazil", description: "The world's most famous street party in Rio, with dazzling samba parades, elaborate costumes, and non-stop music.", link: "/festivals/carnival", image: "https://i.postimg.cc/0r1MZd3v/Carnival.jpg", hint: "brazil carnival" },
     { name: "Thanksgiving", region: "USA", description: "A day for gratitude, feasting on turkey, and family gatherings to give thanks for the harvest's blessings.", link: "/festivals/thanksgiving", image: "https://i.postimg.cc/XJXCvvFR/thanksgiving.webp", hint: "thanksgiving dinner" },
     { name: "Halloween", region: "USA & Global", description: "A spooky celebration with costumes, trick-or-treating, and jack-o'-lanterns, rooted in ancient Celtic traditions.", link: "/festivals/halloween", image: "https://i.postimg.cc/T2pSDM6G/halloween.jpg", hint: "jack-o-lantern" },
@@ -277,6 +277,7 @@ export const internationalFestivals = [
 ];
 
 export const internationalEvents = [
+    // 2025
     { date: "Jan 05, 2025", name: "Harbin Ice and Snow Festival", region: "China", type: "Cultural", link: "/festivals/harbin-ice-festival" },
     { date: "Jan 29, 2025", name: "Chinese New Year", region: "China", type: "New Year", link: "/festivals/chinese-new-year" },
     { date: "Feb 28, 2025", name: "Carnival", region: "Brazil", type: "Cultural", link: "/festivals/carnival" },
@@ -286,4 +287,15 @@ export const internationalEvents = [
     { date: "Oct 31, 2025", name: "Halloween", region: "USA & Global", type: "Cultural", link: "/festivals/halloween" },
     { date: "Nov 01 - Nov 02, 2025", name: "Dia de los Muertos", region: "Mexico", type: "Cultural", link: "/festivals/dia-de-los-muertos" },
     { date: "Nov 27, 2025", name: "Thanksgiving", region: "USA", type: "Holiday", link: "/festivals/thanksgiving" },
+
+    // 2026
+    { date: "Jan 05, 2026", name: "Harbin Ice and Snow Festival", region: "China", type: "Cultural", link: "/festivals/harbin-ice-festival" },
+    { date: "Feb 17, 2026", name: "Chinese New Year", region: "China", type: "New Year", link: "/festivals/chinese-new-year" },
+    { date: "Feb 13, 2026", name: "Carnival", region: "Brazil", type: "Cultural", link: "/festivals/carnival" },
+    { date: "Mar 20 - Apr 15, 2026", name: "Cherry Blossom Festival (Hanami)", region: "Japan", type: "Seasonal", link: "/festivals/cherry-blossom-festival" },
+    { date: "Apr 13 - Apr 15, 2026", name: "Songkran", region: "Thailand", type: "New Year", link: "/festivals/songkran" },
+    { date: "Oct 04, 2026", name: "Boun Ok Phansa", region: "Laos", type: "Religious", link: "/festivals/boun-ok-phansa" },
+    { date: "Oct 31, 2026", name: "Halloween", region: "USA & Global", type: "Cultural", link: "/festivals/halloween" },
+    { date: "Nov 01 - Nov 02, 2026", name: "Dia de los Muertos", region: "Mexico", type: "Cultural", link: "/festivals/dia-de-los-muertos" },
+    { date: "Nov 26, 2026", name: "Thanksgiving", region: "USA", type: "Holiday", link: "/festivals/thanksgiving" },
 ];

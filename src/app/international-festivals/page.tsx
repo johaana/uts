@@ -17,7 +17,7 @@ export default function InternationalFestivalsPage() {
         <div className="container mx-auto px-4 py-12 md:py-16">
             <FestivalCalendar 
                 events={internationalEvents}
-                availableYears={['2025']}
+                availableYears={['Upcoming', '2025', '2026']}
                 availableRegions={internationalRegions}
                 availableEventTypes={internationalEventTypes}
                 title="Unique International Festivals"
