@@ -10,7 +10,7 @@ import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 
 const post = { 
     title: "Gramam: Step Into the Heart of Kerala's Culture", 
-    image: "https://i.postimg.cc/FKgpVqq6/gramam-kerala.jpg",
+    image: "https://i.postimg.cc/fydk3zxs/gramam.png",
     excerpt: "Experience the authentic culture of Kerala at the Gramam village fair. A celebration of traditional arts, crafts, and food near Kovalam."
 };
 
