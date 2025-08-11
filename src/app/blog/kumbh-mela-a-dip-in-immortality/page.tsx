@@ -10,7 +10,7 @@ import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 
 const post = { 
     title: "Kumbh Mela: A Spiritual Gathering of Millions", 
-    image: "https://i.postimg.cc/ncg3FqB3/kumbh-mela-2.jpg",
+    image: "https://i.postimg.cc/Vk64221w/kumbh-mela.jpg",
     excerpt: "Understand the significance of the Kumbh Mela, the largest peaceful gathering in the world and a cornerstone of Hindu faith."
 };
 
