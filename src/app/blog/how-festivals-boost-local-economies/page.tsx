@@ -10,7 +10,7 @@ import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 
 const post = { 
     title: "The Festive Economy: How Cultural Celebrations Boost Local Livelihoods", 
-    image: "https://i.postimg.cc/YSqqzqzk/The-Economics-Festivals.jpg",
+    image: "https://i.postimg.cc/qvXMVCv2/economics-of-festivals.avif",
     excerpt: "Explore how major festivals like Durga Puja and the Pushkar Camel Fair create a vibrant micro-economy, supporting artisans, local businesses, and sustaining traditional crafts."
 };
 
