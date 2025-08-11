@@ -254,9 +254,11 @@ export function FestivalCalendar({
                                     filteredEvents.map((event, index) => (
                                         <TableRow key={event.name + event.date + index}>
                                             <TableCell className="w-[250px] font-medium">{formatDateString(event.date)}</TableCell>
-                                            <TableCell className="flex items-center gap-2">
-                                                {renderEventName(event.name)}
-                                                {event.longWeekend && <Star className="w-4 h-4 text-amber-500 fill-amber-500" />}
+                                            <TableCell>
+                                                <div className="flex items-center gap-2">
+                                                    {renderEventName(event.name)}
+                                                    {event.longWeekend && <Star className="w-4 h-4 text-amber-500 fill-amber-500" />}
+                                                </div>
                                             </TableCell>
                                             <TableCell>{event.region}</TableCell>
                                             <TableCell>
