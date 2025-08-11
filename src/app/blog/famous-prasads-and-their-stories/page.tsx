@@ -1,0 +1,104 @@
+
+import { Card, CardContent } from "@/components/ui/card";
+import { ArrowLeft } from "lucide-react";
+import Link from "next/link";
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { ShareButtons } from "@/components/ShareButtons";
+import type { Metadata } from 'next';
+import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
+
+const post = { 
+    title: "Divine Offerings: Famous Prasads of India and Their Stories", 
+    image: "https://i.postimg.cc/GmnJ5kP3/nilendrajyoti-halder-v32-Ac-NJ4-Q-Q-unsplash.jpg",
+    excerpt: "Journey through the divine flavors of India's most famous temple offerings. Discover the legends and traditions behind iconic prasads like Tirupati Laddu, Jagannath Mahaprasad, and more."
+};
+
+export const metadata: Metadata = {
+  title: `${post.title} | Utsavs`,
+  description: post.excerpt,
+  openGraph: {
+    title: `${post.title} | Utsavs`,
+    description: post.excerpt,
+    images: [{ url: post.image, width: 1200, height: 630, alt: post.title }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: `${post.title} | Utsavs`,
+    description: post.excerpt,
+    images: [post.image],
+  },
+};
+
+const relatedContent: RelatedItem[] = [
+    {
+        slug: "khechudi",
+        title: "Khechudi",
+        image: "https://i.postimg.cc/wvFzzvZZ/khechudi.jpg",
+        type: "Recipe",
+        link: "/recipes/khechudi",
+        hint: "rice lentils"
+    },
+    {
+        slug: "ladoo",
+        title: "Besan Ladoo Recipe",
+        image: "https://i.postimg.cc/9MkWX5gm/Besan-Laddoo.webp",
+        type: "Recipe",
+        link: "/recipes/ladoo",
+        hint: "gram flour ladoo"
+    },
+    {
+        slug: "rath-yatra",
+        title: "Rath Yatra",
+        image: "https://i.postimg.cc/kXC7f44W/rath-yatra.jpg",
+        type: "Festival",
+        link: "/festivals/rath-yatra",
+        hint: "chariot festival"
+    }
+];
+
+export default function SingleBlogPage() {
+    return (
+        <div className="container mx-auto px-4 py-12">
+            <div className="relative h-64 md:h-96 w-full mb-8">
+                <Image src={post.image} alt={post.title} layout="fill" objectFit="cover" data-ai-hint="temple food" className="rounded-lg"/>
+            </div>
+            <Card className="overflow-hidden md:-mt-16 relative z-10 md:rounded-t-2xl">
+                <CardContent className="p-6 md:p-10">
+                    <div className="mb-8">
+                        <Link href="/blog">
+                            <Button variant="outline"><ArrowLeft className="mr-2 h-4 w-4" />Back to Blog</Button>
+                        </Link>
+                    </div>
+
+                    <article className="prose max-w-none text-foreground/80">
+                         <div className="text-center mb-8">
+                            <p className="text-sm text-muted-foreground">By Team Utsavs on August 20, 2025</p>
+                            <h1 className="font-headline text-4xl font-bold text-primary mt-2">{post.title}</h1>
+                        </div>
+
+                        <p>In India, food is more than just sustenance; it is a sacred offering, a symbol of devotion, and a tangible form of divine blessing. 'Prasad' (or 'prasadam') is the food that is first offered to a deity and then distributed among devotees. It is believed to be imbued with the deity's divine grace, and consuming it is an act of spiritual communion. Many temples across India are famous not just for their deities but for their unique and delicious prasads, each with a fascinating story. Let's explore some of the most iconic temple foods of India.</p>
+
+                        <h3>1. Tirupati Laddu, Andhra Pradesh</h3>
+                        <p>Arguably the most famous prasad in the world, the Tirupati Laddu from the Sri Venkateswara Temple in Tirumala is a globally recognized delicacy. This large, fragrant laddu, made from gram flour, sugar, ghee, cardamom, cashews, and raisins, has a unique taste that devotees cherish. Legend has it that the tradition was started to provide a source of energy for pilgrims who traveled long distances to the temple. The recipe is a closely guarded secret, prepared in a special temple kitchen called 'potu'. The Tirupati Laddu has a Geographical Indication (GI) tag, meaning no one outside the temple can make and sell it under the same name, preserving its sanctity and authenticity.</p>
+
+                        <h3>2. Mahaprasad of Jagannath Temple, Odisha</h3>
+                        <p>The Mahaprasad of the Jagannath Temple in Puri is a culinary marvel and an experience in itself. It consists of 56 different food items ('Chappan Bhog') that are cooked in the world's largest kitchen using only earthen pots and fire from a sacred hearth. The food is cooked without onion or garlic and follows ancient sattvic principles. The cooking process is unique: seven pots are placed one on top of another, and miraculously, the food in the top pot gets cooked first. It is believed that Goddess Lakshmi herself supervises the cooking. The Mahaprasad, which includes rice, dalma, khechudi, and various vegetable curries and sweets, is first offered to Lord Jagannath and then shared by thousands of devotees, signifying unity and equality.</p>
+
+                        <h3>3. Karah Prasad of the Golden Temple, Punjab</h3>
+                        <p>Simple, humble, and profoundly delicious, the Karah Prasad served at the Golden Temple in Amritsar is a symbol of equality and selfless service. This warm, rich halwa is made with just three main ingredients in equal proportions: whole wheat flour (atta), pure ghee, and sugar. It is prepared with continuous chanting of Gurbani (Sikh hymns). The prasad is served to every single visitor, regardless of their faith or background, embodying the core Sikh principles of selfless service ('seva') and the oneness of humanity.</p>
+                        
+                        <h3>4. Peda of Banke Bihari Temple, Vrindavan</h3>
+                        <p>The holy town of Vrindavan, associated with Lord Krishna's childhood, is famous for its milk-based sweets. The Peda from the Banke Bihari Temple is a special prasad that devotees flock to taste. Made from khoya (milk solids) and sugar, these small, brownish discs have a distinct, caramelized flavor. The tradition is rooted in Krishna's love for milk and butter, and the pedas are a sweet offering reminiscent of his divine leelas (pastimes) in the Braj region.</p>
+
+                        <h3>5. Panchamirtham of Palani Murugan Temple, Tamil Nadu</h3>
+                        <p>This unique prasad from the Palani Dhandayuthapani Swamy Temple in Tamil Nadu is a type of 'divine jam' offered to Lord Murugan. 'Panchamirtham' means 'a mixture of five nectars'. It is made from five main ingredients: bananas, country sugar, ghee, honey, and cardamom. Dates and sugar candies are also added. The mixture is prepared without adding any water or preservatives, and remarkably, it does not spoil for months. The bananas used are a special local variety, and the mixture creates a unique, sweet, and tangy taste that is both a delicacy and a medicine.</p>
+
+                    </article>
+                    <ShareButtons title={post.title} />
+                    <RelatedContent items={relatedContent} />
+                </CardContent>
+            </Card>
+        </div>
+    );
+}
