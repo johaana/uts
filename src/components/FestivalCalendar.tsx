@@ -12,6 +12,7 @@ import { ArrowRight, Star, Calendar, MapPin, Tag, Loader2 } from "lucide-react";
 import { format, parse, getYear, isValid, isWithinInterval, startOfToday, endOfDay, addDays } from 'date-fns';
 import { allEvents } from '@/lib/festival-data';
 import { cn } from '@/lib/utils';
+import React from 'react';
 
 const defaultMonths = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const defaultRegions = ["Nationwide", "North", "South", "East", "West", "Northeast", "Central"];
@@ -166,10 +167,10 @@ export function FestivalCalendar({
         const match = name.match(/^(.*?) (\(.*\))$/);
         if (match) {
             return (
-                <div className="text-base">
+                <>
                     <span className="font-bold">{match[1]}</span>
                     <span className="font-normal text-muted-foreground ml-1">{match[2]}</span>
-                </div>
+                </>
             );
         }
         return <span className="font-bold text-base">{name}</span>;
@@ -303,7 +304,7 @@ export function FestivalCalendar({
                         <Card key={event.name + event.date + index} className="p-4">
                             <CardContent className="p-0 flex items-center justify-between">
                                 <div className="flex-1">
-                                    <div className="items-center gap-2 mb-2">
+                                    <div className="flex items-center gap-2 mb-2">
                                         {renderEventName(event.name)}
                                         {event.longWeekend && <Star className="w-4 h-4 text-amber-500 fill-amber-500 inline-block ml-2" />}
                                     </div>
