@@ -71,7 +71,7 @@ export default function DiwaliPage() {
                                     </div>
                                     <div>
                                         <h3 className="font-headline text-2xl text-primary">Day 5: Bhai Dooj - Celebrating the Sibling Bond</h3>
-                                        <p>The five-day festival culminates with Bhai Dooj (or Bhaubeej), a day that celebrates the beautiful and eternal bond between brothers and sisters. It is similar in spirit to Raksha Bandhan. On this day, sisters perform a ceremony where they apply a 'tilak' (a sacred mark) on their brother's forehead, praying for his long life, happiness, and success. They offer him sweets, and in return, the brother gives his sister gifts and takes a vow to protect her. It's a heartwarming conclusion that reinforces the strong family ties that are central to Indian culture.</p>
+                                        <p>The five-day festival culminates with Bhai Dooj (or Bhaubeej), a day that celebrates the beautiful and eternal bond between brothers and sisters. It is similar in spirit to Raksha Bandhan. On this day, sisters perform a ceremony where they apply a 'tilak' (a sacred mark) on their brother's forehead, praying for his long life, happiness, and success. They offer him sweets, and in return, the brother gives his sister a gift and takes a vow to protect her. It's a heartwarming conclusion that reinforces the strong family ties that are central to Indian culture.</p>
                                     </div>
                                 </div>
                             </TabsContent>
