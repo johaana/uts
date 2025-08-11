@@ -10,7 +10,7 @@ export default function ThanksgivingPage() {
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-amber-700/10">
                 <div className="absolute inset-0 z-0 opacity-20">
-                    <Image src="https://i.postimg.cc/XJXCvvFR/thanksgiving.webp" alt="Thanksgiving Dinner" layout="fill" objectFit="cover" data-ai-hint="thanksgiving dinner" />
+                    <Image src="https://i.postimg.cc/Y0vY3MvN/thanksgiving1.webp" alt="Thanksgiving Dinner" layout="fill" objectFit="cover" data-ai-hint="thanksgiving dinner" />
                 </div>
                 <div className="relative text-center text-primary-foreground z-10 p-4">
                     <h1 className="font-headline text-4xl md:text-5xl lg:text-7xl font-bold text-amber-900 drop-shadow-lg">Thanksgiving</h1>
