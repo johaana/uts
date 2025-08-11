@@ -279,6 +279,8 @@ export const internationalFestivals = [
     { name: "Hogmanay", region: "Scotland", description: "Scotland's famous New Year's Eve celebration with torchlight processions and street parties.", link: "/festivals/hogmanay", image: "https://i.postimg.cc/fLzRWWtx/Hogmanay-Scotland.webp", hint: "torchlight procession" },
     { name: "Venice Carnival", region: "Italy", description: "A historic festival famous for its intricate masks, grand balls, and artistic atmosphere.", link: "/festivals/venice-carnival", image: "https://i.postimg.cc/QCVN56qC/Venice-Carnival-Italy.jpg", hint: "venetian masks" },
     { name: "Oktoberfest", region: "Germany", description: "The world's largest beer festival, a celebration of Bavarian culture, food, and traditions.", link: "/festivals/oktoberfest", image: "https://i.postimg.cc/g0q0PLJz/Oktoberfest-Munich.jpg", hint: "beer festival" },
+    { name: "Inti Raymi", region: "Peru", description: "A spectacular Incan 'Festival of the Sun' with grand processions and ancient rituals in Cusco.", link: "/festivals/inti-raymi", image: "https://i.postimg.cc/Y2yDxX37/Inti-Raymi-Festival-of-the-Sun.jpg", hint: "inca festival" },
+    { name: "The Bunya Dreaming Festival", region: "Australia", description: "A celebration of First Peoples' culture, centered around the harvest of the Bunya nut.", link: "/festivals/bunya-dreaming", image: "https://i.postimg.cc/RVkPkNyb/The-Bunya-Dreaming-Festival-Australia-1.png", hint: "aboriginal festival" },
 ];
 
 export const internationalEvents = [
@@ -290,6 +292,7 @@ export const internationalEvents = [
     { date: "Mar 17, 2025", name: "St. Patrick's Day", region: "Ireland & Global", type: "Cultural", link: "/festivals/st-patricks-day" },
     { date: "Mar 20 - Apr 15, 2025", name: "Cherry Blossom Festival (Hanami)", region: "Japan", type: "Seasonal", link: "/festivals/cherry-blossom-festival" },
     { date: "Apr 13 - Apr 15, 2025", name: "Songkran", region: "Thailand", type: "New Year", link: "/festivals/songkran" },
+    { date: "Jun 24, 2025", name: "Inti Raymi", region: "Peru", type: "Cultural", link: "/festivals/inti-raymi" },
     { date: "Sep 20 - Oct 05, 2025", name: "Oktoberfest", region: "Germany", type: "Cultural", link: "/festivals/oktoberfest" },
     { date: "Oct 15, 2025", name: "Boun Ok Phansa", region: "Laos", type: "Religious", link: "/festivals/boun-ok-phansa" },
     { date: "Oct 31, 2025", name: "Halloween", region: "USA & Global", type: "Cultural", link: "/festivals/halloween" },
@@ -307,6 +310,7 @@ export const internationalEvents = [
     { date: "Mar 17, 2026", name: "St. Patrick's Day", region: "Ireland & Global", type: "Cultural", link: "/festivals/st-patricks-day" },
     { date: "Mar 20 - Apr 15, 2026", name: "Cherry Blossom Festival (Hanami)", region: "Japan", type: "Seasonal", link: "/festivals/cherry-blossom-festival" },
     { date: "Apr 13 - Apr 15, 2026", name: "Songkran", region: "Thailand", type: "New Year", link: "/festivals/songkran" },
+    { date: "Jun 24, 2026", name: "Inti Raymi", region: "Peru", type: "Cultural", link: "/festivals/inti-raymi" },
     { date: "Sep 19 - Oct 04, 2026", name: "Oktoberfest", region: "Germany", type: "Cultural", link: "/festivals/oktoberfest" },
     { date: "Oct 04, 2026", name: "Boun Ok Phansa", region: "Laos", type: "Religious", link: "/festivals/boun-ok-phansa" },
     { date: "Oct 31, 2026", name: "Halloween", region: "USA & Global", type: "Cultural", link: "/festivals/halloween" },
@@ -315,5 +319,3 @@ export const internationalEvents = [
     { date: "Nov 26, 2026", name: "Thanksgiving", region: "USA", type: "Holiday", link: "/festivals/thanksgiving" },
     { date: "Dec 31, 2026", name: "Hogmanay", region: "Scotland", type: "New Year", link: "/festivals/hogmanay" },
 ];
-
-    
