@@ -10,7 +10,7 @@ import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 
 const post = { 
     title: "Divine Offerings: Famous Prasads of India and Their Stories", 
-    image: "https://i.postimg.cc/GmnJ5kP3/nilendrajyoti-halder-v32-Ac-NJ4-Q-Q-unsplash.jpg",
+    image: "https://i.postimg.cc/K858TgLJ/tirupati-laddu.jpg",
     excerpt: "Journey through the divine flavors of India's most famous temple offerings. Discover the legends and traditions behind iconic prasads like Tirupati Laddu, Jagannath Mahaprasad, and more."
 };
 

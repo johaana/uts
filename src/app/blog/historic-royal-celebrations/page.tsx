@@ -10,7 +10,7 @@ import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 
 const post = { 
     title: "Royal Revelry: Historic Indian Celebrations Still Practiced Today", 
-    image: "https://i.postimg.cc/9Qp5rxbW/hampi-utsav1.webp",
+    image: "https://i.postimg.cc/s26f6dTW/royal-festivals.webp",
     excerpt: "Step back in time and witness the grandeur of royal festivals that continue to thrive. Explore the history and modern-day spectacle of celebrations like the Mysore Dasara and Jaipur's Holi."
 };
 

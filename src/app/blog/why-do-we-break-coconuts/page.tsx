@@ -10,7 +10,7 @@ import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 
 const post = { 
     title: "Cracking the Code: Why Do We Break Coconuts in Hindu Rituals?", 
-    image: "https://i.postimg.cc/SRFm0QGF/nag-panchami.webp",
+    image: "https://i.postimg.cc/dVF0D97h/coconut.webp",
     excerpt: "Uncover the deep spiritual symbolism behind the common practice of breaking a coconut. From shattering the ego to its representation as the 'fruit of the gods,' explore the meaning of this sacred act."
 };
 
