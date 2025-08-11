@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     description: post.excerpt,
     images: [{ url: post.image, width: 1200, height: 630, alt: post.title }],
     type: 'article',
-    publishedTime: new Date('2025-08-20').toISOString(),
+    publishedTime: new Date('2025-08-11').toISOString(),
     authors: ['Utsavs'],
   },
   twitter: {
@@ -76,14 +76,14 @@ export default function SingleBlogPage() {
 
                     <article className="prose max-w-none text-foreground/80">
                          <div className="text-center mb-8">
-                            <p className="text-sm text-muted-foreground">By Team Utsavs on August 20, 2025</p>
+                            <p className="text-sm text-muted-foreground">By Team Utsavs on August 11, 2025</p>
                             <h1 className="font-headline text-4xl font-bold text-primary mt-2">{post.title}</h1>
                         </div>
 
                         <p>In India, food is more than just sustenance; it is a sacred offering, a symbol of devotion, and a tangible form of divine blessing. 'Prasad' (or 'prasadam') is the food that is first offered to a deity and then distributed among devotees. It is believed to be imbued with the deity's divine grace, and consuming it is an act of spiritual communion. Many temples across India are famous not just for their deities but for their unique and delicious prasads, each with a fascinating story. Let's explore some of the most iconic temple foods of India.</p>
 
                         <h3>1. Tirupati Laddu, Andhra Pradesh</h3>
-                        <p>Arguably the most famous prasad in the world, the Tirupati Laddu from the Sri Venkateswara Temple in Tirumala has a history stretching back over 300 years. This large, fragrant laddu, made from gram flour, sugar, ghee, cardamom, cashews, and raisins, has a unique taste that devotees cherish. Its distribution as a prasad began around 1715. Legend has it that the tradition was started to provide a source of energy for pilgrims who traveled long distances on foot to the temple.</p>
+                        <p>Arguably the most famous prasad in the world, the Tirupati Laddu from the Sri Venkateswara Temple in Tirumala has a history stretching back over 300 years. This large, fragrant laddu, made from gram flour, sugar, ghee, cardamom, cashews, and raisins, has a unique taste that devotees cherish. Legend has it that the tradition was started to provide a source of energy for pilgrims who traveled long distances on foot to the temple.</p>
                         
                         <p><strong>The Unique Tradition:</strong> The recipe is a closely guarded secret, prepared in a special temple kitchen called 'potu' by designated priests known as 'pachakas'. The scale of production is monumental. The kitchen has the capacity to produce 300,000 laddus a day, with nearly 620 people, including 270 cooks, working in the prasad-making units. The Tirupati Laddu also has a Geographical Indication (GI) tag, meaning no one outside the temple can make and sell it under the same name, preserving its sanctity and authenticity.</p>
                         
