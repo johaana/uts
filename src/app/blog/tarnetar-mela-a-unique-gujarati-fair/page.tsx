@@ -20,6 +20,9 @@ export const metadata: Metadata = {
     title: `${post.title} | Utsavs`,
     description: post.excerpt,
     images: [{ url: post.image, width: 1200, height: 630, alt: post.title }],
+    type: 'article',
+    publishedTime: new Date('2025-06-05').toISOString(),
+    authors: ['Utsavs'],
   },
   twitter: {
     card: 'summary_large_image',
@@ -57,7 +60,7 @@ export default function SingleBlogPage() {
 
                         <h3>More than Matchmaking:</h3>
                         <ul>
-                            <li><strong>Folk Dance and Music:</strong> The air at the fair throbs with the incessant beat of drums. People dance with joyous abandon, performing traditional Gujarati folk dances like the Garba and Raas.</li>
+                            <li><strong>Folk Dance and Music:</strong> The air at the fair throbbed with the incessant beat of drums. People dance with joyous abandon, performing traditional Gujarati folk dances like the Garba and Raas.</li>
                             <li><strong>Rural Olympics:</strong> The fair also hosts a range of rural sports and competitions, adding to the festive atmosphere.</li>
                             <li><strong>Handicrafts:</strong> Numerous stalls are set up, showcasing the exquisite handicrafts, textiles, and traditional attire of the region.</li>
                         </ul>

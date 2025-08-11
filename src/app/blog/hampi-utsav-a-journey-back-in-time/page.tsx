@@ -21,6 +21,9 @@ export const metadata: Metadata = {
     title: `${post.title} | Utsavs`,
     description: post.excerpt,
     images: [{ url: post.image, width: 1200, height: 630, alt: post.title }],
+    type: 'article',
+    publishedTime: new Date('2025-05-22').toISOString(),
+    authors: ['Utsavs'],
   },
   twitter: {
     card: 'summary_large_image',

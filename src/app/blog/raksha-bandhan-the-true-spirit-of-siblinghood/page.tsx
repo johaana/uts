@@ -21,6 +21,9 @@ export const metadata: Metadata = {
     title: `${post.title} | Utsavs`,
     description: post.excerpt,
     images: [{ url: post.image, width: 1200, height: 630, alt: post.title }],
+    type: 'article',
+    publishedTime: new Date('2025-08-08').toISOString(),
+    authors: ['Utsavs'],
   },
   twitter: {
     card: 'summary_large_image',
@@ -73,7 +76,7 @@ export default function SingleBlogPage() {
 
                     <article className="prose max-w-none text-foreground/80">
                          <div className="text-center mb-8">
-                            <p className="text-sm text-muted-foreground">By Team Utsavs on August 8, 2025</p>
+                            <p className="text-sm text-muted-foreground">By Team Utsavs on August 08, 2025</p>
                             <h1 className="font-headline text-4xl font-bold text-primary mt-2">{post.title}</h1>
                         </div>
 
