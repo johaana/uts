@@ -11,7 +11,7 @@ import { Button } from './ui/button';
 export function InternationalFestivalsShowcase() {
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8">
-      {internationalFestivals.map((festival) => (
+      {internationalFestivals.slice(0,6).map((festival) => (
         <Link href={festival.link} key={festival.name} className="group">
           <Card className="h-full overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-2">
             <CardContent className="p-0">
@@ -28,18 +28,17 @@ export function InternationalFestivalsShowcase() {
                   {festival.name}
                 </h3>
               </div>
-              <div className="p-4 md:p-6">
-                <p className="text-sm md:text-base text-foreground/80">{festival.description}</p>
-                 <Button variant="link" className="p-0 mt-4 text-accent font-bold">
-                    Explore Festival <ArrowRight className="ml-1 h-4 w-4" />
-                </Button>
-              </div>
             </CardContent>
           </Card>
         </Link>
       ))}
+      <div className="col-span-2 md:col-span-3 flex justify-center mt-8">
+        <Link href="/international-festivals">
+            <Button variant="outline" size="lg">
+                Explore All International Festivals <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+        </Link>
+      </div>
     </div>
   );
 }
-
-    

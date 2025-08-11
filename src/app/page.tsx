@@ -1,4 +1,5 @@
 
+
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Calendar, Utensils, BookOpen, Globe } from "lucide-react";
 import Link from "next/link";
@@ -8,6 +9,10 @@ import React from "react";
 import { UpcomingFestivalsCarousel } from "@/components/UpcomingFestivalsCarousel";
 import { HeroCarousel } from "@/components/HeroCarousel";
 import { InternationalFestivalsShowcase } from "@/components/InternationalFestivalsShowcase";
+import { HolidayPlanner } from "@/components/HolidayPlanner";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Bot } from "lucide-react";
+import Image from 'next/image';
 
 
 function ResourceSummary() {
@@ -47,6 +52,34 @@ function FestivalOfTheMonth() {
         </section>
     );
 }
+
+function AIPlannerShowcase() {
+    return (
+        <section className="py-12 md:py-24 bg-background">
+            <div className="container mx-auto px-4">
+                <Card className="bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-blue-950/50 dark:to-indigo-950/80 border-2 border-blue-200/50 shadow-xl overflow-hidden">
+                    <div className="grid md:grid-cols-2 items-center">
+                        <div className="p-8 md:p-12 order-2 md:order-1">
+                            <h2 className="font-headline text-3xl md:text-5xl font-bold text-primary mb-4">Let AI Be Your Guide</h2>
+                            <p className="text-lg text-foreground/80 mb-6 max-w-lg">
+                                Planning a trip around a festival? Curious about specific dates or customs? Our AI Holiday Planner can provide personalized suggestions and answer your questions in an instant.
+                            </p>
+                            <Link href="/planner">
+                                <Button size="lg" className="group shadow-lg hover:shadow-xl transition-all duration-300">
+                                    Try the AI Planner <Bot className="w-5 h-5 ml-2 transition-transform group-hover:rotate-12" />
+                                </Button>
+                            </Link>
+                        </div>
+                        <div className="order-1 md:order-2 h-64 md:h-full">
+                           <Image src="https://i.postimg.cc/VLQf0kKF/long-weekend-1.jpg" alt="AI Planner" width={600} height={400} className="w-full h-full object-cover" data-ai-hint="holiday planning calendar" />
+                        </div>
+                    </div>
+                </Card>
+            </div>
+        </section>
+    );
+}
+
 
 export default function Home() {
   return (
@@ -101,6 +134,8 @@ export default function Home() {
            <FestivalCalendar />
         </div>
       </section>
+      
+       <AIPlannerShowcase />
 
       <section className="py-12 md:py-24 bg-secondary/30">
         <div className="container mx-auto px-4">
@@ -140,5 +175,3 @@ export default function Home() {
     </div>
   );
 }
-
-    
