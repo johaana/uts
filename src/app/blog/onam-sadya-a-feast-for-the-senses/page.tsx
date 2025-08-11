@@ -6,6 +6,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ShareButtons } from "@/components/ShareButtons";
 import type { Metadata } from 'next';
+import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 
 const post = {
     title: "Onam Sadya: A Feast for the Senses",
@@ -28,6 +29,33 @@ export const metadata: Metadata = {
     images: [post.image],
   },
 };
+
+const relatedContent: RelatedItem[] = [
+    {
+        slug: "onam",
+        title: "Onam Festival Guide",
+        image: "https://i.postimg.cc/0564g0S7/nandu-menon-h-GHldb-Cg-YDA-unsplash.jpg",
+        type: "Festival",
+        link: "/festivals/onam",
+        hint: "onam feast"
+    },
+    {
+        slug: "avial",
+        title: "Avial Recipe",
+        image: "https://i.postimg.cc/MpJpjw6X/Aviyal.webp",
+        type: "Recipe",
+        link: "/recipes/avial",
+        hint: "vegetable stew"
+    },
+    {
+        slug: "payasam",
+        title: "Payasam Recipe",
+        image: "https://i.postimg.cc/59n9d7My/payasam.jpg",
+        type: "Recipe",
+        link: "/recipes/payasam",
+        hint: "rice pudding"
+    }
+];
 
 export default function SingleBlogPage() {
     return (
@@ -72,6 +100,7 @@ export default function SingleBlogPage() {
                         </blockquote>
                     </article>
                     <ShareButtons title={post.title} />
+                    <RelatedContent items={relatedContent} />
                 </CardContent>
             </Card>
         </div>

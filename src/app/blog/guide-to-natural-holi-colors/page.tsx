@@ -6,6 +6,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ShareButtons } from "@/components/ShareButtons";
 import type { Metadata } from 'next';
+import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 
 const post = {
     title: "A Guide to Natural Holi Colors",
@@ -28,6 +29,33 @@ export const metadata: Metadata = {
     images: [post.image],
   },
 };
+
+const relatedContent: RelatedItem[] = [
+    {
+        slug: "holi",
+        title: "Holi Festival Guide",
+        image: "https://i.postimg.cc/0276MjRN/Holi.jpg",
+        type: "Festival",
+        link: "/festivals/holi",
+        hint: "holi celebration"
+    },
+    {
+        slug: "thandai",
+        title: "Thandai Recipe",
+        image: "https://i.postimg.cc/Y04CQqLL/Thandai.webp",
+        type: "Recipe",
+        link: "/recipes/thandai",
+        hint: "holi drink"
+    },
+    {
+        slug: "celebrate-with-conscience-eco-friendly-festivals",
+        title: "Guide to Eco-Friendly Festivals",
+        image: "https://i.postimg.cc/XNyGGLXt/eco-friendly.jpg",
+        type: "Blog",
+        link: "/blog/celebrate-with-conscience-eco-friendly-festivals",
+        hint: "eco-friendly decor"
+    }
+];
 
 export default function SingleBlogPage() {
     return (
@@ -63,6 +91,7 @@ export default function SingleBlogPage() {
                         <p>For a natural green, use pure henna (mehendi) powder mixed with flour. You can also make a paste of spinach or mint leaves for a wet green color.</p>
                     </article>
                     <ShareButtons title={post.title} />
+                    <RelatedContent items={relatedContent} />
                 </CardContent>
             </Card>
         </div>

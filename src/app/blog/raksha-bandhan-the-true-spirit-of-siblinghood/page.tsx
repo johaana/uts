@@ -6,6 +6,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ShareButtons } from "@/components/ShareButtons";
 import type { Metadata } from 'next';
+import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 
 const post = {
     title: "More Than a Thread: The True Spirit of Raksha Bandhan",
@@ -28,6 +29,33 @@ export const metadata: Metadata = {
     images: [post.image],
   },
 };
+
+const relatedContent: RelatedItem[] = [
+    {
+        slug: "raksha-bandhan",
+        title: "Raksha Bandhan Guide",
+        image: "https://i.postimg.cc/9MXxXQhY/Raksha-Bandhan.jpg",
+        type: "Festival",
+        link: "/festivals/raksha-bandhan",
+        hint: "rakhi thread"
+    },
+    {
+        slug: "coconut-barfi",
+        title: "Coconut Barfi Recipe",
+        image: "https://i.postimg.cc/V5QmM9c2/Coconut-Burfi.jpg",
+        type: "Recipe",
+        link: "/recipes/coconut-barfi",
+        hint: "coconut fudge"
+    },
+    {
+        slug: "diwali",
+        title: "Diwali",
+        image: "https://i.postimg.cc/SjF8HhM1/Diwali2.jpg",
+        type: "Festival",
+        link: "/festivals/diwali",
+        hint: "diwali celebration"
+    }
+];
 
 export default function SingleBlogPage() {
     return (
@@ -80,6 +108,7 @@ export default function SingleBlogPage() {
 
                     </article>
                     <ShareButtons title={post.title} />
+                    <RelatedContent items={relatedContent} />
                 </CardContent>
             </Card>
         </div>

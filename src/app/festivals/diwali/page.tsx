@@ -5,12 +5,41 @@ import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote, Calendar
 import Link from "next/link";
 import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
+import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 
 const recipes = [
     { name: "Ladoo", link: "/recipes/ladoo" },
     { name: "Kaju Katli", link: "/recipes/kaju-katli" },
     { name: "Gajar Ka Halwa", link: "/recipes/gajar-ka-halwa" },
 ]
+
+const relatedContent: RelatedItem[] = [
+    {
+        slug: "significance-of-diyas-in-diwali",
+        title: "The Significance of Diyas",
+        image: "https://i.postimg.cc/brM9vjDZ/Diya-diwali.webp",
+        type: "Blog",
+        link: "/blog/significance-of-diyas-in-diwali",
+        hint: "diwali lamps"
+    },
+    {
+        slug: "ladoo",
+        title: "Besan Ladoo Recipe",
+        image: "https://i.postimg.cc/9MkWX5gm/Besan-Laddoo.webp",
+        type: "Recipe",
+        link: "/recipes/ladoo",
+        hint: "gram flour ladoo"
+    },
+    {
+        slug: "kaju-katli",
+        title: "Kaju Katli Recipe",
+        image: "https://i.postimg.cc/3ND3dSzg/Kaju-Katli.webp",
+        type: "Recipe",
+        link: "/recipes/kaju-katli",
+        hint: "cashew fudge"
+    }
+];
+
 
 export default function DiwaliPage() {
     return (
@@ -206,6 +235,7 @@ export default function DiwaliPage() {
                             </TabsContent>
                         </Tabs>
                         <ShareButtons title="Diwali" />
+                        <RelatedContent items={relatedContent} />
                     </CardContent>
                 </Card>
             </div>

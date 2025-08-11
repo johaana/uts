@@ -5,12 +5,40 @@ import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote, Leaf } f
 import Link from "next/link";
 import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
+import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 
 const recipes = [
     { name: "Gujiya", link: "/recipes/gujiya" },
     { name: "Thandai", link: "/recipes/thandai" },
     { name: "Ras Malai", link: "/recipes/ras-malai" },
 ]
+
+const relatedContent: RelatedItem[] = [
+    {
+        slug: "guide-to-natural-holi-colors",
+        title: "A Guide to Natural Holi Colors",
+        image: "https://i.postimg.cc/gkXKTrQ8/organic-holi-colours.webp",
+        type: "Blog",
+        link: "/blog/guide-to-natural-holi-colors",
+        hint: "holi colors"
+    },
+    {
+        slug: "thandai",
+        title: "Thandai Recipe",
+        image: "https://i.postimg.cc/Y04CQqLL/Thandai.webp",
+        type: "Recipe",
+        link: "/recipes/thandai",
+        hint: "holi drink"
+    },
+    {
+        slug: "holika-dahan",
+        title: "Holika Dahan",
+        image: "https://i.postimg.cc/qBzWPvvf/holika-dahan.webp",
+        type: "Festival",
+        link: "/festivals/holika-dahan",
+        hint: "bonfire festival"
+    }
+];
 
 export default function HoliPage() {
     return (
@@ -165,6 +193,7 @@ export default function HoliPage() {
                             </TabsContent>
                         </Tabs>
                         <ShareButtons title="Holi" />
+                        <RelatedContent items={relatedContent} />
                     </CardContent>
                 </Card>
             </div>

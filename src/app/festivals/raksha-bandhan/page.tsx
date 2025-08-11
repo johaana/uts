@@ -5,12 +5,40 @@ import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote } from "l
 import Link from "next/link";
 import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
+import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 
 const recipes = [
     { name: "Kaju Katli", link: "/recipes/kaju-katli" },
     { name: "Ladoo", link: "/recipes/ladoo" },
     { name: "Coconut Barfi", link: "/recipes/coconut-barfi" },
 ]
+
+const relatedContent: RelatedItem[] = [
+    {
+        slug: "raksha-bandhan-the-true-spirit-of-siblinghood",
+        title: "More Than a Thread: The True Spirit of Raksha Bandhan",
+        image: "https://i.postimg.cc/9MXxXQhY/Raksha-Bandhan.jpg",
+        type: "Blog",
+        link: "/blog/raksha-bandhan-the-true-spirit-of-siblinghood",
+        hint: "rakhi thread"
+    },
+    {
+        slug: "coconut-barfi",
+        title: "Coconut Barfi Recipe",
+        image: "https://i.postimg.cc/V5QmM9c2/Coconut-Burfi.jpg",
+        type: "Recipe",
+        link: "/recipes/coconut-barfi",
+        hint: "coconut fudge"
+    },
+    {
+        slug: "diwali",
+        title: "Diwali",
+        image: "https://i.postimg.cc/SjF8HhM1/Diwali2.jpg",
+        type: "Festival",
+        link: "/festivals/diwali",
+        hint: "diwali celebration"
+    }
+];
 
 export default function RakshaBandhanPage() {
     return (
@@ -92,6 +120,7 @@ export default function RakshaBandhanPage() {
                             </TabsContent>
                         </Tabs>
                         <ShareButtons title="Raksha Bandhan" />
+                        <RelatedContent items={relatedContent} />
                     </CardContent>
                 </Card>
             </div>

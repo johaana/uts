@@ -6,6 +6,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ShareButtons } from "@/components/ShareButtons";
 import type { Metadata } from 'next';
+import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 
 const post = {
     title: "The 9 Avatars of Durga: A Navratri Special",
@@ -28,6 +29,33 @@ export const metadata: Metadata = {
     images: [post.image],
   },
 };
+
+const relatedContent: RelatedItem[] = [
+    {
+        slug: "navratri",
+        title: "Navratri Festival Guide",
+        image: "https://i.postimg.cc/J4JFtVYT/navratri1.jpg",
+        type: "Festival",
+        link: "/festivals/navratri",
+        hint: "garba dance"
+    },
+    {
+        slug: "dussehra",
+        title: "Dussehra",
+        image: "https://i.postimg.cc/wMVZW9fk/dussehra.jpg",
+        type: "Festival",
+        link: "/festivals/dussehra",
+        hint: "dussehra celebration"
+    },
+    {
+        slug: "sabudana-khichdi",
+        title: "Sabudana Khichdi Recipe",
+        image: "https://i.postimg.cc/3wRdZZ1y/sabudana-khichdi.jpg",
+        type: "Recipe",
+        link: "/recipes/sabudana-khichdi",
+        hint: "tapioca pearl dish"
+    }
+];
 
 export default function SingleBlogPage() {
     return (
@@ -80,6 +108,7 @@ export default function SingleBlogPage() {
 
                     </article>
                     <ShareButtons title={post.title} />
+                    <RelatedContent items={relatedContent} />
                 </CardContent>
             </Card>
         </div>

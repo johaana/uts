@@ -6,6 +6,8 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ShareButtons } from "@/components/ShareButtons";
 import type { Metadata } from 'next';
+import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
+
 
 const post = {
     title: "The Significance of Diyas in Diwali",
@@ -28,6 +30,33 @@ export const metadata: Metadata = {
     images: [post.image],
   },
 };
+
+const relatedContent: RelatedItem[] = [
+    {
+        slug: "diwali",
+        title: "Diwali Guide",
+        image: "https://i.postimg.cc/SjF8HhM1/Diwali2.jpg",
+        type: "Festival",
+        link: "/festivals/diwali",
+        hint: "diwali celebration"
+    },
+    {
+        slug: "ladoo",
+        title: "Besan Ladoo Recipe",
+        image: "https://i.postimg.cc/9MkWX5gm/Besan-Laddoo.webp",
+        type: "Recipe",
+        link: "/recipes/ladoo",
+        hint: "gram flour ladoo"
+    },
+    {
+        slug: "celebrate-with-conscience-eco-friendly-festivals",
+        title: "Guide to Eco-Friendly Festivals",
+        image: "https://i.postimg.cc/XNyGGLXt/eco-friendly.jpg",
+        type: "Blog",
+        link: "/blog/celebrate-with-conscience-eco-friendly-festivals",
+        hint: "eco-friendly decor"
+    }
+];
 
 export default function SingleBlogPage() {
     return (
@@ -59,6 +88,7 @@ export default function SingleBlogPage() {
                         <p>The tradition of lighting diyas is also tied to the epic Ramayana. Diwali celebrates the return of Lord Rama, his wife Sita, and his brother Lakshmana to their kingdom of Ayodhya after 14 years of exile and defeating the demon king Ravana. The people of Ayodhya, overjoyed by the return of their rightful king, illuminated the entire city with rows of earthen lamps. This grand celebration of homecoming is recreated every year, making the lighting of diyas a central part of the Diwali festivities.</p>
                     </article>
                     <ShareButtons title={post.title} />
+                    <RelatedContent items={relatedContent} />
                 </CardContent>
             </Card>
         </div>
