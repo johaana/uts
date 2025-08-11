@@ -1,22 +1,31 @@
 
+'use client';
+
 import { Card, CardContent } from "@/components/ui/card";
 import Link from "next/link";
 import Image from 'next/image';
-import { internationalFestivals } from '@/lib/festival-data';
+import { internationalFestivals, internationalEvents } from '@/lib/festival-data';
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import { FestivalCalendar } from "@/components/FestivalCalendar";
+
+const internationalRegions = [...new Set(internationalEvents.map(e => e.region))].sort();
+const internationalEventTypes = [...new Set(internationalEvents.map(e => e.type))].sort();
 
 export default function InternationalFestivalsPage() {
     return (
         <div className="container mx-auto px-4 py-12 md:py-16">
-            <div className="text-center mb-12">
-                <h1 className="font-headline text-3xl md:text-5xl font-bold">Unique International Festivals</h1>
-                <p className="mt-3 text-base md:text-lg text-foreground/80 max-w-2xl mx-auto">
-                    Venture beyond borders and explore unique cultural celebrations from around the globe. Discover new traditions, vibrant colors, and profound stories.
-                </p>
-            </div>
+            <FestivalCalendar 
+                events={internationalEvents}
+                availableYears={['2025']}
+                availableRegions={internationalRegions}
+                availableEventTypes={internationalEventTypes}
+                title="Unique International Festivals"
+                description="Venture beyond borders and explore unique cultural celebrations from around the globe. Discover new traditions, vibrant colors, and profound stories."
+                showLongWeekendInfo={false}
+            />
 
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 md:gap-8">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 md:gap-8 mt-16">
                 {internationalFestivals.map((festival) => (
                     <Card key={festival.name} className="overflow-hidden group flex flex-col transition-transform duration-300 ease-in-out hover:scale-105 hover:-translate-y-1 hover:shadow-xl">
                          <Link href={festival.link} className="block">

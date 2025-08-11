@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import { useState, useMemo, useEffect } from 'react';
@@ -14,23 +13,48 @@ import { format, parse, getYear, isValid, isWithinInterval, startOfToday, endOfD
 import { allEvents } from '@/lib/festival-data';
 import { cn } from '@/lib/utils';
 
-const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-const regions = ["Nationwide", "North", "South", "East", "West", "Northeast", "Central"];
-const eventTypes = ["Festivals", "Holidays", "Long Weekends"];
+const defaultMonths = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const defaultRegions = ["Nationwide", "North", "South", "East", "West", "Northeast", "Central"];
+const defaultEventTypes = ["Festivals", "Holidays", "Long Weekends"];
+const defaultYears = ['Upcoming', '2025', '2026'];
 
-const availableYears = ['Upcoming', '2025', '2026'];
+interface FestivalEvent {
+    date: string;
+    name: string;
+    region: string;
+    type: string;
+    link?: string;
+    longWeekend?: boolean;
+}
 
-export function FestivalCalendar() {
+interface FestivalCalendarProps {
+    events: FestivalEvent[];
+    availableYears?: string[];
+    availableRegions?: string[];
+    availableEventTypes?: string[];
+    title: string;
+    description: string;
+    showLongWeekendInfo?: boolean;
+}
+
+export function FestivalCalendar({
+    events,
+    availableYears = defaultYears,
+    availableRegions = defaultRegions,
+    availableEventTypes = defaultEventTypes,
+    title,
+    description,
+    showLongWeekendInfo = true,
+}: FestivalCalendarProps) {
     const [isClient, setIsClient] = useState(false);
     const [selectedMonth, setSelectedMonth] = useState('all');
     const [selectedRegion, setSelectedRegion] = useState('all');
     const [selectedEventType, setSelectedEventType] = useState('all');
-    const [selectedYear, setSelectedYear] = useState('Upcoming');
-
+    const [selectedYear, setSelectedYear] = useState(availableYears[0] || 'all');
+    
     useEffect(() => {
         setIsClient(true);
     }, []);
-    
 
     const getEventDateRange = (dateString: string): { start: Date, end: Date } | null => {
         try {
@@ -42,7 +66,6 @@ export function FestivalCalendar() {
             if (parts.length > 1) {
                 const endDateStr = parts[1];
                 let parsedEndDate;
-                // Handles cases like "Oct 29 - Nov 02, 2024" where the year is only at the end.
                 if (endDateStr.split(',').length < 2) { 
                     parsedEndDate = parse(`${endDateStr}, ${getYear(startDate)}`, 'MMM dd, yyyy', new Date());
                 } else {
@@ -59,13 +82,11 @@ export function FestivalCalendar() {
     };
     
     const filteredEvents = useMemo(() => {
-        if (!isClient) {
-            return [];
-        }
+        if (!isClient) return [];
 
         const today = startOfToday();
 
-        let dateFilteredEvents = allEvents.filter(event => {
+        let dateFilteredEvents = events.filter(event => {
             const range = getEventDateRange(event.date);
             if (!range) return false;
 
@@ -75,7 +96,7 @@ export function FestivalCalendar() {
             }
 
             if (selectedYear === 'all') {
-                return range.end >= today;
+                return true;
             }
 
             const yearNum = parseInt(selectedYear, 10);
@@ -90,12 +111,16 @@ export function FestivalCalendar() {
             const regionMatch = selectedRegion === 'all' || event.region === selectedRegion || event.region.includes(selectedRegion);
             
             let eventTypeMatch = true;
-            if (selectedEventType === 'Festivals') {
-                eventTypeMatch = event.type !== 'Holiday' && event.type !== 'Diwali';
-            } else if (selectedEventType === 'Holidays') {
-                eventTypeMatch = event.type === 'Holiday';
-            } else if (selectedEventType === 'Long Weekends') {
-                eventTypeMatch = !!event.longWeekend;
+            if (selectedEventType !== 'all') {
+                 if (selectedEventType === 'Festivals') {
+                    eventTypeMatch = event.type !== 'Holiday' && event.type !== 'Diwali';
+                } else if (selectedEventType === 'Holidays') {
+                    eventTypeMatch = event.type === 'Holiday';
+                } else if (selectedEventType === 'Long Weekends') {
+                    eventTypeMatch = !!event.longWeekend;
+                } else {
+                    eventTypeMatch = event.type === selectedEventType;
+                }
             }
 
             return monthMatch && regionMatch && eventTypeMatch;
@@ -104,19 +129,15 @@ export function FestivalCalendar() {
              const dateB = getEventDateRange(b.date)?.start.getTime() || 0;
              return dateA - dateB;
         });
-
-    }, [isClient, selectedYear, selectedMonth, selectedRegion, selectedEventType]);
+    }, [isClient, selectedYear, selectedMonth, selectedRegion, selectedEventType, events]);
     
-     const formatDateString = (dateString: string) => {
+    const formatDateString = (dateString: string) => {
         const range = getEventDateRange(dateString);
         if (!range) return dateString;
-
         const { start, end } = range;
-
         if (format(start, 'yyyy-MM-dd') === format(end, 'yyyy-MM-dd')) {
             return format(start, 'MMM dd, yyyy (EEEE)');
         }
-
         if (getYear(start) !== getYear(end)) {
             return `${format(start, 'MMM dd, yyyy')} - ${format(end, 'MMM dd, yyyy')}`;
         } else if (format(start, 'MMMM') !== format(end, 'MMMM')) {
@@ -154,62 +175,54 @@ export function FestivalCalendar() {
         return <span className="font-bold text-base">{name}</span>;
     };
 
-
     return (
         <div className="w-full">
             <div className="text-center mb-12">
-                <h2 className="font-headline text-3xl md:text-5xl font-bold text-primary">Festival & Holiday Calendar</h2>
+                <h2 className="font-headline text-3xl md:text-5xl font-bold text-primary">{title}</h2>
                 <p className="mt-3 text-base md:text-lg text-foreground/80 max-w-2xl mx-auto">
-                    Plan your year around the vibrant celebrations of India. Never miss a festival, holiday, or long weekend.
+                    {description}
                 </p>
             </div>
             
             <Card className="p-4 md:p-6 mb-2">
                  <div className="grid grid-cols-2 sm:grid-cols-2 gap-4 items-center md:grid-cols-4">
                     <Select onValueChange={setSelectedYear} value={selectedYear}>
-                        <SelectTrigger>
-                            <SelectValue placeholder="Year" />
-                        </SelectTrigger>
+                        <SelectTrigger><SelectValue placeholder="Year" /></SelectTrigger>
                         <SelectContent>
                             {availableYears.map(year => <SelectItem key={year} value={year}>{year}</SelectItem>)}
                         </SelectContent>
                     </Select>
                     <Select onValueChange={setSelectedMonth} value={selectedMonth}>
-                        <SelectTrigger>
-                            <SelectValue placeholder="Month" />
-                        </SelectTrigger>
+                        <SelectTrigger><SelectValue placeholder="Month" /></SelectTrigger>
                         <SelectContent>
                             <SelectItem value="all">All Months</SelectItem>
-                            {months.map(month => <SelectItem key={month} value={month}>{month}</SelectItem>)}
+                            {defaultMonths.map(month => <SelectItem key={month} value={month}>{month}</SelectItem>)}
                         </SelectContent>
                     </Select>
                      <Select onValueChange={setSelectedRegion} value={selectedRegion}>
-                        <SelectTrigger>
-                            <SelectValue placeholder="Region" />
-                        </SelectTrigger>
+                        <SelectTrigger><SelectValue placeholder="Region" /></SelectTrigger>
                         <SelectContent>
                              <SelectItem value="all">All Regions</SelectItem>
-                            {regions.map(region => <SelectItem key={region} value={region}>{region}</SelectItem>)}
+                            {availableRegions.map(region => <SelectItem key={region} value={region}>{region}</SelectItem>)}
                         </SelectContent>
                     </Select>
                     <Select onValueChange={setSelectedEventType} value={selectedEventType}>
-                        <SelectTrigger>
-                            <SelectValue placeholder="Type" />
-                        </SelectTrigger>
+                        <SelectTrigger><SelectValue placeholder="Type" /></SelectTrigger>
                         <SelectContent>
                              <SelectItem value="all">All Types</SelectItem>
-                            {eventTypes.map(type => <SelectItem key={type} value={type}>{type}</SelectItem>)}
+                            {availableEventTypes.map(type => <SelectItem key={type} value={type}>{type}</SelectItem>)}
                         </SelectContent>
                     </Select>
                 </div>
             </Card>
 
-            <div className="flex items-center justify-start text-sm text-muted-foreground mb-8 ml-2">
-                <Star className="w-4 h-4 mr-2 text-amber-500 fill-amber-500" />
-                <span>Indicates a long weekend opportunity. See our <Link href="/blog/long-weekends-2025" className="underline hover:text-primary">Long Weekends Guide</Link> for travel ideas.</span>
-            </div>
+            {showLongWeekendInfo && (
+                 <div className="flex items-center justify-start text-sm text-muted-foreground mb-8 ml-2">
+                    <Star className="w-4 h-4 mr-2 text-amber-500 fill-amber-500" />
+                    <span>Indicates a long weekend opportunity. See our <Link href="/blog/long-weekends-2025" className="underline hover:text-primary">Long Weekends Guide</Link> for travel ideas.</span>
+                </div>
+            )}
 
-            {/* Desktop Table */}
             <div className="hidden md:block">
                 <Card className="h-[60vh] flex flex-col">
                     <div className="flex-shrink-0">
@@ -218,7 +231,7 @@ export function FestivalCalendar() {
                                 <TableRow>
                                     <TableHead className="w-[250px] text-primary">Date</TableHead>
                                     <TableHead className="text-primary">Name</TableHead>
-                                    <TableHead className="text-primary">Region</TableHead>
+                                    <TableHead className="text-primary">Region/Country</TableHead>
                                     <TableHead className="text-primary">Type</TableHead>
                                     <TableHead className="text-right text-primary">Details</TableHead>
                                 </TableRow>
@@ -275,7 +288,6 @@ export function FestivalCalendar() {
                 </Card>
             </div>
 
-             {/* Mobile Card List */}
             <div className="md:hidden space-y-4 h-[28rem] overflow-y-auto pr-2">
                  {!isClient ? (
                     <Card className="text-center h-24 flex items-center justify-center text-muted-foreground">

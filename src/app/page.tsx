@@ -13,6 +13,7 @@ import { HolidayPlanner } from "@/components/HolidayPlanner";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Bot } from "lucide-react";
 import Image from 'next/image';
+import { allEvents } from "@/lib/festival-data";
 
 
 function ResourceSummary() {
@@ -131,7 +132,11 @@ export default function Home() {
       
       <section className="py-12 md:py-24 bg-background">
         <div className="container mx-auto px-4">
-           <FestivalCalendar />
+           <FestivalCalendar
+                events={allEvents}
+                title="Festival & Holiday Calendar"
+                description="Plan your year around the vibrant celebrations of India. Never miss a festival, holiday, or long weekend."
+            />
         </div>
       </section>
       

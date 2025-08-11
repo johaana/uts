@@ -275,3 +275,15 @@ export const internationalFestivals = [
     { name: "Boun Ok Phansa", region: "Laos", description: "A beautiful Laotian festival marking the end of Buddhist Lent by releasing illuminated boats on rivers.", link: "/festivals/boun-ok-phansa", image: "https://i.postimg.cc/HxbY5g1b/boun-ok-phansa.jpg", hint: "laos light festival" },
     { name: "Harbin Ice and Snow Festival", region: "China", description: "A breathtaking winter festival featuring gigantic, illuminated ice and snow sculptures in a frozen city.", link: "/festivals/harbin-ice-festival", image: "https://i.postimg.cc/d1hJc6Xv/harbin-ice-festival.jpg", hint: "ice sculptures" },
 ];
+
+export const internationalEvents = [
+    { date: "Jan 05, 2025", name: "Harbin Ice and Snow Festival", region: "China", type: "Cultural", link: "/festivals/harbin-ice-festival" },
+    { date: "Jan 29, 2025", name: "Chinese New Year", region: "China", type: "New Year", link: "/festivals/chinese-new-year" },
+    { date: "Feb 28, 2025", name: "Carnival", region: "Brazil", type: "Cultural", link: "/festivals/carnival" },
+    { date: "Mar 20 - Apr 15, 2025", name: "Cherry Blossom Festival (Hanami)", region: "Japan", type: "Seasonal", link: "/festivals/cherry-blossom-festival" },
+    { date: "Apr 13 - Apr 15, 2025", name: "Songkran", region: "Thailand", type: "New Year", link: "/festivals/songkran" },
+    { date: "Oct 15, 2025", name: "Boun Ok Phansa", region: "Laos", type: "Religious", link: "/festivals/boun-ok-phansa" },
+    { date: "Oct 31, 2025", name: "Halloween", region: "USA & Global", type: "Cultural", link: "/festivals/halloween" },
+    { date: "Nov 01 - Nov 02, 2025", name: "Dia de los Muertos", region: "Mexico", type: "Cultural", link: "/festivals/dia-de-los-muertos" },
+    { date: "Nov 27, 2025", name: "Thanksgiving", region: "USA", type: "Holiday", link: "/festivals/thanksgiving" },
+];
