@@ -10,7 +10,7 @@ import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 
 const post = { 
     title: "A Beginner's Guide to Setting Up a Home Puja (Altar)", 
-    image: "https://i.postimg.cc/brM9vjDZ/Diya-diwali.webp",
+    image: "https://i.postimg.cc/8PYnpyjS/home-puja.webp",
     excerpt: "New to Hindu rituals? This simple, accessible guide walks you through creating a sacred space at home, basic offerings, and the philosophy behind daily worship. No prior knowledge needed."
 };
 
@@ -53,7 +53,7 @@ const relatedContent: RelatedItem[] = [
     {
         slug: "why-do-we-break-coconuts",
         title: "Why Do We Break Coconuts?",
-        image: "https://i.postimg.cc/SRFm0QGF/nag-panchami.webp",
+        image: "https://i.postimg.cc/dVF0D97h/coconut.webp",
         type: "Blog",
         link: "/blog/why-do-we-break-coconuts",
         hint: "coconut ritual"
