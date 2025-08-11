@@ -24,7 +24,7 @@ export const allFestivals = [
     { name: "Hornbill Festival", region: "Northeast", description: "A vibrant festival in Nagaland showcasing the rich culture and traditions of the Naga tribes.", link: "/festivals/hornbill-festival", image: "https://i.postimg.cc/6pL9wGsd/Hornbill-Festival.webp", hint: "naga festival" },
     { name: "Thaipusam", region: "South", description: "A powerful Tamil festival of faith, endurance, and penance dedicated to Lord Murugan.", link: "/festivals/thaipusam", image: "https://i.postimg.cc/4y7fTLZd/thaipusam.webp", hint: "kavadi" },
     { name: "Hemis Tsechu", region: "North", description: "A colorful Buddhist festival in Ladakh with masked dances celebrating the birth of Guru Padmasambhava.", link: "/festivals/hemis-tsechu", image: "https://i.postimg.cc/mDBXxRCR/losar-2.jpg", hint: "ladakh festival" },
-    { name: "Goa Carnival", region: "West", description: "A vibrant and energetic carnival in Goa with Portuguese roots, featuring parades, music, and dance.", link: "/festivals/goa-carnival", image: "https://i.postimg.cc/0r1MZd3v/Carnival.jpg", hint: "goa carnival" },
+    { name: "Goa Carnival", region: "West", description: "A vibrant and energetic carnival in Goa with Portuguese roots, featuring parades, music, and dance.", link: "/festivals/goa-carnival", image: "https://i.postimg.cc/4xZYzGsQ/Goa-Carnival.jpg", hint: "goa carnival" },
     { name: "Republic Day", region: "Nationwide", description: "Celebrating the adoption of the Indian Constitution with a grand parade in the capital.", link: "/festivals/republic-day", image: "https://i.postimg.cc/W4kyBGYz/independence-day.avif", hint: "indian army parade" },
     { name: "Independence Day", region: "Nationwide", description: "Commemorating India's freedom from British rule, marked by flag-hoisting ceremonies.", link: "/festivals/independence-day", image: "https://i.postimg.cc/W4kyBGYz/independence-day.avif", hint: "indian flag" },
     { name: "Gandhi Jayanti", region: "Nationwide", description: "Marking the birth anniversary of Mahatma Gandhi, the 'Father of the Nation'.", link: "/festivals/gandhi-jayanti", image: "https://i.postimg.cc/bJ1Ktx1W/gandhi-jayanti.webp", hint: "mahatma gandhi" },
@@ -274,28 +274,44 @@ export const internationalFestivals = [
     { name: "Songkran", region: "Thailand", description: "Thailand's wild and joyous New Year celebration, famous for its nationwide water fights symbolizing purification.", link: "/festivals/songkran", image: "https://i.postimg.cc/RhHJcbgG/songkran.avif", hint: "water festival" },
     { name: "Boun Ok Phansa", region: "Laos", description: "A beautiful Laotian festival marking the end of Buddhist Lent by releasing illuminated boats on rivers.", link: "/festivals/boun-ok-phansa", image: "https://i.postimg.cc/RF8nJzLN/Boun-Ok-Phansa-Festival-of-Lights.jpg", hint: "laos light festival" },
     { name: "Harbin Ice and Snow Festival", region: "China", description: "A breathtaking winter festival featuring gigantic, illuminated ice and snow sculptures in a frozen city.", link: "/festivals/harbin-ice-festival", image: "https://i.postimg.cc/Xvs535ZK/Harbin-Ice-and-Snow-Festival.webp", hint: "ice sculptures" },
+    { name: "Yi Peng Lantern Festival", region: "Thailand", description: "A magical festival in Northern Thailand where thousands of paper lanterns are released into the sky.", link: "/festivals/yi-peng-lantern-festival", image: "https://i.postimg.cc/d1wzC9rY/yi-peng.jpg", hint: "sky lanterns" },
+    { name: "St. Patrick's Day", region: "Ireland & Global", description: "A global celebration of Irish culture with parades, green attire, and festivities.", link: "/festivals/st-patricks-day", image: "https://i.postimg.cc/SsgNf6kH/st-patricks-day.jpg", hint: "irish parade" },
+    { name: "Hogmanay", region: "Scotland", description: "Scotland's famous New Year's Eve celebration with torchlight processions and street parties.", link: "/festivals/hogmanay", image: "https://i.postimg.cc/k47rGgG2/hogmanay.jpg", hint: "torchlight procession" },
+    { name: "Venice Carnival", region: "Italy", description: "A historic festival famous for its intricate masks, grand balls, and artistic atmosphere.", link: "/festivals/venice-carnival", image: "https://i.postimg.cc/JnX3hBwT/venice-carnival.jpg", hint: "venetian masks" },
+    { name: "Oktoberfest", region: "Germany", description: "The world's largest beer festival, a celebration of Bavarian culture, food, and traditions.", link: "/festivals/oktoberfest", image: "https://i.postimg.cc/wMPyvM8p/oktoberfest.jpg", hint: "beer festival" },
 ];
 
 export const internationalEvents = [
     // 2025
     { date: "Jan 05, 2025", name: "Harbin Ice and Snow Festival", region: "China", type: "Cultural", link: "/festivals/harbin-ice-festival" },
     { date: "Jan 29, 2025", name: "Chinese New Year", region: "China", type: "New Year", link: "/festivals/chinese-new-year" },
+    { date: "Feb 14, 2025", name: "Venice Carnival", region: "Italy", type: "Cultural", link: "/festivals/venice-carnival" },
     { date: "Feb 28, 2025", name: "Carnival", region: "Brazil", type: "Cultural", link: "/festivals/carnival" },
+    { date: "Mar 17, 2025", name: "St. Patrick's Day", region: "Ireland & Global", type: "Cultural", link: "/festivals/st-patricks-day" },
     { date: "Mar 20 - Apr 15, 2025", name: "Cherry Blossom Festival (Hanami)", region: "Japan", type: "Seasonal", link: "/festivals/cherry-blossom-festival" },
     { date: "Apr 13 - Apr 15, 2025", name: "Songkran", region: "Thailand", type: "New Year", link: "/festivals/songkran" },
+    { date: "Sep 20 - Oct 05, 2025", name: "Oktoberfest", region: "Germany", type: "Cultural", link: "/festivals/oktoberfest" },
     { date: "Oct 15, 2025", name: "Boun Ok Phansa", region: "Laos", type: "Religious", link: "/festivals/boun-ok-phansa" },
     { date: "Oct 31, 2025", name: "Halloween", region: "USA & Global", type: "Cultural", link: "/festivals/halloween" },
     { date: "Nov 01 - Nov 02, 2025", name: "Dia de los Muertos", region: "Mexico", type: "Cultural", link: "/festivals/dia-de-los-muertos" },
+    { date: "Nov 05, 2025", name: "Yi Peng Lantern Festival", region: "Thailand", type: "Cultural", link: "/festivals/yi-peng-lantern-festival" },
     { date: "Nov 27, 2025", name: "Thanksgiving", region: "USA", type: "Holiday", link: "/festivals/thanksgiving" },
+    { date: "Dec 31, 2025", name: "Hogmanay", region: "Scotland", type: "New Year", link: "/festivals/hogmanay" },
+
 
     // 2026
     { date: "Jan 05, 2026", name: "Harbin Ice and Snow Festival", region: "China", type: "Cultural", link: "/festivals/harbin-ice-festival" },
     { date: "Feb 17, 2026", name: "Chinese New Year", region: "China", type: "New Year", link: "/festivals/chinese-new-year" },
+    { date: "Feb 03, 2026", name: "Venice Carnival", region: "Italy", type: "Cultural", link: "/festivals/venice-carnival" },
     { date: "Feb 13, 2026", name: "Carnival", region: "Brazil", type: "Cultural", link: "/festivals/carnival" },
+    { date: "Mar 17, 2026", name: "St. Patrick's Day", region: "Ireland & Global", type: "Cultural", link: "/festivals/st-patricks-day" },
     { date: "Mar 20 - Apr 15, 2026", name: "Cherry Blossom Festival (Hanami)", region: "Japan", type: "Seasonal", link: "/festivals/cherry-blossom-festival" },
     { date: "Apr 13 - Apr 15, 2026", name: "Songkran", region: "Thailand", type: "New Year", link: "/festivals/songkran" },
+    { date: "Sep 19 - Oct 04, 2026", name: "Oktoberfest", region: "Germany", type: "Cultural", link: "/festivals/oktoberfest" },
     { date: "Oct 04, 2026", name: "Boun Ok Phansa", region: "Laos", type: "Religious", link: "/festivals/boun-ok-phansa" },
     { date: "Oct 31, 2026", name: "Halloween", region: "USA & Global", type: "Cultural", link: "/festivals/halloween" },
     { date: "Nov 01 - Nov 02, 2026", name: "Dia de los Muertos", region: "Mexico", type: "Cultural", link: "/festivals/dia-de-los-muertos" },
+    { date: "Oct 25, 2026", name: "Yi Peng Lantern Festival", region: "Thailand", type: "Cultural", link: "/festivals/yi-peng-lantern-festival" },
     { date: "Nov 26, 2026", name: "Thanksgiving", region: "USA", type: "Holiday", link: "/festivals/thanksgiving" },
+    { date: "Dec 31, 2026", name: "Hogmanay", region: "Scotland", type: "New Year", link: "/festivals/hogmanay" },
 ];
