@@ -84,8 +84,18 @@ export default function SingleBlogPage() {
 
                         <h3>1. Tirupati Laddu, Andhra Pradesh</h3>
                         <p>Arguably the most famous prasad in the world, the Tirupati Laddu from the Sri Venkateswara Temple in Tirumala has a history stretching back over 300 years. This large, fragrant laddu, made from gram flour, sugar, ghee, cardamom, cashews, and raisins, has a unique taste that devotees cherish. Its distribution as a prasad began around 1715. Legend has it that the tradition was started to provide a source of energy for pilgrims who traveled long distances on foot to the temple.</p>
-                        <p><strong>The Unique Tradition:</strong> The recipe is a closely guarded secret, prepared in a special temple kitchen called 'potu' by designated priests known as 'pachakas'. The scale of production is monumental, with hundreds of thousands of laddus made daily. The Tirupati Laddu has a Geographical Indication (GI) tag, meaning no one outside the temple can make and sell it under the same name, preserving its sanctity and authenticity.</p>
-                         <p><strong>Taste & Recipe:</strong> The laddu is known for its rich, melt-in-the-mouth texture and the distinct flavor of pure ghee and cardamom. While the exact temple recipe is secret, a home version involves making a boondi batter with gram flour, frying it, soaking it in sugar syrup, and then mixing it with nuts, raisins, and cardamom before shaping it into laddus.</p>
+                        
+                        <p><strong>The Unique Tradition:</strong> The recipe is a closely guarded secret, prepared in a special temple kitchen called 'potu' by designated priests known as 'pachakas'. The scale of production is monumental. The kitchen has the capacity to produce 300,000 laddus a day, with nearly 620 people, including 270 cooks, working in the prasad-making units. The Tirupati Laddu also has a Geographical Indication (GI) tag, meaning no one outside the temple can make and sell it under the same name, preserving its sanctity and authenticity.</p>
+                        
+                        <p><strong>Taste & Recipe:</strong> The laddu is known for its rich, melt-in-the-mouth texture and the distinct flavor of pure ghee and cardamom. While the exact temple recipe is secret, a home version involves making a boondi batter with gram flour, frying it, soaking it in sugar syrup, and then mixing it with nuts, raisins, and cardamom before shaping it into laddus.</p>
+                        
+                        <h4>Laddu by the Numbers: Some Quick Facts</h4>
+                        <ul>
+                            <li>Around 150,000 laddus are made daily, with the kitchen having a capacity for 300,000.</li>
+                            <li>On an average day, the temple uses about 5,000 kg of besan flour, 10,000 kg of sugar, 300-500 liters of ghee, 600 kg of cashew nuts, 150 kg of cardamom, and 540 kg of raisins.</li>
+                            <li>The standard laddu weighs around 100gms. A much larger 'Kalyana Laddu' weighs 500gms. The single largest laddu ever made is said to have weighed an incredible 32 kg!</li>
+                            <li>The revenue from the sale of laddus alone is estimated to be around 190 crore rupees annually.</li>
+                        </ul>
 
 
                         <h3>2. Mahaprasad of Jagannath Temple, Odisha</h3>
