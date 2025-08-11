@@ -49,18 +49,27 @@ export default function SingleBlogPage() {
                             <h1 className="font-headline text-4xl font-bold text-primary mt-2">{post.title}</h1>
                         </div>
 
-                        <p>The Onam Sadya is more than just a meal; it's a grand vegetarian feast that is the centerpiece of Onam celebrations. We take you through the 26+ dishes that make up this incredible culinary experience.</p>
+                        <p>The Onam Sadya is more than just a meal; it's a grand, multi-course vegetarian feast that is the heart and soul of Kerala's Onam celebrations. Served on a fresh banana leaf, this culinary masterpiece features a spectacular array of over 26 different dishes, each with its unique flavor and texture. The Sadya is a testament to the rich agricultural bounty of Kerala and a beautiful expression of community and togetherness. The process of preparing and serving the Sadya is a ritual in itself, representing a philosophy of balance and harmony.</p>
 
+                        <h2>The Art of the Sadya</h2>
+                        <p>The feast is served on a 'thonnila' (banana leaf), which is laid with its tapered end to the left. There is a specific order and location for each dish on the leaf, a system designed to ensure a perfect balance of flavors. The meal typically starts with savory items and ends with dessert, with each course designed to aid digestion and provide a complete sensory experience. The Sadya beautifully balances all six tastes—sweet, sour, salty, pungent, bitter, and astringent—all in a single meal.</p>
+                        
                         <h2>Key Dishes of the Sadya</h2>
-                        <p>Served on a banana leaf, the Sadya is a multi-course meal that balances all flavors. Some key components include:</p>
+                        <p>While the exact number of dishes can vary, some of the quintessential components of a grand Onam Sadya include:</p>
                         <ul>
-                            <li><strong>Rice:</strong> The staple base of the meal.</li>
-                            <li><strong>Parippu:</strong> A simple lentil curry, the first dish to be served.</li>
-                            <li><strong>Sambar:</strong> A flavorful lentil and vegetable stew.</li>
-                            <li><strong>Avial:</strong> A thick mixture of various vegetables in a coconut and yogurt gravy.</li>
-                            <li><strong>Pachadi and Kichadi:</strong> Yogurt-based dishes, one sweet and one savory.</li>
-                            <li><strong>Payasam:</strong> The delicious dessert, a sweet pudding made with milk, rice, or lentils.</li>
+                            <li><strong>Rice:</strong> The centerpiece of the meal, usually Kerala's own matta rice.</li>
+                            <li><strong>Parippu:</strong> A simple, comforting curry made from lentils, topped with a generous spoonful of ghee.</li>
+                            <li><strong>Sambar:</strong> A flavorful and tangy stew made with lentils, tamarind, and a variety of vegetables like drumsticks, pumpkin, and carrots.</li>
+                            <li><strong>Avial:</strong> A thick, creamy mixture of various seasonal vegetables cooked in a coconut and yogurt gravy.</li>
+                            <li><strong>Pachadi and Kichadi:</strong> Yogurt-based dishes that provide a cooling contrast. Pachadi is typically sweet (like pineapple pachadi), while Kichadi is savory (like cucumber kichadi).</li>
+                            <li><strong>Thoran:</strong> A dry vegetable dish made with finely chopped vegetables like cabbage or beans, stir-fried with grated coconut.</li>
+                            <li><strong>Upperi:</strong> Crispy banana chips, an essential snack.</li>
+                            <li><strong>Pickles:</strong> A variety of pickles, like mango and lime, to add a tangy kick.</li>
+                            <li><strong>Payasam:</strong> The grand finale. The Sadya is incomplete without at least one, if not more, types of Payasam—a delicious milk-based pudding. Popular varieties include Semiya (vermicelli) Payasam and Ada Pradhaman (rice flake payasam).</li>
                         </ul>
+                         <blockquote>
+                            <p>To eat a Sadya is to experience the very essence of Kerala's culture on a single banana leaf.</p>
+                        </blockquote>
                     </article>
                     <ShareButtons title={post.title} />
                 </CardContent>
