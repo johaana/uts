@@ -84,7 +84,7 @@ export default function SingleBlogPage() {
 
                         <h3>The Symbol of the Ego</h3>
                         <p>The most important philosophical interpretation of breaking a coconut is its representation of shattering the human ego. In Hindu thought, the ego ('ahamkara') is seen as the primary obstacle to self-realization and connecting with the divine. The hard, outer shell of the coconut represents this rigid ego, our false identification with our body, our achievements, and our material possessions.</p>
-                        <p>By smashing the coconut before a deity, a devotee is symbolically offering up their ego at the feet of the divine. It is an act of complete surrender, a powerful prayer that says, "I break my false self and my ignorance, so that the purity within me may be revealed."</p>
+                        <p>By smashing the coconut before a deity, a devotee is symbolically offering up their ego at the feet of the divine. It is an act of complete surrender, a powerful prayer that says, "I break my false self and my ignorance, so that the purity within me may be revealed." The breaking of the coconut signifies the destruction of one's ego and the humble submission to a higher power.</p>
 
                         <h3>The Three Eyes and Inner Purity</h3>
                         <p>The coconut itself is seen as a symbol of our being. The hard shell represents the physical body, the white flesh (copra) inside symbolizes the mind and inner purity, and the water held within represents our innate spiritual consciousness or soul. The three marks on the coconut are often likened to the three eyes of Lord Shiva, representing the inner eye of wisdom or intuition.</p>
@@ -92,8 +92,8 @@ export default function SingleBlogPage() {
 
                         <h3>The "Fruit of the Gods" and a Pure Offering</h3>
                         <p>Historically, ancient Hindu traditions sometimes involved animal sacrifice. It is widely believed that the great sage Adi Shankaracharya, a social reformer, advocated for the practice of offering a coconut to the deities as a humane and symbolic alternative. The coconut, being a 'fruit' and not a living creature, was seen as a pure or 'sattvic' offering.</p>
-                        <p>Unlike other fruits, a coconut's water is sealed away from the outside world, considered pure and untouched. This makes it a worthy offering for the gods, symbolizing a pure and unblemished heart offered by the devotee.</p>
-
+                        <p>Unlike other fruits, a coconut's water is sealed away from the outside world, considered pure and untouched. This makes it a worthy offering for the gods, symbolizing a pure and unblemished heart offered by the devotee. It also represents the human head, with the husk as hair, the hard shell as the skull, and the water as blood. Offering a coconut thus became a symbolic offering of oneself without actual sacrifice.</p>
+                        
                         <blockquote>
                             <p>The next time you witness a coconut being broken in a puja, you'll know it's more than just a tradition. It is a powerful, physical prayer—an act of humility, surrender, and the quest for inner purity.</p>
                         </blockquote>
