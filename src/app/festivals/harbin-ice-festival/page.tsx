@@ -10,7 +10,7 @@ export default function HarbinIceFestivalPage() {
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-blue-300/20">
                 <div className="absolute inset-0 z-0 opacity-40">
-                    <Image src="https://i.postimg.cc/d1hJc6Xv/harbin-ice-festival.jpg" alt="Harbin Ice and Snow Festival" layout="fill" objectFit="cover" data-ai-hint="ice sculptures" />
+                    <Image src="https://i.postimg.cc/Xvs535ZK/Harbin-Ice-and-Snow-Festival.webp" alt="Harbin Ice and Snow Festival" layout="fill" objectFit="cover" data-ai-hint="ice sculptures" />
                 </div>
                 <div className="relative text-center text-primary-foreground z-10 p-4">
                     <h1 className="font-headline text-4xl md:text-5xl lg:text-7xl font-bold text-blue-900 drop-shadow-lg">Harbin Ice and Snow Festival</h1>
@@ -65,5 +65,3 @@ export default function HarbinIceFestivalPage() {
         </div>
     );
 }
-
-    

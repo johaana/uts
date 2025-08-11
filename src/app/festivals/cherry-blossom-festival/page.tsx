@@ -10,7 +10,7 @@ export default function CherryBlossomFestivalPage() {
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-pink-200/20">
                 <div className="absolute inset-0 z-0 opacity-40">
-                    <Image src="https://i.postimg.cc/T3sT8JgC/cherry-blossom-festival-japan.jpg" alt="Cherry Blossom Festival" layout="fill" objectFit="cover" data-ai-hint="cherry blossoms" />
+                    <Image src="https://i.postimg.cc/htb3BK98/cherry-blossom-festival.jpg" alt="Cherry Blossom Festival" layout="fill" objectFit="cover" data-ai-hint="cherry blossoms" />
                 </div>
                 <div className="relative text-center text-primary-foreground z-10 p-4">
                     <h1 className="font-headline text-4xl md:text-5xl lg:text-7xl font-bold text-pink-900 drop-shadow-lg">Cherry Blossom Festival (Hanami)</h1>
@@ -64,5 +64,3 @@ export default function CherryBlossomFestivalPage() {
         </div>
     );
 }
-
-    

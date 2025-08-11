@@ -10,7 +10,7 @@ export default function CarnivalPage() {
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-green-500/10">
                 <div className="absolute inset-0 z-0 opacity-20">
-                    <Image src="https://i.postimg.cc/DwnTfc1z/carnival.jpg" alt="Rio Carnival" layout="fill" objectFit="cover" data-ai-hint="brazil carnival" />
+                    <Image src="https://i.postimg.cc/0r1MZd3v/Carnival.jpg" alt="Rio Carnival" layout="fill" objectFit="cover" data-ai-hint="brazil carnival" />
                 </div>
                 <div className="relative text-center text-primary-foreground z-10 p-4">
                     <h1 className="font-headline text-4xl md:text-5xl lg:text-7xl font-bold text-green-900 drop-shadow-lg">Carnival</h1>

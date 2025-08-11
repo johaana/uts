@@ -10,7 +10,7 @@ export default function BounOkPhansaPage() {
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-blue-800/10">
                 <div className="absolute inset-0 z-0 opacity-30">
-                    <Image src="https://i.postimg.cc/HxbY5g1b/boun-ok-phansa.jpg" alt="Boun Ok Phansa" layout="fill" objectFit="cover" data-ai-hint="laos light festival" />
+                    <Image src="https://i.postimg.cc/RF8nJzLN/Boun-Ok-Phansa-Festival-of-Lights.jpg" alt="Boun Ok Phansa" layout="fill" objectFit="cover" data-ai-hint="laos light festival" />
                 </div>
                 <div className="relative text-center text-primary-foreground z-10 p-4">
                     <h1 className="font-headline text-4xl md:text-5xl lg:text-7xl font-bold text-blue-900 drop-shadow-lg">Boun Ok Phansa</h1>
@@ -65,5 +65,3 @@ export default function BounOkPhansaPage() {
         </div>
     );
 }
-
-    

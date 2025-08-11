@@ -10,7 +10,7 @@ export default function HalloweenPage() {
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-orange-800/10">
                 <div className="absolute inset-0 z-0 opacity-20">
-                    <Image src="https://i.postimg.cc/wMPbVjwZ/halloween.jpg" alt="Halloween Jack-o'-lanterns" layout="fill" objectFit="cover" data-ai-hint="jack-o-lantern" />
+                    <Image src="https://i.postimg.cc/T2pSDM6G/halloween.jpg" alt="Halloween Jack-o'-lanterns" layout="fill" objectFit="cover" data-ai-hint="jack-o-lantern" />
                 </div>
                 <div className="relative text-center text-primary-foreground z-10 p-4">
                     <h1 className="font-headline text-4xl md:text-5xl lg:text-7xl font-bold text-orange-900 drop-shadow-lg">Halloween</h1>

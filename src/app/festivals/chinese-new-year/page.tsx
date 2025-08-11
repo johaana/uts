@@ -10,7 +10,7 @@ export default function ChineseNewYearPage() {
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-red-600/10">
                 <div className="absolute inset-0 z-0 opacity-20">
-                    <Image src="https://i.postimg.cc/Pq9v7Zt2/chinese-new-year.jpg" alt="Chinese New Year" layout="fill" objectFit="cover" data-ai-hint="dragon dance" />
+                    <Image src="https://i.postimg.cc/TYb4tV14/chinese-new-year.webp" alt="Chinese New Year" layout="fill" objectFit="cover" data-ai-hint="dragon dance" />
                 </div>
                 <div className="relative text-center text-primary-foreground z-10 p-4">
                     <h1 className="font-headline text-4xl md:text-5xl lg:text-7xl font-bold text-red-900 drop-shadow-lg">Chinese New Year</h1>
@@ -64,5 +64,3 @@ export default function ChineseNewYearPage() {
         </div>
     );
 }
-
-    
