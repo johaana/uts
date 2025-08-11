@@ -40,6 +40,7 @@ export function Footer() {
               <h3 className="font-bold mb-4 font-headline text-lg text-primary">Explore</h3>
               <ul className="space-y-3">
                 <li><Link href="/festivals" className="text-foreground/80 hover:text-primary">Festivals</Link></li>
+                <li><Link href="/international-festivals" className="text-foreground/80 hover:text-primary">International Festivals</Link></li>
                 <li><Link href="/recipes" className="text-foreground/80 hover:text-primary">Recipes</Link></li>
                  <li><Link href="/blog" className="text-foreground/80 hover:text-primary">Blog</Link></li>
                  <li><Link href="/api" className="text-foreground/80 hover:text-primary">Partnerships</Link></li>
@@ -74,3 +75,5 @@ export function Footer() {
     </footer>
   );
 }
+
+    

@@ -264,6 +264,13 @@ export const allEvents = [
     { date: "Dec 25, 2034", name: "Christmas", region: "Nationwide", type: "Religious", link: "/festivals/christmas" },
 ];
 
-    
+export const internationalFestivals = [
+    { name: "Chinese New Year", region: "International", description: "The vibrant 15-day celebration of the lunar new year, filled with dragon dances, red lanterns, and feasting.", link: "/festivals/chinese-new-year", image: "https://i.postimg.cc/Pq9v7Zt2/chinese-new-year.jpg", hint: "dragon dance" },
+    { name: "Cherry Blossom Festival (Hanami)", region: "International", description: "Japan's serene festival celebrating the transient beauty of cherry blossoms with picnics under the sakura trees.", link: "/festivals/cherry-blossom-festival", image: "https://i.postimg.cc/T3sT8JgC/cherry-blossom-festival-japan.jpg", hint: "cherry blossoms" },
+    { name: "Dia de los Muertos (Day of the Dead)", region: "International", description: "A colorful Mexican holiday honoring deceased loved ones with altars, sugar skulls, and marigolds.", link: "/festivals/dia-de-los-muertos", image: "https://i.postimg.cc/tJnzyzKz/dia-de-los-muertos.jpg", hint: "day of the dead" },
+    { name: "Songkran (Thai Water Festival)", region: "International", description: "Thailand's wild and joyous New Year celebration, famous for its nationwide water fights symbolizing purification.", link: "/festivals/songkran", image: "https://i.postimg.cc/5Nc7pGdk/songkran-water-festival.jpg", hint: "water festival" },
+    { name: "Boun Ok Phansa (Festival of Lights)", region: "International", description: "A beautiful Laotian festival marking the end of Buddhist Lent by releasing illuminated boats on rivers.", link: "/festivals/boun-ok-phansa", image: "https://i.postimg.cc/HxbY5g1b/boun-ok-phansa.jpg", hint: "laos light festival" },
+    { name: "Harbin Ice and Snow Festival", region: "International", description: "A breathtaking winter festival in China featuring gigantic, illuminated ice and snow sculptures.", link: "/festivals/harbin-ice-festival", image: "https://i.postimg.cc/d1hJc6Xv/harbin-ice-festival.jpg", hint: "ice sculptures" },
+];
 
     

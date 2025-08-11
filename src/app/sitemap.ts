@@ -1,6 +1,6 @@
 
 import { MetadataRoute } from 'next';
-import { allFestivals } from '@/lib/festival-data';
+import { allFestivals, internationalFestivals } from '@/lib/festival-data';
 import { metadata } from './layout';
 import { blogPosts } from '@/lib/blog-data';
 
@@ -59,6 +59,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
         lastModified: new Date().toISOString(),
     }));
 
+    const internationalFestivalRoutes = internationalFestivals.map((festival) => ({
+        url: new URL(festival.link, siteUrl).toString(),
+        lastModified: new Date().toISOString(),
+    }));
+
     const recipeRoutes = allRecipes.map((recipe) => ({
         url: new URL(recipe.link, siteUrl).toString(),
         lastModified: new Date().toISOString(),
@@ -72,11 +77,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     const staticRoutes: MetadataRoute.Sitemap = [
         { url: siteUrl.toString(), lastModified: new Date().toISOString() },
         { url: new URL('/festivals', siteUrl).toString(), lastModified: new Date().toISOString() },
+        { url: new URL('/international-festivals', siteUrl).toString(), lastModified: new Date().toISOString() },
         { url: new URL('/recipes', siteUrl).toString(), lastModified: new Date().toISOString() },
         { url: new URL('/blog', siteUrl).toString(), lastModified: new Date().toISOString() },
         { url: new URL('/api', siteUrl).toString(), lastModified: new Date().toISOString() },
         { url: new URL('/planner', siteUrl).toString(), lastModified: new Date().toISOString() },
     ];
 
-    return [...staticRoutes, ...festivalRoutes, ...recipeRoutes, ...blogRoutes];
+    return [...staticRoutes, ...festivalRoutes, ...internationalFestivalRoutes, ...recipeRoutes, ...blogRoutes];
 }
+
+    

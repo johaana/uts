@@ -1,12 +1,13 @@
 
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Calendar, Utensils, BookOpen } from "lucide-react";
+import { ArrowRight, Calendar, Utensils, BookOpen, Globe } from "lucide-react";
 import Link from "next/link";
 import { FestivalCalendar } from "@/components/FestivalCalendar";
 import { RegionShowcase } from "@/components/RegionShowcase";
 import React from "react";
 import { UpcomingFestivalsCarousel } from "@/components/UpcomingFestivalsCarousel";
 import { HeroCarousel } from "@/components/HeroCarousel";
+import { InternationalFestivalsShowcase } from "@/components/InternationalFestivalsShowcase";
 
 
 function ResourceSummary() {
@@ -113,7 +114,19 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-12 md:py-24 bg-background">
+       <section className="py-12 md:py-24 bg-background">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="font-headline text-3xl md:text-5xl font-bold text-primary">Discover International Festivals</h2>
+            <p className="mt-3 text-base md:text-lg text-foreground/80 max-w-2xl mx-auto">
+                Venture beyond borders and explore unique cultural celebrations from around the globe.
+            </p>
+          </div>
+          <InternationalFestivalsShowcase />
+        </div>
+      </section>
+
+      <section className="py-12 md:py-24 bg-secondary/30">
         <div className="container mx-auto px-4">
             <div className="text-center mb-12">
                 <h2 className="font-headline text-3xl md:text-5xl font-bold text-primary">A World of Flavor & Tradition</h2>
@@ -127,3 +140,5 @@ export default function Home() {
     </div>
   );
 }
+
+    
