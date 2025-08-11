@@ -167,14 +167,15 @@ export function FestivalCalendar({
         const match = name.match(/^(.*?) (\(.*\))$/);
         if (match) {
             return (
-                <React.Fragment>
+                <>
                     <span className="font-bold">{match[1]}</span>
                     <span className="font-normal text-muted-foreground ml-1">{match[2]}</span>
-                </React.Fragment>
+                </>
             );
         }
         return <span className="font-bold text-base">{name}</span>;
     };
+
 
     return (
         <div className="w-full">
@@ -225,61 +226,63 @@ export function FestivalCalendar({
             )}
 
             <div className="hidden md:block">
-                <Card className="h-[60vh] flex flex-col">
-                    <Table>
-                        <TableHeader className="sticky top-0 bg-background z-10">
-                            <TableRow>
-                                <TableHead className="w-[250px] text-primary">Date</TableHead>
-                                <TableHead className="text-primary">Name</TableHead>
-                                <TableHead className="text-primary">Region/Country</TableHead>
-                                <TableHead className="text-primary">Type</TableHead>
-                                <TableHead className="text-right text-primary">Details</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody className="overflow-y-auto">
-                            {!isClient ? (
+                 <Card className="h-[60vh] overflow-hidden flex flex-col">
+                    <div className="overflow-y-auto">
+                        <Table>
+                            <TableHeader className="sticky top-0 bg-background z-10">
                                 <TableRow>
-                                    <TableCell colSpan={5} className="text-center h-24">
-                                        <div className="flex items-center justify-center">
-                                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                            Loading calendar...
-                                        </div>
-                                    </TableCell>
+                                    <TableHead className="w-[250px] text-primary">Date</TableHead>
+                                    <TableHead className="text-primary">Name</TableHead>
+                                    <TableHead className="text-primary">Region/Country</TableHead>
+                                    <TableHead className="text-primary">Type</TableHead>
+                                    <TableHead className="text-right text-primary">Details</TableHead>
                                 </TableRow>
-                            ) : filteredEvents.length > 0 ? (
-                                filteredEvents.map((event, index) => (
-                                    <TableRow key={event.name + event.date + index}>
-                                        <TableCell className="w-[250px] font-medium">{formatDateString(event.date)}</TableCell>
-                                        <TableCell>
-                                            {renderEventName(event.name)}
-                                            {event.longWeekend && <Star className="w-4 h-4 text-amber-500 fill-amber-500 inline-block ml-2" />}
-                                        </TableCell>
-                                        <TableCell>{event.region}</TableCell>
-                                        <TableCell>
-                                            <Badge variant="outline" className={getBadgeClass(event.type)}>
-                                                {event.type}
-                                            </Badge>
-                                        </TableCell>
-                                        <TableCell className="text-right">
-                                            {event.link && (event.link.startsWith('/') || event.link.startsWith('http')) ? (
-                                                <Link href={event.link}>
-                                                    <Button variant="ghost" size="icon">
-                                                        <ArrowRight className="h-4 w-4" />
-                                                    </Button>
-                                                </Link>
-                                            ) : <div className="h-10 w-10"/>}
+                            </TableHeader>
+                            <TableBody>
+                                {!isClient ? (
+                                    <TableRow>
+                                        <TableCell colSpan={5} className="text-center h-24">
+                                            <div className="flex items-center justify-center">
+                                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                                Loading calendar...
+                                            </div>
                                         </TableCell>
                                     </TableRow>
-                                ))
-                            ) : (
-                                <TableRow>
-                                    <TableCell colSpan={5} className="text-center h-24">
-                                        No events found for the selected filters.
-                                    </TableCell>
-                                </TableRow>
-                            )}
-                        </TableBody>
-                    </Table>
+                                ) : filteredEvents.length > 0 ? (
+                                    filteredEvents.map((event, index) => (
+                                        <TableRow key={event.name + event.date + index}>
+                                            <TableCell className="w-[250px] font-medium">{formatDateString(event.date)}</TableCell>
+                                            <TableCell>
+                                                {renderEventName(event.name)}
+                                                {event.longWeekend && <Star className="w-4 h-4 text-amber-500 fill-amber-500 inline-block ml-2" />}
+                                            </TableCell>
+                                            <TableCell>{event.region}</TableCell>
+                                            <TableCell>
+                                                <Badge variant="outline" className={getBadgeClass(event.type)}>
+                                                    {event.type}
+                                                </Badge>
+                                            </TableCell>
+                                            <TableCell className="text-right">
+                                                {event.link && (event.link.startsWith('/') || event.link.startsWith('http')) ? (
+                                                    <Link href={event.link}>
+                                                        <Button variant="ghost" size="icon">
+                                                            <ArrowRight className="h-4 w-4" />
+                                                        </Button>
+                                                    </Link>
+                                                ) : <div className="h-10 w-10"/>}
+                                            </TableCell>
+                                        </TableRow>
+                                    ))
+                                ) : (
+                                    <TableRow>
+                                        <TableCell colSpan={5} className="text-center h-24">
+                                            No events found for the selected filters.
+                                        </TableCell>
+                                    </TableRow>
+                                )}
+                            </TableBody>
+                        </Table>
+                    </div>
                 </Card>
             </div>
 
