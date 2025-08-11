@@ -10,7 +10,7 @@ import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 
 const post = { 
     title: "Thrissur Pooram: Kerala's Spectacle of Elephants and Percussion", 
-    image: "https://i.postimg.cc/j28kQ9WT/thrissur-puram-festival-2.jpg",
+    image: "https://i.postimg.cc/kGKvvdxN/thrissur-puram-elephant.jpg",
     excerpt: "Experience the magic of Thrissur Pooram, a grand temple festival in Kerala featuring caparisoned elephants, traditional music, and a dazzling fireworks display."
 };
 

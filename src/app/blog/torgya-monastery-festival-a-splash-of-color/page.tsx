@@ -9,7 +9,7 @@ import type { Metadata } from 'next';
 
 const post = { 
     title: "Torgya: The Masked Dances of Tawang Monastery", 
-    image: "https://i.postimg.cc/Cxn6kcwy/torgya-2.jpg",
+    image: "https://i.postimg.cc/Dzw5kHTF/torgya.jpg",
     excerpt: "Witness the stunning Torgya festival in Arunachal Pradesh, where monks perform sacred 'Chham' dances to chase away evil spirits."
 };
 

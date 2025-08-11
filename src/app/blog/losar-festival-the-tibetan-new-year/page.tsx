@@ -9,7 +9,7 @@ import type { Metadata } from 'next';
 
 const post = { 
     title: "Losar Festival: Celebrating the Tibetan New Year in the Himalayas", 
-    image: "https://i.postimg.cc/mDBXxRCR/losar-2.jpg",
+    image: "https://i.postimg.cc/9QtNjywP/losar.jpg",
     excerpt: "Discover the Losar festival, a vibrant celebration marking the Tibetan New Year with colorful rituals, music, and dance in Sikkim and Ladakh."
 };
 
