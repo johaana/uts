@@ -82,6 +82,13 @@ export default function DiwaliPage() {
                                         <Image src="https://i.postimg.cc/SjF8HhM1/Diwali2.jpg" alt="Woman lighting Diwali Diya" width={400} height={600} className="rounded-lg shadow-lg" data-ai-hint="diwali celebration"/>
                                     </div>
                                 </div>
+                                <div className="not-prose my-10">
+                                    <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Diwali Shopping Guide</h3>
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-lg mx-auto">
+                                        <ProductCard product={rangoliMat} />
+                                        <ProductCard product={marigoldGarland} />
+                                    </div>
+                                </div>
                             </TabsContent>
                             
                             <TabsContent value="five-days">
@@ -98,13 +105,6 @@ export default function DiwaliPage() {
                                     <div>
                                         <h3 className="font-headline text-2xl text-primary">Day 3: Lakshmi Puja - The Worship of the Goddess</h3>
                                         <p>This is the most important day of the festival, the night of the new moon (Amavasya). After sunset, families gather to perform the Lakshmi Puja, an elaborate worship ceremony dedicated to Goddess Lakshmi, the bestower of wealth and prosperity. Homes are brightly illuminated with rows of diyas, candles, and electric lights. Beautiful 'rangoli' patterns adorn the entrance. Alongside Lakshmi, Lord Ganesha is also worshipped as the remover of obstacles. The puja involves chanting mantras, offering sweets, fruits, and flowers, and singing aartis. The evening is a magical one, filled with family bonding, feasting, and the joyous bursting of firecrackers.</p>
-                                         <div className="not-prose my-10">
-                                            <h3 className="font-headline text-2xl font-bold mb-4 text-center">Diwali Decorations</h3>
-                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-lg mx-auto">
-                                                <ProductCard product={rangoliMat} />
-                                                <ProductCard product={marigoldGarland} />
-                                            </div>
-                                        </div>
                                     </div>
                                     <div>
                                         <h3 className="font-headline text-2xl text-primary">Day 4: Govardhan Puja - Honouring Nature's Bounty</h3>

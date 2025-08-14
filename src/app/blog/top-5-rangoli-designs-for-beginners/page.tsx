@@ -59,6 +59,14 @@ export default function SingleBlogPage() {
                         
                         <p>Get inspired with these easy-to-make yet beautiful rangoli patterns. From simple floral designs to geometric wonders, we provide step-by-step guides to adorn your home for any festive occasion.</p>
                         
+                        <div className="not-prose my-10">
+                            <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Get Started with Rangoli</h3>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-md mx-auto">
+                                <ProductCard product={rangoliMat} />
+                                <ProductCard product={rangoliPowder} />
+                            </div>
+                        </div>
+
                         <h3>1. Simple Flower Rangoli</h3>
                         <p>This is the easiest design for beginners. Start with a central circle and draw petals around it to form a flower. You can use different colored powders for each petal. Add details like leaves and stems to make it more elaborate.</p>
 
@@ -73,14 +81,6 @@ export default function SingleBlogPage() {
 
                         <h3>5. Swastika Rangoli</h3>
                         <p>The swastika is an ancient symbol of good fortune. Create a swastika in the center and surround it with a circular border of intricate patterns. This design is both auspicious and beautiful.</p>
-                        
-                         <div className="not-prose my-10">
-                            <h3 className="font-headline text-2xl font-bold mb-4 text-center">Get Started with Rangoli</h3>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                                <ProductCard product={rangoliMat} />
-                                <ProductCard product={rangoliPowder} />
-                            </div>
-                        </div>
 
                     </article>
                     <ShareButtons title={post.title} />

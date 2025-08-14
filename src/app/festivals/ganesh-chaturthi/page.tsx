@@ -21,6 +21,8 @@ export default function GaneshChaturthiPage() {
     const ganpatiDecor = products.ganpatiDecor;
     const tiedRibbonsGanesha = products.tiedRibbonsGanesha;
     const clayGowriIdol = products.clayGowriIdol;
+    const marigoldGarland = products.marigoldGarland;
+    const lotusHanging = products.lotusHanging;
 
 
     return (
@@ -52,6 +54,14 @@ export default function GaneshChaturthiPage() {
                                     <p>When her husband, Lord Shiva, returned and was unexpectedly denied entry by this unknown boy, a fierce battle ensued. In his cosmic rage, not realizing the boy was Parvati's creation, Shiva severed the boy's head. When a distraught Parvati saw what had happened, her sorrow was immense. To console her, a remorseful Shiva promised to bring the boy back to life. He instructed his attendants (Ganas) to bring back the head of the first living creature they found with its head facing north. They returned with the head of a mighty elephant, which Shiva placed upon the boy's body, resurrecting him and bestowing upon him the name Ganesha, the lord of all Ganas. He was also blessed to be the first deity worshipped in any ritual, forever to be known as the remover of all obstacles.</p>
                                     <p>The festival was transformed from a private, household celebration into a grand public event by the freedom fighter Lokmanya Tilak in the late 19th century as a way to unite the people of India against British rule. Today, the festival is celebrated with immense fervor, especially in Maharashtra. Devotees bring home beautifully crafted clay idols of Ganesha, worshipping him for ten days with prayers, songs, and his favorite sweet, 'modak'. The festival culminates in the 'visarjan' (immersion) ceremony on Anant Chaturdashi, symbolizing Ganesha's journey back to his celestial abode, taking with him the misfortunes of his devotees, and promising to return the following year.</p>
                                 </div>
+                                 <div className="not-prose my-10">
+                                    <h3 className="font-headline text-2xl font-bold mb-6 text-center text-primary">Shopping Guide</h3>
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                                        <ProductCard product={ganeshPujaKit} />
+                                        <ProductCard product={ganpatiDecor} />
+                                        <ProductCard product={products.lotusHanging} />
+                                    </div>
+                                </div>
                             </TabsContent>
 
                             <TabsContent value="ten-days">
@@ -60,11 +70,6 @@ export default function GaneshChaturthiPage() {
                                     <div>
                                         <h3 className="font-headline text-2xl text-primary">Day 1: Avahana and Sthapana</h3>
                                         <p>The festival begins with the installation of a clay idol of Ganesha in the home or a public pandal. A priest performs the 'Pranapratishtha' puja, a ritual to invoke the holy presence of Ganesha into the idol. This is followed by offerings of modaks, flowers (especially red hibiscus), and durva grass.</p>
-                                        <div className="not-prose grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 my-8">
-                                            <ProductCard product={ganeshPujaKit} />
-                                            <ProductCard product={products.ganpatiDecor} />
-                                            <ProductCard product={products.lotusHanging} />
-                                        </div>
                                     </div>
                                     <div>
                                         <h3 className="font-headline text-2xl text-primary">Days 2 to 9: Daily Worship and Gauri Avahan</h3>

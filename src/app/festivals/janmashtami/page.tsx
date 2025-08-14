@@ -64,6 +64,13 @@ export default function JanmashtamiPage() {
                                     <p>Janmashtami, also known as Krishna Janmashtami, is a vibrant and joyous festival celebrating the birth of Lord Krishna, the eighth and one of the most beloved avatars of Lord Vishnu. The festival is observed with immense devotion on the eighth day (Ashtami) of the dark fortnight (Krishna Paksha) of the Hindu month of Bhadrapada. Lord Krishna is a central figure in Hinduism, revered as a mischievous child, a divine lover, a compassionate guide who revealed the sacred wisdom of the Bhagavad Gita, and the ultimate protector of dharma.</p>
                                     <p>His birth story is a tale of hope in a time of darkness. He was born in a prison cell in Mathura to Devaki and Vasudeva. Devaki's tyrannical brother, King Kansa, had imprisoned them after a prophecy foretold that their eighth son would be his destroyer. On the stormy night of Krishna's birth, a series of miracles occurred. The prison guards fell into a deep slumber, the chains fell open, and the prison doors unlocked. To save him from Kansa's wrath, his father Vasudeva carried the divine infant across the raging Yamuna river to the safety of Nanda and Yashoda's home in Gokul. Janmashtami celebrates this divine birth, a symbol of the victory of good over evil and a promise of hope and liberation for all humanity.</p>
                                 </div>
+                                <div className="not-prose my-10">
+                                    <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Shopping Guide</h3>
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-lg mx-auto">
+                                        <ProductCard product={products.marigoldGarland} />
+                                        <ProductCard product={products.rangoliMat} />
+                                    </div>
+                                </div>
                             </TabsContent>
                             
                             <TabsContent value="traditions">
@@ -74,9 +81,6 @@ export default function JanmashtamiPage() {
                                         <div>
                                             <h4 className="font-bold">Fasting and Puja</h4>
                                             <p className="text-foreground/80">Devotees observe a fast throughout the day, which is broken at midnight, the traditional hour of Krishna's birth. Temples and homes are decorated, and idols of infant Krishna are bathed, adorned, and placed in cradles.</p>
-                                            <div className="not-prose my-6 max-w-xs">
-                                                <ProductCard product={marigoldGarland} />
-                                            </div>
                                         </div>
                                     </li>
                                     <li className="flex items-start">
