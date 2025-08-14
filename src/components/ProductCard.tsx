@@ -27,7 +27,7 @@ export function ProductCard({ name, price, link, image, description }: ProductCa
                 <p className="text-sm text-muted-foreground">{description}</p>
             </CardContent>
             <CardFooter className="p-4 flex justify-between items-center bg-secondary/30">
-                <p className="font-bold text-lg text-primary">₹{price}</p>
+                <p className="font-bold text-lg text-primary">INR {price}</p>
                 <Link href={link} target="_blank" rel="noopener noreferrer nofollow">
                     <Button size="sm">
                         <ShoppingCart className="w-4 h-4 mr-2" />
