@@ -5,6 +5,8 @@ import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote, Leaf, Ca
 import Link from "next/link";
 import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
+import { ProductCard } from "@/components/ProductCard";
+import { products } from "@/lib/product-data";
 
 const recipes = [
     { name: "Modak", link: "/recipes/modak" },
@@ -13,6 +15,9 @@ const recipes = [
 ]
 
 export default function GaneshChaturthiPage() {
+    const ganeshPujaKit = products.ganeshPujaKit;
+    const ecoFriendlyGanesha = products.ecoFriendlyGanesha;
+
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-primary/10">
@@ -26,13 +31,14 @@ export default function GaneshChaturthiPage() {
                 <Card className="mb-12">
                     <CardContent className="p-6 md:p-10">
                         <Tabs defaultValue="overview">
-                            <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-6 mb-6 h-auto">
+                            <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-7 mb-6 h-auto">
                                 <TabsTrigger value="overview" className="py-2"><BookOpen className="w-4 h-4 mr-2" />Overview</TabsTrigger>
                                 <TabsTrigger value="ten-days" className="py-2"><CalendarDays className="w-4 h-4 mr-2" />The Festival</TabsTrigger>
                                 <TabsTrigger value="traditions" className="py-2"><Sparkles className="w-4 h-4 mr-2" />Traditions</TabsTrigger>
                                 <TabsTrigger value="recipes" className="py-2"><Utensils className="w-4 h-4 mr-2" />Recipes</TabsTrigger>
                                 <TabsTrigger value="chants" className="py-2"><MessageSquareQuote className="w-4 h-4 mr-2" />Aartis</TabsTrigger>
                                 <TabsTrigger value="eco-friendly" className="py-2"><Leaf className="w-4 h-4 mr-2" />Eco-Friendly</TabsTrigger>
+                                <TabsTrigger value="shopping" className="py-2"><ShoppingCart className="w-4 h-4 mr-2" />Shopping Guide</TabsTrigger>
                             </TabsList>
 
                             <TabsContent value="overview">
@@ -203,6 +209,16 @@ export default function GaneshChaturthiPage() {
                                     </div>
                                 </div>
                             </TabsContent>
+
+                            <TabsContent value="shopping">
+                                <h2 className="font-headline text-3xl font-bold mb-4">Ganesh Chaturthi Shopping Guide</h2>
+                                <p className="mb-6 text-foreground/80 prose max-w-none">Get ready for the festival with these essential items. These are affiliate links that help support our site.</p>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
+                                    {ecoFriendlyGanesha && <ProductCard product={ecoFriendlyGanesha} />}
+                                    {ganeshPujaKit && <ProductCard product={ganeshPujaKit} />}
+                                </div>
+                            </TabsContent>
+
                         </Tabs>
                         <ShareButtons title="Ganesh Chaturthi" />
                     </CardContent>
