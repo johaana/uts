@@ -6,8 +6,6 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ShareButtons } from "@/components/ShareButtons";
 import type { Metadata } from 'next';
-import { ProductCard } from "@/components/ProductCard";
-import { getProduct } from "@/lib/product-data";
 
 const post = { 
     title: "Celebrate with Conscience: Your Guide to Vibrant and Eco-Friendly Indian Festivals", 
@@ -35,9 +33,6 @@ export const metadata: Metadata = {
 };
 
 export default function SingleBlogPage() {
-    const plantableGanesha = getProduct("plantableGanesha");
-    const diyClayKit = getProduct("diyClayKit");
-
     return (
         <div className="container mx-auto px-4 py-12">
             <div className="relative h-64 md:h-96 w-full mb-8">
@@ -70,20 +65,6 @@ export default function SingleBlogPage() {
                         <h4>2. The Eco-Friendly Idol</h4>
                         <p>For festivals like Ganesh Chaturthi and Durga Puja, opt for idols made from natural, unbaked clay (shadu mati) instead of Plaster of Paris (PoP). PoP idols contain harmful chemicals that pollute our rivers and harm aquatic life. A clay idol dissolves gracefully in water. Better yet, consider a symbolic immersion at home in a bucket, using the dissolved clay to nurture your garden—a beautiful symbol of life's cyclical nature.</p>
                         
-                        <div className="not-prose my-8 p-6 bg-primary/10 rounded-lg">
-                           <h4 className="font-headline text-2xl font-bold text-primary mb-4 text-center">Shop for Eco-Friendly Idols</h4>
-                           <p className="text-center mb-6">Ready to make a sustainable choice for your next Ganesh Chaturthi? Here are some wonderful, eco-conscious options available online.</p>
-                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                {plantableGanesha && <ProductCard {...plantableGanesha} />}
-                                {diyClayKit && <ProductCard {...diyClayKit} />}
-                           </div>
-                           <div className="text-center mt-4">
-                               <Link href="/blog/eco-friendly-ganesh-chaturthi-guide">
-                                  <Button variant="secondary">View Full Eco-Friendly Guide</Button>
-                               </Link>
-                           </div>
-                        </div>
-
                         <h4>3. A Greener Diwali: The Festival of Lights, Not Noise</h4>
                         <p>Diwali is perhaps the festival with the most significant environmental impact. Here's how to improve it:</p>
                         <ul>

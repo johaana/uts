@@ -5,8 +5,6 @@ import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote, Leaf, Ca
 import Link from "next/link";
 import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
-import { ProductCard } from "@/components/ProductCard";
-import { getProduct } from "@/lib/product-data";
 
 const recipes = [
     { name: "Modak", link: "/recipes/modak" },
@@ -15,13 +13,6 @@ const recipes = [
 ]
 
 export default function GaneshChaturthiPage() {
-    const pujaSamagriKit = getProduct("pujaSamagriKit");
-    const decorKitCurtain = getProduct("decorKitCurtain");
-    const decorKitStand = getProduct("decorKitStand");
-    const rangoliMat = getProduct("rangoliMat");
-    const lotusHanging = getProduct("lotusHanging");
-    const marigoldGarland = getProduct("marigoldGarland");
-
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-primary/10">
@@ -35,14 +26,13 @@ export default function GaneshChaturthiPage() {
                 <Card className="mb-12">
                     <CardContent className="p-6 md:p-10">
                         <Tabs defaultValue="overview">
-                            <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-7 mb-6 h-auto">
+                            <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-6 mb-6 h-auto">
                                 <TabsTrigger value="overview" className="py-2"><BookOpen className="w-4 h-4 mr-2" />Overview</TabsTrigger>
                                 <TabsTrigger value="ten-days" className="py-2"><CalendarDays className="w-4 h-4 mr-2" />The Festival</TabsTrigger>
                                 <TabsTrigger value="traditions" className="py-2"><Sparkles className="w-4 h-4 mr-2" />Traditions</TabsTrigger>
                                 <TabsTrigger value="recipes" className="py-2"><Utensils className="w-4 h-4 mr-2" />Recipes</TabsTrigger>
                                 <TabsTrigger value="chants" className="py-2"><MessageSquareQuote className="w-4 h-4 mr-2" />Aartis</TabsTrigger>
                                 <TabsTrigger value="eco-friendly" className="py-2"><Leaf className="w-4 h-4 mr-2" />Eco-Friendly</TabsTrigger>
-                                <TabsTrigger value="shopping" className="py-2"><ShoppingCart className="w-4 h-4 mr-2" />Shopping Guide</TabsTrigger>
                             </TabsList>
 
                             <TabsContent value="overview">
@@ -210,32 +200,6 @@ export default function GaneshChaturthiPage() {
                                         <Link href="/blog/eco-friendly-ganesh-chaturthi-guide">
                                             <Button variant="outline">View Full Eco-Friendly Guide</Button>
                                         </Link>
-                                    </div>
-                                </div>
-                            </TabsContent>
-                            <TabsContent value="shopping">
-                                <h2 className="font-headline text-3xl font-bold mb-4">Ganesh Chaturthi Shopping Guide</h2>
-                                <p className="mb-6 text-foreground/80 prose max-w-none">Get ready for the festival with our curated list of essential items, from beautiful idols to complete puja kits and decoration setups.</p>
-                                <div className="space-y-8">
-                                    <div>
-                                        <h3 className="font-headline text-2xl text-primary mb-4">Complete Puja Kit</h3>
-                                        {pujaSamagriKit && <ProductCard {...pujaSamagriKit} />}
-                                    </div>
-
-                                    <div>
-                                        <h3 className="font-headline text-2xl text-primary mb-4">Mandap Decoration Sets</h3>
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                             {decorKitCurtain && <ProductCard {...decorKitCurtain} />}
-                                             {decorKitStand && <ProductCard {...decorKitStand} />}
-                                        </div>
-                                    </div>
-                                     <div>
-                                        <h3 className="font-headline text-2xl text-primary mb-4">Decorative Items</h3>
-                                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                            {rangoliMat && <ProductCard {...rangoliMat} />}
-                                            {lotusHanging && <ProductCard {...lotusHanging} />}
-                                            {marigoldGarland && <ProductCard {...marigoldGarland} />}
-                                        </div>
                                     </div>
                                 </div>
                             </TabsContent>

@@ -6,8 +6,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
-import { ProductCard } from "@/components/ProductCard";
-import { getProduct } from "@/lib/product-data";
 
 const relatedContent: RelatedItem[] = [
     {
@@ -37,8 +35,6 @@ const relatedContent: RelatedItem[] = [
 ];
 
 export default function JanmashtamiPage() {
-    const ladduGopalThali = getProduct("ladduGopalThali");
-    
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-primary/10">
@@ -91,12 +87,6 @@ export default function JanmashtamiPage() {
                                         </div>
                                     </li>
                                 </ul>
-                                <div className="not-prose my-8 p-6 bg-primary/10 rounded-lg">
-                                   <h4 className="font-headline text-2xl font-bold text-primary mb-4 text-center">Bhog for Laddoo Gopal</h4>
-                                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                        {ladduGopalThali && <ProductCard {...ladduGopalThali} />}
-                                   </div>
-                                </div>
                             </TabsContent>
 
                              <TabsContent value="chants">

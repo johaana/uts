@@ -7,8 +7,6 @@ import { Button } from "@/components/ui/button";
 import { ShareButtons } from "@/components/ShareButtons";
 import type { Metadata } from 'next';
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
-import { ProductCard } from "@/components/ProductCard";
-import { getProduct } from "@/lib/product-data";
 
 const post = { 
     title: "A Beginner's Guide to Setting Up a Home Puja (Altar)", 
@@ -63,10 +61,6 @@ const relatedContent: RelatedItem[] = [
 ];
 
 export default function SingleBlogPage() {
-    const thaliLarge = getProduct("thaliLarge");
-    const thaliMedium = getProduct("thaliMedium");
-    const thaliSmall = getProduct("thaliSmall");
-
     return (
         <div className="container mx-auto px-4 py-12">
             <div className="relative h-64 md:h-96 w-full mb-8">
@@ -104,16 +98,6 @@ export default function SingleBlogPage() {
                             <li><strong>Prasad (Offering):</strong> A small offering of food, such as a piece of fruit or a spoonful of sugar, can be placed before the deities. This is later consumed by the family as a blessed offering.</li>
                         </ul>
                         
-                        <div className="not-prose my-8 p-6 bg-primary/10 rounded-lg">
-                           <h4 className="font-headline text-2xl font-bold text-primary mb-4 text-center">Shop for Your Puja Thali</h4>
-                           <p className="text-center mb-6">For a beautiful and complete setup, you might consider a traditional brass Puja Thali set which contains all the essential items in one elegant plate.</p>
-                           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                                {thaliLarge && <ProductCard {...thaliLarge} />}
-                                {thaliMedium && <ProductCard {...thaliMedium} />}
-                                {thaliSmall && <ProductCard {...thaliSmall} />}
-                           </div>
-                        </div>
-
                         <h3>4. A Simple Puja Routine</h3>
                         <p>Your daily puja can be as short as five minutes. The goal is consistency and sincerity.</p>
                         <ol>
@@ -129,7 +113,7 @@ export default function SingleBlogPage() {
                             <p>Remember, the essence of puja is not in the grandeur of the ritual, but in the sincerity of the heart. A simple flower offered with love is more valuable than a grand feast offered without devotion.</p>
                         </blockquote>
 
-                        <p>Start small and simple. As you become more comfortable, you can learn more specific mantras or rituals if you wish. The most important thing is to create a personal connection and a daily habit of gratitude and reflection.</p>
+                        <p>Start small and simple. As you become more comfortable, you can learn more specific mantras or rituals if you wish. The most important thing is to to create a personal connection and a daily habit of gratitude and reflection.</p>
 
                     </article>
                     <ShareButtons title={post.title} />

@@ -7,8 +7,6 @@ import { Button } from "@/components/ui/button";
 import { ShareButtons } from "@/components/ShareButtons";
 import type { Metadata } from 'next';
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
-import { ProductCard } from "@/components/ProductCard";
-import { getProduct } from "@/lib/product-data";
 
 const post = { 
     title: "Your Ultimate Guide to an Eco-Friendly Ganesh Chaturthi", 
@@ -63,12 +61,6 @@ const relatedContent: RelatedItem[] = [
 ];
 
 export default function SingleBlogPage() {
-    const plantableGanesha = getProduct("plantableGanesha");
-    const tiedRibbonsGanesha = getProduct("tiedRibbonsGanesha");
-    const diyClayKit = getProduct("diyClayKit");
-    const lotusGanesha = getProduct("lotusGanesha");
-    const gowriIdol = getProduct("gowriIdol");
-
     return (
         <div className="container mx-auto px-4 py-12">
             <div className="relative h-64 md:h-96 w-full mb-8">
@@ -91,27 +83,10 @@ export default function SingleBlogPage() {
                         <p>Ganesh Chaturthi is a festival of immense joy and devotion. As we welcome the beloved Lord Ganesha into our homes, it's also a perfect opportunity to honor Mother Nature, who he represents. Traditionally, idols were made from river clay and returned to the earth, a beautiful symbol of life's cycle. Today, with the rise of Plaster of Paris (PoP) idols, our water bodies face pollution. But a wonderful movement is bringing us back to our roots. Let's explore how to celebrate a vibrant, joyous, and eco-friendly Ganesh Chaturthi.</p>
                         
                         <h3 id="idols">Choosing the Heart of the Festival: The Eco-Friendly Murti</h3>
-                        <p>The single most impactful choice you can make is selecting a water-soluble idol. These idols are designed to dissolve gracefully, returning to the elements without harming aquatic life. Here are some wonderful options:</p>
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-8 not-prose">
-                            {plantableGanesha && <ProductCard {...plantableGanesha} />}
-                            {tiedRibbonsGanesha && <ProductCard {...tiedRibbonsGanesha} />}
-                        </div>
-
+                        <p>The single most impactful choice you can make is selecting a water-soluble idol. These idols are designed to dissolve gracefully, returning to the elements without harming aquatic life.</p>
+                        
                         <h4>DIY Ganesha: The Ultimate Personal Touch</h4>
                         <p>For a truly personal and family-bonding experience, consider making your own Ganesha idol. It's a wonderful activity to do with children, teaching them the importance of the festival and sustainability from a young age.</p>
-                        
-                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-8 not-prose">
-                             {diyClayKit && <ProductCard {...diyClayKit} />}
-                             {lotusGanesha && <ProductCard {...lotusGanesha} />}
-                        </div>
-
-                        <p>Don't forget Ganesha's mother! Many families also worship Goddess Gauri during the festival. This eco-friendly clay Gauri idol is a perfect companion for your Ganpati.</p>
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-8 not-prose">
-                             {gowriIdol && <ProductCard {...gowriIdol} />}
-                        </div>
-
 
                         <h3>Sustainable Decorations and Practices</h3>
                         <ul>
