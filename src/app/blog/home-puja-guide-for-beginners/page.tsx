@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { ShareButtons } from "@/components/ShareButtons";
 import type { Metadata } from 'next';
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
+import { ProductCard } from "@/components/ProductCard";
 
 const post = { 
     title: "A Beginner's Guide to Setting Up a Home Puja (Altar)", 
@@ -22,7 +23,7 @@ export const metadata: Metadata = {
     description: post.excerpt,
     images: [{ url: post.image, width: 1200, height: 630, alt: post.title }],
     type: 'article',
-    publishedTime: new Date('2025-08-11').toISOString(),
+    publishedTime: new Date('2025-09-05').toISOString(),
     authors: ['Utsavs'],
   },
   twitter: {
@@ -76,7 +77,7 @@ export default function SingleBlogPage() {
 
                     <article className="prose max-w-none text-foreground/80">
                          <div className="text-center mb-8">
-                            <p className="text-sm text-muted-foreground">By Team Utsavs on August 11, 2025</p>
+                            <p className="text-sm text-muted-foreground">By Team Utsavs on September 05, 2025</p>
                             <h1 className="font-headline text-4xl font-bold text-primary mt-2">{post.title}</h1>
                         </div>
 
@@ -97,6 +98,34 @@ export default function SingleBlogPage() {
                             <li><strong>Water:</strong> A small vessel (lota) of clean water is kept, symbolizing the life-giving essence of nature.</li>
                             <li><strong>Prasad (Offering):</strong> A small offering of food, such as a piece of fruit or a spoonful of sugar, can be placed before the deities. This is later consumed by the family as a blessed offering.</li>
                         </ul>
+                        
+                        <div className="not-prose my-8 p-6 bg-primary/10 rounded-lg">
+                           <h4 className="font-headline text-2xl font-bold text-primary mb-4 text-center">Shop for Your Puja Thali</h4>
+                           <p className="text-center mb-6">For a beautiful and complete setup, you might consider a traditional brass Puja Thali set which contains all the essential items in one elegant plate.</p>
+                           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                <ProductCard 
+                                    name="INDIAN ART VILLA Brass Thali Set" 
+                                    price="1955" 
+                                    link="https://www.amazon.in/INDIAN-ART-VILLA-Religious-DIameter-10-1/dp/B07RPYGYZC?crid=2X07QB4GNXO95&dib=eyJ2IjoiMSJ9.q1InaOXNtmW86QjqFt-ZHzHW25RyyVo6nFW39sweTF_I8ON0iNh_8rvXIU0fljKmjLxzoojk4Y0k6JLCD5QTMdPnWlytE6gLPQYNfbGSUhcQWQ-a3NwV92xvv6igRrLxIScLXloIN0WtKs-Eyb365RF2vlNWqF-xQMXhbDau0d_raxaDSxsXz7duEKZXMJQ4yUl_klj1IcGMiN3iCPJ4rem9OTl0e_KEQqK1RKs_Der988xe2kbb1nbd4YePSW8w7-YYeALlR-gMdZ-FmSCYggsT4Ry8h8G3ZFgfs6G9rwM.jOgBmpI1HwkYLymFIiVFZtRBsmpxrIZXVOewFRPSWks&dib_tag=se&keywords=pooja%2Bthali%2Bbrass&qid=1755163260&sprefix=pooja%2Bthali%2Caps%2C365&sr=8-1-spons&sp_csd=d2lkZ2V0TmFtZT1zcF9hdGY&th=1&linkCode=ll1&tag=utsavs-21&linkId=7182456d6dc168d67a3fca216df0ecba&language=en_IN&ref_=as_li_ss_tl" 
+                                    image="https://i.postimg.cc/8cmY9Ydk/thali1.jpg"
+                                    description="A large, 10-inch pure brass thali with an elegant floral embossed design." 
+                                />
+                                <ProductCard 
+                                    name="BENGALEN 8-Inch Brass Thali Set" 
+                                    price="1199" 
+                                    link="https://www.amazon.in/BENGALEN-Silver-Plated-Pooja-Thali/dp/B089QT2XKN?crid=2X07QB4GNXO95&dib=eyJ2IjoiMSJ9.q1InaOXNtmW86QjqFt-ZHzHW25RyyVo6nFW39sweTF_I8ON0iNh_8rvXIU0fljKmjLxzoojk4Y0k6JLCD5QTMdPnWlytE6gLPQYNfbGSUhcQWQ-a3NwV92xvv6igRrLxIScLXloIN0WtKs-Eyb365RF2vlNWqF-xQMXhbDau0d_raxaDSxsXz7duEKZXMJQ4yUl_klj1IcGMiN3iCPJ4rem9OTl0e_KEQqK1RKs_Der988xe2kbb1nbd4YePSW8w7-YYeALlR-gMdZ-FmSCYggsT4Ry8h8G3ZFgfs6G9rwM.jOgBmpI1HwkYLymFIiVFZtRBsmpxrIZXVOewFRPSWks&dib_tag=se&keywords=pooja+thali+brass&qid=1755163260&sprefix=pooja+thali%2Caps%2C365&sr=8-9&linkCode=ll1&tag=utsavs-21&linkId=4544394948780cd384b657ba12a40c20&language=en_IN&ref_=as_li_ss_tl" 
+                                    image="https://i.postimg.cc/pT5pGhx5/thali2.jpg" 
+                                    description="This complete 8-inch set includes a Kuber Diya, bell, kalash, spoon, and agarbatti stand." 
+                                />
+                                 <ProductCard 
+                                    name="Amazon Solimo Puja Thali" 
+                                    price="429" 
+                                    link="https://www.amazon.in/Amazon-Brand-Solimo-Worship-Flower-Engraved/dp/B0BBG18TWR?crid=2X07QB4GNXO95&dib=eyJ2IjoiMSJ9.q1InaOXNtmW86QjqFt-ZHzHW25RyyVo6nFW39sweTF_I8ON0iNh_8rvXIU0fljKmjLxzoojk4Y0k6JLCD5QTMdPnWlytE6gLPQYNfbGSUhcQWQ-a3NwV92xvv6igRrLxIScLXloIN0WtKs-Eyb365RF2vlNWqF-xQMXhbDau0d_raxaDSxsXz7duEKZXMJQ4yUl_klj1IcGMiN3iCPJ4rem9OTl0e_KEQqK1RKs_Der988xe2kbb1nbd4YePSW8w7-YYeALlR-gMdZ-FmSCYggsT4Ry8h8G3ZFgfs6G9rwM.jOgBmpI1HwkYLymFIiVFZtRBsmpxrIZXVOewFRPSWks&dib_tag=se&keywords=pooja%2Bthali%2Bbrass&qid=1755163260&sprefix=pooja%2Bthali%2Caps%2C365&sr=8-4-spons&sp_csd=d2lkZ2V0TmFtZT1zcF9hdGY&th=1&linkCode=ll1&tag=utsavs-21&linkId=835835eaf1a00c036785a96dc6f0bffc&language=en_IN&ref_=as_li_ss_tl" 
+                                    image="https://i.postimg.cc/prpyZJ7G/thali3.jpg"
+                                    description="A simple and elegant 6.5-inch flower-engraved brass thali, perfect for daily worship." 
+                                />
+                           </div>
+                        </div>
 
                         <h3>4. A Simple Puja Routine</h3>
                         <p>Your daily puja can be as short as five minutes. The goal is consistency and sincerity.</p>
