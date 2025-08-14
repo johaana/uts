@@ -23,7 +23,7 @@ interface Festival {
 
 // Create a mapping from festival name to its image and hint for quick lookup
 const festivalImageMap = new Map(
-  allFestivals.map(f => [f.name, { image: f.image, hint: f.hint, link: f.link }])
+  allFestivals.map(f => [f.name.toLowerCase(), { image: f.image, hint: f.hint, link: f.link }])
 );
 
 
@@ -39,6 +39,44 @@ const parseFestivalDate = (dateStr: string): Date | null => {
     } catch (e) {
         return null;
     }
+};
+
+const findImageData = (eventName: string) => {
+    const eventNameLower = eventName.toLowerCase();
+    
+    // Try direct match first
+    if (festivalImageMap.has(eventNameLower)) {
+        return festivalImageMap.get(eventNameLower);
+    }
+
+    // Try matching the part before parenthesis, e.g., "Dhanteras (Diwali Day 1)" -> "Dhanteras"
+    const baseNameMatch = eventName.match(/^(.*?)\s*\(/);
+    if (baseNameMatch) {
+        const baseName = baseNameMatch[1].trim().toLowerCase();
+        if (festivalImageMap.has(baseName)) {
+            return festivalImageMap.get(baseName);
+        }
+    }
+    
+    // Try splitting by '/' and matching the first part, e.g., "Makar Sankranti / Pongal" -> "Makar Sankranti"
+    const slashParts = eventName.split('/');
+    if (slashParts.length > 1) {
+        const firstPart = slashParts[0].trim().toLowerCase();
+        if (festivalImageMap.has(firstPart)) {
+            return festivalImageMap.get(firstPart);
+        }
+    }
+
+    // Fallback for Diwali-related events
+    if (eventName.toLowerCase().includes('diwali')) {
+        return festivalImageMap.get('diwali');
+    }
+     // Fallback for Parsi New Year
+    if (eventName.toLowerCase().includes('parsi new year')) {
+        return festivalImageMap.get('parsi new year');
+    }
+
+    return null;
 };
 
 
@@ -62,29 +100,16 @@ export function UpcomingFestivalsCarousel() {
                 .filter(event => event.parsedDate && (isFuture(event.parsedDate) || isToday(event.parsedDate)))
                 .sort((a, b) => a.parsedDate!.getTime() - b.parsedDate!.getTime())
                 .map(event => {
-                    // Match the name, handling cases like "Diwali (Lakshmi Puja) (Day 3)"
-                    const baseName = event.name.split(' (')[0];
-                    let imageData = festivalImageMap.get(event.name) || festivalImageMap.get(baseName);
+                    let imageData = findImageData(event.name);
                     
-                    // Specific override for Pateti and Navroz
-                    if (event.name.includes('Pateti') || event.name.includes('Navroz')) {
-                        imageData = festivalImageMap.get('Parsi New Year');
-                    }
-                    
-                    // Fallback for Diwali-related events
-                    if (!imageData && event.type === 'Diwali') {
-                         imageData = festivalImageMap.get('Diwali');
-                    }
-
-
                     if (!imageData) {
-                        imageData = { image: "https://placehold.co/600x400.png", hint: "festival celebration", link: event.link };
+                        imageData = { image: "https://placehold.co/600x400.png", hint: "festival celebration", link: event.link || '#' };
                     }
                     
                     return {
                         name: event.name,
                         date: event.parsedDate!.toISOString(),
-                        link: event.link,
+                        link: imageData.link || event.link,
                         image: imageData.image,
                         hint: imageData.hint,
                     };
