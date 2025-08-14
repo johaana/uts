@@ -7,6 +7,7 @@ import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
 import { ProductCard } from "@/components/ProductCard";
 import { products } from "@/lib/product-data";
+import { Button } from "@/components/ui/button";
 
 const recipes = [
     { name: "Modak", link: "/recipes/modak" },
