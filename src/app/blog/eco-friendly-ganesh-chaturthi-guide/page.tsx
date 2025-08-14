@@ -8,6 +8,7 @@ import { ShareButtons } from "@/components/ShareButtons";
 import type { Metadata } from 'next';
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 import { ProductCard } from "@/components/ProductCard";
+import { getProduct } from "@/lib/product-data";
 
 const post = { 
     title: "Your Ultimate Guide to an Eco-Friendly Ganesh Chaturthi", 
@@ -62,6 +63,12 @@ const relatedContent: RelatedItem[] = [
 ];
 
 export default function SingleBlogPage() {
+    const plantableGanesha = getProduct("plantableGanesha");
+    const tiedRibbonsGanesha = getProduct("tiedRibbonsGanesha");
+    const diyClayKit = getProduct("diyClayKit");
+    const lotusGanesha = getProduct("lotusGanesha");
+    const gowriIdol = getProduct("gowriIdol");
+
     return (
         <div className="container mx-auto px-4 py-12">
             <div className="relative h-64 md:h-96 w-full mb-8">
@@ -87,52 +94,22 @@ export default function SingleBlogPage() {
                         <p>The single most impactful choice you can make is selecting a water-soluble idol. These idols are designed to dissolve gracefully, returning to the elements without harming aquatic life. Here are some wonderful options:</p>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-8 not-prose">
-                            <ProductCard
-                                name="Puja N pujari Eco-Friendly Plantable Seed Ganesha"
-                                price="299"
-                                link="https://www.amazon.in/Eco-friendly-Plantable-Ganesha-Chaturthi-Clay-6inch/dp/B0B9X1T25C?crid=36O1VJPGIG1Q7&dib=eyJ2IjoiMSJ9.-Y7PbNd7D37SbSHOjaXt_-XgHMvdiksuaFM-GWehn8yLKnWSFdVH4Y9_RWJ5Z333gxDrzQKgTfZsBnesJovNIuPWUSFXOBPeFIBRy_nVSuAPLslUQByya9VqGsB3TCHkKVvJ9dH0rXHwzKsmXpU_XuHscu9J0lidpOFyPEJT4EmhucVFirF1ig9c9kZ5NDexugHMhZYxyXoxmMueUURqoR3hJRrjgLKo0kfXNDAKu0MJpWzvpNlnzieXVTQ4gc2dfjtPZ5JDaA1ZkOpBAsfrx3a46_vNfgJdMH-kTnNunr8.C4sViRNYGZdDdQWR9QAMrv3ACcssTxQioEALDxFNOqQ&dib_tag=se&keywords=ganesh+chaturthi&qid=1755159913&sprefix=ganesh+chaturthi%2Caps%2C419&sr=8-59-spons&xpid=d_iSDzNdnJcOI&sp_csd=d2lkZ2V0TmFtZT1zcF9tdGY&psc=1&linkCode=ll1&tag=utsavs-21&linkId=8e38d3b938409800aacbe3624c923f4c&language=en_IN&ref_=as_li_ss_tl"
-                                image="https://i.postimg.cc/8PtnC1Y2/plantable-ganesha.jpg"
-                                description="A beautiful 6-inch clay idol that contains plantable seeds. After immersion in a pot at home, the clay dissolves and gives birth to a new plant—a beautiful symbol of rebirth."
-                            />
-                            <ProductCard
-                                name="TIED RIBBONS Eco Friendly Ganesha Idol"
-                                price="299"
-                                link="https://www.amazon.in/TIED-RIBBONS-Friendly-Ganesha-17-7cm/dp/B0FHQJ37HC?crid=36O1VJPGIG1Q7&dib=eyJ2IjoiMSJ9.GUgUuICeFlJwMBAFlJlgM9uS6-YpHzERDYsXL0wLnrS6bQwpe1Gl2QPCBUU9dWv-0Z9Su7smg7xGIY1_TJ71OaMktjlRnKIUSiRzVB6jpZaz9JvavDCU9ue7s2K3hvgbZ8QBNvtBseDChL2DepQNj2tXeHDp1zqkfD1Q0UoNDgOMxsT_iAHIIiBYawVLqTgVt92gfs2sCcsvQV2ok9yhhIUd3Ivzs51IWaWa8188Ytvj1WQTNkghm_WCuvmQc0GSJ1CPJEfcHXtPPGMWfTZqF3sTxod6TRnx4SabHyCxrXg.yX2hUTrRkw7or5xopJ5IV6G3zeLCs6AjJzq0oazeCIY&dib_tag=se&keywords=ganesh+chaturthi&qid=1755159752&sprefix=ganesh+chaturthi%2Caps%2C419&sr=8-50&linkCode=ll1&tag=utsavs-21&linkId=59c47a6a2d958cef6740bcb101cf12&language=en_IN&ref_=as_li_ss_tl"
-                                image="https://i.postimg.cc/0j0K3Bv2/tied-ribbons-ganesha.jpg"
-                                description="A handcrafted, water-soluble mitti (clay) statue perfect for home visarjan. A simple, elegant, and traditional choice."
-                            />
+                            {plantableGanesha && <ProductCard {...plantableGanesha} />}
+                            {tiedRibbonsGanesha && <ProductCard {...tiedRibbonsGanesha} />}
                         </div>
 
                         <h4>DIY Ganesha: The Ultimate Personal Touch</h4>
                         <p>For a truly personal and family-bonding experience, consider making your own Ganesha idol. It's a wonderful activity to do with children, teaching them the importance of the festival and sustainability from a young age.</p>
                         
                          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-8 not-prose">
-                             <ProductCard
-                                name="Eco-Friendly Terracotta Clay for Idol Making (1kg)"
-                                price="199"
-                                link="https://www.amazon.in/Eco-Friendly-Terracotta-Water-Soluble-Plantable-Sculpting/dp/B0FK5PTBMF?crid=36O1VJPGIG1Q7&dib=eyJ2IjoiMSJ9.GUgUuICeFlJwMBAFlJlgM9uS6-YpHzERDYsXL0wLnrS6bQwpe1Gl2QPCBUU9dWv-0Z9Su7smg7xGIY1_TJ71OaMktjlRnKIUSiRzVB6jpZaz9JvavDCU9ue7s2K3hvgbZ8QBNvtBseDChL2DepQNj2tXeHDp1zqkfD1Q0UoNDgOMxsT_iAHIIiBYawVLqTgVt92gfs2sCcsvQV2ok9yhhIUd3Ivzs51IWaWa8188Ytvj1WQTNkghm_WCuvmQc0GSJ1CPJEfcHXtPPGMWfTZqF3sTxod6TRnx4SabHyCxrXg.yX2hUtrRkw7or5xopJ5IV6G3zeLCs6AjJzq0oazeCIY&dib_tag=se&keywords=ganesh%2Bchaturthi&qid=1755159752&sprefix=ganesh%2Bchaturthi%2Caps%2C419&sr=8-40&th=1&linkCode=ll1&tag=utsavs-21&linkId=9c098a9ba7418acc6766a1e1a436da24&language=en_IN&ref_=as_li_ss_tl"
-                                image="https://i.postimg.cc/8zQhdwfB/clay-kit.jpg"
-                                description="This natural, water-soluble clay is perfect for sculpting your own Ganpati murti at home. It's safe for kids and the environment."
-                            />
-                             <ProductCard
-                                name="SAUDEEP INDIA 6 Inch Mitti Ganesh Idol"
-                                price="399"
-                                link="https://www.amazon.in/Eco-Friendly-Handcrafted-Figurine-Biodegradable-Chaturthi/dp/B0BB6TCG1R?content-id=amzn1.sym.739e670d-dfb3-4be0-9815-d8c5c0372e07%3Aamzn1.sym.739e670d-dfb3-4be0-9815-d8c5c0372e07&crid=36O1VJPGIG1Q7&cv_ct_cx=ganesh%2Bchaturthi&keywords=ganesh%2Bchaturthi&pd_rd_i=B0BB6TCG1R&pd_rd_r=b5f4fb8b-989f-42a4-80b5-111f0ebe5d1c&pd_rd_w=OEtXm&pd_rd_wg=LVhRA&pf_rd_p=739e670d-dfb3-4be0-9815-d8c5c0372e07&pf_rd_r=278JN3W8BEHQN19E62FY&qid=1755159752&sbo=RZvfv%2F%2FHxDF%2BO5021pAnSA%3D%3D&sprefix=ganesh%2Bchaturthi%2Caps%2C419&sr=1-1-66673dcf-083f-43ba-b782-d4a436cc5cfb-spons&sp_csd=d2lkZ2V0TmFtZT1zcF9zZWFyY2hfdGhlbWF0aWM&th=1&linkCode=ll1&tag=utsavs-21&linkId=1a62d41527a3c3104118149d576b664d&language=en_IN&ref_=as_li_ss_tl"
-                                image="https://i.postimg.cc/Kz4Y6Q1S/lotus-ganesha.jpg"
-                                description="A beautiful, handcrafted Lotus Ganesha statue made from biodegradable clay, combining artistry with eco-consciousness."
-                            />
+                             {diyClayKit && <ProductCard {...diyClayKit} />}
+                             {lotusGanesha && <ProductCard {...lotusGanesha} />}
                         </div>
 
                         <p>Don't forget Ganesha's mother! Many families also worship Goddess Gauri during the festival. This eco-friendly clay Gauri idol is a perfect companion for your Ganpati.</p>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-8 not-prose">
-                             <ProductCard
-                                name="Puja N Pujari Eco Friendly Clay Gowri Idol"
-                                price="399"
-                                link="https://www.amazon.in/Puja-Pujari-Friendly-Ganesh-Chaturthi/dp/B07W5MTQSN?content-id=amzn1.sym.739e670d-dfb3-4be0-9815-d8c5c0372e07%3Aamzn1.sym.739e670d-dfb3-4be0-9815-d8c5c0372e07&crid=36O1VJPGIG1Q7&cv_ct_cx=ganesh+chaturthi&keywords=ganesh+chaturthi&pd_rd_i=B07W5MTQSN&pd_rd_r=b5f4fb8b-989f-42a4-80b5-111f0ebe5d1c&pd_rd_w=OEtXm&pd_rd_wg=LVhRA&pf_rd_p=739e670d-dfb3-4be0-9815-d8c5c0372e07&pf_rd_r=278JN3W8BEHQN19E62FY&qid=1755159752&sbo=RZvfv%2F%2FHxDF%2BO5021pAnSA%3D%3D&sprefix=ganesh+chaturthi%2Caps%2C419&sr=1-5-66673dcf-083f-43ba-b782-d4a436cc5cfb-spons&sp_csd=d2lkZ2V0TmFtZT1zcF9zZWFyY2hfdGhlbWF0aWM&psc=1&linkCode=ll1&tag=utsavs-21&linkId=b7311d628ba71c04ff08008e9763a70c&language=en_IN&ref_=as_li_ss_tl"
-                                image="https://i.postimg.cc/tJnB8vjB/gowri-idol.jpg"
-                                description="Welcome Ganesha's mother, Gauri, with this simple and traditional clay idol. Perfect for celebrating the mother-son bond during the festival."
-                            />
+                             {gowriIdol && <ProductCard {...gowriIdol} />}
                         </div>
 
 

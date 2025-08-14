@@ -7,6 +7,7 @@ import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 import { ProductCard } from "@/components/ProductCard";
+import { getProduct } from "@/lib/product-data";
 
 const relatedContent: RelatedItem[] = [
     {
@@ -36,6 +37,8 @@ const relatedContent: RelatedItem[] = [
 ];
 
 export default function JanmashtamiPage() {
+    const ladduGopalThali = getProduct("ladduGopalThali");
+    
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-primary/10">
@@ -91,13 +94,7 @@ export default function JanmashtamiPage() {
                                 <div className="not-prose my-8 p-6 bg-primary/10 rounded-lg">
                                    <h4 className="font-headline text-2xl font-bold text-primary mb-4 text-center">Bhog for Laddoo Gopal</h4>
                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                        <ProductCard 
-                                            name="BENGALEN Small Brass Bhog Thali" 
-                                            price="899" 
-                                            link="https://www.amazon.in/BENGALEN-Janmashtami-Decoration-Festival-Standard/dp/B0B37XN9JF?crid=2X07QB4GNXO95&dib=eyJ2IjoiMSJ9.q1InaOXNtmW86QjqFt-ZHzHW25RyyVo6nFW39sweTF_I8ON0iNh_8rvXIU0fljKmjLxzoojk4Y0k6JLCD5QTMdPnWlytE6gLPQYNfbGSUhcQWQ-a3NwV92xvv6igRrLxIScLXloIN0WtKs-Eyb365RF2vlNWqF-xQMXhbDau0d_raxaDSxsXz7duEKZXMJQ4yUl_klj1IcGMiN3iCPJ4rem9OTl0e_KEQqK1RKs_Der988xe2kbb1nbd4YePSW8w7-YYeALlR-gMdZ-FmSCYggsT4Ry8h8G3ZFgfs6G9rwM.jOgBmpI1HwkYLymFIiVFZtRBsmpxrIZXVOewFRPSWks&dib_tag=se&keywords=pooja%2Bthali%2Bbrass&qid=1755163260&sprefix=pooja%2Bthali%2Caps%2C365&sr=8-32&th=1&linkCode=ll1&tag=utsavs-21&linkId=10a4e0f71525510031c66e6ad2be3ee7&language=en_IN&ref_=as_li_ss_tl" 
-                                            image="https://i.postimg.cc/66t2w1g9/laddu-gopal-thali.jpg"
-                                            description="A beautiful small brass thali set, perfect for offering 'bhog' to your Laddoo Gopal (infant Krishna) idol during Janmashtami puja." 
-                                        />
+                                        {ladduGopalThali && <ProductCard {...ladduGopalThali} />}
                                    </div>
                                 </div>
                             </TabsContent>
