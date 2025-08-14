@@ -1,13 +1,13 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote, Leaf, CalendarDays, ShoppingCart } from "lucide-react";
+import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote, Leaf, CalendarDays } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
-import { ProductCard } from "@/components/ProductCard";
 import { products } from "@/lib/product-data";
 import { Button } from "@/components/ui/button";
+import { ShoppingGuide } from "@/components/ShoppingGuide";
 
 const recipes = [
     { name: "Modak", link: "/recipes/modak" },
@@ -18,6 +18,9 @@ const recipes = [
 export default function GaneshChaturthiPage() {
     const ganeshPujaKit = products.ganeshPujaKit;
     const ecoFriendlyGanesha = products.ecoFriendlyGanesha;
+    const ganpatiDecor = products.ganpatiDecor;
+    const backdropStand = products.backdropStand;
+
 
     return (
         <div className="bg-background">
@@ -32,14 +35,13 @@ export default function GaneshChaturthiPage() {
                 <Card className="mb-12">
                     <CardContent className="p-6 md:p-10">
                         <Tabs defaultValue="overview">
-                            <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-7 mb-6 h-auto">
+                            <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-6 mb-6 h-auto">
                                 <TabsTrigger value="overview" className="py-2"><BookOpen className="w-4 h-4 mr-2" />Overview</TabsTrigger>
                                 <TabsTrigger value="ten-days" className="py-2"><CalendarDays className="w-4 h-4 mr-2" />The Festival</TabsTrigger>
                                 <TabsTrigger value="traditions" className="py-2"><Sparkles className="w-4 h-4 mr-2" />Traditions</TabsTrigger>
                                 <TabsTrigger value="recipes" className="py-2"><Utensils className="w-4 h-4 mr-2" />Recipes</TabsTrigger>
                                 <TabsTrigger value="chants" className="py-2"><MessageSquareQuote className="w-4 h-4 mr-2" />Aartis</TabsTrigger>
                                 <TabsTrigger value="eco-friendly" className="py-2"><Leaf className="w-4 h-4 mr-2" />Eco-Friendly</TabsTrigger>
-                                <TabsTrigger value="shopping" className="py-2"><ShoppingCart className="w-4 h-4 mr-2" />Shopping Guide</TabsTrigger>
                             </TabsList>
 
                             <TabsContent value="overview">
@@ -49,6 +51,7 @@ export default function GaneshChaturthiPage() {
                                     <p>When her husband, Lord Shiva, returned and was unexpectedly denied entry by this unknown boy, a fierce battle ensued. In his cosmic rage, not realizing the boy was Parvati's creation, Shiva severed the boy's head. When a distraught Parvati saw what had happened, her sorrow was immense. To console her, a remorseful Shiva promised to bring the boy back to life. He instructed his attendants (Ganas) to bring back the head of the first living creature they found with its head facing north. They returned with the head of a mighty elephant, which Shiva placed upon the boy's body, resurrecting him and bestowing upon him the name Ganesha, the lord of all Ganas. He was also blessed to be the first deity worshipped in any ritual, forever to be known as the remover of all obstacles.</p>
                                     <p>The festival was transformed from a private, household celebration into a grand public event by the freedom fighter Lokmanya Tilak in the late 19th century as a way to unite the people of India against British rule. Today, the festival is celebrated with immense fervor, especially in Maharashtra. Devotees bring home beautifully crafted clay idols of Ganesha, worshipping him for ten days with prayers, songs, and his favorite sweet, 'modak'. The festival culminates in the 'visarjan' (immersion) ceremony on Anant Chaturdashi, symbolizing Ganesha's journey back to his celestial abode, taking with him the misfortunes of his devotees, and promising to return the following year.</p>
                                 </div>
+                                <ShoppingGuide products={[ganeshPujaKit, ganpatiDecor, backdropStand, ecoFriendlyGanesha]} title="Ganesh Chaturthi Essentials"/>
                             </TabsContent>
 
                             <TabsContent value="ten-days">
@@ -172,7 +175,7 @@ export default function GaneshChaturthiPage() {
                              <TabsContent value="eco-friendly">
                                 <h2 className="font-headline text-3xl font-bold mb-4">Celebrating a Green Ganesh Chaturthi</h2>
                                 <div className="space-y-4 text-foreground/80 prose max-w-none">
-                                    <p>Welcome Lord Ganesha into your home in an environmentally conscious way. Here’s how you can make your celebrations sustainable.</p>
+                                    <p>Celebrate the festival of lights while being mindful of Mother Earth. A few small changes can make a big difference in reducing the environmental impact of the festivities.</p>
                                     <ul className="space-y-4 pl-4">
                                         <li className="flex items-start">
                                             <Leaf className="w-6 h-6 mr-3 mt-1 text-green-600 shrink-0"/>
@@ -208,15 +211,6 @@ export default function GaneshChaturthiPage() {
                                             <Button variant="outline">View Full Eco-Friendly Guide</Button>
                                         </Link>
                                     </div>
-                                </div>
-                            </TabsContent>
-
-                            <TabsContent value="shopping">
-                                <h2 className="font-headline text-3xl font-bold mb-4">Ganesh Chaturthi Shopping Guide</h2>
-                                <p className="mb-6 text-foreground/80 prose max-w-none">Get ready for the festival with these essential items. These are affiliate links that help support our site.</p>
-                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
-                                    {ecoFriendlyGanesha && <ProductCard product={ecoFriendlyGanesha} />}
-                                    {ganeshPujaKit && <ProductCard product={ganeshPujaKit} />}
                                 </div>
                             </TabsContent>
 
