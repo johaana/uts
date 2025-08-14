@@ -7,7 +7,7 @@ import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
 import { products } from "@/lib/product-data";
 import { Button } from "@/components/ui/button";
-import { ShoppingGuide } from "@/components/ShoppingGuide";
+import { ProductCard } from "@/components/ProductCard";
 
 const recipes = [
     { name: "Modak", link: "/recipes/modak" },
@@ -19,7 +19,7 @@ export default function GaneshChaturthiPage() {
     const ganeshPujaKit = products.ganeshPujaKit;
     const ecoFriendlyGanesha = products.ecoFriendlyGanesha;
     const ganpatiDecor = products.ganpatiDecor;
-    const backdropStand = products.backdropStand;
+    const tiedRibbonsGanesha = products.tiedRibbonsGanesha;
 
 
     return (
@@ -51,7 +51,6 @@ export default function GaneshChaturthiPage() {
                                     <p>When her husband, Lord Shiva, returned and was unexpectedly denied entry by this unknown boy, a fierce battle ensued. In his cosmic rage, not realizing the boy was Parvati's creation, Shiva severed the boy's head. When a distraught Parvati saw what had happened, her sorrow was immense. To console her, a remorseful Shiva promised to bring the boy back to life. He instructed his attendants (Ganas) to bring back the head of the first living creature they found with its head facing north. They returned with the head of a mighty elephant, which Shiva placed upon the boy's body, resurrecting him and bestowing upon him the name Ganesha, the lord of all Ganas. He was also blessed to be the first deity worshipped in any ritual, forever to be known as the remover of all obstacles.</p>
                                     <p>The festival was transformed from a private, household celebration into a grand public event by the freedom fighter Lokmanya Tilak in the late 19th century as a way to unite the people of India against British rule. Today, the festival is celebrated with immense fervor, especially in Maharashtra. Devotees bring home beautifully crafted clay idols of Ganesha, worshipping him for ten days with prayers, songs, and his favorite sweet, 'modak'. The festival culminates in the 'visarjan' (immersion) ceremony on Anant Chaturdashi, symbolizing Ganesha's journey back to his celestial abode, taking with him the misfortunes of his devotees, and promising to return the following year.</p>
                                 </div>
-                                <ShoppingGuide products={[ganeshPujaKit, ganpatiDecor, backdropStand, ecoFriendlyGanesha]} title="Ganesh Chaturthi Essentials"/>
                             </TabsContent>
 
                             <TabsContent value="ten-days">
@@ -60,6 +59,11 @@ export default function GaneshChaturthiPage() {
                                     <div>
                                         <h3 className="font-headline text-2xl text-primary">Day 1: Avahana and Sthapana</h3>
                                         <p>The festival begins with the installation of a clay idol of Ganesha in the home or a public pandal. A priest performs the 'Pranapratishtha' puja, a ritual to invoke the holy presence of Ganesha into the idol. This is followed by offerings of modaks, flowers (especially red hibiscus), and durva grass.</p>
+                                        <div className="not-prose grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 my-8">
+                                            <ProductCard product={ganeshPujaKit} />
+                                            <ProductCard product={ganpatiDecor} />
+                                            <ProductCard product={products.backdropStand} />
+                                        </div>
                                     </div>
                                     <div>
                                         <h3 className="font-headline text-2xl text-primary">Days 2 to 9: Daily Worship and Gauri Avahan</h3>
@@ -176,6 +180,12 @@ export default function GaneshChaturthiPage() {
                                 <h2 className="font-headline text-3xl font-bold mb-4">Celebrating a Green Ganesh Chaturthi</h2>
                                 <div className="space-y-4 text-foreground/80 prose max-w-none">
                                     <p>Celebrate the festival of lights while being mindful of Mother Earth. A few small changes can make a big difference in reducing the environmental impact of the festivities.</p>
+                                    
+                                    <div className="not-prose grid grid-cols-1 sm:grid-cols-2 gap-6 my-8">
+                                        <ProductCard product={ecoFriendlyGanesha} />
+                                        <ProductCard product={tiedRibbonsGanesha} />
+                                    </div>
+
                                     <ul className="space-y-4 pl-4">
                                         <li className="flex items-start">
                                             <Leaf className="w-6 h-6 mr-3 mt-1 text-green-600 shrink-0"/>

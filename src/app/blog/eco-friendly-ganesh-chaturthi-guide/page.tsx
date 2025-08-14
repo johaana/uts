@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { ShareButtons } from "@/components/ShareButtons";
 import type { Metadata } from 'next';
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
-import { ShoppingGuide } from "@/components/ShoppingGuide";
+import { ProductCard } from "@/components/ProductCard";
 import { products } from "@/lib/product-data";
 
 const post = { 
@@ -90,7 +90,10 @@ export default function SingleBlogPage() {
                         <h3 id="idols">Choosing the Heart of the Festival: The Eco-Friendly Murti</h3>
                         <p>The single most impactful choice you can make is selecting a water-soluble idol. These idols are designed to dissolve gracefully, returning to the elements without harming aquatic life.</p>
                         
-                        <ShoppingGuide products={[ecoFriendlyGanesha, tiedRibbonsGanesha]} title="Our Top Eco-Friendly Idol Picks"/>
+                        <div className="not-prose grid grid-cols-1 sm:grid-cols-2 gap-6 my-8">
+                            <ProductCard product={ecoFriendlyGanesha} />
+                            <ProductCard product={tiedRibbonsGanesha} />
+                        </div>
 
                         <h4>DIY Ganesha: The Ultimate Personal Touch</h4>
                         <p>For a truly personal and family-bonding experience, consider making your own Ganesha idol. It's a wonderful activity to do with children, teaching them the importance of the festival and sustainability from a young age.</p>
