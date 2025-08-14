@@ -1,4 +1,5 @@
 
+
 export const allFestivals = [
     { name: "Diwali", region: "Nationwide", description: "The festival of lights, symbolizing the victory of light over darkness and good over evil.", link: "/festivals/diwali", image: "https://i.postimg.cc/SjF8HhM1/Diwali2.jpg", hint: "diwali celebration" },
     { name: "Holi", region: "Nationwide", description: "The vibrant festival of colors, celebrating the arrival of spring, love, and the triumph of good.", link: "/festivals/holi", image: "https://i.postimg.cc/0276MjRN/Holi.jpg", hint: "holi celebration" },
@@ -59,6 +60,7 @@ export const allFestivals = [
     { name: "Shigmo Festival", region: "West", description: "Goa's vibrant spring festival, similar to Holi, with grand parades and folk dances.", link: "/festivals/shigmo-festival", image: "https://i.postimg.cc/T24CgjxF/Shigmo2.png", hint: "goa parade" },
     { name: "Vat Purnima", region: "West", description: "A celebration of marital fidelity, where women pray for their husband's long life under a banyan tree.", link: "/festivals/vat-purnima", image: "https://i.postimg.cc/02SFNXSc/vat-purnima.webp", hint: "banyan tree worship" },
     { name: "Tulsi Vivah", region: "Nationwide", description: "The ceremonial wedding of the holy basil plant (Tulsi) to Lord Vishnu.", link: "/festivals/tulsi-vivah", image: "https://i.postimg.cc/dVLB1Lgv/tulsi-vivah.jpg", hint: "sacred marriage" },
+    { name: "Dussehra", region: "Nationwide", description: "The tenth day of victory, celebrating the triumph of good over evil with Ramlila plays and the burning of Ravana's effigy.", link: "/festivals/dussehra", image: "https://i.postimg.cc/wMVZW9fk/dussehra.jpg", hint: "dussehra celebration" },
 ];
 
 export const allEvents = [
