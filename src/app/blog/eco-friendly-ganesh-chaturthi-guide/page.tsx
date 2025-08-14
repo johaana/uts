@@ -65,6 +65,7 @@ const relatedContent: RelatedItem[] = [
 export default function SingleBlogPage() {
     const ecoFriendlyGanesha = products.ecoFriendlyGanesha;
     const tiedRibbonsGanesha = products.tiedRibbonsGanesha;
+    const terracottaClay = products.terracottaClay;
 
     return (
         <div className="container mx-auto px-4 py-12">
@@ -97,6 +98,9 @@ export default function SingleBlogPage() {
 
                         <h4>DIY Ganesha: The Ultimate Personal Touch</h4>
                         <p>For a truly personal and family-bonding experience, consider making your own Ganesha idol. It's a wonderful activity to do with children, teaching them the importance of the festival and sustainability from a young age.</p>
+                         <div className="not-prose my-8 max-w-sm mx-auto">
+                            <ProductCard product={terracottaClay} />
+                        </div>
 
                         <h3>Sustainable Decorations and Practices</h3>
                         <ul>

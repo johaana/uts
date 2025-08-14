@@ -20,6 +20,7 @@ export default function GaneshChaturthiPage() {
     const ecoFriendlyGanesha = products.ecoFriendlyGanesha;
     const ganpatiDecor = products.ganpatiDecor;
     const tiedRibbonsGanesha = products.tiedRibbonsGanesha;
+    const clayGowriIdol = products.clayGowriIdol;
 
 
     return (
@@ -61,13 +62,16 @@ export default function GaneshChaturthiPage() {
                                         <p>The festival begins with the installation of a clay idol of Ganesha in the home or a public pandal. A priest performs the 'Pranapratishtha' puja, a ritual to invoke the holy presence of Ganesha into the idol. This is followed by offerings of modaks, flowers (especially red hibiscus), and durva grass.</p>
                                         <div className="not-prose grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 my-8">
                                             <ProductCard product={ganeshPujaKit} />
-                                            <ProductCard product={ganpatiDecor} />
-                                            <ProductCard product={products.backdropStand} />
+                                            <ProductCard product={products.ganpatiDecor} />
+                                            <ProductCard product={products.lotusHanging} />
                                         </div>
                                     </div>
                                     <div>
                                         <h3 className="font-headline text-2xl text-primary">Days 2 to 9: Daily Worship and Gauri Avahan</h3>
                                         <p>For the duration of the festival, daily morning and evening pujas and aartis are performed. The atmosphere is filled with the sound of devotional songs and mantras. A significant event during this period is the worship of Goddess Gauri (an incarnation of Parvati, Ganesha's mother). Idols of Gauri are brought home, and a special puja is performed to celebrate the mother-son bond. This is particularly important in Maharashtra, where married women observe a fast and pray for a long and happy married life.</p>
+                                         <div className="not-prose my-10 max-w-xs mx-auto">
+                                            <ProductCard product={clayGowriIdol} />
+                                        </div>
                                     </div>
                                     <div>
                                         <h3 className="font-headline text-2xl text-primary">Day 10/11: Anant Chaturdashi and Visarjan</h3>

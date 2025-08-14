@@ -6,6 +6,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
+import { ProductCard } from "@/components/ProductCard";
+import { products } from "@/lib/product-data";
 
 const relatedContent: RelatedItem[] = [
     {
@@ -35,6 +37,8 @@ const relatedContent: RelatedItem[] = [
 ];
 
 export default function JanmashtamiPage() {
+    const marigoldGarland = products.marigoldGarland;
+
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-primary/10">
@@ -70,6 +74,9 @@ export default function JanmashtamiPage() {
                                         <div>
                                             <h4 className="font-bold">Fasting and Puja</h4>
                                             <p className="text-foreground/80">Devotees observe a fast throughout the day, which is broken at midnight, the traditional hour of Krishna's birth. Temples and homes are decorated, and idols of infant Krishna are bathed, adorned, and placed in cradles.</p>
+                                            <div className="not-prose my-6 max-w-xs">
+                                                <ProductCard product={marigoldGarland} />
+                                            </div>
                                         </div>
                                     </li>
                                     <li className="flex items-start">

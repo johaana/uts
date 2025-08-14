@@ -6,6 +6,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
+import { ProductCard } from "@/components/ProductCard";
+import { products } from "@/lib/product-data";
 
 const recipes = [
     { name: "Ladoo", link: "/recipes/ladoo" },
@@ -42,6 +44,9 @@ const relatedContent: RelatedItem[] = [
 
 
 export default function DiwaliPage() {
+    const rangoliMat = products.rangoliMat;
+    const marigoldGarland = products.marigoldGarland;
+    
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-primary/10">
@@ -93,6 +98,13 @@ export default function DiwaliPage() {
                                     <div>
                                         <h3 className="font-headline text-2xl text-primary">Day 3: Lakshmi Puja - The Worship of the Goddess</h3>
                                         <p>This is the most important day of the festival, the night of the new moon (Amavasya). After sunset, families gather to perform the Lakshmi Puja, an elaborate worship ceremony dedicated to Goddess Lakshmi, the bestower of wealth and prosperity. Homes are brightly illuminated with rows of diyas, candles, and electric lights. Beautiful 'rangoli' patterns adorn the entrance. Alongside Lakshmi, Lord Ganesha is also worshipped as the remover of obstacles. The puja involves chanting mantras, offering sweets, fruits, and flowers, and singing aartis. The evening is a magical one, filled with family bonding, feasting, and the joyous bursting of firecrackers.</p>
+                                         <div className="not-prose my-10">
+                                            <h3 className="font-headline text-2xl font-bold mb-4 text-center">Diwali Decorations</h3>
+                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-lg mx-auto">
+                                                <ProductCard product={rangoliMat} />
+                                                <ProductCard product={marigoldGarland} />
+                                            </div>
+                                        </div>
                                     </div>
                                     <div>
                                         <h3 className="font-headline text-2xl text-primary">Day 4: Govardhan Puja - Honouring Nature's Bounty</h3>
