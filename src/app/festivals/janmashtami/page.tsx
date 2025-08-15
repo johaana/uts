@@ -37,8 +37,6 @@ const relatedContent: RelatedItem[] = [
 ];
 
 export default function JanmashtamiPage() {
-    const marigoldGarland = products.marigoldGarland;
-
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-primary/10">
@@ -66,9 +64,10 @@ export default function JanmashtamiPage() {
                                 </div>
                                 <div className="not-prose my-10">
                                     <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Shopping Guide</h3>
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-lg mx-auto">
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                                        <ProductCard product={products.bengalenGopalThali} />
                                         <ProductCard product={products.marigoldGarland} />
-                                        <ProductCard product={products.rangoliMat} />
+                                        <ProductCard product={products.divyakoshLotusHanging} />
                                     </div>
                                 </div>
                             </TabsContent>

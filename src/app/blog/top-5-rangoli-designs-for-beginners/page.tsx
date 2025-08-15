@@ -35,9 +35,6 @@ export const metadata: Metadata = {
 };
 
 export default function SingleBlogPage() {
-    const rangoliMat = products.rangoliMat;
-    const rangoliPowder = products.rangoliPowder;
-
     return (
         <div className="container mx-auto px-4 py-12">
             <div className="relative h-64 md:h-96 w-full mb-8">
@@ -62,8 +59,8 @@ export default function SingleBlogPage() {
                         <div className="not-prose my-10">
                             <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Get Started with Rangoli</h3>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-md mx-auto">
-                                <ProductCard product={rangoliMat} />
-                                <ProductCard product={rangoliPowder} />
+                                <ProductCard product={products.rangoliMat} />
+                                <ProductCard product={products.rangoliPowder} />
                             </div>
                         </div>
 

@@ -63,10 +63,6 @@ const relatedContent: RelatedItem[] = [
 ];
 
 export default function SingleBlogPage() {
-    const ecoFriendlyGanesha = products.ecoFriendlyGanesha;
-    const tiedRibbonsGanesha = products.tiedRibbonsGanesha;
-    const terracottaClay = products.terracottaClay;
-
     return (
         <div className="container mx-auto px-4 py-12">
             <div className="relative h-64 md:h-96 w-full mb-8">
@@ -88,20 +84,25 @@ export default function SingleBlogPage() {
 
                         <p>Ganesh Chaturthi is a festival of immense joy and devotion. As we welcome the beloved Lord Ganesha into our homes, it's also a perfect opportunity to honor Mother Nature, who he represents. Traditionally, idols were made from river clay and returned to the earth, a beautiful symbol of life's cycle. Today, with the rise of Plaster of Paris (PoP) idols, our water bodies face pollution. But a wonderful movement is bringing us back to our roots. Let's explore how to celebrate a vibrant, joyous, and eco-friendly Ganesh Chaturthi.</p>
                         
-                        <div className="not-prose my-10">
-                            <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Eco-Friendly Shopping Guide</h3>
-                             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                                <ProductCard product={ecoFriendlyGanesha} />
-                                <ProductCard product={tiedRibbonsGanesha} />
-                                <ProductCard product={terracottaClay} />
-                            </div>
-                        </div>
-
                         <h3 id="idols">Choosing the Heart of the Festival: The Eco-Friendly Murti</h3>
                         <p>The single most impactful choice you can make is selecting a water-soluble idol. These idols are designed to dissolve gracefully, returning to the elements without harming aquatic life.</p>
                         
+                        <div className="not-prose my-10">
+                            <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Shopping for Eco-Friendly Idols & Kits</h3>
+                             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                                <ProductCard product={products.ecoFriendlyGanesha} />
+                                <ProductCard product={products.saudeepMittiGanesh} />
+                                <ProductCard product={products.tiedRibbonsGanesha} />
+                            </div>
+                        </div>
+
                         <h4>DIY Ganesha: The Ultimate Personal Touch</h4>
                         <p>For a truly personal and family-bonding experience, consider making your own Ganesha idol. It's a wonderful activity to do with children, teaching them the importance of the festival and sustainability from a young age.</p>
+
+                         <div className="not-prose my-10 max-w-xs mx-auto">
+                            <ProductCard product={products.terracottaClay} />
+                        </div>
+
 
                         <h3>Sustainable Decorations and Practices</h3>
                         <ul>

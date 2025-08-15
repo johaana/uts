@@ -44,9 +44,6 @@ const relatedContent: RelatedItem[] = [
 
 
 export default function DiwaliPage() {
-    const rangoliMat = products.rangoliMat;
-    const marigoldGarland = products.marigoldGarland;
-    
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-primary/10">
@@ -82,11 +79,12 @@ export default function DiwaliPage() {
                                         <Image src="https://i.postimg.cc/SjF8HhM1/Diwali2.jpg" alt="Woman lighting Diwali Diya" width={400} height={600} className="rounded-lg shadow-lg" data-ai-hint="diwali celebration"/>
                                     </div>
                                 </div>
-                                <div className="not-prose my-10">
+                                 <div className="not-prose my-10">
                                     <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Diwali Shopping Guide</h3>
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-lg mx-auto">
-                                        <ProductCard product={rangoliMat} />
-                                        <ProductCard product={marigoldGarland} />
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                                        <ProductCard product={products.rangoliMat} />
+                                        <ProductCard product={products.marigoldGarland} />
+                                        <ProductCard product={products.divyakoshLotusHanging} />
                                     </div>
                                 </div>
                             </TabsContent>

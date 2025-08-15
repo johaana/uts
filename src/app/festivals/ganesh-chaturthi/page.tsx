@@ -16,15 +16,6 @@ const recipes = [
 ]
 
 export default function GaneshChaturthiPage() {
-    const ganeshPujaKit = products.ganeshPujaKit;
-    const ecoFriendlyGanesha = products.ecoFriendlyGanesha;
-    const ganpatiDecor = products.ganpatiDecor;
-    const tiedRibbonsGanesha = products.tiedRibbonsGanesha;
-    const clayGowriIdol = products.clayGowriIdol;
-    const marigoldGarland = products.marigoldGarland;
-    const lotusHanging = products.lotusHanging;
-
-
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-primary/10">
@@ -57,9 +48,11 @@ export default function GaneshChaturthiPage() {
                                  <div className="not-prose my-10">
                                     <h3 className="font-headline text-2xl font-bold mb-6 text-center text-primary">Shopping Guide</h3>
                                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                                        <ProductCard product={ganeshPujaKit} />
-                                        <ProductCard product={ganpatiDecor} />
-                                        <ProductCard product={products.lotusHanging} />
+                                        <ProductCard product={products.ganeshPujaKit} />
+                                        <ProductCard product={products.ganpatiDecor} />
+                                        <ProductCard product={products.ganpatiDecorPvcStand} />
+                                        <ProductCard product={products.marigoldGarland} />
+                                        <ProductCard product={products.divyakoshLotusHanging} />
                                     </div>
                                 </div>
                             </TabsContent>
@@ -75,7 +68,7 @@ export default function GaneshChaturthiPage() {
                                         <h3 className="font-headline text-2xl text-primary">Days 2 to 9: Daily Worship and Gauri Avahan</h3>
                                         <p>For the duration of the festival, daily morning and evening pujas and aartis are performed. The atmosphere is filled with the sound of devotional songs and mantras. A significant event during this period is the worship of Goddess Gauri (an incarnation of Parvati, Ganesha's mother). Idols of Gauri are brought home, and a special puja is performed to celebrate the mother-son bond. This is particularly important in Maharashtra, where married women observe a fast and pray for a long and happy married life.</p>
                                          <div className="not-prose my-10 max-w-xs mx-auto">
-                                            <ProductCard product={clayGowriIdol} />
+                                            <ProductCard product={products.clayGowriIdol} />
                                         </div>
                                     </div>
                                     <div>
@@ -190,9 +183,10 @@ export default function GaneshChaturthiPage() {
                                 <div className="space-y-4 text-foreground/80 prose max-w-none">
                                     <p>Celebrate the festival of lights while being mindful of Mother Earth. A few small changes can make a big difference in reducing the environmental impact of the festivities.</p>
                                     
-                                    <div className="not-prose grid grid-cols-1 sm:grid-cols-2 gap-6 my-8">
-                                        <ProductCard product={ecoFriendlyGanesha} />
-                                        <ProductCard product={tiedRibbonsGanesha} />
+                                    <div className="not-prose my-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                                        <ProductCard product={products.ecoFriendlyGanesha} />
+                                        <ProductCard product={products.tiedRibbonsGanesha} />
+                                        <ProductCard product={products.saudeepMittiGanesh} />
                                     </div>
 
                                     <ul className="space-y-4 pl-4">

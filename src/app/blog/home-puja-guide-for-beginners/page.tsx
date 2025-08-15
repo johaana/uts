@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import { ShareButtons } from "@/components/ShareButtons";
 import type { Metadata } from 'next';
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
+import { ProductCard } from "@/components/ProductCard";
+import { products } from "@/lib/product-data";
 
 const post = { 
     title: "A Beginner's Guide to Setting Up a Home Puja (Altar)", 
@@ -97,6 +99,17 @@ export default function SingleBlogPage() {
                             <li><strong>Water:</strong> A small vessel (lota) of clean water is kept, symbolizing the life-giving essence of nature.</li>
                             <li><strong>Prasad (Offering):</strong> A small offering of food, such as a piece of fruit or a spoonful of sugar, can be placed before the deities. This is later consumed by the family as a blessed offering.</li>
                         </ul>
+                         <div className="not-prose my-10">
+                            <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Shopping for Puja Essentials</h3>
+                             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                                <ProductCard product={products.indianArtVillaThali} />
+                                <ProductCard product={products.bengalenThali8Inch} />
+                                <ProductCard product={products.spillboxThali} />
+                                <ProductCard product={products.solimoThali} />
+                                <ProductCard product={products.bengalenThali6Inch} />
+                            </div>
+                        </div>
+
                         
                         <h3>4. A Simple Puja Routine</h3>
                         <p>Your daily puja can be as short as five minutes. The goal is consistency and sincerity.</p>
