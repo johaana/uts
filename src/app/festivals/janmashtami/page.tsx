@@ -85,18 +85,22 @@ export default function JanmashtamiPage() {
                                     <li className="flex items-start">
                                         <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
                                         <div>
-                                            <h4 className="font-bold">Dahi Handi</h4>
-                                            <p className="text-foreground/80">In Maharashtra and other regions, the boisterous 'Dahi Handi' tradition reenacts Krishna's playful childhood love for butter and curd. Young men, or 'Govindas', form human pyramids to reach and break an earthen pot filled with curd that is hung high in the air.</p>
-                                        </div>
-                                    </li>
-                                    <li className="flex items-start">
-                                        <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
-                                        <div>
                                             <h4 className="font-bold">Ras Leela</h4>
                                             <p className="text-foreground/80">In places like Mathura and Vrindavan, 'Ras Leela' performances, which are dramatic enactments of Krishna's life, are organized. These dance-dramas beautifully depict his playful antics and his divine love story with Radha.</p>
                                         </div>
                                     </li>
                                 </ul>
+                                <Card className="my-8 overflow-hidden">
+                                     <div className="flex flex-col md:flex-row">
+                                        <div className="md:w-1/2 p-6 flex flex-col justify-center">
+                                            <h3 className="font-headline text-2xl font-bold mb-2">Dahi Handi</h3>
+                                            <p className="text-foreground/80">In Maharashtra and other regions, the boisterous 'Dahi Handi' tradition reenacts Krishna's playful childhood love for butter and curd. Young men, or 'Govindas', form human pyramids to reach and break an earthen pot filled with curd that is hung high in the air, celebrating teamwork and youthful energy.</p>
+                                        </div>
+                                        <div className="md:w-1/2 relative h-64 md:h-auto">
+                                             <Image src="https://i.postimg.cc/T3ccXCRv/dahi-handi.jpg" alt="Dahi Handi celebration" layout="fill" objectFit="cover" data-ai-hint="dahi handi" />
+                                        </div>
+                                    </div>
+                                </Card>
                             </TabsContent>
 
                              <TabsContent value="chants">
