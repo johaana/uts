@@ -63,7 +63,7 @@ export default function JanmashtamiPage() {
                                     <p>His birth story is a tale of hope in a time of darkness. He was born in a prison cell in Mathura to Devaki and Vasudeva. Devaki's tyrannical brother, King Kansa, had imprisoned them after a prophecy foretold that their eighth son would be his destroyer. On the stormy night of Krishna's birth, a series of miracles occurred. The prison guards fell into a deep slumber, the chains fell open, and the prison doors unlocked. To save him from Kansa's wrath, his father Vasudeva carried the divine infant across the raging Yamuna river to the safety of Nanda and Yashoda's home in Gokul. Janmashtami celebrates this divine birth, a symbol of the victory of good over evil and a promise of hope and liberation for all humanity.</p>
                                 </div>
                                 <div className="not-prose my-10">
-                                    <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Shopping Guide</h3>
+                                    <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Check these products on Amazon</h3>
                                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                                         <ProductCard product={products.bengalenGopalThali} />
                                         <ProductCard product={products.marigoldGarland} />

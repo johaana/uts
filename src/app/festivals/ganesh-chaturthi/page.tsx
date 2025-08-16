@@ -46,13 +46,11 @@ export default function GaneshChaturthiPage() {
                                     <p>The festival was transformed from a private, household celebration into a grand public event by the freedom fighter Lokmanya Tilak in the late 19th century as a way to unite the people of India against British rule. Today, the festival is celebrated with immense fervor, especially in Maharashtra. Devotees bring home beautifully crafted clay idols of Ganesha, worshipping him for ten days with prayers, songs, and his favorite sweet, 'modak'. The festival culminates in the 'visarjan' (immersion) ceremony on Anant Chaturdashi, symbolizing Ganesha's journey back to his celestial abode, taking with him the misfortunes of his devotees, and promising to return the following year.</p>
                                 </div>
                                  <div className="not-prose my-10">
-                                    <h3 className="font-headline text-2xl font-bold mb-6 text-center text-primary">Shopping Guide</h3>
+                                    <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Check these products on Amazon</h3>
                                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                                         <ProductCard product={products.ganeshPujaKit} />
                                         <ProductCard product={products.ganpatiDecor} />
                                         <ProductCard product={products.ganpatiDecorPvcStand} />
-                                        <ProductCard product={products.marigoldGarland} />
-                                        <ProductCard product={products.divyakoshLotusHanging} />
                                     </div>
                                 </div>
                             </TabsContent>

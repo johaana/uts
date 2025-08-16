@@ -80,7 +80,7 @@ export default function DiwaliPage() {
                                     </div>
                                 </div>
                                  <div className="not-prose my-10">
-                                    <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Diwali Shopping Guide</h3>
+                                    <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Check these products on Amazon</h3>
                                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                                         <ProductCard product={products.rangoliMat} />
                                         <ProductCard product={products.marigoldGarland} />

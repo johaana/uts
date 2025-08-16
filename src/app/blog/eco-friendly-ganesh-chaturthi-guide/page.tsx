@@ -88,7 +88,7 @@ export default function SingleBlogPage() {
                         <p>The single most impactful choice you can make is selecting a water-soluble idol. These idols are designed to dissolve gracefully, returning to the elements without harming aquatic life.</p>
                         
                         <div className="not-prose my-10">
-                            <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Shopping for Eco-Friendly Idols & Kits</h3>
+                            <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Check these products on Amazon</h3>
                              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                                 <ProductCard product={products.ecoFriendlyGanesha} />
                                 <ProductCard product={products.saudeepMittiGanesh} />
