@@ -47,15 +47,6 @@ export default function NavratriPage() {
                                     <p>Navratri, which translates to 'nine nights' in Sanskrit, is a magnificent Hindu festival dedicated to the worship of the divine feminine, or Shakti. This vibrant celebration, spanning nine nights and ten days, honors the nine distinct forms of Goddess Durga and culminates in the victory of good over evil. The festival is steeped in ancient legend, most prominently the story of Goddess Durga's epic battle with the formidable buffalo demon, Mahishasura. Through intense penance, Mahishasura had obtained a boon from Lord Brahma that made him nearly invincible—no man or god could kill him. Consumed by power, he unleashed a reign of terror across the heavens and the earth.</p>
                                     <p>In a desperate plea, the gods converged their divine energies, giving rise to the magnificent, ten-armed warrior goddess, Durga. Endowed with the weapons of all the gods, she rode a lion into battle. The fierce conflict raged for nine days and nights. On the tenth day, Vijayadashami, Goddess Durga finally triumphed, slaying Mahishasura and restoring peace and order to the universe. Each night of Navratri is thus a celebration of one of her powerful avatars, from the gentle Shailaputri to the fierce Kalaratri, representing the various facets of feminine power. The festival is a period of fasting, feasting, vibrant music, and electrifying dance, most famously the Garba and Dandiya Raas, which symbolize the cyclical nature of life and the joyous victory of dharma (righteousness).</p>
                                 </div>
-                                <div className="not-prose my-10">
-                                    <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Check these products on Amazon</h3>
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-                                        <ProductCard product={products.mpkStationerySet} />
-                                        <ProductCard product={products.baalWaterBottleSet} />
-                                        <ProductCard product={products.baalHairAccessories} />
-                                        <ProductCard product={products.arkMataChunri} />
-                                    </div>
-                                </div>
                             </TabsContent>
                             
                             <TabsContent value="nine-nights">
@@ -105,6 +96,16 @@ export default function NavratriPage() {
                                         <h3 className="font-headline text-2xl text-primary">Day 9: Siddhidatri - The Bestower of Powers</h3>
                                         <p><strong>Color:</strong> Peacock Green. Symbolizes wisdom, fulfillment, and compassion.</p>
                                         <p>The final night of Navratri is dedicated to Siddhidatri. 'Siddhi' means supernatural power or meditative ability, and 'datri' means giver. She is the bestower of all eight 'siddhis' (supernatural powers). It is believed that one side of Lord Shiva’s body is that of Goddess Siddhidatri, which is why he is also known as 'Ardhanarishvara'. By worshipping her, devotees are blessed with wisdom and spiritual enlightenment, attaining perfection and fulfillment in life.</p>
+                                    </div>
+                                </div>
+                                <div className="not-prose my-10 bg-secondary/30 p-6 rounded-lg">
+                                    <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Kanya Pujan Gifts on Amazon</h3>
+                                     <p className="text-center text-muted-foreground mb-6">Kanya Pujan (or Kanjak), where young girls are worshipped as manifestations of the Goddess, is a key Navratri ritual. Here are some thoughtful gift ideas for the occasion.</p>
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                                        <ProductCard product={products.mpkStationerySet} />
+                                        <ProductCard product={products.baalWaterBottleSet} />
+                                        <ProductCard product={products.baalHairAccessories} />
+                                        <ProductCard product={products.arkMataChunri} />
                                     </div>
                                 </div>
                             </TabsContent>
