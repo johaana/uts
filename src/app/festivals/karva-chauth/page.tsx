@@ -3,6 +3,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BookOpen, Sparkles, MessageSquareQuote, CheckCircle } from "lucide-react";
 import Image from "next/image";
+import { ProductCard } from "@/components/ProductCard";
+import { products } from "@/lib/product-data";
 
 export default function KarvaChauthPage() {
     return (
@@ -41,7 +43,7 @@ export default function KarvaChauthPage() {
                             
                             <TabsContent value="traditions">
                                 <h2 className="font-headline text-3xl font-bold mb-4">Rituals of the Day</h2>
-                                <ul className="space-y-4 pl-4">
+                                <ul className="space-y-4 pl-4 mb-8">
                                     <li className="flex items-start">
                                         <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
                                         <div>
@@ -64,6 +66,14 @@ export default function KarvaChauthPage() {
                                         </div>
                                     </li>
                                 </ul>
+                                <div className="not-prose my-10 p-6 bg-primary/5 rounded-lg">
+                                    <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Karva Chauth Shopping Guide</h3>
+                                    <p className="text-center text-muted-foreground mb-6">Get ready for the special day with these essential puja items.</p>
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                        <ProductCard product={products.craftsWorldKarwaThali} />
+                                        <ProductCard product={products.tiedRibbonsKarwaThali} />
+                                    </div>
+                                </div>
                             </TabsContent>
 
                              <TabsContent value="significance">
@@ -86,3 +96,5 @@ export default function KarvaChauthPage() {
         </div>
     );
 }
+
+    

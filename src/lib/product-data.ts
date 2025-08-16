@@ -24,7 +24,7 @@ export const allProducts: Product[] = [
         name: "Poojnam Ganesh Chaturthi Puja Samagri Kit",
         price: 1299,
         description: "A complete puja set with 35 sacred items for all Ganpati rituals and offerings at home.",
-        link: "https://www.amazon.in/Poojnam-Ganesh-Chaturthi-Premium-Samagri/dp/B0DCTGHLBX?crid=36O1VJPGIG1Q7&dib=eyJ2IjoiMSJ9.4A5oBxQ0-BqwH16Kao4RiyVvs9GjgAKhY4IHwgDrggSBE2dLVbc2xgTi_cYtt0yjxrO3mBefHiC3iKiJmRse4XfklHJlEQImpjh_9Nn_Kc4.h3Mh8Cvl_dLr5HJ5oAFyn2h1JvTvBR_mCYy8AGkq7M0&dib_tag=se&keywords=ganesh%20chaturthi&qid=1755159913&sprefix=ganesh%20chaturthi%2Caps%2C419&sr=8-58&xpid=d_iSDzNdnJcOI&linkCode=ll1&tag=utsavs-21&linkId=eab2e672b29bfe70c59404fe43763fef&language=en_IN&ref_=as_li_ss_tl",
+        link: "https://www.amazon.in/Poojnam-Ganesh-Chaturthi-Premium-Samagri/dp/B0DCTGHLBX?crid=36O1VJPGIG1Q7&dib=eyJ2IjoiMSJ9.4A5oBxQ0-BqwH16Kao4RiyVvs9GjgAKhY4IHwgDrggSBE2dLVbc2xgTi_cYtt0yjxrO3mBefHiC3iKiJmRse4XfklHJlEQImpjh_9Nn_Kc4.h3Mh8Cvl_dLr5HJ5oAFyn2h1JvTvBR_mCYy8AGkq7M0&dib_tag=se&keywords=ganesh%2Bchaturthi&qid=1755159913&sprefix=ganesh%2Bchaturthi%2Caps%2C419&sr=8-58&xpid=d_iSDzNdnJcOI&linkCode=ll1&tag=utsavs-21&linkId=eab2e672b29bfe70c59404fe43763fef&language=en_IN&ref_=as_li_ss_tl",
         image: "https://i.postimg.cc/mrmyjQb6/ganesh-pooja-set.jpg",
         hint: "ganesh puja kit"
     },
@@ -78,7 +78,7 @@ export const allProducts: Product[] = [
         name: "Eco-Friendly Terracotta Clay for Ganpati Idol Making",
         price: 199,
         description: "1kg of natural, water-soluble clay, perfect for sculpting your own Ganesha murti for an eco-friendly celebration.",
-        link: "https://www.amazon.in/Eco-Friendly-Terracotta-Water-Soluble-Plantable-Sculpting/dp/B0FK5PTBMF?crid=36O1VJPGIG1Q7&dib=eyJ2IjoiMSJ9.GUgUuICeFlJwMBAFlJlgM9uS6-YpHzERDYsXL0wLnrS6bQwpe1Gl2QPCBUU9dWv-0Z9Su7smg7xGIY1_TJ71OaMktjlRnKIUSiRzVB6jpZaz9JvavDCU9ue7s2K3hvgbZ8QBNvtBseDChL2DepQNj2tXeHDp1zqkfD1Q0UoNDgOMxsT_iAHIIiBYawVLqTgVt92gfs2sCcsvQV2ok9yhhIUd3Ivzs51IWaWa8188Ytvj1WQTNkghm_WCuvmQc0GSJ1CPJEfcHXtPPGMWfTZqF3sTxod6TRnx4SabHyCxrXg.yX2hUtrRkw7or5xopJ5IV6G3zeLCs6AjJzq0oazeCIY&dib_tag=se&keywords=ganesh%2Bchaturthi&qid=1755159752&sprefix=ganesh%2Bchaturthi%2Caps%2C419&sr=8-40&th=1&linkCode=ll1&tag=utsavs-21&linkId=9c098a9ba7418acc6766a1e1a436da24&language=en_IN&ref_=as_li_ss_tl",
+        link: "https://www.amazon.in/Eco-Friendly-Terracotta-Water-Soluble-Plantable-Sculpting/dp/B0FK5PTBMF?crid=36O1VJPGIG1Q7&dib=eyJ2IjoiMSJ9.GUgUuICeFlJwMBAFlJlgM9uS6-YpHzERDYsXL0wLnrS6bQwpe1Gl2QPCBUU9dWv-0Z9Su7smg7xGIY1_TJ71OaMktjlRnKIUSiRzVB6jpZaz9JvavDCU9ue7s2K3hvgbZ8QBNvtBseDChL2DepQNj2tXeHDp1zqkfD1Q0UoNDgOMxsT_iAHIIiBYawVLqTgVt92gfs2sCcsvQV2ok9yhhIUd3Ivzs51IWaWa8188Ytvj1WQTNkghm_WCuvmQc0GSJ1CPJEfcHXtPPGMWfTZqF3sTxod6TRnx4SabHyCxrXg.yX2hUTrRkw7or5xopJ5IV6G3zeLCs6AjJzq0oazeCIY&dib_tag=se&keywords=ganesh%2Bchaturthi&qid=1755159752&sprefix=ganesh%2Bchaturthi%2Caps%2C419&sr=8-40&th=1&linkCode=ll1&tag=utsavs-21&linkId=9c098a9ba7418acc6766a1e1a436da24&language=en_IN&ref_=as_li_ss_tl",
         image: "https://i.postimg.cc/m224P4P3/eco-ganesh-1.jpg",
         hint: "terracotta clay"
     },
@@ -225,6 +225,33 @@ export const allProducts: Product[] = [
         link: "https://www.amazon.in/DOUBLE-BAGS-Shopping-Vegetable-Reinforced/dp/B09MSDQ53X?content-id=amzn1.sym.24e1f0fb-6b39-49f5-b34a-4ebef8eaef82%3Aamzn1.sym.24e1f0fb-6b39-49f5-b34a-4ebef8eaef82&crid=1K9FI9N3EPXLP&cv_ct_cx=jute%2Bbags%2Bset%2Bof%2B12&keywords=jute%2Bbags%2Bset%2Bof%2B12&pd_rd_i=B09NM1HSF1&pd_rd_r=3346550d-915d-4605-8b3f-afb5e679a065&pd_rd_w=J1hwM&pd_rd_wg=BVlBz&pf_rd_p=24e1f0fb-6b39-49f5-b34a-4ebef8eaef82&pf_rd_r=RGGPJAPASX7FCK81676E&qid=1755301208&sbo=RZvfv%2F%2FHxDF%2BO5021pAnSA%3D%3D&sprefix=jute%2Bbags%2Bset%2Bof%2B1%2Caps%2C368&sr=1-53-2ec22325-1003-449d-8aaf-c0bcc24717ae-spons&xpid=vB2NrvOBWqaRd&sp_csd=d2lkZ2V0TmFtZT1zcF9zZWFyY2hfdGhlbWF0aWM&th=1&linkCode=ll1&tag=utsavs-21&linkId=e4ea7ad3f728da2fe4bc6ef1e4e29e49&language=en_IN&ref_=as_li_ss_tl",
         image: "https://i.postimg.cc/KzBM6nB0/eco-jute-2.jpg",
         hint: "canvas bag"
+    },
+    {
+        id: "arkMataChunri",
+        name: "ARK Navratri Kanya Pujan Return Gifts Mata Chunri Set",
+        price: 299,
+        description: "A set of 12 traditional Mata ki Chunris, perfect as a devotional return gift for Kanya Pujan during Navratri.",
+        link: "https://www.amazon.in/ARK-Navratri-Kanya-Return-Chunri/dp/B0CGJCSFN5?content-id=amzn1.sym.b5876297-ded6-4475-876b-d315610bb575%3Aamzn1.sym.b5876297-ded6-4475-876b-d315610bb575&dib=eyJ2IjoiMSJ9.kMBkDNLLHcFf7iwZOYgFyEU01VTO1dBZid97Tm8kB8qpBMdvEiRM23frTcOJ7Bz5pEvbdsptDoViqBLx-EJg13Dob3BiQpclPRY-X4_3JR-hlOOSZmQyuHVn4IYP3IKcElbtQTembG70L_km2KFeueHQHW4PrsRisaSWJgxeGMqe4Y2AkSs9k6N1zgqW_AA9BGNrV9nj7bqB4yjUYFG1qkZqTMD-JApDsJvvsg_eW3K-OaD1pfkW0zpBzGhWUpqahUJ19uemn2ANq3AVM8wr7ke5oKXKo-pB6Cf6tS9AuA8.qpYRSMOlx-pyL_dFIbCuFiAv0X13TKDTtKTl8mh3swo&dib_tag=se&keywords=navratri+gifts+for+kanya&pd_rd_r=5cae24ea-e200-4fb4-8590-4f1bb814bdfb&pd_rd_w=50JwN&pd_rd_wg=Umlcc&qid=1755297638&sr=8-8&linkCode=ll1&tag=utsavs-21&linkId=96e13b0a5be5d89b679aa38ac4c83f45&language=en_IN&ref_=as_li_ss_tl",
+        image: "https://i.postimg.cc/43C4rjPT/chunri.jpg",
+        hint: "chunri"
+    },
+    {
+        id: "craftsWorldKarwaThali",
+        name: "CRAFTS WORLD Karwa Chauth Special Puja Thali",
+        price: 799,
+        description: "A beautiful stainless steel puja thali with Meenakari work, including a chalni and lota, perfect for the Karva Chauth ritual.",
+        link: "https://www.amazon.in/CRAFTS-WORLD-Special-Stainless-Meenakari/dp/B0DGB8D9QT?crid=1IHQ0592P8I0W&dib=eyJ2IjoiMSJ9.H0_mmhYdo-41aQTfwTLWin0q3W_D6W4O1ecjasQbjawAYph7mLrwz3Oa9Xw_ArKdnAMHAgX7pv28k4MoSfimvrRsJBkCNOkqV5C0gLXxAgiVxGkiE7CBF_A0sXEu-cWmmmoImdLhmMlcJgKc_9DyZBSV4-f2lokUEKZmJyDst5EUFs9rOlZUOyI6ZK4dKiKwK1sEX3HNkN7z7vaWHWvmHdlVgZa0YfWtK0sgLiEqWs9l-AwLAqUgfjp5IAhsDAu4fP7zJtjNa7GO6j10ds3FmQKXwZmNYeIen7HexxtTm2M.TcgA-XYqhNJg532CTRlhuuutYcWRazMxnBy50uINzBY&dib_tag=se&keywords=karva%2Bchauth&qid=1755302623&sprefix=karva%2Bchauth%2Caps%2C460&sr=8-3-spons&sp_csd=d2lkZ2V0TmFtZT1zcF9hdGY&th=1&linkCode=ll1&tag=utsavs-21&linkId=6a8e30e80bb19198d03b9fed470355c4&language=en_IN&ref_=as_li_ss_tl",
+        image: "https://i.postimg.cc/CxTWY03J/karva-chauth-1.jpg",
+        hint: "karva chauth thali"
+    },
+    {
+        id: "tiedRibbonsKarwaThali",
+        name: "TIED RIBBONS Karwachauth Thali Set with Cover Combo",
+        price: 999,
+        description: "A complete Karva Chauth pooja samagri kit with a steel thali, lota, and channi, beautifully packaged in a gift box.",
+        link: "https://www.amazon.in/TIED-RIBBONS-Karwachauth-Thali-Cover/dp/B0DJ2PVR46?crid=1IHQ0592P8I0W&dib=eyJ2IjoiMSJ9.H0_mmhYdo-41aQTfwTLWin0q3W_D6W4O1ecjasQbjawAYph7mLrwz3Oa9Xw_ArKdnAMHAgX7pv28k4MoSfimvrRsJBkCNOkqV5C0gLXxAgiVxGkiE7CBF_A0sXEu-cWmmmoImdLhmMlcJgKc_9DyZBSV4-f2lokUEKZmJyDst5EUFs9rOlZUOyI6ZK4dKiKwK1sEX3HNkN7z7vaWHWvmHdlVgZa0YfWtK0sgLiEqWs9l-AwLAqUgfjp5IAhsDAu4fP7zJtjNa7GO6j10ds3FmQKXwZmNYeIen7HexxtTm2M.TcgA-XYqhNJg532CTRlhuuutYcWRazMxnBy50uINzBY&dib_tag=se&keywords=karva+chauth&qid=1755302623&sprefix=karva+chauth%2Caps%2C460&sr=8-29&linkCode=ll1&tag=utsavs-21&linkId=94612300880bff29031e24a457b1535e&language=en_IN&ref_=as_li_ss_tl",
+        image: "https://i.postimg.cc/W1Gx1KjV/karva-chauth-2.jpg",
+        hint: "karva chauth set"
     }
 ];
 
@@ -233,3 +260,5 @@ export const products = allProducts.reduce((acc, product) => {
     acc[product.id] = product;
     return acc;
 }, {} as Record<string, Product>);
+
+    
