@@ -1,6 +1,6 @@
 
 import { MetadataRoute } from 'next';
-import { allFestivals, internationalFestivals } from '@/lib/festival-data';
+import { allEvents, internationalEvents } from '@/lib/festival-data';
 import { metadata } from './layout';
 import { blogPosts } from '@/lib/blog-data';
 
@@ -54,13 +54,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
         return [];
     }
 
-    const festivalRoutes = allFestivals.map((festival) => ({
-        url: new URL(festival.link, siteUrl).toString(),
+    const festivalRoutes = allEvents.filter(f => f.link).map((festival) => ({
+        url: new URL(festival.link!, siteUrl).toString(),
         lastModified: new Date().toISOString(),
     }));
 
-    const internationalFestivalRoutes = internationalFestivals.map((festival) => ({
-        url: new URL(festival.link, siteUrl).toString(),
+    const internationalFestivalRoutes = internationalEvents.filter(f => f.link).map((festival) => ({
+        url: new URL(festival.link!, siteUrl).toString(),
         lastModified: new Date().toISOString(),
     }));
 
@@ -86,3 +86,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
     return [...staticRoutes, ...festivalRoutes, ...internationalFestivalRoutes, ...recipeRoutes, ...blogRoutes];
 }
+
+    

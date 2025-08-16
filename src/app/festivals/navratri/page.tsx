@@ -6,6 +6,18 @@ import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
 import { ProductCard } from "@/components/ProductCard";
 import { products } from "@/lib/product-data";
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: "Navratri Festival | The Nine Nights of Divine Feminine Power | Utsavs",
+  description: "Explore Navratri, the nine-night festival honoring Goddess Durga. Learn about the nine avatars, Garba and Dandiya dances, fasting, and eco-friendly celebrations.",
+  openGraph: {
+    title: "Navratri Festival | The Nine Nights of Divine Feminine Power | Utsavs",
+    description: "Explore Navratri, the nine-night festival honoring Goddess Durga. Learn about the nine avatars, Garba and Dandiya dances, fasting, and eco-friendly celebrations.",
+    images: [{ url: "https://i.postimg.cc/Zn3Rzsz8/navratri1.jpg", width: 1200, height: 630, alt: "Navratri Garba Dance" }],
+  },
+};
+
 
 export default function NavratriPage() {
     return (
@@ -103,7 +115,7 @@ export default function NavratriPage() {
                                    <div className="flex flex-col md:flex-row gap-6">
                                         <div className="md:w-1/2">
                                             <div className="relative w-full h-64 bg-muted rounded-lg shadow-md">
-                                                <Image src="https://i.postimg.cc/J4JFtVYT/navratri1.jpg" alt="Garba Dance" layout="fill" objectFit="cover" className="rounded-lg" data-ai-hint="garba dance"/>
+                                                <Image src="https://i.postimg.cc/Zn3Rzsz8/navratri1.jpg" alt="Garba Dance" layout="fill" objectFit="cover" className="rounded-lg" data-ai-hint="garba dance"/>
                                             </div>
                                         </div>
                                         <div className="md:w-1/2">
@@ -185,3 +197,5 @@ export default function NavratriPage() {
         </div>
     );
 }
+
+    

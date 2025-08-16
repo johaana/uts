@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import { useState, useMemo, Suspense } from 'react';
@@ -11,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { ArrowRight, Search, RotateCcw } from "lucide-react";
 import Link from "next/link";
 import Image from 'next/image';
-import { allFestivals } from '@/lib/festival-data';
+import { allEvents } from '@/lib/festival-data';
 
 const regions = ["Nationwide", "North", "South", "East", "West", "Central", "Northeast"];
 const sortOptions = ["Name (A-Z)", "Name (Z-A)"];
@@ -31,9 +30,9 @@ function FestivalsPageContent() {
     };
     
     const filteredAndSortedFestivals = useMemo(() => {
-        let festivals = allFestivals.filter(festival => {
+        let festivals = allEvents.filter(festival => {
             const nameMatch = festival.name.toLowerCase().includes(searchTerm.toLowerCase());
-            const regionMatch = selectedRegion === 'all' || festival.region.toLowerCase().includes(selectedRegion.toLowerCase()) || festival.region === 'Nationwide';
+            const regionMatch = selectedRegion === 'all' || (festival.region && festival.region.toLowerCase().includes(selectedRegion.toLowerCase())) || festival.region === 'Nationwide';
             return nameMatch && regionMatch;
         });
 
@@ -43,7 +42,11 @@ function FestivalsPageContent() {
             festivals.sort((a, b) => b.name.localeCompare(a.name));
         }
 
-        return festivals;
+        // De-duplicate festivals that might appear multiple times due to different dates
+        const uniqueFestivals = Array.from(new Map(festivals.map(item => [item.slug, item])).values());
+
+
+        return uniqueFestivals;
     }, [searchTerm, selectedRegion, sortOrder]);
 
 
@@ -99,20 +102,20 @@ function FestivalsPageContent() {
 
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8">
                 {filteredAndSortedFestivals.length > 0 ? filteredAndSortedFestivals.map((festival) => (
-                    <Card key={festival.name} className="overflow-hidden group flex flex-col transition-transform duration-300 ease-in-out hover:scale-105 hover:-translate-y-1 hover:shadow-xl">
-                         <Link href={festival.link} className="block">
+                    <Card key={festival.slug} className="overflow-hidden group flex flex-col transition-transform duration-300 ease-in-out hover:scale-105 hover:-translate-y-1 hover:shadow-xl">
+                         <Link href={festival.link!} className="block">
                             <div className="relative h-40 md:h-56 w-full bg-black/5">
-                            <Image src={festival.image} alt={festival.name} layout="fill" objectFit="cover" data-ai-hint={festival.hint}/>
+                            <Image src={festival.image!} alt={festival.name} layout="fill" objectFit="cover" data-ai-hint={festival.hint}/>
                             <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
                              <div className="absolute bottom-2 left-3 right-3 md:bottom-4 md:left-6 md:right-6">
                                 <p className="text-xs font-semibold text-white/80 mb-1">{festival.region}</p>
-                                <h2 className="font-headline text-lg md:text-2xl font-bold text-white drop-shadow-md leading-tight">{festival.name}</h2>
+                                <h2 className="font-headline text-lg md:text-2xl font-bold text-white drop-shadow-md leading-tight">{festival.name.split(' (')[0]}</h2>
                              </div>
                             </div>
                         </Link>
                         <CardContent className="p-3 md:p-6 flex flex-col flex-grow">
                             <p className="text-sm text-foreground/70 mb-3 flex-grow">{festival.description}</p>
-                            <Link href={festival.link}>
+                            <Link href={festival.link!}>
                                 <Button variant="link" className="p-0 text-accent hover:text-accent/90 font-bold text-sm">
                                     Explore <ArrowRight className="ml-1 h-3 w-3" />
                                 </Button>
@@ -135,3 +138,5 @@ export default function FestivalsPage() {
         </Suspense>
     );
 }
+
+    

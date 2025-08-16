@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/carousel"
 import { UpcomingFestivalCard } from "./UpcomingFestivalCard";
 import { parse, isFuture, isToday } from 'date-fns';
-import { allEvents, allFestivals } from '@/lib/festival-data';
+import { allEvents } from '@/lib/festival-data';
 
 interface Festival {
     name: string;
@@ -20,12 +20,6 @@ interface Festival {
     image: string;
     hint: string;
 }
-
-// Create a mapping from festival name to its image and hint for quick lookup
-const festivalImageMap = new Map(
-  allFestivals.map(f => [f.name.toLowerCase(), { image: f.image, hint: f.hint, link: f.link }])
-);
-
 
 const parseFestivalDate = (dateStr: string): Date | null => {
     // Handles "MMM dd, yyyy" and "MMM dd - MMM dd, yyyy"
@@ -40,45 +34,6 @@ const parseFestivalDate = (dateStr: string): Date | null => {
         return null;
     }
 };
-
-const findImageData = (eventName: string) => {
-    const eventNameLower = eventName.toLowerCase();
-    
-    // Try direct match first
-    if (festivalImageMap.has(eventNameLower)) {
-        return festivalImageMap.get(eventNameLower);
-    }
-
-    // Try matching the part before parenthesis, e.g., "Dhanteras (Diwali Day 1)" -> "Dhanteras"
-    const baseNameMatch = eventName.match(/^(.*?)\s*\(/);
-    if (baseNameMatch) {
-        const baseName = baseNameMatch[1].trim().toLowerCase();
-        if (festivalImageMap.has(baseName)) {
-            return festivalImageMap.get(baseName);
-        }
-    }
-    
-    // Try splitting by '/' and matching the first part, e.g., "Makar Sankranti / Pongal" -> "Makar Sankranti"
-    const slashParts = eventName.split('/');
-    if (slashParts.length > 1) {
-        const firstPart = slashParts[0].trim().toLowerCase();
-        if (festivalImageMap.has(firstPart)) {
-            return festivalImageMap.get(firstPart);
-        }
-    }
-
-    // Fallback for Diwali-related events
-    if (eventName.toLowerCase().includes('diwali')) {
-        return festivalImageMap.get('diwali');
-    }
-     // Fallback for Parsi New Year
-    if (eventName.toLowerCase().includes('parsi new year')) {
-        return festivalImageMap.get('parsi new year');
-    }
-
-    return null;
-};
-
 
 export function UpcomingFestivalsCarousel() {
     const [upcomingFestivals, setUpcomingFestivals] = useState<Festival[]>([]);
@@ -97,23 +52,15 @@ export function UpcomingFestivalsCarousel() {
                     const parsedDate = parseFestivalDate(event.date);
                     return { ...event, parsedDate };
                 })
-                .filter(event => event.parsedDate && (isFuture(event.parsedDate) || isToday(event.parsedDate)))
+                .filter(event => event.parsedDate && (isFuture(event.parsedDate) || isToday(event.parsedDate)) && event.image)
                 .sort((a, b) => a.parsedDate!.getTime() - b.parsedDate!.getTime())
-                .map(event => {
-                    let imageData = findImageData(event.name);
-                    
-                    if (!imageData) {
-                        imageData = { image: "https://placehold.co/600x400.png", hint: "festival celebration", link: event.link || '#' };
-                    }
-                    
-                    return {
-                        name: event.name,
-                        date: event.parsedDate!.toISOString(),
-                        link: imageData.link || event.link,
-                        image: imageData.image,
-                        hint: imageData.hint,
-                    };
-                });
+                .map(event => ({
+                    name: event.name,
+                    date: event.parsedDate!.toISOString(),
+                    link: event.link!,
+                    image: event.image!,
+                    hint: event.hint!,
+                }));
             setUpcomingFestivals(filtered);
         }
     }, [isClient]);
@@ -148,3 +95,5 @@ export function UpcomingFestivalsCarousel() {
         </Carousel>
     );
 }
+
+    

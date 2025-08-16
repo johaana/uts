@@ -4,20 +4,20 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Card, CardContent } from './ui/card';
-import { internationalFestivals } from '@/lib/festival-data';
+import { internationalEvents } from '@/lib/festival-data';
 import { ArrowRight } from 'lucide-react';
 import { Button } from './ui/button';
 
 export function InternationalFestivalsShowcase() {
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8">
-      {internationalFestivals.slice(0,6).map((festival) => (
-        <Link href={festival.link} key={festival.name} className="group">
+      {internationalEvents.slice(0,6).map((festival) => (
+        <Link href={festival.link!} key={festival.name} className="group">
           <Card className="h-full overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-2">
             <CardContent className="p-0">
               <div className="relative h-64 w-full bg-secondary/30">
                  <Image 
-                    src={festival.image} 
+                    src={festival.image!} 
                     alt={festival.name} 
                     layout="fill" 
                     objectFit="cover"
