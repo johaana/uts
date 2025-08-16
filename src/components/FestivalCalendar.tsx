@@ -9,7 +9,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { ArrowRight, Star, Calendar, MapPin, Tag, Loader2 } from "lucide-react";
-import { format, parse, getYear, isValid, isWithinInterval, startOfToday, endOfDay, addDays } from 'date-fns';
+import { format, parse, getYear, isValid, isWithinInterval, startOfToday, endOfDay, addDays, getMonth } from 'date-fns';
 import { allEvents } from '@/lib/festival-data';
 import { cn } from '@/lib/utils';
 import React from 'react';
@@ -60,13 +60,17 @@ export function FestivalCalendar({
     const getEventDateRange = (dateString: string): { start: Date, end: Date } | null => {
         try {
             const parts = dateString.split(' - ');
-            const startDate = parse(parts[0], 'MMM dd, yyyy', new Date());
+            const startDateStr = parts[0];
+            const startDate = parse(startDateStr, 'MMM dd, yyyy', new Date());
+
             if (!isValid(startDate)) return null;
 
             let endDate = startDate;
             if (parts.length > 1) {
                 const endDateStr = parts[1];
                 let parsedEndDate;
+
+                // Handles cases like "MMM dd" (missing year) by taking year from start date
                 if (endDateStr.split(',').length < 2) { 
                     parsedEndDate = parse(`${endDateStr}, ${getYear(startDate)}`, 'MMM dd, yyyy', new Date());
                 } else {
@@ -78,6 +82,7 @@ export function FestivalCalendar({
             }
             return { start: startDate, end: endOfDay(endDate) };
         } catch (e) {
+            console.error("Error parsing date string:", dateString, e);
             return null;
         }
     };
@@ -86,31 +91,29 @@ export function FestivalCalendar({
         if (!isClient) return [];
 
         const today = startOfToday();
+        const selectedMonthIndex = selectedMonth === 'all' ? -1 : defaultMonths.indexOf(selectedMonth);
 
-        let dateFilteredEvents = events.filter(event => {
+        return events.filter(event => {
             const range = getEventDateRange(event.date);
             if (!range) return false;
 
+            // Year Filtering
             if (selectedYear === 'Upcoming') {
                 const oneYearFromNow = endOfDay(addDays(today, 365));
-                return range.end >= today && isWithinInterval(range.start, { start: today, end: oneYearFromNow });
+                if (range.end < today || range.start > oneYearFromNow) return false;
+            } else if (selectedYear !== 'all') {
+                const yearNum = parseInt(selectedYear, 10);
+                if (getYear(range.start) > yearNum || getYear(range.end) < yearNum) return false;
             }
 
-            if (selectedYear === 'all') {
-                return true;
-            }
+            // Month Filtering
+            const monthMatch = selectedMonth === 'all' || 
+                (range.start.getMonth() <= selectedMonthIndex && range.end.getMonth() >= selectedMonthIndex);
 
-            const yearNum = parseInt(selectedYear, 10);
-            return getYear(range.start) === yearNum || getYear(range.end) === yearNum;
-        });
-
-        return dateFilteredEvents.filter(event => {
-            const range = getEventDateRange(event.date);
-            if (!range) return false;
-
-            const monthMatch = selectedMonth === 'all' || format(range.start, 'MMMM') === selectedMonth;
+            // Region Filtering
             const regionMatch = selectedRegion === 'all' || event.region === selectedRegion || event.region.includes(selectedRegion);
             
+            // Event Type Filtering
             let eventTypeMatch = true;
             if (selectedEventType !== 'all') {
                  if (selectedEventType === 'Festivals') {
@@ -336,3 +339,5 @@ export function FestivalCalendar({
         </div>
     );
 }
+
+    
