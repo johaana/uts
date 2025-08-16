@@ -6,6 +6,8 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ShareButtons } from "@/components/ShareButtons";
 import type { Metadata } from 'next';
+import { ProductCard } from "@/components/ProductCard";
+import { products } from "@/lib/product-data";
 
 const post = { 
     title: "Celebrate with Conscience: Your Guide to Vibrant and Eco-Friendly Indian Festivals", 
@@ -78,6 +80,15 @@ export default function SingleBlogPage() {
                         <h4>5. Feasting with a Conscience</h4>
                         <p>Community feasts are the heart of many festivals. You can make them greener by avoiding single-use plastics. Serve 'prasad' and food on traditional leaf plates ('pattals') or reusable steel utensils. This simple switch drastically reduces the mountain of plastic waste our celebrations generate.</p>
                         
+                        <div className="not-prose my-10 p-6 bg-primary/5 rounded-lg">
+                            <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Eco-Friendly Gifting Ideas</h3>
+                            <p className="text-center text-muted-foreground mb-6">Choose return gifts that are thoughtful and sustainable. Here are some beautiful options.</p>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                <ProductCard product={products.anumalaJuteBag} />
+                                <ProductCard product={products.doubleRCanvasBag} />
+                            </div>
+                        </div>
+
                         <blockquote>
                             <p>An eco-friendly choice is not a sacrifice; it is a deeper form of celebration, one that honors our traditions, our planet, and our future.</p>
                         </blockquote>

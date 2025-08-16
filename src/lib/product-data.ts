@@ -87,7 +87,7 @@ export const allProducts: Product[] = [
         name: "Divyakosh Velvet Handmade Wall Decor Lotus",
         price: 349,
         description: "A set of 7 beautiful pink lotus hangings for Ganpati mandap decoration, wall decor, and other festive occasions.",
-        link: "https://www.amazon.in/Divyakosh-Handmade-Lotus-Hanging-Festival/dp/B0B7BZGHD7?crid=36O1VJPGIG1Q7&dib=eyJ2IjoiMSJ9.GUgUuICeFlJwMBAFlJlgM9uS6-YpHzERDYsXL0wLnrS6bQwpe1Gl2QPCBUU9dWv-0Z9Su7smg7xGIY1_TJ71OaMktjlRnKIUSiRzVB6jpZaz9JvavDCU9ue7s2K3hvgbZ8QBNvtBseDChL2DepQNj2tXeHDp1zqkfD1Q0UoNDgOMxsT_iAHIIiBYawVLqTgVt92gfs2sCcsvQV2ok9yhhIUd3Ivzs51IWaWa8188Ytvj1WQTNkghm_WCuvmQc0GSJ1CPJEfcHXtPPGMWfTZqF3sTxod6TRnx4SabHyCxrXg.yX2hUtrRkw7or5xopJ5IV6G3zeLCs6AjJzq0oazeCIY&dib_tag=se&keywords=ganesh%2Bchaturthi&qid=1755159752&sprefix=ganesh%2Bchaturthi%2Caps%2C419&sr=8-8&th=1&linkCode=ll1&tag=utsavs-21&linkId=8bfd2c1dbdd7f9367f24ba75f157eb90&language=en_IN&ref_=as_li_ss_tl",
+        link: "https://www.amazon.in/Divyakosh-Handmade-Lotus-Hanging-Festival/dp/B0B7BZGHD7?crid=36O1VJPGIG1Q7&dib=eyJ2IjoiMSJ9.GUgUuICeFlJwMBAFlJlgM9uS6-YpHzERDYsXL0wLnrS6bQwpe1Gl2QPCBUU9dWv-0Z9Su7smg7xGIY1_TJ71OaMktjlRnKIUSiRzVB6jpZaz9JvavDCU9ue7s2K3hvgbZ8QBNvtBseDChL2DepQNj2tXeHDp1zqkfD1Q0UoNDgOMxsT_iAHIIiBYawVLqTgVt92gfs2sCcsvQV2ok9yhhIUd3Ivzs51IWaWa8188Ytvj1WQTNkghm_WCuvmQc0GSJ1CPJEfcHXtPPGMWfTZqF3sTxod6TRnx4SabHyCxrXg.yX2hUTrRkw7or5xopJ5IV6G3zeLCs6AjJzq0oazeCIY&dib_tag=se&keywords=ganesh%2Bchaturthi&qid=1755159752&sprefix=ganesh%2Bchaturthi%2Caps%2C419&sr=8-8&th=1&linkCode=ll1&tag=utsavs-21&linkId=8bfd2c1dbdd7f9367f24ba75f157eb90&language=en_IN&ref_=as_li_ss_tl",
         image: "https://i.postimg.cc/nzYyWVXk/lotus-decor.jpg",
         hint: "lotus decor"
     },
@@ -96,7 +96,7 @@ export const allProducts: Product[] = [
         name: "Abhaas Artificial Marigold Flower Garland (5 Strings)",
         price: 417,
         description: "A set of 5 beautiful, 5ft long artificial marigold flower garlands, perfect for door torans and festive decorations.",
-        link: "https://www.amazon.in/Artificial-Decoration-Chaturthi-Festivals-Rajnignadha/dp/B0CQDBRHRB?crid=36O1VJPGIG1Q7&dib=eyJ2IjoiMSJ9.GUgUuICeFlJwMBAFlJlgM9uS6-YpHzERDYsXL0wLnrS6bQwpe1Gl2QPCBUU9dWv-0Z9Su7smg7xGIY1_TJ71OaMktjlRnKIUSiRzVB6jpZaz9JvavDCU9ue7s2K3hvgbZ8QBNvtBseDChL2DepQNj2tXeHDp1zqkfD1Q0UoNDgOMxsT_iAHIIiBYawVLqTgVt92gfs2sCcsvQV2ok9yhhIUd3Ivzs51IWaWa8188Ytvj1WQTNkghm_WCuvmQc0GSJ1CPJEfcHXtPPGMWfTZqF3sTxod6TRnx4SabHyCxrXg.yX2hUtrRkw7or5xopJ5IV6G3zeLCs6AjJzq0oazeCIY&dib_tag=se&keywords=ganesh%2Bchaturthi&qid=1755159752&sprefix=ganesh%2Bchaturthi%2Caps%2C419&sr=8-27&th=1&linkCode=ll1&tag=utsavs-21&linkId=8461cece6ef565d706425159aa00bb7b&language=en_IN&ref_=as_li_ss_tl",
+        link: "https://www.amazon.in/Artificial-Decoration-Chaturthi-Festivals-Rajnignadha/dp/B0CQDBRHRB?crid=36O1VJPGIG1Q7&dib=eyJ2IjoiMSJ9.GUgUuICeFlJwMBAFlJlgM9uS6-YpHzERDYsXL0wLnrS6bQwpe1Gl2QPCBUU9dWv-0Z9Su7smg7xGIY1_TJ71OaMktjlRnKIUSiRzVB6jpZaz9JvavDCU9ue7s2K3hvgbZ8QBNvtBseDChL2DepQNj2tXeHDp1zqkfD1Q0UoNDgOMxsT_iAHIIiBYawVLqTgVt92gfs2sCcsvQV2ok9yhhIUd3Ivzs51IWaWa8188Ytvj1WQTNkghm_WCuvmQc0GSJ1CPJEfcHXtPPGMWfTZqF3sTxod6TRnx4SabHyCxrXg.yX2hUTrRkw7or5xopJ5IV6G3zeLCs6AjJzq0oazeCIY&dib_tag=se&keywords=ganesh%2Bchaturthi&qid=1755159752&sprefix=ganesh%2Bchaturthi%2Caps%2C419&sr=8-27&th=1&linkCode=ll1&tag=utsavs-21&linkId=8461cece6ef565d706425159aa00bb7b&language=en_IN&ref_=as_li_ss_tl",
         image: "https://i.postimg.cc/VkvbB2Vn/marigold-1.jpg",
         hint: "marigold garland"
     },
@@ -141,7 +141,7 @@ export const allProducts: Product[] = [
         name: "BENGALEN Pooja Thali Set Brass 8 Inch",
         price: 1199,
         description: "An 8-inch brass puja thali set complete with accessories like a diya, ghanti, kalash, spoon, and agarbatti stand.",
-        link: "https://www.amazon.in/BENGALEN-Silver-Plated-Pooja-Thali/dp/B089QT2XKN?crid=2X07QB4GNXO95&dib=eyJ2IjoiMSJ9.q1InaOXNtmW86QjqFt-ZHzHW25RyyVo6nFW39sweTF_I8ON0iNh_8rvXIU0fljKmjLxzoojk4Y0k6JLCD5QTMdPnWlytE6gLPQYNfbGSUhcQWQ-a3NwV92xvv6igRrLxIScLXloIN0WtKs-Eyb365RF2vlNWqF-xQMXhbDau0d_raxaDSxsXz7duEKZXMJQ4yUl_klj1IcGMiN3iCPJ4rem9OTl0e_KEQqK1RKs_Der988xe2kbb1nbd4YePSW8w7-YYeALlR-gMdZ-FmSCYggsT4Ry8h8G3ZFgfs6G9rwM.jOgBmpI1HwkYLymFIiVFZtRBsmpxrIZXVOewFRPSWks&dib_tag=se&keywords=pooja%2Bthali%2Bbrass&qid=1755163260&sprefix=pooja%2Bthali%2Caps%2C365&sr=8-9&linkCode=ll1&tag=utsavs-21&linkId=4544394948780cd384b657ba12a40c20&language=en_IN&ref_=as_li_ss_tl",
+        link: "https://www.amazon.in/BENGALEN-Silver-Plated-Pooja-Thali/dp/B089QT2XKN?crid=2X07QB4GNXO95&dib=eyJ2IjoiMSJ9.q1InaOXNtmW86QjqFt-ZHzHW25RyyVo6nFW39sweTF_I8ON0iNh_8rvXIU0fljKmjLxzoojk4Y0k6JLCD5QTMdPnWlytE6gLPQYNfbGSUhcQWQ-a3NwV92xvv6igRrLxIScLXloIN0WtKs-Eyb365RF2vlNWqF-xQMXhbDau0d_raxaDSxsXz7duEKZXMJQ4yUl_klj1IcGMiN3iCPJ4rem9OTl0e_KEQqK1RKs_Der988xe2kbb1nbd4YePSW8w7-YYeALlR-gMdZ-FmSCYggsT4Ry8h8G3ZFgfs6G9rwM.jOgBmpI1HwkYLymFIiVFZtRBsmpxrIZXVOewFRPSWks&dib_tag=se&keywords=pooja+thali+brass&qid=1755163260&sprefix=pooja+thali%2Caps%2C365&sr=8-9&linkCode=ll1&tag=utsavs-21&linkId=4544394948780cd384b657ba12a40c20&language=en_IN&ref_=as_li_ss_tl",
         image: "https://i.postimg.cc/9Mpkpxkg/pooja-thali.jpg",
         hint: "pooja thali"
     },
@@ -180,6 +180,51 @@ export const allProducts: Product[] = [
         link: "https://www.amazon.in/BENGALEN-Janmashtami-Decoration-Festival-Standard/dp/B0B37XN9JF?crid=2X07QB4GNXO95&dib=eyJ2IjoiMSJ9.q1InaOXNtmW86QjqFt-ZHzHW25RyyVo6nFW39sweTF_I8ON0iNh_8rvXIU0fljKmjLxzoojk4Y0k6JLCD5QTMdPnWlytE6gLPQYNfbGSUhcQWQ-a3NwV92xvv6igRrLxIScLXloIN0WtKs-Eyb365RF2vlNWqF-xQMXhbDau0d_raxaDSxsXz7duEKZXMJQ4yUl_klj1IcGMiN3iCPJ4rem9OTl0e_KEQqK1RKs_Der988xe2kbb1nbd4YePSW8w7-YYeALlR-gMdZ-FmSCYggsT4Ry8h8G3ZFgfs6G9rwM.jOgBmpI1HwkYLymFIiVFZtRBsmpxrIZXVOewFRPSWks&dib_tag=se&keywords=pooja%2Bthali%2Bbrass&qid=1755163260&sprefix=pooja%2Bthali%2Caps%2C365&sr=8-32&th=1&linkCode=ll1&tag=utsavs-21&linkId=10a4e0f71525510031c66e6ad2be3ee7&language=en_IN&ref_=as_li_ss_tl",
         image: "https://i.postimg.cc/s2C0Rdd0/janmashtami-set.jpg",
         hint: "janmashtami set"
+    },
+    {
+        id: "mpkStationerySet",
+        name: "MPK Perfect Stationery Gift Set with Unicorn Pouch",
+        price: 299,
+        description: "A complete stationery set with a unicorn pouch, perfect as a Kanya Pujan gift or a birthday return gift for kids.",
+        link: "https://www.amazon.in/MPK-Perfect-Stationery-Sharpner-Birthday/dp/B0DHVVGCGZ?content-id=amzn1.sym.b5876297-ded6-4475-876b-d315610bb575%3Aamzn1.sym.b5876297-ded6-4475-876b-d315610bb575&dib=eyJ2IjoiMSJ9.rAT7bvpxqOa-bkXiV9jBbSQJxJdED3r_igJpt3r5A6Rcl6ZWNqq7sysAQocEI2h-HhkoSMw0B7JTDl50yA-_lswHO5HRY0CN5l714ICUi1ReHEiQaszJMt80tUWkyd6sQyK7pOf4-fxLwLOz7moPPH471Csn2nhUIOAqqITao8Sb9Zy4NQ0ge9GLePepb9pFw10xDBWtMN-JS871_2fXhYdsApt8kCN0ZVygWvQU2QGYLliEc-UkKUaBls1DhpcdNpyOaSag7qNcij3nQXcTJQ6Oh6VKNb98EjXDK2psoVA.qitDJJKHx-7SJR5hJYin8JeHSElInPXPnJYXS4sGrX4&dib_tag=se&keywords=kanya+pujan+gifts+set+of+12&pd_rd_r=b6de6a25-c44d-483b-a2e3-f0aa79c5db06&pd_rd_w=EcAcC&pd_rd_wg=zcwUv&qid=1755298518&sr=8-6&linkCode=ll1&tag=utsavs-21&linkId=ff2077ce1043ec38e47b3d9f942c91df&language=en_IN&ref_=as_li_ss_tl",
+        image: "https://i.postimg.cc/43z9fdTn/kanya-pujan-navratri-1.jpg",
+        hint: "kanya pujan gifts"
+    },
+    {
+        id: "baalWaterBottleSet",
+        name: "BAAL Navratri Kanjak Gifts (Set of 12 Water Bottles)",
+        price: 799,
+        description: "A set of 12 attractive water bottles, ideal as Kanjak return gifts for kids during Navratri celebrations.",
+        link: "https://www.amazon.in/BAAL-Navratri-Kanjak-Kanajk-Bottle/dp/B0DYF35GL3?content-id=amzn1.sym.b5876297-ded6-4475-876b-d315610bb575%3Aamzn1.sym.b5876297-ded6-4475-876b-d315610bb575&dib=eyJ2IjoiMSJ9.PbOZccxudy5rXfC0Z-G6TOlGRDMU5wCONpDgy31vcD-Azb5p4AwZ72lM-KLPSvBhXLiJHQ9SHPvZ2pih7R4OtePPfBlYfCecMx50DzTZ0VW28M3iZ58DQbYWMMu70HKCEIPWo_u8WVGx7nHvnUKpf1xKd4n960gJIQKLkN9xt-TCh3b3ncXC-gcukRqKGJCZuLgb8G2paE6sA-ctdT2ugGM16M1YXXUq308iKurZnHzw3N0D82CTc3Fsg7_U88ehoDIUe6pc8B9n26KYzKMChIhR-pAUS-raGffpoJA8PYo.KQQbBh5EnE7rvj1u34g9YSsqGApY3AkQeyRYQZLcVTQ&dib_tag=se&keywords=kanya%2Bpooja%2Bgifts%2Bfor%2Bgirls&pd_rd_r=433f45f7-e10f-41ae-867d-fee125a5a544&pd_rd_w=vQ54y&pd_rd_wg=EXTXm&qid=1755298059&sr=8-165&xpid=bHMkCo4yOyT8J&th=1&linkCode=ll1&tag=utsavs-21&linkId=12c6d55b24dc01b8a1101a400bf1e6ac&language=en_IN&ref_=as_li_ss_tl",
+        image: "https://i.postimg.cc/xCntYhBD/kanya-pujan-navratri-2.jpg",
+        hint: "kanjak gifts"
+    },
+    {
+        id: "baalHairAccessories",
+        name: "Baal Navratri Kanjak Pujan Return Gift Hair Accessories (Set of 12)",
+        price: 449,
+        description: "A beautiful set of 12 hair accessories including hairbands and clips, making for a perfect Kanjak return gift for girls.",
+        link: "https://www.amazon.in/Navratri-Kanjak-Return-Accessories-Hairband/dp/B0CKLQBCM1?content-id=amzn1.sym.b5876297-ded6-4475-876b-d315610bb575%3Aamzn1.sym.b5876297-ded6-4475-876b-d315610bb575&dib=eyJ2IjoiMSJ9.7FDiHHAG7El6xX4YnJ8nd0XQR48RtuTwnpt_v6mhNWlcl6ZWNqq7sysAQocEI2h-HhkoSMw0B7JTDl50yA-_lnX_uotazU_GDNnN4gM4UBzyzouLYbfYG8nM6-J_0gMIlzpFwGhM-P4g80lqzZwr4PoEIHkGvj9dM8PH4BFZoP1pYHdzXeaJv_OPyYDuu08i_RKg32JiLi7acky5Cba1bzIeXZDAzG0q5o-V-bbnF0ocZIpWxz2RjSvVGMnEaFVH-jpUw9Kt2EMqY63Ic6ho7jmrtuQM34vxJojya0XqKp4.N_bzMHPzHkbjLKA8Xd7tHsvjuGEopazUtw09p1IRVyE&dib_tag=se&keywords=kanya%2Bpooja%2Bgifts%2Bfor%2Bgirls&pd_rd_r=433f45f7-e10f-41ae-867d-fee125a5a544&pd_rd_w=vQ54y&pd_rd_wg=EXTXm&qid=1755297769&sr=8-25&th=1&linkCode=ll1&tag=utsavs-21&linkId=29450f0f963e27ee86cf13a877d132ab&language=en_IN&ref_=as_li_ss_tl",
+        image: "https://i.postimg.cc/qq2zF4fS/kanya-pujan-3.jpg",
+        hint: "hair accessories"
+    },
+    {
+        id: "anumalaJuteBag",
+        name: "Anumala Jute World® Handmade Kalamkari Jute Bag",
+        price: 1499,
+        description: "A stylish and eco-friendly jute tote bag featuring traditional Kalamkari art, perfect as a thoughtful and sustainable return gift.",
+        link: "https://www.amazon.in/Anumala-Jute-Eco-Friendly-Multipurpose-Craftsmanship/dp/B0F6SZGP8T?crid=1K9FI9N3EPXLP&dib=eyJ2IjoiMSJ9.-ifLusZc8GLQIcAgM8LAyw5dOnUqLx4UobKwbyztmWOBy5yZuxZw6gJzP2NES-HpLC79ZKvHLrTKsmeIin3mOL7pBm-Ek0idYs1YsAlKCfo.OhzE-39SRT1Izc2qewEHaZ3R5Vb0GxHLRGJsR4f1ayQ&dib_tag=se&keywords=jute%2Bbags%2Bset%2Bof%2B12&qid=1755301208&sprefix=jute%2Bbags%2Bset%2Bof%2B1%2Caps%2C368&sr=8-57&xpid=vB2NrvOBWqaRd&th=1&linkCode=ll1&tag=utsavs-21&linkId=971026d9933660e0da84edc3c2c96c52&language=en_IN&ref_=as_li_ss_tl",
+        image: "https://i.postimg.cc/Dwxd6dPs/eco-jute-1.jpg",
+        hint: "jute bag"
+    },
+    {
+        id: "doubleRCanvasBag",
+        name: "DOUBLE R BAGS Eco-Friendly Cotton Canvas Bag",
+        price: 469,
+        description: "A reusable and multi-purpose cotton canvas bag with reinforced handles, ideal for groceries and daily use. A practical eco-friendly gift.",
+        link: "https://www.amazon.in/DOUBLE-BAGS-Shopping-Vegetable-Reinforced/dp/B09MSDQ53X?content-id=amzn1.sym.24e1f0fb-6b39-49f5-b34a-4ebef8eaef82%3Aamzn1.sym.24e1f0fb-6b39-49f5-b34a-4ebef8eaef82&crid=1K9FI9N3EPXLP&cv_ct_cx=jute%2Bbags%2Bset%2Bof%2B12&keywords=jute%2Bbags%2Bset%2Bof%2B12&pd_rd_i=B09NM1HSF1&pd_rd_r=3346550d-915d-4605-8b3f-afb5e679a065&pd_rd_w=J1hwM&pd_rd_wg=BVlBz&pf_rd_p=24e1f0fb-6b39-49f5-b34a-4ebef8eaef82&pf_rd_r=RGGPJAPASX7FCK81676E&qid=1755301208&sbo=RZvfv%2F%2FHxDF%2BO5021pAnSA%3D%3D&sprefix=jute%2Bbags%2Bset%2Bof%2B1%2Caps%2C368&sr=1-53-2ec22325-1003-449d-8aaf-c0bcc24717ae-spons&xpid=vB2NrvOBWqaRd&sp_csd=d2lkZ2V0TmFtZT1zcF9zZWFyY2hfdGhlbWF0aWM&th=1&linkCode=ll1&tag=utsavs-21&linkId=e4ea7ad3f728da2fe4bc6ef1e4e29e49&language=en_IN&ref_=as_li_ss_tl",
+        image: "https://i.postimg.cc/KzBM6nB0/eco-jute-2.jpg",
+        hint: "canvas bag"
     }
 ];
 

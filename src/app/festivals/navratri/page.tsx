@@ -36,7 +36,7 @@ export default function NavratriPage() {
                                     <p>In a desperate plea, the gods converged their divine energies, giving rise to the magnificent, ten-armed warrior goddess, Durga. Endowed with the weapons of all the gods, she rode a lion into battle. The fierce conflict raged for nine days and nights. On the tenth day, Vijayadashami, Goddess Durga finally triumphed, slaying Mahishasura and restoring peace and order to the universe. Each night of Navratri is thus a celebration of one of her powerful avatars, from the gentle Shailaputri to the fierce Kalaratri, representing the various facets of feminine power. The festival is a period of fasting, feasting, vibrant music, and electrifying dance, most famously the Garba and Dandiya Raas, which symbolize the cyclical nature of life and the joyous victory of dharma (righteousness).</p>
                                 </div>
                                 <div className="not-prose my-10">
-                                    <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Navratri Shopping Guide</h3>
+                                    <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Shopping Guide</h3>
                                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                                         <ProductCard product={products.rangoliMat} />
                                         <ProductCard product={products.marigoldGarland} />
@@ -86,12 +86,21 @@ export default function NavratriPage() {
                                      <div>
                                         <h3 className="font-headline text-2xl text-primary">Day 8: Mahagauri - The Great White Goddess</h3>
                                         <p><strong>Color:</strong> Purple. Represents intellect, peace, and ambition.</p>
-                                        <p>Ashtami, the eighth day, honors Mahagauri. After her intense penance as Brahmacharini, Parvati's body had turned black. Lord Shiva cleansed her with the holy water of the Ganga, and she regained her radiant white complexion. 'Maha' means great, and 'Gauri' means white. She represents purity, serenity, and the absolution of all sins. Her worship is believed to cleanse the soul and fulfill all desires.</p>
+                                        <p>Ashtami, the eighth day, honors Mahagauri. After her intense penance as Brahmacharini, Parvati's body had turned black. Lord Shiva cleansed her with the holy water of the Ganga, and she regained her radiant white complexion. 'Maha' means great, and 'Gauri' means white. She represents purity, serenity, and the absolution of all sins. Her worship is believed to cleanse the soul and fulfill all desires. This day is also when the Kanya Pujan ceremony is often performed.</p>
                                     </div>
                                      <div>
                                         <h3 className="font-headline text-2xl text-primary">Day 9: Siddhidatri - The Bestower of Powers</h3>
                                         <p><strong>Color:</strong> Peacock Green. Symbolizes wisdom, fulfillment, and compassion.</p>
                                         <p>The final night of Navratri is dedicated to Siddhidatri. 'Siddhi' means supernatural power or meditative ability, and 'datri' means giver. She is the bestower of all eight 'siddhis' (supernatural powers). It is believed that one side of Lord Shiva’s body is that of Goddess Siddhidatri, which is why he is also known as 'Ardhanarishvara'. By worshipping her, devotees are blessed with wisdom and spiritual enlightenment, attaining perfection and fulfillment in life.</p>
+                                    </div>
+                                    <div className="not-prose my-10 p-6 bg-primary/5 rounded-lg">
+                                        <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Kanya Pujan Gift Ideas</h3>
+                                        <p className="text-center text-muted-foreground mb-6">Kanya Pujan (or Kanjak) is a beautiful ritual where young girls are worshipped as manifestations of the Goddess. Here are some thoughtful return gift ideas for the 'kanyas'.</p>
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                                            <ProductCard product={products.mpkStationerySet} />
+                                            <ProductCard product={products.baalWaterBottleSet} />
+                                            <ProductCard product={products.baalHairAccessories} />
+                                        </div>
                                     </div>
                                 </div>
                             </TabsContent>
