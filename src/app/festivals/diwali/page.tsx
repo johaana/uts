@@ -89,28 +89,63 @@ export default function DiwaliPage() {
                                 </div>
                             </TabsContent>
                             
-                            <TabsContent value="five-days">
+                             <TabsContent value="five-days">
                                 <h2 className="font-headline text-3xl font-bold mb-4">The Five Days of Diwali: A Detailed Guide</h2>
-                                <div className="space-y-8 prose max-w-none text-foreground/80">
-                                    <div>
-                                        <h3 className="font-headline text-2xl text-primary">Day 1: Dhanteras - The Festival of Wealth</h3>
-                                        <p>The Diwali festivities begin with Dhanteras, which falls two days before the main night of Diwali. 'Dhan' means wealth and 'Teras' means the 13th day of a lunar fortnight. On this day, homes are deep-cleaned and decorated to welcome Goddess Lakshmi. The most significant tradition is the purchasing of new items, particularly gold, silver, or new utensils. This act symbolizes bringing prosperity and good fortune into the home. In the evening, a puja is performed for Lord Dhanvantari, the physician of the gods and an incarnation of Vishnu, praying for good health. A single diya, known as the 'Yama Deepam', is lit and placed outside the main door, facing south, to ward off untimely death.</p>
+                                <div className="space-y-10">
+                                    <div className="p-6 bg-secondary/30 rounded-lg">
+                                        <div className="flex flex-col md:flex-row gap-6 items-center">
+                                            <div className="md:w-2/3">
+                                                <h3 className="font-headline text-2xl text-primary mb-2">Day 1: Dhanteras - The Festival of Wealth</h3>
+                                                <p className="text-foreground/80 prose">The Diwali festivities begin with Dhanteras. 'Dhan' means wealth. On this day, homes are deep-cleaned and decorated to welcome Goddess Lakshmi. The most significant tradition is the purchasing of new items, particularly gold, silver, or new utensils. This act symbolizes bringing prosperity and good fortune into the home.</p>
+                                            </div>
+                                            <div className="md:w-1/3">
+                                                <Image src="https://i.postimg.cc/wv37wS6p/dhanteras.avif" alt="Dhanteras" width={300} height={200} className="rounded-lg shadow-md w-full" data-ai-hint="gold coins jewellery" />
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <h3 className="font-headline text-2xl text-primary">Day 2: Naraka Chaturdashi - The Day of Liberation</h3>
-                                        <p>Also known as 'Choti Diwali' (Small Diwali), the second day celebrates Lord Krishna's triumphant victory over the demon Narakasura, through which he liberated 16,000 captive princesses. This day signifies the victory of good over evil and the liberation from suffering. The main ritual involves taking a sacred bath before sunrise, known as 'Abhyanga Snan', using aromatic oils and a special paste called 'ubtan'. This ritual bath is symbolic of cleansing the body and soul of all sins and impurities, preparing oneself for the main celebration of Diwali.</p>
+                                     <div className="p-6 bg-secondary/30 rounded-lg">
+                                        <div className="flex flex-col md:flex-row gap-6 items-center">
+                                             <div className="md:w-1/3 md:order-2">
+                                                <Image src="https://i.postimg.cc/L8ZgSdf6/narak-chaturdashi.webp" alt="Naraka Chaturdashi" width={300} height={200} className="rounded-lg shadow-md w-full" data-ai-hint="abhyanga snan" />
+                                            </div>
+                                            <div className="md:w-2/3 md:order-1">
+                                                <h3 className="font-headline text-2xl text-primary mb-2">Day 2: Naraka Chaturdashi - The Day of Liberation</h3>
+                                                <p className="text-foreground/80 prose">Also known as 'Choti Diwali', the second day celebrates Lord Krishna's triumphant victory over the demon Narakasura. This day signifies the victory of good over evil. The main ritual involves taking a sacred bath before sunrise, known as 'Abhyanga Snan', using aromatic oils and 'ubtan' paste to cleanse the body and soul.</p>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <h3 className="font-headline text-2xl text-primary">Day 3: Lakshmi Puja - The Worship of the Goddess</h3>
-                                        <p>This is the most important day of the festival, the night of the new moon (Amavasya). After sunset, families gather to perform the Lakshmi Puja, an elaborate worship ceremony dedicated to Goddess Lakshmi, the bestower of wealth and prosperity. Homes are brightly illuminated with rows of diyas, candles, and electric lights. Beautiful 'rangoli' patterns adorn the entrance. Alongside Lakshmi, Lord Ganesha is also worshipped as the remover of obstacles. The puja involves chanting mantras, offering sweets, fruits, and flowers, and singing aartis. The evening is a magical one, filled with family bonding, feasting, and the joyous bursting of firecrackers.</p>
+                                     <div className="p-6 bg-secondary/30 rounded-lg">
+                                        <div className="flex flex-col md:flex-row gap-6 items-center">
+                                            <div className="md:w-2/3">
+                                                <h3 className="font-headline text-2xl text-primary mb-2">Day 3: Lakshmi Puja - The Worship of the Goddess</h3>
+                                                <p className="text-foreground/80 prose">This is the most important day of the festival. After sunset, families gather to perform the Lakshmi Puja, an elaborate worship ceremony dedicated to Goddess Lakshmi for wealth and prosperity. Homes are brightly illuminated with rows of diyas and rangoli.</p>
+                                            </div>
+                                            <div className="md:w-1/3">
+                                                <Image src="https://i.postimg.cc/TYs5B2K4/lakshmi_puja.webp" alt="Lakshmi Puja" width={300} height={200} className="rounded-lg shadow-md w-full" data-ai-hint="lakshmi ganesh puja" />
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <h3 className="font-headline text-2xl text-primary">Day 4: Govardhan Puja - Honouring Nature's Bounty</h3>
-                                        <p>The fourth day holds different significance across India. In North India, it is celebrated as Govardhan Puja. This commemorates the day Lord Krishna lifted the entire Govardhan Hill with his little finger to shelter the villagers of Vrindavan from the torrential rains sent by an enraged Lord Indra. To honor this event, devotees create a miniature hillock made of cow dung or food, known as 'Annakut' (mountain of food), and worship it. In states like Maharashtra and Gujarat, this day is celebrated as 'Bali Pratipada' or 'Padwa', which honours the victory of Vamana, an incarnation of Vishnu, over the demon King Bali and the sacred bond between a husband and wife.</p>
+                                     <div className="p-6 bg-secondary/30 rounded-lg">
+                                        <div className="flex flex-col md:flex-row gap-6 items-center">
+                                             <div className="md:w-1/3 md:order-2">
+                                                <Image src="https://i.postimg.cc/yNLDXVCj/padwa-diwali.webp" alt="Govardhan Puja" width={300} height={200} className="rounded-lg shadow-md w-full" data-ai-hint="govardhan puja" />
+                                            </div>
+                                            <div className="md:w-2/3 md:order-1">
+                                                <h3 className="font-headline text-2xl text-primary mb-2">Day 4: Govardhan Puja - Honouring Nature's Bounty</h3>
+                                                <p className="text-foreground/80 prose">This day commemorates Lord Krishna lifting the Govardhan Hill to shelter villagers from torrential rains. Devotees create a miniature hillock made of food ('Annakut') to honor this event. In some regions, it's celebrated as 'Padwa', honoring the marital bond.</p>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <h3 className="font-headline text-2xl text-primary">Day 5: Bhai Dooj - Celebrating the Sibling Bond</h3>
-                                        <p>The five-day festival culminates with Bhai Dooj (or Bhaubeej), a day that celebrates the beautiful and eternal bond between brothers and sisters. It is similar in spirit to Raksha Bandhan. On this day, sisters perform a ceremony where they apply a 'tilak' (a sacred mark) on their brother's forehead, praying for his long life, happiness, and success. They offer him sweets, and in return, the brother gives his sister a gift and takes a vow to protect her. It's a heartwarming conclusion that reinforces the strong family ties that are central to Indian culture.</p>
+                                     <div className="p-6 bg-secondary/30 rounded-lg">
+                                        <div className="flex flex-col md:flex-row gap-6 items-center">
+                                            <div className="md:w-2/3">
+                                                <h3 className="font-headline text-2xl text-primary mb-2">Day 5: Bhai Dooj - Celebrating the Sibling Bond</h3>
+                                                <p className="text-foreground/80 prose">The festival culminates with Bhai Dooj, a day celebrating the bond between brothers and sisters. Sisters apply a 'tilak' on their brother's forehead, praying for his long life, and brothers give gifts in return, vowing to protect them.</p>
+                                            </div>
+                                            <div className="md:w-1/3">
+                                                <Image src="https://i.postimg.cc/CKhZqRXd/bhaidooj-pooja-vidhi.jpg" alt="Bhai Dooj" width={300} height={200} className="rounded-lg shadow-md w-full" data-ai-hint="bhai dooj" />
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </TabsContent>
