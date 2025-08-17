@@ -90,6 +90,9 @@ export default function SingleBlogPage() {
 
                         <h3><Link href="/festivals/nag-panchami" className="text-accent">Nag Panchami (India)</Link> — Snake Veneration and the Conservation Paradox</h3>
                         <p>On Naga (snake) Panchami, devotees worship serpent deities—sometimes offering milk and cloth, sometimes performing rituals at snake shrines. Historically, real snakes were sometimes brought into ritual contexts, a practice that has become controversial as wildlife law and conservation awareness rise.</p>
+                        
+                        <h3><Link href="/blog/maad-festival-himachal-pradesh" className="text-accent">Maad Festival (Himachal Pradesh, India)</Link> — Honoring Livestock</h3>
+                        <p>A unique celebration where communities in Himachal Pradesh honor their livestock, particularly cows and bulls. This festival reinforces the essential relationship between farmers and their animals, with rituals involving decorating the cattle and offering them special food like khichdi and ghee.</p>
 
                         <blockquote>
                             <p>Festivals that celebrate animals carry complex legacies: gratitude, exploitation, myth, and livelihood. Today’s challenge is to hold the first two while removing the latter two.</p>
