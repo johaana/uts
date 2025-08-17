@@ -61,7 +61,7 @@ export default function ChhathPujaPage() {
                                     <li className="flex items-start">
                                         <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
                                         <div>
-                                            <h4 className="font-bold">Day 3: Sandhya Arghya</h4>
+                                            <h4 className="font-bold">Day 3: Sandhya Arghya (Pratihar Shashthi/Surya Shashthi)</h4>
                                             <p className="text-foreground/80">This is the main day of Chhath. After preparing the 'prasad' (offerings), devotees take a dip in the holy river and worship the setting sun. 'Arghya' (offerings) are made to the Sun God as families gather on the river banks, singing folk songs.</p>
                                         </div>
                                     </li>
@@ -121,3 +121,5 @@ export default function ChhathPujaPage() {
         </div>
     );
 }
+
+    

@@ -5,6 +5,7 @@ import { BookOpen, Sparkles, MessageSquareQuote, CheckCircle } from "lucide-reac
 import Image from "next/image";
 import { ProductCard } from "@/components/ProductCard";
 import { products } from "@/lib/product-data";
+import { ShareButtons } from "@/components/ShareButtons";
 
 export default function KarvaChauthPage() {
     return (
@@ -34,7 +35,7 @@ export default function KarvaChauthPage() {
                                     <div className="md:order-1 md:w-2/3">
                                         <h2 className="font-headline text-3xl font-bold mb-4">The Day-long Fast</h2>
                                         <div className="space-y-4 text-foreground/80 prose max-w-none">
-                                            <p>Karva Chauth is a traditional Hindu festival celebrated primarily in North India, where married women observe a day-long fast, from sunrise to moonrise, for the safety, prosperity, and long life of their husbands. The festival is a beautiful testament to love, sacrifice, and the sacred bond of marriage. In modern times, it has also become a symbol of mutual love and respect, with many husbands also observing the fast alongside their wives.</p>
+                                            <p>Karva Chauth, also known as Karaka Chaturthi, is a traditional Hindu festival celebrated primarily in North India, where married women observe a day-long fast, from sunrise to moonrise, for the safety, prosperity, and long life of their husbands. The festival is a beautiful testament to love, sacrifice, and the sacred bond of marriage. In modern times, it has also become a symbol of mutual love and respect, with many husbands also observing the fast alongside their wives.</p>
                                             <p>The name itself is significant: 'Karva' refers to the earthen pot through which water is offered to the moon, and 'Chauth' means the fourth day, as it falls on the fourth day after the full moon in the Hindu month of Kartik.</p>
                                         </div>
                                     </div>
@@ -89,9 +90,12 @@ export default function KarvaChauthPage() {
                                 </div>
                             </TabsContent>
                         </Tabs>
+                        <ShareButtons title="Karva Chauth" />
                     </CardContent>
                 </Card>
             </div>
         </div>
     );
 }
+
+    

@@ -110,7 +110,7 @@ export default function DiwaliPage() {
                                             </div>
                                             <div className="md:w-2/3 md:order-1">
                                                 <h3 className="font-headline text-2xl text-primary mb-2">Day 2: Naraka Chaturdashi - The Day of Liberation</h3>
-                                                <p className="text-foreground/80 prose">Also known as 'Choti Diwali', the second day celebrates Lord Krishna's triumphant victory over the demon Narakasura. This day signifies the victory of good over evil. The main ritual involves taking a sacred bath before sunrise, known as 'Abhyanga Snan', using aromatic oils and 'ubtan' paste to cleanse the body and soul.</p>
+                                                <p className="text-foreground/80 prose">Also known as 'Choti Diwali', the second day celebrates Lord Krishna's triumphant victory over the demon Narakasura. This day signifies the victory of good over evil. The main ritual involves taking a sacred bath before sunrise, known as 'Abhyanga Snan', using aromatic oils and 'ubtan' paste to cleanse the body and soul. In 2025, this falls on the same day as Lakshmi Puja.</p>
                                             </div>
                                         </div>
                                     </div>
@@ -132,7 +132,7 @@ export default function DiwaliPage() {
                                             </div>
                                             <div className="md:w-2/3 md:order-1">
                                                 <h3 className="font-headline text-2xl text-primary mb-2">Day 4: Govardhan Puja - Honouring Nature's Bounty</h3>
-                                                <p className="text-foreground/80 prose">This day commemorates Lord Krishna lifting the Govardhan Hill to shelter villagers from torrential rains. Devotees create a miniature hillock made of food ('Annakut') to honor this event. In some regions, it's celebrated as 'Padwa', honoring the marital bond.</p>
+                                                <p className="text-foreground/80 prose">This day commemorates Lord Krishna lifting the Govardhan Hill to shelter villagers from torrential rains. Devotees create a miniature hillock of food ('Annakut') to honor this event. In some regions, it's celebrated as 'Padwa', honoring the marital bond.</p>
                                             </div>
                                         </div>
                                     </div>
@@ -287,3 +287,5 @@ export default function DiwaliPage() {
         </div>
     );
 }
+
+    
