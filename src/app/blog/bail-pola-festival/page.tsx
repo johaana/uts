@@ -10,7 +10,7 @@ import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 
 const post = { 
     title: "Bail Pola: A Heartfelt Tribute to the Farmer's Closest Ally", 
-    image: "https://i.postimg.cc/q7bB6rS6/Bail-Pola-Festival-2.jpg",
+    image: "https://i.postimg.cc/GtjR2nmN/bail-pola-2.jpg",
     excerpt: "Discover Bail Pola, the unique festival where farmers in Maharashtra and Chhattisgarh honor their bulls with decorations, worship, and a day of rest to express gratitude."
 };
 
