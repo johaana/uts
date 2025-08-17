@@ -7,17 +7,18 @@ export default function KeralaRoastChickenPage() {
     return (
         <RecipeCardLayout recipeName="Kerala Roast Chicken">
             <RecipeHeader>
-                <h1 className="font-headline text-4xl mb-4">Kerala Roast Chicken</h1>
-                <div className="flex flex-col md:flex-row gap-6">
-                    <div className="md:w-2/3">
-                        <p className="text-lg text-muted-foreground">A succulent roast chicken with a twist of Keralan spices, perfect for a festive Christmas meal. The marinade of yogurt and spices makes it incredibly flavorful and tender.</p>
-                    </div>
-                    <div className="md:w-1/3">
-                        <Image src="https://i.postimg.cc/JnR8SJ6j/Kerala-chicken-roast.jpg" alt="Kerala Roast Chicken" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="kerala roast chicken" />
+                <div className="relative h-64 md:h-96">
+                    <Image src="https://i.postimg.cc/JnR8SJ6j/Kerala-chicken-roast.jpg" alt="Kerala Roast Chicken" layout="fill" objectFit="cover" className="object-center" data-ai-hint="kerala roast chicken"/>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                    <div className="absolute bottom-0 left-0 p-6 md:p-10">
+                        <h1 className="font-headline text-4xl md:text-6xl text-white font-bold drop-shadow-lg">Kerala Roast Chicken</h1>
                     </div>
                 </div>
+                <div className="p-6 md:p-10">
+                    <p className="text-lg text-muted-foreground max-w-3xl">A succulent roast chicken with a twist of Keralan spices, perfect for a festive Christmas meal. The marinade of yogurt and spices makes it incredibly flavorful and tender.</p>
+                </div>
             </RecipeHeader>
-            <RecipeBody>
+            <RecipeBody recipeName="Kerala Roast Chicken">
                 <div className="grid md:grid-cols-3 gap-8">
                     <div className="md:col-span-1">
                         <h3 className="font-headline text-2xl font-bold mb-4">Ingredients</h3>

@@ -8,17 +8,18 @@ export default function RumCakePage() {
     return (
         <RecipeCardLayout recipeName="Classic Rum Cake">
             <RecipeHeader>
-                <h1 className="font-headline text-4xl mb-4">Classic Rum Cake</h1>
-                <div className="flex flex-col md:flex-row gap-6">
-                    <div className="md:w-2/3">
-                        <p className="text-lg text-muted-foreground">A rich, moist, and boozy fruit cake is the heart of Christmas celebrations. This recipe is packed with rum-soaked dried fruits, nuts, and warm spices.</p>
-                    </div>
-                    <div className="md:w-1/3">
-                        <Image src="https://i.postimg.cc/PxRHKB9x/rum-cake.webp" alt="Rum Cake" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="rum cake" />
+                <div className="relative h-64 md:h-96">
+                    <Image src="https://i.postimg.cc/PxRHKB9x/rum-cake.webp" alt="Rum Cake" layout="fill" objectFit="cover" className="object-center" data-ai-hint="rum cake"/>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                    <div className="absolute bottom-0 left-0 p-6 md:p-10">
+                        <h1 className="font-headline text-4xl md:text-6xl text-white font-bold drop-shadow-lg">Classic Rum Cake</h1>
                     </div>
                 </div>
+                <div className="p-6 md:p-10">
+                    <p className="text-lg text-muted-foreground max-w-3xl">A rich, moist, and boozy fruit cake is the heart of Christmas celebrations. This recipe is packed with rum-soaked dried fruits, nuts, and warm spices.</p>
+                </div>
             </RecipeHeader>
-            <RecipeBody>
+            <RecipeBody recipeName="Classic Rum Cake">
                 <div className="grid md:grid-cols-3 gap-8">
                     <div className="md:col-span-1">
                         <h3 className="font-headline text-2xl font-bold mb-4">Ingredients</h3>
@@ -50,7 +51,6 @@ export default function RumCakePage() {
                         </ol>
                     </div>
                 </div>
-                 <ShareButtons title="Classic Rum Cake Recipe" />
             </RecipeBody>
         </RecipeCardLayout>
     );
