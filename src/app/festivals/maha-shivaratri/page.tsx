@@ -32,7 +32,7 @@ const relatedContent: RelatedItem[] = [
     },
     {
         slug: "janmashtami",
-        title: "Janmashtami",
+        title: "Janmashtami / Dahi Handi",
         image: "https://i.postimg.cc/02VhD2Jk/janmashtami.jpg",
         type: "Festival",
         link: "/festivals/janmashtami",

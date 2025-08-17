@@ -41,7 +41,7 @@ export default function JanmashtamiPage() {
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-primary/10">
                 <div className="relative text-center text-primary-foreground z-10 p-4">
-                    <h1 className="font-headline text-5xl md:text-7xl font-bold text-primary shadow-lg">Janmashtami</h1>
+                    <h1 className="font-headline text-5xl md:text-7xl font-bold text-primary shadow-lg">Janmashtami / Dahi Handi</h1>
                     <p className="text-xl md:text-2xl mt-4 text-primary/90 shadow-md">Celebrating the Birth of Lord Krishna</p>
                 </div>
             </section>
@@ -118,7 +118,7 @@ export default function JanmashtamiPage() {
                                 </div>
                             </TabsContent>
                         </Tabs>
-                        <ShareButtons title="Janmashtami" />
+                        <ShareButtons title="Janmashtami / Dahi Handi" />
                         <RelatedContent items={relatedContent} />
                     </CardContent>
                 </Card>
