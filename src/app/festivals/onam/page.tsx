@@ -31,12 +31,12 @@ const relatedContent: RelatedItem[] = [
         hint: "vegetable stew"
     },
     {
-        slug: "payasam",
-        title: "Payasam Recipe",
-        image: "https://i.postimg.cc/59n9d7My/payasam.jpg",
-        type: "Recipe",
-        link: "/recipes/payasam",
-        hint: "rice pudding"
+        slug: "snake-boat-race",
+        title: "Snake Boat Race (Vallam Kali)",
+        image: "https://i.postimg.cc/9M9QY7Cj/vallam-kali.jpg",
+        type: "Festival",
+        link: "/festivals/snake-boat-race",
+        hint: "snake boat race"
     }
 ];
 
@@ -142,3 +142,5 @@ export default function OnamPage() {
         </div>
     );
 }
+
+    
