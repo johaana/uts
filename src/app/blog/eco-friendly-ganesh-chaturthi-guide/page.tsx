@@ -12,7 +12,7 @@ import { products } from "@/lib/product-data";
 
 const post = { 
     title: "Your Ultimate Guide to an Eco-Friendly Ganesh Chaturthi", 
-    image: "https://i.postimg.cc/PqjW2Gmm/eco-friendly-ganesha.jpg",
+    image: "https://i.postimg.cc/nr024HN7/eco-ganesh-3.jpg",
     excerpt: "Celebrate the birth of Lord Ganesha with reverence for both tradition and nature. Discover beautiful, water-soluble idols, DIY clay kits, and sustainable decoration ideas for a joyous and conscious festival."
 };
 
