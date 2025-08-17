@@ -92,10 +92,10 @@ export default function SingleBlogPage() {
 
                         <h3>Cosmic Timings: Why Festivals Happen When They Do</h3>
                         
-                        <h4>Diwali: The Darkest Night for the Brightest Light</h4>
+                        <h4><Link href="/festivals/diwali" className="text-accent">Diwali</Link>: The Darkest Night for the Brightest Light</h4>
                         <p>Diwali falls on the 'Amavasya' (new moon) of the month of Kartik. This is the darkest night of the month. The spiritual symbolism is profound: it is on this darkest night that millions of diyas are lit, symbolizing the power of light to overcome spiritual darkness and ignorance. It's a collective act of illuminating the world when it is cosmically at its darkest, signifying the triumph of good over evil.</p>
                         
-                        <h4>Holi: The Full Moon of Joy and Release</h4>
+                        <h4><Link href="/festivals/holi" className="text-accent">Holi</Link>: The Full Moon of Joy and Release</h4>
                         <p>In contrast, Holi is celebrated on the 'Purnima' (full moon) of the month of Phalguna. The full moon is traditionally associated with heightened emotions, celebration, and culmination. Holi, being a festival of catharsis and joyous release, is perfectly timed to this lunar peak. The bonfire of Holika Dahan on the eve of Holi also gains significance under the bright light of the full moon.</p>
 
                         <blockquote>

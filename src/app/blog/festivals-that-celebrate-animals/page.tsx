@@ -82,13 +82,13 @@ export default function SingleBlogPage() {
 
                         <p>Across cultures, animals appear in festivals as guardians, ancestors, workforce partners, and cosmological symbols. These rituals are rarely mere symbolism; they encode reciprocal relationships between humans and nonhumans—forms of gratitude, protection, and ecological memory. This post surveys notable animal-centered festivals, explores their mythic backgrounds, and examines modern ethical tensions and conservation opportunities.</p>
 
-                        <h3>Kukur Tihar (Nepal) — Dogs Garlanded and Honoured</h3>
+                        <h3><Link href="/festivals/kukur-tihar" className="text-accent">Kukur Tihar (Nepal)</Link> — Dogs Garlanded and Honoured</h3>
                         <p>On the second day of Nepal’s five-day Tihar festival, dogs—both pet and stray—are decorated with marigold garlands, red tika marks, and offered food. The ritual acknowledges dogs’ loyalty and assigns them a sacred role connected with Yama, the Hindu god of death, for whom dogs are emissaries. Kukur Tihar blends civic compassion (street dogs are fed and cared for) with devotional ritual.</p>
 
-                        <h3>Mattu Pongal (Tamil Nadu, India) — Cows and the Agrarian Ethic</h3>
+                        <h3><Link href="/festivals/pongal" className="text-accent">Mattu Pongal (Tamil Nadu, India)</Link> — Cows and the Agrarian Ethic</h3>
                         <p>Mattu Pongal, the third day of the four-day harvest festival Pongal, honors cattle. Farmers bathe, decorate, and feed their cows and bulls—often including a ceremonial aarti and offering of sakkarai pongal (a sweet rice dish). This is a ritualized recognition of animals’ central role in agrarian production.</p>
 
-                        <h3>Nag Panchami (India) — Snake Veneration and the Conservation Paradox</h3>
+                        <h3><Link href="/festivals/nag-panchami" className="text-accent">Nag Panchami (India)</Link> — Snake Veneration and the Conservation Paradox</h3>
                         <p>On Naga (snake) Panchami, devotees worship serpent deities—sometimes offering milk and cloth, sometimes performing rituals at snake shrines. Historically, real snakes were sometimes brought into ritual contexts, a practice that has become controversial as wildlife law and conservation awareness rise.</p>
 
                         <blockquote>
