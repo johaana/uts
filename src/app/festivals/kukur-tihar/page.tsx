@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Kukur Tihar | Nepal's Day of the Dog Festival | Utsavs",
     description: "Explore Kukur Tihar, the beautiful Nepalese festival where dogs are worshipped and honored with garlands, tilaks, and delicious food for their loyalty and friendship.",
-    images: [{ url: "https://i.postimg.cc/7Y8hn4Sm/kukurtihar.webp", width: 1200, height: 630, alt: "Dog being worshipped during Kukur Tihar" }],
+    images: [{ url: "https://i.postimg.cc/RCcT1Twd/kukur-tihar1.avif", width: 1200, height: 630, alt: "Dog being worshipped during Kukur Tihar" }],
   },
 };
 
@@ -20,7 +20,7 @@ export default function KukurTiharPage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-yellow-600/10">
-                 <Image src="https://i.postimg.cc/L4ZhP5gJ/kukur-tihar1.avif" alt="Kukur Tihar" layout="fill" objectFit="cover" className="absolute inset-0 z-0 opacity-30" data-ai-hint="dog worship" />
+                 <Image src="https://i.postimg.cc/RCcT1Twd/kukur-tihar1.avif" alt="Kukur Tihar" layout="fill" objectFit="cover" className="absolute inset-0 z-0 opacity-30" data-ai-hint="dog worship" />
                 <div className="relative text-center z-10 p-4">
                     <h1 className="font-headline text-4xl md:text-5xl lg:text-7xl font-bold text-yellow-900 drop-shadow-lg">Kukur Tihar</h1>
                     <p className="text-lg md:text-xl lg:text-2xl mt-4 text-yellow-800/90 drop-shadow-md">Nepal's Beautiful "Day of the Dogs"</p>
