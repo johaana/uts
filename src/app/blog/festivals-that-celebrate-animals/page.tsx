@@ -10,7 +10,7 @@ import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 
 const post = { 
     title: "Festivals That Celebrate Animals: Reciprocity, Myth, and Modern Ethics", 
-    image: "https://i.postimg.cc/k5L2gCj1/festivals-for-animals.jpg",
+    image: "https://i.postimg.cc/yYMqHNjd/animal-fest-blog.png",
     excerpt: "From Nepal’s Kukur Tihar to Thailand’s Monkey Buffet, explore how festivals honour animals, the myths behind them, and contemporary welfare and conservation issues."
 };
 
