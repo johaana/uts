@@ -17,6 +17,14 @@ const recipes = [
 
 const relatedContent: RelatedItem[] = [
     {
+        slug: "diwali-regional-variations",
+        title: "How Diwali is Celebrated Across India",
+        image: "https://i.postimg.cc/mD8h1LzB/default-preview.jpg",
+        type: "Blog",
+        link: "/blog/diwali-regional-variations",
+        hint: "diwali collage"
+    },
+    {
         slug: "significance-of-diyas-in-diwali",
         title: "The Significance of Diyas",
         image: "https://i.postimg.cc/brM9vjDZ/Diya-diwali.webp",
@@ -31,14 +39,6 @@ const relatedContent: RelatedItem[] = [
         type: "Recipe",
         link: "/recipes/ladoo",
         hint: "gram flour ladoo"
-    },
-    {
-        slug: "kaju-katli",
-        title: "Kaju Katli Recipe",
-        image: "https://i.postimg.cc/3ND3dSzg/Kaju-Katli.webp",
-        type: "Recipe",
-        link: "/recipes/kaju-katli",
-        hint: "cashew fudge"
     }
 ];
 
