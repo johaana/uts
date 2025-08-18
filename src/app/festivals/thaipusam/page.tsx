@@ -10,9 +10,9 @@ export default function ThaipusamPage() {
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-primary/10">
                  <Image src="https://i.postimg.cc/4y7fTLZd/thaipusam.webp" alt="Thaipusam festival" layout="fill" objectFit="cover" className="absolute inset-0 z-0 opacity-30" data-ai-hint="kavadi" />
-                <div className="relative text-center text-primary-foreground">
-                    <h1 className="font-headline text-5xl md:text-7xl font-bold text-primary shadow-lg">Thaipusam</h1>
-                    <p className="text-xl md:text-2xl mt-4 text-primary/90 shadow-md">A Festival of Faith and Penance</p>
+                <div className="relative text-center text-primary-foreground z-10 p-4">
+                    <h1 className="font-headline text-5xl md:text-7xl font-bold text-primary shadow-lg">The Burden of Faith</h1>
+                    <p className="text-xl md:text-2xl mt-4 text-primary/90 shadow-md">Unpacking the Intense Rituals of Thaipusam</p>
                 </div>
             </section>
             
@@ -21,61 +21,42 @@ export default function ThaipusamPage() {
                     <CardContent className="p-6 md:p-10">
                         <Tabs defaultValue="overview">
                             <TabsList className="grid w-full grid-cols-2 md:grid-cols-3 mb-6 h-auto">
-                                <TabsTrigger value="overview" className="py-2"><BookOpen className="w-4 h-4 mr-2" />Overview</TabsTrigger>
-                                <TabsTrigger value="traditions" className="py-2"><Sparkles className="w-4 h-4 mr-2" />The Kavadi</TabsTrigger>
-                                <TabsTrigger value="significance" className="py-2"><MessageSquareQuote className="w-4 h-4 mr-2" />Significance</TabsTrigger>
+                                <TabsTrigger value="overview" className="py-2"><BookOpen className="w-4 h-4 mr-2" />The Story</TabsTrigger>
+                                <TabsTrigger value="traditions" className="py-2"><Sparkles className="w-4 h-4 mr-2" />The Ritual</TabsTrigger>
+                                <TabsTrigger value="significance" className="py-2"><MessageSquareQuote className="w-4 h-4 mr-2" />The Meaning</TabsTrigger>
                             </TabsList>
 
                             <TabsContent value="overview">
-                                <h2 className="font-headline text-3xl font-bold mb-4">Devotion to Lord Murugan</h2>
+                                <h2 className="font-headline text-3xl font-bold mb-4">A Test of Unwavering Devotion</h2>
                                 <div className="space-y-4 text-foreground/80 prose max-w-none">
-                                    <p>Thaipusam is a powerful and visually striking Hindu festival celebrated with intense fervor by the Tamil community, primarily in the South Indian state of Tamil Nadu, as well as in countries with large Tamil populations like Sri Lanka, Malaysia, and Singapore. It is a day of extraordinary devotion dedicated to Lord Murugan, the Hindu god of war, victory, and wisdom, and the son of Lord Shiva. The festival's name is a combination of the Tamil month, 'Thai', and the name of the star, 'Pusam'. This celestial alignment commemorates the mythological event when Lord Murugan's mother, the goddess Parvati, gave him a divine, invincible spear, or 'Vel', so he could vanquish the evil demon Soorapadman and his brothers.</p>
-                                    <p>The festival is observed in the Tamil month of 'Thai' on the full moon day (Pusam). It is a time for devotees to make good on vows made throughout the year, to offer profound thanks for prayers answered, and to pray for future blessings. The central theme of Thaipusam is the triumph of good over evil and the incredible power of unwavering faith. Devotees prepare for this demanding festival by cleansing themselves both physically and spiritually, observing a strict vegetarian diet and fasting for several weeks before the main day, focusing their minds on the divine.</p>
+                                    <p>Deep within the heart of Tamil culture lies a festival of such intense faith and physical devotion that it captivates and astounds onlookers from around the world. This is Thaipusam, a vibrant and powerful day dedicated to Lord Murugan, the Hindu god of war and victory. The festival commemorates a divine gift: the moment the goddess Parvati bestowed upon her son Murugan an invincible spear, the 'Vel', to vanquish the forces of evil. This story of divine power and righteousness is the spiritual bedrock of Thaipusam.</p>
+                                    <p>But the festival is more than just a mythological reenactment. It is a deeply personal journey of penance and thanksgiving. For weeks, devotees cleanse their souls, observing strict fasts and maintaining a state of spiritual purity. They prepare to offer their very bodies as a testament to their faith, a living, breathing prayer for answered vows, for healing, and for spiritual liberation. It is a spectacle of endurance where the lines between the physical and spiritual worlds seem to blur, and the power of human faith is made breathtakingly visible.</p>
                                 </div>
                             </TabsContent>
                             
                             <TabsContent value="traditions">
-                                <h2 className="font-headline text-3xl font-bold mb-4">The Kavadi Aattam (Burden Dance)</h2>
-                                <ul className="space-y-4 pl-4">
-                                    <li className="flex items-start">
-                                        <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
-                                        <div>
-                                            <h4 className="font-bold">Carrying the Kavadi</h4>
-                                            <p className="text-foreground/80">The most iconic tradition of Thaipusam is the 'Kavadi Aattam'. Devotees carry a 'kavadi', a physical burden, as an act of penance and devotion. The simplest form is a wooden arch decorated with flowers and peacock feathers, carried on the shoulders. Others carry pots of milk.</p>
-                                        </div>
-                                    </li>
-                                    <li className="flex items-start">
-                                        <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
-                                        <div>
-                                            <h4 className="font-bold">Body Piercings</h4>
-                                            <p className="text-foreground/80">In a stunning display of faith and endurance, many devotees engage in extreme acts of penance by piercing their skin, tongues, or cheeks with skewers and hooks. Some pull large, ornate chariots attached to their bodies with hooks. It is believed that their deep meditative state prevents them from feeling pain.</p>
-                                        </div>
-                                    </li>
-                                    <li className="flex items-start">
-                                        <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
-                                        <div>
-                                            <h4 className="font-bold">Processions</h4>
-                                            <p className="text-foreground/80">Devotees, often in a trance-like state, walk for miles in a procession to a Murugan temple, accompanied by the rhythmic chanting of "Vel, Vel!" and the sound of drums.</p>
-                                        </div>
-                                    </li>
-                                </ul>
+                                <h2 className="font-headline text-3xl font-bold mb-4">The Kavadi Aattam: A Dance of Burden</h2>
+                                <div className="space-y-4 text-foreground/80 prose max-w-none">
+                                   <p>The central ritual of Thaipusam is the 'Kavadi Aattam' or 'Burden Dance'. This is where faith takes physical form. Devotees carry a 'kavadi'—a physical burden—on a long pilgrimage to a Murugan temple. In its simplest form, this is a pot of milk or a wooden arch decorated with peacock feathers. But for many, the burden is far more extreme.</p>
+                                   <p>In a stunning display of devotion, many participants pierce their skin, cheeks, and tongues with silver skewers and hooks. They attach heavy, ornate structures to their bodies, pulling them for miles. It is believed that their deep meditative state, a trance of pure devotion, protects them from pain and leaves no scars. To the rhythmic, hypnotic beat of drums and the fervent chanting of "Vel! Vel!", these devotees move in a procession, their physical sacrifice a powerful, outward expression of an inner spiritual transformation. It's a raw, visceral, and unforgettable testament to the depths of human belief.</p>
+                                </div>
                             </TabsContent>
 
                              <TabsContent value="significance">
-                                <h2 className="font-headline text-3xl font-bold mb-4">Faith and Purification</h2>
+                                <h2 className="font-headline text-3xl font-bold mb-4">Mortifying the Flesh, Freeing the Soul</h2>
                                 <div className="space-y-6">
                                     <Card>
                                         <CardHeader>
-                                            <CardTitle>An Act of Penance</CardTitle>
+                                            <CardTitle>Why Endure Such Pain?</CardTitle>
                                         </CardHeader>
                                         <CardContent>
-                                            <p className="text-foreground/80">Thaipusam is a deeply personal and spiritual journey for its participants. The physical burdens and piercings are seen as a way to mortify the flesh, purify the soul, and overcome ego. By enduring these trials, devotees believe they can gain the grace of Lord Murugan, who will absolve them of their sins and grant their prayers for health, happiness, and prosperity.</p>
+                                            <p className="text-foreground/80">To an outsider, the rituals of Thaipusam may seem shocking. But for the devotee, it is a profound act of purification. The physical pain is a way to "mortify the flesh," to subdue the ego and worldly desires, thereby cleansing the soul. By enduring this self-imposed trial, they believe they earn the grace of Lord Murugan, who will forgive their sins and grant their heartfelt prayers. It is a powerful reminder that sometimes, the path to spiritual liberation is through the crucible of physical sacrifice, a journey where faith conquers all fear and pain.</p>
                                         </CardContent>
                                     </Card>
                                 </div>
                             </TabsContent>
                         </Tabs>
-                        <ShareButtons title="Thaipusam" />
+                        <ShareButtons title="The Burden of Faith: Unpacking the Intense Rituals of Thaipusam" />
                     </CardContent>
                 </Card>
             </div>
