@@ -4,6 +4,35 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CheckCircle, BookOpen, Sparkles, MessageSquareQuote } from "lucide-react";
 import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
+import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
+import Link from "next/link";
+
+const relatedContent: RelatedItem[] = [
+    {
+        slug: "extreme-festivals-of-the-world",
+        title: "Gods, Guts, and Glory: The World's Most Extreme Festivals",
+        image: "https://i.postimg.cc/KzM0xQYV/theemithi.jpg",
+        type: "Blog",
+        link: "/blog/extreme-festivals-of-the-world",
+        hint: "fire walking"
+    },
+    {
+        slug: "theemithi",
+        title: "A Walk Through Fire: The Story of Theemithi",
+        image: "https://i.postimg.cc/KzM0xQYV/theemithi.jpg",
+        type: "Festival",
+        link: "/festivals/theemithi",
+        hint: "fire walking"
+    },
+     {
+        slug: "pongal",
+        title: "Pongal",
+        image: "https://i.postimg.cc/bvmpScwr/pongal.jpg",
+        type: "Festival",
+        link: "/festivals/pongal",
+        hint: "pongal dish"
+    }
+];
 
 export default function ThaipusamPage() {
     return (
@@ -29,8 +58,8 @@ export default function ThaipusamPage() {
                             <TabsContent value="overview">
                                 <h2 className="font-headline text-3xl font-bold mb-4">A Test of Unwavering Devotion</h2>
                                 <div className="space-y-4 text-foreground/80 prose max-w-none">
-                                    <p>Deep within the heart of Tamil culture lies a festival of such intense faith and physical devotion that it captivates and astounds onlookers from around the world. This is Thaipusam, a vibrant and powerful day dedicated to Lord Murugan, the Hindu god of war and victory. The festival commemorates a divine gift: the moment the goddess Parvati bestowed upon her son Murugan an invincible spear, the 'Vel', to vanquish the forces of evil. This story of divine power and righteousness is the spiritual bedrock of Thaipusam.</p>
-                                    <p>But the festival is more than just a mythological reenactment. It is a deeply personal journey of penance and thanksgiving. For weeks, devotees cleanse their souls, observing strict fasts and maintaining a state of spiritual purity. They prepare to offer their very bodies as a testament to their faith, a living, breathing prayer for answered vows, for healing, and for spiritual liberation. It is a spectacle of endurance where the lines between the physical and spiritual worlds seem to blur, and the power of human faith is made breathtakingly visible.</p>
+                                    <p>Deep within the heart of Tamil culture lies a festival of such intense faith and physical devotion that it captivates and astounds onlookers from around the world. This is Thaipusam, a vibrant and powerful day dedicated to Lord Murugan, the Hindu god of war, victory, and wisdom. The festival commemorates a divine gift: the moment the goddess Parvati bestowed upon her son Murugan an invincible spear, the 'Vel', to vanquish the formidable demon Soorapadman. This story of divine power and righteousness is the spiritual bedrock of Thaipusam.</p>
+                                    <p>But the festival is more than just a mythological reenactment. It is a deeply personal journey of penance and thanksgiving. For weeks, devotees cleanse their souls, observing strict fasts and maintaining a state of spiritual purity. They prepare to offer their very bodies as a testament to their faith, a living, breathing prayer for answered vows, for healing, and for spiritual liberation. It is a spectacle of endurance where the lines between the physical and spiritual worlds seem to blur, and the power of human faith is made breathtakingly visible. You can read more about such intense celebrations in our blog, <Link href="/blog/extreme-festivals-of-the-world" className="text-accent hover:underline">Gods, Guts, and Glory: A Journey into the World's Most Extreme Festivals</Link>.</p>
                                 </div>
                             </TabsContent>
                             
@@ -57,6 +86,7 @@ export default function ThaipusamPage() {
                             </TabsContent>
                         </Tabs>
                         <ShareButtons title="The Burden of Faith: Unpacking the Intense Rituals of Thaipusam" />
+                        <RelatedContent items={relatedContent} />
                     </CardContent>
                 </Card>
             </div>
