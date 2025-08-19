@@ -55,15 +55,15 @@ export function HolidayPlanner() {
   };
 
   return (
-    <Card className="max-w-2xl mx-auto">
+    <Card className="max-w-2xl mx-auto shadow-xl bg-gradient-to-br from-background via-secondary/50 to-background">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
+        <CardTitle className="flex items-center gap-2 font-headline text-primary">
           <Bot />
           AI Holiday Planner
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="space-y-4 h-64 overflow-y-auto p-4 border rounded-md bg-muted/50">
+        <div className="space-y-4 h-80 overflow-y-auto p-4 border rounded-lg bg-background/50 mb-4">
           {messages.length === 0 ? (
              <div className="flex items-center justify-center h-full text-muted-foreground text-center">
                 <p>e.g., 'When is Holi in 2028?' or 'Plan a trip around Durga Puja'</p>
@@ -72,29 +72,29 @@ export function HolidayPlanner() {
             messages.map((msg, index) => (
               <div
                 key={index}
-                className={`flex gap-2 ${
+                className={`flex gap-2.5 items-end ${
                   msg.role === 'user' ? 'justify-end' : 'justify-start'
                 }`}
               >
-                {msg.role === 'bot' && <Bot className="shrink-0" />}
+                {msg.role === 'bot' && <Bot className="shrink-0 w-6 h-6 text-primary" />}
                 <div
-                  className={`max-w-[80%] rounded-lg p-3 ${
+                  className={`max-w-[85%] rounded-2xl p-3 text-sm md:text-base ${
                     msg.role === 'user'
-                      ? 'bg-primary text-primary-foreground'
-                      : 'bg-secondary'
+                      ? 'bg-primary text-primary-foreground rounded-br-none'
+                      : 'bg-muted rounded-bl-none'
                   }`}
                 >
-                  {msg.text}
+                  <p className="whitespace-pre-wrap">{msg.text}</p>
                 </div>
-                 {msg.role === 'user' && <User className="shrink-0" />}
+                 {msg.role === 'user' && <User className="shrink-0 w-6 h-6 text-muted-foreground" />}
               </div>
             ))
           )}
           {isSubmitting && (
-            <div className="flex justify-start gap-2">
-                <Bot className="shrink-0" />
-                 <div className="bg-secondary p-3 rounded-lg">
-                    <Loader className="animate-spin" />
+            <div className="flex justify-start gap-2.5 items-end">
+                <Bot className="shrink-0 w-6 h-6 text-primary" />
+                 <div className="bg-muted p-3 rounded-2xl rounded-bl-none">
+                    <Loader className="animate-spin w-5 h-5 text-primary" />
                  </div>
             </div>
             )}
@@ -104,9 +104,11 @@ export function HolidayPlanner() {
             {...register('prompt')}
             placeholder="Ask a question..."
             disabled={isSubmitting}
+            className="flex-1"
           />
-          <Button type="submit" disabled={isSubmitting}>
+          <Button type="submit" disabled={isSubmitting} size="icon" className="shrink-0">
              <Send className="w-4 h-4"/>
+             <span className="sr-only">Send</span>
           </Button>
         </form>
         {errors.prompt && (
