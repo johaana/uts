@@ -11,7 +11,7 @@ const relatedContent: RelatedItem[] = [
     {
         slug: "extreme-festivals-of-the-world",
         title: "Gods, Guts, and Glory: The World's Most Extreme Festivals",
-        image: "https://i.postimg.cc/KzM0xQYV/theemithi.jpg",
+        image: "https://i.postimg.cc/Hx8kz3vf/theemithi.jpg",
         type: "Blog",
         link: "/blog/extreme-festivals-of-the-world",
         hint: "fire walking"
@@ -19,7 +19,7 @@ const relatedContent: RelatedItem[] = [
     {
         slug: "thaipusam",
         title: "The Burden of Faith: Unpacking Thaipusam",
-        image: "https://i.postimg.cc/4y7fTLZd/thaipusam.webp",
+        image: "https://i.postimg.cc/cJbJfPhR/thaipusam.webp",
         type: "Festival",
         link: "/festivals/thaipusam",
         hint: "kavadi"
@@ -40,7 +40,7 @@ export default function TheemithiPage() {
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-red-700/10">
                 <div className="absolute inset-0 z-0 opacity-20">
-                    <Image src="https://i.postimg.cc/KzM0xQYV/theemithi.jpg" alt="Theemithi Fire Walking Festival" layout="fill" objectFit="cover" data-ai-hint="fire walking" />
+                    <Image src="https://i.postimg.cc/Hx8kz3vf/theemithi.jpg" alt="Theemithi Fire Walking Festival" layout="fill" objectFit="cover" data-ai-hint="fire walking" />
                 </div>
                 <div className="relative text-center text-primary-foreground z-10 p-4">
                     <h1 className="font-headline text-4xl md:text-5xl lg:text-7xl font-bold text-red-900 drop-shadow-lg">A Walk Through Fire</h1>
@@ -52,7 +52,7 @@ export default function TheemithiPage() {
                 <Card className="mb-12">
                     <CardContent className="p-6 md:p-10">
                         <Tabs defaultValue="overview">
-                            <TabsList className="grid w-full grid-cols-2 md:grid-cols-2 mb-6 h-auto">
+                            <TabsList className="grid w-full grid-cols-1 md:grid-cols-2 mb-6 h-auto">
                                 <TabsTrigger value="overview" className="py-2"><BookOpen className="w-4 h-4 mr-2" />The Story</TabsTrigger>
                                 <TabsTrigger value="traditions" className="py-2"><Sparkles className="w-4 h-4 mr-2" />The Ritual</TabsTrigger>
                             </TabsList>

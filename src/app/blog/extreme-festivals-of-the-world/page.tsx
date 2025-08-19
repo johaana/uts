@@ -10,7 +10,7 @@ import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 
 const post = { 
     title: "Gods, Guts, and Glory: A Journey into the World's Most Extreme Festivals", 
-    image: "https://i.postimg.cc/KzM0xQYV/theemithi.jpg",
+    image: "https://i.postimg.cc/Hx8kz3vf/theemithi.jpg",
     excerpt: "From walking on fire to being pelted with fireworks, some festivals push the boundaries of human endurance. We explore the world's most extreme rituals and the profound faith that fuels them."
 };
 
@@ -37,7 +37,7 @@ const relatedContent: RelatedItem[] = [
     {
         slug: "thaipusam",
         title: "The Burden of Faith: Unpacking Thaipusam",
-        image: "https://i.postimg.cc/4y7fTLZd/thaipusam.webp",
+        image: "https://i.postimg.cc/cJbJfPhR/thaipusam.webp",
         type: "Festival",
         link: "/festivals/thaipusam",
         hint: "kavadi"
@@ -45,7 +45,7 @@ const relatedContent: RelatedItem[] = [
     {
         slug: "theemithi",
         title: "A Walk Through Fire: The Story of Theemithi",
-        image: "https://i.postimg.cc/KzM0xQYV/theemithi.jpg",
+        image: "https://i.postimg.cc/Hx8kz3vf/theemithi.jpg",
         type: "Festival",
         link: "/festivals/theemithi",
         hint: "fire walking"

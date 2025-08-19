@@ -11,7 +11,7 @@ const relatedContent: RelatedItem[] = [
     {
         slug: "extreme-festivals-of-the-world",
         title: "Gods, Guts, and Glory: The World's Most Extreme Festivals",
-        image: "https://i.postimg.cc/KzM0xQYV/theemithi.jpg",
+        image: "https://i.postimg.cc/Hx8kz3vf/theemithi.jpg",
         type: "Blog",
         link: "/blog/extreme-festivals-of-the-world",
         hint: "fire walking"
@@ -19,7 +19,7 @@ const relatedContent: RelatedItem[] = [
     {
         slug: "theemithi",
         title: "A Walk Through Fire: The Story of Theemithi",
-        image: "https://i.postimg.cc/KzM0xQYV/theemithi.jpg",
+        image: "https://i.postimg.cc/Hx8kz3vf/theemithi.jpg",
         type: "Festival",
         link: "/festivals/theemithi",
         hint: "fire walking"
@@ -38,7 +38,7 @@ export default function ThaipusamPage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-primary/10">
-                 <Image src="https://i.postimg.cc/4y7fTLZd/thaipusam.webp" alt="Thaipusam festival" layout="fill" objectFit="cover" className="absolute inset-0 z-0 opacity-30" data-ai-hint="kavadi" />
+                 <Image src="https://i.postimg.cc/cJbJfPhR/thaipusam.webp" alt="Thaipusam festival" layout="fill" objectFit="cover" className="absolute inset-0 z-0 opacity-30" data-ai-hint="kavadi" />
                 <div className="relative text-center text-primary-foreground z-10 p-4">
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-primary shadow-lg">The Burden of Faith</h1>
                     <p className="text-xl md:text-2xl mt-4 text-primary/90 shadow-md">Unpacking the Intense Rituals of Thaipusam</p>

@@ -10,7 +10,7 @@ export default function BoryeongMudFestivalPage() {
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-gray-500/10">
                 <div className="absolute inset-0 z-0 opacity-20">
-                    <Image src="https://i.postimg.cc/WbQ3yT8J/boryeong-mud-festival.jpg" alt="Boryeong Mud Festival" layout="fill" objectFit="cover" data-ai-hint="mud festival" />
+                    <Image src="https://i.postimg.cc/N0MM9Q6G/boryeong.avif" alt="Boryeong Mud Festival" layout="fill" objectFit="cover" data-ai-hint="mud festival" />
                 </div>
                 <div className="relative text-center text-primary-foreground z-10 p-4">
                     <h1 className="font-headline text-4xl md:text-5xl lg:text-7xl font-bold text-gray-900 drop-shadow-lg">From Cosmetics to Chaos</h1>

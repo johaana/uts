@@ -10,7 +10,7 @@ import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 
 const post = { 
     title: "Conversations with the Departed: How the World Honors Its Ancestors", 
-    image: "https://i.postimg.cc/135v1FjR/obon-festival.jpg",
+    image: "https://i.postimg.cc/T3Q13KWH/nyepi.webp",
     excerpt: "From Mexico's vibrant Día de los Muertos to Japan's serene Obon festival, discover the beautiful and profound ways different cultures maintain a living connection with those who have passed on."
 };
 
@@ -64,7 +64,7 @@ export default function HonoringAncestorsPage() {
     return (
         <div className="container mx-auto px-4 py-12">
             <div className="relative h-64 md:h-96 w-full mb-8">
-                <Image src={post.image} alt={post.title} layout="fill" objectFit="cover" data-ai-hint="japanese lanterns" className="rounded-lg"/>
+                <Image src={post.image} alt={post.title} layout="fill" objectFit="cover" data-ai-hint="ogoh-ogoh statue" className="rounded-lg"/>
             </div>
             <Card className="overflow-hidden md:-mt-16 relative z-10 md:rounded-t-2xl">
                 <CardContent className="p-6 md:p-10">

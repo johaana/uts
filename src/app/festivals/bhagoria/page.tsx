@@ -10,7 +10,7 @@ export default function BhagoriaPage() {
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-pink-500/10">
                 <div className="absolute inset-0 z-0 opacity-20">
-                    <Image src="https://i.postimg.cc/t4gVwFkQ/bhagoria-festival.jpg" alt="Bhagoria Festival" layout="fill" objectFit="cover" data-ai-hint="tribal festival" />
+                    <Image src="https://i.postimg.cc/zvW3zpnn/Bhagoria.jpg" alt="Bhagoria Festival" layout="fill" objectFit="cover" data-ai-hint="tribal festival" />
                 </div>
                 <div className="relative text-center text-primary-foreground z-10 p-4">
                     <h1 className="font-headline text-4xl md:text-5xl lg:text-7xl font-bold text-pink-900 drop-shadow-lg">Love on the Run</h1>
