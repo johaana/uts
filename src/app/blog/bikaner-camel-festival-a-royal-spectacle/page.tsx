@@ -10,7 +10,7 @@ import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 
 const post = { 
     title: "Bikaner's Royal Spectacle: The Famous Camel Festival", 
-    image: "https://i.postimg.cc/wj4HpKmQ/bikaner-camel-festival.jpg",
+    image: "https://i.postimg.cc/cL5m84pX/bikaner-camel-festival.jpg",
     excerpt: "Explore the vibrant Bikaner Camel Festival, a unique celebration of Rajasthan's 'Ship of the Desert'. Discover dates, traditions, and what makes this event a photographer's paradise."
 };
 

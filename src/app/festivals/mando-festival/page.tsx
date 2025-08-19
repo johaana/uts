@@ -10,7 +10,7 @@ export default function MandoFestivalPage() {
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-green-700/10">
                 <div className="absolute inset-0 z-0 opacity-20">
-                    <Image src="https://i.postimg.cc/mktjKkYm/Mando.jpg" alt="Mando Festival" layout="fill" objectFit="cover" data-ai-hint="goan folk dance" />
+                    <Image src="https://i.postimg.cc/15XsrvgM/mando.jpg" alt="Mando Festival" layout="fill" objectFit="cover" data-ai-hint="goan folk dance" />
                 </div>
                 <div className="relative text-center z-10 p-4">
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-green-900 drop-shadow-lg">Mando Festival</h1>
