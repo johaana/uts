@@ -124,7 +124,6 @@ export default function Home() {
                 availableYears={['Upcoming', '2025', '2026']}
                 title="Festival & Holiday Calendar"
                 description="Plan your year around the vibrant celebrations of India. Never miss a festival, holiday, or long weekend."
-                displayLimit={10}
             />
         </div>
       </section>

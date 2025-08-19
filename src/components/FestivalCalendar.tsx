@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { useState, useMemo, useEffect } from 'react';
@@ -9,7 +10,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { ArrowRight, Star, Calendar, MapPin, Tag, Loader2 } from "lucide-react";
-import { format, parse, getYear, isValid, isFuture, isToday, startOfToday, endOfDay, addDays, getMonth } from 'date-fns';
+import { format, parse, getYear, isValid, isFuture, isToday, startOfDay, endOfDay, addDays, getMonth } from 'date-fns';
 import { allEvents } from '@/lib/festival-data';
 import { cn } from '@/lib/utils';
 import React from 'react';
@@ -47,7 +48,6 @@ export function FestivalCalendar({
     title,
     description,
     showLongWeekendInfo = true,
-    displayLimit,
 }: FestivalCalendarProps) {
     const [isClient, setIsClient] = useState(false);
     const [selectedMonth, setSelectedMonth] = useState('all');
@@ -143,13 +143,9 @@ export function FestivalCalendar({
                 return range && range.end >= today;
             });
         }
-        
-        if (displayLimit) {
-            return filtered.slice(0, displayLimit);
-        }
 
         return filtered;
-    }, [isClient, selectedYear, selectedMonth, selectedRegion, selectedEventType, events, displayLimit]);
+    }, [isClient, selectedYear, selectedMonth, selectedRegion, selectedEventType, events]);
     
     const formatDateString = (dateString: string) => {
         const range = getEventDateRange(dateString);
@@ -247,7 +243,7 @@ export function FestivalCalendar({
 
             <div className="hidden md:block">
                  <Card className="overflow-hidden flex flex-col">
-                    <div className="overflow-y-auto">
+                    <div className="overflow-y-auto max-h-[70vh]">
                         <Table>
                             <TableHeader className="sticky top-0 bg-background z-10">
                                 <TableRow>
