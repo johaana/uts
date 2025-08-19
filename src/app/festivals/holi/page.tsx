@@ -11,6 +11,7 @@ const recipes = [
     { name: "Gujiya", link: "/recipes/gujiya" },
     { name: "Thandai", link: "/recipes/thandai" },
     { name: "Ras Malai", link: "/recipes/ras-malai" },
+    { name: "Malpua", link: "/recipes/malpua" },
 ]
 
 const relatedContent: RelatedItem[] = [

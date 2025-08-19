@@ -10,6 +10,7 @@ const recipes = [
     { name: "Khechudi", link: "/recipes/khechudi" },
     { name: "Dalma", link: "/recipes/dalma" },
     { name: "Poda Pitha", link: "/recipes/poda-pitha" },
+    { name: "Khaja", link: "/recipes/khaja" },
 ]
 
 export default function RathYatraPage() {

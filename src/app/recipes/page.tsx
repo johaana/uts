@@ -11,6 +11,11 @@ import Link from "next/link";
 import Image from "next/image";
 
 const allRecipes = [
+    { name: "Meethe Chawal (Zarda Pulao)", festival: "Vasant Panchami", region: "North", description: "Fragrant sweet rice with saffron and nuts, celebrating spring's arrival.", link: "/recipes/meethe-chawal", image: "https://i.postimg.cc/fWdSc7PG/Zarda-pulao.jpg", hint: "sweet rice" },
+    { name: "Khaja", festival: "Rath Yatra", region: "East", description: "Crispy, layered pastry sweetened with sugar syrup, an offering for Lord Jagannath.", link: "/recipes/khaja", image: "https://i.postimg.cc/63k2sT8b/khaja.jpg", hint: "layered pastry" },
+    { name: "Malpua", festival: "Holi", region: "Nationwide", description: "Soft, syrupy pancakes, a rich and decadent treat for joyous occasions.", link: "/recipes/malpua", image: "https://i.postimg.cc/TwLLHn3W/malpua.jpg", hint: "sweet pancake" },
+    { name: "Pinni", festival: "Lohri", region: "North", description: "A nutrient-dense winter sweet from Punjab, made with flour, ghee, and nuts.", link: "/recipes/pinni", image: "https://i.postimg.cc/q77CyPfw/Pinni1.webp", hint: "wheat sweet" },
+    { name: "Ghevar", festival: "Teej", region: "North", description: "A disc-shaped, porous sweet from Rajasthan, soaked in sugar syrup.", link: "/recipes/ghevar", image: "https://i.postimg.cc/Zn69JZ3b/ghevar.jpg", hint: "rajasthani sweet" },
     { name: "Gajar Ka Halwa", festival: "Diwali", region: "North", description: "A rich carrot pudding made with milk, sugar, and ghee.", link: "/recipes/gajar-ka-halwa", image: "https://i.postimg.cc/FHNTRfLR/gajar-halwa.jpg", hint: "carrot pudding" },
     { name: "Puran Poli", festival: "Ganesh Chaturthi", region: "West", description: "Sweet flatbread stuffed with a lentil and jaggery filling.", link: "/recipes/puran-poli", image: "https://i.postimg.cc/jj8gBsCj/puranpoli.jpg", hint: "sweet flatbread" },
     { name: "Ras Malai", festival: "Holi", region: "East", description: "Soft paneer discs soaked in sweetened, thickened milk.", link: "/recipes/ras-malai", image: "https://i.postimg.cc/d1pWt42P/Rasmalai.webp", hint: "milk sweets" },

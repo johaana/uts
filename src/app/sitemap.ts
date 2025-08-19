@@ -43,6 +43,11 @@ const allRecipes = [
     { link: "/recipes/sabudana-khichdi" },
     { link: "/recipes/kuttu-ki-puri" },
     { link: "/recipes/makhane-ki-kheer" },
+    { link: "/recipes/meethe-chawal" },
+    { link: "/recipes/khaja" },
+    { link: "/recipes/malpua" },
+    { link: "/recipes/pinni" },
+    { link: "/recipes/ghevar" },
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -86,5 +91,3 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
     return [...staticRoutes, ...festivalRoutes, ...internationalFestivalRoutes, ...recipeRoutes, ...blogRoutes];
 }
-
-    
