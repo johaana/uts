@@ -8,6 +8,9 @@ export default function WangalaPage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-yellow-800/10">
+                <div className="absolute inset-0 z-0 opacity-20">
+                    <Image src="https://i.postimg.cc/zBTV50wT/wangala.webp" alt="Wangala Festival" layout="fill" objectFit="cover" data-ai-hint="garo dance" />
+                </div>
                 <div className="relative text-center text-primary-foreground z-10 p-4">
                     <h1 className="font-headline text-4xl md:text-5xl lg:text-7xl font-bold text-yellow-900 drop-shadow-lg">Wangala Festival</h1>
                     <p className="text-lg md:text-xl lg:text-2xl mt-4 text-yellow-800/90 drop-shadow-md">The Hundred Drums Festival</p>
@@ -26,7 +29,7 @@ export default function WangalaPage() {
                             <TabsContent value="overview">
                                  <div className="flex flex-col md:flex-row gap-8 items-center">
                                     <div className="md:order-2 md:w-1/3">
-                                        <Image src="https://i.postimg.cc/50vMmdWP/Wangala.webp" alt="Wangala Dance" width={400} height={400} className="rounded-lg shadow-lg w-full" data-ai-hint="garo dance"/>
+                                        <Image src="https://i.postimg.cc/cJprVV3s/wangala2.jpg" alt="Wangala Dance" width={400} height={400} className="rounded-lg shadow-lg w-full" data-ai-hint="garo dance"/>
                                     </div>
                                     <div className="md:order-1 md:w-2/3">
                                         <h2 className="font-headline text-3xl font-bold mb-4">A Garo Tribe Celebration</h2>
@@ -64,3 +67,5 @@ export default function WangalaPage() {
         </div>
     );
 }
+
+    

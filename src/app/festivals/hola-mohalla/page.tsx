@@ -10,7 +10,7 @@ export default function HolaMohallaPage() {
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-blue-500/10">
                 <div className="absolute inset-0 z-0 opacity-20">
-                    <Image src="https://i.postimg.cc/ncDF7gwX/Hola-Mohalla.jpg" alt="Hola Mohalla" layout="fill" objectFit="cover" data-ai-hint="sikh warriors" />
+                    <Image src="https://i.postimg.cc/XvpjNQWp/hola-mohalla3.jpg" alt="Hola Mohalla" layout="fill" objectFit="cover" data-ai-hint="sikh warriors" />
                 </div>
                 <div className="relative text-center text-primary-foreground z-10 p-4">
                     <h1 className="font-headline text-4xl md:text-5xl lg:text-7xl font-bold text-blue-900 drop-shadow-lg">Hola Mohalla</h1>
@@ -64,3 +64,5 @@ export default function HolaMohallaPage() {
         </div>
     );
 }
+
+    

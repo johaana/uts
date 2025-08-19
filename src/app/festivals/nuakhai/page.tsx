@@ -8,6 +8,7 @@ export default function NuakhaiPage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-green-700/10">
+                 <Image src="https://i.postimg.cc/1zn879fC/nuakhai.jpg" alt="Nuakhai Festival" layout="fill" objectFit="cover" className="absolute inset-0 z-0 opacity-30" data-ai-hint="odisha festival" />
                 <div className="relative text-center text-primary-foreground z-10 p-4">
                     <h1 className="font-headline text-4xl md:text-5xl lg:text-7xl font-bold text-green-900 drop-shadow-lg">Nuakhai</h1>
                     <p className="text-lg md:text-xl lg:text-2xl mt-4 text-green-800/90 drop-shadow-md">The Harvest Festival of Western Odisha</p>
@@ -26,7 +27,7 @@ export default function NuakhaiPage() {
                             <TabsContent value="overview">
                                  <div className="flex flex-col md:flex-row gap-8 items-center">
                                     <div className="md:order-2 md:w-1/3">
-                                        <Image src="https://i.postimg.cc/zGMM2tj4/nuakhai.avif" alt="Nuakhai Festival" width={400} height={400} className="rounded-lg shadow-lg w-full" data-ai-hint="odisha festival"/>
+                                        <Image src="https://i.postimg.cc/L80qVq6g/nuakhai2.webp" alt="Nuakhai Festival" width={400} height={400} className="rounded-lg shadow-lg w-full" data-ai-hint="odisha festival"/>
                                     </div>
                                     <div className="md:order-1 md:w-2/3">
                                         <h2 className="font-headline text-3xl font-bold mb-4">Welcoming the New Rice</h2>
@@ -58,3 +59,5 @@ export default function NuakhaiPage() {
         </div>
     );
 }
+
+    
