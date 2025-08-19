@@ -56,10 +56,14 @@ export function HolidayPlanner() {
   };
 
   return (
-    <Card className="max-w-2xl mx-auto shadow-xl overflow-hidden">
+    <Card className="max-w-2xl mx-auto shadow-xl overflow-hidden bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-blue-950/50 dark:to-indigo-950/80 border-2 border-blue-200/50">
         <div className="relative h-48 bg-primary/10">
             <Image src="https://i.postimg.cc/VLQf0kKF/long-weekend-1.jpg" layout="fill" objectFit="cover" alt="Holiday Planner" data-ai-hint="holiday planning calendar" />
-            <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent"></div>
+             <div className="absolute bottom-4 left-6">
+                <h1 className="font-headline text-3xl md:text-4xl font-bold text-primary">AI Holiday Planner</h1>
+                <p className="text-foreground/80">Your Personal Festival Guide</p>
+            </div>
         </div>
       <CardContent className="p-4">
         <div className="space-y-4 h-72 overflow-y-auto p-4 border rounded-lg bg-background/50 mb-4">
