@@ -89,7 +89,7 @@ export default function Home() {
         <div className="absolute inset-0 bg-black/50 z-10"></div>
          <HeroCarousel />
         <div className="absolute inset-0 z-20 flex flex-col items-start justify-end text-left p-6 md:p-8 lg:p-12">
-          <h1 className="font-headline text-4xl md:text-5xl lg:text-7xl font-bold text-white drop-shadow-[0_2px_2px_rgba(0,0,0,0.9)] max-w-4xl">Every Festival Tells a Story</h1>
+          <h1 className="font-headline text-3xl md:text-5xl lg:text-7xl font-bold text-white drop-shadow-[0_2px_2px_rgba(0,0,0,0.9)] max-w-4xl">Every Festival Tells a Story</h1>
           <div className="hidden md:block">
             <p className="mt-4 text-lg text-white/90 drop-shadow-[0_2px_2px_rgba(0,0,0,0.7)] max-w-2xl">
                 Journey through the rich tapestry of Indian culture. We uncover the legends, rituals, and traditions that bring each celebration to life. Discover the soul of every 'utsav'.
