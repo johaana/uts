@@ -88,10 +88,16 @@ export default function ExtremeFestivalsPage() {
                         <h3><Link href="/festivals/theemithi" className="text-accent">Theemithi:</Link> A Walk Through Fire</h3>
                         <p>To honor the goddess Draupadi, devotees in South India and Singapore walk barefoot across a long pit of burning embers. This is Theemithi, the fire-walking festival. It reenacts the moment from the Mahabharata where Draupadi proved her purity by walking through fire, emerging unharmed. For modern devotees, it is an ultimate test of faith—a belief that their own purity and devotion will protect them from the flames.</p>
                         
-                        <h3>Krampusnacht: The Night of the Demon</h3>
+                        <div className="my-8 flex justify-center">
+                             <Image src="https://i.postimg.cc/5yrkPw0H/Krampusnacht.avif" alt="Krampusnacht" width={600} height={400} className="rounded-lg shadow-lg" data-ai-hint="krampus"/>
+                        </div>
+                        <h3><Link href="/festivals/krampusnacht" className="text-accent">Krampusnacht:</Link> The Night of the Demon</h3>
                         <p>In Austria and parts of Germany, the festive cheer of Christmas is preceded by a night of terror. On Krampusnacht, men dress as Krampus, a horned, demonic creature from Alpine folklore who is said to punish naughty children. They roam the streets with chains and bells, creating a genuinely frightening spectacle. It's a folk tradition that represents the darker, pre-Christian roots of winter celebrations, a way to confront and ward off the darkness of the long winter nights.</p>
                         
-                        <h3>Hadaka Matsuri: The Naked Festival</h3>
+                         <div className="my-8 flex justify-center">
+                            <Image src="https://i.postimg.cc/j5Z1fVY4/Hadaka-Matsuri.jpg" alt="Hadaka Matsuri" width={600} height={400} className="rounded-lg shadow-lg" data-ai-hint="naked festival"/>
+                        </div>
+                        <h3><Link href="/festivals/hadaka-matsuri" className="text-accent">Hadaka Matsuri:</Link> The Naked Festival</h3>
                         <p>In Japan, thousands of men, wearing only traditional loincloths, brave freezing temperatures to participate in Hadaka Matsuri. They jostle and fight to touch a "spirit man" or catch sacred wooden sticks thrown by priests. The belief is that by doing so, they can transfer all their bad luck and gain a year of happiness. It's a chaotic, intense, and deeply communal ritual of purification.</p>
 
                         <blockquote>
