@@ -13,6 +13,7 @@ import {
   HolidayPlannerInputSchema,
   HolidayPlannerInput,
 } from '@/ai/flows/holiday-planner-types';
+import Image from 'next/image';
 
 type Message = {
   role: 'user' | 'bot';
@@ -55,15 +56,13 @@ export function HolidayPlanner() {
   };
 
   return (
-    <Card className="max-w-2xl mx-auto shadow-xl bg-gradient-to-br from-background via-secondary/50 to-background">
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2 font-headline text-primary">
-          <Bot />
-          AI Holiday Planner
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="space-y-4 h-80 overflow-y-auto p-4 border rounded-lg bg-background/50 mb-4">
+    <Card className="max-w-2xl mx-auto shadow-xl overflow-hidden">
+        <div className="relative h-48 bg-primary/10">
+            <Image src="https://i.postimg.cc/VLQf0kKF/long-weekend-1.jpg" layout="fill" objectFit="cover" alt="Holiday Planner" data-ai-hint="holiday planning calendar" />
+            <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent"></div>
+        </div>
+      <CardContent className="p-4">
+        <div className="space-y-4 h-72 overflow-y-auto p-4 border rounded-lg bg-background/50 mb-4">
           {messages.length === 0 ? (
              <div className="flex items-center justify-center h-full text-muted-foreground text-center">
                 <p>e.g., 'When is Holi in 2028?' or 'Plan a trip around Durga Puja'</p>
