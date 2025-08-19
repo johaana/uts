@@ -9,7 +9,7 @@ export default function MadaiFestivalPage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-yellow-600/10">
-                 <Image src="https://i.postimg.cc/sfQGzKT7/madai-festival.jpg" alt="Madai Festival" layout="fill" objectFit="cover" className="absolute inset-0 z-0 opacity-30" data-ai-hint="tribal fair" />
+                 <Image src="https://i.postimg.cc/0jpmW9HR/madai.jpg" alt="Madai Festival" layout="fill" objectFit="cover" className="absolute inset-0 z-0 opacity-30" data-ai-hint="tribal fair" />
                 <div className="relative text-center z-10 p-4">
                     <h1 className="font-headline text-4xl md:text-5xl lg:text-7xl font-bold text-yellow-900 drop-shadow-lg">Madai Festival</h1>
                     <p className="text-lg md:text-xl lg:text-2xl mt-4 text-yellow-800/90 drop-shadow-md">A Vibrant Tribal Fair of Chhattisgarh</p>
@@ -20,10 +20,9 @@ export default function MadaiFestivalPage() {
                 <Card className="mb-12">
                     <CardContent className="p-6 md:p-10">
                         <Tabs defaultValue="overview">
-                            <TabsList className="grid w-full grid-cols-1 md:grid-cols-3 mb-6 h-auto">
+                            <TabsList className="grid w-full grid-cols-1 md:grid-cols-2 mb-6 h-auto">
                                 <TabsTrigger value="overview" className="py-2"><BookOpen className="w-4 h-4 mr-2" />Overview</TabsTrigger>
-                                <TabsTrigger value="traditions" className="py-2"><Sparkles className="w-4 h-4 mr-2" />Celebrations</TabsTrigger>
-                                <TabsTrigger value="music" className="py-2"><Music className="w-4 h-4 mr-2" />Music & Dance</TabsTrigger>
+                                <TabsTrigger value="traditions" className="py-2"><Music className="w-4 h-4 mr-2" />Music & Dance</TabsTrigger>
                             </TabsList>
 
                             <TabsContent value="overview">
@@ -34,15 +33,8 @@ export default function MadaiFestivalPage() {
                                 </div>
                             </TabsContent>
                             
-                            <TabsContent value="traditions">
+                             <TabsContent value="traditions">
                                 <h2 className="font-headline text-3xl font-bold mb-4">Rituals and Offerings</h2>
-                                <div className="space-y-4 text-foreground/80 prose max-w-none">
-                                   <p>The central ritual of the Madai festival involves the worship of the presiding deity of the area. A goat is often sacrificed to the goddess to appease her, after which the grand celebrations commence. The atmosphere becomes electric, filled with the sounds of traditional folk music, the sight of people adorned in colorful traditional attire, and the infectious energy of vibrant folk dances. The bustling fair that accompanies the festival is a major attraction, featuring numerous stalls selling everything from local crafts to delicious tribal food, offering a complete sensory experience of the region's rich cultural tapestry.</p>
-                                </div>
-                            </TabsContent>
-
-                             <TabsContent value="music">
-                                <h2 className="font-headline text-3xl font-bold mb-4">Folk Performances</h2>
                                 <div className="space-y-6">
                                     <Card>
                                         <CardHeader>

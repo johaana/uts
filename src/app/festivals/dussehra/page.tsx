@@ -5,6 +5,7 @@ import { BookOpen, Sparkles, MessageSquareQuote } from "lucide-react";
 import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
+import Link from "next/link";
 
 const relatedContent: RelatedItem[] = [
     {
@@ -62,7 +63,7 @@ export default function DussehraPage() {
                                         <h2 className="font-headline text-3xl font-bold mb-4">The Tenth Day of Victory</h2>
                                         <div className="space-y-4 text-foreground/80 prose max-w-none">
                                             <p>Dussehra, also known as Vijayadashami, is a momentous Hindu festival celebrated with great zeal at the culmination of the nine nights of Navratri. The name 'Dussehra' itself is derived from the Sanskrit words 'Dasha' (ten) and 'Hara' (defeat), vividly capturing the essence of the festival: the defeat of the ten-headed demon king, Ravana, by Lord Rama. This victory is a cornerstone of the epic Ramayana and stands as one of the most powerful narratives in Hinduism, symbolizing the decisive and ultimate triumph of Dharma (righteousness) over Adharma (unrighteousness), light over darkness, and good over evil.</p>
-                                            <p>The festival also celebrates the victory of another powerful deity, Goddess Durga, who vanquished the buffalo demon Mahishasura after a nine-day battle. Thus, the day is also called 'Vijayadashami', the 'tenth day of victory'. While the celebrations vary across India's diverse cultural landscape, the underlying theme remains a universal celebration of the power of truth and virtue to conquer all forms of wickedness.</p>
+                                            <p>The festival also celebrates the victory of another powerful deity, Goddess Durga, who vanquished the buffalo demon Mahishasura after a nine-day battle. Thus, the day is also called 'Vijayadashami', the 'tenth day of victory'. In this context, the divine feminine energy receives a weapon from the gods to fight evil, a theme echoed in festivals like <Link href="/festivals/thaipusam" className="text-accent hover:underline">Thaipusam</Link>. While the celebrations vary across India's diverse cultural landscape, the underlying theme remains a universal celebration of the power of truth and virtue to conquer all forms of wickedness.</p>
                                         </div>
                                     </div>
                                 </div>
@@ -98,5 +99,3 @@ export default function DussehraPage() {
         </div>
     );
 }
-
-    

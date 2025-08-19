@@ -10,7 +10,7 @@ export default function GuruGobindSinghJayantiPage() {
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-orange-500/10">
                 <div className="absolute inset-0 z-0 opacity-20">
-                    <Image src="https://i.postimg.cc/gkrjFVZv/Guru-Gobind-Singh-jayanti.jpg" alt="Guru Gobind Singh" layout="fill" objectFit="cover" data-ai-hint="sikh guru" />
+                    <Image src="https://i.postimg.cc/3x9jQJr3/Guru-Gobind-Singh-jayanti.jpg" alt="Guru Gobind Singh" layout="fill" objectFit="cover" data-ai-hint="sikh guru" />
                 </div>
                 <div className="relative text-center text-primary-foreground z-10 p-4">
                     <h1 className="font-headline text-4xl md:text-5xl lg:text-7xl font-bold text-orange-900 drop-shadow-lg">Guru Gobind Singh Jayanti</h1>

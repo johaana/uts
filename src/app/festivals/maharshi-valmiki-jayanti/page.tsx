@@ -10,7 +10,7 @@ export default function ValmikiJayantiPage() {
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-orange-700/10">
                 <div className="absolute inset-0 z-0 opacity-20">
-                    <Image src="https://i.postimg.cc/N08f7b3w/valmiki-jayanti.jpg" alt="Maharshi Valmiki" layout="fill" objectFit="cover" data-ai-hint="ancient sage" />
+                    <Image src="https://i.postimg.cc/xdCvfDqM/valmiki-jayanti.jpg" alt="Maharshi Valmiki" layout="fill" objectFit="cover" data-ai-hint="ancient sage" />
                 </div>
                 <div className="relative text-center text-primary-foreground z-10 p-4">
                     <h1 className="font-headline text-4xl md:text-5xl lg:text-7xl font-bold text-orange-900 drop-shadow-lg">Maharshi Valmiki Jayanti</h1>
