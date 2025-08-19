@@ -37,16 +37,16 @@ export default function ApiPage() {
                             <h3 className="font-headline text-2xl font-bold text-primary">Let's Collaborate</h3>
                             <p className="mt-2">If you are a travel agency, OTA, or content creator interested in accessing our data or exploring a partnership, please get in touch with our team.</p>
                             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-4">
-                                <Link href="mailto:joy@utsavs.com" target="_blank" rel="noopener noreferrer">
-                                    <Button>
-                                        <Mail className="mr-2 h-4 w-4"/>
-                                        Email Us
-                                    </Button>
-                                </Link>
                                 <Link href="https://wa.me/919545997111" target="_blank" rel="noopener noreferrer">
-                                     <Button variant="secondary">
+                                     <Button>
                                         <MessageSquareText className="mr-2 h-4 w-4"/>
                                         WhatsApp
+                                    </Button>
+                                </Link>
+                                <Link href="mailto:joy@utsavs.com" target="_blank" rel="noopener noreferrer">
+                                    <Button variant="secondary">
+                                        <Mail className="mr-2 h-4 w-4"/>
+                                        Email Us
                                     </Button>
                                 </Link>
                             </div>
