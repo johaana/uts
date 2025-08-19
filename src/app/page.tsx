@@ -130,7 +130,7 @@ export default function Home() {
 
       <FestivalOfTheMonth />
       
-      <section className="py-12 md:py-24 bg-background">
+      <section className="py-12 md:py-24 bg-secondary/30">
         <div className="container mx-auto px-4">
            <FestivalCalendar
                 events={allEvents}
@@ -143,7 +143,7 @@ export default function Home() {
       
        <AIPlannerShowcase />
 
-      <section className="py-12 md:py-24 bg-secondary/30">
+      <section className="py-12 md:py-24 bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="font-headline text-3xl md:text-5xl font-bold text-primary">Discover by Region</h2>
@@ -155,7 +155,7 @@ export default function Home() {
         </div>
       </section>
 
-       <section className="py-12 md:py-24 bg-background">
+       <section className="py-12 md:py-24 bg-secondary/30">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="font-headline text-3xl md:text-5xl font-bold text-primary">Discover International Festivals</h2>
@@ -167,7 +167,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-12 md:py-24 bg-secondary/30">
+      <section className="py-12 md:py-24 bg-background">
         <div className="container mx-auto px-4">
             <div className="text-center mb-12">
                 <h2 className="font-headline text-3xl md:text-5xl font-bold text-primary">A World of Flavor & Tradition</h2>

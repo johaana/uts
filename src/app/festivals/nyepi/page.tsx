@@ -40,6 +40,9 @@ export default function NyepiPage() {
                                 <h2 className="font-headline text-3xl font-bold mb-4">The Roar Before the Quiet</h2>
                                 <div className="space-y-4 text-foreground/80 prose max-w-none">
                                    <p>The eve of Nyepi, known as 'Tawur Kesanga', is anything but silent. It is a day for the 'Ngrupuk' parade, where villages across Bali showcase their 'Ogoh-ogoh'—giant, monstrous effigies made from bamboo and paper-mâché. These grotesque figures, representing evil spirits and demons, are paraded through the streets with loud gamelan music and fire torches. The procession is a joyous, cathartic exorcism, culminating in the burning of the Ogoh-ogoh in a large bonfire, a symbolic act of purifying the environment of all spiritual pollutants.</p>
+                                    <div className="my-8 flex justify-center">
+                                        <Image src="https://i.postimg.cc/mgTh4YhH/nyepi-2.jpg" width={600} height={400} alt="Ogoh-ogoh parade in Bali" className="rounded-lg shadow-lg" data-ai-hint="ogoh-ogoh parade"/>
+                                    </div>
                                    <p>When the sun rises on Nyepi, the silence descends. For 24 hours, four key prohibitions are observed: no fire or light ('amati geni'), no working ('amati karya'), no travelling ('amati lelunganan'), and no revelry or entertainment ('amati lelanguan'). The only people seen outdoors are the 'Pecalang', traditional security men who patrol the streets to ensure the rules are respected. It is a day of profound peace, where the only sounds are those of nature, and the night sky, free from light pollution, reveals a breathtaking canopy of stars.</p>
                                 </div>
                             </TabsContent>

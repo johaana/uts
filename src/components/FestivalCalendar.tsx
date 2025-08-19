@@ -230,7 +230,7 @@ export function FestivalCalendar({
             )}
 
             <div className="hidden md:block">
-                 <Card className="h-[60vh] overflow-hidden flex flex-col">
+                 <Card className="overflow-hidden flex flex-col">
                     <div className="overflow-y-auto">
                         <Table>
                             <TableHeader className="sticky top-0 bg-background z-10">
@@ -290,7 +290,7 @@ export function FestivalCalendar({
                 </Card>
             </div>
 
-            <div className="md:hidden space-y-4 h-[28rem] overflow-y-auto pr-2">
+            <div className="md:hidden space-y-4 max-h-[60vh] overflow-y-auto pr-2">
                  {!isClient ? (
                     <Card className="text-center h-24 flex items-center justify-center text-muted-foreground">
                         <div className="flex items-center">

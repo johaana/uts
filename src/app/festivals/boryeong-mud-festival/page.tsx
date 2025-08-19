@@ -38,6 +38,9 @@ export default function BoryeongMudFestivalPage() {
                              <TabsContent value="traditions">
                                 <h2 className="font-headline text-3xl font-bold mb-4">A Playground of Mud</h2>
                                 <div className="space-y-6">
+                                     <div className="my-8 flex justify-center">
+                                        <Image src="https://i.postimg.cc/GHpcyjsg/boryeong-2.jpg" width={600} height={400} alt="People playing in the mud at Boryeong Festival" className="rounded-lg shadow-lg" data-ai-hint="mud wrestling"/>
+                                    </div>
                                     <Card>
                                         <CardHeader>
                                             <CardTitle>More Than Just a Mud Bath</CardTitle>

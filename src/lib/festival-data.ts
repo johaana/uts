@@ -89,5 +89,3 @@ export const internationalEvents = [
     { slug: "hogmanay", name: "Hogmanay", date: "Dec 31, 2025", region: "Scotland", type: "New Year", link: "/festivals/hogmanay", image: "https://i.postimg.cc/fLzRWWtx/Hogmanay-Scotland.webp", description: "Scotland's famous New Year's Eve celebration.", hint: "torchlight procession" },
     { slug: "bunya-dreaming", name: "The Bunya Dreaming Festival", date: "Jan 20, 2026", region: "Australia", type: "Cultural", link: "/festivals/bunya-dreaming", image: "https://i.postimg.cc/RVkPkNyb/The-Bunya-Dreaming-Festival-Australia-1.png", description: "A celebration of First Peoples' culture, centered around the harvest of the Bunya nut.", hint: "aboriginal festival" },
 ];
-
-    

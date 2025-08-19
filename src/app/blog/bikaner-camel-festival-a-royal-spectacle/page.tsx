@@ -83,6 +83,10 @@ export default function SingleBlogPage() {
                         <h2>A Tribute to the Ship of the Desert</h2>
                         <p>The Bikaner Camel Festival is a vibrant two-day affair held annually in the heart of Rajasthan, dedicated to the animal that has been the lifeline of the desert people for centuries. Often called the 'Ship of the Desert', the camel is not just a mode of transport but a vital partner in the livelihood of the Rajasthani people. This festival, set against the majestic backdrop of the Junagarh Fort, is a colorful tribute to this resilient animal.</p>
 
+                        <div className="my-8 flex justify-center">
+                            <Image src="https://i.postimg.cc/02nZPCcg/bikaner-camel-3.jpg" width={600} height={400} alt="Decorated camel at Bikaner" className="rounded-lg shadow-lg" data-ai-hint="decorated camel"/>
+                        </div>
+
                         <h2>What to Expect</h2>
                         <p>The festival kicks off with a spectacular procession of brightly adorned camels, each dressed in vibrant attire, traditional necklaces, and heavy anklets that jingle as they move. Both camels and their owners dress in their finest, creating a visual feast for spectators. The celebration is filled with the sounds of local folk music and performances of traditional dances.</p>
 
