@@ -65,18 +65,33 @@ export default function SingleBlogPage() {
                         </div>
 
                         <h3>1. Simple Flower Rangoli</h3>
+                        <div className="my-4 flex justify-center">
+                            <Image src="https://i.postimg.cc/KjmJJ0xv/Marigold-Flower-Rangoli.jpg" alt="Marigold Flower Rangoli" width={500} height={500} className="rounded-lg shadow-lg" data-ai-hint="marigold rangoli" />
+                        </div>
                         <p>This is the easiest design for beginners. Start with a central circle and draw petals around it to form a flower. You can use different colored powders for each petal. Add details like leaves and stems to make it more elaborate.</p>
 
                         <h3>2. Geometric Pattern Rangoli</h3>
+                        <div className="my-4 flex justify-center">
+                            <Image src="https://i.postimg.cc/gkkghtgg/Geometric-Patterns-rangoli.jpg" alt="Geometric Patterns Rangoli" width={500} height={500} className="rounded-lg shadow-lg" data-ai-hint="geometric rangoli" />
+                        </div>
                         <p>Geometric rangolis look complex but are easy to create with a grid of dots. Connect the dots to form squares, triangles, and other shapes. Fill in the shapes with different colors to create a stunning pattern.</p>
 
                         <h3>3. Peacock Rangoli</h3>
+                        <div className="my-4 flex justify-center">
+                           <Image src="https://i.postimg.cc/GtMJzrXq/Traditional-Peacock-Rangoli.jpg" alt="Traditional Peacock Rangoli" width={500} height={500} className="rounded-lg shadow-lg" data-ai-hint="peacock rangoli" />
+                        </div>
                         <p>The peacock is a symbol of beauty and grace in Indian culture. Draw the outline of a peacock and fill it with vibrant blues, greens, and gold. Use a darker color for the outline to make the design pop.</p>
 
                         <h3>4. Diya Rangoli</h3>
+                        <div className="my-4 flex justify-center">
+                            <Image src="https://i.postimg.cc/k4vy6WKr/Diya-and-Floral-rangoli.jpg" alt="Diya and Floral Rangoli" width={500} height={500} className="rounded-lg shadow-lg" data-ai-hint="diya rangoli" />
+                        </div>
                         <p>A diya rangoli is perfect for Diwali. Draw a large diya in the center and decorate it with smaller diyas and floral patterns around it. Use bright colors to represent light and celebration.</p>
 
                         <h3>5. Swastika Rangoli</h3>
+                        <div className="my-4 flex justify-center">
+                           <Image src="https://i.postimg.cc/1XRrp4r8/rangoli-design1.jpg" alt="Auspicious Rangoli Design" width={500} height={500} className="rounded-lg shadow-lg" data-ai-hint="auspicious rangoli" />
+                        </div>
                         <p>The swastika is an ancient symbol of good fortune. Create a swastika in the center and surround it with a circular border of intricate patterns. This design is both auspicious and beautiful.</p>
 
                     </article>
