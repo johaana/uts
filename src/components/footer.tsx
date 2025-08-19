@@ -43,6 +43,7 @@ export function Footer() {
                 <li><Link href="/recipes" className="text-foreground/80 hover:text-primary">Recipes</Link></li>
                  <li><Link href="/blog" className="text-foreground/80 hover:text-primary">Blog</Link></li>
                  <li><Link href="/api" className="text-foreground/80 hover:text-primary">Partnerships</Link></li>
+                 <li><Link href="/about" className="text-foreground/80 hover:text-primary">About Us</Link></li>
                  <li><Link href="/sitemap.xml" className="text-foreground/80 hover:text-primary">Sitemap</Link></li>
               </ul>
             </div>

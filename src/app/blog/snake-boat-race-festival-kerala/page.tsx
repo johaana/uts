@@ -66,7 +66,7 @@ export default function SingleBlogPage() {
                         <ul>
                             <li><strong>Nehru Trophy Boat Race:</strong> Held on the second Saturday of August every year in Alappuzha, it's known as the “Olympics of Snake Boat Races.”</li>
                             <li><strong>Champakulam Moolam Boat Race:</strong> Considered the oldest Vallam Kali, it is associated with the Ambalappuzha Sree Krishna Temple.</li>
-                            <li><strong>Aranmula Boat Race:</strong> More ritualistic than competitive, this race is an act of devotion to Lord Parthasarathy.</li>
+                            <li><strong>Aranmula Boat Race:</strong> More ritualistic than a race, this event is an act of devotion to Lord Parthasarathy.</li>
                         </ul>
                         
                         <h3>Community, Rituals, and Spirit of Vallam Kali</h3>
