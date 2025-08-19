@@ -167,6 +167,7 @@ export function FestivalCalendar({
     };
 
     const renderEventName = (name: string) => {
+        if (!name) return null;
         const match = name.match(/^(.*?) (\(.*\))$/);
         if (match) {
             return (
@@ -339,5 +340,3 @@ export function FestivalCalendar({
         </div>
     );
 }
-
-    
