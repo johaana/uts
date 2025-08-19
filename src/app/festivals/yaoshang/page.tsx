@@ -10,7 +10,7 @@ export default function YaoshangPage() {
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-pink-500/10">
                 <div className="absolute inset-0 z-0 opacity-30">
-                    <Image src="https://i.postimg.cc/LXs4x4bj/yaoshang.webp" alt="Yaoshang festival" layout="fill" objectFit="cover" data-ai-hint="manipur festival" />
+                    <Image src="https://i.postimg.cc/X7rc60G5/Yaoshang1.webp" alt="Yaoshang festival" layout="fill" objectFit="cover" data-ai-hint="manipur festival" />
                 </div>
                 <div className="relative text-center z-10 p-4">
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-pink-900 drop-shadow-lg">Yaoshang</h1>
@@ -50,7 +50,14 @@ export default function YaoshangPage() {
                                             <CardTitle>The Moonlight Dance</CardTitle>
                                         </CardHeader>
                                         <CardContent>
-                                            <p className="text-foreground/80">'Thabal Chongba', which translates to 'dancing in the moonlight', is a traditional Manipuri folk dance that is the pulsating heart of Yaoshang celebrations. In the evenings, young boys and girls from different localities gather in open grounds under the full moon. They join hands, form a circle, and dance together to the rhythmic beat of folk music, particularly the dholak (drum). This dance, which allows young people to meet and socialize, is a beautiful, lively, and inclusive celebration of community, spring, and togetherness.</p>
+                                            <div className="flex flex-col md:flex-row gap-6 items-center">
+                                                <div className="md:w-2/3">
+                                                    <p className="text-foreground/80">'Thabal Chongba', which translates to 'dancing in the moonlight', is a traditional Manipuri folk dance that is the pulsating heart of Yaoshang celebrations. In the evenings, young boys and girls from different localities gather in open grounds under the full moon. They join hands, form a circle, and dance together to the rhythmic beat of folk music, particularly the dholak (drum). This dance, which allows young people to meet and socialize, is a beautiful, lively, and inclusive celebration of community, spring, and togetherness.</p>
+                                                </div>
+                                                <div className="md:w-1/3">
+                                                    <Image src="https://i.postimg.cc/cLm7G7MK/Thabal-chongba.jpg" alt="Thabal Chongba Dance" width={300} height={200} className="rounded-lg shadow-lg w-full" data-ai-hint="manipuri folk dance" />
+                                                </div>
+                                            </div>
                                         </CardContent>
                                     </Card>
                                 </div>

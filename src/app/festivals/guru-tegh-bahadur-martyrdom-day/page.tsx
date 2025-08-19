@@ -10,7 +10,7 @@ export default function GuruTeghBahadurMartyrdomDayPage() {
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-gray-500/10">
                 <div className="absolute inset-0 z-0 opacity-20">
-                    <Image src="https://i.postimg.cc/L67XHJtG/Guru-Tegh-Bahadur-s-Martyrdom-Day.jpg" alt="Guru Tegh Bahadur" layout="fill" objectFit="cover" data-ai-hint="sikh guru martyrdom" />
+                    <Image src="https://i.postimg.cc/VNr3JhV0/Guru-Tegh-Bahadur-s-Martyrdom-Day.jpg" alt="Guru Tegh Bahadur" layout="fill" objectFit="cover" data-ai-hint="sikh guru martyrdom" />
                 </div>
                 <div className="relative text-center text-primary-foreground z-10 p-4">
                     <h1 className="font-headline text-4xl md:text-5xl lg:text-7xl font-bold text-gray-900 drop-shadow-lg">Guru Tegh Bahadur's Martyrdom Day</h1>
