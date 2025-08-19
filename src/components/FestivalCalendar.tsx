@@ -10,7 +10,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { ArrowRight, Star, Calendar, MapPin, Tag, Loader2 } from "lucide-react";
-import { format, parse, getYear, isValid, isFuture, isToday, startOfDay, endOfDay, addDays, getMonth } from 'date-fns';
+import { format, parse, getYear, isValid, isFuture, isToday, startOfDay, endOfDay, addDays, getMonth, startOfToday } from 'date-fns';
 import { allEvents } from '@/lib/festival-data';
 import { cn } from '@/lib/utils';
 import React from 'react';
