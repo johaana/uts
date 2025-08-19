@@ -36,7 +36,7 @@ export function UpcomingFestivalCard({ festival }: { festival: Festival }) {
                 <Link href={festival.link}>
                     <Image
                         src={festival.image}
-                        alt={festival.name}
+                        alt={festival.name || "Festival image"}
                         layout="fill"
                         objectFit="cover"
                         data-ai-hint={festival.hint}
