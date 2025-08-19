@@ -19,6 +19,13 @@ export default function InternationalFestivalsPage() {
 
     return (
         <div className="container mx-auto px-4 py-12 md:py-16">
+            <div className="text-center mb-12">
+                <h1 className="font-headline text-3xl md:text-5xl font-bold">Discover International Festivals</h1>
+                <p className="mt-3 text-base md:text-lg text-foreground/80 max-w-2xl mx-auto">
+                    Venture beyond borders and explore unique cultural celebrations from around the globe. Discover new traditions, vibrant colors, and profound stories.
+                </p>
+            </div>
+
             <FestivalCalendar 
                 events={internationalEvents}
                 availableYears={['Upcoming', '2025', '2026']}
@@ -56,5 +63,3 @@ export default function InternationalFestivalsPage() {
         </div>
     );
 }
-
-    

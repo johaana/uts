@@ -31,10 +31,10 @@ export function Header() {
     <header 
       className={cn(
         "bg-background/80 backdrop-blur-sm border-b sticky top-0 z-40 transition-all duration-300",
-        isScrolled ? "py-0" : "py-2"
+        isScrolled ? "h-14" : "h-20"
       )}
     >
-      <div className="container mx-auto flex items-center justify-between h-16 px-4">
+      <div className="container mx-auto flex items-center justify-between h-full px-4">
         
         {/* Logo */}
         <div className="flex-1 md:flex-none justify-start">
@@ -42,9 +42,12 @@ export function Header() {
                 <Image 
                   src="https://i.postimg.cc/vZTZ0Br5/utsavs-logo.png" 
                   alt="Utsavs Logo" 
-                  className={cn("transition-all duration-300 group-hover:scale-105", isScrolled ? "w-16 h-16" : "w-20 h-20")}
-                  width="80"
-                  height="80"
+                  className={cn(
+                    "transition-all duration-300 group-hover:scale-105", 
+                    isScrolled ? "w-12 h-12" : "w-16 h-16"
+                  )}
+                  width={isScrolled ? 48 : 64}
+                  height={isScrolled ? 48 : 64}
                   style={{ objectFit: 'contain' }}
                 />
                 <span className="hidden md:block font-headline text-2xl font-bold self-center drop-shadow-sm transition-transform duration-300 group-hover:scale-105 text-primary" style={{textShadow: '1px 1px 3px rgba(0,0,0,0.1)'}}>Utsavs</span>

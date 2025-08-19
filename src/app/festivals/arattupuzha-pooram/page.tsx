@@ -69,8 +69,8 @@ export default function ArattupuzhaPooramPage() {
                     <Image src="https://i.postimg.cc/sx9mBPzh/arattupuzha-pooram.webp" alt="Arattupuzha Pooram" layout="fill" objectFit="cover" data-ai-hint="kerala temple festival" />
                 </div>
                 <div className="relative text-center text-primary-foreground z-10 p-4">
-                    <h1 className="font-headline text-4xl md:text-5xl lg:text-7xl font-bold text-red-900 drop-shadow-lg">Arattupuzha Pooram</h1>
-                    <p className="text-lg md:text-xl lg:text-2xl mt-4 text-red-800/90 drop-shadow-md">The Mother of all Pooram Festivals</p>
+                    <h1 className="font-headline text-4xl md:text-7xl font-bold text-red-900 drop-shadow-lg">Arattupuzha Pooram</h1>
+                    <p className="text-lg md:text-xl mt-4 text-red-800/90 drop-shadow-md">The Mother of all Pooram Festivals</p>
                 </div>
             </section>
             
