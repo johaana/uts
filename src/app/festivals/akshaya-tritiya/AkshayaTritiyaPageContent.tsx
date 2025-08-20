@@ -1,11 +1,12 @@
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote } from "lucide-react";
 import Link from "next/link";
 import { useMediaQuery } from "@/hooks/use-media-query";
+import { ProductCard } from "@/components/ProductCard";
+import { products } from "@/lib/product-data";
 
 const recipes = [
     { name: "Sweet Pongal", link: "/recipes/sakkarai-pongal" },
@@ -57,6 +58,13 @@ const pageContent = [
                         </div>
                     </li>
                 </ul>
+                <div className="not-prose my-10">
+                    <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Auspicious Purchases</h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-md mx-auto">
+                        <ProductCard product={products.solimoThali} />
+                        <ProductCard product={products.bengalenThali6Inch} />
+                    </div>
+                </div>
             </>
         )
     },

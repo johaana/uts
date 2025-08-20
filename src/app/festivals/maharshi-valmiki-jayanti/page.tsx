@@ -1,9 +1,15 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BookOpen, Sparkles, MessageSquareQuote } from "lucide-react";
 import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
+import { ProductCard } from "@/components/ProductCard";
+import { products } from "@/lib/product-data";
+
+const pageSections = [
+    { id: "overview", title: "Overview", icon: BookOpen },
+    { id: "legacy", title: "Legacy", icon: Sparkles },
+];
 
 export default function ValmikiJayantiPage() {
     return (
@@ -21,21 +27,29 @@ export default function ValmikiJayantiPage() {
             <div className="container mx-auto px-4 py-12 -mt-24">
                 <Card className="mb-12">
                     <CardContent className="p-6 md:p-10">
-                        <Tabs defaultValue="overview">
-                            <TabsList className="grid w-full grid-cols-1 md:grid-cols-2 mb-6 h-auto">
-                                <TabsTrigger value="overview" className="py-2"><BookOpen className="w-4 h-4 mr-2" />Overview</TabsTrigger>
-                                <TabsTrigger value="legacy" className="py-2"><Sparkles className="w-4 h-4 mr-2" />Legacy</TabsTrigger>
-                            </TabsList>
-
-                            <TabsContent value="overview">
+                        <div className="mb-10 p-4 border-l-4 border-primary bg-primary/5">
+                            <h2 className="font-headline text-2xl font-bold mb-4">In This Article</h2>
+                            <ul className="space-y-2">
+                                {pageSections.map(section => (
+                                    <li key={section.id}>
+                                        <a href={`#${section.id}`} className="flex items-center gap-3 text-foreground/80 hover:text-primary transition-colors">
+                                            <section.icon className="w-5 h-5 text-accent" />
+                                            <span className="font-semibold">{section.title}</span>
+                                        </a>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                        <article className="space-y-12">
+                            <section id="overview">
                                 <h2 className="font-headline text-3xl font-bold mb-4">The First Poet</h2>
                                 <div className="space-y-4 text-foreground/80 prose max-w-none">
                                     <p>Maharshi Valmiki Jayanti celebrates the birth anniversary of the revered sage Valmiki, who is hailed as the 'Adi Kavi' or the first poet of Sanskrit literature. He is the celebrated author of the epic Ramayana, one of the most important texts in Hinduism. The festival is observed on the full moon day (Purnima) of the Hindu month of Ashwin.</p>
                                     <p>The story of Valmiki's transformation from a highway robber named Ratnakar to a great sage is a powerful tale of redemption. Through meditation and the chanting of Lord Rama's name, he attained enlightenment and was inspired to compose the epic poem that has guided generations.</p>
                                 </div>
-                            </TabsContent>
+                            </section>
                             
-                             <TabsContent value="legacy">
+                             <section id="legacy">
                                 <h2 className="font-headline text-3xl font-bold mb-4">The Ramayana</h2>
                                 <div className="space-y-6">
                                     <Card>
@@ -47,8 +61,15 @@ export default function ValmikiJayantiPage() {
                                         </CardContent>
                                     </Card>
                                 </div>
-                            </TabsContent>
-                        </Tabs>
+                                <div className="not-prose my-10">
+                                    <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Puja Essentials</h3>
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-md mx-auto">
+                                        <ProductCard product={products.indianArtVillaThali} />
+                                        <ProductCard product={products.handicraftsParadiseChowki} />
+                                    </div>
+                                </div>
+                            </section>
+                        </article>
                         <ShareButtons title="Maharshi Valmiki Jayanti" />
                     </CardContent>
                 </Card>

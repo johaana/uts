@@ -1,9 +1,15 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BookOpen, Sparkles, MessageSquareQuote } from "lucide-react";
 import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
+import { ProductCard } from "@/components/ProductCard";
+import { products } from "@/lib/product-data";
+
+const pageSections = [
+    { id: "overview", title: "Overview", icon: BookOpen },
+    { id: "legacy", title: "Legacy", icon: Sparkles },
+];
 
 export default function GuruGobindSinghJayantiPage() {
     return (
@@ -21,20 +27,29 @@ export default function GuruGobindSinghJayantiPage() {
             <div className="container mx-auto px-4 py-12 -mt-24">
                 <Card className="mb-12">
                     <CardContent className="p-6 md:p-10">
-                        <Tabs defaultValue="overview">
-                            <TabsList className="grid w-full grid-cols-1 md:grid-cols-2 mb-6 h-auto">
-                                <TabsTrigger value="overview" className="py-2"><BookOpen className="w-4 h-4 mr-2" />Overview</TabsTrigger>
-                                <TabsTrigger value="legacy" className="py-2"><Sparkles className="w-4 h-4 mr-2" />Legacy</TabsTrigger>
-                            </TabsList>
+                        <div className="mb-10 p-4 border-l-4 border-primary bg-primary/5">
+                            <h2 className="font-headline text-2xl font-bold mb-4">In This Article</h2>
+                            <ul className="space-y-2">
+                                {pageSections.map(section => (
+                                    <li key={section.id}>
+                                        <a href={`#${section.id}`} className="flex items-center gap-3 text-foreground/80 hover:text-primary transition-colors">
+                                            <section.icon className="w-5 h-5 text-accent" />
+                                            <span className="font-semibold">{section.title}</span>
+                                        </a>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
 
-                            <TabsContent value="overview">
+                        <article className="space-y-12">
+                             <section id="overview">
                                 <h2 className="font-headline text-3xl font-bold mb-4">A Warrior, Poet, and Philosopher</h2>
                                 <div className="space-y-4 text-foreground/80 prose max-w-none">
                                     <p>Guru Gobind Singh Jayanti celebrates the birth of the tenth Sikh Guru, a revered spiritual master, warrior, poet, and philosopher. He was a pivotal figure in Sikh history, known for his immense courage and his contributions to the faith. He established the Khalsa, a warrior community, and introduced the Five Ks, the articles of faith that Sikhs wear. His life was dedicated to fighting against oppression and upholding justice and equality.</p>
                                 </div>
-                            </TabsContent>
+                            </section>
                             
-                             <TabsContent value="legacy">
+                             <section id="legacy">
                                 <h2 className="font-headline text-3xl font-bold mb-4">The Eternal Guru</h2>
                                 <div className="space-y-6">
                                     <Card>
@@ -46,8 +61,16 @@ export default function GuruGobindSinghJayantiPage() {
                                         </CardContent>
                                     </Card>
                                 </div>
-                            </TabsContent>
-                        </Tabs>
+                                <div className="not-prose my-10">
+                                    <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Gurpurab Essentials</h3>
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-md mx-auto">
+                                        <ProductCard product={products.bengalenThali8Inch} />
+                                        <ProductCard product={products.spillboxThali} />
+                                    </div>
+                                </div>
+                            </section>
+                        </article>
+                        
                         <ShareButtons title="Guru Gobind Singh Jayanti" />
                     </CardContent>
                 </Card>

@@ -1,9 +1,16 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BookOpen, Sparkles, MessageSquareQuote } from "lucide-react";
 import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
+import { ProductCard } from "@/components/ProductCard";
+import { products } from "@/lib/product-data";
+
+const pageSections = [
+    { id: "overview", title: "Overview", icon: BookOpen },
+    { id: "traditions", title: "The Ceremony", icon: Sparkles },
+    { id: "significance", title: "Significance", icon: MessageSquareQuote },
+];
 
 export default function TulsiVivahPage() {
     return (
@@ -21,29 +28,43 @@ export default function TulsiVivahPage() {
             <div className="container mx-auto px-4 py-12 -mt-24">
                 <Card className="mb-12">
                     <CardContent className="p-6 md:p-10">
-                        <Tabs defaultValue="overview">
-                            <TabsList className="grid w-full grid-cols-1 md:grid-cols-3 mb-6 h-auto">
-                                <TabsTrigger value="overview" className="py-2"><BookOpen className="w-4 h-4 mr-2" />Overview</TabsTrigger>
-                                <TabsTrigger value="traditions" className="py-2"><Sparkles className="w-4 h-4 mr-2" />The Ceremony</TabsTrigger>
-                                <TabsTrigger value="significance" className="py-2"><MessageSquareQuote className="w-4 h-4 mr-2" />Significance</TabsTrigger>
-                            </TabsList>
-
-                            <TabsContent value="overview">
+                         <div className="mb-10 p-4 border-l-4 border-primary bg-primary/5">
+                            <h2 className="font-headline text-2xl font-bold mb-4">In This Article</h2>
+                            <ul className="space-y-2">
+                                {pageSections.map(section => (
+                                    <li key={section.id}>
+                                        <a href={`#${section.id}`} className="flex items-center gap-3 text-foreground/80 hover:text-primary transition-colors">
+                                            <section.icon className="w-5 h-5 text-accent" />
+                                            <span className="font-semibold">{section.title}</span>
+                                        </a>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                        <article className="space-y-12">
+                            <section id="overview">
                                 <h2 className="font-headline text-3xl font-bold mb-4">A Divine Matrimony</h2>
                                 <div className="space-y-4 text-foreground/80 prose max-w-none">
                                     <p>Tulsi Vivah is a beautiful and unique Hindu festival that celebrates the ceremonial marriage of the Tulsi plant (Holy Basil) to the Hindu god Vishnu, in his Shaligram form. The Tulsi plant is not just a herb in Hinduism; it is revered as a goddess, an incarnation of Lakshmi, and a symbol of purity, protection, and motherhood. This celestial wedding marks the end of the monsoon season and the beginning of the auspicious Hindu wedding season.</p>
                                     <p>The festival is celebrated between Prabodhini Ekadashi (the eleventh lunar day of the bright fortnight of the Hindu month of Kartik) and Kartik Poornima (the full moon of the month). The ceremony is performed with all the rituals of a traditional Hindu wedding, turning homes and temples into miniature wedding venues.</p>
                                 </div>
-                            </TabsContent>
+                            </section>
                             
-                            <TabsContent value="traditions">
+                            <section id="traditions">
                                 <h2 className="font-headline text-3xl font-bold mb-4">The Wedding Rituals</h2>
                                 <div className="space-y-4 text-foreground/80 prose max-w-none">
                                    <p>The Tulsi Vivah ceremony is a joyous affair. The Tulsi plant, representing the bride, is lovingly adorned with a small saree, jewelry, and vermilion. A makeshift 'mandap' (wedding canopy) is created around the plant. An idol or a picture of Lord Vishnu, or more traditionally, a Shaligram stone, represents the groom. The wedding rituals are performed in full, including the 'kanyadaan' (giving away the bride) and the 'saptapadi' (seven steps around the sacred fire). Devotees sing wedding songs and offer prayers. A grand vegetarian feast is prepared and shared among family and friends after the ceremony is complete.</p>
                                 </div>
-                            </TabsContent>
+                                <div className="not-prose my-10">
+                                    <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Puja Items</h3>
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-md mx-auto">
+                                        <ProductCard product={products.handicraftsParadiseChowki} />
+                                        <ProductCard product={products.spillboxThali} />
+                                    </div>
+                                </div>
+                            </section>
 
-                             <TabsContent value="significance">
+                             <section id="significance">
                                 <h2 className="font-headline text-3xl font-bold mb-4">Blessings of a Happy Home</h2>
                                 <div className="space-y-6">
                                     <Card>
@@ -55,8 +76,8 @@ export default function TulsiVivahPage() {
                                         </CardContent>
                                     </Card>
                                 </div>
-                            </TabsContent>
-                        </Tabs>
+                            </section>
+                        </article>
                         <ShareButtons title="Tulsi Vivah" />
                     </CardContent>
                 </Card>

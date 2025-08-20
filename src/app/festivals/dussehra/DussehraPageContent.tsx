@@ -1,13 +1,13 @@
-
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BookOpen, Sparkles, MessageSquareQuote } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { ProductCard } from "@/components/ProductCard";
+import { products } from "@/lib/product-data";
 
 
 const pageContent = [
@@ -60,6 +60,14 @@ const pageContent = [
                         <p className="text-foreground/80">Vijayadashami is considered one of the most auspicious days in the Hindu calendar. It is a time for new beginnings, making it a popular day to start a new business, purchase a new home or vehicle, or initiate a child's education (a ritual known as 'Vidyarambham'). The festival powerfully reinforces the core Hindu belief that no matter how formidable evil may appear, it is ultimately transient and will be vanquished by the enduring power of good, truth, and righteousness.</p>
                     </CardContent>
                 </Card>
+            </div>
+            <div className="not-prose my-10">
+                <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Items for Your Celebration</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                    <ProductCard product={products.rajasthanKraftToran} />
+                    <ProductCard product={products.handicraftsParadiseChowki} />
+                    <ProductCard product={products.indianArtVillaThali} />
+                </div>
             </div>
             </>
         )

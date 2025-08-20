@@ -1,11 +1,17 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BookOpen, Sparkles, MessageSquareQuote, CheckCircle } from "lucide-react";
 import Image from "next/image";
 import { ProductCard } from "@/components/ProductCard";
 import { products } from "@/lib/product-data";
 import { ShareButtons } from "@/components/ShareButtons";
+
+const pageSections = [
+    { id: "overview", title: "Overview", icon: BookOpen },
+    { id: "traditions", title: "The Ritual", icon: Sparkles },
+    { id: "significance", title: "Significance", icon: MessageSquareQuote },
+];
+
 
 export default function KarvaChauthPage() {
     return (
@@ -17,17 +23,27 @@ export default function KarvaChauthPage() {
                 </div>
             </section>
             
-            <div className="container mx-auto px-4 py-12 -mt-24">
+            <div className="container mx-auto px-4 py-12 md:-mt-24">
                 <Card className="mb-12">
                     <CardContent className="p-6 md:p-10">
-                        <Tabs defaultValue="overview">
-                            <TabsList className="grid w-full grid-cols-2 md:grid-cols-3 mb-6 h-auto">
-                                <TabsTrigger value="overview" className="py-2"><BookOpen className="w-4 h-4 mr-2" />Overview</TabsTrigger>
-                                <TabsTrigger value="traditions" className="py-2"><Sparkles className="w-4 h-4 mr-2" />The Ritual</TabsTrigger>
-                                <TabsTrigger value="significance" className="py-2"><MessageSquareQuote className="w-4 h-4 mr-2" />Significance</TabsTrigger>
-                            </TabsList>
 
-                            <TabsContent value="overview">
+                        <div className="mb-10 p-4 border-l-4 border-primary bg-primary/5">
+                            <h2 className="font-headline text-2xl font-bold mb-4">In This Article</h2>
+                            <ul className="space-y-2">
+                                {pageSections.map(section => (
+                                    <li key={section.id}>
+                                        <a href={`#${section.id}`} className="flex items-center gap-3 text-foreground/80 hover:text-primary transition-colors">
+                                            <section.icon className="w-5 h-5 text-accent" />
+                                            <span className="font-semibold">{section.title}</span>
+                                        </a>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+
+                        <article className="space-y-12">
+
+                            <section id="overview">
                                  <div className="flex flex-col md:flex-row gap-8 items-center">
                                     <div className="md:order-2 md:w-1/3">
                                         <Image src="https://i.postimg.cc/k500G1RW/karva-chauth.webp" alt="Karva Chauth Puja" width={400} height={400} className="rounded-lg shadow-lg w-full" data-ai-hint="karva chauth puja"/>
@@ -41,15 +57,15 @@ export default function KarvaChauthPage() {
                                     </div>
                                 </div>
                                 <div className="not-prose my-10">
-                                    <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Check these products on Amazon</h3>
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                    <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Karva Chauth Essentials</h3>
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-md mx-auto">
                                         <ProductCard product={products.craftsWorldKarwaThali} />
                                         <ProductCard product={products.tiedRibbonsKarwaThali} />
                                     </div>
                                 </div>
-                            </TabsContent>
+                            </section>
                             
-                            <TabsContent value="traditions">
+                            <section id="traditions">
                                 <h2 className="font-headline text-3xl font-bold mb-4">Rituals of the Day</h2>
                                 <ul className="space-y-4 pl-4 mb-8">
                                     <li className="flex items-start">
@@ -74,9 +90,9 @@ export default function KarvaChauthPage() {
                                         </div>
                                     </li>
                                 </ul>
-                            </TabsContent>
+                            </section>
 
-                             <TabsContent value="significance">
+                             <section id="significance">
                                 <h2 className="font-headline text-3xl font-bold mb-4">A Celebration of Marital Bond</h2>
                                 <div className="space-y-6">
                                     <Card>
@@ -88,8 +104,8 @@ export default function KarvaChauthPage() {
                                         </CardContent>
                                     </Card>
                                 </div>
-                            </TabsContent>
-                        </Tabs>
+                            </section>
+                        </article>
                         <ShareButtons title="Karva Chauth" />
                     </CardContent>
                 </Card>
@@ -97,5 +113,3 @@ export default function KarvaChauthPage() {
         </div>
     );
 }
-
-    

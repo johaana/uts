@@ -1,8 +1,15 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BookOpen, Music, Drum, Utensils } from "lucide-react";
 import Image from "next/image";
+import { ProductCard } from "@/components/ProductCard";
+import { products } from "@/lib/product-data";
+import { ShareButtons } from "@/components/ShareButtons";
+
+const pageSections = [
+    { id: "overview", title: "Overview", icon: BookOpen },
+    { id: "traditions", title: "Celebrations", icon: Drum },
+];
 
 export default function WangalaPage() {
     return (
@@ -20,13 +27,21 @@ export default function WangalaPage() {
             <div className="container mx-auto px-4 py-12 -mt-24">
                 <Card className="mb-12">
                     <CardContent className="p-6 md:p-10">
-                        <Tabs defaultValue="overview">
-                            <TabsList className="grid w-full grid-cols-1 md:grid-cols-2 mb-6 h-auto">
-                                <TabsTrigger value="overview" className="py-2"><BookOpen className="w-4 h-4 mr-2" />Overview</TabsTrigger>
-                                <TabsTrigger value="traditions" className="py-2"><Drum className="w-4 h-4 mr-2" />Celebrations</TabsTrigger>
-                            </TabsList>
-
-                            <TabsContent value="overview">
+                        <div className="mb-10 p-4 border-l-4 border-primary bg-primary/5">
+                            <h2 className="font-headline text-2xl font-bold mb-4">In This Article</h2>
+                            <ul className="space-y-2">
+                                {pageSections.map(section => (
+                                    <li key={section.id}>
+                                        <a href={`#${section.id}`} className="flex items-center gap-3 text-foreground/80 hover:text-primary transition-colors">
+                                            <section.icon className="w-5 h-5 text-accent" />
+                                            <span className="font-semibold">{section.title}</span>
+                                        </a>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                        <article className="space-y-12">
+                            <section id="overview">
                                  <div className="flex flex-col md:flex-row gap-8 items-center">
                                     <div className="md:order-2 md:w-1/3">
                                         <Image src="https://i.postimg.cc/cJprVV3s/wangala2.jpg" alt="Wangala Dance" width={400} height={400} className="rounded-lg shadow-lg w-full" data-ai-hint="garo dance"/>
@@ -39,9 +54,9 @@ export default function WangalaPage() {
                                         </div>
                                     </div>
                                 </div>
-                            </TabsContent>
+                            </section>
                             
-                            <TabsContent value="traditions">
+                            <section id="traditions">
                                 <h2 className="font-headline text-3xl font-bold mb-4">Music, Dance, and Feasting</h2>
                                 <ul className="space-y-4 pl-4">
                                     <li className="flex items-start">
@@ -59,13 +74,19 @@ export default function WangalaPage() {
                                         </div>
                                     </li>
                                 </ul>
-                            </TabsContent>
-                        </Tabs>
+                                <div className="not-prose my-10">
+                                    <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Get the Festive Look</h3>
+                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-md mx-auto">
+                                        <ProductCard product={products.anumalaJuteBag} />
+                                        <ProductCard product={products.doubleRCanvasBag} />
+                                    </div>
+                                </div>
+                            </section>
+                        </article>
+                         <ShareButtons title="Wangala Festival" />
                     </CardContent>
                 </Card>
             </div>
         </div>
     );
 }
-
-    

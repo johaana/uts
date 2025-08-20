@@ -1,16 +1,24 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote } from "lucide-react";
+import { BookOpen, Utensils, Sparkles, MessageSquareQuote, Leaf } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
+import { ProductCard } from "@/components/ProductCard";
+import { products } from "@/lib/product-data";
 
 const recipes = [
     { name: "Sheer Khurma", link: "/recipes/sheer-khurma" },
     { name: "Biryani", link: "/recipes/biryani" },
     { name: "Haleem", link: "/recipes/haleem" },
 ]
+
+const pageSections = [
+    { id: "overview", title: "Overview", icon: BookOpen },
+    { id: "traditions", title: "Traditions", icon: Sparkles },
+    { id: "recipes", title: "Recipes", icon: Utensils },
+    { id: "prayers", title: "Prayers & Greetings", icon: MessageSquareQuote },
+];
 
 export default function EidAlFitrPage() {
     return (
@@ -22,18 +30,26 @@ export default function EidAlFitrPage() {
                 </div>
             </section>
             
-            <div className="container mx-auto px-4 py-12 -mt-24">
+            <div className="container mx-auto px-4 py-12 md:-mt-24">
                 <Card className="mb-12">
                     <CardContent className="p-6 md:p-10">
-                        <Tabs defaultValue="overview">
-                            <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 mb-6 h-auto">
-                                <TabsTrigger value="overview" className="py-2"><BookOpen className="w-4 h-4 mr-2" />Overview</TabsTrigger>
-                                <TabsTrigger value="traditions" className="py-2"><Sparkles className="w-4 h-4 mr-2" />Traditions</TabsTrigger>
-                                <TabsTrigger value="recipes" className="py-2"><Utensils className="w-4 h-4 mr-2" />Recipes</TabsTrigger>
-                                <TabsTrigger value="prayers" className="py-2"><MessageSquareQuote className="w-4 h-4 mr-2" />Prayers</TabsTrigger>
-                            </TabsList>
+                        
+                        <div className="mb-10 p-4 border-l-4 border-primary bg-primary/5">
+                            <h2 className="font-headline text-2xl font-bold mb-4">In This Article</h2>
+                            <ul className="space-y-2">
+                                {pageSections.map(section => (
+                                    <li key={section.id}>
+                                        <a href={`#${section.id}`} className="flex items-center gap-3 text-foreground/80 hover:text-primary transition-colors">
+                                            <section.icon className="w-5 h-5 text-accent" />
+                                            <span className="font-semibold">{section.title}</span>
+                                        </a>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
 
-                            <TabsContent value="overview">
+                        <article className="space-y-12">
+                            <section id="overview">
                                 <div className="flex flex-col md:flex-row gap-8 items-center">
                                     <div className="md:w-2/3">
                                         <h2 className="font-headline text-3xl font-bold mb-4">The Joyous Culmination of Ramadan</h2>
@@ -46,37 +62,43 @@ export default function EidAlFitrPage() {
                                         <Image src="https://i.postimg.cc/1tMsX8bp/eid-al-fitr.avif" alt="Family celebrating Eid" width={400} height={600} className="rounded-lg shadow-lg" data-ai-hint="eid family"/>
                                     </div>
                                 </div>
-                            </TabsContent>
+                            </section>
                             
-                            <TabsContent value="traditions">
+                            <section id="traditions">
                                 <h2 className="font-headline text-3xl font-bold mb-4">How to Celebrate Eid</h2>
-                                <ul className="space-y-4 pl-4">
-                                    <li className="flex items-start">
-                                        <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
-                                        <div>
-                                            <h4 className="font-bold">Eid Prayers (Salat al-Eid)</h4>
-                                            <p className="text-foreground/80">Muslims gather in large congregations for special prayers in mosques or open grounds, dressed in new clothes.</p>
-                                        </div>
-                                    </li>
-                                    <li className="flex items-start">
-                                        <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
-                                        <div>
-                                            <h4 className="font-bold">Giving 'Eidi'</h4>
-                                            <p className="text-foreground/80">Elders give gifts, often money, to children, known as 'Eidi'. It's a gesture of love and blessing.</p>
-                                        </div>
-                                    </li>
-                                    <li className="flex items-start">
-                                        <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
-                                        <div>
-                                            <h4 className="font-bold">Feasting with Family & Friends</h4>
-                                            <p className="text-foreground/80">A grand feast is central to Eid. Families prepare an array of sweet and savory dishes to share with loved ones and neighbors.</p>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </TabsContent>
+                                <div className="space-y-6">
+                                    <div>
+                                        <h3 className="font-bold text-lg mb-2">Step-by-Step Celebration:</h3>
+                                        <ul className="space-y-4 pl-4 prose max-w-none">
+                                             <li className="flex items-start">
+                                                <span className="font-bold text-primary mr-3">1.</span>
+                                                <div>
+                                                    <h4 className="font-bold">Charity (Zakat al-Fitr)</h4>
+                                                    <p className="text-foreground/80">Before the Eid prayer, it is obligatory to give a donation to the poor to ensure everyone can celebrate.</p>
+                                                </div>
+                                            </li>
+                                             <li className="flex items-start">
+                                                <span className="font-bold text-primary mr-3">2.</span>
+                                                <div>
+                                                    <h4 className="font-bold">Eid Prayers (Salat al-Eid)</h4>
+                                                    <p className="text-foreground/80">Muslims gather in large congregations for special prayers in mosques or open grounds, dressed in new clothes.</p>
+                                                </div>
+                                            </li>
+                                            <li className="flex items-start">
+                                                <span className="font-bold text-primary mr-3">3.</span>
+                                                <div>
+                                                    <h4 className="font-bold">Feasting and Visiting</h4>
+                                                    <p className="text-foreground/80">The rest of the day is spent visiting family and friends, exchanging gifts, and enjoying a grand feast. Elders often give money or gifts ('Eidi') to children.</p>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </section>
 
-                            <TabsContent value="recipes">
+                            <section id="recipes">
                                 <h2 className="font-headline text-3xl font-bold mb-4">Eid Delicacies</h2>
+                                <p className="mb-6 text-foreground/80 prose max-w-none">Eid is synonymous with feasting. Sweet dishes are particularly popular for Eid al-Fitr, earning it the nickname "Sweet Eid".</p>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                                     {recipes.map(recipe => (
                                        <Link href={recipe.link} key={recipe.name}>
@@ -88,9 +110,14 @@ export default function EidAlFitrPage() {
                                         </Link>
                                     ))}
                                 </div>
-                            </TabsContent>
+                                 <div className="text-center mt-6">
+                                    <Link href="/recipes" className="text-accent hover:underline font-semibold">
+                                        Find more festive recipes &rarr;
+                                    </Link>
+                                </div>
+                            </section>
 
-                             <TabsContent value="prayers">
+                             <section id="prayers">
                                 <h2 className="font-headline text-3xl font-bold mb-4">Eid Prayers & Greetings</h2>
                                 <div className="space-y-6">
                                     <Card>
@@ -120,8 +147,8 @@ export default function EidAlFitrPage() {
                                         </CardContent>
                                     </Card>
                                 </div>
-                            </TabsContent>
-                        </Tabs>
+                            </section>
+                        </article>
                         <ShareButtons title="Eid al-Fitr" />
                     </CardContent>
                 </Card>

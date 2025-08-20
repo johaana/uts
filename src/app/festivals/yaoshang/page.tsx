@@ -1,9 +1,16 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BookOpen, Sparkles, Music } from "lucide-react";
 import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
+import { ProductCard } from "@/components/ProductCard";
+import { products } from "@/lib/product-data";
+
+const pageSections = [
+    { id: "overview", title: "Overview", icon: BookOpen },
+    { id: "traditions", title: "Celebrations", icon: Sparkles },
+    { id: "music", title: "Music & Dance", icon: Music },
+];
 
 export default function YaoshangPage() {
     return (
@@ -21,28 +28,35 @@ export default function YaoshangPage() {
             <div className="container mx-auto px-4 py-12 -mt-24">
                 <Card className="mb-12">
                     <CardContent className="p-6 md:p-10">
-                        <Tabs defaultValue="overview">
-                            <TabsList className="grid w-full grid-cols-1 md:grid-cols-3 mb-6 h-auto">
-                                <TabsTrigger value="overview" className="py-2"><BookOpen className="w-4 h-4 mr-2" />Overview</TabsTrigger>
-                                <TabsTrigger value="traditions" className="py-2"><Sparkles className="w-4 h-4 mr-2" />Celebrations</TabsTrigger>
-                                <TabsTrigger value="music" className="py-2"><Music className="w-4 h-4 mr-2" />Music & Dance</TabsTrigger>
-                            </TabsList>
-
-                            <TabsContent value="overview">
+                        <div className="mb-10 p-4 border-l-4 border-primary bg-primary/5">
+                            <h2 className="font-headline text-2xl font-bold mb-4">In This Article</h2>
+                            <ul className="space-y-2">
+                                {pageSections.map(section => (
+                                    <li key={section.id}>
+                                        <a href={`#${section.id}`} className="flex items-center gap-3 text-foreground/80 hover:text-primary transition-colors">
+                                            <section.icon className="w-5 h-5 text-accent" />
+                                            <span className="font-semibold">{section.title}</span>
+                                        </a>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                        <article className="space-y-12">
+                            <section id="overview">
                                 <h2 className="font-headline text-3xl font-bold mb-4">A Five-Day Extravaganza</h2>
                                 <div className="space-y-4 text-foreground/80 prose max-w-none">
                                     <p>Yaoshang is widely considered to be the most important festival of Manipur, celebrated with immense zeal and fervor. Often called the 'Holi of Manipur' due to its timing and the tradition of playing with colors, Yaoshang is a vibrant five-day extravaganza that commences on the full moon day of the Phalguna month (February/March). While it coincides with Holi, Yaoshang has its own unique customs and a deeper cultural significance for the Meitei people of Manipur, blending indigenous Meitei traditions with elements of Vaishnavite Hinduism. It's a time of great joy, community bonding, cultural expression, and sporting spirit, making it a unique celebration in the Indian festival landscape.</p>
                                 </div>
-                            </TabsContent>
+                            </section>
                             
-                            <TabsContent value="traditions">
+                            <section id="traditions">
                                 <h2 className="font-headline text-3xl font-bold mb-4">Unique Customs</h2>
                                 <div className="space-y-4 text-foreground/80 prose max-w-none">
                                    <p>The festival kicks off in the evening with 'Yaoshang Meithaba', the burning of a symbolic thatch hut, which is similar in spirit to the Holika Dahan of North India. A unique and charming tradition of Yaoshang is 'Nakatheng', where children, dressed in their finest, go from house to house to collect monetary donations, which they use for their festive expenses. In a significant departure from other festivals, Yaoshang has evolved to become a major platform for sports. Local clubs and communities organize a wide range of sporting events, from football and athletics to tug-of-war, encouraging a spirit of friendly competition and physical fitness among the youth. And, of course, the festival is also marked by the joyous playing with 'abeer' (colored powder) and water, bringing everyone together in a spirit of fun and camaraderie.</p>
                                 </div>
-                            </TabsContent>
+                            </section>
 
-                             <TabsContent value="music">
+                             <section id="music">
                                 <h2 className="font-headline text-3xl font-bold mb-4">Thabal Chongba</h2>
                                 <div className="space-y-6">
                                     <Card>
@@ -61,8 +75,15 @@ export default function YaoshangPage() {
                                         </CardContent>
                                     </Card>
                                 </div>
-                            </TabsContent>
-                        </Tabs>
+                                <div className="not-prose my-10">
+                                    <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Get in the Festive Spirit</h3>
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-md mx-auto">
+                                        <ProductCard product={products.rangoliPowder} />
+                                        <ProductCard product={products.rangoliMat} />
+                                    </div>
+                                </div>
+                            </section>
+                        </article>
                         <ShareButtons title="Yaoshang" />
                     </CardContent>
                 </Card>
