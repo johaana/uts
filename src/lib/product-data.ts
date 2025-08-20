@@ -315,6 +315,15 @@ export const allProducts: Product[] = [
         link: "https://www.amazon.in/Swaha-Minutes-Ghee-Diya-Yellow/dp/B0188LT5NA?crid=LYQ462IML2NF&dib=eyJ2IjoiMSJ9._s1PTx3QUm1Ba-Ihsd2TFCFVW8Upo5mvmh5sQj6dxADvnd0Paycf-0lnp4OCOj_iHGCsFwjrOhFaFVCHLsxAtG-Iyb4K-QBpIVK_4TUoRDI_9AcKvLZfo28xCCGsnApoOjdqcYJrLsSBSH9f9CJRHkQkJmpJlh5_c9yDEaOxzjURzU8B38R_zpAlsMUcZ9OrmpYV9enHT9_8Civq4iH0QaRaGw5WzkuMorwKEkYrMgHTUioKczjTXWQIcKkpWDk2P9wdMUy2OFjUcCY26UlJxW_3GBAh_5j8FfBvHjxgWtI.TBgkzg6LLOjq4TsEo9tnx9_TV9r5vsZz-hTGz8GbtuA&dib_tag=se&keywords=diwali&qid=1755670429&sprefix=diwali%2Caps%2C295&sr=8-2-spons&sp_csd=d2lkZ2V0TmFtZT1zcF9hdGY&th=1&linkCode=ll1&tag=utsavs-21&linkId=29b16da3f863b2582beef04aefc87358&language=en_IN&ref_=as_li_ss_tl",
         image: "https://i.postimg.cc/ncSNs24k/cow-ghee-diya.jpg",
         hint: "cow ghee diya"
+    },
+    {
+        id: "phoolHoliColours",
+        name: "PHOOL LUXURY INCENSE Holi Gulal Colour - Pack of 4",
+        price: 544,
+        description: "A pack of 4 organic, skin-safe Holi colors in Pink, Blue, Green, and Yellow. Certified safe and non-toxic.",
+        link: "https://www.amazon.in/PHOOL-LUXURY-INCENSE-Organic-Colours/dp/B0DTPBW76Z?crid=1TDZNWBUVND89&dib=eyJ2IjoiMSJ9.KoLTcmcVEFKi2fyx6FntTEX83ehrVXeznFK6gntAK36NRAOZz3uul4PmBcEc9PIp-GZYWdCVqzBsqldiriQxXgU4_GgusXAOX618AMY1XG5i-t5HSPtCIvjFvYNwOR1t95bq4n6LYcOANTQL-HDsQsIEevhdKFlaMtZQNjjnGZ-mXiX_xK4cFFHG37swe8qFb4WJ46XSPZuVvtk-qZugKFN7GM_g8YOATTngFe-L2Zslrcfl8geu5jy0g39UnbX18HAtGsbqBXDh_yo9-zZ5nbJ0PrAb3mDYDEfsPnMGAAQ.OKQIGD58g45BFjyBX5CsBn8_bdwEXXIRBVmexlKwlsU&dib_tag=se&keywords=holi+organic+colours&qid=1755676675&sprefix=holi+oragnic+colour%2Caps%2C306&sr=8-8&linkCode=ll1&tag=utsavs-21&linkId=0f71fcf63617308bc06158bccd47d13b&language=en_IN&ref_=as_li_ss_tl",
+        image: "https://i.postimg.cc/yY1NTZ1D/holi-organic.jpg",
+        hint: "holi organic"
     }
 ];
 

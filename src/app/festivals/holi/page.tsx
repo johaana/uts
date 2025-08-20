@@ -89,7 +89,7 @@ export default function HoliPage() {
                                     </div>
                                     <div className="md:col-span-2">
                                          <div className="space-y-4 text-foreground/80 prose max-w-none">
-                                            <p className="first-letter:text-7xl first-letter:font-bold first-letter:font-headline first-letter:text-primary first-letter:float-left first-letter:mr-4 first-letter:leading-[0.8]">Holi, the world-renowned Festival of Colors, is an exuberant celebration of life, love, and the arrival of spring. It's a day when social barriers are shattered, and people from all walks of life come together to douse each other in vibrant powders and colored water. The most prominent legend is that of Prahlada and Holika. The demon king Hiranyakashipu demanded that all worship him, but his son Prahlada remained a devout follower of Lord Vishnu. Enraged, the king conspired with his sister, Holika, who was immune to fire, to kill Prahlada by tricking him into a pyre. By Vishnu's grace, Prahlada emerged unharmed while Holika was burnt to ashes. The Holika Dahan bonfire, lit on the eve of Holi, commemorates this victory of devotion over evil.</p>
+                                            <p>Holi, the world-renowned Festival of Colors, is an exuberant celebration of life, love, and the arrival of spring. It's a day when social barriers are shattered, and people from all walks of life come together to douse each other in vibrant powders and colored water. The most prominent legend is that of Prahlada and Holika. The demon king Hiranyakashipu demanded that all worship him, but his son Prahlada remained a devout follower of Lord Vishnu. Enraged, the king conspired with his sister, Holika, who was immune to fire, to kill Prahlada by tricking him into a pyre. By Vishnu's grace, Prahlada emerged unharmed while Holika was burnt to ashes. The Holika Dahan bonfire, lit on the eve of Holi, commemorates this victory of devotion over evil.</p>
                                             <p>Holi is also intrinsically linked to the divine love story of Radha and Krishna, celebrating their playful application of colors. Beyond the legends, Holi's true power lies in its social significance. It is a day of catharsis, a time to let go of inhibitions and past grievances. The act of coloring one another makes everyone equal, dissolving distinctions of caste, class, age, and gender. It is a festival of forgiveness, of mending broken relationships, and of celebrating the universal spirit of brotherhood, joy, and new beginnings.</p>
                                         </div>
                                     </div>
@@ -144,8 +144,8 @@ export default function HoliPage() {
                             <div className="not-prose my-10">
                                 <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Get in the Festive Spirit</h3>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-md mx-auto">
+                                    <ProductCard product={products.phoolHoliColours} />
                                     <ProductCard product={products.rangoliPowder} />
-                                    <ProductCard product={products.rangoliMat} />
                                 </div>
                             </div>
 
