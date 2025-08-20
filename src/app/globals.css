@@ -92,7 +92,7 @@
     @apply font-headline;
   }
    /* Magazine-style Drop Cap */
-  .prose > p:first-child::first-letter {
+  .prose > p:first-of-type::first-letter {
     @apply float-left text-7xl font-bold font-headline text-primary mr-4 leading-[0.8];
   }
 
