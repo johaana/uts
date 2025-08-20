@@ -1,6 +1,5 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote, Leaf, CalendarDays } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -15,6 +14,15 @@ const recipes = [
     { name: "Ladoo", link: "/recipes/ladoo" },
 ]
 
+const pageSections = [
+    { id: "overview", title: "Overview", icon: BookOpen },
+    { id: "ten-days", title: "The Ten Days", icon: CalendarDays },
+    { id: "traditions", title: "Traditions", icon: Sparkles },
+    { id: "recipes", title: "Recipes", icon: Utensils },
+    { id: "aartis", title: "Aartis", icon: MessageSquareQuote },
+    { id: "eco-friendly", title: "Eco-Friendly", icon: Leaf },
+];
+
 export default function GaneshChaturthiPage() {
     return (
         <div className="bg-background">
@@ -28,17 +36,23 @@ export default function GaneshChaturthiPage() {
             <div className="container mx-auto px-4 py-12 -mt-24">
                 <Card className="mb-12">
                     <CardContent className="p-6 md:p-10">
-                        <Tabs defaultValue="overview">
-                            <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-6 mb-6 h-auto">
-                                <TabsTrigger value="overview" className="py-2"><BookOpen className="w-4 h-4 mr-2" />Overview</TabsTrigger>
-                                <TabsTrigger value="ten-days" className="py-2"><CalendarDays className="w-4 h-4 mr-2" />The Festival</TabsTrigger>
-                                <TabsTrigger value="traditions" className="py-2"><Sparkles className="w-4 h-4 mr-2" />Traditions</TabsTrigger>
-                                <TabsTrigger value="recipes" className="py-2"><Utensils className="w-4 h-4 mr-2" />Recipes</TabsTrigger>
-                                <TabsTrigger value="chants" className="py-2"><MessageSquareQuote className="w-4 h-4 mr-2" />Aartis</TabsTrigger>
-                                <TabsTrigger value="eco-friendly" className="py-2"><Leaf className="w-4 h-4 mr-2" />Eco-Friendly</TabsTrigger>
-                            </TabsList>
+                        
+                        <div className="mb-10 p-4 border-l-4 border-primary bg-primary/5">
+                            <h2 className="font-headline text-2xl font-bold mb-4">In This Article</h2>
+                            <ul className="space-y-2">
+                                {pageSections.map(section => (
+                                    <li key={section.id}>
+                                        <a href={`#${section.id}`} className="flex items-center gap-3 text-foreground/80 hover:text-primary transition-colors">
+                                            <section.icon className="w-5 h-5 text-accent" />
+                                            <span className="font-semibold">{section.title}</span>
+                                        </a>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
 
-                            <TabsContent value="overview">
+                        <article className="space-y-12">
+                            <section id="overview">
                                 <h2 className="font-headline text-3xl font-bold mb-4">The Story of Ganesha's Birth</h2>
                                 <div className="space-y-4 text-foreground/80 prose max-w-none">
                                     <p>Ganesh Chaturthi is a spectacular festival that celebrates the birth of Lord Ganesha, the beloved elephant-headed son of Shiva and Parvati. Revered as the god of wisdom, prosperity, and good fortune, and the remover of obstacles ('Vighnaharta'), Ganesha's birth is a fascinating story of divine creation. Legend has it that Goddess Parvati, wanting a loyal guard for her private chambers, created a boy from the sandalwood paste on her body and breathed life into him. She instructed him not to allow anyone to enter while she bathed.</p>
@@ -53,9 +67,9 @@ export default function GaneshChaturthiPage() {
                                         <ProductCard product={products.ganpatiDecorPvcStand} />
                                     </div>
                                 </div>
-                            </TabsContent>
+                            </section>
 
-                            <TabsContent value="ten-days">
+                            <section id="ten-days">
                                 <h2 className="font-headline text-3xl font-bold mb-4">The Ten-Day Celebration</h2>
                                 <div className="space-y-8 prose max-w-none text-foreground/80">
                                     <div>
@@ -74,9 +88,9 @@ export default function GaneshChaturthiPage() {
                                         <p>The festival culminates on Anant Chaturdashi. The idols of Ganesha are taken in a vibrant and grand procession to a nearby river, lake, or the sea for immersion ('visarjan'). The streets are filled with music, dance, and chants of "Ganpati Bappa Morya, Pudhchya Varshi Lavkar Ya" (Oh Lord Ganesha, come again soon next year). The immersion symbolizes Ganesha's return to his celestial abode, taking with him the obstacles and misfortunes of his devotees, and the cyclical nature of life and creation.</p>
                                     </div>
                                 </div>
-                            </TabsContent>
+                            </section>
                             
-                            <TabsContent value="traditions">
+                            <section id="traditions">
                                 <h2 className="font-headline text-3xl font-bold mb-4">How to Celebrate Ganesh Chaturthi</h2>
                                 <ul className="space-y-4 pl-4">
                                     <li className="flex items-start">
@@ -101,9 +115,9 @@ export default function GaneshChaturthiPage() {
                                         </div>
                                     </li>
                                 </ul>
-                            </TabsContent>
+                            </section>
 
-                            <TabsContent value="recipes">
+                            <section id="recipes">
                                 <h2 className="font-headline text-3xl font-bold mb-4">Ganesha's Favorite Foods</h2>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                                     {recipes.map(recipe => (
@@ -121,9 +135,9 @@ export default function GaneshChaturthiPage() {
                                         Find more festive recipes &rarr;
                                     </Link>
                                 </div>
-                            </TabsContent>
+                            </section>
 
-                             <TabsContent value="chants">
+                             <section id="aartis">
                                 <h2 className="font-headline text-3xl font-bold mb-4">Marathi Aartis for Lord Ganesha</h2>
                                 <div className="space-y-6">
                                     <Card>
@@ -175,8 +189,8 @@ export default function GaneshChaturthiPage() {
                                         </CardContent>
                                     </Card>
                                 </div>
-                            </TabsContent>
-                             <TabsContent value="eco-friendly">
+                            </section>
+                             <section id="eco-friendly">
                                 <h2 className="font-headline text-3xl font-bold mb-4">Celebrating a Green Ganesh Chaturthi</h2>
                                 <div className="space-y-4 text-foreground/80 prose max-w-none">
                                     <p>Celebrate the festival of lights while being mindful of Mother Earth. A few small changes can make a big difference in reducing the environmental impact of the festivities.</p>
@@ -223,9 +237,9 @@ export default function GaneshChaturthiPage() {
                                         </Link>
                                     </div>
                                 </div>
-                            </TabsContent>
-
-                        </Tabs>
+                            </section>
+                        </article>
+                        
                         <ShareButtons title="Ganesh Chaturthi" />
                     </CardContent>
                 </Card>
