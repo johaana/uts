@@ -41,6 +41,14 @@ const relatedContent: RelatedItem[] = [
     }
 ];
 
+const pageSections = [
+    { id: "overview", title: "Overview", icon: BookOpen },
+    { id: "traditions", title: "Traditions", icon: Sparkles },
+    { id: "recipes", title: "Recipes", icon: Utensils },
+    { id: "chants", title: "Chants", icon: MessageSquareQuote },
+    { id: "eco-friendly", title: "Eco-Friendly", icon: Leaf },
+];
+
 export default function HoliPage() {
     return (
         <div className="bg-background">
@@ -57,31 +65,38 @@ export default function HoliPage() {
             <div className="container mx-auto px-4 py-12 -mt-24">
                 <Card className="mb-12">
                     <CardContent className="p-6 md:p-10">
-                        <Tabs defaultValue="overview">
-                            <TabsList className="grid w-full grid-cols-2 md:grid-cols-5 mb-6 h-auto">
-                                <TabsTrigger value="overview" className="py-2"><BookOpen className="w-4 h-4 mr-2" />Overview</TabsTrigger>
-                                <TabsTrigger value="traditions" className="py-2"><Sparkles className="w-4 h-4 mr-2" />Traditions</TabsTrigger>
-                                <TabsTrigger value="recipes" className="py-2"><Utensils className="w-4 h-4 mr-2" />Recipes</TabsTrigger>
-                                <TabsTrigger value="chants" className="py-2"><MessageSquareQuote className="w-4 h-4 mr-2" />Chants</TabsTrigger>
-                                <TabsTrigger value="eco-friendly" className="py-2"><Leaf className="w-4 h-4 mr-2" />Eco-Friendly</TabsTrigger>
-                            </TabsList>
-
-                            <TabsContent value="overview">
-                                <div className="flex flex-col md:flex-row gap-8 items-center">
-                                    <div className="md:w-2/3">
-                                        <h2 className="font-headline text-3xl font-bold mb-4">The Great Equalizer</h2>
-                                        <div className="space-y-4 text-foreground/80 prose max-w-none">
+                        <div className="mb-10 p-4 border-l-4 border-primary bg-primary/5">
+                            <h2 className="font-headline text-2xl font-bold mb-4">In This Article</h2>
+                            <ul className="space-y-2">
+                                {pageSections.map(section => (
+                                    <li key={section.id}>
+                                        <a href={`#${section.id}`} className="flex items-center gap-3 text-foreground/80 hover:text-primary transition-colors">
+                                            <section.icon className="w-5 h-5 text-accent" />
+                                            <span className="font-semibold">{section.title}</span>
+                                        </a>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                        <article className="space-y-12">
+                            <section id="overview">
+                                <h2 className="font-headline text-3xl font-bold mb-4">The Great Equalizer</h2>
+                                <div className="grid md:grid-cols-3 gap-8">
+                                    <div className="md:col-span-1">
+                                        <p className="text-lg italic text-muted-foreground">
+                                            An exuberant festival of love and spring, where social barriers dissolve in a riot of color. Holi celebrates the victory of good over evil, the arrival of spring, and the playful love of Radha and Krishna.
+                                        </p>
+                                    </div>
+                                    <div className="md:col-span-2">
+                                         <div className="space-y-4 text-foreground/80 prose max-w-none">
                                             <p>Holi, the world-renowned Festival of Colors, is an exuberant celebration of life, love, and the arrival of spring. It's a day when social barriers are shattered, and people from all walks of life come together to douse each other in vibrant powders and colored water. The most prominent legend is that of Prahlada and Holika. The demon king Hiranyakashipu demanded that all worship him, but his son Prahlada remained a devout follower of Lord Vishnu. Enraged, the king conspired with his sister, Holika, who was immune to fire, to kill Prahlada by tricking him into a pyre. By Vishnu's grace, Prahlada emerged unharmed while Holika was burnt to ashes. The Holika Dahan bonfire, lit on the eve of Holi, commemorates this victory of devotion over evil.</p>
                                             <p>Holi is also intrinsically linked to the divine love story of Radha and Krishna, celebrating their playful application of colors. Beyond the legends, Holi's true power lies in its social significance. It is a day of catharsis, a time to let go of inhibitions and past grievances. The act of coloring one another makes everyone equal, dissolving distinctions of caste, class, age, and gender. It is a festival of forgiveness, of mending broken relationships, and of celebrating the universal spirit of brotherhood, joy, and new beginnings.</p>
                                         </div>
                                     </div>
-                                    <div className="md:w-1/3">
-                                        <Image src="https://i.postimg.cc/fWFvx4J9/aceofnet-PNd98-z-An-U0-unsplash.jpg" alt="People playing holi" width={400} height={600} className="rounded-lg shadow-lg" data-ai-hint="holi celebration"/>
-                                    </div>
                                 </div>
-                            </TabsContent>
+                            </section>
                             
-                            <TabsContent value="traditions">
+                            <section id="traditions">
                                 <h2 className="font-headline text-3xl font-bold mb-4">How to Celebrate Holi</h2>
                                 <ul className="space-y-4 pl-4">
                                     <li className="flex items-start">
@@ -106,9 +121,9 @@ export default function HoliPage() {
                                         </div>
                                     </li>
                                 </ul>
-                            </TabsContent>
+                            </section>
 
-                            <TabsContent value="recipes">
+                            <section id="recipes">
                                 <h2 className="font-headline text-3xl font-bold mb-4">Holi Delicacies</h2>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                                     {recipes.map(recipe => (
@@ -126,9 +141,9 @@ export default function HoliPage() {
                                         Find more Holi recipes &rarr;
                                     </Link>
                                 </div>
-                            </TabsContent>
+                            </section>
 
-                             <TabsContent value="chants">
+                             <section id="chants">
                                 <h2 className="font-headline text-3xl font-bold mb-4">Songs and Prayers for Holi</h2>
                                 <div className="space-y-6">
                                     <Card>
@@ -148,8 +163,8 @@ export default function HoliPage() {
                                         </CardContent>
                                     </Card>
                                 </div>
-                            </TabsContent>
-                            <TabsContent value="eco-friendly">
+                            </section>
+                            <section id="eco-friendly">
                                 <h2 className="font-headline text-3xl font-bold mb-4">How to Make Natural Holi Colors at Home</h2>
                                 <div className="flex flex-col md:flex-row gap-8 items-center">
                                     <div className="md:w-2/3">
@@ -191,8 +206,8 @@ export default function HoliPage() {
                                         <Image src="https://i.postimg.cc/qvxZXcTy/natural-holi-colors.webp" alt="Natural Holi Colors" width={400} height={400} className="rounded-lg shadow-lg" data-ai-hint="natural colors"/>
                                     </div>
                                 </div>
-                            </TabsContent>
-                        </Tabs>
+                            </section>
+                        </article>
                         <ShareButtons title="Holi" />
                         <RelatedContent items={relatedContent} />
                     </CardContent>
