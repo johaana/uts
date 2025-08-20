@@ -1,7 +1,6 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote, CalendarDays, Leaf } from "lucide-react";
+import { BookOpen, Utensils, Sparkles, MessageSquareQuote, CalendarDays, Leaf } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
@@ -42,6 +41,14 @@ const relatedContent: RelatedItem[] = [
     }
 ];
 
+const pageSections = [
+    { id: "overview", title: "Overview", icon: BookOpen },
+    { id: "five-days", title: "The Five Days", icon: CalendarDays },
+    { id: "rituals", title: "Rituals", icon: Sparkles },
+    { id: "recipes", title: "Recipes", icon: Utensils },
+    { id: "chants", title: "Chants", icon: MessageSquareQuote },
+    { id: "eco-friendly", title: "Eco-Friendly", icon: Leaf },
+];
 
 export default function DiwaliPage() {
     return (
@@ -56,17 +63,23 @@ export default function DiwaliPage() {
             <div className="container mx-auto px-4 py-12 -mt-24">
                 <Card className="mb-12">
                     <CardContent className="p-6 md:p-10">
-                        <Tabs defaultValue="overview">
-                            <TabsList className="grid w-full grid-cols-2 md:grid-cols-6 mb-6 h-auto">
-                                <TabsTrigger value="overview" className="py-2"><BookOpen className="w-4 h-4 mr-2" />Overview</TabsTrigger>
-                                <TabsTrigger value="five-days" className="py-2"><CalendarDays className="w-4 h-4 mr-2" />The Five Days</TabsTrigger>
-                                <TabsTrigger value="rituals" className="py-2"><CheckCircle className="w-4 h-4 mr-2" />Rituals</TabsTrigger>
-                                <TabsTrigger value="recipes" className="py-2"><Utensils className="w-4 h-4 mr-2" />Recipes</TabsTrigger>
-                                <TabsTrigger value="chants" className="py-2"><MessageSquareQuote className="w-4 h-4 mr-2" />Chants</TabsTrigger>
-                                <TabsTrigger value="eco-friendly" className="py-2"><Leaf className="w-4 h-4 mr-2" />Eco-Friendly</TabsTrigger>
-                            </TabsList>
+                        
+                        <div className="mb-10 p-4 border-l-4 border-primary bg-primary/5">
+                            <h2 className="font-headline text-2xl font-bold mb-4">In This Article</h2>
+                            <ul className="space-y-2">
+                                {pageSections.map(section => (
+                                    <li key={section.id}>
+                                        <a href={`#${section.id}`} className="flex items-center gap-3 text-foreground/80 hover:text-primary transition-colors">
+                                            <section.icon className="w-5 h-5 text-accent" />
+                                            <span className="font-semibold">{section.title}</span>
+                                        </a>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
 
-                            <TabsContent value="overview">
+                        <article className="space-y-12">
+                            <section id="overview">
                                 <div className="flex flex-col md:flex-row gap-8 items-center">
                                     <div className="md:w-2/3">
                                         <h2 className="font-headline text-3xl font-bold mb-4">The Luminous Celebration of Good's Triumph</h2>
@@ -80,23 +93,24 @@ export default function DiwaliPage() {
                                     </div>
                                 </div>
                                  <div className="not-prose my-10">
-                                    <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Check these products on Amazon</h3>
+                                    <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Shop for Diwali</h3>
                                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                                         <ProductCard product={products.rangoliMat} />
-                                        <ProductCard product={products.marigoldGarland} />
-                                        <ProductCard product={products.divyakoshLotusHanging} />
+                                        <ProductCard product={products.rajasthanKraftToran} />
+                                        <ProductCard product={products.jhGalleryCandleHolder} />
+                                        <ProductCard product={products.swahaCowGheeDiya} />
                                     </div>
                                 </div>
-                            </TabsContent>
+                            </section>
                             
-                             <TabsContent value="five-days">
+                             <section id="five-days">
                                 <h2 className="font-headline text-3xl font-bold mb-4">The Five Days of Diwali: A Detailed Guide</h2>
-                                <div className="space-y-10">
+                                <div className="space-y-10 prose max-w-none text-foreground/80">
                                     <div className="p-6 bg-secondary/30 rounded-lg">
                                         <div className="flex flex-col md:flex-row gap-6 items-center">
                                             <div className="md:w-2/3">
                                                 <h3 className="font-headline text-2xl text-primary mb-2">Day 1: Dhanteras - The Festival of Wealth</h3>
-                                                <p className="text-foreground/80 prose">The Diwali festivities begin with Dhanteras. 'Dhan' means wealth. On this day, homes are deep-cleaned and decorated to welcome Goddess Lakshmi. The most significant tradition is the purchasing of new items, particularly gold, silver, or new utensils. This act symbolizes bringing prosperity and good fortune into the home.</p>
+                                                <p>The Diwali festivities begin with Dhanteras. 'Dhan' means wealth. On this day, homes are deep-cleaned and decorated to welcome Goddess Lakshmi. The most significant tradition is the purchasing of new items, particularly gold, silver, or new utensils. This act symbolizes bringing prosperity and good fortune into the home.</p>
                                             </div>
                                             <div className="md:w-1/3">
                                                 <Image src="https://i.postimg.cc/wv37wS6p/dhanteras.avif" alt="Dhanteras" width={300} height={200} className="rounded-lg shadow-md w-full" data-ai-hint="gold coins jewellery" />
@@ -110,7 +124,7 @@ export default function DiwaliPage() {
                                             </div>
                                             <div className="md:w-2/3 md:order-1">
                                                 <h3 className="font-headline text-2xl text-primary mb-2">Day 2: Naraka Chaturdashi - The Day of Liberation</h3>
-                                                <p className="text-foreground/80 prose">Also known as 'Choti Diwali', the second day celebrates Lord Krishna's triumphant victory over the demon Narakasura. This day signifies the victory of good over evil. The main ritual involves taking a sacred bath before sunrise, known as 'Abhyanga Snan', using aromatic oils and 'ubtan' paste to cleanse the body and soul. In 2025, this falls on the same day as Lakshmi Puja.</p>
+                                                <p>Also known as 'Choti Diwali', the second day celebrates Lord Krishna's triumphant victory over the demon Narakasura. This day signifies the victory of good over evil. The main ritual involves taking a sacred bath before sunrise, known as 'Abhyanga Snan', using aromatic oils and 'ubtan' paste to cleanse the body and soul. In 2025, this falls on the same day as Lakshmi Puja.</p>
                                             </div>
                                         </div>
                                     </div>
@@ -118,7 +132,7 @@ export default function DiwaliPage() {
                                         <div className="flex flex-col md:flex-row gap-6 items-center">
                                             <div className="md:w-2/3">
                                                 <h3 className="font-headline text-2xl text-primary mb-2">Day 3: Lakshmi Puja - The Worship of the Goddess</h3>
-                                                <p className="text-foreground/80 prose">This is the most important day of the festival. After sunset, families gather to perform the Lakshmi Puja, an elaborate worship ceremony dedicated to Goddess Lakshmi for wealth and prosperity. Homes are brightly illuminated with rows of diyas and rangoli.</p>
+                                                <p>This is the most important day of the festival. After sunset, families gather to perform the Lakshmi Puja, an elaborate worship ceremony dedicated to Goddess Lakshmi for wealth and prosperity. Homes are brightly illuminated with rows of diyas and rangoli.</p>
                                             </div>
                                             <div className="md:w-1/3">
                                                 <Image src="https://i.postimg.cc/TYs5B2K4/lakshmi_puja.webp" alt="Lakshmi Puja" width={300} height={200} className="rounded-lg shadow-md w-full" data-ai-hint="lakshmi ganesh puja" />
@@ -132,7 +146,7 @@ export default function DiwaliPage() {
                                             </div>
                                             <div className="md:w-2/3 md:order-1">
                                                 <h3 className="font-headline text-2xl text-primary mb-2">Day 4: Govardhan Puja - Honouring Nature's Bounty</h3>
-                                                <p className="text-foreground/80 prose">This day commemorates Lord Krishna lifting the Govardhan Hill to shelter villagers from torrential rains. Devotees create a miniature hillock of food ('Annakut') to honor this event. In some regions, it's celebrated as 'Padwa', honoring the marital bond.</p>
+                                                <p>This day commemorates Lord Krishna lifting the Govardhan Hill to shelter villagers from torrential rains. Devotees create a miniature hillock of food ('Annakut') to honor this event. In some regions, it's celebrated as 'Padwa', honoring the marital bond.</p>
                                             </div>
                                         </div>
                                     </div>
@@ -140,7 +154,7 @@ export default function DiwaliPage() {
                                         <div className="flex flex-col md:flex-row gap-6 items-center">
                                             <div className="md:w-2/3">
                                                 <h3 className="font-headline text-2xl text-primary mb-2">Day 5: Bhai Dooj - Celebrating the Sibling Bond</h3>
-                                                <p className="text-foreground/80 prose">The festival culminates with Bhai Dooj, a day celebrating the bond between brothers and sisters. Sisters apply a 'tilak' on their brother's forehead, praying for his long life, and brothers give gifts in return, vowing to protect them.</p>
+                                                <p>The festival culminates with Bhai Dooj, a day celebrating the bond between brothers and sisters. Sisters apply a 'tilak' on their brother's forehead, praying for his long life, and brothers give gifts in return, vowing to protect them.</p>
                                             </div>
                                             <div className="md:w-1/3">
                                                 <Image src="https://i.postimg.cc/CKhZqRXd/bhaidooj-pooja-vidhi.jpg" alt="Bhai Dooj" width={300} height={200} className="rounded-lg shadow-md w-full" data-ai-hint="bhai dooj" />
@@ -148,56 +162,56 @@ export default function DiwaliPage() {
                                         </div>
                                     </div>
                                 </div>
-                            </TabsContent>
+                            </section>
 
-                            <TabsContent value="rituals">
+                            <section id="rituals">
                                 <h2 className="font-headline text-3xl font-bold mb-4">How to Celebrate Diwali</h2>
                                 <div className="space-y-6">
                                     <p className="text-foreground/80 prose max-w-none">Celebrating Diwali involves a series of beautiful rituals that fill the home with light and joy. The main event is the Lakshmi Puja.</p>
                                     <div>
                                         <h3 className="font-bold text-lg mb-2">Step-by-Step Lakshmi Puja:</h3>
-                                        <ul className="space-y-4 pl-4">
+                                        <ul className="space-y-4 pl-4 prose max-w-none">
                                              <li className="flex items-start">
-                                                <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
+                                                <span className="font-bold text-primary mr-3">1.</span>
                                                 <div>
-                                                    <h4 className="font-bold">1. Clean and Decorate</h4>
+                                                    <h4 className="font-bold">Clean and Decorate</h4>
                                                     <p className="text-foreground/80">Thoroughly clean your home and decorate it with rangoli, flowers, and strings of light. A clean, beautiful home is believed to welcome Goddess Lakshmi.</p>
                                                 </div>
                                             </li>
                                              <li className="flex items-start">
-                                                <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
+                                                <span className="font-bold text-primary mr-3">2.</span>
                                                 <div>
-                                                    <h4 className="font-bold">2. Light Diyas</h4>
+                                                    <h4 className="font-bold">Light Diyas</h4>
                                                     <p className="text-foreground/80">Light countless diyas (earthen lamps) and place them in every corner of your home to banish darkness and evil spirits.</p>
                                                 </div>
                                             </li>
                                             <li className="flex items-start">
-                                                <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
+                                                <span className="font-bold text-primary mr-3">3.</span>
                                                 <div>
-                                                    <h4 className="font-bold">3. Perform Puja</h4>
+                                                    <h4 className="font-bold">Perform Puja</h4>
                                                     <p className="text-foreground/80">Perform the Lakshmi Puja in the evening. Worship Goddess Lakshmi for wealth and Lord Ganesha to remove obstacles. Offer flowers, sweets, and prayers.</p>
                                                 </div>
                                             </li>
                                              <li className="flex items-start">
-                                                <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
+                                                <span className="font-bold text-primary mr-3">4.</span>
                                                 <div>
-                                                    <h4 className="font-bold">4. Exchange Gifts & Sweets</h4>
+                                                    <h4 className="font-bold">Exchange Gifts & Sweets</h4>
                                                     <p className="text-foreground/80">Share joy and goodwill by exchanging sweets and gifts with family, friends, and neighbors.</p>
                                                 </div>
                                             </li>
                                              <li className="flex items-start">
-                                                <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
+                                                <span className="font-bold text-primary mr-3">5.</span>
                                                 <div>
-                                                    <h4 className="font-bold">5. Enjoy Fireworks</h4>
+                                                    <h4 className="font-bold">Enjoy Fireworks</h4>
                                                     <p className="text-foreground/80">Celebrate the triumph of light with firecrackers, though many now opt for more eco-friendly celebrations.</p>
                                                 </div>
                                             </li>
                                         </ul>
                                     </div>
                                 </div>
-                            </TabsContent>
+                            </section>
 
-                            <TabsContent value="recipes">
+                            <section id="recipes">
                                 <h2 className="font-headline text-3xl font-bold mb-4">Festival Foods & Delicacies</h2>
                                 <p className="mb-6 text-foreground/80 prose max-w-none">Diwali is a time for feasting, where kitchens come alive with the aroma of spices and sweets. Families prepare an array of 'mithai' (sweets) and savory snacks to share. Here are some quintessential Diwali dishes.</p>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -216,8 +230,8 @@ export default function DiwaliPage() {
                                         Find more Diwali recipes &rarr;
                                     </Link>
                                 </div>
-                            </TabsContent>
-                             <TabsContent value="chants">
+                            </section>
+                             <section id="chants">
                                 <h2 className="font-headline text-3xl font-bold mb-4">Important Mantras and Chants</h2>
                                 <div className="space-y-6">
                                     <Card>
@@ -241,8 +255,8 @@ export default function DiwaliPage() {
                                         </CardContent>
                                     </Card>
                                 </div>
-                            </TabsContent>
-                            <TabsContent value="eco-friendly">
+                            </section>
+                            <section id="eco-friendly">
                                 <h2 className="font-headline text-3xl font-bold mb-4">Celebrating a Green Diwali</h2>
                                 <div className="space-y-4 text-foreground/80 prose max-w-none">
                                     <p>Celebrate the festival of lights while being mindful of Mother Earth. A few small changes can make a big difference in reducing the environmental impact of the festivities.</p>
@@ -277,8 +291,9 @@ export default function DiwaliPage() {
                                         </li>
                                     </ul>
                                 </div>
-                            </TabsContent>
-                        </Tabs>
+                            </section>
+                        </article>
+
                         <ShareButtons title="Diwali" />
                         <RelatedContent items={relatedContent} />
                     </CardContent>
@@ -287,5 +302,3 @@ export default function DiwaliPage() {
         </div>
     );
 }
-
-    

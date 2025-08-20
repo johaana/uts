@@ -252,6 +252,69 @@ export const allProducts: Product[] = [
         link: "https://www.amazon.in/TIED-RIBBONS-Karwachauth-Thali-Cover/dp/B0DJ2PVR46?crid=1IHQ0592P8I0W&dib=eyJ2IjoiMSJ9.H0_mmhYdo-41aQTfwTLWin0q3W_D6W4O1ecjasQbjawAYph7mLrwz3Oa9Xw_ArKdnAMHAgX7pv28k4MoSfimvrRsJBkCNOkqV5C0gLXxAgiVxGkiE7CBF_A0sXEu-cWmmmoImdLhmMlcJgKc_9DyZBSV4-f2lokUEKZmJyDst5EUFs9rOlZUOyI6ZK4dKiKwK1sEX3HNkN7z7vaWHWvmHdlVgZa0YfWtK0sgLiEqWs9l-AwLAqUgfjp5IAhsDAu4fP7zJtjNa7GO6j10ds3FmQKXwZmNYeIen7HexxtTm2M.TcgA-XYqhNJg532CTRlhuuutYcWRazMxnBy50uINzBY&dib_tag=se&keywords=karva+chauth&qid=1755302623&sprefix=karva+chauth%2Caps%2C460&sr=8-29&linkCode=ll1&tag=utsavs-21&linkId=94612300880bff29031e24a457b1535e&language=en_IN&ref_=as_li_ss_tl",
         image: "https://i.postimg.cc/W1Gx1KjV/karva-chauth-2.jpg",
         hint: "karva chauth set"
+    },
+    {
+        id: "rajasthanKraftToran",
+        name: "Rajasthan Kraft Artificial Marigold Toran",
+        price: 854,
+        description: "A 40-inch yellow mango flower toran for door decoration, perfect for home, temple, and wedding decor.",
+        link: "https://www.amazon.in/Rajasthan-Kraft-Artificial-Bandanwar-B0037/dp/B0CSSY8HCR?crid=3MMR3JK1DWT57&dib=eyJ2IjoiMSJ9.DcxD5z72YnTnG5eeS-JmoauoHq6Zj-raqWIuSwzQbV9Ll6dF-4pPUQL_dKucvBjavIKmIji8TAUPRevm86SRrNMIsdidh6mZiNPuCzRJXTYQynEdyBu6G687XUBzQbJDeNGcW3NSht2jNBcHDTK10mCvwC2YQww84Ob2eWjKKMs1zgiLH86lKnGgsnAhYLb9G3G_wzUaWz6JtieYgCtFBh5V1da3yrO4YK0X6s7hjEtg_sZD5FsDRliqVSOgUMAL_-X3sKie2_Mkl_0MlW0MTHAudbvdFJrvyEsSO5_Ka_g.Et145j66L5d6m8J_uuizAttK6wIFsf0EA1IUUeRZ_Ik&dib_tag=se&keywords=festival&qid=1755628792&sprefix=festiva%2Caps%2C408&sr=8-107-spons&xpid=aQIshD95N6r9G&sp_csd=d2lkZ2V0TmFtZT1zcF9tdGY&th=1&linkCode=ll1&tag=utsavs-21&linkId=2b873bc0fcda5238c02924953b555fc5&language=en_IN&ref_=as_li_ss_tl",
+        image: "https://i.postimg.cc/RVKDgmKW/marigold-toran.jpg",
+        hint: "marigold toran"
+    },
+    {
+        id: "handicraftsParadiseChowki",
+        name: "Handicrafts Paradise Intricate Floral Painted Marble Chowki",
+        price: 276,
+        description: "A set of two 4x4 inch marble chowkis, perfect for placing idols in a home mandir.",
+        link: "https://www.amazon.in/Handicrafts-Paradise-Intricate-Floral-Painted/dp/B074XS1V26?dib=eyJ2IjoiMSJ9.0LvcshCnKh5gYV7DcZCRSSasH0P7HkYIajTGEmGDDUGQE2cWuuz1OH_dPQrzwxzlBfzxubZdKm-Km6vNXPGYsfpwHSj6wa19c8HSWT8ddNajEHUhZ1qS0JusyXLC02CKNzjpKILD9fJ5kmLybiiprWc1eC02RyRdFnZ2ge2Xma_qeFjneBURUY-OXhiy9inXV8KmzUf_ez5PyOQVMOCmPb1eiX6U6pLhDoTWDOkumaBF-8sxO6A_sVUfCGCU5jzrpUbd6Dyn1VF0QskSNh724urAERvRa6x__Zo9uWBNBQE.ewln0R0WglakYbbBFUgK8preE0GyxMc3O7wuUSVWN-Q&dib_tag=se&keywords=navratri+pooja+items&qid=1755668365&sbo=RZvfv%2F%2FHxDF%2BO5021pAnSA%3D%3D&sr=8-39&linkCode=ll1&tag=utsavs-21&linkId=234a6fb23f843e0f64e0f8d28bd732b7&language=en_IN&ref_=as_li_ss_tl",
+        image: "https://i.postimg.cc/BZ1Yv3hm/chowki.jpg",
+        hint: "marble chowki"
+    },
+    {
+        id: "signamioDhoopStand",
+        name: "SIGNAMIO® Wooden Sambrani Dhoop Stand",
+        price: 216,
+        description: "A wooden incense holder for sambrani dhoop, an essential item for home mandirs and puja rituals.",
+        link: "https://www.amazon.in/SIGNAMIO%C2%AE-Sambrani-Handcrafted-Traditional-Aromatic/dp/B09RV9BZ7D?dib=eyJ2IjoiMSJ9.0LvcshCnKh5gYV7DcZCRSSasH0P7HkYIajTGEmGDDUGQE2cWuuz1OH_dPQrzwxzlBfzxubZdKm-Km6vNXPGYsfpwHSj6wa19c8HSWT8ddNajEHUhZ1qS0JusyXLC02CKNzjpKILD9fJ5kmLybiiprWc1eC02RyRdFnZ2ge2Xma_qeFjneBURUY-OXhiy9inXV8KmzUf_ez5PyOQVMOCmPb1eiX6U6pLhDoTWDOkumaBF-8sxO6A_sVUfCGCU5jzrpUbd6Dyn1VF0QskSNh724urAERvRa6x__Zo9uWBNBQE.ewln0R0WglakYbbBFUgK8preE0GyxMc3O7wuUSVWN-Q&dib_tag=se&keywords=navratri%2Bpooja%2Bitems&qid=1755668365&sr=8-12&th=1&linkCode=ll1&tag=utsavs-21&linkId=de5209ff72db8259eb8e2300d114ae30&language=en_IN&ref_=as_li_ss_tl",
+        image: "https://i.postimg.cc/qqX2C16v/dhoop-stand.jpg",
+        hint: "dhoop stand"
+    },
+    {
+        id: "sandalwoodHavanCups",
+        name: "Sandalwood Havan Cups (16 Pcs)",
+        price: 249,
+        description: "Eco-certified natural havan cups with an organic chandan fragrance, perfect for Ganpati puja and other rituals.",
+        link: "https://www.amazon.in/PHOOL-LUXURY-INCENSE-Sandalwood-Certified/dp/B0C7MZLKZZ?dib=eyJ2IjoiMSJ9.0LvcshCnKh5gYV7DcZCRSSasH0P7HkYIajTGEmGDDUGQE2cWuuz1OH_dPQrzwxzlBfzxubZdKm-Km6vNXPGYsfpwHSj6wa19c8HSWT8ddNajEHUhZ1qS0JusyXLC02CKNzjpKILD9fJ5kmLybiiprWc1eC02RyRdFnZ2ge2Xma_qeFjneBURUY-OXhiy9inXV8KmzUf_ez5PyOQVMOCmPb1eiX6U6pLhDoTWDOkumaBF-8sxO6A_sVUfCGCU5jzrpUbd6Dyn1VF0QskSNh724urAERvRa6x__Zo9uWBNBQE.ewln0R0WglakYbbBFUgK8preE0GyxMc3O7wuUSVWN-Q&dib_tag=se&keywords=navratri+pooja+items&qid=1755668365&sr=8-13&linkCode=ll1&tag=utsavs-21&linkId=3f56645ebbaf8b9b682447e30426e647&language=en_IN&ref_=as_li_ss_tl",
+        image: "https://i.postimg.cc/gJpJ6mV3/eco-dhoop.jpg",
+        hint: "eco dhoop"
+    },
+    {
+        id: "ganpatiDecorStand",
+        name: "Ganpati Decoration Setup with Foldable Stand",
+        price: 849,
+        description: "A 30x24 inch foldable backdrop stand, ideal for Ganpati, Janmashtami, Navratri, and other festive home decorations.",
+        link: "https://www.amazon.in/SOLOBOLO-Foldable-Backdrop-Navratri-Decoration/dp/B0FDBCLKFL?crid=3MMR3JK1DWT57&dib=eyJ2IjoiMSJ9.0x0cRQf5lRanLXscL6J4AcfU8Ya1t_OcP4AMTA3gyI_iYXYMXYNSlJXx4lUuJNF9utDWrJUCMsMfpUC9E8P8EDon2D7TTkGXLAR9n73gKUGQy3t5sg5oRKN_9y13LoQtFHvIoGBNsE1gDjYtJU6xYCszcDYpLtIau4zK1PiiVnppmJpVxmp3iBEUvV30DXt7gY5nD61KIV60eMNWd9LKsO9xFfNpYyUqHurWei03LIYJX627111oyyFNK8pKozAf96H8EdITJf_lTedMkagwoA62K948FQwIQleQVVD5kTs.owVd2Vdxp2FLMQFzF4cGy9wZRG8ZvsDZSMD89izQsPE&dib_tag=se&keywords=festival&qid=1755611298&sprefix=festiva%2Caps%2C408&sr=8-59-spons&sp_csd=d2lkZ2V0TmFtZT1zcF9idGY&th=1&linkCode=ll1&tag=utsavs-21&linkId=db70f99284d9652c915dfe26d5ad7125&language=en_IN&ref_=as_li_ss_tl",
+        image: "https://i.postimg.cc/3R38x9hB/decor-stand.jpg",
+        hint: "decor stand"
+    },
+    {
+        id: "jhGalleryCandleHolder",
+        name: "JH Gallery Handcrafted Elephant Tealight Candle Holder (Set of 6)",
+        price: 312,
+        description: "A set of 6 beautiful, multicolor elephant-shaped tealight holders made from recycled materials, perfect for Diwali decor.",
+        link: "https://www.amazon.in/JH-Gallery-Handcrafted-Elephant-Multicolor/dp/B08L6VRXY9?crid=LYQ462IML2NF&dib=eyJ2IjoiMSJ9._s1PTx3QUm1Ba-Ihsd2TFCFVW8Upo5mvmh5sQj6dxADvnd0Paycf-0lnp4OCOj_iHGCsFwjrOhFaFVCHLsxAtG-Iyb4K-QBpIVK_4TUoRDI_9AcKvLZfo28xCCGsnApoOjdqcYJrLsSBSH9f9CJRHkQkJmpJlh5_c9yDEaOxzjURzU8B38R_zpAlsMUcZ9OrmpYV9enHT9_8Civq4iH0QaRaGw5WzkuMorwKEkYrMgHTUioKczjTXWQIcKkpWDk2P9wdMUy2OFjUcCY26UlJxW_3GBAh_5j8FfBvHjxgWtI.TBgkzg6LLOjq4TsEo9tnx9_TV9r5vsZz-hTGz8GbtuA&dib_tag=se&keywords=diwali&qid=1755670429&sprefix=diwali%2Caps%2C295&sr=8-6&th=1&linkCode=ll1&tag=utsavs-21&linkId=7dde83757fa0d21f2a3f4fada6e4e73f&language=en_IN&ref_=as_li_ss_tl",
+        image: "https://i.postimg.cc/fbcdPH5j/recycled-candle-stand.jpg",
+        hint: "recycled candle stand"
+    },
+    {
+        id: "swahaCowGheeDiya",
+        name: "Swaha Premium Cow Ghee Diya (100 Pieces)",
+        price: 426,
+        description: "A pack of 100 wax-free cow ghee diyas with a 30-minute burning time, ideal for daily puja and festive rituals.",
+        link: "https://www.amazon.in/Swaha-Minutes-Ghee-Diya-Yellow/dp/B0188LT5NA?crid=LYQ462IML2NF&dib=eyJ2IjoiMSJ9._s1PTx3QUm1Ba-Ihsd2TFCFVW8Upo5mvmh5sQj6dxADvnd0Paycf-0lnp4OCOj_iHGCsFwjrOhFaFVCHLsxAtG-Iyb4K-QBpIVK_4TUoRDI_9AcKvLZfo28xCCGsnApoOjdqcYJrLsSBSH9f9CJRHkQkJmpJlh5_c9yDEaOxzjURzU8B38R_zpAlsMUcZ9OrmpYV9enHT9_8Civq4iH0QaRaGw5WzkuMorwKEkYrMgHTUioKczjTXWQIcKkpWDk2P9wdMUy2OFjUcCY26UlJxW_3GBAh_5j8FfBvHjxgWtI.TBgkzg6LLOjq4TsEo9tnx9_TV9r5vsZz-hTGz8GbtuA&dib_tag=se&keywords=diwali&qid=1755670429&sprefix=diwali%2Caps%2C295&sr=8-2-spons&sp_csd=d2lkZ2V0TmFtZT1zcF9hdGY&th=1&linkCode=ll1&tag=utsavs-21&linkId=29b16da3f863b2582beef04aefc87358&language=en_IN&ref_=as_li_ss_tl",
+        image: "https://i.postimg.cc/ncSNs24k/cow-ghee-diya.jpg",
+        hint: "cow ghee diya"
     }
 ];
 
@@ -260,5 +323,3 @@ export const products = allProducts.reduce((acc, product) => {
     acc[product.id] = product;
     return acc;
 }, {} as Record<string, Product>);
-
-    

@@ -1,6 +1,6 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote, Leaf, CalendarDays } from "lucide-react";
+import { BookOpen, Utensils, Sparkles, MessageSquareQuote, Leaf, CalendarDays } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
@@ -60,11 +60,14 @@ export default function GaneshChaturthiPage() {
                                     <p>The festival was transformed from a private, household celebration into a grand public event by the freedom fighter Lokmanya Tilak in the late 19th century as a way to unite the people of India against British rule. Today, the festival is celebrated with immense fervor, especially in Maharashtra. Devotees bring home beautifully crafted clay idols of Ganesha, worshipping him for ten days with prayers, songs, and his favorite sweet, 'modak'. The festival culminates in the 'visarjan' (immersion) ceremony on Anant Chaturdashi, symbolizing Ganesha's journey back to his celestial abode, taking with him the misfortunes of his devotees, and promising to return the following year.</p>
                                 </div>
                                  <div className="not-prose my-10">
-                                    <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Check these products on Amazon</h3>
+                                    <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Shop for Ganesh Chaturthi</h3>
                                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                                        <ProductCard product={products.ganpatiDecorStand} />
+                                        <ProductCard product={products.rajasthanKraftToran} />
                                         <ProductCard product={products.ganeshPujaKit} />
-                                        <ProductCard product={products.ganpatiDecor} />
-                                        <ProductCard product={products.ganpatiDecorPvcStand} />
+                                        <ProductCard product={products.handicraftsParadiseChowki} />
+                                        <ProductCard product={products.sandalwoodHavanCups} />
+                                        <ProductCard product={products.signamioDhoopStand} />
                                     </div>
                                 </div>
                             </section>
@@ -92,26 +95,26 @@ export default function GaneshChaturthiPage() {
                             
                             <section id="traditions">
                                 <h2 className="font-headline text-3xl font-bold mb-4">How to Celebrate Ganesh Chaturthi</h2>
-                                <ul className="space-y-4 pl-4">
-                                    <li className="flex items-start">
-                                        <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
+                                <ul className="space-y-4 pl-4 prose max-w-none text-foreground/80">
+                                     <li className="flex items-start">
+                                        <span className="font-bold text-primary mr-3">1.</span>
                                         <div>
                                             <h4 className="font-bold">Idol Installation (Sthapana)</h4>
-                                            <p className="text-foreground/80">Bring a clay idol of Lord Ganesha home and place it on a decorated platform. Perform a ritual to invoke his presence in the idol.</p>
+                                            <p>Bring a clay idol of Lord Ganesha home and place it on a decorated platform. Perform a ritual to invoke his presence in the idol.</p>
                                         </div>
                                     </li>
                                     <li className="flex items-start">
-                                        <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
+                                        <span className="font-bold text-primary mr-3">2.</span>
                                         <div>
                                             <h4 className="font-bold">Daily Worship (Puja)</h4>
-                                            <p className="text-foreground/80">Offer daily prayers, flowers, and Ganesha's favorite sweet, 'modak'. Light lamps and incense, and perform aarti (a ritual of waving lights).</p>
+                                            <p>Offer daily prayers, flowers, and Ganesha's favorite sweet, 'modak'. Light lamps and incense, and perform aarti (a ritual of waving lights).</p>
                                         </div>
                                     </li>
                                     <li className="flex items-start">
-                                        <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
+                                        <span className="font-bold text-primary mr-3">3.</span>
                                         <div>
                                             <h4 className="font-bold">Immersion (Visarjan)</h4>
-                                            <p className="text-foreground/80">After 1.5, 3, 5, 7, or 10 days, the idol is taken in a grand procession for immersion in a river or the sea, accompanied by singing and dancing. The final day of immersion is known as Anant Chaturdashi.</p>
+                                            <p>After 1.5, 3, 5, 7, or 10 days, the idol is taken in a grand procession for immersion in a river or the sea, accompanied by singing and dancing. The final day of immersion is known as Anant Chaturdashi.</p>
                                         </div>
                                     </li>
                                 </ul>
