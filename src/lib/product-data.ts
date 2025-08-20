@@ -29,7 +29,7 @@ export const allProducts: Product[] = [
         hint: "ganesh puja kit"
     },
     {
-        id: "ganpatiDecor",
+        id: "ganpatiDecorStand",
         name: "SpecialYou® Ganpati Decoration Setup for Home",
         price: 497,
         description: "Includes a white backdrop curtain, green vines, and lights to create a beautiful decoration setup for Ganesh Chaturthi.",
@@ -114,7 +114,7 @@ export const allProducts: Product[] = [
         name: "SAUDEEP INDIA 6 Inch Mitti Ganesh Idol",
         price: 399,
         description: "An eco-friendly, handcrafted clay Ganesh murti with a beautiful lotus design, perfect for a biodegradable visarjan.",
-        link: "https://www.amazon.in/Eco-Friendly-Handcrafted-Figurine-Biodegradable-Chaturthi/dp/B0BB6TCG1R?content-id=amzn1.sym.739e670d-dfb3-4be0-9815-d8c5c0372e07%3Aamzn1.sym.739e670d-dfb3-4be0-9815-d8c5c0372e07&crid=36O1VJPGIG1Q7&cv_ct_cx=ganesh%2Bchaturthi&keywords=ganesh%2Bchaturthi&pd_rd_i=B0BB6TCG1R&pd_rd_r=b5f4fb8b-989f-42a4-80b5-111f0ebe5d1c&pd_rd_w=OEtXm&pd_rd_wg=LVhRA&pf_rd_p=739e670d-dfb3-4be0-9815-d8c5c0372e07&pf_rd_r=278JN3W8BEHQN19E62FY&qid=1755159752&sbo=RZvfv%2F%2FHxDF%2BO5021pAnSA%3D%3D&sprefix=ganesh%2Bchaturthi%2Caps%2C419&sr=1-1-66673dcf-083f-43ba-b782-d4a436cc5cfb-spons&sp_csd=d2lkZ2V0TmFtZT1zcF9zZWFyY2hfdGhlbWF0aWM&th=1&linkCode=ll1&tag=utsavs-21&linkId=1a62d41527a3c3104118149d576b664d&language=en_IN&ref_=as_li_ss_tl",
+        link: "https://www.amazon.in/Eco-Friendly-Handcrafted-Figurine-Biodegradable-Chaturthi/dp/B0BB6TCG1R?content-id=amzn1.sym.739e670d-dfb3-4be0-9815-d8c5c0372e07%3Aamzn1.sym.739e670d-dfb3-4be0-9815-d8c5c0372e07&crid=36O1VJPGIG1Q7&cv_ct_cx=ganesh+chaturthi&keywords=ganesh+chaturthi&pd_rd_i=B0BB6TCG1R&pd_rd_r=b5f4fb8b-989f-42a4-80b5-111f0ebe5d1c&pd_rd_w=OEtXm&pd_rd_wg=LVhRA&pf_rd_p=739e670d-dfb3-4be0-9815-d8c5c0372e07&pf_rd_r=278JN3W8BEHQN19E62FY&qid=1755159752&sbo=RZvfv%2F%2FHxDF%2BO5021pAnSA%3D%3D&sprefix=ganesh+chaturthi%2Caps%2C419&sr=1-1-66673dcf-083f-43ba-b782-d4a436cc5cfb-spons&sp_csd=d2lkZ2V0TmFtZT1zcF9zZWFyY2hfdGhlbWF0aWM&th=1&linkCode=ll1&tag=utsavs-21&linkId=1a62d41527a3c3104118149d576b664d&language=en_IN&ref_=as_li_ss_tl",
         image: "https://i.postimg.cc/c49SZJXk/eco-ganesh-3.jpg",
         hint: "eco-friendly ganesha"
     },
@@ -324,6 +324,78 @@ export const allProducts: Product[] = [
         link: "https://www.amazon.in/PHOOL-LUXURY-INCENSE-Organic-Colours/dp/B0DTPBW76Z?crid=1TDZNWBUVND89&dib=eyJ2IjoiMSJ9.KoLTcmcVEFKi2fyx6FntTEX83ehrVXeznFK6gntAK36NRAOZz3uul4PmBcEc9PIp-GZYWdCVqzBsqldiriQxXgU4_GgusXAOX618AMY1XG5i-t5HSPtCIvjFvYNwOR1t95bq4n6LYcOANTQL-HDsQsIEevhdKFlaMtZQNjjnGZ-mXiX_xK4cFFHG37swe8qFb4WJ46XSPZuVvtk-qZugKFN7GM_g8YOATTngFe-L2Zslrcfl8geu5jy0g39UnbX18HAtGsbqBXDh_yo9-zZ5nbJ0PrAb3mDYDEfsPnMGAAQ.OKQIGD58g45BFjyBX5CsBn8_bdwEXXIRBVmexlKwlsU&dib_tag=se&keywords=holi+organic+colours&qid=1755676675&sprefix=holi+oragnic+colour%2Caps%2C306&sr=8-8&linkCode=ll1&tag=utsavs-21&linkId=0f71fcf63617308bc06158bccd47d13b&language=en_IN&ref_=as_li_ss_tl",
         image: "https://i.postimg.cc/yY1NTZ1D/holi-organic.jpg",
         hint: "holi organic"
+    },
+    {
+        id: "yashikaSaree",
+        name: "Yashika Women Cotton Saree Onam",
+        price: 359,
+        description: "A traditional white cotton saree, perfect for Onam celebrations.",
+        link: "https://www.amazon.in/Yashika-Womens-Cottton-White_Free_Size-Sdpl-Kerala/dp/B07PM6LWY1?crid=U9GF28F4P6SO&dib=eyJ2IjoiMSJ9.5eqtZ70xkfMkH4FfpptmLOGWDk7M1urTOLHG51sQ4yYarv8DDpsD-eSTfbSbUVZIOKF6pIQPtHRkR8xeR7vi70ucc7F6GG8JPhyq-CF6-MrGd0xTuRha-WwB6oP_HjeNtl8BUETr4Z6iDwH4qwtF6rwlMT28xoLNo98uIz7gvM-hwKwAVTkixKqXzPNKQaOp3X4AJS2UplN4LXxpMF0VHFGcjK2a7cH1hu_VXz7hldI4DrjkbToj3OraQRp43Sz3iBoK5SxPT4SG6gkl-5Bi79PoZQiJrQXznsOLbpVZlC4.ihCot-4nMMz5wLYKxGhHuH50PIHzL2ylmv8cwbCn-KQ&dib_tag=se&keywords=onam&qid=1755677892&sprefix=ona%2Caps%2C394&sr=8-13&th=1&psc=1&linkCode=ll1&tag=utsavs-21&linkId=6ef98c2124497f1676db3158b5680473&language=en_IN&ref_=as_li_ss_tl",
+        image: "https://i.postimg.cc/xTQWJwGQ/onam-saree-1.jpg",
+        hint: "onam saree"
+    },
+    {
+        id: "nithilaMundu",
+        name: "Mundu for boys for Onam, Vishu, etc.",
+        price: 398,
+        description: "A cotton mundu for boys, suitable for various festivals like Onam, Vishu, Deepavali, Pongal, and Sankranthi.",
+        link: "https://www.amazon.in/NITHILA-CREATIONS-Kerala-Cotton-Offwhite/dp/B0DFVNG5LD?crid=U9GF28F4P6SO&dib=eyJ2IjoiMSJ9.5eqtZ70xkfMkH4FfpptmLOGWDk7M1urTOLHG51sQ4yYarv8DDpsD-eSTfbSbUVZIOKF6pIQPtHRkR8xeR7vi70ucc7F6GG8JPhyq-CF6-MrGd0xTuRha-WwB6oP_HjeNtl8BUETr4Z6iDwH4qwtF6rwlMT28xoLNo98uIz7gvM-hwKwAVTkixKqXzPNKQaOp3X4AJS2UplN4LXxpMF0VHFGcjK2a7cH1hu_VXz7hldI4DrjkbToj3OraQRp43Sz3iBoK5SxPT4SG6gkl-5Bi79PoZQiJrQXznsOLbpVZlC4.ihCot-4nMMz5wLYKxGhHuH50PIHzL2ylmv8cwbCn-KQ&dib_tag=se&keywords=onam&qid=1755677892&sprefix=ona%2Caps%2C394&sr=8-35&th=1&psc=1&linkCode=ll1&tag=utsavs-21&linkId=4eedd05a55f447febed249938589a79b&language=en_IN&ref_=as_li_ss_tl",
+        image: "https://i.postimg.cc/3wrGkxNG/mundu-men1.jpg",
+        hint: "mundu boys"
+    },
+    {
+        id: "nutsClothingBoysMundu",
+        name: "Nuts Clothing Boys Golden Kurta and Cream Mundu Set",
+        price: 899,
+        description: "A traditional Kerala outfit for kids aged 6 months to 7 years, perfect for Onam.",
+        link: "https://www.amazon.in/Nuts-Clothing-Golden-Traditional-Kerala/dp/B0FK51GM4F?crid=U9GF28F4P6SO&dib=eyJ2IjoiMSJ9.5eqtZ70xkfMkH4FfpptmLOGWDk7M1urTOLHG51sQ4yYarv8DDpsD-eSTfbSbUVZIOKF6pIQPtHRkR8xeR7vi70ucc7F6GG8JPhyq-CF6-MrGd0xTuRha-WwB6oP_HjeNtl8BUETr4Z6iDwH4qwtF6rwlMT28xoLNo98uIz7gvM-hwKwAVTkixKqXzPNKQaOp3X4AJS2UplN4LXxpMF0VHFGcjK2a7cH1hu_VXz7hldI4DrjkbToj3OraQRp43Sz3iBoK5SxPT4SG6gkl-5Bi79PoZQiJrQXznsOLbpVZlC4.ihCot-4nMMz5wLYKxGhHuH50PIHzL2ylmv8cwbCn-KQ&dib_tag=se&keywords=onam&qid=1755677892&sprefix=ona%2Caps%2C394&sr=8-44&th=1&psc=1&linkCode=ll1&tag=utsavs-21&linkId=053fa2c06fe42fe16f9eddd8e5c33a25&language=en_IN&ref_=as_li_ss_tl",
+        image: "https://i.postimg.cc/595Ws83q/mundu-kids.jpg",
+        hint: "mundu kids"
+    },
+    {
+        id: "totzTouchBabyFrock",
+        name: "TotzTouch Baby Girls Dress | 3 Set Frock Cami Strap",
+        price: 599,
+        description: "A set of 3 lightweight frocks for baby girls, suitable for newborns to 4 years, perfect for Onam.",
+        link: "https://www.amazon.in/TotzTouch-Dress-Traditional-Ethnicwear-Frock/dp/B0FLDX94D3?crid=U9GF28F4P6SO&dib=eyJ2IjoiMSJ9.5eqtZ70xkfMkH4FfpptmLOGWDk7M1urTOLHG51sQ4yYarv8DDpsD-eSTfbSbUVZIOKF6pIQPtHRkR8xeR7vi70ucc7F6GG8JPhyq-CF6-MrGd0xTuRha-WwB6oP_HjeNtl8BUETr4Z6iDwH4qwtF6rwlMT28xoLNo98uIz7gvM-hwKwAVTkixKqXzPNKQaOp3X4AJS2UplN4LXxpMF0VHFGcjK2a7cH1hu_VXz7hldI4DrjkbToj3OraQRp43Sz3iBoK5SxPT4SG6gkl-5Bi79PoZQiJrQXznsOLbpVZlC4.ihCot-4nMMz5wLYKxGhHuH50PIHzL2ylmv8cwbCn-KQ&dib_tag=se&keywords=onam&qid=1755677892&sprefix=ona%2Caps%2C394&sr=8-51&linkCode=ll1&tag=utsavs-21&linkId=61f707988ddbbad45b7fa4ffd32a995d&language=en_IN&ref_=as_li_ss_tl",
+        image: "https://i.postimg.cc/zX3pyrVb/onam-baby-girl.jpg",
+        hint: "onam baby girl dress"
+    },
+    {
+        id: "sathiyasBabyDress",
+        name: "Sathiyas Baby Girls Kerala Onam Tissue Cotton Dress",
+        price: 499,
+        description: "A traditional tissue cotton dress for baby girls, perfect for Onam.",
+        link: "https://www.amazon.in/Sathiyas-Kerala-Tissue-Cotton-SmallJari/dp/B0D9LX5VGQ?crid=U9GF28F4P6SO&dib=eyJ2IjoiMSJ9.q_fvhf1C5raNcbX9iN-k131AmrESSHJEMlAI5iUdXWs5C53bm4ULrfTH4b6t9JqV4Rn1yZFF9lKVOMpavZVkEjht7bbFerYiotzVvPzokE6vN0mXUfv8v9JSKmnZiXtGYqB9Hnlk02R6vcb2LaMXQbFIDN8zzX9JBXvLbBQRe9Ui1P7n2AkMNHVRfmyfz5pUd5TQD8041yjcrBEl95GsLIK_WtThSYgAHBF1SnJiEAkif-eA92c8GhLdsTGMCD9Qn3JfsnwNHfW2B1KK8hFoR4tcZmuc4PI-2jWwi5Nncdw.9fHDs81Bm-UVoLv7ZlKD7J7tdSyHmrAXe5kzC89bHHY&dib_tag=se&keywords=onam&qid=1755678005&sprefix=ona%2Caps%2C394&sr=8-72&xpid=HdVqvmyBz_n1D&th=1&psc=1&linkCode=ll1&tag=utsavs-21&linkId=16219a26ee94c1dacd2368ada1d2fab4&language=en_IN&ref_=as_li_ss_tl",
+        image: "https://i.postimg.cc/8P8Bz6Q3/baby-onam-girl.jpg",
+        hint: "baby onam girl dress"
+    },
+    {
+        id: "rameshwaramFabricsDhoti",
+        name: "Rameshwaram Fabrics Exquisite Silk Pattu Panchalu: Unstitched Dhoti with Stole for men",
+        price: 902,
+        description: "An unstitched silk dhoti with a stole for men, ideal for Pooja and special occasions.",
+        link: "https://www.amazon.in/Rameshwaram-Fabrics-Dhoti-unstitched_pitambari_silk_dhoti_for_men-cream_small_border/dp/B0BH57W48G?content-id=amzn1.sym.9b258dad-f808-4e5e-8df5-9b8946a31daf%3Aamzn1.sym.9b258dad-f808-4e5e-8df5-9b8946a31daf&crid=3MR7GVU96MPJ&cv_ct_cx=onam+mundu+men&keywords=onam+mundu+men&pd_rd_i=B0BH57W48G&pd_rd_r=7261fea9-d00d-4822-9247-556178fbc37a&pd_rd_w=EACPI&pd_rd_wg=jw9Ku&pf_rd_p=9b258dad-f808-4e5e-8df5-9b8946a31daf&pf_rd_r=19ERC0REEARAGZGJF7KW&qid=1755678792&sbo=RZvfv%2F%2FHxDF%2BO5021pAnSA%3D%3D&sprefix=onam+mundu+me%2Caps%2C352&sr=1-1-883a54c7-f466-4d42-997c-6d482a360a1a-spons&sp_csd=d2lkZ2V0TmFtZT1zcF9zZWFyY2hfdGhlbWF0aWM&psc=1&linkCode=ll1&tag=utsavs-21&linkId=672ff25c368fea2f84177bee6cbf4d18&language=en_IN&ref_=as_li_ss_tl",
+        image: "https://i.postimg.cc/sDqFXKDz/pattu-panchalu-men.jpg",
+        hint: "pattu panchalu men"
+    },
+    {
+        id: "southCottonMundu",
+        name: "South Cotton Men's Cotton Kasavu Kerala Double Mundu Casual Style Dhoti",
+        price: 350,
+        description: "A casual style cotton kasavu Kerala double mundu dhoti for men.",
+        link: "https://www.amazon.in/South-Cotton-Kasavu-Kerala-Double/dp/B07Z9JNKBP?crid=3MR7GVU96MPJ&dib=eyJ2IjoiMSJ9._dohrPvWm3JuJcBgVVQlOM3cilJrzsO6kdtBH-k-eTpPM3-7wgShxKba4ch1EgKYGkrx_GY0MABrcHPztNS-n3jEfuQGMfoaTYmuwbb2AQavtx7djI6iKU2bexKt1b_FYAgZ3iGCjq8lzn6yICELvE9Atvyk5ns9-ltmDHy-2lNBtlUFV74GinlrooEq2prhIBI2YC1tOqdM4lWS6CY-TFl5-37Ej5S3YOViHU7siCaBVQhpXXXHuZHMD09vhlpMJaPbsiig17ayRg-rFLVLtV9m_IVkQ9pgNoW6rWAEZC4.DOI_5pToB2XXA_uDDj28iOm6YB-MiNthOyC9xBF95Ek&dib_tag=se&keywords=onam+mundu+men&qid=1755678792&sprefix=onam+mundu+me%2Caps%2C352&sr=8-7&linkCode=ll1&tag=utsavs-21&linkId=6563e2d65f153e0544a68ac931f43069&language=en_IN&ref_=as_li_ss_tl",
+        image: "https://i.postimg.cc/tC55v4wM/kerala-mundu.jpg",
+        hint: "kerala mundu"
+    },
+    {
+        id: "angroosOnamHamper",
+        name: "Angroos Celebrate Onam with a Traditional Low Budget Hamper",
+        price: 1817,
+        description: "A festive gift hamper of Kerala delights, perfect for celebrating Onam.",
+        link: "https://www.amazon.in/Angroos-Celebrate-Traditional-Budget-Hamper/dp/B0DG6PS7HX?crid=U9GF28F4P6SO&dib=eyJ2IjoiMSJ9.q_fvhf1C5raNcbX9iN-k131AmrESSHJEMlAI5iUdXWs5C53bm4ULrfTH4b6t9JqV4Rn1yZFF9lKVOMpavZVkEjht7bbFerYiotzVvPzokE6vN0mXUfv8v9JSKmnZiXtGYqB9Hnlk02R6vcb2LaMXQbFIDN8zzX9JBXvLbBQRe9Ui1P7n2AkMNHVRfmyfz5pUd5TQD8041yjcrBEl95GsLIK_WtThSYgAHBF1SnJiEAkif-eA92c8GhLdsTGMCD9Qn3JfsnwNHfW2B1KK8hFoR4tcZmuc4PI-2jWwi5Nncdw.9fHDs81Bm-UVoLv7ZlKD7J7tdSyHmrAXe5kzC89bHHY&dib_tag=se&keywords=onam&qid=1755678005&sprefix=ona%2Caps%2C394&sr=8-87&xpid=HdVqvmyBz_n1D&linkCode=ll1&tag=utsavs-21&linkId=03082f95200cfd11391c14312ddf2583&language=en_IN&ref_=as_li_ss_tl",
+        image: "https://i.postimg.cc/Y2VkGtbT/onam-hamper-kerala.jpg",
+        hint: "onam hamper"
     }
 ];
 

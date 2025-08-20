@@ -6,6 +6,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
+import { ProductCard } from "@/components/ProductCard";
+import { products } from "@/lib/product-data";
 
 const recipes = [
     { name: "Avial", link: "/recipes/avial" },
@@ -102,6 +104,17 @@ export default function OnamPage() {
                                         </div>
                                     </li>
                                 </ul>
+                                <div className="not-prose my-10">
+                                    <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Shop for Onam</h3>
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                                        <ProductCard product={products.yashikaSaree} />
+                                        <ProductCard product={products.nutsClothingBoysMundu} />
+                                        <ProductCard product={products.southCottonMundu} />
+                                        <ProductCard product={products.sathiyasBabyDress} />
+                                        <ProductCard product={products.totzTouchBabyFrock} />
+                                        <ProductCard product={products.angroosOnamHamper} />
+                                    </div>
+                                </div>
                             </TabsContent>
 
                             <TabsContent value="recipes">
@@ -142,5 +155,3 @@ export default function OnamPage() {
         </div>
     );
 }
-
-    
