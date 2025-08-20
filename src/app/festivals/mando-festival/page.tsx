@@ -4,6 +4,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BookOpen, Sparkles, Music } from "lucide-react";
 import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
+import { ProductCard } from "@/components/ProductCard";
+import { products } from "@/lib/product-data";
 
 export default function MandoFestivalPage() {
     return (
@@ -46,6 +48,13 @@ export default function MandoFestivalPage() {
                                             <p className="text-foreground/80">The Mando is a unique musical form that originated in the 19th century among the Goan Catholic aristocracy, particularly in the salcete region. It is a slow, melancholic, and lyrical song set to a 6/8 time signature, often dealing with themes of love ('mog'), romance, longing, betrayal, and social commentary. The music beautifully combines the Indian 'ghumat' (a traditional percussion instrument made from an earthen pot) with the violin and sometimes guitar, creating a sound that is uniquely Goan. The performance involves a graceful, gliding dance that complements the music's gentle, swaying rhythm. Women wear a traditional, elaborate ceremonial costume called the 'Baju-Tollopp' or 'pano baju', while men are dressed in formal coats, creating a visually elegant and captivating performance that transports the audience to a bygone era.</p>
                                         </CardContent>
                                     </Card>
+                                </div>
+                                <div className="not-prose my-10">
+                                    <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Get the Festive Look</h3>
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                                        <ProductCard product={products.anumalaJuteBag} />
+                                        <ProductCard product={products.doubleRCanvasBag} />
+                                    </div>
                                 </div>
                             </TabsContent>
                         </Tabs>

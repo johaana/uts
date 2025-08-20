@@ -5,6 +5,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
 import { ArattupuzhaPooramPageContent } from "./ArattupuzhaPooramPageContent";
+import { ProductCard } from "@/components/ProductCard";
+import { products } from "@/lib/product-data";
 
 export default function ArattupuzhaPooramPage() {
     return (
@@ -23,6 +25,14 @@ export default function ArattupuzhaPooramPage() {
                 <Card className="mb-12">
                     <CardContent className="p-6 md:p-10">
                         <ArattupuzhaPooramPageContent />
+                        <div className="not-prose my-10">
+                            <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Get Ready for the Festivities</h3>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                                <ProductCard product={products.rajasthanKraftToran} />
+                                <ProductCard product={products.handicraftsParadiseChowki} />
+                                <ProductCard product={products.indianArtVillaThali} />
+                            </div>
+                        </div>
                         <ShareButtons title="Arattupuzha Pooram" />
                     </CardContent>
                 </Card>

@@ -4,6 +4,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BookOpen, Sparkles, MessageSquareQuote } from "lucide-react";
 import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
+import { ProductCard } from "@/components/ProductCard";
+import { products } from "@/lib/product-data";
 
 export default function AshadhiEkadashiPage() {
     return (
@@ -54,6 +56,14 @@ export default function AshadhiEkadashiPage() {
                                             <p className="text-foreground/80">Ashadhi Ekadashi signifies the beginning of Chaturmas, a four-month period of spiritual retreat and heightened observance for devotees and ascetics. It's a time to focus on self-control, spiritual study, and devotion. The fast observed on this day is believed to cleanse the body and soul of sins, bestowing health, peace, and liberation upon the devotee. It is a powerful reminder of the importance of discipline and unwavering faith on the spiritual path.</p>
                                         </CardContent>
                                     </Card>
+                                </div>
+                                <div className="not-prose my-10">
+                                    <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Items for Puja</h3>
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                                        <ProductCard product={products.handicraftsParadiseChowki} />
+                                        <ProductCard product={products.indianArtVillaThali} />
+                                        <ProductCard product={products.sandalwoodHavanCups} />
+                                    </div>
                                 </div>
                             </TabsContent>
                         </Tabs>
