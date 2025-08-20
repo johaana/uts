@@ -1,7 +1,6 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote, Leaf } from "lucide-react";
+import { BookOpen, Utensils, Sparkles, MessageSquareQuote, Leaf } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
@@ -43,10 +42,10 @@ const relatedContent: RelatedItem[] = [
 
 const pageSections = [
     { id: "overview", title: "Overview", icon: BookOpen },
-    { id: "traditions", title: "Traditions", icon: Sparkles },
-    { id: "recipes", title: "Recipes", icon: Utensils },
-    { id: "chants", title: "Chants", icon: MessageSquareQuote },
-    { id: "eco-friendly", title: "Eco-Friendly", icon: Leaf },
+    { id: "traditions", title: "Rituals & Traditions", icon: Sparkles },
+    { id: "recipes", title: "Holi Recipes", icon: Utensils },
+    { id: "chants", title: "Songs & Chants", icon: MessageSquareQuote },
+    { id: "eco-friendly", title: "Eco-Friendly Holi", icon: Leaf },
 ];
 
 export default function HoliPage() {
@@ -62,7 +61,7 @@ export default function HoliPage() {
                 </div>
             </section>
             
-            <div className="container mx-auto px-4 py-12 -mt-24">
+            <div className="container mx-auto px-4 py-12 md:-mt-24">
                 <Card className="mb-12">
                     <CardContent className="p-6 md:p-10">
                         <div className="mb-10 p-4 border-l-4 border-primary bg-primary/5">
@@ -80,7 +79,6 @@ export default function HoliPage() {
                         </div>
                         <article className="space-y-12">
                             <section id="overview">
-                                <h2 className="font-headline text-3xl font-bold mb-4">The Great Equalizer</h2>
                                 <div className="grid md:grid-cols-3 gap-8">
                                     <div className="md:col-span-1">
                                         <p className="text-lg italic text-muted-foreground">
@@ -100,24 +98,24 @@ export default function HoliPage() {
                                 <h2 className="font-headline text-3xl font-bold mb-4">How to Celebrate Holi</h2>
                                 <ul className="space-y-4 pl-4">
                                     <li className="flex items-start">
-                                        <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
+                                        <div className="font-bold text-primary mr-3 text-lg">1.</div>
                                         <div>
                                             <h4 className="font-bold">Holika Dahan</h4>
-                                            <p className="text-foreground/80">On the eve of Holi, light a bonfire to commemorate the burning of the demoness Holika. People sing and dance around the fire.</p>
+                                            <p className="text-foreground/80">On the eve of Holi, light a bonfire to commemorate the burning of the demoness Holika. People sing and dance around the fire, offering prayers for the destruction of evil.</p>
                                         </div>
                                     </li>
                                     <li className="flex items-start">
-                                        <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
+                                        <div className="font-bold text-primary mr-3 text-lg">2.</div>
                                         <div>
                                             <h4 className="font-bold">Play with Colors</h4>
-                                            <p className="text-foreground/80">The main event of Holi is the playful throwing of colored powders (gulal) and water balloons. It's a day of fun and frolic for all ages.</p>
+                                            <p className="text-foreground/80">The main event of Holi is the playful throwing of colored powders (gulal) and water balloons. It's a day of fun and frolic for all ages, where everyone is fair game.</p>
                                         </div>
                                     </li>
                                     <li className="flex items-start">
-                                        <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
+                                        <div className="font-bold text-primary mr-3 text-lg">3.</div>
                                         <div>
-                                            <h4 className="font-bold">Share Sweets</h4>
-                                            <p className="text-foreground/80">Distribute traditional sweets like 'gujiya' and enjoy refreshing drinks like 'thandai' with friends and family.</p>
+                                            <h4 className="font-bold">Share Sweets & Thandai</h4>
+                                            <p className="text-foreground/80">No Holi is complete without sharing traditional sweets like 'gujiya' and enjoying glasses of refreshing, spiced 'thandai' with friends and family.</p>
                                         </div>
                                     </li>
                                 </ul>
@@ -125,7 +123,8 @@ export default function HoliPage() {
 
                             <section id="recipes">
                                 <h2 className="font-headline text-3xl font-bold mb-4">Holi Delicacies</h2>
-                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                                <p className="mb-6 text-foreground/80 prose max-w-none">Holi is a time for indulgence. Sweet and savory treats are prepared in abundance to share with everyone who comes to play.</p>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                                     {recipes.map(recipe => (
                                        <Link href={recipe.link} key={recipe.name}>
                                             <Card className="overflow-hidden h-full hover:shadow-xl transition-shadow duration-300">
