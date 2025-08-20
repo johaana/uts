@@ -40,7 +40,7 @@ export default function SnakeBoatRacePage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-blue-600/10">
-                 <Image src="https://i.postimg.cc/T3yYqf7t/snake-boat-race.jpg" alt="Snake Boat Race" layout="fill" objectFit="cover" className="absolute inset-0 z-0 opacity-20" data-ai-hint="kerala boat race" />
+                 <Image src="https://i.postimg.cc/wx4FCb2T/snake-boat-race.jpg" alt="Snake Boat Race" layout="fill" objectFit="cover" className="absolute inset-0 z-0 opacity-20" data-ai-hint="kerala boat race" />
                 <div className="relative text-center text-primary-foreground z-10 p-4">
                     <h1 className="font-headline text-4xl md:text-5xl lg:text-7xl font-bold text-blue-900 drop-shadow-lg">Snake Boat Race (Vallam Kali)</h1>
                     <p className="text-lg md:text-xl lg:text-2xl mt-4 text-blue-800/90 drop-shadow-md">The Thunder on the Backwaters</p>
