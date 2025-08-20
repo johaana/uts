@@ -52,9 +52,17 @@ export default function TheyyamPage() {
             <div className="container mx-auto px-4 py-12 md:-mt-24">
                 <Card className="mb-12">
                     <CardContent className="p-6 md:p-10">
-                        <TheyyamPageContent />
-                        <ShareButtons title="Theyyam: When Gods Walk the Earth in Kerala" />
-                        <RelatedContent items={relatedContent} />
+                         <div className="grid md:grid-cols-12 gap-8 lg:gap-12">
+                             <aside className="md:col-span-4 lg:col-span-3">
+                                <div className="sticky top-24">
+                                     <TheyyamPageContent />
+                                </div>
+                            </aside>
+                            <main className="md:col-span-8 lg:col-span-9">
+                                <ShareButtons title="Theyyam: When Gods Walk the Earth in Kerala" />
+                                <RelatedContent items={relatedContent} />
+                            </main>
+                        </div>
                     </CardContent>
                 </Card>
             </div>

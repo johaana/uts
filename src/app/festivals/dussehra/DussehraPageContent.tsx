@@ -1,18 +1,17 @@
+
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BookOpen, Sparkles, MessageSquareQuote } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useMediaQuery } from "@/hooks/use-media-query";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { ProductCard } from "@/components/ProductCard";
 import { products } from "@/lib/product-data";
 
 
 const pageContent = [
     {
-        value: "overview",
+        id: "overview",
         title: "Overview",
         icon: BookOpen,
         content: (
@@ -31,7 +30,7 @@ const pageContent = [
         )
     },
      {
-        value: "traditions",
+        id: "traditions",
         title: "Celebrations",
         icon: Sparkles,
         content: (
@@ -45,7 +44,7 @@ const pageContent = [
         )
     },
      {
-        value: "significance",
+        id: "significance",
         title: "Significance",
         icon: MessageSquareQuote,
         content: (
@@ -75,17 +74,15 @@ const pageContent = [
 ]
 
 export function DussehraPageContent() {
-    const isDesktop = useMediaQuery("(min-width: 768px)");
-
     const pageSections = pageContent.map(item => ({
-        id: item.value,
+        id: item.id,
         title: item.title,
         icon: item.icon,
     }));
 
     return (
          <>
-            <div className="mb-10 p-4 border-l-4 border-primary bg-primary/5">
+            <div className="mb-10 p-4 border-l-4 border-primary bg-primary/5 rounded-r-lg">
                 <h2 className="font-headline text-2xl font-bold mb-4">In This Article</h2>
                 <ul className="space-y-2">
                     {pageSections.map(section => (
@@ -100,7 +97,7 @@ export function DussehraPageContent() {
             </div>
              <article className="space-y-12">
                 {pageContent.map((section) => (
-                    <section key={section.value} id={section.value}>
+                    <section key={section.id} id={section.id} className="scroll-mt-20">
                         {section.content}
                     </section>
                 ))}

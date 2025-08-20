@@ -21,19 +21,19 @@ export default function ArattupuzhaPooramPage() {
                 </div>
             </section>
             
-            <div className="container mx-auto px-4 py-12 -mt-24">
+            <div className="container mx-auto px-4 py-12 md:-mt-24">
                 <Card className="mb-12">
                     <CardContent className="p-6 md:p-10">
-                        <ArattupuzhaPooramPageContent />
-                        <div className="not-prose my-10">
-                            <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Get Ready for the Festivities</h3>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                                <ProductCard product={products.rajasthanKraftToran} />
-                                <ProductCard product={products.handicraftsParadiseChowki} />
-                                <ProductCard product={products.indianArtVillaThali} />
-                            </div>
+                         <div className="grid md:grid-cols-12 gap-8 lg:gap-12">
+                             <aside className="md:col-span-4 lg:col-span-3">
+                                <div className="sticky top-24">
+                                     <ArattupuzhaPooramPageContent />
+                                </div>
+                            </aside>
+                            <main className="md:col-span-8 lg:col-span-9">
+                               <ShareButtons title="Arattupuzha Pooram" />
+                            </main>
                         </div>
-                        <ShareButtons title="Arattupuzha Pooram" />
                     </CardContent>
                 </Card>
             </div>

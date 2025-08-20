@@ -21,11 +21,19 @@ export default function FamadihanaPage() {
                 </div>
             </section>
             
-            <div className="container mx-auto px-4 py-12 -mt-24">
+            <div className="container mx-auto px-4 py-12 md:-mt-24">
                 <Card className="mb-12">
                     <CardContent className="p-6 md:p-10">
-                        <FamadihanaPageContent />
-                        <ShareButtons title="Famadihana" />
+                         <div className="grid md:grid-cols-12 gap-8 lg:gap-12">
+                             <aside className="md:col-span-4 lg:col-span-3">
+                                <div className="sticky top-24">
+                                     <FamadihanaPageContent />
+                                </div>
+                            </aside>
+                            <main className="md:col-span-8 lg:col-span-9">
+                               <ShareButtons title="Famadihana" />
+                            </main>
+                        </div>
                     </CardContent>
                 </Card>
             </div>

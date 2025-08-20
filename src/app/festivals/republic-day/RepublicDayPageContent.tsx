@@ -2,15 +2,11 @@
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BookOpen, Sparkles, Flag } from "lucide-react";
-import { useMediaQuery } from "@/hooks/use-media-query";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-
 
 const pageContent = [
     {
-        value: "overview",
+        id: "overview",
         title: "Overview",
         icon: BookOpen,
         content: (
@@ -23,7 +19,7 @@ const pageContent = [
         )
     },
     {
-        value: "parade",
+        id: "parade",
         title: "The Parade",
         icon: Flag,
         content: (
@@ -36,7 +32,7 @@ const pageContent = [
         )
     },
     {
-        value: "significance",
+        id: "significance",
         title: "Significance",
         icon: Sparkles,
         content: (
@@ -58,43 +54,35 @@ const pageContent = [
 ];
 
 export function RepublicDayPageContent() {
-    const isDesktop = useMediaQuery("(min-width: 768px)");
+
+    const pageSections = pageContent.map(item => ({
+        id: item.id,
+        title: item.title,
+        icon: item.icon,
+    }));
 
     return (
-        <>
-            {isDesktop ? (
-                    <Tabs defaultValue="overview">
-                    <TabsList className="grid w-full grid-cols-1 md:grid-cols-3 mb-6 h-auto">
-                        {pageContent.map((tab) => (
-                            <TabsTrigger key={tab.value} value={tab.value} className="py-2">
-                                <tab.icon className="w-4 h-4 mr-2" />
-                                {tab.title}
-                            </TabsTrigger>
-                        ))}
-                    </TabsList>
-                    {pageContent.map((tab) => (
-                        <TabsContent key={tab.value} value={tab.value}>
-                            {tab.content}
-                        </TabsContent>
+         <>
+            <div className="mb-10 p-4 border-l-4 border-primary bg-primary/5 rounded-r-lg">
+                <h2 className="font-headline text-2xl font-bold mb-4">In This Article</h2>
+                <ul className="space-y-2">
+                    {pageSections.map(section => (
+                        <li key={section.id}>
+                            <a href={`#${section.id}`} className="flex items-center gap-3 text-foreground/80 hover:text-primary transition-colors">
+                                <section.icon className="w-5 h-5 text-accent" />
+                                <span className="font-semibold">{section.title}</span>
+                            </a>
+                        </li>
                     ))}
-                </Tabs>
-            ) : (
-                <Accordion type="single" collapsible defaultValue="overview" className="w-full">
-                    {pageContent.map((item) => (
-                        <AccordionItem key={item.value} value={item.value}>
-                            <AccordionTrigger className="text-xl font-headline font-bold">
-                                <span className="flex items-center">
-                                    <item.icon className="w-5 h-5 mr-3" />
-                                    {item.title}
-                                </span>
-                            </AccordionTrigger>
-                            <AccordionContent className="pt-4">
-                                {item.content}
-                            </AccordionContent>
-                        </AccordionItem>
-                    ))}
-                </Accordion>
-            )}
+                </ul>
+            </div>
+             <article className="space-y-12">
+                {pageContent.map((section) => (
+                    <section key={section.id} id={section.id} className="scroll-mt-20">
+                        {section.content}
+                    </section>
+                ))}
+            </article>
         </>
     );
 }
