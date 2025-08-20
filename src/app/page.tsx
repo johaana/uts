@@ -97,8 +97,8 @@ export default function Home() {
                 <Link href="/festivals">
                 <Button 
                   variant="default" 
-                  size="lg" 
-                  className="text-sm md:text-lg group transition-all duration-300 hover:scale-105 hover:shadow-2xl text-primary-foreground font-bold bg-gradient-to-r from-primary to-accent shadow-lg border-none"
+                  size="sm" 
+                  className="md:h-11 md:px-8 md:text-lg group transition-all duration-300 hover:scale-105 hover:shadow-2xl text-primary-foreground font-bold bg-gradient-to-r from-primary to-accent shadow-lg border-none"
                 >
                     Explore All Festivals <ArrowRight className="ml-2 transition-transform group-hover:translate-x-1" />
                 </Button>
