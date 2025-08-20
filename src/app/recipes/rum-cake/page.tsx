@@ -1,8 +1,8 @@
 
+'use client';
 import { RecipeBody, RecipeCardLayout, RecipeHeader } from "@/components/RecipeCardLayout";
 import { Check } from "lucide-react";
 import Image from "next/image";
-import { ShareButtons } from "@/components/ShareButtons";
 
 export default function RumCakePage() {
     return (
@@ -55,3 +55,5 @@ export default function RumCakePage() {
         </RecipeCardLayout>
     );
 }
+
+    

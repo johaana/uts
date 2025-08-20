@@ -1,4 +1,5 @@
 
+'use client';
 import { RecipeBody, RecipeCardLayout, RecipeHeader } from "@/components/RecipeCardLayout";
 import { Check } from "lucide-react";
 import Image from "next/image";
@@ -60,3 +61,5 @@ export default function KeralaRoastChickenPage() {
         </RecipeCardLayout>
     );
 }
+
+    

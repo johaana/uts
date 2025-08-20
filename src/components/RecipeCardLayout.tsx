@@ -1,4 +1,5 @@
 
+'use client';
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { ShareButtons } from "./ShareButtons";
 import React from "react";
@@ -29,7 +30,9 @@ export function RecipeBody({ children, recipeName }: { children: React.ReactNode
             <div className="border-b-2 border-dashed border-border pb-6 mb-6">
                 {children}
             </div>
-            <ShareButtons title={recipeName} />
+            <ShareButtons title={`${recipeName} Recipe`} />
         </CardContent>
     )
 }
+
+    

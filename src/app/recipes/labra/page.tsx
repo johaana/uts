@@ -1,3 +1,4 @@
+
 'use client';
 import { RecipeBody, RecipeCardLayout, RecipeHeader } from "@/components/RecipeCardLayout";
 import { Check } from "lucide-react";
@@ -7,17 +8,18 @@ export default function LabraPage() {
     return (
         <RecipeCardLayout recipeName="Labra (Bengali Mixed Veg)">
             <RecipeHeader>
-                <h1 className="font-headline text-4xl mb-4">Labra (Bengali Mixed Veg)</h1>
-                <div className="flex flex-col md:flex-row gap-6">
-                    <div className="md:w-2/3">
-                        <p className="text-lg text-muted-foreground">A quintessential part of Durga Puja 'bhog', Labra is a medley of various vegetables cooked together with Bengali five-spice (panch phoron). It's a delightful semi-dry curry.</p>
-                    </div>
-                        <div className="md:w-1/3">
-                        <Image src="https://i.postimg.cc/GmnJ5kP3/nilendrajyoti-halder-v32-Ac-NJ4-Q-Q-unsplash.jpg" alt="Labra" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="mixed vegetable curry"/>
+                <div className="relative h-64 md:h-96">
+                    <Image src="https://i.postimg.cc/GmnJ5kP3/nilendrajyoti-halder-v32-Ac-NJ4-Q-Q-unsplash.jpg" alt="Labra" layout="fill" objectFit="cover" className="object-center" data-ai-hint="mixed vegetable curry"/>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                    <div className="absolute bottom-0 left-0 p-6 md:p-10">
+                        <h1 className="font-headline text-4xl md:text-6xl text-white font-bold drop-shadow-lg">Labra (Bengali Mixed Veg)</h1>
                     </div>
                 </div>
+                <div className="p-6 md:p-10">
+                    <p className="text-lg text-muted-foreground max-w-3xl">A quintessential part of Durga Puja 'bhog', Labra is a medley of various vegetables cooked together with Bengali five-spice (panch phoron). It's a delightful semi-dry curry.</p>
+                </div>
             </RecipeHeader>
-            <RecipeBody>
+            <RecipeBody recipeName="Labra (Bengali Mixed Veg)">
                 <div className="grid md:grid-cols-3 gap-8">
                     <div className="md:col-span-1">
                         <h3 className="font-headline text-2xl font-bold mb-4">Ingredients</h3>
@@ -52,3 +54,5 @@ export default function LabraPage() {
         </RecipeCardLayout>
     );
 }
+
+    
