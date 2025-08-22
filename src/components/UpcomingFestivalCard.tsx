@@ -4,7 +4,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Card, CardContent } from './ui/card';
-import { parseISO, format } from 'date-fns';
+import { parseISO, format, parse } from 'date-fns';
 import { FestivalCountdown } from './FestivalCountdown';
 
 interface Festival {
@@ -20,15 +20,31 @@ export function UpcomingFestivalCard({ festival }: { festival: Festival }) {
         return null;
     }
 
-    let formattedDate = "";
+    let formattedDate = festival.date;
     try {
-        const date = parseISO(festival.date);
-        if(!isNaN(date.getTime())) {
-            formattedDate = format(date, 'EEEE, MMMM dd, yyyy');
+        const dateParts = festival.date.split(' - ');
+        const startDateStr = dateParts[0];
+        const startDate = parse(startDateStr, 'MMM dd, yyyy', new Date());
+
+        if (dateParts.length > 1) {
+            const endDateStr = dateParts[1];
+            const endDate = parse(endDateStr, 'MMM dd, yyyy', new Date());
+             if (!isNaN(startDate.getTime()) && !isNaN(endDate.getTime())) {
+                if (startDate.getMonth() === endDate.getMonth()) {
+                     formattedDate = `${format(startDate, 'MMM dd')} - ${format(endDate, 'dd, yyyy')}`;
+                } else {
+                    formattedDate = `${format(startDate, 'MMM dd')} - ${format(endDate, 'MMM dd, yyyy')}`;
+                }
+            }
+        } else {
+             if (!isNaN(startDate.getTime())) {
+                formattedDate = format(startDate, 'EEEE, MMMM dd, yyyy');
+            }
         }
     } catch (e) {
-        // console.error("Could not parse date", festival.date);
+        // Fallback to original string if parsing fails
     }
+
 
     return (
         <Card className="h-full overflow-hidden group flex flex-col shadow-lg hover:shadow-2xl transition-shadow duration-300">
@@ -57,7 +73,7 @@ export function UpcomingFestivalCard({ festival }: { festival: Festival }) {
 
                 <div className="w-full flex items-center justify-center">
                     <FestivalCountdown 
-                        targetDate={festival.date} 
+                        targetDate={parse(festival.date.split(' - ')[0], 'MMM dd, yyyy', new Date()).toISOString()}
                         festivalName={festival.name}
                         festivalLink={festival.link}
                     />

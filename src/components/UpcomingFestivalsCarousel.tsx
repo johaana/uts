@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -22,14 +23,10 @@ interface Festival {
 }
 
 const parseFestivalDate = (dateStr: string): Date | null => {
-    // Handles "MMM dd, yyyy" and "MMM dd - MMM dd, yyyy"
     const startDateStr = dateStr.split(' - ')[0];
     try {
         const parsedDate = parse(startDateStr, 'MMM dd, yyyy', new Date());
-        if (isNaN(parsedDate.getTime())) {
-            return null;
-        }
-        return parsedDate;
+        return isNaN(parsedDate.getTime()) ? null : parsedDate;
     } catch (e) {
         return null;
     }
@@ -67,7 +64,7 @@ export function UpcomingFestivalsCarousel() {
 
             const formattedFestivals = rearrangedEvents.map(event => ({
                 name: event.name,
-                date: event.parsedDate!.toISOString(),
+                date: event.date,
                 link: event.link!,
                 image: event.image!,
                 hint: event.hint!,

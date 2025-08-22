@@ -71,8 +71,7 @@ export function FestivalCalendar({
             if (parts.length > 1) {
                 const endDateStr = parts[1];
                 let parsedEndDate;
-
-                // Handles cases like "MMM dd" (missing year) by taking year from start date
+                
                 if (endDateStr.split(',').length < 2) { 
                     parsedEndDate = parse(`${endDateStr}, ${getYear(startDate)}`, 'MMM dd, yyyy', new Date());
                 } else {
@@ -151,12 +150,17 @@ export function FestivalCalendar({
         const range = getEventDateRange(dateString);
         if (!range) return dateString;
         const { start, end } = range;
-        if (format(start, 'yyyy-MM-dd') === format(end, 'yyyy-MM-dd')) {
+        
+        const today = isToday(start);
+        const singleDay = format(start, 'yyyy-MM-dd') === format(end, 'yyyy-MM-dd');
+        
+        if (singleDay) {
             return format(start, 'MMM dd, yyyy (EEEE)');
         }
+        
         if (getYear(start) !== getYear(end)) {
             return `${format(start, 'MMM dd, yyyy')} - ${format(end, 'MMM dd, yyyy')}`;
-        } else if (format(start, 'MMMM') !== format(end, 'MMMM')) {
+        } else if (getMonth(start) !== getMonth(end)) {
             return `${format(start, 'MMM dd')} - ${format(end, 'MMM dd, yyyy')}`;
         } else {
             return `${format(start, 'MMM dd')} - ${format(end, 'dd, yyyy')}`;
