@@ -10,6 +10,13 @@ import { ShareButtons } from "@/components/ShareButtons";
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 import { ProductCard } from "@/components/ProductCard";
 import { products } from "@/lib/product-data";
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: "Onam 2025: Kerala's Harvest Festival Dates & Traditions 🌸",
+  description: "Find the Onam 2025 dates and explore the rich traditions of Kerala's harvest festival. Discover ideas for Pookalam, Sadya, and traditional attire on Amazon.",
+};
+
 
 const recipes = [
     { name: "Avial", link: "/recipes/avial" },
@@ -139,8 +146,8 @@ export default function OnamPage() {
                                                 </div>
                                             </li>
                                         </ul>
-                                        <div className="not-prose my-10">
-                                            <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Shop for Onam</h3>
+                                         <div className="not-prose my-10">
+                                            <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Get Ready for the Celebration</h3>
                                             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                                                 <ProductCard product={products.yashikaSaree} />
                                                 <ProductCard product={products.nutsClothingBoysMundu} />

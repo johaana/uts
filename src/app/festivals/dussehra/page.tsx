@@ -7,6 +7,12 @@ import { ShareButtons } from "@/components/ShareButtons";
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 import { DussehraPageContent } from "./DussehraPageContent";
 import { BookOpen, Sparkles, MessageSquareQuote } from "lucide-react";
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: "Dussehra 2025: Date, Ravan Dahan & Vijayadashami Story 🔥",
+  description: "Find the Dussehra 2025 date and explore the traditions of Ramlila and Ravan Dahan. Discover the story of Vijayadashami and why it's an auspicious day.",
+};
 
 
 const relatedContent: RelatedItem[] = [

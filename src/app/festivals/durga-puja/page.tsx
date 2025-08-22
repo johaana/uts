@@ -1,16 +1,52 @@
 
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
+import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: "Durga Puja 2025: Dates, Pandal Hopping & Traditions  Devi",
+  description: "Get the Durga Puja 2025 dates and explore the vibrant traditions of Bengal's biggest festival. Find tips for pandal hopping and discover classic bhog recipes.",
+};
+
 
 const recipes = [
     { name: "Khichuri", link: "/recipes/khichuri" },
     { name: "Labra", link: "/recipes/labra" },
     { name: "Ras Malai", link: "/recipes/ras-malai" },
 ]
+
+const relatedContent: RelatedItem[] = [
+    {
+        slug: "navratri",
+        title: "Navratri Festival Guide",
+        image: "https://i.postimg.cc/J4JFtVYT/navratri1.jpg",
+        type: "Festival",
+        link: "/festivals/navratri",
+        hint: "garba dance"
+    },
+    {
+        slug: "dussehra",
+        title: "Dussehra",
+        image: "https://i.postimg.cc/wMVZW9fk/dussehra.jpg",
+        type: "Festival",
+        link: "/festivals/dussehra",
+        hint: "dussehra celebration"
+    },
+    {
+        slug: "khichuri",
+        title: "Khichuri Recipe",
+        image: "https://i.postimg.cc/GmnJ5kP3/nilendrajyoti-halder-v32-Ac-NJ4-Q-Q-unsplash.jpg",
+        type: "Recipe",
+        link: "/recipes/khichuri",
+        hint: "bengali khichdi"
+    }
+];
 
 export default function DurgaPujaPage() {
     return (
@@ -112,6 +148,7 @@ export default function DurgaPujaPage() {
                             </TabsContent>
                         </Tabs>
                         <ShareButtons title="Durga Puja" />
+                        <RelatedContent items={relatedContent} />
                     </CardContent>
                 </Card>
             </div>

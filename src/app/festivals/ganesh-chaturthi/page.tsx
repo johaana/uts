@@ -1,4 +1,5 @@
 
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BookOpen, Utensils, Sparkles, MessageSquareQuote, Leaf, CalendarDays } from "lucide-react";
 import Link from "next/link";
@@ -7,6 +8,13 @@ import { ShareButtons } from "@/components/ShareButtons";
 import { products } from "@/lib/product-data";
 import { Button } from "@/components/ui/button";
 import { ProductCard } from "@/components/ProductCard";
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: "Ganesh Chaturthi 2025: Date, Puja Vidhi & Eco-Friendly Murti Ideas 🐘",
+  description: "Get the Ganesh Chaturthi 2025 date and puja vidhi. Discover beautiful, eco-friendly Ganesha idols and complete puja kits available on Amazon.",
+};
+
 
 const recipes = [
     { name: "Modak", link: "/recipes/modak" },
@@ -60,7 +68,7 @@ export default function GaneshChaturthiPage() {
                                     <p>The festival was transformed from a private, household celebration into a grand public event by the freedom fighter Lokmanya Tilak in the late 19th century as a way to unite the people of India against British rule. Today, the festival is celebrated with immense fervor, especially in Maharashtra. Devotees bring home beautifully crafted clay idols of Ganesha, worshipping him for ten days with prayers, songs, and his favorite sweet, 'modak'. The festival culminates in the 'visarjan' (immersion) ceremony on Anant Chaturdashi, symbolizing Ganesha's journey back to his celestial abode, taking with him the misfortunes of his devotees, and promising to return the following year.</p>
                                 </div>
                                  <div className="not-prose my-10">
-                                    <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Shop for Ganesh Chaturthi</h3>
+                                    <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Get Ready for the Celebration</h3>
                                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                                         <ProductCard product={products.ganpatiDecorStand} />
                                         <ProductCard product={products.rajasthanKraftToran} />

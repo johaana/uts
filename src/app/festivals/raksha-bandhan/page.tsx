@@ -7,6 +7,15 @@ import Link from "next/link";
 import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
+import { ProductCard } from "@/components/ProductCard";
+import { products } from "@/lib/product-data";
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: "Raksha Bandhan 2025: Date, Puja Time & Amazon Rakhi Gift Ideas 🎁",
+  description: "Find the Raksha Bandhan 2025 date, puja timings, and traditions. Explore our curated list of trending rakhi gift hampers under ₹999 on Amazon, perfect for your celebration.",
+};
+
 
 const recipes = [
     { name: "Kaju Katli", link: "/recipes/kaju-katli" },

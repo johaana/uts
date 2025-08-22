@@ -1,4 +1,5 @@
 
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BookOpen, Utensils, Sparkles, MessageSquareQuote, CalendarDays, Leaf } from "lucide-react";
 import Link from "next/link";
@@ -7,6 +8,13 @@ import { ShareButtons } from "@/components/ShareButtons";
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 import { ProductCard } from "@/components/ProductCard";
 import { products } from "@/lib/product-data";
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: "Diwali 2025: Dates, Lakshmi Puja Muhurat & Best Amazon Deals 🪔",
+  description: "Find the Diwali 2025 dates, Lakshmi Puja timings, and traditions. Explore our curated list of the best deals on diyas, lights, and gifts on Amazon.",
+};
+
 
 const recipes = [
     { name: "Ladoo", link: "/recipes/ladoo" },
@@ -218,7 +226,7 @@ export default function DiwaliPage() {
                                             </div>
                                         </div>
                                          <div className="not-prose my-10">
-                                            <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Shop for Diwali</h3>
+                                            <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Get Ready for the Celebration</h3>
                                             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                                                 <ProductCard product={products.rangoliMat} />
                                                 <ProductCard product={products.rajasthanKraftToran} />

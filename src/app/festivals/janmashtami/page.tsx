@@ -10,6 +10,12 @@ import { ShareButtons } from "@/components/ShareButtons";
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 import { ProductCard } from "@/components/ProductCard";
 import { products } from "@/lib/product-data";
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: "Janmashtami 2025: Date, Dahi Handi & Puja Vidhi 🦚",
+  description: "Find the Janmashtami 2025 date, puja timings, and traditions like Dahi Handi. Explore our curated list of puja items and decor on Amazon.",
+};
 
 const relatedContent: RelatedItem[] = [
     {
@@ -59,7 +65,7 @@ export default function JanmashtamiPage() {
                 <Card className="mb-12">
                     <CardContent className="p-6 md:p-10">
                         <div className="grid md:grid-cols-12 gap-8 lg:gap-12">
-                             <aside className="md:col-span-4 lg:col-span-3">
+                             <aside className="hidden md:block md:col-span-4 lg:col-span-3">
                                 <div className="sticky top-24">
                                      <div className="mb-10 p-4 border-l-4 border-primary bg-primary/5 rounded-r-lg">
                                         <h2 className="font-headline text-2xl font-bold mb-4">In This Article</h2>
@@ -85,16 +91,20 @@ export default function JanmashtamiPage() {
                                             <p>Janmashtami, also known as Krishna Janmashtami, is a vibrant and joyous festival celebrating the birth of Lord Krishna, the eighth and one of the most beloved avatars of Lord Vishnu. The festival is observed with immense devotion on the eighth day (Ashtami) of the dark fortnight (Krishna Paksha) of the Hindu month of Bhadrapada. Lord Krishna is a central figure in Hinduism, revered as a mischievous child, a divine lover, a compassionate guide who revealed the sacred wisdom of the Bhagavad Gita, and the ultimate protector of dharma.</p>
                                             <p>His birth story is a tale of hope in a time of darkness. He was born in a prison cell in Mathura to Devaki and Vasudeva. Devaki's tyrannical brother, King Kansa, had imprisoned them after a prophecy foretold that their eighth son would be his destroyer. On the stormy night of Krishna's birth, a series of miracles occurred. The prison guards fell into a deep slumber, the chains fell open, and the prison doors unlocked. To save him from Kansa's wrath, his father Vasudeva carried the divine infant across the raging Yamuna river to the safety of Nanda and Yashoda's home in Gokul. Janmashtami celebrates this divine birth, a symbol of the victory of good over evil and a promise of hope and liberation for all humanity.</p>
                                         </div>
-                                        <div className="not-prose my-10">
-                                            <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Check these products on Amazon</h3>
-                                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                                                <ProductCard product={products.bengalenGopalThali} />
-                                                <ProductCard product={products.marigoldGarland} />
-                                                <ProductCard product={products.divyakoshLotusHanging} />
-                                            </div>
-                                        </div>
                                     </section>
                                     
+                                    <div className="md:hidden sticky top-16 z-30 bg-background/95 backdrop-blur-sm py-2 -mx-6 px-6 mb-8 border-b">
+                                        <h3 className="font-headline text-lg font-bold mb-2">In This Article</h3>
+                                        <div className="flex flex-wrap gap-x-4 gap-y-2">
+                                            {pageSections.map(section => (
+                                                <a key={section.id} href={`#${section.id}`} className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary">
+                                                    <section.icon className="w-4 h-4 text-accent" />
+                                                    {section.title}
+                                                </a>
+                                            ))}
+                                        </div>
+                                     </div>
+
                                     <section id="traditions" className="scroll-mt-20">
                                         <h2 className="font-headline text-3xl font-bold mb-4">How to Celebrate Janmashtami</h2>
                                         <ul className="space-y-4 pl-4">
@@ -124,6 +134,14 @@ export default function JanmashtamiPage() {
                                                 </div>
                                             </div>
                                         </Card>
+                                        <div className="not-prose my-10">
+                                            <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Get Ready for the Celebration</h3>
+                                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                                                <ProductCard product={products.bengalenGopalThali} />
+                                                <ProductCard product={products.marigoldGarland} />
+                                                <ProductCard product={products.divyakoshLotusHanging} />
+                                            </div>
+                                        </div>
                                     </section>
 
                                      <section id="chants" className="scroll-mt-20">
