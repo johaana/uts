@@ -21,17 +21,17 @@ function ResourceSummary() {
     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
       <div className="bg-secondary/30 p-8 rounded-lg flex flex-col items-center">
         <Calendar className="w-12 h-12 text-accent mb-4"/>
-        <h3 className="font-headline text-3xl font-bold text-primary mb-2">40+ Festivals</h3>
+        <h3 className="font-headline text-3xl font-bold text-primary mb-2">60+ Festivals</h3>
         <p className="text-foreground/80">Explore detailed guides on major and regional Indian festivals.</p>
       </div>
       <div className="bg-secondary/30 p-8 rounded-lg flex flex-col items-center">
         <Utensils className="w-12 h-12 text-accent mb-4"/>
-        <h3 className="font-headline text-3xl font-bold text-primary mb-2">30+ Recipes</h3>
+        <h3 className="font-headline text-3xl font-bold text-primary mb-2">40+ Recipes</h3>
         <p className="text-foreground/80">Cook authentic festive food with our easy-to-follow recipes.</p>
       </div>
       <div className="bg-secondary/30 p-8 rounded-lg flex flex-col items-center">
         <BookOpen className="w-12 h-12 text-accent mb-4"/>
-        <h3 className="font-headline text-3xl font-bold text-primary mb-2">15+ Stories</h3>
+        <h3 className="font-headline text-3xl font-bold text-primary mb-2">25+ Stories</h3>
         <p className="text-foreground/80">Dive deep into the culture and stories behind the celebrations.</p>
       </div>
     </div>
@@ -119,12 +119,7 @@ export default function Home() {
       
       <section className="py-12 md:py-24 bg-secondary/30">
         <div className="container mx-auto px-4">
-           <FestivalCalendar
-                events={allEvents}
-                availableYears={['Upcoming', '2025', '2026']}
-                title="Festival & Holiday Calendar"
-                description="Plan your year around the vibrant celebrations of India. Never miss a festival, holiday, or long weekend."
-            />
+           <FestivalCalendar />
         </div>
       </section>
       

@@ -30,18 +30,18 @@ interface FestivalEvent {
 }
 
 interface FestivalCalendarProps {
-    events: FestivalEvent[];
+    events?: FestivalEvent[];
     availableYears?: string[];
     availableRegions?: string[];
     availableEventTypes?: string[];
-    title: string;
-    description: string;
+    title?: string;
+    description?: string;
     showLongWeekendInfo?: boolean;
     displayLimit?: number;
 }
 
 export function FestivalCalendar({
-    events,
+    events = allEvents,
     availableYears = defaultYears,
     availableRegions = defaultRegions,
     availableEventTypes = defaultEventTypes,
@@ -195,12 +195,14 @@ export function FestivalCalendar({
 
     return (
         <div className="w-full">
-            <div className="text-center mb-12">
-                <h2 className="font-headline text-3xl md:text-5xl font-bold text-primary">{title}</h2>
-                <p className="mt-3 text-base md:text-lg text-foreground/80 max-w-2xl mx-auto">
-                    {description}
-                </p>
-            </div>
+           {title && description && (
+                <div className="text-center mb-12">
+                    <h2 className="font-headline text-3xl md:text-5xl font-bold text-primary">{title}</h2>
+                    <p className="mt-3 text-base md:text-lg text-foreground/80 max-w-2xl mx-auto">
+                        {description}
+                    </p>
+                </div>
+            )}
             
             <Card className="p-4 md:p-6 mb-2">
                  <div className="grid grid-cols-2 sm:grid-cols-2 gap-4 items-center md:grid-cols-4">
