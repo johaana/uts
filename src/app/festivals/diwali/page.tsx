@@ -32,12 +32,12 @@ const relatedContent: RelatedItem[] = [
         hint: "diwali lamps"
     },
     {
-        slug: "ladoo",
-        title: "Besan Ladoo Recipe",
-        image: "https://i.postimg.cc/9MkWX5gm/Besan-Laddoo.webp",
-        type: "Recipe",
-        link: "/recipes/ladoo",
-        hint: "gram flour ladoo"
+        slug: "raksha-bandhan",
+        title: "Raksha Bandhan",
+        image: "https://i.postimg.cc/9MXxXQhY/Raksha-Bandhan.jpg",
+        type: "Festival",
+        link: "/festivals/raksha-bandhan",
+        hint: "rakhi thread"
     }
 ];
 
@@ -150,7 +150,7 @@ export default function DiwaliPage() {
                                                 <div className="flex flex-col md:flex-row gap-6 items-center">
                                                     <div className="md:w-2/3">
                                                         <h3 className="font-headline text-2xl text-primary mb-2">Day 5: Bhai Dooj - Celebrating the Sibling Bond</h3>
-                                                        <p>The festival culminates with Bhai Dooj, a day celebrating the bond between brothers and sisters. Sisters apply a 'tilak' on their brother's forehead, praying for his long life, and brothers give gifts in return, vowing to protect them.</p>
+                                                        <p>The festival culminates with Bhai Dooj, a day celebrating the bond between brothers and sisters, similar to <Link href="/festivals/raksha-bandhan" className="text-accent hover:underline">Raksha Bandhan</Link>. Sisters apply a 'tilak' on their brother's forehead, praying for his long life, and brothers give gifts in return, vowing to protect them.</p>
                                                     </div>
                                                     <div className="md:w-1/3">
                                                         <Image src="https://i.postimg.cc/CKhZqRXd/bhaidooj-pooja-vidhi.jpg" alt="Bhai Dooj" width={300} height={200} className="rounded-lg shadow-md w-full" data-ai-hint="bhai dooj" />

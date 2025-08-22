@@ -55,8 +55,11 @@ export default function DussehraPage() {
                                 </div>
                             </aside>
                             <main className="md:col-span-8 lg:col-span-9">
-                                <ShareButtons title="Dussehra" />
-                                <RelatedContent items={relatedContent} />
+                               <article>
+                                    <DussehraPageContent />
+                               </article>
+                               <ShareButtons title="Dussehra" />
+                               <RelatedContent items={relatedContent} />
                             </main>
                         </div>
                     </CardContent>

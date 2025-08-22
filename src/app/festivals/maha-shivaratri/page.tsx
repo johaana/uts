@@ -126,6 +126,13 @@ export default function MahaShivaratriPage() {
                                                 </div>
                                             </li>
                                         </ul>
+                                         <div className="not-prose my-10">
+                                            <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Puja Items</h3>
+                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-md mx-auto">
+                                                <ProductCard product={products.spillboxThali} />
+                                                <ProductCard product={products.signamioDhoopStand} />
+                                            </div>
+                                        </div>
                                     </section>
 
                                     <section id="recipes" className="scroll-mt-20">

@@ -6,6 +6,8 @@ import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 import Link from "next/link";
+import { ProductCard } from "@/components/ProductCard";
+import { products } from "@/lib/product-data";
 
 const relatedContent: RelatedItem[] = [
     {
@@ -68,6 +70,14 @@ export default function ThaipusamPage() {
                                 <div className="space-y-4 text-foreground/80 prose max-w-none">
                                    <p>The central ritual of Thaipusam is the 'Kavadi Aattam' or 'Burden Dance'. This is where faith takes physical form. Devotees carry a 'kavadi'—a physical burden—on a long pilgrimage to a Murugan temple. In its simplest form, this is a pot of milk or a wooden arch decorated with peacock feathers. But for many, the burden is far more extreme.</p>
                                    <p>In a stunning display of devotion, many participants pierce their skin, cheeks, and tongues with silver skewers and hooks. They attach heavy, ornate structures to their bodies, pulling them for miles. It is believed that their deep meditative state, a trance of pure devotion, protects them from pain and leaves no scars. To the rhythmic, hypnotic beat of drums and the fervent chanting of "Vel! Vel!", these devotees move in a procession, their physical sacrifice a powerful, outward expression of an inner spiritual transformation. It's a raw, visceral, and unforgettable testament to the depths of human belief.</p>
+                                </div>
+                                <div className="not-prose my-10">
+                                    <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Items for Puja</h3>
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                                        <ProductCard product={products.indianArtVillaThali} />
+                                        <ProductCard product={products.signamioDhoopStand} />
+                                        <ProductCard product={products.sandalwoodHavanCups} />
+                                    </div>
                                 </div>
                             </TabsContent>
 

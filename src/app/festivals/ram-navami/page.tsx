@@ -80,10 +80,17 @@ export default function RamNavamiPage() {
                             <main className="md:col-span-8 lg:col-span-9">
                                 <article className="space-y-12">
                                     <section id="overview" className="scroll-mt-20">
-                                        <h2 className="font-headline text-3xl font-bold mb-4">The Advent of the Ideal Man</h2>
-                                        <div className="space-y-4 text-foreground/80 prose max-w-none">
-                                            <p>Ram Navami is a cherished Hindu festival that celebrates the birth of Lord Rama, the seventh and one of the most revered avatars of Lord Vishnu. Observed on the ninth day (Navami) of the bright fortnight (Shukla Paksha) in the Hindu month of Chaitra, this day marks a momentous occasion in Hindu tradition. Lord Rama is the central figure of the epic Ramayana, a story that is not just a religious text but a guiding light on morality, duty, and righteousness. He is revered as 'Maryada Purushottam', the perfect or ideal man, the very embodiment of dharma, compassion, courage, and devotion.</p>
-                                            <p>The story of his birth is one of divine intervention. The noble King Dasharatha of Ayodhya, despite having three wives, was childless and longed for an heir. On the advice of the sages, he performed a grand 'Putrakameshti Yajna' (a sacred fire ritual for progeny). From the sacrificial fire, a divine being emerged, bestowing upon the king a bowl of divine kheer (pudding) to be shared among his queens. As a result, his eldest queen, Kaushalya, gave birth to Rama. His birth was a divine answer to the prayers of the gods and the earth, to vanquish the tyrannical demon king Ravana of Lanka. Ram Navami, therefore, is not just a birthday celebration; it is a festival that reaffirms the power of good, the importance of living a righteous life, and the promise that divinity will always descend to Earth to conquer the forces of evil.</p>
+                                         <div className="flex flex-col md:flex-row gap-8 items-center">
+                                            <div className="md:order-2 md:w-1/3">
+                                                <Image src="https://i.postimg.cc/Vvqmzy7S/ram-navami.webp" alt="Lord Rama" width={400} height={400} className="rounded-lg shadow-lg w-full" data-ai-hint="lord rama"/>
+                                            </div>
+                                            <div className="md:order-1 md:w-2/3">
+                                                <h2 className="font-headline text-3xl font-bold mb-4">The Advent of the Ideal Man</h2>
+                                                <div className="space-y-4 text-foreground/80 prose max-w-none">
+                                                    <p>Ram Navami is a cherished Hindu festival that celebrates the birth of Lord Rama, the seventh and one of the most revered avatars of Lord Vishnu. Observed on the ninth day (Navami) of the bright fortnight (Shukla Paksha) in the Hindu month of Chaitra, this day marks a momentous occasion in Hindu tradition. Lord Rama is the central figure of the epic Ramayana, a story that is not just a religious text but a guiding light on morality, duty, and righteousness. He is revered as 'Maryada Purushottam', the perfect or ideal man, the very embodiment of dharma, compassion, courage, and devotion.</p>
+                                                    <p>The story of his birth is one of divine intervention. The noble King Dasharatha of Ayodhya, despite having three wives, was childless and longed for an heir. On the advice of the sages, he performed a grand 'Putrakameshti Yajna' (a sacred fire ritual for progeny). From the sacrificial fire, a divine being emerged, bestowing upon the king a bowl of divine kheer (pudding) to be shared among his queens. As a result, his eldest queen, Kaushalya, gave birth to Rama. His birth was a divine answer to the prayers of the gods and the earth, to vanquish the tyrannical demon king Ravana of Lanka. Ram Navami, therefore, is not just a birthday celebration; it is a festival that reaffirms the power of good, the importance of living a righteous life, and the promise that divinity will always descend to Earth to conquer the forces of evil.</p>
+                                                </div>
+                                            </div>
                                         </div>
                                     </section>
                                     
@@ -112,6 +119,13 @@ export default function RamNavamiPage() {
                                                 </div>
                                             </li>
                                         </ul>
+                                         <div className="not-prose my-10">
+                                            <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Puja Essentials</h3>
+                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-md mx-auto">
+                                                <ProductCard product={products.handicraftsParadiseChowki} />
+                                                <ProductCard product={products.indianArtVillaThali} />
+                                            </div>
+                                        </div>
                                     </section>
 
                                      <section id="chants" className="scroll-mt-20">
