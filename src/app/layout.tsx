@@ -21,8 +21,8 @@ const ptSans = PT_Sans({
   variable: '--font-body',
 })
 
-const defaultTitle = "Utsavs - Festivals, Recipes & Travel Guides";
-const defaultDescription = "Discover Indian festivals, recipes, travel tips, and cultural stories all in one place.";
+const defaultTitle = "Utsavs - Your Ultimate Guide to Indian Festivals, Recipes & Culture";
+const defaultDescription = "Explore India's vibrant festivals with our guide to dates, traditions, and stories. Discover authentic recipes, travel tips, and celebrate the spirit of every Utsav.";
 const defaultUrl = "https://utsavs.com";
 const defaultOgImage = "https://i.postimg.cc/mD8h1LzB/default-preview.jpg";
 
