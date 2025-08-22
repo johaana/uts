@@ -4,6 +4,8 @@ import { ShareButtons } from "@/components/ShareButtons";
 import { RecipeBody, RecipeCardLayout, RecipeHeader } from "@/components/RecipeCardLayout";
 import { Check, Clock, Users, Soup, Flame } from "lucide-react";
 import Image from "next/image";
+import { ProductCard } from "@/components/ProductCard";
+import { products } from "@/lib/product-data";
 
 const recipeDetails = {
     name: 'Gajar Ka Halwa',
@@ -100,6 +102,13 @@ export default function GajarKaHalwaPage() {
                                 <li key={i}>{step}</li>
                              ))}
                         </ol>
+                        <div className="not-prose my-10">
+                            <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Our Recommended Ghee</h3>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-md mx-auto">
+                                <ProductCard product={products.vedicGhee} />
+                                <ProductCard product={products.daburGhee} />
+                            </div>
+                        </div>
                     </div>
                 </div>
             </RecipeBody>

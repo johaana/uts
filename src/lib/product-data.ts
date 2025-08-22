@@ -335,15 +335,6 @@ export const allProducts: Product[] = [
         hint: "onam saree"
     },
     {
-        id: "nithilaMundu",
-        name: "Mundu for boys for Onam, Vishu, etc.",
-        price: 398,
-        description: "A cotton mundu for boys, suitable for various festivals like Onam, Vishu, Deepavali, Pongal, and Sankranthi.",
-        link: "https://www.amazon.in/NITHILA-CREATIONS-Kerala-Cotton-Offwhite/dp/B0DFVNG5LD?crid=U9GF28F4P6SO&dib=eyJ2IjoiMSJ9.5eqtZ70xkfMkH4FfpptmLOGWDk7M1urTOLHG51sQ4yYarv8DDpsD-eSTfbSbUVZIOKF6pIQPtHRkR8xeR7vi70ucc7F6GG8JPhyq-CF6-MrGd0xTuRha-WwB6oP_HjeNtl8BUETr4Z6iDwH4qwtF6rwlMT28xoLNo98uIz7gvM-hwKwAVTkixKqXzPNKQaOp3X4AJS2UplN4LXxpMF0VHFGcjK2a7cH1hu_VXz7hldI4DrjkbToj3OraQRp43Sz3iBoK5SxPT4SG6gkl-5Bi79PoZQiJrQXznsOLbpVZlC4.ihCot-4nMMz5wLYKxGhHuH50PIHzL2ylmv8cwbCn-KQ&dib_tag=se&keywords=onam&qid=1755677892&sprefix=ona%2Caps%2C394&sr=8-35&th=1&psc=1&linkCode=ll1&tag=utsavs-21&linkId=4eedd05a55f447febed249938589a79b&language=en_IN&ref_=as_li_ss_tl",
-        image: "https://i.postimg.cc/3wrGkxNG/mundu-men1.jpg",
-        hint: "mundu boys"
-    },
-    {
         id: "nutsClothingBoysMundu",
         name: "Nuts Clothing Boys Golden Kurta and Cream Mundu Set",
         price: 899,
@@ -351,33 +342,6 @@ export const allProducts: Product[] = [
         link: "https://www.amazon.in/Nuts-Clothing-Golden-Traditional-Kerala/dp/B0FK51GM4F?crid=U9GF28F4P6SO&dib=eyJ2IjoiMSJ9.5eqtZ70xkfMkH4FfpptmLOGWDk7M1urTOLHG51sQ4yYarv8DDpsD-eSTfbSbUVZIOKF6pIQPtHRkR8xeR7vi70ucc7F6GG8JPhyq-CF6-MrGd0xTuRha-WwB6oP_HjeNtl8BUETr4Z6iDwH4qwtF6rwlMT28xoLNo98uIz7gvM-hwKwAVTkixKqXzPNKQaOp3X4AJS2UplN4LXxpMF0VHFGcjK2a7cH1hu_VXz7hldI4DrjkbToj3OraQRp43Sz3iBoK5SxPT4SG6gkl-5Bi79PoZQiJrQXznsOLbpVZlC4.ihCot-4nMMz5wLYKxGhHuH50PIHzL2ylmv8cwbCn-KQ&dib_tag=se&keywords=onam&qid=1755677892&sprefix=ona%2Caps%2C394&sr=8-44&th=1&psc=1&linkCode=ll1&tag=utsavs-21&linkId=053fa2c06fe42fe16f9eddd8e5c33a25&language=en_IN&ref_=as_li_ss_tl",
         image: "https://i.postimg.cc/595Ws83q/mundu-kids.jpg",
         hint: "mundu kids"
-    },
-    {
-        id: "totzTouchBabyFrock",
-        name: "TotzTouch Baby Girls Dress | 3 Set Frock Cami Strap",
-        price: 599,
-        description: "A set of 3 lightweight frocks for baby girls, suitable for newborns to 4 years, perfect for Onam.",
-        link: "https://www.amazon.in/TotzTouch-Dress-Traditional-Ethnicwear-Frock/dp/B0FLDX94D3?crid=U9GF28F4P6SO&dib=eyJ2IjoiMSJ9.5eqtZ70xkfMkH4FfpptmLOGWDk7M1urTOLHG51sQ4yYarv8DDpsD-eSTfbSbUVZIOKF6pIQPtHRkR8xeR7vi70ucc7F6GG8JPhyq-CF6-MrGd0xTuRha-WwB6oP_HjeNtl8BUETr4Z6iDwH4qwtF6rwlMT28xoLNo98uIz7gvM-hwKwAVTkixKqXzPNKQaOp3X4AJS2UplN4LXxpMF0VHFGcjK2a7cH1hu_VXz7hldI4DrjkbToj3OraQRp43Sz3iBoK5SxPT4SG6gkl-5Bi79PoZQiJrQXznsOLbpVZlC4.ihCot-4nMMz5wLYKxGhHuH50PIHzL2ylmv8cwbCn-KQ&dib_tag=se&keywords=onam&qid=1755677892&sprefix=ona%2Caps%2C394&sr=8-51&linkCode=ll1&tag=utsavs-21&linkId=61f707988ddbbad45b7fa4ffd32a995d&language=en_IN&ref_=as_li_ss_tl",
-        image: "https://i.postimg.cc/zX3pyrVb/onam-baby-girl.jpg",
-        hint: "onam baby girl dress"
-    },
-    {
-        id: "sathiyasBabyDress",
-        name: "Sathiyas Baby Girls Kerala Onam Tissue Cotton Dress",
-        price: 499,
-        description: "A traditional tissue cotton dress for baby girls, perfect for Onam.",
-        link: "https://www.amazon.in/Sathiyas-Kerala-Tissue-Cotton-SmallJari/dp/B0D9LX5VGQ?crid=U9GF28F4P6SO&dib=eyJ2IjoiMSJ9.q_fvhf1C5raNcbX9iN-k131AmrESSHJEMlAI5iUdXWs5C53bm4ULrfTH4b6t9JqV4Rn1yZFF9lKVOMpavZVkEjht7bbFerYiotzVvPzokE6vN0mXUfv8v9JSKmnZiXtGYqB9Hnlk02R6vcb2LaMXQbFIDN8zzX9JBXvLbBQRe9Ui1P7n2AkMNHVRfmyfz5pUd5TQD8041yjcrBEl95GsLIK_WtThSYgAHBF1SnJiEAkif-eA92c8GhLdsTGMCD9Qn3JfsnwNHfW2B1KK8hFoR4tcZmuc4PI-2jWwi5Nncdw.9fHDs81Bm-UVoLv7ZlKD7J7tdSyHmrAXe5kzC89bHHY&dib_tag=se&keywords=onam&qid=1755678005&sprefix=ona%2Caps%2C394&sr=8-72&xpid=HdVqvmyBz_n1D&th=1&psc=1&linkCode=ll1&tag=utsavs-21&linkId=16219a26ee94c1dacd2368ada1d2fab4&language=en_IN&ref_=as_li_ss_tl",
-        image: "https://i.postimg.cc/8P8Bz6Q3/baby-onam-girl.jpg",
-        hint: "baby onam girl dress"
-    },
-    {
-        id: "rameshwaramFabricsDhoti",
-        name: "Rameshwaram Fabrics Exquisite Silk Pattu Panchalu: Unstitched Dhoti with Stole for men",
-        price: 902,
-        description: "An unstitched silk dhoti with a stole for men, ideal for Pooja and special occasions.",
-        link: "https://www.amazon.in/Rameshwaram-Fabrics-Dhoti-unstitched_pitambari_silk_dhoti_for_men-cream_small_border/dp/B0BH57W48G?content-id=amzn1.sym.9b258dad-f808-4e5e-8df5-9b8946a31daf%3Aamzn1.sym.9b258dad-f808-4e5e-8df5-9b8946a31daf&crid=3MR7GVU96MPJ&cv_ct_cx=onam+mundu+men&keywords=onam+mundu+men&pd_rd_i=B0BH57W48G&pd_rd_r=7261fea9-d00d-4822-9247-556178fbc37a&pd_rd_w=EACPI&pd_rd_wg=jw9Ku&pf_rd_p=9b258dad-f808-4e5e-8df5-9b8946a31daf&pf_rd_r=19ERC0REEARAGZGJF7KW&qid=1755678792&sbo=RZvfv%2F%2FHxDF%2BO5021pAnSA%3D%3D&sprefix=onam+mundu+me%2Caps%2C352&sr=1-1-883a54c7-f466-4d42-997c-6d482a360a1a-spons&sp_csd=d2lkZ2V0TmFtZT1zcF9zZWFyY2hfdGhlbWF0aWM&psc=1&linkCode=ll1&tag=utsavs-21&linkId=672ff25c368fea2f84177bee6cbf4d18&language=en_IN&ref_=as_li_ss_tl",
-        image: "https://i.postimg.cc/sDqFXKDz/pattu-panchalu-men.jpg",
-        hint: "pattu panchalu men"
     },
     {
         id: "southCottonMundu",
@@ -396,6 +360,96 @@ export const allProducts: Product[] = [
         link: "https://www.amazon.in/Angroos-Celebrate-Traditional-Budget-Hamper/dp/B0DG6PS7HX?crid=U9GF28F4P6SO&dib=eyJ2IjoiMSJ9.q_fvhf1C5raNcbX9iN-k131AmrESSHJEMlAI5iUdXWs5C53bm4ULrfTH4b6t9JqV4Rn1yZFF9lKVOMpavZVkEjht7bbFerYiotzVvPzokE6vN0mXUfv8v9JSKmnZiXtGYqB9Hnlk02R6vcb2LaMXQbFIDN8zzX9JBXvLbBQRe9Ui1P7n2AkMNHVRfmyfz5pUd5TQD8041yjcrBEl95GsLIK_WtThSYgAHBF1SnJiEAkif-eA92c8GhLdsTGMCD9Qn3JfsnwNHfW2B1KK8hFoR4tcZmuc4PI-2jWwi5Nncdw.9fHDs81Bm-UVoLv7ZlKD7J7tdSyHmrAXe5kzC89bHHY&dib_tag=se&keywords=onam&qid=1755678005&sprefix=ona%2Caps%2C394&sr=8-87&xpid=HdVqvmyBz_n1D&linkCode=ll1&tag=utsavs-21&linkId=03082f95200cfd11391c14312ddf2583&language=en_IN&ref_=as_li_ss_tl",
         image: "https://i.postimg.cc/Y2VkGtbT/onam-hamper-kerala.jpg",
         hint: "onam hamper"
+    },
+    {
+        id: "omayFoodsWonderful",
+        name: "Omay Foods Wonderful Delights Diwali Gift Box",
+        price: 555,
+        description: "A premium Deepawali gift hamper with dry fruits, healthy snacks, and tea.",
+        link: "https://www.amazon.in/Omay-Foods-Delights-Corporate-Non-Fried/dp/B08ZB5FQVM?content-id=amzn1.sym.0ec29fff-e589-42c1-a226-6d7b30a9905a%3Aamzn1.sym.0ec29fff-e589-42c1-a226-6d7b30a9905a&crid=3VG7YPYHQ8JO&cv_ct_cx=diwali+gift&keywords=diwali+gift&pd_rd_i=B08ZB5FQVM&pd_rd_r=904d2203-5af3-427e-8c97-5d13c210bf94&pd_rd_w=ITqiY&pd_rd_wg=w5PgG&pf_rd_p=0ec29fff-e589-42c1-a226-6d7b30a9905a&pf_rd_r=WKH2H5QN69ED47TABFZZ&qid=1755900051&sbo=RZvfv%2F%2FHxDF%2BO5021pAnSA%3D%3D&sprefix=diwali+gift%2Caps%2C379&sr=1-1-ced4eeeb-b190-41d6-902a-1ecb3fb8b7c4-spons&sp_csd=d2lkZ2V0TmFtZT1zcF9zZWFyY2hfdGhlbWF0aWM&psc=1&linkCode=ll1&tag=utsavs-21&linkId=82e30fa200b38a0ac498b6bd73554681&language=en_IN&ref_=as_li_ss_tl",
+        image: "https://i.postimg.cc/8cBdfN9T/diwali-gift1.jpg",
+        hint: "diwali gift box"
+    },
+    {
+        id: "omayFoodsMixedDelights",
+        name: "Omay Foods 12 Pcs Mixed Delights Diwali Gift Box",
+        price: 1235,
+        description: "A premium gift box with dry fruits, candles, and a diya, perfect for corporate gifting.",
+        link: "https://www.amazon.in/Omay-Foods-Blissful-Delights-Employees/dp/B0CP5N3XMX?crid=3VG7YPYHQ8JO&dib=eyJ2IjoiMSJ9.dHvo3g6PCqCaEJ2bCQYe9HJZCYiKjje1uv39aQFinMEIDnZDuZQpNefUPBL-XjOp-06Xhnz8pjr9nQsMe_q9VOewBtNWe56b8na9lU-WJiREHpQWo4C_YrJJxR6n9nsLdAS_KE14x7hdPPoMC1v258Qw7oBhVCQ8tFvZx96SzJELOsKpBiojV5m21f0sfwo6yaUzBB50ZQi8EQ7kAfUNOQWoJN_fXYtVkgWRYa9TCEUnDPLq8HINg-WkCucOX7pxG2BzqwsIq9oTX1RpJxHTIhUhJNarljjAuLprQp3Ivc4.ewoICcLKdTd5KJswPAXI7eUquCB4YHtEmmvfhJS7u14&dib_tag=se&keywords=diwali+gift&qid=1755900051&sprefix=diwali+gift%2Caps%2C379&sr=8-11&linkCode=ll1&tag=utsavs-21&linkId=b4cf18630debc71a3141a5163fd5e895&language=en_IN&ref_=as_li_ss_tl",
+        image: "https://i.postimg.cc/y8W9sm11/diwali-gift2.jpg",
+        hint: "diwali gift hamper"
+    },
+    {
+        id: "artvibesElephantHanging",
+        name: "Artvibes Designer Elephant Wooden Wall Hanging",
+        price: 177,
+        description: "A modern Hamsa hand artwork for home decor, perfect as a peace charm or decorative hanging.",
+        link: "https://www.amazon.in/Artvibes-Designer-Decoration-Livingroom-Decorative/dp/B0CJLSF2T2?crid=3VG7YPYHQ8JO&dib=eyJ2IjoiMSJ9.dHvo3g6PCqCaEJ2bCQYe9HJZCYiKjje1uv39aQFinMEIDnZDuZQpNefUPBL-XjOp-06Xhnz8pjr9nQsMe_q9VOewBtNWe56b8na9lU-WJiREHpQWo4C_YrJJxR6n9nsLdAS_KE14x7hdPPoMC1v258Qw7oBhVCQ8tFvZx96SzJELOsKpBiojV5m21f0sfwo6yaUzBB50ZQi8EQ7kAfUNOQWoJN_fXYtVkgWRYa9TCEUnDPLq8HINg-WkCucOX7pxG2BzqwsIq9oTX1RpJxHTIhUhJNarljjAuLprQp3Ivc4.ewoICcLKdTd5KJswPAXI7eUquCB4YHtEmmvfhJS7u14&dib_tag=se&keywords=diwali%2Bgift&qid=1755900051&sprefix=diwali%2Bgift%2Caps%2C379&sr=8-30&th=1&linkCode=ll1&tag=utsavs-21&linkId=47e746554049107004acb98dc61bf0d9&language=en_IN&ref_=as_li_ss_tl",
+        image: "https://i.postimg.cc/25GfGZWW/hamsa-elephant-home-decor.jpg",
+        hint: "hamsa elephant decor"
+    },
+    {
+        id: "indianArtVillaCopperSet",
+        name: "INDIAN ART VILLA Pure Copper Drinkware Gift Set",
+        price: 1669,
+        description: "An embossed design copper set with a 900ml bottle and two 300ml glasses, ideal for festive gifting.",
+        link: "https://www.amazon.in/INDIAN-ART-VILLA-Copper-Drinkware/dp/B07XCNVMN5?crid=3VG7YPYHQ8JO&dib=eyJ2IjoiMSJ9.dHvo3g6PCqCaEJ2bCQYe9HJZCYiKjje1uv39aQFinMEIDnZDuZQpNefUPBL-XjOp-06Xhnz8pjr9nQsMe_q9VOewBtNWe56b8na9lU-WJiREHpQWo4C_YrJJxR6n9nsLdAS_KE14x7hdPPoMC1v258Qw7oBhVCQ8tFvZx96SzJELOsKpBiojV5m21f0sfwo6yaUzBB50ZQi8EQ7kAfUNOQWoJN_fXYtVkgWRYa9TCEUnDPLq8HINg-WkCucOX7pxG2BzqwsIq9oTX1RpJxHTIhUhJNarljjAuLprQp3Ivc4.ewoICcLKdTd5KJswPAXI7eUquCB4YHtEmmvfhJS7u14&dib_tag=se&keywords=diwali%2Bgift&qid=1755900051&sprefix=diwali%2Bgift%2Caps%2C379&sr=8-34&th=1&linkCode=ll1&tag=utsavs-21&linkId=463c0f8521e7802aac52e9be9acdb7d0&language=en_IN&ref_=as_li_ss_tl",
+        image: "https://i.postimg.cc/PqPBWRdg/diwali-gift3.jpg",
+        hint: "copper gift set"
+    },
+    {
+        id: "betterHomeCopperBottle",
+        name: "The Better Home Pure Copper Water Bottle 950ml",
+        price: 919,
+        description: "A handmade Ayurvedic tamba jug with a copper glass in the lid, perfect for bedside and kitchen use.",
+        link: "https://www.amazon.in/Better-Home-Ayurvedic-Jug-Antibacterial/dp/B0F9LBNVH7?th=1&linkCode=ll1&tag=utsavs-21&linkId=1d0fe77396ebb8a12d2c72353a9b88f1&language=en_IN&ref_=as_li_ss_tl",
+        image: "https://i.postimg.cc/RVWKz1VM/copper-tamba-jug.jpg",
+        hint: "copper water jug"
+    },
+    {
+        id: "jhGalleryPuppetHolder",
+        name: "JH Gallery Rajasthani Raja Rani Puppet Tealight Holder",
+        price: 312,
+        description: "A pack of 2 decorative puppet tealight candle holders, great for Diwali home decor.",
+        link: "https://www.amazon.in/JH-Gallery-Rajasthani-Decoration-Corporate/dp/B08HY12HC3?crid=3VG7YPYHQ8JO&dib=eyJ2IjoiMSJ9.dHvo3g6PCqCaEJ2bCQYe9HJZCYiKjje1uv39aQFinMEIDnZDuZQpNefUPBL-XjOp-06Xhnz8pjr9nQsMe_q9VOewBtNWe56b8na9lU-WJiREHpQWo4C_YrJJxR6n9nsLdAS_KE14x7hdPPoMC1v258Qw7oBhVCQ8tFvZx96SzJELOsKpBiojV5m21f0sfwo6yaUzBB50ZQi8EQ7kAfUNOQWoJN_fXYtVkgWRYa9TCEUnDPLq8HINg-WkCucOX7pxG2BzqwsIq9oTX1RpJxHTIhUhJNarljjAuLprQp3Ivc4.ewoICcLKdTd5KJswPAXI7eUquCB4YHtEmmvfhJS7u14&dib_tag=se&keywords=diwali%2Bgift&qid=1755900051&sprefix=diwali%2Bgift%2Caps%2C379&sr=8-42&th=1&linkCode=ll1&tag=utsavs-21&linkId=2f8c08904c15fdd355b31751ea79918d&language=en_IN&ref_=as_li_ss_tl",
+        image: "https://i.postimg.cc/xTm8R61b/diwali-decor1.jpg",
+        hint: "diwali decor"
+    },
+    {
+        id: "haldiramKajuKatli",
+        name: "Haldiram's Nagpur Kaju Katli (500gram)",
+        price: 570,
+        description: "A 500g box of delicious Kaju Katli, a classic Indian sweet for festive gifting.",
+        link: "https://www.amazon.in/Haldirams-Nagpur-Kaju-Katli-500/dp/B089LYMP3P?crid=1FSWAUNPLRYX9&dib=eyJ2IjoiMSJ9.A9Ck5I8_Lc9uCFmhj6nvTCNrZPCrbMn6xzYONeCZXjU2FMpDm84B2e0xqryeFJm2EVjvhRRPp2qCn2e4chUKg_9hxE3Qs_GlLbdC1uzo-VPcPIkbHNAVDDui7Hss904BjILtrxgI7Pp6FKC2Dr5d1Uf0iyAgEAYPmd0tgaLoONCeMvV7AU4GOcNLWuamyRSspdIksyOdV-WoUd7xQpl1xtdup2OOJj6zJsRWvyoVzPeHCxW0qxhDAWjEVnfBmmpUW5JvGbf67h6DiwiD1o5f3enazO9c8w80iwWmFFL1kbI.nNNYL-u0Tim_YA3jYKEsvh3HUjXmly4VQPJQ6In8FII&dib_tag=se&keywords=kaju+katli&qid=1755904976&sprefix=kaju+katli%2Caps%2C537&sr=8-2-spons&sp_csd=d2lkZ2V0TmFtZT1zcF9hdGY&psc=1&linkCode=ll1&tag=utsavs-21&linkId=202d5987ad5a3b9a2988b452c1141ac2&language=en_IN&ref_=as_li_ss_tl",
+        image: "https://i.postimg.cc/c12MCkzK/kaju-katli.jpg",
+        hint: "kaju katli"
+    },
+    {
+        id: "radiksaThermoFlask",
+        name: "Radiksa Double Wall Stainless Steel Thermo 500ml Vacuum Insulated Bottle",
+        price: 280,
+        description: "A gift set with a 500ml vacuum insulated bottle and two cups, ideal for corporate gifts.",
+        link: "https://www.amazon.in/Radiksa-Stainless-Insulated-Employees-Corporate/dp/B0B5Y38DV2?crid=3VG7YPYHQ8JO&dib=eyJ2IjoiMSJ9.dHvo3g6PCqCaEJ2bCQYe9HJZCYiKjje1uv39aQFinMEIDnZDuZQpNefUPBL-XjOp-06Xhnz8pjr9nQsMe_q9VOewBtNWe56b8na9lU-WJiREHpQWo4C_YrJJxR6n9nsLdAS_KE14x7hdPPoMC1v258Qw7oBhVCQ8tFvZx96SzJELOsKpBiojV5m21f0sfwo6yaUzBB50ZQi8EQ7kAfUNOQWoJN_fXYtVkgWRYa9TCEUnDPLq8HINg-WkCucOX7pxG2BzqwsIq9oTX1RpJxHTIhUhJNarljjAuLprQp3Ivc4.ewoICcLKdTd5KJswPAXI7eUquCB4YHtEmmvfhJS7u14&dib_tag=se&keywords=diwali+gift&qid=1755900051&sprefix=diwali+gift%2Caps%2C379&sr=8-5&linkCode=ll1&tag=utsavs-21&linkId=d486b155c5767756210cdea28c52d86f&language=en_IN&ref_=as_li_ss_tl",
+        image: "https://i.postimg.cc/3rVFzt5Z/thermo-flask-set.jpg",
+        hint: "thermo flask set"
+    },
+    {
+        id: "vedicGhee",
+        name: "Vedic Ghee Premium A2 Gir Cow Cultured Desi Ghee",
+        price: 1150,
+        description: "500ml of pure, lab-certified A2 Gir cow ghee made using the traditional Bilona method.",
+        link: "https://www.amazon.in/Vedic-Ghee-Kesariya-Farm-500ml/dp/B07C7LRGBW?crid=2MX41IA6YIJUD&dib=eyJ2IjoiMSJ9.SI-qrLZJoqFQ-wpRateCbIN2GU4q24iRVETrCp5fsj4WuDCf1JBcCIaHCgO4I9OTjO1dmM8GLkmG9Vz_MEkFDT7s76hhpPaW4zaZNAdSEEtWsscPuWfe-HvNv5g3cjASrrFvRT2wQRE4Q336mtRK34o2iItw-PurqqeN2lZQ7al_HLA8S9j2YZItFBbNy1a1a5WR0uUvOAJl8n9fClyuJac7vxMVIc-MFzDw1p7u5mLcKlbJX0pgT3nyRFqdhds0KR1KWQ_yt8T-9rzNTXWjkmYcIO_lpT-jA4476xHtDrw.cpumHd_ASgEHeXgUQ9s71jmsJ_W1o43nN8LWKIa5Hog&dib_tag=se&keywords=ghee&qid=1755905460&sprefix=ghee%2Caps%2C381&sr=8-28&th=1&linkCode=ll1&tag=utsavs-21&linkId=d964733266b7d1ce744befac979ded45&language=en_IN&ref_=as_li_ss_tl",
+        image: "https://i.postimg.cc/vTYwyG6p/gir-cow-ghee.jpg",
+        hint: "gir cow ghee"
+    },
+    {
+        id: "daburGhee",
+        name: "Dabur A2 Cow Ghee",
+        price: 500,
+        description: "500ml of 100% pure A2 desi cow ghee, rich in Vitamin A and antioxidants.",
+        link: "https://www.amazon.in/Dabur-Cow-Ghee-Antioxidant-properties/dp/B0FB9JWPXQ?crid=2MX41IA6YIJUD&dib=eyJ2IjoiMSJ9._P8mX2JeY5VVo0qdKbkHfl-tuNp69CEvg2Lzk4-3Kmwjg5b7wCrKvBoFiLaNkCEFnj0_-uzdduLiYcBOfPUkj7_HKgppMS3gazCHS4DgYvXleIE8sfelJqqtgS4w1bOEgkLirKzR8gnd4X9V9C4cTVja8_p_rYB4fGk5a6_C1c3EdcrPRscGjrdQWg7GSBcJd-Pvmef2u80MKgKRTxwwWu6-a9uPM64erFC7kNrbm3caadiApmwmbwzvoDJzK_eGUxwgpoTeYJ5QrO1Hy2P6i-wo1GgeyJATNH-lMsVH-VI.V8_LPKwPazKtMoes0e9DOpbqL0eKpeIuVefqgHMzUKQ&dib_tag=se&keywords=ghee&qid=1755906251&sprefix=ghee%2Caps%2C381&sr=8-70-spons&xpid=FSehkZWXIjdzd&sp_csd=d2lkZ2V0TmFtZT1zcF9tdGY&psc=1&linkCode=ll1&tag=utsavs-21&linkId=14056cef87c352660158661f2b845849&language=en_IN&ref_=as_li_ss_tl",
+        image: "https://i.postimg.cc/05WBjGg6/dabur-bilona-ghee.jpg",
+        hint: "dabur bilona ghee"
     }
 ];
 

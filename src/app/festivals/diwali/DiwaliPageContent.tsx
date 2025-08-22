@@ -48,6 +48,7 @@ const pageSections = [
     { id: "five-days", title: "The Five Days", icon: CalendarDays },
     { id: "rituals", title: "Rituals", icon: Sparkles },
     { id: "recipes", title: "Recipes", icon: Utensils },
+    { id: "gifting", title: "Gifting", icon: Sparkles },
     { id: "chants", title: "Chants", icon: MessageSquareQuote },
     { id: "eco-friendly", title: "Eco-Friendly", icon: Leaf },
 ];
@@ -250,6 +251,41 @@ export function DiwaliPageContent() {
                                             </Link>
                                         </div>
                                     </section>
+                                    
+                                    <section id="gifting" className="scroll-mt-20">
+                                        <h2 className="font-headline text-3xl font-bold mb-4 text-center">Thoughtful Diwali Gift Ideas</h2>
+                                        <div className="space-y-8">
+                                            <div>
+                                                <h3 className="font-headline text-2xl font-bold mb-4 text-primary">Gourmet Hampers</h3>
+                                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                                    <ProductCard product={products.omayFoodsWonderful} />
+                                                    <ProductCard product={products.omayFoodsMixedDelights} />
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <h3 className="font-headline text-2xl font-bold mb-4 text-primary">Elegant Home Decor</h3>
+                                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                                    <ProductCard product={products.artvibesElephantHanging} />
+                                                    <ProductCard product={products.jhGalleryPuppetHolder} />
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <h3 className="font-headline text-2xl font-bold mb-4 text-primary">Health & Wellness Gifts</h3>
+                                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                                    <ProductCard product={products.indianArtVillaCopperSet} />
+                                                    <ProductCard product={products.betterHomeCopperBottle} />
+                                                </div>
+                                            </div>
+                                             <div>
+                                                <h3 className="font-headline text-2xl font-bold mb-4 text-primary">Classic Sweet Boxes & Gifts</h3>
+                                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                                    <ProductCard product={products.haldiramKajuKatli} />
+                                                    <ProductCard product={products.radiksaThermoFlask} />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+                                    
                                      <section id="chants" className="scroll-mt-20">
                                         <h2 className="font-headline text-3xl font-bold mb-4">Important Mantras and Chants</h2>
                                         <div className="space-y-6">
