@@ -6,6 +6,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ShareButtons } from "@/components/ShareButtons";
 import type { Metadata } from 'next';
+import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 
 const post = { 
     title: "Kukur Tihar: Nepal's Beautiful 'Day of the Dogs'", 
@@ -31,6 +32,33 @@ export const metadata: Metadata = {
     images: [post.image],
   },
 };
+
+const relatedContent: RelatedItem[] = [
+    {
+        slug: "kukur-tihar",
+        title: "Kukur Tihar Festival Guide",
+        image: "https://i.postimg.cc/RCcT1Twd/kukur-tihar1.avif",
+        type: "Festival",
+        link: "/festivals/kukur-tihar",
+        hint: "dog worship"
+    },
+    {
+        slug: "festivals-that-celebrate-animals",
+        title: "Blog: Festivals That Celebrate Animals",
+        image: "https://i.postimg.cc/yYMqHNjd/animal-fest-blog.png",
+        type: "Blog",
+        link: "/blog/festivals-that-celebrate-animals",
+        hint: "animal worship"
+    },
+    {
+        slug: "diwali-regional-variations",
+        title: "Diwali's Global Flavors",
+        image: "https://i.postimg.cc/mg1bYqXc/Diwali-blog-same-fest.jpg",
+        type: "Blog",
+        link: "/blog/diwali-regional-variations",
+        hint: "diwali collage"
+    }
+];
 
 export default function SingleBlogPage() {
     return (
@@ -91,6 +119,7 @@ export default function SingleBlogPage() {
 
                     </article>
                     <ShareButtons title={post.title} />
+                    <RelatedContent items={relatedContent} />
                 </CardContent>
             </Card>
         </div>

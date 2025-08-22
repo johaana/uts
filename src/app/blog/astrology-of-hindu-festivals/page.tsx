@@ -85,17 +85,17 @@ export default function SingleBlogPage() {
                         <h3>Solar vs. Lunar: The Two Great Rhythms</h3>
                         <p>To understand the festival calendar, one must first understand its two main components:</p>
                         <ul>
-                            <li><strong>The Solar Calendar:</strong> This is based on the sun's journey through the zodiac signs. When the sun enters a new zodiac sign (a 'Rashi'), it's called a 'Sankranti'. The most famous of these is <Link href="/festivals/makar-sankranti" className="text-accent">Makar Sankranti</Link>, which marks the sun's entry into Capricorn. Because it's purely solar, it falls on a relatively fixed date in the Gregorian calendar (January 14th or 15th).</li>
+                            <li><strong>The Solar Calendar:</strong> This is based on the sun's journey through the zodiac signs. When the sun enters a new zodiac sign (a 'Rashi'), it's called a 'Sankranti'. The most famous of these is <Link href="/festivals/makar-sankranti" className="text-accent hover:underline">Makar Sankranti</Link>, which marks the sun's entry into Capricorn. Because it's purely solar, it falls on a relatively fixed date in the Gregorian calendar (January 14th or 15th).</li>
                             <li><strong>The Lunar Calendar:</strong> This is based on the phases of the moon. A lunar month is the time it takes for the moon to orbit the earth (about 29.5 days). Each month is divided into two fortnights: the 'Shukla Paksha' (waxing moon, from new moon to full moon) and the 'Krishna Paksha' (waning moon, from full moon back to new moon). Most Hindu festivals are timed according to the lunar 'tithi' (day).</li>
                         </ul>
                         <p>The Hindu calendar brilliantly reconciles these two by adding an extra month ('Adhik Maas') every 2.5 to 3 years, ensuring that festivals stay anchored to their appropriate seasons.</p>
 
                         <h3>Cosmic Timings: Why Festivals Happen When They Do</h3>
                         
-                        <h4><Link href="/festivals/diwali" className="text-accent">Diwali</Link>: The Darkest Night for the Brightest Light</h4>
+                        <h4><Link href="/festivals/diwali" className="text-accent hover:underline">Diwali</Link>: The Darkest Night for the Brightest Light</h4>
                         <p>Diwali falls on the 'Amavasya' (new moon) of the month of Kartik. This is the darkest night of the month. The spiritual symbolism is profound: it is on this darkest night that millions of diyas are lit, symbolizing the power of light to overcome spiritual darkness and ignorance. It's a collective act of illuminating the world when it is cosmically at its darkest, signifying the triumph of good over evil.</p>
                         
-                        <h4><Link href="/festivals/holi" className="text-accent">Holi</Link>: The Full Moon of Joy and Release</h4>
+                        <h4><Link href="/festivals/holi" className="text-accent hover:underline">Holi</Link>: The Full Moon of Joy and Release</h4>
                         <p>In contrast, Holi is celebrated on the 'Purnima' (full moon) of the month of Phalguna. The full moon is traditionally associated with heightened emotions, celebration, and culmination. Holi, being a festival of catharsis and joyous release, is perfectly timed to this lunar peak. The bonfire of Holika Dahan on the eve of Holi also gains significance under the bright light of the full moon.</p>
 
                         <blockquote>
@@ -103,7 +103,7 @@ export default function SingleBlogPage() {
                         </blockquote>
 
                         <h4>Kumbh Mela: A Rare Planetary Alignment</h4>
-                        <p>The timing of the <Link href="/blog/kumbh-mela-a-dip-in-immortality" className="text-accent">Kumbh Mela</Link>, the largest spiritual gathering on Earth, is determined by a much rarer and more complex set of astrological calculations. It depends on the specific positions of Jupiter, the Sun, and the Moon in different zodiac signs. For example, the Maha Kumbh Mela at Prayagraj occurs when Jupiter is in Aries or Taurus and the Sun and Moon are in Capricorn. This precise alignment, happening only once every 12 years, is believed to energize the waters of the sacred rivers, creating an exceptionally auspicious time for a spiritual dip.</p>
+                        <p>The timing of the <Link href="/blog/kumbh-mela-a-dip-in-immortality" className="text-accent hover:underline">Kumbh Mela</Link>, the largest spiritual gathering on Earth, is determined by a much rarer and more complex set of astrological calculations. It depends on the specific positions of Jupiter, the Sun, and the Moon in different zodiac signs. For example, the Maha Kumbh Mela at Prayagraj occurs when Jupiter is in Aries or Taurus and the Sun and Moon are in Capricorn. This precise alignment, happening only once every 12 years, is believed to energize the waters of the sacred rivers, creating an exceptionally auspicious time for a spiritual dip.</p>
 
                         <p>This cosmic connection shows that Hindu festivals are not just arbitrary dates on a calendar. They are a living tradition, a sophisticated system designed by ancient sages to connect human life with the rhythms of the universe, turning celestial events into moments of profound spiritual significance.</p>
                     </article>

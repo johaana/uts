@@ -5,6 +5,34 @@ import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
 import { ObonFestivalPageContent } from "./ObonFestivalPageContent";
+import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
+
+const relatedContent: RelatedItem[] = [
+    {
+        slug: "honoring-the-ancestors",
+        title: "How the World Honors Its Ancestors",
+        image: "https://i.postimg.cc/mgTh4YhH/nyepi-2.jpg",
+        type: "Blog",
+        link: "/blog/honoring-the-ancestors",
+        hint: "ogoh-ogoh statue"
+    },
+    {
+        slug: "dia-de-los-muertos",
+        title: "Día de los Muertos",
+        image: "https://i.postimg.cc/05F4GWkS/Dia-de-los-Muertos-Day-of-the-Dead-3.avif",
+        type: "Festival",
+        link: "/festivals/dia-de-los-muertos",
+        hint: "day of the dead"
+    },
+    {
+        slug: "yi-peng-lantern-festival",
+        title: "Yi Peng Lantern Festival",
+        image: "https://i.postimg.cc/XJs7rMdt/Yi-Peng-Lantern-Festival-Thailand.webp",
+        type: "Festival",
+        link: "/festivals/yi-peng-lantern-festival",
+        hint: "sky lanterns"
+    }
+];
 
 export default function ObonFestivalPage() {
     return (
@@ -29,7 +57,11 @@ export default function ObonFestivalPage() {
                                 </div>
                             </aside>
                             <main className="md:col-span-8 lg:col-span-9">
+                               <article>
+                                    <ObonFestivalPageContent />
+                               </article>
                                <ShareButtons title="Obon Festival" />
+                               <RelatedContent items={relatedContent} />
                             </main>
                         </div>
                     </CardContent>

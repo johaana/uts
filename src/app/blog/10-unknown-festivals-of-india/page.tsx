@@ -66,13 +66,13 @@ export default function SingleBlogPage() {
                         <h3>4. Cheiraoba Festival, Manipur</h3>
                         <p>The Manipuri New Year, Cheiraoba, is celebrated in April with great enthusiasm. The festival involves cleaning and decorating homes, preparing special festive dishes, and the unique custom of climbing the nearest hilltop in the evening to pray for a prosperous year ahead.</p>
                         
-                        <h3>5. Shigmo, Goa</h3>
+                        <h3>5. <Link href="/festivals/shigmo-festival" className="text-accent hover:underline">Shigmo, Goa</Link></h3>
                         <p>While Goa is famous for its Carnival, Shigmo is its vibrant Hindu spring festival. It's a spectacular celebration of color, music, and folk dances like the Ghode Modni (horse dance) and Fugdi. The streets come alive with grand parades depicting scenes from mythology.</p>
 
                         <h3>6. Puli Kali, Kerala</h3>
                         <p>Performed during Onam, Puli Kali, or the "Tiger Dance," is a folk art form where performers, painted like tigers and hunters, dance to the rhythm of traditional percussion instruments. It's a thrilling and colorful spectacle that takes place on the streets of Thrissur.</p>
 
-                        <h3>7. Madai Festival, Chhattisgarh</h3>
+                        <h3>7. <Link href="/festivals/madai-festival" className="text-accent hover:underline">Madai Festival, Chhattisgarh</Link></h3>
                         <p>One of the most prominent festivals of the Gond tribe, the Madai festival travels from one village to another in Chhattisgarh. It's a vibrant affair involving rituals, folk dances, music, and a large fair where tribal communities gather to trade goods and celebrate.</p>
 
                         <h3>8. Nongkrem Dance Festival, Meghalaya</h3>
