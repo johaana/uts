@@ -27,6 +27,9 @@ export default function AkshayaTritiyaPage() {
                                 </div>
                             </aside>
                             <main className="md:col-span-8 lg:col-span-9">
+                               <article>
+                                    <AkshayaTritiyaPageContent />
+                               </article>
                                <ShareButtons title="Akshaya Tritiya" />
                             </main>
                         </div>
