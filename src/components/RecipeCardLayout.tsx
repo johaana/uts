@@ -34,5 +34,3 @@ export function RecipeBody({ children, recipeName }: { children: React.ReactNode
         </CardContent>
     )
 }
-
-    
