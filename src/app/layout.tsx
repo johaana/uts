@@ -31,6 +31,11 @@ export const metadata: Metadata = {
   metadataBase: new URL(defaultUrl),
   title: defaultTitle,
   description: defaultDescription,
+   icons: {
+    icon: 'https://i.postimg.cc/mgpVBZ79/utsavs-logo.png',
+    shortcut: 'https://i.postimg.cc/mgpVBZ79/utsavs-logo.png',
+    apple: 'https://i.postimg.cc/mgpVBZ79/utsavs-logo.png',
+  },
   openGraph: {
     title: defaultTitle,
     description: defaultDescription,
