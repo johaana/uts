@@ -1,9 +1,10 @@
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { BookOpen, Sparkles, Music } from "lucide-react";
-import Image from "next/image";
+
+'use client';
+import { Card, CardContent } from "@/components/ui/card";
 import { ShareButtons } from "@/components/ShareButtons";
+import { MandoFestivalPageContent } from "./MandoFestivalPageContent";
+import Image from "next/image";
 import { ProductCard } from "@/components/ProductCard";
 import { products } from "@/lib/product-data";
 
@@ -20,45 +21,26 @@ export default function MandoFestivalPage() {
                 </div>
             </section>
             
-            <div className="container mx-auto px-4 py-12 -mt-24">
+            <div className="container mx-auto px-4 py-12 md:-mt-24">
                 <Card className="mb-12">
                     <CardContent className="p-6 md:p-10">
-                        <Tabs defaultValue="overview">
-                            <TabsList className="grid w-full grid-cols-1 md:grid-cols-2 mb-6 h-auto">
-                                <TabsTrigger value="overview" className="py-2"><BookOpen className="w-4 h-4 mr-2" />Overview</TabsTrigger>
-                                <TabsTrigger value="music" className="py-2"><Music className="w-4 h-4 mr-2" />The Mando</TabsTrigger>
-                            </TabsList>
-
-                            <TabsContent value="overview">
-                                <h2 className="font-headline text-3xl font-bold mb-4">A Celebration of Goan Song and Dance</h2>
-                                <div className="space-y-4 text-foreground/80 prose max-w-none">
-                                    <p>The Mando Festival is a vibrant and elegant cultural event in Goa dedicated to celebrating a unique and soulful musical tradition known as the 'Mando'. This festival is a beautiful showcase of Goa's rich, syncretic history, masterfully blending Indian sensibilities with Western artistic traditions. It is typically held in December or January, bringing together the best Mando troupes from across the state and beyond to compete and perform, preserving this beautiful art form for future generations.</p>
-                                    <p>The festival aims to promote and sustain this unique Goan heritage, which serves as a lyrical and musical narrative of Goan life, love, and history. It's an evening of soulful music, graceful dance, and colorful, traditional costumes, offering a nostalgic and romantic glimpse into the aristocratic past of Goa.</p>
+                       <div className="grid md:grid-cols-12 gap-8 lg:gap-12">
+                             <aside className="md:col-span-4 lg:col-span-3">
+                                <div className="sticky top-24">
+                                     <MandoFestivalPageContent />
                                 </div>
-                            </TabsContent>
-                            
-                             <TabsContent value="music">
-                                <h2 className="font-headline text-3xl font-bold mb-4">The Soul of the Mando</h2>
-                                <div className="space-y-6">
-                                    <Card>
-                                        <CardHeader>
-                                            <CardTitle>A Lyrical Dance-Song</CardTitle>
-                                        </CardHeader>
-                                        <CardContent>
-                                            <p className="text-foreground/80">The Mando is a unique musical form that originated in the 19th century among the Goan Catholic aristocracy, particularly in the salcete region. It is a slow, melancholic, and lyrical song set to a 6/8 time signature, often dealing with themes of love ('mog'), romance, longing, betrayal, and social commentary. The music beautifully combines the Indian 'ghumat' (a traditional percussion instrument made from an earthen pot) with the violin and sometimes guitar, creating a sound that is uniquely Goan. The performance involves a graceful, gliding dance that complements the music's gentle, swaying rhythm. Women wear a traditional, elaborate ceremonial costume called the 'Baju-Tollopp' or 'pano baju', while men are dressed in formal coats, creating a visually elegant and captivating performance that transports the audience to a bygone era.</p>
-                                        </CardContent>
-                                    </Card>
-                                </div>
-                                <div className="not-prose my-10">
+                            </aside>
+                            <main className="md:col-span-8 lg:col-span-9">
+                                 <div className="not-prose my-10">
                                     <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Get the Festive Look</h3>
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-md mx-auto">
                                         <ProductCard product={products.anumalaJuteBag} />
                                         <ProductCard product={products.doubleRCanvasBag} />
                                     </div>
                                 </div>
-                            </TabsContent>
-                        </Tabs>
-                        <ShareButtons title="Mando Festival" />
+                               <ShareButtons title="Mando Festival" />
+                            </main>
+                        </div>
                     </CardContent>
                 </Card>
             </div>

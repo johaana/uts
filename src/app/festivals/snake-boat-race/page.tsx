@@ -8,6 +8,8 @@ import { ShareButtons } from "@/components/ShareButtons";
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { TheyyamPageContent } from "../theyyam/TheyyamPageContent";
+import { SnakeBoatRacePageContent } from "./SnakeBoatRacePageContent";
 
 const relatedContent: RelatedItem[] = [
     {
@@ -27,7 +29,7 @@ const relatedContent: RelatedItem[] = [
         hint: "onam feast"
     },
     {
-        slug: "thrissur-pooram-keralas-grandest-festival",
+        slug: "thrissur-pooram",
         title: "Thrissur Pooram",
         image: "https://i.postimg.cc/j28kQ9WT/thrissur-puram-festival-2.jpg",
         type: "Blog",
@@ -40,7 +42,7 @@ export default function SnakeBoatRacePage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-blue-600/10">
-                 <Image src="https://i.postimg.cc/wx4FCb2T/snake-boat-race.jpg" alt="Snake Boat Race" layout="fill" objectFit="cover" className="absolute inset-0 z-0 opacity-20" data-ai-hint="kerala boat race" />
+                 <Image src="https://i.postimg.cc/W3B4g40T/vallam-kali-2.jpg" alt="Snake Boat Race" layout="fill" objectFit="cover" className="absolute inset-0 z-0 opacity-20" data-ai-hint="kerala boat race" />
                 <div className="relative text-center text-primary-foreground z-10 p-4">
                     <h1 className="font-headline text-4xl md:text-5xl lg:text-7xl font-bold text-blue-900 drop-shadow-lg">Snake Boat Race (Vallam Kali)</h1>
                     <p className="text-lg md:text-xl lg:text-2xl mt-4 text-blue-800/90 drop-shadow-md">The Thunder on the Backwaters</p>
@@ -50,54 +52,17 @@ export default function SnakeBoatRacePage() {
             <div className="container mx-auto px-4 py-12 md:-mt-24">
                 <Card className="mb-12">
                     <CardContent className="p-6 md:p-10">
-                        <Tabs defaultValue="overview">
-                            <TabsList className="grid w-full grid-cols-1 md:grid-cols-3 mb-6 h-auto">
-                                <TabsTrigger value="overview" className="py-2"><BookOpen className="w-4 h-4 mr-2" />Overview</TabsTrigger>
-                                <TabsTrigger value="races" className="py-2"><Trophy className="w-4 h-4 mr-2" />The Races</TabsTrigger>
-                                <TabsTrigger value="significance" className="py-2"><MessageSquareQuote className="w-4 h-4 mr-2" />Significance</TabsTrigger>
-                            </TabsList>
-
-                            <TabsContent value="overview">
-                                <h2 className="font-headline text-3xl font-bold mb-4">A Test of Unity and Power</h2>
-                                <div className="space-y-4 text-foreground/80 prose max-w-none">
-                                    <p>Vallam Kali, the traditional snake boat race of Kerala, is an electrifying spectacle of speed, rhythm, and raw power. This centuries-old tradition transforms the otherwise serene backwaters into a thrilling race track. The festival's origins are rooted in the history of the region's feudal kings, who used these massive 'Chundan Vallams' (snake boats) as war canoes. Today, the battle is one of sport and pride, celebrating community spirit, devotion, and athleticism.</p>
-                                    <p>The main event usually takes place during the harvest season of Onam, from August to September. Each massive snake boat, stretching over 100 feet, is crewed by more than 100 rowers who paddle in perfect unison to the beat of chanting and drums. It's a powerful display of teamwork and a major cultural event that draws thousands of spectators.</p>
+                        <div className="grid md:grid-cols-12 gap-8 lg:gap-12">
+                             <aside className="md:col-span-4 lg:col-span-3">
+                                <div className="sticky top-24">
+                                     <SnakeBoatRacePageContent />
                                 </div>
-                                <div className="mt-6 text-center">
-                                    <Link href="/blog/snake-boat-race-festival-kerala">
-                                        <Button>Read the Full Story <Sparkles className="w-4 h-4 ml-2" /></Button>
-                                    </Link>
-                                </div>
-                            </TabsContent>
-                            
-                            <TabsContent value="races">
-                                <h2 className="font-headline text-3xl font-bold mb-4">Major Races to Watch</h2>
-                                <div className="space-y-4 text-foreground/80 prose max-w-none">
-                                   <p>While numerous boat races are held, a few are particularly famous:</p>
-                                   <ul>
-                                       <li><strong>Nehru Trophy Boat Race:</strong> Held in Alappuzha's Punnamada Lake, this is the most prestigious race, often called the "Olympics of Snake Boat Races."</li>
-                                       <li><strong>Aranmula Uthrittathi Vallamkali:</strong> More of a ritual than a race, this event on the Pampa River is a spectacle of devotion to Lord Parthasarathy.</li>
-                                       <li><strong>Champakulam Moolam Boat Race:</strong> Considered the oldest and one of the most traditional boat races in Kerala.</li>
-                                   </ul>
-                                </div>
-                            </TabsContent>
-
-                             <TabsContent value="significance">
-                                <h2 className="font-headline text-3xl font-bold mb-4">More Than a Race</h2>
-                                <div className="space-y-6">
-                                    <Card>
-                                        <CardHeader>
-                                            <CardTitle>Unity in Rhythm</CardTitle>
-                                        </CardHeader>
-                                        <CardContent>
-                                            <p className="text-foreground/80">Vallam Kali is a powerful symbol of unity and community pride. Each boat represents a different village, and the months of rigorous training and the final race foster an incredible sense of brotherhood and discipline. The rhythmic chants, the synchronized rowing, and the collective will to win make it a profound expression of Kerala's cultural identity and its deep connection to the backwaters.</p>
-                                        </CardContent>
-                                    </Card>
-                                </div>
-                            </TabsContent>
-                        </Tabs>
-                        <ShareButtons title="Snake Boat Race (Vallam Kali)" />
-                        <RelatedContent items={relatedContent} />
+                            </aside>
+                            <main className="md:col-span-8 lg:col-span-9">
+                               <ShareButtons title="Snake Boat Race (Vallam Kali)" />
+                               <RelatedContent items={relatedContent} />
+                            </main>
+                        </div>
                     </CardContent>
                 </Card>
             </div>
