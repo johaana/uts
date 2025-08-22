@@ -2,20 +2,10 @@
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote } from "lucide-react";
-import Link from "next/link";
 import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
-import { ProductCard } from "@/components/ProductCard";
-import { products } from "@/lib/product-data";
-import type { Metadata } from 'next';
-
-export const metadata: Metadata = {
-  title: "Janmashtami 2025: Date, Dahi Handi & Puja Vidhi 🦚",
-  description: "Find the Janmashtami 2025 date, puja timings, and traditions like Dahi Handi. Explore our curated list of puja items and decor on Amazon.",
-};
 
 const relatedContent: RelatedItem[] = [
     {
@@ -134,14 +124,6 @@ export default function JanmashtamiPage() {
                                                 </div>
                                             </div>
                                         </Card>
-                                        <div className="not-prose my-10">
-                                            <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Get Ready for the Celebration</h3>
-                                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                                                <ProductCard product={products.bengalenGopalThali} />
-                                                <ProductCard product={products.marigoldGarland} />
-                                                <ProductCard product={products.divyakoshLotusHanging} />
-                                            </div>
-                                        </div>
                                     </section>
 
                                      <section id="chants" className="scroll-mt-20">

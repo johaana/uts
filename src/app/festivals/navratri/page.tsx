@@ -1,4 +1,6 @@
 
+'use client';
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BookOpen, Sparkles, MessageSquareQuote, CalendarDays, Leaf } from "lucide-react";
@@ -9,13 +11,8 @@ import { products } from "@/lib/product-data";
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: "Navratri Festival | The Nine Nights of Divine Feminine Power | Utsavs",
-  description: "Explore Navratri, the nine-night festival honoring Goddess Durga. Learn about the nine avatars, Garba and Dandiya dances, fasting, and eco-friendly celebrations.",
-  openGraph: {
-    title: "Navratri Festival | The Nine Nights of Divine Feminine Power | Utsavs",
-    description: "Explore Navratri, the nine-night festival honoring Goddess Durga. Learn about the nine avatars, Garba and Dandiya dances, fasting, and eco-friendly celebrations.",
-    images: [{ url: "https://i.postimg.cc/Zn3Rzsz8/navratri1.jpg", width: 1200, height: 630, alt: "Navratri Garba Dance" }],
-  },
+  title: "Navratri 2025: Dates, 9 Avatars of Durga & Garba Guides 💃",
+  description: "Explore Navratri 2025 dates and the nine forms of Goddess Durga. Discover fasting rituals, Garba and Dandiya, and find Kanya Pujan gifts on Amazon.",
 };
 
 
@@ -198,5 +195,3 @@ export default function NavratriPage() {
         </div>
     );
 }
-
-    

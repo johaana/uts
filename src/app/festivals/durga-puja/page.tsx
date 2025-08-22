@@ -1,4 +1,5 @@
 
+'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -10,7 +11,7 @@ import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: "Durga Puja 2025: Dates, Pandal Hopping & Traditions  Devi",
+  title: "Durga Puja 2025: Dates, Pandal Hopping & Traditions | Devi",
   description: "Get the Durga Puja 2025 dates and explore the vibrant traditions of Bengal's biggest festival. Find tips for pandal hopping and discover classic bhog recipes.",
 };
 
