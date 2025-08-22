@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { useState, useMemo, Suspense } from 'react';
@@ -93,7 +94,7 @@ function FestivalsPageContent() {
                     </Select>
                     <div className="lg:col-span-full flex flex-wrap items-center justify-end mt-2 md:mt-0 gap-2">
                          <Link href="/international-festivals">
-                            <Button variant="outline">
+                            <Button className="bg-gradient-to-r from-green-500 to-teal-600 text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
                                 <Globe className="mr-2 h-4 w-4" />
                                 Explore International Festivals
                             </Button>
