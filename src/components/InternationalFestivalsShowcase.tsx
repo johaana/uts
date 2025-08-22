@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import Link from 'next/link';
@@ -10,28 +11,30 @@ import { Button } from './ui/button';
 
 export function InternationalFestivalsShowcase() {
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8">
-      {internationalEvents.slice(0,6).map((festival) => (
-        <Link href={festival.link!} key={festival.name} className="group">
-          <Card className="h-full overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-2">
-            <CardContent className="p-0">
-              <div className="relative h-64 w-full bg-secondary/30">
-                 <Image 
-                    src={festival.image!} 
-                    alt={festival.name} 
-                    layout="fill" 
-                    objectFit="cover"
-                    data-ai-hint={festival.hint}
-                 />
-                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                 <h3 className="absolute bottom-4 left-4 font-headline text-2xl md:text-3xl font-bold text-white">
-                  {festival.name}
-                </h3>
-              </div>
-            </CardContent>
-          </Card>
-        </Link>
-      ))}
+    <>
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8">
+        {internationalEvents.slice(0,6).map((festival) => (
+          <Link href={festival.link!} key={festival.name} className="group">
+            <Card className="h-full overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-2">
+              <CardContent className="p-0">
+                <div className="relative h-48 md:h-64 w-full bg-secondary/30">
+                   <Image 
+                      src={festival.image!} 
+                      alt={festival.name} 
+                      layout="fill" 
+                      objectFit="cover"
+                      data-ai-hint={festival.hint}
+                   />
+                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+                   <h3 className="absolute bottom-3 left-3 md:bottom-4 md:left-4 font-headline text-xl md:text-3xl font-bold text-white drop-shadow-md">
+                    {festival.name}
+                  </h3>
+                </div>
+              </CardContent>
+            </Card>
+          </Link>
+        ))}
+      </div>
       <div className="col-span-2 md:col-span-3 flex justify-center mt-8">
         <Link href="/international-festivals">
             <Button variant="outline" size="lg">
@@ -39,6 +42,6 @@ export function InternationalFestivalsShowcase() {
             </Button>
         </Link>
       </div>
-    </div>
+    </>
   );
 }

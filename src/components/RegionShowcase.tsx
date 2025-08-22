@@ -6,8 +6,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Card, CardContent } from './ui/card';
 import { cn } from '@/lib/utils';
-import { ArrowRight } from 'lucide-react';
-import { Button } from './ui/button';
 
 const regions = [
   { 
@@ -61,7 +59,7 @@ export function RegionShowcase() {
         <Link href={region.href} key={region.name} className="group">
           <Card className="h-full overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-2">
             <CardContent className="p-0">
-              <div className="relative h-64 w-full bg-secondary/30">
+              <div className="relative h-48 md:h-64 w-full bg-secondary/30">
                  <Image 
                     src={region.image} 
                     alt={region.name} 
@@ -69,16 +67,13 @@ export function RegionShowcase() {
                     objectFit="cover"
                     data-ai-hint={region.hint}
                  />
-                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                 <h3 className="absolute bottom-4 left-4 font-headline text-2xl md:text-3xl font-bold text-white">
+                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+                 <h3 className="absolute bottom-3 left-3 md:bottom-4 md:left-4 font-headline text-xl md:text-3xl font-bold text-white drop-shadow-md">
                   {region.name}
                 </h3>
               </div>
-              <div className="p-4 md:p-6">
+              <div className="hidden md:block p-4 md:p-6">
                 <p className="text-sm md:text-base text-foreground/80">{region.description}</p>
-                 <Button variant="link" className="p-0 mt-4 text-accent font-bold">
-                    Explore {region.name} <ArrowRight className="ml-1 h-4 w-4" />
-                </Button>
               </div>
             </CardContent>
           </Card>
