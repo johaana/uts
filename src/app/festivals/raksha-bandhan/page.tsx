@@ -2,14 +2,11 @@
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
-import { ProductCard } from "@/components/ProductCard";
-import { products } from "@/lib/product-data";
 
 const recipes = [
     { name: "Kaju Katli", link: "/recipes/kaju-katli" },
@@ -66,9 +63,9 @@ export default function RakshaBandhanPage() {
                 <Card className="mb-12">
                     <CardContent className="p-6 md:p-10">
                         <div className="grid md:grid-cols-12 gap-8 lg:gap-12">
-                             <aside className="md:col-span-4 lg:col-span-3">
+                             <aside className="hidden md:block md:col-span-4 lg:col-span-3">
                                 <div className="sticky top-24">
-                                     <div className="mb-10 p-4 border-l-4 border-primary bg-primary/5 rounded-r-lg">
+                                     <div className="p-4 border-l-4 border-primary bg-primary/5 rounded-r-lg">
                                         <h2 className="font-headline text-2xl font-bold mb-4">In This Article</h2>
                                         <ul className="space-y-2">
                                             {pageSections.map(section => (
@@ -93,6 +90,17 @@ export default function RakshaBandhanPage() {
                                             <p>The festival's roots run deep into the fertile soil of mythology and history. One of the most famous stories is that of Lord Krishna and Draupadi from the epic Mahabharata. When Krishna inadvertently cut his finger, Draupadi, without a moment's hesitation, tore a piece from her elegant saree and tied it around the wound to staunch the bleeding. Deeply touched by her unconditional care, Krishna promised to protect her always. He fulfilled this promise in her moment of greatest need, miraculously elongating her saree to save her from public dishonor in the court of the Kauravas. This story, among others, elevates the festival beyond mere blood relations, showing that the bond of Rakhi can be a sacred promise of protection and care between any two individuals.</p>
                                         </div>
                                     </section>
+                                     <div className="md:hidden sticky top-16 z-30 bg-background/95 backdrop-blur-sm py-2 -mx-6 px-6 mb-8 border-b">
+                                        <h3 className="font-headline text-lg font-bold mb-2">In This Article</h3>
+                                        <div className="flex flex-wrap gap-x-4 gap-y-2">
+                                            {pageSections.map(section => (
+                                                <a key={section.id} href={`#${section.id}`} className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary">
+                                                    <section.icon className="w-4 h-4 text-accent" />
+                                                    {section.title}
+                                                </a>
+                                            ))}
+                                        </div>
+                                     </div>
                                     
                                     <section id="traditions" className="scroll-mt-20">
                                         <h2 className="font-headline text-3xl font-bold mb-4">The Rakhi Ceremony</h2>

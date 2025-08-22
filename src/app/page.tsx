@@ -18,21 +18,21 @@ import { allEvents } from "@/lib/festival-data";
 
 function ResourceSummary() {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-      <div className="bg-secondary/30 p-8 rounded-lg flex flex-col items-center">
-        <Calendar className="w-12 h-12 text-accent mb-4"/>
-        <h3 className="font-headline text-3xl font-bold text-primary mb-2">60+ Festivals</h3>
-        <p className="text-foreground/80">Explore detailed guides on major and regional Indian festivals.</p>
+    <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8 text-center">
+      <div className="bg-secondary/30 p-4 md:p-8 rounded-lg flex flex-col items-center">
+        <Calendar className="w-10 h-10 md:w-12 md:h-12 text-accent mb-3"/>
+        <h3 className="font-headline text-2xl md:text-3xl font-bold text-primary mb-1">60+</h3>
+        <p className="text-sm md:text-base text-foreground/80">Festivals</p>
       </div>
-      <div className="bg-secondary/30 p-8 rounded-lg flex flex-col items-center">
-        <Utensils className="w-12 h-12 text-accent mb-4"/>
-        <h3 className="font-headline text-3xl font-bold text-primary mb-2">40+ Recipes</h3>
-        <p className="text-foreground/80">Cook authentic festive food with our easy-to-follow recipes.</p>
+      <div className="bg-secondary/30 p-4 md:p-8 rounded-lg flex flex-col items-center">
+        <Utensils className="w-10 h-10 md:w-12 md:h-12 text-accent mb-3"/>
+        <h3 className="font-headline text-2xl md:text-3xl font-bold text-primary mb-1">40+</h3>
+        <p className="text-sm md:text-base text-foreground/80">Recipes</p>
       </div>
-      <div className="bg-secondary/30 p-8 rounded-lg flex flex-col items-center">
-        <BookOpen className="w-12 h-12 text-accent mb-4"/>
-        <h3 className="font-headline text-3xl font-bold text-primary mb-2">25+ Stories</h3>
-        <p className="text-foreground/80">Dive deep into the culture and stories behind the celebrations.</p>
+      <div className="bg-secondary/30 p-4 md:p-8 rounded-lg flex flex-col items-center col-span-2 md:col-span-1">
+        <BookOpen className="w-10 h-10 md:w-12 md:h-12 text-accent mb-3"/>
+        <h3 className="font-headline text-2xl md:text-3xl font-bold text-primary mb-1">25+</h3>
+        <p className="text-sm md:text-base text-foreground/80">Stories</p>
       </div>
     </div>
   )
@@ -56,13 +56,13 @@ function FestivalOfTheMonth() {
 
 function AIPlannerShowcase() {
     return (
-        <section className="py-12 md:py-24 bg-background">
+        <section className="py-12 md:py-20 bg-background">
             <div className="container mx-auto px-4">
                 <Card className="bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-blue-950/50 dark:to-indigo-950/80 border-2 border-blue-200/50 shadow-xl overflow-hidden">
-                    <div className="grid md:grid-cols-2 items-center">
-                        <div className="p-8 md:p-12 order-2 md:order-1">
+                    <div className="flex flex-col md:flex-row items-center">
+                        <div className="p-6 md:p-12 md:w-1/2">
                             <h2 className="font-headline text-3xl md:text-5xl font-bold text-primary mb-4">Let AI Be Your Guide</h2>
-                            <p className="text-lg text-foreground/80 mb-6 max-w-lg">
+                            <p className="text-base md:text-lg text-foreground/80 mb-6 max-w-lg">
                                 Planning a trip around a festival? Curious about specific dates or customs? Our AI Holiday Planner can provide personalized suggestions and answer your questions in an instant.
                             </p>
                             <Link href="/planner">
@@ -71,7 +71,7 @@ function AIPlannerShowcase() {
                                 </Button>
                             </Link>
                         </div>
-                        <div className="order-1 md:order-2 h-64 md:h-full">
+                        <div className="md:w-1/2 h-64 md:h-96 w-full">
                            <Image src="https://i.postimg.cc/VLQf0kKF/long-weekend-1.jpg" alt="AI Planner" width={600} height={400} className="w-full h-full object-cover" data-ai-hint="holiday planning calendar" />
                         </div>
                     </div>
@@ -125,7 +125,7 @@ export default function Home() {
       
        <AIPlannerShowcase />
 
-      <section className="py-12 md:py-24 bg-background">
+      <section className="py-12 md:py-20 bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="font-headline text-3xl md:text-5xl font-bold text-primary">Discover by Region</h2>
@@ -137,7 +137,7 @@ export default function Home() {
         </div>
       </section>
 
-       <section className="py-12 md:py-24 bg-secondary/30">
+       <section className="py-12 md:py-20 bg-secondary/30">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="font-headline text-3xl md:text-5xl font-bold text-primary">Discover International Festivals</h2>

@@ -52,7 +52,7 @@ function FestivalsPageContent() {
 
 
     return (
-        <div className="container mx-auto px-4 py-12 md:py-16">
+        <div className="container mx-auto px-4 py-8 md:py-12">
             <div className="text-center mb-12">
                 <h1 className="font-headline text-3xl md:text-5xl font-bold">Discover Indian Festivals</h1>
                 <p className="mt-3 text-base md:text-lg text-foreground/80 max-w-3xl mx-auto">
@@ -61,8 +61,8 @@ function FestivalsPageContent() {
             </div>
 
             <Card className="p-4 md:p-6 mb-12">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 items-center">
-                    <div className="relative w-full lg:col-span-2">
+                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 items-center">
+                    <div className="relative w-full col-span-2">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                         <Input 
                             placeholder="Search for a festival (e.g., Diwali, Holi...)" 
@@ -92,7 +92,7 @@ function FestivalsPageContent() {
                             ))}
                         </SelectContent>
                     </Select>
-                    <div className="lg:col-span-full flex flex-wrap items-center justify-end mt-2 md:mt-0 gap-2">
+                    <div className="col-span-full flex flex-wrap items-center justify-end mt-2 gap-2">
                          <Link href="/international-festivals">
                             <Button className="bg-gradient-to-r from-green-500 to-teal-600 text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
                                 <Globe className="mr-2 h-4 w-4" />
@@ -111,19 +111,19 @@ function FestivalsPageContent() {
                 {filteredAndSortedFestivals.length > 0 ? filteredAndSortedFestivals.map((festival) => (
                     <Card key={festival.slug} className="overflow-hidden group flex flex-col transition-transform duration-300 ease-in-out hover:scale-105 hover:-translate-y-1 hover:shadow-xl">
                          <Link href={festival.link!} className="block">
-                            <div className="relative h-40 md:h-56 w-full bg-black/5">
+                            <div className="relative aspect-[4/3] w-full bg-black/5">
                             <Image src={festival.image!} alt={festival.name} layout="fill" objectFit="cover" data-ai-hint={festival.hint}/>
                             <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
-                             <div className="absolute bottom-2 left-3 right-3 md:bottom-4 md:left-6 md:right-6">
-                                <p className="text-xs font-semibold text-white/80 mb-1">{festival.region}</p>
+                             <div className="absolute bottom-3 left-3 right-3">
                                 <h2 className="font-headline text-lg md:text-2xl font-bold text-white drop-shadow-md leading-tight">{festival.name.split(' (')[0]}</h2>
                              </div>
                             </div>
                         </Link>
-                        <CardContent className="p-3 md:p-6 flex flex-col flex-grow">
+                        <CardContent className="p-3 md:p-4 flex flex-col flex-grow">
+                             <p className="text-xs text-primary font-semibold mb-2">{festival.region}</p>
                             <p className="text-sm text-foreground/70 mb-3 flex-grow">{festival.description}</p>
                             <Link href={festival.link!}>
-                                <Button variant="link" className="p-0 text-accent hover:text-accent/90 font-bold text-sm">
+                                <Button variant="link" className="p-0 text-accent hover:text-accent/90 font-bold text-sm mt-auto">
                                     Explore <ArrowRight className="ml-1 h-3 w-3" />
                                 </Button>
                             </Link>

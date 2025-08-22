@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -59,9 +60,9 @@ export default function RamNavamiPage() {
                 <Card className="mb-12">
                     <CardContent className="p-6 md:p-10">
                         <div className="grid md:grid-cols-12 gap-8 lg:gap-12">
-                            <aside className="md:col-span-4 lg:col-span-3">
+                            <aside className="hidden md:block md:col-span-4 lg:col-span-3">
                                 <div className="sticky top-24">
-                                     <div className="mb-10 p-4 border-l-4 border-primary bg-primary/5 rounded-r-lg">
+                                     <div className="p-4 border-l-4 border-primary bg-primary/5 rounded-r-lg">
                                         <h2 className="font-headline text-2xl font-bold mb-4">In This Article</h2>
                                         <ul className="space-y-2">
                                             {pageSections.map(section => (
@@ -93,6 +94,18 @@ export default function RamNavamiPage() {
                                             </div>
                                         </div>
                                     </section>
+
+                                    <div className="md:hidden sticky top-16 z-30 bg-background/95 backdrop-blur-sm py-2 -mx-6 px-6 mb-8 border-b">
+                                        <h3 className="font-headline text-lg font-bold mb-2">In This Article</h3>
+                                        <div className="flex flex-wrap gap-x-4 gap-y-2">
+                                            {pageSections.map(section => (
+                                                <a key={section.id} href={`#${section.id}`} className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary">
+                                                    <section.icon className="w-4 h-4 text-accent" />
+                                                    {section.title}
+                                                </a>
+                                            ))}
+                                        </div>
+                                     </div>
                                     
                                     <section id="traditions" className="scroll-mt-20">
                                         <h2 className="font-headline text-3xl font-bold mb-4">How to Celebrate Ram Navami</h2>

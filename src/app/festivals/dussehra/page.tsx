@@ -1,21 +1,15 @@
 
+
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
 import { ShareButtons } from "@/components/ShareButtons";
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 import { DussehraPageContent } from "./DussehraPageContent";
+import { BookOpen, Sparkles, MessageSquareQuote } from "lucide-react";
 
 
 const relatedContent: RelatedItem[] = [
-    {
-        slug: "navratri",
-        title: "Navratri Festival Guide",
-        image: "https://i.postimg.cc/J4JFtVYT/navratri1.jpg",
-        type: "Festival",
-        link: "/festivals/navratri",
-        hint: "garba dance"
-    },
     {
         slug: "durga-puja",
         title: "Durga Puja",
@@ -25,6 +19,14 @@ const relatedContent: RelatedItem[] = [
         hint: "durga idol"
     },
     {
+        slug: "navratri",
+        title: "Navratri Festival Guide",
+        image: "https://i.postimg.cc/J4JFtVYT/navratri1.jpg",
+        type: "Festival",
+        link: "/festivals/navratri",
+        hint: "garba dance"
+    },
+    {
         slug: "ram-navami",
         title: "Ram Navami",
         image: "https://i.postimg.cc/Vvqmzy7S/ram-navami.webp",
@@ -32,6 +34,12 @@ const relatedContent: RelatedItem[] = [
         link: "/festivals/ram-navami",
         hint: "lord rama"
     }
+];
+
+const pageSections = [
+    { id: "overview", title: "Overview", icon: BookOpen },
+    { id: "traditions", title: "Celebrations", icon: Sparkles },
+    { id: "significance", title: "Significance", icon: MessageSquareQuote },
 ];
 
 
@@ -49,9 +57,21 @@ export default function DussehraPage() {
                 <Card className="mb-12">
                     <CardContent className="p-6 md:p-10">
                         <div className="grid md:grid-cols-12 gap-8 lg:gap-12">
-                            <aside className="md:col-span-4 lg:col-span-3">
+                            <aside className="hidden md:block md:col-span-4 lg:col-span-3">
                                 <div className="sticky top-24">
-                                     <DussehraPageContent />
+                                    <div className="p-4 border-l-4 border-primary bg-primary/5 rounded-r-lg">
+                                        <h2 className="font-headline text-2xl font-bold mb-4">In This Article</h2>
+                                        <ul className="space-y-2">
+                                            {pageSections.map(section => (
+                                                <li key={section.id}>
+                                                    <a href={`#${section.id}`} className="flex items-center gap-3 text-foreground/80 hover:text-primary transition-colors">
+                                                        <section.icon className="w-5 h-5 text-accent" />
+                                                        <span className="font-semibold">{section.title}</span>
+                                                    </a>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
                                 </div>
                             </aside>
                             <main className="md:col-span-8 lg:col-span-9">
@@ -68,4 +88,3 @@ export default function DussehraPage() {
         </div>
     );
 }
-

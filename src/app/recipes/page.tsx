@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { useState, useMemo } from 'react';
@@ -91,7 +92,7 @@ export default function RecipesPage() {
     }, [searchTerm, selectedFestival, selectedRegion, sortOrder]);
 
     return (
-        <div className="container mx-auto px-4 py-12 md:py-16">
+        <div className="container mx-auto px-4 py-8 md:py-12">
             <div className="text-center mb-12">
                 <h1 className="font-headline text-3xl md:text-5xl font-bold">The Utsavs Recipe Library</h1>
                 <p className="mt-3 text-base md:text-lg text-foreground/80 max-w-2xl mx-auto">
@@ -100,11 +101,11 @@ export default function RecipesPage() {
             </div>
 
             <Card className="p-4 md:p-6 mb-12">
-                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 items-center">
-                    <div className="relative w-full lg:col-span-2">
+                 <div className="grid grid-cols-2 md:grid-cols-5 gap-4 items-center">
+                    <div className="relative w-full col-span-2">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                         <Input 
-                            placeholder="Search for a recipe (e.g., Ladoo, Biryani...)" 
+                            placeholder="Search for a recipe (e.g., Ladoo...)" 
                             className="pl-10"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
@@ -142,7 +143,7 @@ export default function RecipesPage() {
                             ))}
                         </SelectContent>
                     </Select>
-                    <div className="lg:col-span-full flex justify-end">
+                    <div className="col-span-full flex justify-end">
                          <Button variant="ghost" onClick={resetFilters}>
                             <RotateCcw className="mr-2 h-4 w-4" />
                             Reset Filters
