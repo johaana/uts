@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ArrowRight, Search, RotateCcw } from "lucide-react";
+import { ArrowRight, Search, RotateCcw, Globe } from "lucide-react";
 import Link from "next/link";
 import Image from 'next/image';
 import { allEvents } from '@/lib/festival-data';
@@ -55,8 +55,7 @@ function FestivalsPageContent() {
             <div className="text-center mb-12">
                 <h1 className="font-headline text-3xl md:text-5xl font-bold">Discover Indian Festivals</h1>
                 <p className="mt-3 text-base md:text-lg text-foreground/80 max-w-3xl mx-auto">
-                    Your essential guide to the festivals of India, from the Himalayas to the coasts. Discover dates, rituals, and stories.
-                    <Link href="/international-festivals" className="font-semibold text-accent hover:underline"> For the global traveler: explore our new guide to major international festivals.</Link>
+                    From the snow-capped Himalayas to the sun-drenched coasts, explore the diverse and colorful festivals that form the heartbeat of India. An essential guide to dates, rituals, and stories.
                 </p>
             </div>
 
@@ -92,7 +91,13 @@ function FestivalsPageContent() {
                             ))}
                         </SelectContent>
                     </Select>
-                    <div className="md:col-span-full flex justify-end mt-2 md:mt-0">
+                    <div className="lg:col-span-full flex flex-wrap items-center justify-end mt-2 md:mt-0 gap-2">
+                         <Link href="/international-festivals">
+                            <Button variant="outline">
+                                <Globe className="mr-2 h-4 w-4" />
+                                Explore International Festivals
+                            </Button>
+                        </Link>
                          <Button variant="ghost" onClick={resetFilters}>
                             <RotateCcw className="mr-2 h-4 w-4" />
                             Reset Filters
