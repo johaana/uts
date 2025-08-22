@@ -54,8 +54,9 @@ function FestivalsPageContent() {
         <div className="container mx-auto px-4 py-12 md:py-16">
             <div className="text-center mb-12">
                 <h1 className="font-headline text-3xl md:text-5xl font-bold">Discover Indian Festivals</h1>
-                <p className="mt-3 text-base md:text-lg text-foreground/80 max-w-2xl mx-auto">
-                    From the snow-capped Himalayas to the sun-drenched coasts, explore the diverse and colorful festivals that form the heartbeat of India. An essential guide to dates, rituals, and stories.
+                <p className="mt-3 text-base md:text-lg text-foreground/80 max-w-3xl mx-auto">
+                    Your essential guide to the festivals of India, from the Himalayas to the coasts. Discover dates, rituals, and stories.
+                    <Link href="/international-festivals" className="font-semibold text-accent hover:underline"> Plus: explore our new guide to major international festivals.</Link>
                 </p>
             </div>
 
