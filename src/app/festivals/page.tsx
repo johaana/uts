@@ -56,7 +56,7 @@ function FestivalsPageContent() {
                 <h1 className="font-headline text-3xl md:text-5xl font-bold">Discover Indian Festivals</h1>
                 <p className="mt-3 text-base md:text-lg text-foreground/80 max-w-3xl mx-auto">
                     Your essential guide to the festivals of India, from the Himalayas to the coasts. Discover dates, rituals, and stories.
-                    <Link href="/international-festivals" className="font-semibold text-accent hover:underline"> Plus: explore our new guide to major international festivals.</Link>
+                    <Link href="/international-festivals" className="font-semibold text-accent hover:underline"> For the global traveler: explore our new guide to major international festivals.</Link>
                 </p>
             </div>
 
