@@ -9,7 +9,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { ArrowRight, Star, Calendar, MapPin, Tag, Loader2 } from "lucide-react";
-import { format, parse, getYear, isValid, isFuture, isToday, startOfDay, addDays, getMonth, startOfToday, endOfDay, addYears } from 'date-fns';
+import { format, parse, getYear, isValid, isFuture, isToday, startOfDay, addDays, getMonth, startOfToday, addYears } from 'date-fns';
 import { allEvents } from '@/lib/festival-data';
 import { cn } from '@/lib/utils';
 import React from 'react';
@@ -49,7 +49,6 @@ export function FestivalCalendar({
     const [selectedRegion, setSelectedRegion] = useState('all');
     const [selectedEventType, setSelectedEventType] = useState('all');
     const [selectedYear, setSelectedYear] = useState('Upcoming');
-    const [displayLimit, setDisplayLimit] = useState(4);
 
     const dynamicYears = useMemo(() => {
         const years = Array.from(new Set(events.map(event => {
@@ -163,9 +162,6 @@ export function FestivalCalendar({
         return filtered;
     }, [isClient, selectedYear, selectedMonth, selectedRegion, selectedEventType, events]);
 
-    const displayedEvents = useMemo(() => {
-        return filteredEvents.slice(0, displayLimit);
-    }, [filteredEvents, displayLimit]);
     
     const formatDateString = (dateString: string) => {
         const range = getEventDateRange(dateString);
@@ -220,10 +216,6 @@ export function FestivalCalendar({
         );
     };
 
-    const handleShowMore = () => {
-      setDisplayLimit(prev => prev + 100); // Load a large number of additional events
-    }
-
     return (
         <div className="w-full">
            {title && description && (
@@ -275,7 +267,7 @@ export function FestivalCalendar({
             )}
 
             <div className="hidden md:block">
-                 <Card className="overflow-hidden flex flex-col">
+                 <Card className="overflow-hidden">
                     <div className={cn("overflow-y-auto", "max-h-[60vh] relative")}>
                         <Table>
                             <TableHeader className="sticky top-0 bg-background z-10">
@@ -297,8 +289,8 @@ export function FestivalCalendar({
                                             </div>
                                         </TableCell>
                                     </TableRow>
-                                ) : displayedEvents.length > 0 ? (
-                                    displayedEvents.map((event, index) => (
+                                ) : filteredEvents.length > 0 ? (
+                                    filteredEvents.map((event, index) => (
                                         <TableRow key={event.name + event.date + index}>
                                             <TableCell className="w-[250px] font-medium">{formatDateString(event.date)}</TableCell>
                                             <TableCell>
@@ -331,11 +323,6 @@ export function FestivalCalendar({
                                 )}
                             </TableBody>
                         </Table>
-                         {filteredEvents.length > displayLimit && (
-                            <div className="sticky bottom-0 p-2 bg-gradient-to-t from-background via-background to-transparent">
-                                <Button onClick={handleShowMore} className="w-full">Show More</Button>
-                            </div>
-                        )}
                     </div>
                 </Card>
             </div>
@@ -348,8 +335,8 @@ export function FestivalCalendar({
                             Loading calendar...
                         </div>
                     </Card>
-                 ) : displayedEvents.length > 0 ? (
-                    displayedEvents.map((event, index) => (
+                 ) : filteredEvents.length > 0 ? (
+                    filteredEvents.map((event, index) => (
                         <Card key={event.name + event.date + index} className="p-4">
                             <CardContent className="p-0 flex items-center justify-between">
                                 <div className="flex-1">
@@ -385,11 +372,6 @@ export function FestivalCalendar({
                     <Card className="text-center h-24 flex items-center justify-center text-muted-foreground">
                         No events found for the selected filters.
                     </Card>
-                )}
-                 {filteredEvents.length > displayLimit && (
-                    <div className="sticky bottom-0 -mx-2 -mb-2 p-2 bg-gradient-to-t from-background via-background to-transparent">
-                        <Button onClick={handleShowMore} className="w-full">Show More</Button>
-                    </div>
                 )}
             </div>
         </div>
