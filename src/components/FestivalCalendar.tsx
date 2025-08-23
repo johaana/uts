@@ -261,7 +261,7 @@ export function FestivalCalendar({
             {showLongWeekendInfo && (
                  <div className="flex items-center justify-start text-sm text-muted-foreground mb-8 ml-2">
                     <Star className="w-4 h-4 mr-2 text-amber-500 fill-amber-500" />
-                    <span>Indicates a long weekend opportunity. See our <Link href="/blog/long-weekends-2025" className="underline hover:text-primary bg-amber-100/60 dark:bg-amber-800/20 px-1 py-0.5 rounded-sm">Long Weekends Guide</Link> for travel ideas.</span>
+                    <span>Indicates a long weekend opportunity. See our <Link href="/blog/long-weekends-2025" className="font-semibold text-accent-foreground bg-accent/20 hover:bg-accent/40 px-2 py-0.5 rounded-md transition-colors">Long Weekends Guide</Link> for travel ideas.</span>
                 </div>
             )}
 
