@@ -19,8 +19,16 @@ const defaultMonths = ["January", "February", "March", "April", "May", "June", "
 const defaultRegions = ["Nationwide", "North", "South", "East", "West", "Northeast", "Central"];
 const defaultEventTypes = ["Festivals", "Holidays", "Long Weekends"];
 
-const dynamicYears = Array.from(new Set(allEvents.map(event => getYear(parse(event.date.split(' - ')[0], 'MMM dd, yyyy', new Date()))))).sort().map(String);
-const defaultYears = ['Upcoming', ...dynamicYears];
+const dynamicYears = Array.from(new Set(allEvents.map(event => {
+    const dateStr = event.date.split(' - ')[0];
+    const parsedDate = parse(dateStr, 'MMM dd, yyyy', new Date());
+    return isValid(parsedDate) ? getYear(parsedDate) : null;
+}))
+.filter(year => year !== null) as number[])
+.sort()
+.map(String);
+
+const defaultYears = ['Upcoming', 'All Years', ...dynamicYears];
 
 
 interface FestivalEvent {
@@ -44,7 +52,7 @@ interface FestivalCalendarProps {
 }
 
 export function FestivalCalendar({
-    events = allEvents,
+    events,
     availableYears = defaultYears,
     availableRegions = defaultRegions,
     availableEventTypes = defaultEventTypes,
@@ -52,11 +60,12 @@ export function FestivalCalendar({
     description,
     showLongWeekendInfo = true,
 }: FestivalCalendarProps) {
+    const eventsProp = events || allEvents;
     const [isClient, setIsClient] = useState(false);
     const [selectedMonth, setSelectedMonth] = useState('all');
     const [selectedRegion, setSelectedRegion] = useState('all');
     const [selectedEventType, setSelectedEventType] = useState('all');
-    const [selectedYear, setSelectedYear] = useState(availableYears[0] || 'all');
+    const [selectedYear, setSelectedYear] = useState('Upcoming');
     
     useEffect(() => {
         setIsClient(true);
@@ -84,7 +93,7 @@ export function FestivalCalendar({
                     endDate = parsedEndDate;
                 }
             }
-            return { start: startDate, end: endOfDay(endDate) };
+            return { start: startOfDay(startDate), end: endOfDay(endDate) };
         } catch (e) {
             console.error("Error parsing date string:", dateString, e);
             return null;
@@ -92,22 +101,22 @@ export function FestivalCalendar({
     };
     
     const filteredEvents = useMemo(() => {
-        if (!isClient) return [];
+        if (!isClient || !Array.isArray(eventsProp)) return [];
 
         const today = startOfToday();
         const oneYearFromNow = addDays(today, 365);
         const selectedMonthIndex = selectedMonth === 'all' ? -1 : defaultMonths.indexOf(selectedMonth);
 
-        let filtered = events.filter(event => {
+        let filtered = eventsProp.filter(event => {
             const range = getEventDateRange(event.date);
             if (!range) return false;
 
             // Year Filtering
             if (selectedYear === 'Upcoming') {
-                if (range.end < today || range.start > oneYearFromNow) return false;
-            } else if (selectedYear !== 'all') {
+                 if (range.end < today) return false;
+            } else if (selectedYear !== 'All Years') {
                 const yearNum = parseInt(selectedYear, 10);
-                if (getYear(range.start) > yearNum || getYear(range.end) < yearNum) return false;
+                if (getYear(range.start) !== yearNum && getYear(range.end) !== yearNum) return false;
             }
 
             // Month Filtering
@@ -143,19 +152,19 @@ export function FestivalCalendar({
         if (selectedYear === 'Upcoming') {
             filtered = filtered.filter(event => {
                 const range = getEventDateRange(event.date);
-                return range && range.end >= today;
+                return range && range.end >= today && range.start <= oneYearFromNow;
             });
         }
 
+
         return filtered;
-    }, [isClient, selectedYear, selectedMonth, selectedRegion, selectedEventType, events]);
+    }, [isClient, selectedYear, selectedMonth, selectedRegion, selectedEventType, eventsProp]);
     
     const formatDateString = (dateString: string) => {
         const range = getEventDateRange(dateString);
         if (!range) return dateString;
         const { start, end } = range;
         
-        const today = isToday(start);
         const singleDay = format(start, 'yyyy-MM-dd') === format(end, 'yyyy-MM-dd');
         
         if (singleDay) {
@@ -247,7 +256,7 @@ export function FestivalCalendar({
             {showLongWeekendInfo && (
                  <div className="flex items-center justify-start text-sm text-muted-foreground mb-8 ml-2">
                     <Star className="w-4 h-4 mr-2 text-amber-500 fill-amber-500" />
-                    <span>Indicates a long weekend opportunity. See our <Link href="/blog/long-weekends-2025" className="underline hover:text-primary">Long Weekends Guide</Link> for travel ideas.</span>
+                    <span>Indicates a long weekend opportunity. See our <Link href="/blog/long-weekends-2025" className="underline hover:text-primary bg-amber-100/60 dark:bg-amber-800/20 px-1 py-0.5 rounded-sm">Long Weekends Guide</Link> for travel ideas.</span>
                 </div>
             )}
 
