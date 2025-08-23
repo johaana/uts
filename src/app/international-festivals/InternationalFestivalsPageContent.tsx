@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React from 'react';
@@ -10,10 +9,20 @@ import { internationalEvents } from "@/lib/festival-data";
 import { FestivalCalendar } from '@/components/FestivalCalendar';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
+import { InternationalHeroCarousel } from '@/components/InternationalHeroCarousel';
 
 export function InternationalFestivalsPageContent() {
     return (
         <div className="space-y-16">
+
+            <InternationalHeroCarousel />
+
+            <div className="text-center">
+                <p className="mt-3 text-base md:text-lg text-foreground/80 max-w-3xl mx-auto">
+                    A Journey Through Global Celebrations. Explore the world, one festival at a time. Our calendar is your passport to the most vibrant cultural events across the globe, from the lantern-lit skies of Thailand to the fiery traditions of Scotland.
+                </p>
+            </div>
+
             <FestivalCalendar 
                 events={internationalEvents}
                 availableRegions={["Global", "Asia", "Europe", "North America", "South America", "Africa", "Australia"]}
@@ -25,7 +34,7 @@ export function InternationalFestivalsPageContent() {
 
             <div>
                  <div className="text-center mb-12">
-                    <h2 className="font-headline text-3xl md:text-5xl font-bold text-primary">Explore Global Celebrations</h2>
+                    <h2 className="font-headline text-3xl md:text-5xl font-bold text-primary">Discover Our Festival Guides</h2>
                     <p className="mt-3 text-base md:text-lg text-foreground/80 max-w-2xl mx-auto">
                         Click on any festival to discover its unique story, traditions, and significance.
                     </p>

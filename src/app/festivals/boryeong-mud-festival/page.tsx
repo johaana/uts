@@ -1,18 +1,29 @@
+
 'use client';
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { BookOpen, Sparkles, MessageSquareQuote, Flag, Music, Sailboat, Trophy, Drama, PartyPopper, Info } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
-import Link from "next/link";
-import { internationalEvents } from "@/lib/festival-data";
-import type { Metadata } from 'next';
 import { BoryeongMudFestivalPageContent } from "./BoryeongMudFestivalPageContent";
+import type { Metadata } from 'next';
 
+const relatedContent: RelatedItem[] = [
+    { slug: "la-tomatina", title: "La Tomatina", image: "https://i.postimg.cc/GhwH7wCz/la-tomatina1.jpg", type: "Festival", link: "/festivals/la-tomatina", hint: "tomato fight" },
+    { slug: "holi", title: "Holi", image: "https://i.postimg.cc/0276MjRN/Holi.jpg", type: "Festival", link: "/festivals/holi", hint: "holi celebration" },
+    { slug: "songkran", title: "Songkran", image: "https://i.postimg.cc/RhHJcbgG/songkran.avif", type: "Festival", link: "/festivals/songkran", hint: "water festival" }
+];
 
 export default function BoryeongMudFestivalPage() {
+    const metadata: Metadata = {
+        title: "Boryeong Mud Festival | South Korea's Messiest Party | Utsavs",
+        description: "Get ready to get muddy! Discover the story, traditions, and pure, unadulterated fun of the Boryeong Mud Festival in South Korea.",
+        openGraph: {
+            title: "Boryeong Mud Festival | South Korea's Messiest Party | Utsavs",
+            description: "Get ready to get muddy! Discover the story, traditions, and pure, unadulterated fun of the Boryeong Mud Festival in South Korea.",
+            images: [{ url: "https://i.postimg.cc/N0MM9Q6G/boryeong.avif", width: 1200, height: 630, alt: "People covered in mud at the Boryeong Mud Festival" }],
+        },
+    };
 
     return (
         <div className="bg-background">
@@ -29,19 +40,9 @@ export default function BoryeongMudFestivalPage() {
             <div className="container mx-auto px-4 py-12 md:-mt-24">
                 <Card className="mb-12">
                     <CardContent className="p-6 md:p-10">
-                        <div className="grid md:grid-cols-12 gap-8 lg:gap-12">
-                            <main className="md:col-span-12">
-                               <article>
-                                    <BoryeongMudFestivalPageContent />
-                               </article>
-                               <ShareButtons title="Boryeong Mud Festival" />
-                               <RelatedContent items={[
-                                    { slug: "la-tomatina", title: "La Tomatina", image: "https://i.postimg.cc/GhwH7wCz/la-tomatina1.jpg", type: "Festival", link: "/festivals/la-tomatina", hint: "tomato fight" },
-                                    { slug: "holi", title: "Holi", image: "https://i.postimg.cc/0276MjRN/Holi.jpg", type: "Festival", link: "/festivals/holi", hint: "holi celebration" },
-                                    { slug: "songkran", title: "Songkran", image: "https://i.postimg.cc/RhHJcbgG/songkran.avif", type: "Festival", link: "/festivals/songkran", hint: "water festival" }
-                                ]} />
-                            </main>
-                        </div>
+                        <BoryeongMudFestivalPageContent />
+                        <ShareButtons title="Boryeong Mud Festival" />
+                        <RelatedContent items={relatedContent} />
                     </CardContent>
                 </Card>
             </div>
