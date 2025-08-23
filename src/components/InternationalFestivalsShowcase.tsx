@@ -34,7 +34,7 @@ export function InternationalFestivalsShowcase() {
     >
         <CarouselContent className="-ml-2 md:-ml-4">
             {uniqueFestivals.map((festival, index) => (
-                <CarouselItem key={festival.slug} className="pl-2 md:pl-4 sm:basis-1/2 lg:basis-1/4">
+                <CarouselItem key={festival.slug} className="pl-2 md:pl-4 basis-4/5 sm:basis-1/2 lg:basis-1/4">
                     <div className="p-1 h-full">
                          <Link href={festival.link!} className="group">
                             <Card className="h-full overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-2">
