@@ -18,7 +18,7 @@ export default function BlogPage() {
             
             <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
                 {blogPosts.map((post) => (
-                    <Card key={post.slug} className="overflow-hidden group flex flex-col transition-transform duration-300 ease-in-out hover:scale-105 hover:-translate-y-1 hover:shadow-xl">
+                    <Card key={post.slug} className="overflow-hidden group flex flex-col transition-transform duration-300 ease-in-out hover:scale-[1.03] hover:shadow-xl">
                         <div className="relative h-40 md:h-56 w-full bg-black/5">
                            <Image src={post.image} alt={post.title} layout="fill" objectFit="cover" data-ai-hint={post.hint}/>
                         </div>
