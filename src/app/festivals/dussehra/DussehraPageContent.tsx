@@ -8,12 +8,15 @@ import Link from "next/link";
 import { ProductCard } from "@/components/ProductCard";
 import { products } from "@/lib/product-data";
 
+const pageSections = [
+    { id: "overview", title: "Overview", icon: BookOpen },
+    { id: "traditions", title: "Celebrations", icon: Sparkles },
+    { id: "significance", title: "Significance", icon: MessageSquareQuote },
+];
 
 const pageContent = [
     {
         id: "overview",
-        title: "Overview",
-        icon: BookOpen,
         content: (
              <div className="flex flex-col md:flex-row gap-8 items-center">
                 <div className="md:order-2 md:w-1/3">
@@ -31,8 +34,6 @@ const pageContent = [
     },
      {
         id: "traditions",
-        title: "Celebrations",
-        icon: Sparkles,
         content: (
             <>
             <h2 className="font-headline text-3xl font-bold mb-4">Ramlila and Ravan Dahan</h2>
@@ -45,11 +46,17 @@ const pageContent = [
     },
      {
         id: "significance",
-        title: "Significance",
-        icon: MessageSquareQuote,
         content: (
             <>
             <h2 className="font-headline text-3xl font-bold mb-4">A Day for New Beginnings</h2>
+             <div className="not-prose my-10">
+                <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Items for Your Celebration</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                    <ProductCard product={products.rajasthanKraftToran} />
+                    <ProductCard product={products.handicraftsParadiseChowki} />
+                    <ProductCard product={products.indianArtVillaThali} />
+                </div>
+            </div>
             <div className="space-y-6">
                 <Card>
                     <CardHeader>
@@ -60,29 +67,38 @@ const pageContent = [
                     </CardContent>
                 </Card>
             </div>
-            <div className="not-prose my-10">
-                <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Items for Your Celebration</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                    <ProductCard product={products.rajasthanKraftToran} />
-                    <ProductCard product={products.handicraftsParadiseChowki} />
-                    <ProductCard product={products.indianArtVillaThali} />
-                </div>
-            </div>
             </>
         )
     }
 ]
 
-export function DussehraPageContent() {
+export function DussehraPageContent({ isSideNav = false }: { isSideNav?: boolean }) {
+    
+    if (isSideNav) {
+        return (
+            <div className="p-4 border-l-4 border-primary bg-primary/5 rounded-r-lg">
+                <h2 className="font-headline text-2xl font-bold mb-4">In This Article</h2>
+                <ul className="space-y-2">
+                    {pageSections.map(section => (
+                        <li key={section.id}>
+                            <a href={`#${section.id}`} className="flex items-center gap-3 text-foreground/80 hover:text-primary transition-colors">
+                                <section.icon className="w-5 h-5 text-accent" />
+                                <span className="font-semibold">{section.title}</span>
+                            </a>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        )
+    }
+
     return (
-         <>
-            <article className="space-y-12">
-                {pageContent.map((section) => (
-                    <section key={section.id} id={section.id} className="scroll-mt-20">
-                        {section.content}
-                    </section>
-                ))}
-            </article>
-        </>
+        <article className="space-y-12">
+            {pageContent.map((section) => (
+                <section key={section.id} id={section.id} className="scroll-mt-20">
+                    {section.content}
+                </section>
+            ))}
+        </article>
     );
 }

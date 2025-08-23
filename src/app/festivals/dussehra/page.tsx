@@ -5,6 +5,7 @@ import { ShareButtons } from "@/components/ShareButtons";
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 import { Card, CardContent } from "@/components/ui/card";
 import { BookOpen, Sparkles, MessageSquareQuote } from "lucide-react";
+import Image from 'next/image';
 
 export const metadata: Metadata = {
   title: "Dussehra 2025: Date, Ravan Dahan & Vijayadashami Story 🔥",
@@ -38,42 +39,21 @@ const relatedContent: RelatedItem[] = [
     }
 ];
 
-const pageSections = [
-    { id: "overview", title: "Overview", icon: BookOpen },
-    { id: "traditions", title: "Celebrations", icon: Sparkles },
-    { id: "significance", title: "Significance", icon: MessageSquareQuote },
-];
-
-
 export default function DussehraPage() {
     return (
         <div className="bg-background">
-            <section className="relative h-[50vh] flex items-center justify-center bg-primary/10">
-                <div className="relative text-center text-primary-foreground z-10 p-4">
-                    <h1 className="font-headline text-4xl md:text-7xl font-bold text-primary shadow-lg">Dussehra (Vijayadashami)</h1>
-                    <p className="text-lg md:text-xl mt-4 text-primary/90 shadow-md">The Grand Victory of Good Over Evil</p>
-                </div>
-            </section>
-            
-            <div className="container mx-auto px-4 py-12 md:-mt-24">
-                <Card className="mb-12">
-                    <CardContent className="p-6 md:p-10">
+             <div className="container mx-auto px-4 py-12">
+                <Card className="mb-12 overflow-hidden">
+                    <Image src="https://i.postimg.cc/wMVZW9fk/dussehra.jpg" alt="Dussehra" width={1200} height={400} className="w-full h-48 md:h-64 object-cover" data-ai-hint="dussehra celebration" />
+                    <div className="p-6 md:p-10 text-center">
+                        <h1 className="font-headline text-4xl md:text-7xl font-bold text-primary">Dussehra (Vijayadashami)</h1>
+                        <p className="text-xl md:text-2xl mt-2 text-muted-foreground">The Grand Victory of Good Over Evil</p>
+                    </div>
+                    <CardContent className="p-6 md:p-10 pt-0">
                         <div className="grid md:grid-cols-12 gap-8 lg:gap-12">
-                            <aside className="hidden md:block md:col-span-4 lg:col-span-3">
+                            <aside className="hidden md:block md:col-span-4 lg:col-span-3 -ml-2">
                                 <div className="sticky top-24">
-                                    <div className="p-4 border-l-4 border-primary bg-primary/5 rounded-r-lg">
-                                        <h2 className="font-headline text-2xl font-bold mb-4">In This Article</h2>
-                                        <ul className="space-y-2">
-                                            {pageSections.map(section => (
-                                                <li key={section.id}>
-                                                    <a href={`#${section.id}`} className="flex items-center gap-3 text-foreground/80 hover:text-primary transition-colors">
-                                                        <section.icon className="w-5 h-5 text-accent" />
-                                                        <span className="font-semibold">{section.title}</span>
-                                                    </a>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </div>
+                                     <DussehraPageContent isSideNav={true} />
                                 </div>
                             </aside>
                             <main className="md:col-span-8 lg:col-span-9">

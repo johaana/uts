@@ -4,24 +4,33 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { ShareButtons } from "@/components/ShareButtons";
 import { EidAlAdhaPageContent } from "./EidAlAdhaPageContent";
-
+import Image from 'next/image';
 
 export default function EidAlAdhaPage() {
 
     return (
         <div className="bg-background">
-            <section className="relative h-[50vh] flex items-center justify-center bg-primary/10">
-                <div className="relative text-center text-primary-foreground z-10 p-4">
-                    <h1 className="font-headline text-4xl md:text-7xl font-bold text-primary shadow-lg">Eid al-Adha</h1>
-                    <p className="text-xl md:text-2xl mt-4 text-primary/90 shadow-md">The Festival of Sacrifice</p>
-                </div>
-            </section>
-            
-            <div className="container mx-auto px-4 py-12 -mt-24">
+            <div className="container mx-auto px-4 py-12">
                 <Card className="mb-12 overflow-hidden">
-                    <CardContent className="p-6 md:p-10">
-                        <EidAlAdhaPageContent />
-                        <ShareButtons title="Eid al-Adha" />
+                    <Image src="https://i.postimg.cc/KYWZNDkY/eid-al-adha.webp" alt="Eid al-Adha" width={1200} height={400} className="w-full h-48 md:h-64 object-cover" data-ai-hint="eid prayer" />
+                    <div className="p-6 md:p-10 text-center">
+                        <h1 className="font-headline text-4xl md:text-7xl font-bold text-primary">Eid al-Adha</h1>
+                        <p className="text-xl md:text-2xl mt-2 text-muted-foreground">The Festival of Sacrifice</p>
+                    </div>
+                    <CardContent className="p-6 md:p-10 pt-0">
+                         <div className="grid md:grid-cols-12 gap-8 lg:gap-12">
+                             <aside className="md:col-span-4 lg:col-span-3 -ml-2 hidden md:block">
+                                <div className="sticky top-24">
+                                     <EidAlAdhaPageContent />
+                                </div>
+                            </aside>
+                            <main className="md:col-span-8 lg:col-span-9">
+                               <article>
+                                    <EidAlAdhaPageContent isContent={true} />
+                               </article>
+                               <ShareButtons title="Eid al-Adha" />
+                            </main>
+                        </div>
                     </CardContent>
                 </Card>
             </div>

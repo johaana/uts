@@ -4,20 +4,8 @@
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
-import type { Metadata } from 'next';
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
-import Link from "next/link";
 import { BookOpen, Sparkles, MessageSquareQuote } from "lucide-react";
-
-const metadata: Metadata = {
-  title: "Kukur Tihar | Nepal's Day of the Dog Festival | Utsavs",
-  description: "Explore Kukur Tihar, the beautiful Nepalese festival where dogs are worshipped and honored with garlands, tilaks, and delicious food for their loyalty and friendship.",
-  openGraph: {
-    title: "Kukur Tihar | Nepal's Day of the Dog Festival | Utsavs",
-    description: "Explore Kukur Tihar, the beautiful Nepalese festival where dogs are worshipped and honored with garlands, tilaks, and delicious food for their loyalty and friendship.",
-    images: [{ url: "https://i.postimg.cc/RCcT1Twd/kukur-tihar1.avif", width: 1200, height: 630, alt: "Dog being worshipped during Kukur Tihar" }],
-  },
-};
 
 const relatedContent: RelatedItem[] = [
     {
@@ -56,19 +44,16 @@ const pageSections = [
 export default function KukurTiharPage() {
     return (
         <div className="bg-background">
-            <section className="relative h-[50vh] flex items-center justify-center bg-yellow-600/10">
-                 <Image src="https://i.postimg.cc/RCcT1Twd/kukur-tihar1.avif" alt="Kukur Tihar" layout="fill" objectFit="cover" className="absolute inset-0 z-0 opacity-30" data-ai-hint="dog worship" />
-                <div className="relative text-center z-10 p-4">
-                    <h1 className="font-headline text-4xl md:text-5xl lg:text-7xl font-bold text-yellow-900 drop-shadow-lg">Kukur Tihar</h1>
-                    <p className="text-lg md:text-xl lg:text-2xl mt-4 text-yellow-800/90 drop-shadow-md">Nepal's Beautiful "Day of the Dogs"</p>
-                </div>
-            </section>
-            
-            <div className="container mx-auto px-4 py-12 md:-mt-24">
-                <Card className="mb-12">
-                    <CardContent className="p-6 md:p-10">
+            <div className="container mx-auto px-4 py-12">
+                <Card className="mb-12 overflow-hidden">
+                    <Image src="https://i.postimg.cc/RCcT1Twd/kukur-tihar1.avif" alt="Kukur Tihar" width={1200} height={400} className="w-full h-48 md:h-64 object-cover" data-ai-hint="dog worship" />
+                    <div className="p-6 md:p-10 text-center">
+                        <h1 className="font-headline text-4xl md:text-7xl font-bold text-primary">Kukur Tihar</h1>
+                        <p className="text-xl md:text-2xl mt-2 text-muted-foreground">Nepal's Beautiful "Day of the Dogs"</p>
+                    </div>
+                    <CardContent className="p-6 md:p-10 pt-0">
                          <div className="grid md:grid-cols-12 gap-8 lg:gap-12">
-                             <aside className="hidden md:block md:col-span-4 lg:col-span-3">
+                             <aside className="hidden md:block md:col-span-4 lg:col-span-3 -ml-2">
                                 <div className="sticky top-24">
                                      <div className="p-4 border-l-4 border-primary bg-primary/5 rounded-r-lg">
                                         <h2 className="font-headline text-2xl font-bold mb-4">In This Article</h2>
@@ -123,7 +108,7 @@ export default function KukurTiharPage() {
 
                                      <section id="significance" className="scroll-mt-20">
                                         <h2 className="font-headline text-3xl font-bold mb-4">The Messengers of Yama</h2>
-                                        <p className="mt-2 text-foreground/80">In Hindu mythology, dogs hold a sacred position. They are believed to be the messengers of Yama, the god of death, and also the guardians of the gates to the afterlife. It is believed that by pleasing the dogs, one can appease Yama and ensure a safe passage. The festival is a beautiful reminder to be kind to all creatures and to cherish the loyalty and unconditional love that dogs offer so freely.</p>
+                                        <p className="mt-2 text-foreground/80 prose max-w-none">In Hindu mythology, dogs hold a sacred position. They are believed to be the messengers of Yama, the god of death, and also the guardians of the gates to the afterlife. It is believed that by pleasing the dogs, one can appease Yama and ensure a safe passage. The festival is a beautiful reminder to be kind to all creatures and to cherish the loyalty and unconditional love that dogs offer so freely.</p>
                                     </section>
                                 </article>
                                 <ShareButtons title="Kukur Tihar" />
@@ -136,4 +121,3 @@ export default function KukurTiharPage() {
         </div>
     );
 }
-    

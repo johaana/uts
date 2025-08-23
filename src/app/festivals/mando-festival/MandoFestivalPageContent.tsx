@@ -42,28 +42,15 @@ const pageContent = [
     }
 ];
 
-export function MandoFestivalPageContent() {
+export function MandoFestivalPageContent({ isContent = false }: { isContent?: boolean }) {
     const pageSections = pageContent.map(item => ({
         id: item.id,
         title: item.title,
         icon: item.icon,
     }));
     
-    return (
-        <>
-            <div className="mb-10 p-4 border-l-4 border-primary bg-primary/5 rounded-r-lg">
-                <h2 className="font-headline text-2xl font-bold mb-4">In This Article</h2>
-                <ul className="space-y-2">
-                    {pageSections.map(section => (
-                        <li key={section.id}>
-                            <a href={`#${section.id}`} className="flex items-center gap-3 text-foreground/80 hover:text-primary transition-colors">
-                                <section.icon className="w-5 h-5 text-accent" />
-                                <span className="font-semibold">{section.title}</span>
-                            </a>
-                        </li>
-                    ))}
-                </ul>
-            </div>
+    if (isContent) {
+        return (
              <article className="space-y-12">
                 {pageContent.map((section) => (
                     <section key={section.id} id={section.id} className="scroll-mt-20">
@@ -71,7 +58,22 @@ export function MandoFestivalPageContent() {
                     </section>
                 ))}
             </article>
-        </>
+        )
+    }
+
+    return (
+        <div className="p-4 border-l-4 border-primary bg-primary/5 rounded-r-lg">
+            <h2 className="font-headline text-2xl font-bold mb-4">In This Article</h2>
+            <ul className="space-y-2">
+                {pageSections.map(section => (
+                    <li key={section.id}>
+                        <a href={`#${section.id}`} className="flex items-center gap-3 text-foreground/80 hover:text-primary transition-colors">
+                            <section.icon className="w-5 h-5 text-accent" />
+                            <span className="font-semibold">{section.title}</span>
+                        </a>
+                    </li>
+                ))}
+            </ul>
+        </div>
     );
 }
-

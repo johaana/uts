@@ -1,12 +1,9 @@
+
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote } from "lucide-react";
+import { BookOpen, Utensils, Sparkles, MessageSquareQuote } from "lucide-react";
 import Link from "next/link";
-import { useMediaQuery } from "@/hooks/use-media-query";
-import { ProductCard } from "@/components/ProductCard";
-import { products } from "@/lib/product-data";
 
 const recipes = [
     { name: "Sheer Khurma", link: "/recipes/sheer-khurma" },
@@ -16,7 +13,7 @@ const recipes = [
 
 const pageContent = [
     {
-        value: "overview",
+        id: "overview",
         title: "Overview",
         icon: BookOpen,
         content: (
@@ -30,40 +27,20 @@ const pageContent = [
         )
     },
     {
-        value: "traditions",
+        id: "traditions",
         title: "Traditions",
         icon: Sparkles,
         content: (
             <>
                 <h2 className="font-headline text-3xl font-bold mb-4">How to Celebrate Eid al-Adha</h2>
-                <ul className="space-y-4 pl-4">
-                    <li className="flex items-start">
-                        <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
-                        <div>
-                            <h4 className="font-bold">Eid Prayers</h4>
-                            <p className="text-foreground/80">The day begins with special congregational prayers, known as Salat al-Eid, which are held in mosques or large open areas. Muslims dress in their finest clothes to attend the prayer.</p>
-                        </div>
-                    </li>
-                    <li className="flex items-start">
-                        <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
-                        <div>
-                            <h4 className="font-bold">The Sacrifice (Qurbani)</h4>
-                            <p className="text-foreground/80">Those who can afford it sacrifice a domestic animal, such as a goat, sheep, cow, or camel. This act, known as Qurbani, commemorates Ibrahim's sacrifice.</p>
-                        </div>
-                    </li>
-                    <li className="flex items-start">
-                        <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
-                        <div>
-                            <h4 className="font-bold">Sharing and Feasting</h4>
-                            <p className="text-foreground/80">The meat from the sacrificed animal is divided into three parts: one-third is for the family, one-third is for friends and relatives, and one-third is given to the poor and needy, ensuring that no one is left out of the celebrations.</p>
-                        </div>
-                    </li>
-                </ul>
+                <div className="space-y-4 text-foreground/80 prose max-w-none">
+                    <p>The day begins with special congregational prayers, known as Salat al-Eid, which are held in mosques or large open areas. Muslims dress in their finest clothes to attend the prayer. Those who can afford it sacrifice a domestic animal, such as a goat, sheep, cow, or camel. This act, known as Qurbani, commemorates Ibrahim's sacrifice. The meat from the sacrificed animal is divided into three parts: one-third is for the family, one-third is for friends and relatives, and one-third is given to the poor and needy, ensuring that no one is left out of the celebrations.</p>
+                </div>
             </>
         )
     },
     {
-        value: "recipes",
+        id: "recipes",
         title: "Recipes",
         icon: Utensils,
         content: (
@@ -85,7 +62,7 @@ const pageContent = [
         )
     },
     {
-        value: "significance",
+        id: "significance",
         title: "Significance",
         icon: MessageSquareQuote,
         content: (
@@ -103,38 +80,38 @@ const pageContent = [
     }
 ];
 
-export function EidAlAdhaPageContent() {
-    const isDesktop = useMediaQuery("(min-width: 768px)");
-
+export function EidAlAdhaPageContent({ isContent = false }: { isContent?: boolean }) {
     const pageSections = pageContent.map(item => ({
-        id: item.value,
+        id: item.id,
         title: item.title,
         icon: item.icon,
     }));
 
-
-    return (
-        <>
-             <div className="mb-10 p-4 border-l-4 border-primary bg-primary/5">
-                <h2 className="font-headline text-2xl font-bold mb-4">In This Article</h2>
-                <ul className="space-y-2">
-                    {pageSections.map(section => (
-                        <li key={section.id}>
-                            <a href={`#${section.id}`} className="flex items-center gap-3 text-foreground/80 hover:text-primary transition-colors">
-                                <section.icon className="w-5 h-5 text-accent" />
-                                <span className="font-semibold">{section.title}</span>
-                            </a>
-                        </li>
-                    ))}
-                </ul>
-            </div>
-            <article className="space-y-12">
+    if(isContent) {
+        return (
+             <article className="space-y-12">
                 {pageContent.map((section) => (
-                    <section key={section.value} id={section.value}>
+                    <section key={section.id} id={section.id}>
                         {section.content}
                     </section>
                 ))}
             </article>
-        </>
+        );
+    }
+
+    return (
+        <div className="p-4 border-l-4 border-primary bg-primary/5 rounded-r-lg">
+            <h2 className="font-headline text-2xl font-bold mb-4">In This Article</h2>
+            <ul className="space-y-2">
+                {pageSections.map(section => (
+                    <li key={section.id}>
+                        <a href={`#${section.id}`} className="flex items-center gap-3 text-foreground/80 hover:text-primary transition-colors">
+                            <section.icon className="w-5 h-5 text-accent" />
+                            <span className="font-semibold">{section.title}</span>
+                        </a>
+                    </li>
+                ))}
+            </ul>
+        </div>
     );
 }
