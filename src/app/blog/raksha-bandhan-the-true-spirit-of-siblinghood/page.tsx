@@ -116,7 +116,7 @@ export default function SingleBlogPage() {
                         <div className="not-prose my-10 bg-secondary/30 p-6 rounded-lg">
                             <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Sweet Gifts on Amazon</h3>
                             <p className="text-center text-muted-foreground mb-6">If you do want to give a physical gift, make it personal and sweet!</p>
-                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-md mx-auto">
                                 <ProductCard product={products.haldiramKajuKatli} />
                                 <ProductCard product={products.radiksaThermoFlask} />
                             </div>

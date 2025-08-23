@@ -149,6 +149,14 @@ export default function Home() {
             </p>
           </div>
           <InternationalFestivalsShowcase />
+           <div className="text-center mt-12">
+                <Link href="/international-festivals">
+                    <Button className="bg-gradient-to-r from-green-500 to-teal-600 text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
+                        <Globe className="mr-2 h-4 w-4" />
+                        Explore All International Festivals
+                    </Button>
+                </Link>
+            </div>
         </div>
       </section>
 

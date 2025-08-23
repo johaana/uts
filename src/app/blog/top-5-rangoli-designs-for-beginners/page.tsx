@@ -57,8 +57,8 @@ export default function SingleBlogPage() {
                         
                         <p>Rangoli is a timeless art form, a vibrant expression of joy and welcome that adorns the entrances of homes during festivals. Whether you're a beginner or an experienced artist, here are 12 beautiful designs to inspire your next creation.</p>
                         
-                        <div className="not-prose my-10">
-                            <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Get Started with Rangoli</h3>
+                        <div className="not-prose my-10 bg-secondary/30 p-6 rounded-lg">
+                            <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Get Started with Rangoli (Shop on Amazon)</h3>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-md mx-auto">
                                 <ProductCard product={products.rangoliMat} />
                                 <ProductCard product={products.rangoliPowder} />
