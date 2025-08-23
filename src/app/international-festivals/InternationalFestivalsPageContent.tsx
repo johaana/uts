@@ -39,13 +39,13 @@ export function InternationalFestivalsPageContent() {
 
             <div>
                  <div className="text-center mb-12">
-                    <h2 className="font-headline text-3xl md:text-5xl font-bold text-primary">Discover Our Festival Guides</h2>
+                    <h2 className="font-headline text-3xl md:text-5xl font-bold text-primary">Featured Festival Guides</h2>
                     <p className="mt-3 text-base md:text-lg text-foreground/80 max-w-2xl mx-auto">
-                        Click on any festival to discover its unique story, traditions, and significance.
+                        Get a taste of the world's most unique celebrations. Click on any festival to discover its story.
                     </p>
                 </div>
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8">
-                    {internationalEvents.map((festival) => (
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8">
+                    {showcaseFestivals.map((festival) => (
                         <Card key={festival.slug} className="overflow-hidden group flex flex-col transition-transform duration-300 ease-in-out hover:scale-105 hover:-translate-y-1 hover:shadow-xl">
                             <Link href={festival.link!} className="block">
                                 <div className="relative aspect-[4/3] w-full bg-black/5">
