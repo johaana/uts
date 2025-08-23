@@ -1,4 +1,5 @@
 
+
 'use client';
 import { Card, CardContent } from "@/components/ui/card";
 import { ShareButtons } from "@/components/ShareButtons";
@@ -28,8 +29,8 @@ export default function MandoFestivalPage() {
                                 <article>
                                     <MandoFestivalPageContent isContent={true} />
                                 </article>
-                                 <div className="not-prose my-10">
-                                    <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Get the Festive Look</h3>
+                                 <div className="not-prose my-10 bg-secondary/30 p-6 rounded-lg">
+                                    <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Get the Festive Look (Shop on Amazon)</h3>
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-md mx-auto">
                                         <ProductCard product={products.anumalaJuteBag} />
                                         <ProductCard product={products.doubleRCanvasBag} />

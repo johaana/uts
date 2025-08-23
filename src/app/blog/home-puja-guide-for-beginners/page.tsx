@@ -1,4 +1,5 @@
 
+
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
@@ -99,8 +100,8 @@ export default function SingleBlogPage() {
                             <li><strong>Water:</strong> A small vessel (lota) of clean water is kept, symbolizing the life-giving essence of nature.</li>
                             <li><strong>Prasad (Offering):</strong> A small offering of food, such as a piece of fruit or a spoonful of sugar, can be placed before the deities. This is later consumed by the family as a blessed offering.</li>
                         </ul>
-                         <div className="not-prose my-10">
-                            <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Shop for Puja Items</h3>
+                         <div className="not-prose my-10 bg-secondary/30 p-6 rounded-lg">
+                            <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Shop for Puja Items on Amazon</h3>
                              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                                 <ProductCard product={products.handicraftsParadiseChowki} />
                                 <ProductCard product={products.signamioDhoopStand} />

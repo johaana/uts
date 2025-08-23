@@ -1,4 +1,5 @@
 
+
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
@@ -80,8 +81,8 @@ export default function SingleBlogPage() {
                         <h4>5. Feasting with a Conscience</h4>
                         <p>Community feasts are the heart of many festivals. You can make them greener by avoiding single-use plastics. Serve 'prasad' and food on traditional leaf plates ('pattals') or reusable steel utensils. This simple switch drastically reduces the mountain of plastic waste our celebrations generate.</p>
                         
-                        <div className="not-prose my-10">
-                            <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Check these products on Amazon</h3>
+                        <div className="not-prose my-10 bg-secondary/30 p-6 rounded-lg">
+                            <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Eco-Friendly Gifts (Shop on Amazon)</h3>
                             <p className="text-center text-muted-foreground mb-6">Choose return gifts that are thoughtful and sustainable. Here are some beautiful options.</p>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                 <ProductCard product={products.anumalaJuteBag} />

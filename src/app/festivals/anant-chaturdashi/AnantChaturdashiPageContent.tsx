@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -33,14 +34,6 @@ const pageContent = [
         content: (
             <>
                 <h2 className="font-headline text-3xl font-bold mb-4">Worship of Lord Vishnu</h2>
-                 <div className="not-prose my-10">
-                    <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Eco-Friendly Visarjan</h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                        <ProductCard product={products.ecoFriendlyGanesha} />
-                        <ProductCard product={products.saudeepMittiGanesh} />
-                        <ProductCard product={products.tiedRibbonsGanesha} />
-                    </div>
-                </div>
                 <div className="space-y-6">
                     <Card>
                         <CardHeader>
@@ -50,6 +43,14 @@ const pageContent = [
                             <p className="text-foreground/80">The day is also dedicated to the worship of Lord Vishnu in his 'Ananta' (endless or eternal) form. Devotees observe a fast and tie a sacred thread called 'Ananta Sutra' on their wrists, chanting prayers to Lord Vishnu for protection and prosperity.</p>
                         </CardContent>
                     </Card>
+                </div>
+                 <div className="not-prose my-10 bg-secondary/30 p-6 rounded-lg">
+                    <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Eco-Friendly Visarjan Ideas (Shop on Amazon)</h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                        <ProductCard product={products.ecoFriendlyGanesha} />
+                        <ProductCard product={products.saudeepMittiGanesh} />
+                        <ProductCard product={products.tiedRibbonsGanesha} />
+                    </div>
                 </div>
             </>
         )

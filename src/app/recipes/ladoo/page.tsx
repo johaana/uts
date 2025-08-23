@@ -1,4 +1,5 @@
 
+
 'use client';
 import { RecipeBody, RecipeCardLayout, RecipeHeader } from "@/components/RecipeCardLayout";
 import { Check } from "lucide-react";
@@ -44,8 +45,8 @@ export default function LadooPage() {
                             <li>Take small portions of the mixture and shape them into round ladoos.</li>
                             <li>Garnish with chopped nuts. The ladoos can be stored in an airtight container for several weeks.</li>
                         </ol>
-                        <div className="not-prose my-10">
-                            <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Our Recommended Ghee</h3>
+                        <div className="not-prose my-10 bg-secondary/30 p-6 rounded-lg">
+                            <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Our Recommended Ghee (Shop on Amazon)</h3>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-md mx-auto">
                                 <ProductCard product={products.vedicGhee} />
                                 <ProductCard product={products.daburGhee} />

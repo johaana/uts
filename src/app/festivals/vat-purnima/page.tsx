@@ -1,4 +1,5 @@
 
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BookOpen, Sparkles, MessageSquareQuote } from "lucide-react";
 import Image from "next/image";
@@ -56,8 +57,8 @@ export default function VatPurnimaPage() {
                                 <div className="space-y-4 text-foreground/80 prose max-w-none">
                                    <p>On the day of Vat Purnima, married women observe a fast for the long life and well-being of their husbands. They dress in beautiful bridal attire and gather around a banyan tree. The main ritual involves tying a sacred white or yellow thread around the trunk of the banyan tree while circumambulating it seven times. This act symbolizes their prayer for their husband's longevity to be as long-lasting as the life of the tree itself. They offer water, flowers, and fruits to the tree and listen to the story of Savitri and Satyavan, drawing inspiration from her unwavering commitment.</p>
                                 </div>
-                                <div className="not-prose my-10">
-                                    <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Puja Items</h3>
+                                <div className="not-prose my-10 bg-secondary/30 p-6 rounded-lg">
+                                    <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Puja Items (Shop on Amazon)</h3>
                                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                                         <ProductCard product={products.spillboxThali} />
                                         <ProductCard product={products.bengalenThali8Inch} />

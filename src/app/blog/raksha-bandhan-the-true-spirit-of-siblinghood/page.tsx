@@ -1,4 +1,5 @@
 
+
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
@@ -7,6 +8,8 @@ import { Button } from "@/components/ui/button";
 import { ShareButtons } from "@/components/ShareButtons";
 import type { Metadata } from 'next';
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
+import { ProductCard } from "@/components/ProductCard";
+import { products } from "@/lib/product-data";
 
 const post = {
     title: "More Than a Thread: The True Spirit of Raksha Bandhan",
@@ -110,13 +113,14 @@ export default function SingleBlogPage() {
                             <li><strong>The Gift of Support:</strong> Is she passionate about a cause, a hobby, or learning a new skill? Gift her a subscription to a masterclass, buy her that set of paintbrushes she’s been eyeing, or make a donation in her name to a charity she supports. Championing her dreams is one of the greatest gifts you can give.</li>
                         </ul>
 
-                        <h3>Simple & Sweet Ideas (When a Box is Still a Must!)</h3>
-                        <p>If you do want to give a physical gift, make it personal.</p>
-                        <ul>
-                            <li><strong>A Curated Box of Joy:</strong> Fill a simple box with her favorite things—the imported chocolate she loves, a comforting scented candle, a book by her favorite author, a nourishing face mask. It shows you pay attention to the little things.</li>
-                            <li><strong>Personalized Jewelry:</strong> A delicate bracelet with her initial or a charm that represents an inside joke is far more meaningful than something generic.</li>
-                            <li><strong>A Plant or a Sapling:</strong> Gift her a beautiful indoor plant or a sapling that you can plant together. It's a living, growing symbol of your enduring bond.</li>
-                        </ul>
+                        <div className="not-prose my-10 bg-secondary/30 p-6 rounded-lg">
+                            <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Sweet Gifts on Amazon</h3>
+                            <p className="text-center text-muted-foreground mb-6">If you do want to give a physical gift, make it personal and sweet!</p>
+                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                <ProductCard product={products.haldiramKajuKatli} />
+                                <ProductCard product={products.radiksaThermoFlask} />
+                            </div>
+                        </div>
 
                         <p>Ultimately, Raksha Bandhan is a celebration of a promise—a promise to look out for each other, to be a pillar of support, and to be a keeper of each other's stories. The rakhi tied on the wrist is just the beautiful, visible reminder of the invisible thread that connects your hearts, forever.</p>
 

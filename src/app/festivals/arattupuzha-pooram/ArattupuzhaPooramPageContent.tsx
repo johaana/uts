@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -41,14 +42,6 @@ const pageContent = [
         content: (
             <>
                 <h2 className="font-headline text-3xl font-bold mb-4">A Living Heritage</h2>
-                 <div className="not-prose my-10">
-                    <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Get Ready for the Festivities</h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                        <ProductCard product={products.rajasthanKraftToran} />
-                        <ProductCard product={products.handicraftsParadiseChowki} />
-                        <ProductCard product={products.indianArtVillaThali} />
-                    </div>
-                </div>
                 <div className="space-y-6">
                     <Card>
                         <CardHeader>
@@ -58,6 +51,14 @@ const pageContent = [
                             <p className="text-foreground/80">Arattupuzha Pooram is a vital part of Kerala's living heritage. Unlike many festivals that have been modernized, it retains its ancient rituals and traditional purity. It offers a rare and authentic glimpse into the state's rich temple culture and the deep devotion of its people. The festival is a powerful symbol of community and faith, bringing together people from all walks of life in a shared celebration of their cultural identity.</p>
                         </CardContent>
                     </Card>
+                </div>
+                 <div className="not-prose my-10 bg-secondary/30 p-6 rounded-lg">
+                    <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Get Ready for the Festivities (Shop on Amazon)</h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                        <ProductCard product={products.rajasthanKraftToran} />
+                        <ProductCard product={products.handicraftsParadiseChowki} />
+                        <ProductCard product={products.indianArtVillaThali} />
+                    </div>
                 </div>
             </>
         )

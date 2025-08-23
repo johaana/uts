@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -33,14 +34,6 @@ const pageContent = [
                    <p>The central ritual of Thaipusam is the 'Kavadi Aattam' or 'Burden Dance'. This is where faith takes physical form. Devotees carry a 'kavadi'—a physical burden—on a long pilgrimage to a Murugan temple. In its simplest form, this is a pot of milk or a wooden arch decorated with peacock feathers. But for many, the burden is far more extreme.</p>
                    <p>In a stunning display of devotion, many participants pierce their skin, cheeks, and tongues with silver skewers and hooks. They attach heavy, ornate structures to their bodies, pulling them for miles. It is believed that their deep meditative state, a trance of pure devotion, protects them from pain and leaves no scars. To the rhythmic, hypnotic beat of drums and the fervent chanting of "Vel! Vel!", these devotees move in a procession, their physical sacrifice a powerful, outward expression of an inner spiritual transformation. It's a raw, visceral, and unforgettable testament to the depths of human belief.</p>
                 </div>
-                <div className="not-prose my-10">
-                    <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Items for Puja</h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                        <ProductCard product={products.indianArtVillaThali} />
-                        <ProductCard product={products.signamioDhoopStand} />
-                        <ProductCard product={products.sandalwoodHavanCups} />
-                    </div>
-                </div>
             </>
         )
     },
@@ -60,6 +53,14 @@ const pageContent = [
                             <p className="text-foreground/80">To an outsider, the rituals of Thaipusam may seem shocking. But for the devotee, it is a profound act of purification. The physical pain is a way to "mortify the flesh," to subdue the ego and worldly desires, thereby cleansing the soul. By enduring this self-imposed trial, they believe they earn the grace of Lord Murugan, who will forgive their sins and grant their heartfelt prayers. It is a powerful reminder that sometimes, the path to spiritual liberation is through the crucible of physical sacrifice, a journey where faith conquers all fear and pain.</p>
                         </CardContent>
                     </Card>
+                </div>
+                 <div className="not-prose my-10 bg-secondary/30 p-6 rounded-lg">
+                    <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Items for Puja (Shop on Amazon)</h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                        <ProductCard product={products.indianArtVillaThali} />
+                        <ProductCard product={products.signamioDhoopStand} />
+                        <ProductCard product={products.sandalwoodHavanCups} />
+                    </div>
                 </div>
             </>
         )

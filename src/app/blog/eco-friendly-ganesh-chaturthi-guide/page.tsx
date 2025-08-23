@@ -1,4 +1,5 @@
 
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, CheckCircle } from "lucide-react";
 import Link from "next/link";
@@ -87,8 +88,8 @@ export default function SingleBlogPage() {
                         <h3 id="idols">Choosing the Heart of the Festival: The Eco-Friendly Murti</h3>
                         <p>The single most impactful choice you can make is selecting a water-soluble idol. These idols are designed to dissolve gracefully, returning to the elements without harming aquatic life.</p>
                         
-                        <div className="not-prose my-10">
-                            <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Check these products on Amazon</h3>
+                        <div className="not-prose my-10 bg-secondary/30 p-6 rounded-lg">
+                            <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Shop Eco-Friendly Idols on Amazon</h3>
                              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                                 <ProductCard product={products.ecoFriendlyGanesha} />
                                 <ProductCard product={products.saudeepMittiGanesh} />
@@ -99,8 +100,11 @@ export default function SingleBlogPage() {
                         <h4>DIY Ganesha: The Ultimate Personal Touch</h4>
                         <p>For a truly personal and family-bonding experience, consider making your own Ganesha idol. It's a wonderful activity to do with children, teaching them the importance of the festival and sustainability from a young age.</p>
 
-                         <div className="not-prose my-10 max-w-xs mx-auto">
-                            <ProductCard product={products.terracottaClay} />
+                         <div className="not-prose my-10 bg-secondary/30 p-6 rounded-lg">
+                             <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">DIY Ganesha Clay Kit (Shop on Amazon)</h3>
+                            <div className="max-w-xs mx-auto">
+                                <ProductCard product={products.terracottaClay} />
+                            </div>
                         </div>
 
 

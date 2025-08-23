@@ -1,4 +1,5 @@
 
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BookOpen, Utensils, Sparkles, MessageSquareQuote, Leaf, Wind, Droplets, Share } from "lucide-react";
 import Link from "next/link";
@@ -141,15 +142,6 @@ export default function HoliPage() {
                                 </div>
                             </section>
 
-                            <div className="not-prose my-10">
-                                <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Get in the Festive Spirit</h3>
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-md mx-auto">
-                                    <ProductCard product={products.phoolHoliColours} />
-                                    <ProductCard product={products.rangoliPowder} />
-                                </div>
-                            </div>
-
-
                              <section id="chants">
                                 <h2 className="font-headline text-3xl font-bold mb-4">Songs and Prayers for Holi</h2>
                                 <div className="space-y-6">
@@ -216,6 +208,13 @@ export default function HoliPage() {
                                     </div>
                                     <div className="md:w-1/3">
                                         <Image src="https://i.postimg.cc/qvxZXcTy/natural-holi-colors.webp" alt="Natural Holi Colors" width={400} height={400} className="rounded-lg shadow-lg" data-ai-hint="natural colors"/>
+                                    </div>
+                                </div>
+                                <div className="not-prose my-10 bg-secondary/30 p-6 rounded-lg">
+                                    <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Get in the Festive Spirit (Shop on Amazon)</h3>
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-md mx-auto">
+                                        <ProductCard product={products.phoolHoliColours} />
+                                        <ProductCard product={products.rangoliPowder} />
                                     </div>
                                 </div>
                             </section>

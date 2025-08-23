@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -29,15 +30,15 @@ const pageContent = [
         content: (
             <>
                 <h2 className="font-headline text-3xl font-bold mb-4">How to Observe Akshaya Tritiya</h2>
-                 <div className="not-prose my-10">
-                    <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Auspicious Purchases</h3>
+                <div className="space-y-4 text-foreground/80 prose max-w-none">
+                    <p>One of the most popular traditions is buying gold, as it is believed to symbolize wealth and is thought to never diminish if purchased on this day. The day is also considered perfect for starting new businesses, construction projects, or any significant new beginning. Giving to charity is a key ritual, as it is believed that 'daan' (donations) made on this day brings inexhaustible merit.</p>
+                </div>
+                 <div className="not-prose my-10 bg-secondary/30 p-6 rounded-lg">
+                    <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Auspicious Purchases (Shop on Amazon)</h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-md mx-auto">
                         <ProductCard product={products.solimoThali} />
                         <ProductCard product={products.bengalenThali6Inch} />
                     </div>
-                </div>
-                <div className="space-y-4 text-foreground/80 prose max-w-none">
-                    <p>One of the most popular traditions is buying gold, as it is believed to symbolize wealth and is thought to never diminish if purchased on this day. The day is also considered perfect for starting new businesses, construction projects, or any significant new beginning. Giving to charity is a key ritual, as it is believed that 'daan' (donations) made on this day brings inexhaustible merit.</p>
                 </div>
             </>
         )

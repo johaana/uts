@@ -1,4 +1,5 @@
 
+
 'use client';
 import { ShareButtons } from "@/components/ShareButtons";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -50,7 +51,7 @@ export default function KajuKatliPage() {
                                     <li>Separate the Kaju Katli pieces and store them in an airtight container.</li>
                                 </ol>
                                 <div className="not-prose my-10 bg-secondary/30 p-6 rounded-lg">
-                                    <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Short on Time?</h3>
+                                    <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Short on Time? (Shop on Amazon)</h3>
                                     <p className="text-center text-muted-foreground mb-6">You can also buy delicious, ready-made Kaju Katli.</p>
                                     <div className="max-w-xs mx-auto">
                                         <ProductCard product={products.haldiramKajuKatli} />
