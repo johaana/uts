@@ -14,8 +14,8 @@ import {
   HolidayPlannerOutput,
   HolidayPlannerOutputSchema,
 } from './holiday-planner-types';
-import {allEvents} from '@/lib/festival-data';
-import {format, parse} from 'date-fns';
+import { allEvents } from '@/lib/festival-data';
+import { format, parse } from 'date-fns';
 
 const getFestivalDates = ai.defineTool(
   {

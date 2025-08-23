@@ -1,5 +1,4 @@
 
-
 export const allEvents = [
     // 2025
     { slug: "lohri", name: "Lohri", date: "Jan 13, 2025", region: "North", type: "Harvest", link: "/festivals/lohri", longWeekend: true, image: "https://i.postimg.cc/MGgSRZNM/lohri-1.webp", description: "A popular Punjabi folk festival celebrating the winter solstice and harvest.", hint: "lohri bonfire" },

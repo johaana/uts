@@ -275,7 +275,7 @@ export function FestivalCalendar({
 
             <div className="hidden md:block">
                  <Card className="overflow-hidden flex flex-col">
-                    <div className={cn("overflow-y-auto", displayLimit && "max-h-[380px] relative")}>
+                    <div className={cn("overflow-y-auto", displayLimit && "max-h-[60vh] relative")}>
                         <Table>
                             <TableHeader className="sticky top-0 bg-background z-10">
                                 <TableRow>
