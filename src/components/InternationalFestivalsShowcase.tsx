@@ -75,29 +75,11 @@ function DesktopShowcase() {
 
 function MobileShowcase() {
   const uniqueFestivals = Array.from(new Map(internationalEvents.map(item => [item.name.split(' (')[0], item])).values());
-  const [api, setApi] = useState<CarouselApi>()
-  const [current, setCurrent] = useState(0)
-
-  useEffect(() => {
-    if (!api) return;
-    
-    setCurrent(api.selectedScrollSnap())
-    const onSelect = () => setCurrent(api.selectedScrollSnap());
-    api.on("select", onSelect);
-    
-    return () => {
-      api.off("select", onSelect);
-    };
-  }, [api]);
-
-  const scrollTo = useCallback((index: number) => {
-    api?.scrollTo(index);
-  }, [api]);
-
-
+  
   return (
     <div className="relative">
-      <Carousel setApi={setApi}
+      <Carousel
+         opts={{ loop: true }}
          plugins={[
             Autoplay({
               delay: 5000,
@@ -132,20 +114,9 @@ function MobileShowcase() {
             </CarouselItem>
           ))}
         </CarouselContent>
+        <CarouselPrevious className="absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-black/30 text-white border-none hover:bg-black/50 h-8 w-8" />
+        <CarouselNext className="absolute right-2 top-1/2 -translate-y-1/2 z-10 bg-black/30 text-white border-none hover:bg-black/50 h-8 w-8" />
       </Carousel>
-       <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
-            {uniqueFestivals.map((_, index) => (
-            <button
-                key={index}
-                onClick={() => scrollTo(index)}
-                className={cn(
-                    'h-2 w-2 rounded-full transition-all duration-300',
-                    current === index ? 'w-6 bg-white' : 'bg-white/50'
-                )}
-                aria-label={`Go to slide ${index + 1}`}
-            />
-            ))}
-        </div>
     </div>
   )
 }
