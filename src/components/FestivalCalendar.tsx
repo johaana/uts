@@ -9,7 +9,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { ArrowRight, Star, Calendar, MapPin, Tag, Loader2 } from "lucide-react";
-import { format, parse, getYear, isValid, isFuture, isToday, startOfDay, addDays, getMonth, startOfToday, addYears, endOfDay } from 'date-fns';
+import { format, parse, getYear, isValid, isFuture, isToday, startOfDay, addYears, getMonth, startOfToday, endOfDay } from 'date-fns';
 import { allEvents } from '@/lib/festival-data';
 import { cn } from '@/lib/utils';
 import React from 'react';
@@ -115,7 +115,6 @@ export function FestivalCalendar({
                 const yearNum = parseInt(selectedYear, 10);
                 yearMatch = getYear(range.start) === yearNum || getYear(range.end) === yearNum;
             }
-            if (!yearMatch) return false;
             
             // Month Filtering
             const monthMatch = selectedMonth === 'all' || 
@@ -140,16 +139,8 @@ export function FestivalCalendar({
                 }
             }
 
-            return monthMatch && regionMatch && eventTypeMatch;
+            return yearMatch && monthMatch && regionMatch && eventTypeMatch;
         });
-
-        // Post-filter for 'Upcoming' to ensure only future events are shown
-        if (selectedYear === 'Upcoming') {
-            filtered = filtered.filter(event => {
-                const range = getEventDateRange(event.date);
-                return range && range.end >= today;
-            });
-        }
         
         // Finally, sort by date
         filtered.sort((a, b) => {
