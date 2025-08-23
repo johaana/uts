@@ -31,7 +31,7 @@ export function InternationalFestivalsPageContent() {
                 title="International Festival Calendar"
                 description="Plan your global adventures around these vibrant cultural celebrations."
                 showLongWeekendInfo={false}
-                displayLimit={12}
+                displayLimit={4}
             />
 
             <div>

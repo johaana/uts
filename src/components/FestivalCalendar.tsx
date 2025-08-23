@@ -275,7 +275,7 @@ export function FestivalCalendar({
 
             <div className="hidden md:block">
                  <Card className="overflow-hidden flex flex-col">
-                    <div className={cn("overflow-y-auto", !displayLimit && "max-h-[70vh]")}>
+                    <div className={cn("overflow-y-auto", displayLimit && "max-h-[380px] relative")}>
                         <Table>
                             <TableHeader className="sticky top-0 bg-background z-10">
                                 <TableRow>
@@ -330,11 +330,14 @@ export function FestivalCalendar({
                                 )}
                             </TableBody>
                         </Table>
+                         {displayLimit && filteredEvents.length > displayLimit && (
+                            <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-background to-transparent pointer-events-none"></div>
+                        )}
                     </div>
                 </Card>
             </div>
 
-            <div className={cn("md:hidden space-y-4", !displayLimit && "max-h-[60vh] overflow-y-auto pr-2")}>
+            <div className={cn("md:hidden space-y-4", displayLimit && "max-h-[60vh] overflow-y-auto pr-2 relative")}>
                  {!isClient ? (
                     <Card className="text-center h-24 flex items-center justify-center text-muted-foreground">
                         <div className="flex items-center">
@@ -380,9 +383,10 @@ export function FestivalCalendar({
                         No events found for the selected filters.
                     </Card>
                 )}
+                {displayLimit && filteredEvents.length > displayLimit && (
+                    <div className="sticky bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-background to-transparent pointer-events-none -mx-4"></div>
+                )}
             </div>
         </div>
     );
 }
-
-    
