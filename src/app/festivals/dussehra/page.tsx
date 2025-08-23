@@ -1,4 +1,5 @@
 
+
 import type { Metadata } from 'next';
 import { DussehraPageContent } from './DussehraPageContent';
 import { ShareButtons } from "@/components/ShareButtons";
@@ -39,6 +40,12 @@ const relatedContent: RelatedItem[] = [
     }
 ];
 
+const pageSections = [
+    { id: "overview", title: "Overview", icon: BookOpen },
+    { id: "traditions", title: "Celebrations", icon: Sparkles },
+    { id: "significance", title: "Significance", icon: MessageSquareQuote },
+];
+
 export default function DussehraPage() {
     return (
         <div className="bg-background">
@@ -57,6 +64,17 @@ export default function DussehraPage() {
                                 </div>
                             </aside>
                             <main className="md:col-span-8 lg:col-span-9">
+                               <div className="md:hidden sticky top-16 z-30 bg-background/95 backdrop-blur-sm py-2 -mx-6 px-6 mb-8 border-b">
+                                        <h3 className="font-headline text-lg font-bold mb-2">In This Article</h3>
+                                        <div className="flex flex-wrap gap-x-4 gap-y-2">
+                                            {pageSections.map(section => (
+                                                <a key={section.id} href={`#${section.id}`} className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary">
+                                                    <section.icon className="w-4 h-4 text-accent" />
+                                                    {section.title}
+                                                </a>
+                                            ))}
+                                        </div>
+                                     </div>
                                <article>
                                     <DussehraPageContent />
                                </article>

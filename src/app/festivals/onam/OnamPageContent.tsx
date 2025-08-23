@@ -54,18 +54,16 @@ const pageSections = [
 export function OnamPageContent() {
     return (
         <div className="bg-background">
-            <section className="relative h-[50vh] flex items-center justify-center bg-primary/10">
-                <div className="relative text-center text-primary-foreground z-10 p-4">
-                    <h1 className="font-headline text-5xl md:text-7xl font-bold text-primary shadow-lg">Onam</h1>
-                    <p className="text-xl md:text-2xl mt-4 text-primary/90 shadow-md">Kerala's Harvest Festival</p>
-                </div>
-            </section>
-            
-            <div className="container mx-auto px-4 py-12 md:-mt-24">
-                <Card className="mb-12">
-                    <CardContent className="p-6 md:p-10">
+            <div className="container mx-auto px-4 py-12">
+                <Card className="mb-12 overflow-hidden">
+                    <Image src="https://i.postimg.cc/bvmpScwr/pongal.jpg" alt="Onam festival" width={1200} height={400} className="w-full h-48 md:h-64 object-cover" data-ai-hint="onam feast" />
+                    <div className="p-6 md:p-10 text-center">
+                        <h1 className="font-headline text-4xl md:text-7xl font-bold text-primary">Onam</h1>
+                        <p className="text-xl md:text-2xl mt-2 text-muted-foreground">Kerala's Harvest Festival</p>
+                    </div>
+                    <CardContent className="p-6 md:p-10 pt-0">
                          <div className="grid md:grid-cols-12 gap-8 lg:gap-12">
-                             <aside className="hidden md:block md:col-span-4 lg:col-span-3">
+                             <aside className="hidden md:block md:col-span-4 lg:col-span-3 -ml-2">
                                 <div className="sticky top-24">
                                      <div className="p-4 border-l-4 border-primary bg-primary/5 rounded-r-lg">
                                         <h2 className="font-headline text-2xl font-bold mb-4">In This Article</h2>
@@ -101,7 +99,7 @@ export function OnamPageContent() {
                                         </div>
                                     </section>
                                     
-                                     <div className="md:hidden sticky top-16 z-30 bg-background/95 backdrop-blur-sm py-2 -mx-6 px-6 mb-8 border-b">
+                                    <div className="md:hidden sticky top-16 z-30 bg-background/95 backdrop-blur-sm py-2 -mx-6 px-6 mb-8 border-b">
                                         <h3 className="font-headline text-lg font-bold mb-2">In This Article</h3>
                                         <div className="flex flex-wrap gap-x-4 gap-y-2">
                                             {pageSections.map(section => (

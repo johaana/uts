@@ -8,7 +8,7 @@ export default function AboutUsPage() {
     return (
         <PageLayout>
             <div className="text-center mb-12">
-                <h1 className="font-headline text-4xl md:text-5xl font-bold">About Utsavs</h1>
+                <h1 className="font-headline text-4xl md:text-5xl font-bold">About Utsavopedia</h1>
                 <p className="mt-4 text-lg text-foreground/80 max-w-3xl mx-auto">
                     Rediscovering roots, one festival at a time.
                 </p>
@@ -21,7 +21,7 @@ export default function AboutUsPage() {
                             <h2 className="font-headline text-3xl font-bold mb-4 text-primary">Our Story</h2>
                             <div className="space-y-4 text-foreground/80 prose max-w-none">
                                 <p>In today's fast-paced world, it's easy to lose touch with our cultural roots. For many, especially younger generations, the rich stories, traditions, and intricate details behind the festivals we celebrate have become faded memories or scattered pieces of information across the internet. The deep significance of the rituals, the taste of ancestral recipes, and the powerful myths that have shaped our heritage are often overlooked.</p>
-                                <p>We saw a gap—a need for a single, beautifully crafted place where this knowledge wasn't just stored, but brought to life. Utsavs.com was born from a simple idea: to create a vibrant, comprehensive, and engaging resource for anyone curious about the "why" behind the celebration. We wanted to build a bridge to our past, making the wisdom of our traditions accessible and relevant for today's world.</p>
+                                <p>We saw a gap—a need for a single, beautifully crafted place where this knowledge wasn't just stored, but brought to life. Utsavopedia was born from a simple idea: to create a vibrant, comprehensive, and engaging resource for anyone curious about the "why" behind the celebration. We wanted to build a bridge to our past, making the wisdom of our traditions accessible and relevant for today's world.</p>
                                 <p>This platform is for the curious traveler planning their next journey around a local spectacle, for the parent wanting to share the story of Diwali with their children, for the foodie eager to cook an authentic festive meal, and for anyone who believes that understanding our festivals is a powerful way to understand ourselves.</p>
                             </div>
                         </div>
@@ -53,27 +53,27 @@ export default function AboutUsPage() {
                  <h2 className="font-headline text-3xl md:text-4xl font-bold text-primary">What We Offer</h2>
             </div>
              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div className="bg-secondary/30 p-6 rounded-lg flex items-start gap-4">
+                <Card className="p-6 flex items-start gap-4">
                     <Calendar className="w-8 h-8 text-accent shrink-0 mt-1"/>
                     <div>
                         <h4 className="font-bold text-lg mb-1">Festival Guides</h4>
                         <p className="text-sm text-foreground/80">In-depth information on dates, history, and rituals of numerous festivals.</p>
                     </div>
-                </div>
-                <div className="bg-secondary/30 p-6 rounded-lg flex items-start gap-4">
+                </Card>
+                <Card className="p-6 flex items-start gap-4">
                     <Utensils className="w-8 h-8 text-accent shrink-0 mt-1"/>
                     <div>
                         <h4 className="font-bold text-lg mb-1">Authentic Recipes</h4>
                         <p className="text-sm text-foreground/80">A library of traditional recipes to help you cook the authentic taste of each festival.</p>
                     </div>
-                </div>
-                <div className="bg-secondary/30 p-6 rounded-lg flex items-start gap-4">
+                </Card>
+                <Card className="p-6 flex items-start gap-4">
                     <Rss className="w-8 h-8 text-accent shrink-0 mt-1"/>
                     <div>
                         <h4 className="font-bold text-lg mb-1">Cultural Stories</h4>
                         <p className="text-sm text-foreground/80">A blog that dives deeper into the culture, traditions, and fascinating stories behind the celebrations.</p>
                     </div>
-                </div>
+                </Card>
             </div>
 
         </PageLayout>

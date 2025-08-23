@@ -99,7 +99,7 @@ export default function RecipesPage() {
     return (
         <div className="container mx-auto px-4 py-8 md:py-12">
             <div className="text-center mb-12">
-                <h1 className="font-headline text-3xl md:text-5xl font-bold">The Utsavs Recipe Library</h1>
+                <h1 className="font-headline text-3xl md:text-5xl font-bold">The Utsavopedia Recipe Library</h1>
                 <p className="mt-3 text-base md:text-lg text-foreground/80 max-w-2xl mx-auto">
                     Savor the authentic tastes of India. Find traditional, easy-to-follow recipes for every festival and region, from Diwali sweets to Onam feasts.
                 </p>
@@ -186,4 +186,3 @@ export default function RecipesPage() {
         </div>
     );
 }
-

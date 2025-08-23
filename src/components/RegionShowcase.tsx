@@ -55,7 +55,7 @@ export function RegionShowcase() {
     <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
       {regions.map((region) => (
         <Link href={region.href} key={region.name} className="group">
-          <Card className="h-full overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-2">
+          <Card className="h-full overflow-hidden transition-transform duration-300 ease-in-out hover:scale-105 hover:-translate-y-1 hover:shadow-xl">
             <CardContent className="p-0">
               <div className="relative aspect-[4/3] w-full bg-secondary/30">
                  <Image 

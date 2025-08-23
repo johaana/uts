@@ -52,18 +52,16 @@ const pageSections = [
 export function RakshaBandhanPageContent() {
     return (
         <div className="bg-background">
-            <section className="relative h-[50vh] flex items-center justify-center bg-primary/10">
-                <div className="relative text-center text-primary-foreground z-10 p-4">
-                    <h1 className="font-headline text-5xl md:text-7xl font-bold text-primary shadow-lg">Raksha Bandhan</h1>
-                    <p className="text-xl md:text-2xl mt-4 text-primary/90 shadow-md">The Sacred Thread of Protection</p>
-                </div>
-            </section>
-            
-            <div className="container mx-auto px-4 py-12 md:-mt-24">
-                <Card className="mb-12">
-                    <CardContent className="p-6 md:p-10">
+            <div className="container mx-auto px-4 py-12">
+                <Card className="mb-12 overflow-hidden">
+                     <Image src="https://i.postimg.cc/9MXxXQhY/Raksha-Bandhan.jpg" alt="Raksha Bandhan" width={1200} height={400} className="w-full h-48 md:h-64 object-cover" data-ai-hint="rakhi thread" />
+                    <div className="p-6 md:p-10 text-center">
+                        <h1 className="font-headline text-4xl md:text-7xl font-bold text-primary">Raksha Bandhan</h1>
+                        <p className="text-xl md:text-2xl mt-2 text-muted-foreground">The Sacred Thread of Protection</p>
+                    </div>
+                    <CardContent className="p-6 md:p-10 pt-0">
                         <div className="grid md:grid-cols-12 gap-8 lg:gap-12">
-                             <aside className="hidden md:block md:col-span-4 lg:col-span-3">
+                             <aside className="hidden md:block md:col-span-4 lg:col-span-3 -ml-2">
                                 <div className="sticky top-24">
                                      <div className="p-4 border-l-4 border-primary bg-primary/5 rounded-r-lg">
                                         <h2 className="font-headline text-2xl font-bold mb-4">In This Article</h2>

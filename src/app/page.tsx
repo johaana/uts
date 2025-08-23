@@ -19,21 +19,21 @@ import { allEvents } from "@/lib/festival-data";
 function ResourceSummary() {
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8 text-center">
-      <div className="bg-secondary/30 p-4 md:p-8 rounded-lg flex flex-col items-center">
+      <Card className="p-4 md:p-8 flex flex-col items-center">
         <Calendar className="w-10 h-10 md:w-12 md:h-12 text-accent mb-3"/>
         <h3 className="font-headline text-2xl md:text-3xl font-bold text-primary mb-1">60+</h3>
         <p className="text-sm md:text-base text-foreground/80">Festivals</p>
-      </div>
-      <div className="bg-secondary/30 p-4 md:p-8 rounded-lg flex flex-col items-center">
+      </Card>
+      <Card className="p-4 md:p-8 flex flex-col items-center">
         <Utensils className="w-10 h-10 md:w-12 md:h-12 text-accent mb-3"/>
         <h3 className="font-headline text-2xl md:text-3xl font-bold text-primary mb-1">40+</h3>
         <p className="text-sm md:text-base text-foreground/80">Recipes</p>
-      </div>
-      <div className="bg-secondary/30 p-4 md:p-8 rounded-lg flex flex-col items-center col-span-2 md:col-span-1">
+      </Card>
+      <Card className="p-4 md:p-8 flex flex-col items-center col-span-2 md:col-span-1">
         <BookOpen className="w-10 h-10 md:w-12 md:h-12 text-accent mb-3"/>
         <h3 className="font-headline text-2xl md:text-3xl font-bold text-primary mb-1">25+</h3>
         <p className="text-sm md:text-base text-foreground/80">Stories</p>
-      </div>
+      </Card>
     </div>
   )
 }
@@ -60,10 +60,10 @@ function AIPlannerShowcase() {
             <div className="container mx-auto px-4">
                 <Card className="bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-blue-950/50 dark:to-indigo-950/80 border-2 border-blue-200/50 shadow-xl overflow-hidden">
                     <div className="flex flex-col md:flex-row items-center">
-                         <div className="md:w-1/2 h-64 md:h-96 w-full order-1 md:order-2">
+                         <div className="md:w-1/2 h-64 md:h-96 w-full order-1">
                            <Image src="https://i.postimg.cc/VLQf0kKF/long-weekend-1.jpg" alt="AI Planner" width={600} height={400} className="w-full h-full object-cover" data-ai-hint="holiday planning calendar" />
                         </div>
-                        <div className="p-6 md:p-12 md:w-1/2 order-2 md:order-1">
+                        <div className="p-6 md:p-12 md:w-1/2 order-2">
                             <h2 className="font-headline text-3xl md:text-5xl font-bold text-primary mb-4">Let AI Be Your Guide</h2>
                             <p className="text-base md:text-lg text-foreground/80 mb-6 max-w-lg">
                                 Planning a trip around a festival? Curious about specific dates or customs? Our AI Holiday Planner can provide personalized suggestions and answer your questions in an instant.
