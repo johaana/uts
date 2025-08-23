@@ -45,6 +45,7 @@ export function FestivalCalendar({
     title,
     description,
     showLongWeekendInfo = true,
+    displayLimit,
 }: FestivalCalendarProps) {
     const [isClient, setIsClient] = useState(false);
     const [selectedMonth, setSelectedMonth] = useState('all');
@@ -160,6 +161,13 @@ export function FestivalCalendar({
 
         return filtered;
     }, [isClient, selectedYear, selectedMonth, selectedRegion, selectedEventType, events]);
+
+    const displayedEvents = useMemo(() => {
+        if (displayLimit) {
+            return filteredEvents.slice(0, displayLimit);
+        }
+        return filteredEvents;
+    }, [filteredEvents, displayLimit]);
     
     const formatDateString = (dateString: string) => {
         const range = getEventDateRange(dateString);
@@ -267,7 +275,7 @@ export function FestivalCalendar({
 
             <div className="hidden md:block">
                  <Card className="overflow-hidden flex flex-col">
-                    <div className="overflow-y-auto max-h-[70vh]">
+                    <div className={cn("overflow-y-auto", !displayLimit && "max-h-[70vh]")}>
                         <Table>
                             <TableHeader className="sticky top-0 bg-background z-10">
                                 <TableRow>
@@ -288,8 +296,8 @@ export function FestivalCalendar({
                                             </div>
                                         </TableCell>
                                     </TableRow>
-                                ) : filteredEvents.length > 0 ? (
-                                    filteredEvents.map((event, index) => (
+                                ) : displayedEvents.length > 0 ? (
+                                    displayedEvents.map((event, index) => (
                                         <TableRow key={event.name + event.date + index}>
                                             <TableCell className="w-[250px] font-medium">{formatDateString(event.date)}</TableCell>
                                             <TableCell>
@@ -326,7 +334,7 @@ export function FestivalCalendar({
                 </Card>
             </div>
 
-            <div className="md:hidden space-y-4 max-h-[60vh] overflow-y-auto pr-2">
+            <div className={cn("md:hidden space-y-4", !displayLimit && "max-h-[60vh] overflow-y-auto pr-2")}>
                  {!isClient ? (
                     <Card className="text-center h-24 flex items-center justify-center text-muted-foreground">
                         <div className="flex items-center">
@@ -334,8 +342,8 @@ export function FestivalCalendar({
                             Loading calendar...
                         </div>
                     </Card>
-                 ) : filteredEvents.length > 0 ? (
-                    filteredEvents.map((event, index) => (
+                 ) : displayedEvents.length > 0 ? (
+                    displayedEvents.map((event, index) => (
                         <Card key={event.name + event.date + index} className="p-4">
                             <CardContent className="p-0 flex items-center justify-between">
                                 <div className="flex-1">
