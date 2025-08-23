@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import { useState, useMemo, useEffect } from 'react';
@@ -28,7 +27,7 @@ const dynamicYears = Array.from(new Set(allEvents.map(event => {
 .sort()
 .map(String);
 
-const defaultYears = ['Upcoming', 'All Years', ...dynamicYears];
+const defaultYears = ['Upcoming', ...dynamicYears, 'All Years'];
 
 
 interface FestivalEvent {
@@ -52,7 +51,7 @@ interface FestivalCalendarProps {
 }
 
 export function FestivalCalendar({
-    events,
+    events: eventsProp,
     availableYears = defaultYears,
     availableRegions = defaultRegions,
     availableEventTypes = defaultEventTypes,
@@ -60,7 +59,6 @@ export function FestivalCalendar({
     description,
     showLongWeekendInfo = true,
 }: FestivalCalendarProps) {
-    const eventsProp = events || allEvents;
     const [isClient, setIsClient] = useState(false);
     const [selectedMonth, setSelectedMonth] = useState('all');
     const [selectedRegion, setSelectedRegion] = useState('all');
@@ -101,23 +99,26 @@ export function FestivalCalendar({
     };
     
     const filteredEvents = useMemo(() => {
-        if (!isClient || !Array.isArray(eventsProp)) return [];
+        const eventsToFilter = Array.isArray(eventsProp) ? eventsProp : allEvents;
+        if (!isClient) return [];
 
         const today = startOfToday();
         const oneYearFromNow = addDays(today, 365);
         const selectedMonthIndex = selectedMonth === 'all' ? -1 : defaultMonths.indexOf(selectedMonth);
 
-        let filtered = eventsProp.filter(event => {
+        let filtered = eventsToFilter.filter(event => {
             const range = getEventDateRange(event.date);
             if (!range) return false;
 
-            // Year Filtering
-            if (selectedYear === 'Upcoming') {
-                 if (range.end < today) return false;
-            } else if (selectedYear !== 'All Years') {
+            // Year Filtering Logic
+            let yearMatch = false;
+            if (selectedYear === 'Upcoming' || selectedYear === 'All Years') {
+                yearMatch = true; // Apply other filters first, then upcoming/all logic
+            } else {
                 const yearNum = parseInt(selectedYear, 10);
-                if (getYear(range.start) !== yearNum && getYear(range.end) !== yearNum) return false;
+                yearMatch = getYear(range.start) === yearNum || getYear(range.end) === yearNum;
             }
+            if (!yearMatch) return false;
 
             // Month Filtering
             const monthMatch = selectedMonth === 'all' || 
@@ -143,18 +144,22 @@ export function FestivalCalendar({
             }
 
             return monthMatch && regionMatch && eventTypeMatch;
-        }).sort((a, b) => {
-             const dateA = getEventDateRange(a.date)?.start.getTime() || 0;
-             const dateB = getEventDateRange(b.date)?.start.getTime() || 0;
-             return dateA - dateB;
         });
 
+        // Post-filter for 'Upcoming'
         if (selectedYear === 'Upcoming') {
             filtered = filtered.filter(event => {
                 const range = getEventDateRange(event.date);
                 return range && range.end >= today && range.start <= oneYearFromNow;
             });
         }
+        
+        // Finally, sort by date
+        filtered.sort((a, b) => {
+             const dateA = getEventDateRange(a.date)?.start.getTime() || 0;
+             const dateB = getEventDateRange(b.date)?.start.getTime() || 0;
+             return dateA - dateB;
+        });
 
 
         return filtered;
