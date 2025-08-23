@@ -25,7 +25,7 @@ export default function BastarDussehraPage() {
                             </aside>
                             <main className="md:col-span-8 lg:col-span-9">
                                <article>
-                                    <BastarDussehraPageContent isContent={true}/>
+                                    <BastarDussehraPageContent isContent={true} />
                                </article>
                                <ShareButtons title="Bastar Dussehra" />
                             </main>
