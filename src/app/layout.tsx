@@ -21,9 +21,9 @@ const ptSans = PT_Sans({
   variable: '--font-body',
 })
 
-const defaultTitle = "Utsavopedia - Your Ultimate Guide to Indian Festivals, Recipes & Culture";
+const defaultTitle = "Utsavs - Your Ultimate Guide to Indian Festivals, Recipes & Culture";
 const defaultDescription = "Explore India's vibrant festivals with our guide to dates, traditions, and stories. Discover authentic recipes, travel tips, and celebrate the spirit of every Utsav.";
-const defaultUrl = "https://utsavopedia.com";
+const defaultUrl = "https://utsavs.com";
 const defaultOgImage = "https://i.postimg.cc/mD8h1LzB/default-preview.jpg";
 
 
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     title: defaultTitle,
     description: defaultDescription,
     url: defaultUrl,
-    siteName: 'Utsavopedia',
+    siteName: 'Utsavs',
     images: [
       {
         url: defaultOgImage,
