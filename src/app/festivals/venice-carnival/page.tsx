@@ -8,6 +8,13 @@ import { ShareButtons } from "@/components/ShareButtons";
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 import Link from "next/link";
 import { internationalEvents } from "@/lib/festival-data";
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: "Venice Carnival 2025: Dates, Masks & Ball Guide 🎭",
+  description: "Plan your trip to the Venice Carnival 2025! Find dates, learn about the history of Venetian masks, and get tips for attending the spectacular balls.",
+};
+
 
 const pageSections = internationalEvents.map(event => ({
     id: event.slug,

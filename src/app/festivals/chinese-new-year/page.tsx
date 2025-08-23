@@ -4,6 +4,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BookOpen, Sparkles, Utensils, MessageSquareQuote } from "lucide-react";
 import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: "Chinese New Year 2025: Dates, Traditions & The Year of the Snake 🐲",
+  description: "Discover the dates and traditions for Chinese New Year 2025. Explore the story of the Spring Festival and find out what The Year of the Snake has in store.",
+};
 
 export default function ChineseNewYearPage() {
     return (

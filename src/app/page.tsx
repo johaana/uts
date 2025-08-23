@@ -119,7 +119,7 @@ export default function Home() {
       
       <section className="py-12 md:py-24 bg-secondary/30">
         <div className="container mx-auto px-4">
-           <FestivalCalendar />
+           <FestivalCalendar title="Festival & Holiday Calendar" description="Plan your year around the vibrant celebrations of India. Never miss a festival or holiday with our comprehensive calendar."/>
         </div>
       </section>
       

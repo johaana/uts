@@ -18,7 +18,10 @@ import React from 'react';
 const defaultMonths = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const defaultRegions = ["Nationwide", "North", "South", "East", "West", "Northeast", "Central"];
 const defaultEventTypes = ["Festivals", "Holidays", "Long Weekends"];
-const defaultYears = ['Upcoming', '2025', '2026'];
+
+const dynamicYears = Array.from(new Set(allEvents.map(event => getYear(parse(event.date.split(' - ')[0], 'MMM dd, yyyy', new Date()))))).sort().map(String);
+const defaultYears = ['Upcoming', ...dynamicYears];
+
 
 interface FestivalEvent {
     date: string;
@@ -92,6 +95,7 @@ export function FestivalCalendar({
         if (!isClient) return [];
 
         const today = startOfToday();
+        const oneYearFromNow = addDays(today, 365);
         const selectedMonthIndex = selectedMonth === 'all' ? -1 : defaultMonths.indexOf(selectedMonth);
 
         let filtered = events.filter(event => {
@@ -100,7 +104,7 @@ export function FestivalCalendar({
 
             // Year Filtering
             if (selectedYear === 'Upcoming') {
-                if (range.end < today) return false;
+                if (range.end < today || range.start > oneYearFromNow) return false;
             } else if (selectedYear !== 'all') {
                 const yearNum = parseInt(selectedYear, 10);
                 if (getYear(range.start) > yearNum || getYear(range.end) < yearNum) return false;
@@ -255,7 +259,7 @@ export function FestivalCalendar({
                                 <TableRow>
                                     <TableHead className="w-[250px] text-primary">Date</TableHead>
                                     <TableHead className="text-primary">Name</TableHead>
-                                    <TableHead className="text-primary">Region/Country</TableHead>
+                                    <TableHead className="text-primary">Region</TableHead>
                                     <TableHead className="text-primary">Type</TableHead>
                                     <TableHead className="text-right text-primary">Details</TableHead>
                                 </TableRow>

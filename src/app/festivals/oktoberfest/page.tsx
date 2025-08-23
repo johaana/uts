@@ -8,6 +8,13 @@ import { ShareButtons } from "@/components/ShareButtons";
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 import Link from "next/link";
 import { internationalEvents } from "@/lib/festival-data";
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: "Oktoberfest 2025: Your Guide to Germany's Biggest Beer Festival 🍺",
+  description: "Prost! Get the Oktoberfest 2025 dates, find out about the traditions, and what to expect at the world's largest Volksfest in Munich, Germany.",
+};
+
 
 const pageSections = internationalEvents.map(event => ({
     id: event.slug,
@@ -68,7 +75,7 @@ export function InternationalFestivalsPageContent() {
                                 </div>
                             </div>
                             <div className="md:w-1/3">
-                                <Image src="https://i.postimg.cc/RVkPkNyb/The-Bunya-Dreaming-Festival-Australia-1.png" alt="Bunya Dreaming Festival" width={400} height={400} className="rounded-lg shadow-lg" data-ai-hint="aboriginal festival"/>
+                                <Image src="https://i.postimg.cc/RVkPkNyb/The-Bunya-Dreaming_Festival_Australia-1.png" alt="Bunya Dreaming Festival" width={400} height={400} className="rounded-lg shadow-lg" data-ai-hint="aboriginal festival"/>
                             </div>
                         </div>
                     </section>

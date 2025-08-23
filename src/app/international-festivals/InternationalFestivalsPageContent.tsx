@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React from 'react';
@@ -58,18 +59,32 @@ export function InternationalFestivalsPageContent() {
             </aside>
             <main className="md:col-span-8 lg:col-span-9">
                 <article className="space-y-20">
+                    <section id="oktoberfest" className="scroll-mt-20">
+                         <div className="flex flex-col md:flex-row gap-8 items-center">
+                            <div className="md:w-2/3">
+                                <h2 className="font-headline text-3xl font-bold mb-4">Oktoberfest</h2>
+                                <div className="space-y-4 text-foreground/80 prose max-w-none">
+                                    <p>The world's largest Volksfest (beer festival and travelling funfair) is held annually in Munich, Bavaria, Germany. It is a 16- to 18-day folk festival running from mid or late September to the first Sunday in October, with more than six million people from around the world attending the event every year. The Oktoberfest is an important part of Bavarian culture, having been held since 1810.</p>
+                                    <p>Visitors also enjoy numerous attractions, such as amusement rides, sidestalls and games. There is also a wide variety of traditional food available. The festival is known for its large beer tents, traditional music, and vibrant atmosphere.</p>
+                                </div>
+                            </div>
+                            <div className="md:w-1/3">
+                                <Image src="https://i.postimg.cc/g0q0PLJz/Oktoberfest-Munich.jpg" alt="Oktoberfest" width={400} height={400} className="rounded-lg shadow-lg" data-ai-hint="beer festival"/>
+                            </div>
+                        </div>
+                    </section>
 
                     {/* Bunya Dreaming */}
                     <section id="bunya-dreaming" className="scroll-mt-20">
                          <div className="flex flex-col md:flex-row gap-8 items-center">
-                            <div className="md:w-2/3">
+                            <div className="md:order-2 md:w-2/3">
                                 <h2 className="font-headline text-3xl font-bold mb-4">The Bunya Dreaming Festival</h2>
                                 <div className="space-y-4 text-foreground/80 prose max-w-none">
                                     <p>The Bunya Dreaming is a deeply significant festival for the First Peoples of Australia, particularly in South-East Queensland. It is a modern revival of an ancient tradition: a major gathering of various Aboriginal groups held every three years to coincide with the bumper harvest of the Bunya Pine tree. These majestic trees produce a large, nutritious nut that was a staple food source for generations. The festival is a powerful affirmation of Indigenous culture, a time for feasting, ceremony, law-making, and strengthening social and spiritual connections.</p>
                                     <p>Held on the Sunshine Coast, Bunya Dreaming is an open invitation to all people, Indigenous and non-Indigenous, to come together and experience the richness and resilience of Australia's First Nations' culture. It's a vibrant celebration of music, dance, storytelling, and art, centered around the sacred Bunya tree.</p>
                                 </div>
                             </div>
-                            <div className="md:w-1/3">
+                            <div className="md:order-1 md:w-1/3">
                                 <Image src="https://i.postimg.cc/RVkPkNyb/The-Bunya-Dreaming-Festival-Australia-1.png" alt="Bunya Dreaming Festival" width={400} height={400} className="rounded-lg shadow-lg" data-ai-hint="aboriginal festival"/>
                             </div>
                         </div>
@@ -78,14 +93,14 @@ export function InternationalFestivalsPageContent() {
                      {/* Carnival */}
                     <section id="carnival" className="scroll-mt-20">
                          <div className="flex flex-col md:flex-row gap-8 items-center">
-                            <div className="md:order-2 md:w-2/3">
+                            <div className="md:w-2/3">
                                 <h2 className="font-headline text-3xl font-bold mb-4">Carnival</h2>
                                 <div className="space-y-4 text-foreground/80 prose max-w-none">
                                     <p>Carnival, celebrated with explosive joy in Brazil and many other Catholic countries, is an annual festival that marks the beginning of Lent. The name is thought to derive from the Latin 'carne vale', which means 'farewell to meat', signifying a final period of feasting and revelry before the 40 days of fasting and penitence that precede Easter. While celebrated worldwide, the Carnival in Rio de Janeiro, Brazil, is considered the biggest and most famous, a spectacular explosion of music, dance, and color.</p>
                                     <p>It's a time when the entire country comes to a standstill, and cities erupt into massive street parties ('blocos') and parades. The festival is a vibrant showcase of Brazilian culture, especially the infectious rhythms of Samba music.</p>
                                 </div>
                             </div>
-                            <div className="md:order-1 md:w-1/3">
+                            <div className="md:w-1/3">
                                 <Image src="https://i.postimg.cc/0r1MZd3v/Carnival.jpg" alt="Carnival" width={400} height={400} className="rounded-lg shadow-lg" data-ai-hint="brazil carnival"/>
                             </div>
                         </div>
@@ -94,14 +109,14 @@ export function InternationalFestivalsPageContent() {
                      {/* Boryeong Mud Festival */}
                     <section id="boryeong-mud-festival" className="scroll-mt-20">
                          <div className="flex flex-col md:flex-row gap-8 items-center">
-                            <div className="md:w-2/3">
+                            <div className="md:order-2 md:w-2/3">
                                 <h2 className="font-headline text-3xl font-bold mb-4">Boryeong Mud Festival</h2>
                                 <div className="space-y-4 text-foreground/80 prose max-w-none">
                                      <p>Some festivals are born from ancient myths, others from sacred traditions. The Boryeong Mud Festival, however, has a much more modern and commercial origin story. In 1996, a South Korean cosmetics company was looking for a way to promote its new line of beauty products that used the mineral-rich mud from the Boryeong mud flats. Their solution? Throw a massive party and get everyone to cover themselves in the product.</p>
                                     <p>What started as a clever marketing campaign quickly morphed into one of South Korea's biggest and most famous international festivals. Held every July on Daecheon Beach, the festival now attracts millions of visitors, both local and international, who come not just for the supposed health benefits of the mud, but for the sheer, unadulterated fun of getting messy. It's a celebration that proves that sometimes, the best traditions are the ones we create ourselves, often by accident.</p>
                                 </div>
                             </div>
-                            <div className="md:w-1/3">
+                             <div className="md:order-1 md:w-1/3">
                                 <Image src="https://i.postimg.cc/N0MM9Q6G/boryeong.avif" alt="Boryeong Mud Festival" width={400} height={400} className="rounded-lg shadow-lg" data-ai-hint="mud festival"/>
                             </div>
                         </div>

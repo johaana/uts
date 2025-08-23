@@ -8,6 +8,13 @@ import { ShareButtons } from "@/components/ShareButtons";
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 import Link from "next/link";
 import { internationalEvents } from "@/lib/festival-data";
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+    title: "Boryeong Mud Festival 2025: Guide to the Ultimate Mud Party! 泥",
+    description: "Get ready for the Boryeong Mud Festival! Find dates, ticket info, and tips for South Korea's messiest and most exciting celebration. Not for the faint of heart!",
+};
+
 
 const pageSections = internationalEvents.map(event => ({
     id: event.slug,

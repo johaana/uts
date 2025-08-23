@@ -4,6 +4,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BookOpen, Sparkles, Music } from "lucide-react";
 import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: "Rio Carnival 2025: Your Guide to the World's Biggest Party! 🎊",
+  description: "Get the Rio Carnival 2025 dates and discover the magic of the Sambadrome parades. Explore Brazil's most iconic festival with our ultimate guide.",
+};
 
 export default function CarnivalPage() {
     return (
