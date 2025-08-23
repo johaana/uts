@@ -9,7 +9,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { ArrowRight, Star, Calendar, MapPin, Tag, Loader2 } from "lucide-react";
-import { format, parse, getYear, isValid, isFuture, isToday, startOfDay, addDays, getMonth, startOfToday, endOfDay } from 'date-fns';
+import { format, parse, getYear, isValid, isFuture, isToday, startOfDay, addDays, getMonth, startOfToday, endOfDay, addYears } from 'date-fns';
 import { allEvents } from '@/lib/festival-data';
 import { cn } from '@/lib/utils';
 import React from 'react';
@@ -29,13 +29,11 @@ interface FestivalEvent {
 
 interface FestivalCalendarProps {
     events?: FestivalEvent[];
-    availableYears?: string[];
     availableRegions?: string[];
     availableEventTypes?: string[];
     title?: string;
     description?: string;
     showLongWeekendInfo?: boolean;
-    displayLimit?: number;
 }
 
 export function FestivalCalendar({
@@ -45,13 +43,13 @@ export function FestivalCalendar({
     title,
     description,
     showLongWeekendInfo = true,
-    displayLimit,
 }: FestivalCalendarProps) {
     const [isClient, setIsClient] = useState(false);
     const [selectedMonth, setSelectedMonth] = useState('all');
     const [selectedRegion, setSelectedRegion] = useState('all');
     const [selectedEventType, setSelectedEventType] = useState('all');
     const [selectedYear, setSelectedYear] = useState('Upcoming');
+    const [displayLimit, setDisplayLimit] = useState(4);
 
     const dynamicYears = useMemo(() => {
         const years = Array.from(new Set(events.map(event => {
@@ -101,6 +99,7 @@ export function FestivalCalendar({
         if (!isClient) return [];
 
         const today = startOfToday();
+        const oneYearFromNow = addYears(today, 1);
         const selectedMonthIndex = selectedMonth === 'all' ? -1 : defaultMonths.indexOf(selectedMonth);
 
         let filtered = events.filter(event => {
@@ -109,14 +108,16 @@ export function FestivalCalendar({
 
             // Year Filtering Logic
             let yearMatch = false;
-            if (selectedYear === 'Upcoming' || selectedYear === 'All Years') {
+            if (selectedYear === 'Upcoming') {
+                yearMatch = range.end >= today && range.start <= oneYearFromNow;
+            } else if (selectedYear === 'All Years') {
                 yearMatch = true;
             } else {
                 const yearNum = parseInt(selectedYear, 10);
                 yearMatch = getYear(range.start) === yearNum || getYear(range.end) === yearNum;
             }
             if (!yearMatch) return false;
-
+            
             // Month Filtering
             const monthMatch = selectedMonth === 'all' || 
                 (range.start.getMonth() <= selectedMonthIndex && range.end.getMonth() >= selectedMonthIndex) ||
@@ -143,7 +144,7 @@ export function FestivalCalendar({
             return monthMatch && regionMatch && eventTypeMatch;
         });
 
-        // Post-filter for 'Upcoming'
+        // Post-filter for 'Upcoming' to ensure only future events are shown
         if (selectedYear === 'Upcoming') {
             filtered = filtered.filter(event => {
                 const range = getEventDateRange(event.date);
@@ -163,10 +164,7 @@ export function FestivalCalendar({
     }, [isClient, selectedYear, selectedMonth, selectedRegion, selectedEventType, events]);
 
     const displayedEvents = useMemo(() => {
-        if (displayLimit) {
-            return filteredEvents.slice(0, displayLimit);
-        }
-        return filteredEvents;
+        return filteredEvents.slice(0, displayLimit);
     }, [filteredEvents, displayLimit]);
     
     const formatDateString = (dateString: string) => {
@@ -222,6 +220,9 @@ export function FestivalCalendar({
         );
     };
 
+    const handleShowMore = () => {
+      setDisplayLimit(prev => prev + 100); // Load a large number of additional events
+    }
 
     return (
         <div className="w-full">
@@ -275,7 +276,7 @@ export function FestivalCalendar({
 
             <div className="hidden md:block">
                  <Card className="overflow-hidden flex flex-col">
-                    <div className={cn("overflow-y-auto", displayLimit && "max-h-[60vh] relative")}>
+                    <div className={cn("overflow-y-auto", "max-h-[60vh] relative")}>
                         <Table>
                             <TableHeader className="sticky top-0 bg-background z-10">
                                 <TableRow>
@@ -330,14 +331,16 @@ export function FestivalCalendar({
                                 )}
                             </TableBody>
                         </Table>
-                         {displayLimit && filteredEvents.length > displayLimit && (
-                            <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-background to-transparent pointer-events-none"></div>
+                         {filteredEvents.length > displayLimit && (
+                            <div className="sticky bottom-0 p-2 bg-gradient-to-t from-background via-background to-transparent">
+                                <Button onClick={handleShowMore} className="w-full">Show More</Button>
+                            </div>
                         )}
                     </div>
                 </Card>
             </div>
 
-            <div className={cn("md:hidden space-y-4", displayLimit && "max-h-[60vh] overflow-y-auto pr-2 relative")}>
+            <div className={cn("md:hidden space-y-4", "max-h-[60vh] overflow-y-auto pr-2 relative")}>
                  {!isClient ? (
                     <Card className="text-center h-24 flex items-center justify-center text-muted-foreground">
                         <div className="flex items-center">
@@ -383,8 +386,10 @@ export function FestivalCalendar({
                         No events found for the selected filters.
                     </Card>
                 )}
-                {displayLimit && filteredEvents.length > displayLimit && (
-                    <div className="sticky bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-background to-transparent pointer-events-none -mx-4"></div>
+                 {filteredEvents.length > displayLimit && (
+                    <div className="sticky bottom-0 -mx-2 -mb-2 p-2 bg-gradient-to-t from-background via-background to-transparent">
+                        <Button onClick={handleShowMore} className="w-full">Show More</Button>
+                    </div>
                 )}
             </div>
         </div>

@@ -9,7 +9,6 @@ import React from "react";
 import { UpcomingFestivalsCarousel } from "@/components/UpcomingFestivalsCarousel";
 import { HeroCarousel } from "@/components/HeroCarousel";
 import { InternationalFestivalsShowcase } from "@/components/InternationalFestivalsShowcase";
-import { HolidayPlanner } from "@/components/HolidayPlanner";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Bot } from "lucide-react";
 import Image from 'next/image';
@@ -60,10 +59,10 @@ function AIPlannerShowcase() {
             <div className="container mx-auto px-4">
                 <Card className="bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-blue-950/50 dark:to-indigo-950/80 border-2 border-blue-200/50 shadow-xl overflow-hidden">
                     <div className="flex flex-col md:flex-row items-center">
-                         <div className="md:w-1/2 h-64 md:h-96 w-full order-1">
+                         <div className="md:w-1/2 h-64 md:h-96 w-full order-1 md:order-2">
                            <Image src="https://i.postimg.cc/VLQf0kKF/long-weekend-1.jpg" alt="AI Planner" width={600} height={400} className="w-full h-full object-cover" data-ai-hint="holiday planning calendar" />
                         </div>
-                        <div className="p-6 md:p-12 md:w-1/2 order-2">
+                        <div className="p-6 md:p-12 md:w-1/2 order-2 md:order-1">
                             <h2 className="font-headline text-3xl md:text-5xl font-bold text-primary mb-4">Let AI Be Your Guide</h2>
                             <p className="text-base md:text-lg text-foreground/80 mb-6 max-w-lg">
                                 Planning a trip around a festival? Curious about specific dates or customs? Our AI Holiday Planner can provide personalized suggestions and answer your questions in an instant.

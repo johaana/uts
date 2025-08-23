@@ -33,7 +33,6 @@ export function InternationalFestivalsPageContent() {
                 title="International Festival Calendar"
                 description="Plan your global adventures around these vibrant cultural celebrations."
                 showLongWeekendInfo={false}
-                displayLimit={100}
             />
 
             <div className="space-y-12">
