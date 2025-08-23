@@ -13,13 +13,15 @@ import { InternationalHeroCarousel } from '@/components/InternationalHeroCarouse
 
 export function InternationalFestivalsPageContent() {
 
+    const uniqueFestivals = Array.from(new Map(internationalEvents.map(item => [item.name.split(' (')[0], item])).values());
+
     return (
         <div className="space-y-16">
 
             <InternationalHeroCarousel />
 
             <div className="text-center">
-                <p className="mt-3 text-base md:text-lg text-foreground/80 max-w-3xl mx-auto">
+                 <p className="mt-3 text-base md:text-lg text-foreground/80 max-w-3xl mx-auto">
                     A Journey Through Global Celebrations. Explore the world, one festival at a time. Our calendar is your passport to the most vibrant cultural events across the globe, from the lantern-lit skies of Thailand to the fiery traditions of Scotland.
                 </p>
             </div>
@@ -31,7 +33,6 @@ export function InternationalFestivalsPageContent() {
                 title="International Festival Calendar"
                 description="Plan your global adventures around these vibrant cultural celebrations."
                 showLongWeekendInfo={false}
-                displayLimit={4}
             />
 
             <div>
@@ -42,7 +43,7 @@ export function InternationalFestivalsPageContent() {
                     </p>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
-                    {internationalEvents.sort((a, b) => a.name.localeCompare(b.name)).map((festival) => (
+                    {uniqueFestivals.sort((a, b) => a.name.localeCompare(b.name)).map((festival) => (
                         <Card key={festival.slug} className="overflow-hidden group flex flex-col transition-transform duration-300 ease-in-out hover:scale-105 hover:-translate-y-1 hover:shadow-xl">
                             <Link href={festival.link!} className="block">
                                 <div className="relative aspect-[4/3] w-full bg-black/5">
@@ -69,5 +70,3 @@ export function InternationalFestivalsPageContent() {
         </div>
     );
 }
-
-    
