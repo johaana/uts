@@ -6,11 +6,9 @@ import { InternationalFestivalsPageContent } from "./InternationalFestivalsPageC
 export default function InternationalFestivalsPage() {
 
     return (
-        <div className="theme-midnight-gala">
-            <div className="bg-background text-foreground">
-                <div className="container mx-auto px-4 py-8 md:py-12">
-                    <InternationalFestivalsPageContent />
-                </div>
+        <div className="bg-background text-foreground">
+            <div className="container mx-auto px-4 py-8 md:py-12">
+                <InternationalFestivalsPageContent />
             </div>
         </div>
     );

@@ -55,7 +55,12 @@ const allRecipes = [
     { name: "Sabudana Khichdi", festival: "Maha Shivaratri", region: "Nationwide", description: "A popular fasting dish made from tapioca pearls, potatoes, and peanuts.", link: "/recipes/sabudana-khichdi", image: "https://i.postimg.cc/3wRdZZ1y/sabudana-khichdi.jpg", hint: "tapioca pearl dish" },
     { name: "Kuttu ki Puri", festival: "Maha Shivaratri", region: "North", description: "A gluten-free, deep-fried bread made from buckwheat flour for fasting.", link: "/recipes/kuttu-ki-puri", image: "https://i.postimg.cc/RV76Chq0/kuttu-ki-puri.jpg", hint: "buckwheat bread" },
     { name: "Makhane ki Kheer", festival: "Maha Shivaratri", region: "Nationwide", description: "A creamy pudding made from fox nuts, perfect for festive fasting.", link: "/recipes/makhane-ki-kheer", image: "https://i.postimg.cc/bwLZb5xc/Makhane-ki-kheer.jpg", hint: "fox nut pudding" },
-];
+    { name: "Meethe Chawal", festival: "Vasant Panchami", region: "North", description: "A fragrant and sweet rice dish, often yellow in color.", link: "/recipes/meethe-chawal", image: "https://i.postimg.cc/fWdSc7PG/Zarda-pulao.jpg", hint: "sweet rice" },
+    { name: "Khaja", festival: "Rath Yatra", region: "East", description: "Crispy, layered pastry sweetened with sugar syrup.", link: "/recipes/khaja", image: "https://i.postimg.cc/nLw9k3pJ/khaja1.webp", hint: "layered pastry" },
+    { name: "Malpua", festival: "Holi", region: "Nationwide", description: "Soft, syrupy pancakes, a rich and decadent treat.", link: "/recipes/malpua", image: "https://i.postimg.cc/TwLLHn3W/malpua.jpg", hint: "sweet pancake" },
+    { name: "Pinni", festival: "Lohri", region: "North", description: "A nutrient-dense winter sweet from Punjab.", link: "/recipes/pinni", image: "https://i.postimg.cc/q77CyPfw/Pinni1.webp", hint: "wheat sweet" },
+    { name: "Ghevar", festival: "Teej", region: "North", description: "A disc-shaped, porous sweet from Rajasthan.", link: "/recipes/ghevar", image: "https://i.postimg.cc/Zn69JZ3b/ghevar.jpg", hint: "rajasthani sweet" },
+].sort((a, b) => a.name.localeCompare(b.name));
 
 const festivals = [...new Set(allRecipes.map(r => r.festival))].sort();
 const regions = [...new Set(allRecipes.map(r => r.region))].sort();

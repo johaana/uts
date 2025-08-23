@@ -12,7 +12,6 @@ import { ArrowRight } from 'lucide-react';
 import { InternationalHeroCarousel } from '@/components/InternationalHeroCarousel';
 
 export function InternationalFestivalsPageContent() {
-    // We will use a curated list for the showcase to ensure visual appeal
     const showcaseFestivals = internationalEvents.filter(f => [
         "la-tomatina", "carnival", "venice-carnival", "oktoberfest", "theemithi", "harbin-ice-festival"
     ].includes(f.slug));
