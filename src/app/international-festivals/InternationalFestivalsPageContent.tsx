@@ -3,91 +3,58 @@
 'use client';
 
 import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { BookOpen, Sparkles, MessageSquareQuote, Flag, Music, Sailboat, Trophy, Drama, PartyPopper, Info } from "lucide-react";
-import Image from "next/image";
-import { ShareButtons } from "@/components/ShareButtons";
-import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
+import { Card, CardContent } from "@/components/ui/card";
 import Link from "next/link";
+import Image from 'next/image';
 import { internationalEvents } from "@/lib/festival-data";
-
-const pageSections = internationalEvents.map(event => ({
-    id: event.slug,
-    title: event.name,
-    icon: BookOpen, // Default icon
-}));
-
-const getIconForFestival = (slug: string) => {
-    switch (slug) {
-        case "halloween":
-        case "boryeong-mud-festival":
-            return PartyPopper;
-        case "venice-carnival":
-        case "carnival":
-        case "oktoberfest":
-            return Drama;
-        case "hogmanay":
-        case "chinese-new-year":
-        case "new-years-day":
-        case "new-years-eve":
-            return Sparkles;
-        case "st-patricks-day":
-            return Flag;
-        default:
-            return BookOpen;
-    }
-}
-
+import { FestivalCalendar } from '@/components/FestivalCalendar';
+import { Button } from '@/components/ui/button';
+import { ArrowRight } from 'lucide-react';
 
 export function InternationalFestivalsPageContent() {
     return (
-        <div className="grid md:grid-cols-12 gap-8 lg:gap-12">
-            <aside className="hidden md:block md:col-span-4 lg:col-span-3">
-                <div className="sticky top-24">
-                    <div className="mb-10 p-4 border-l-4 border-primary bg-primary/5 rounded-r-lg">
-                        <h2 className="font-headline text-2xl font-bold mb-4">In This Article</h2>
-                        <ul className="space-y-2">
-                            {pageSections.map(section => (
-                                <li key={section.id}>
-                                    <a href={`#${section.id}`} className="flex items-center gap-3 text-foreground/80 hover:text-primary transition-colors">
-                                        {React.createElement(getIconForFestival(section.id), { className: "w-5 h-5 text-accent" })}
-                                        <span className="font-semibold">{section.title}</span>
-                                    </a>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
+        <div className="space-y-16">
+            <FestivalCalendar 
+                events={internationalEvents}
+                availableRegions={["Global", "Asia", "Europe", "North America", "South America", "Africa", "Australia"]}
+                availableEventTypes={["Cultural", "Religious", "Holiday", "New Year", "Seasonal"]}
+                title="International Festival Calendar"
+                description="Plan your global adventures around these vibrant cultural celebrations."
+                showLongWeekendInfo={false}
+            />
+
+            <div>
+                 <div className="text-center mb-12">
+                    <h2 className="font-headline text-3xl md:text-5xl font-bold text-primary">Explore Global Celebrations</h2>
+                    <p className="mt-3 text-base md:text-lg text-foreground/80 max-w-2xl mx-auto">
+                        Click on any festival to discover its unique story, traditions, and significance.
+                    </p>
                 </div>
-            </aside>
-            <main className="md:col-span-8 lg:col-span-9">
-                <article className="space-y-20">
-
-                    {internationalEvents.map(event => (
-                         <section key={event.slug} id={event.slug} className="scroll-mt-20">
-                             <div className="flex flex-col md:flex-row gap-8 items-center">
-                                <div className={event.slug === 'bunya-dreaming' || event.slug === 'krampusnacht' || event.slug === 'carnival' ? 'md:order-2 md:w-2/3' : 'md:w-2/3'}>
-                                    <h2 className="font-headline text-3xl font-bold mb-4">{event.name}</h2>
-                                    <div className="space-y-4 text-foreground/80 prose max-w-none">
-                                       <p>{event.description}</p>
-                                        <p>Learn more about the traditions and stories behind the <Link href={event.link!} className="text-accent hover:underline font-semibold">{event.name}</Link>.</p>
-                                    </div>
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8">
+                    {internationalEvents.map((festival) => (
+                        <Card key={festival.slug} className="overflow-hidden group flex flex-col transition-transform duration-300 ease-in-out hover:scale-105 hover:-translate-y-1 hover:shadow-xl">
+                            <Link href={festival.link!} className="block">
+                                <div className="relative aspect-[4/3] w-full bg-black/5">
+                                <Image src={festival.image!} alt={festival.name} layout="fill" objectFit="cover" data-ai-hint={festival.hint}/>
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                                <div className="absolute bottom-3 left-3 right-3">
+                                    <h2 className="font-headline text-lg md:text-2xl font-bold text-white drop-shadow-md leading-tight">{festival.name.split(' (')[0]}</h2>
                                 </div>
-                                <div className={event.slug === 'bunya-dreaming' || event.slug === 'krampusnacht' || event.slug === 'carnival' ? 'md:order-1 md:w-1/3' : 'md:w-1/3'}>
-                                    <Image src={event.image!} alt={event.name} width={400} height={400} className="rounded-lg shadow-lg" data-ai-hint={event.hint}/>
                                 </div>
-                            </div>
-                        </section>
+                            </Link>
+                            <CardContent className="p-3 md:p-4 flex flex-col flex-grow">
+                                <p className="text-xs text-primary font-semibold mb-2">{festival.region}</p>
+                                <p className="text-sm text-foreground/70 mb-3 flex-grow">{festival.description}</p>
+                                <Link href={festival.link!}>
+                                    <Button variant="link" className="p-0 text-accent hover:text-accent/90 font-bold text-sm mt-auto">
+                                        Explore <ArrowRight className="ml-1 h-3 w-3" />
+                                    </Button>
+                                </Link>
+                            </CardContent>
+                        </Card>
                     ))}
-
-                </article>
-                <ShareButtons title="International Festivals" />
-                 <RelatedContent items={[
-                    { slug: "honoring-the-ancestors", title: "How the World Honors Its Ancestors", image: "https://i.postimg.cc/mgTh4YhH/nyepi-2.jpg", type: "Blog", link: "/blog/honoring-the-ancestors", hint: "ogoh-ogoh statue" },
-                    { slug: "extreme-festivals-of-the-world", title: "Gods, Guts, and Glory: The World's Most Extreme Festivals", image: "https://i.postimg.cc/Hx8kz3vf/theemithi.jpg", type: "Blog", link: "/blog/extreme-festivals-of-the-world", hint: "fire walking" },
-                    { slug: "diwali", title: "Diwali", image: "https://i.postimg.cc/SjF8HhM1/Diwali2.jpg", type: "Festival", link: "/festivals/diwali", hint: "diwali celebration" }
-                ]} />
-            </main>
+                </div>
+            </div>
         </div>
     );
 }

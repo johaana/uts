@@ -9,26 +9,14 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { ArrowRight, Star, Calendar, MapPin, Tag, Loader2 } from "lucide-react";
-import { format, parse, getYear, isValid, isFuture, isToday, startOfDay, endOfDay, addDays, getMonth, startOfToday } from 'date-fns';
+import { format, parse, getYear, isValid, isFuture, isToday, startOfDay, addDays, getMonth, startOfToday, endOfDay } from 'date-fns';
 import { allEvents } from '@/lib/festival-data';
 import { cn } from '@/lib/utils';
 import React from 'react';
 
 const defaultMonths = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-const defaultRegions = ["Nationwide", "North", "South", "East", "West", "Northeast", "Central"];
+const defaultRegions = ["Nationwide", "North", "South", "East", "West", "Northeast", "Central", "Global"];
 const defaultEventTypes = ["Festivals", "Holidays", "Long Weekends"];
-
-const dynamicYears = Array.from(new Set(allEvents.map(event => {
-    const dateStr = event.date.split(' - ')[0];
-    const parsedDate = parse(dateStr, 'MMM dd, yyyy', new Date());
-    return isValid(parsedDate) ? getYear(parsedDate) : null;
-}))
-.filter(year => year !== null) as number[])
-.sort()
-.map(String);
-
-const defaultYears = ['Upcoming', ...dynamicYears, 'All Years'];
-
 
 interface FestivalEvent {
     date: string;
@@ -51,8 +39,7 @@ interface FestivalCalendarProps {
 }
 
 export function FestivalCalendar({
-    events: eventsProp,
-    availableYears = defaultYears,
+    events = allEvents,
     availableRegions = defaultRegions,
     availableEventTypes = defaultEventTypes,
     title,
@@ -64,6 +51,17 @@ export function FestivalCalendar({
     const [selectedRegion, setSelectedRegion] = useState('all');
     const [selectedEventType, setSelectedEventType] = useState('all');
     const [selectedYear, setSelectedYear] = useState('Upcoming');
+
+    const dynamicYears = useMemo(() => {
+        const years = Array.from(new Set(events.map(event => {
+            const dateStr = event.date.split(' - ')[0];
+            const parsedDate = parse(dateStr, 'MMM dd, yyyy', new Date());
+            return isValid(parsedDate) ? getYear(parsedDate) : null;
+        })))
+        .filter(year => year !== null) as number[];
+        
+        return ['Upcoming', ...years.sort().map(String), 'All Years'];
+    }, [events]);
     
     useEffect(() => {
         setIsClient(true);
@@ -99,21 +97,19 @@ export function FestivalCalendar({
     };
     
     const filteredEvents = useMemo(() => {
-        const eventsToFilter = Array.isArray(eventsProp) ? eventsProp : allEvents;
         if (!isClient) return [];
 
         const today = startOfToday();
-        const oneYearFromNow = addDays(today, 365);
         const selectedMonthIndex = selectedMonth === 'all' ? -1 : defaultMonths.indexOf(selectedMonth);
 
-        let filtered = eventsToFilter.filter(event => {
+        let filtered = events.filter(event => {
             const range = getEventDateRange(event.date);
             if (!range) return false;
 
             // Year Filtering Logic
             let yearMatch = false;
             if (selectedYear === 'Upcoming' || selectedYear === 'All Years') {
-                yearMatch = true; // Apply other filters first, then upcoming/all logic
+                yearMatch = true;
             } else {
                 const yearNum = parseInt(selectedYear, 10);
                 yearMatch = getYear(range.start) === yearNum || getYear(range.end) === yearNum;
@@ -150,7 +146,7 @@ export function FestivalCalendar({
         if (selectedYear === 'Upcoming') {
             filtered = filtered.filter(event => {
                 const range = getEventDateRange(event.date);
-                return range && range.end >= today && range.start <= oneYearFromNow;
+                return range && range.end >= today;
             });
         }
         
@@ -163,7 +159,7 @@ export function FestivalCalendar({
 
 
         return filtered;
-    }, [isClient, selectedYear, selectedMonth, selectedRegion, selectedEventType, eventsProp]);
+    }, [isClient, selectedYear, selectedMonth, selectedRegion, selectedEventType, events]);
     
     const formatDateString = (dateString: string) => {
         const range = getEventDateRange(dateString);
@@ -200,18 +196,22 @@ export function FestivalCalendar({
         }
     };
 
-    const renderEventName = (name: string) => {
-        if (!name) return null;
-        const match = name.match(/^(.*?) (\(.*\))$/);
-        if (match) {
-            return (
-                <>
-                    <span className="font-bold">{match[1]}</span>
-                    <span className="font-normal text-muted-foreground ml-1">{match[2]}</span>
-                </>
-            );
-        }
-        return <span className="font-bold text-base">{name}</span>;
+    const renderEventName = (name: string, link?: string) => {
+        const content = name.split(' (')[0];
+        const subtext = name.match(/\(([^)]+)\)/);
+
+        const nameElement = link ? (
+            <Link href={link} className="font-bold text-base hover:underline hover:text-primary">{content}</Link>
+        ) : (
+            <span className="font-bold text-base">{content}</span>
+        );
+        
+        return (
+            <>
+                {nameElement}
+                {subtext && <span className="font-normal text-muted-foreground ml-1">({subtext[1]})</span>}
+            </>
+        );
     };
 
 
@@ -231,7 +231,7 @@ export function FestivalCalendar({
                     <Select onValueChange={setSelectedYear} value={selectedYear}>
                         <SelectTrigger><SelectValue placeholder="Year" /></SelectTrigger>
                         <SelectContent>
-                            {availableYears.map(year => <SelectItem key={year} value={year}>{year}</SelectItem>)}
+                            {dynamicYears.map(year => <SelectItem key={year} value={year}>{year}</SelectItem>)}
                         </SelectContent>
                     </Select>
                     <Select onValueChange={setSelectedMonth} value={selectedMonth}>
@@ -293,7 +293,7 @@ export function FestivalCalendar({
                                         <TableRow key={event.name + event.date + index}>
                                             <TableCell className="w-[250px] font-medium">{formatDateString(event.date)}</TableCell>
                                             <TableCell>
-                                                {renderEventName(event.name)}
+                                                {renderEventName(event.name, event.link)}
                                                 {event.longWeekend && <Star className="w-4 h-4 text-amber-500 fill-amber-500 inline-block ml-2" />}
                                             </TableCell>
                                             <TableCell>{event.region}</TableCell>
@@ -340,7 +340,7 @@ export function FestivalCalendar({
                             <CardContent className="p-0 flex items-center justify-between">
                                 <div className="flex-1">
                                     <div className="font-bold flex items-center gap-2 mb-2">
-                                        {renderEventName(event.name)}
+                                        {renderEventName(event.name, event.link)}
                                         {event.longWeekend && <Star className="w-4 h-4 text-amber-500 fill-amber-500 inline-block ml-2" />}
                                     </div>
                                      <p className="text-sm text-muted-foreground flex items-center gap-2 mb-2">
@@ -376,3 +376,5 @@ export function FestivalCalendar({
         </div>
     );
 }
+
+    
