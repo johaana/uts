@@ -7,7 +7,7 @@ import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 import Image from 'next/image';
 
 export const metadata: Metadata = {
-  title: "Thaipusam: The Story of Faith, Penance & the Kavadi",
+  title: "The God Who Demands a Pound of Flesh: Thaipusam's Unbelievable Test of Faith",
   description: "Explore the powerful rituals of Thaipusam, a festival of intense devotion to Lord Murugan. Understand the significance of the Kavadi and skin piercings.",
 };
 
@@ -22,7 +22,7 @@ const relatedContent: RelatedItem[] = [
     },
     {
         slug: "theemithi",
-        title: "A Walk Through Fire: The Story of Theemithi",
+        title: "A Walk Through Fire: How an Ancient Queen's Trial by Fire Became a Modern Festival",
         image: "https://i.postimg.cc/Hx8kz3vf/theemithi.jpg",
         type: "Festival",
         link: "/festivals/theemithi",
@@ -59,7 +59,7 @@ export default function ThaipusamPage() {
                                <article>
                                     <ThaipusamPageContent isContent={true} />
                                </article>
-                               <ShareButtons title="Thaipusam" />
+                               <ShareButtons title="The God Who Demands a Pound of Flesh: Thaipusam's Unbelievable Test of Faith" />
                                <RelatedContent items={relatedContent} />
                             </main>
                         </div>
@@ -69,4 +69,3 @@ export default function ThaipusamPage() {
         </div>
     );
 }
-

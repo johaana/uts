@@ -9,9 +9,9 @@ import type { Metadata } from 'next';
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 
 const post = { 
-    title: "Kumbh Mela: A Spiritual Gathering of Millions", 
+    title: "The Day a River of Milk Flowed: The Myth Behind the World's Largest Religious Gathering", 
     image: "https://i.postimg.cc/Vk64221w/kumbh-mela.jpg",
-    excerpt: "Understand the significance of the Kumbh Mela, the largest peaceful gathering in the world and a cornerstone of Hindu faith."
+    excerpt: "Understand the significance of the Kumbh Mela, the largest peaceful gathering in the world and a cornerstone of Hindu faith, born from a celestial battle for a pot of immortal nectar."
 };
 
 export const metadata: Metadata = {

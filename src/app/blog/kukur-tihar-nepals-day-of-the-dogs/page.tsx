@@ -9,9 +9,9 @@ import type { Metadata } from 'next';
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 
 const post = { 
-    title: "Kukur Tihar: Nepal's Beautiful 'Day of the Dogs'", 
+    title: "He Refused to Enter Heaven Without His Dog. How That Single Act of Loyalty Created a National Holiday.", 
     image: "https://i.postimg.cc/RCcT1Twd/kukur-tihar1.avif",
-    excerpt: "A deep dive into the heartwarming festival where dogs are worshipped for their loyalty. Discover the rituals, mythology, and the global fascination with this unique celebration of companionship."
+    excerpt: "A deep dive into the heartwarming festival where dogs are worshipped for their loyalty, based on an ancient myth from the Mahabharata."
 };
 
 export const metadata: Metadata = {
@@ -52,7 +52,7 @@ const relatedContent: RelatedItem[] = [
     },
     {
         slug: "diwali-regional-variations",
-        title: "Diwali's Global Flavors",
+        title: "You Think You Know Diwali? In Parts of India, the Festival of Lights is Actually a Festival of Ghosts.",
         image: "https://i.postimg.cc/mg1bYqXc/Diwali-blog-same-fest.jpg",
         type: "Blog",
         link: "/blog/diwali-regional-variations",
@@ -109,7 +109,7 @@ export default function SingleBlogPage() {
                         <p>The reverence for dogs in Hindu mythology is profound. They are considered the messengers of Lord Yama, the god of death, and are believed to guard the gates to the afterlife. In the epic Mahabharata, a dog faithfully follows the Pandava prince Yudhishthira on his final journey to heaven. When Yudhishthira reaches the gates of heaven, he is told he may enter, but the dog cannot. Yudhishthira refuses to enter paradise without his loyal companion, choosing the dog over heavenly reward. At that moment, the dog reveals itself to be the god Yama in disguise, testing Yudhishthira's righteousness. By honoring dogs on Kukur Tihar, people believe they are pleasing Yama, ensuring a safe passage for the souls of the deceased. More than that, the festival is a celebration of the qualities dogs embody: loyalty, selflessness, and unconditional love. It’s a day for humans to express their gratitude for this pure and unwavering companionship.</p>
 
                         <h3>A Global Symbol of Compassion</h3>
-                        <p>In recent years, Kukur Tihar has captured the hearts of people worldwide. Its beautiful imagery often goes viral on social media, sparking a global conversation about animal welfare. In a world where stray animals are often neglected or mistreated, this festival stands as a powerful counter-narrative. It has been adopted by animal shelters and welfare organizations outside of Nepal as a day to promote adoption and responsible pet ownership, beautifully blending an ancient tradition with modern compassion.</p>
+                        <p>In recent years, Kukur Tihar has captured the hearts of people worldwide. Its beautiful imagery often goes viral on social media, sparking a global conversation about animal welfare. In a world where stray animals are often neglected or mistreated, this festival stands as a powerful counter-narrative. It has been adopted by aniampl shelters and welfare organizations outside of Nepal as a day to promote adoption and responsible pet ownership, beautifully blending an ancient tradition with modern compassion.</p>
                         
                         <blockquote>
                             <p>Kukur Tihar is more than just a religious ritual; it is a universal lesson in compassion, a reminder that our world is richer and more beautiful when we treat all living beings with dignity and love.</p>

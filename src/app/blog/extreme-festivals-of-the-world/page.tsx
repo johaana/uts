@@ -36,7 +36,7 @@ export const metadata: Metadata = {
 const relatedContent: RelatedItem[] = [
     {
         slug: "thaipusam",
-        title: "The Burden of Faith: Unpacking Thaipusam",
+        title: "The Burden of Faith: Unpacking Thaipusam's Intense Rituals",
         image: "https://i.postimg.cc/cJbJfPhR/thaipusam.webp",
         type: "Festival",
         link: "/festivals/thaipusam",
@@ -52,7 +52,7 @@ const relatedContent: RelatedItem[] = [
     },
     {
         slug: "kumbh-mela-a-dip-in-immortality",
-        title: "Kumbh Mela: A Spiritual Gathering",
+        title: "The Day a River of Milk Flowed: The Myth Behind the World's Largest Religious Gathering",
         image: "https://i.postimg.cc/ncg3FqB3/kumbh-mela-2.jpg",
         type: "Blog",
         link: "/blog/kumbh-mela-a-dip-in-immortality",

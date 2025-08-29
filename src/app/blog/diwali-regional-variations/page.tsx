@@ -9,16 +9,16 @@ import type { Metadata } from 'next';
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 
 const post = { 
-    title: "Same Festival, Different Flavors: How “Diwali Season” Shines Across Regions", 
+    title: "You Think You Know Diwali? In Parts of India, the Festival of Lights is Actually a Festival of Ghosts.", 
     image: "https://i.postimg.cc/mg1bYqXc/Diwali-blog-same-fest.jpg",
-    excerpt: "Discover how Diwali (and related festivals like Nepal’s Tihar) is celebrated differently across regions — rituals, foods, myths, and modern innovations."
+    excerpt: "Discover how Diwali (and related festivals like Nepal’s Tihar) is celebrated differently across regions — from worshipping ghosts to honoring dogs."
 };
 
 export const metadata: Metadata = {
-  title: "How Diwali is Celebrated Differently Across India and the World | Utsavs",
+  title: "You Think You Know Diwali? In Parts of India, the Festival of Lights is Actually a Festival of Ghosts. | Utsavs",
   description: post.excerpt,
   openGraph: {
-    title: `Same Festival, Different Flavors | Utsavs`,
+    title: `You Think You Know Diwali? | Utsavs`,
     description: post.excerpt,
     images: [{ url: post.image, width: 1200, height: 630, alt: post.title }],
     type: 'article',
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: `Same Festival, Different Flavors | Utsavs`,
+    title: `You Think You Know Diwali? | Utsavs`,
     description: post.excerpt,
     images: [post.image],
   },

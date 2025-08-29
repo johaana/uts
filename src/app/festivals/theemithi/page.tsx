@@ -6,6 +6,7 @@ import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 import Link from "next/link";
+import type { Metadata } from 'next';
 
 const relatedContent: RelatedItem[] = [
     {
@@ -18,7 +19,7 @@ const relatedContent: RelatedItem[] = [
     },
     {
         slug: "thaipusam",
-        title: "The Burden of Faith: Unpacking Thaipusam",
+        title: "The Burden of Faith: Unpacking Thaipusam's Intense Rituals",
         image: "https://i.postimg.cc/cJbJfPhR/thaipusam.webp",
         type: "Festival",
         link: "/festivals/thaipusam",
@@ -33,6 +34,11 @@ const relatedContent: RelatedItem[] = [
         hint: "dussehra celebration"
     }
 ];
+
+export const metadata: Metadata = {
+  title: "A Walk Through Fire: How an Ancient Queen's Trial by Fire Became a Modern Festival.",
+  description: "To honor the goddess Draupadi, devotees walk barefoot across burning embers. The story of how her trial by fire became a modern festival is astounding.",
+};
 
 
 export default function TheemithiPage() {
@@ -58,7 +64,7 @@ export default function TheemithiPage() {
                             </TabsList>
 
                             <TabsContent value="overview">
-                                <h2 className="font-headline text-3xl font-bold mb-4">Draupadi's Trial by Fire</h2>
+                                <h2 className="font-headline text-3xl font-bold mb-4">How an Ancient Queen's Trial by Fire Became a Modern Festival</h2>
                                 <div className="space-y-4 text-foreground/80 prose max-w-none">
                                     <p>Theemithi, or the Fire-Walking Festival, is a dramatic and awe-inspiring Hindu festival originating from Tamil Nadu, India, and celebrated with immense fervor in Singapore, Sri Lanka, and other countries with large Tamil populations. The festival is held in honor of the goddess Draupadi, the powerful heroine of the epic Mahabharata and the wife of the five Pandava brothers. It reenacts a pivotal moment from the epic, where Draupadi, to prove her purity and innocence after the devastating Kurukshetra war, walks barefoot across a bed of burning embers and emerges completely unscathed. This miraculous act is seen as the ultimate testament to her virtue and the protective power of unwavering faith.</p>
                                     <p>Her story is one of immense resilience. The Theemithi festival celebrates her power, purity, and the idea that true devotion can overcome even the most daunting trials. You can read more about other such intense displays of faith in our <Link href="/blog/extreme-festivals-of-the-world" className="text-accent hover:underline">guide to extreme festivals</Link>.</p>
@@ -79,7 +85,7 @@ export default function TheemithiPage() {
                                 </div>
                             </TabsContent>
                         </Tabs>
-                        <ShareButtons title="Theemithi Fire-Walking Festival" />
+                        <ShareButtons title="A Walk Through Fire: How an Ancient Queen's Trial by Fire Became a Modern Festival" />
                         <RelatedContent items={relatedContent} />
                     </CardContent>
                 </Card>
