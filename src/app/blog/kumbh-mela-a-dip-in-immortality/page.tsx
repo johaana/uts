@@ -43,7 +43,7 @@ const relatedContent: RelatedItem[] = [
         hint: "shiva statue"
     },
     {
-        slug: "ganga-sagar-mela",
+        slug: "makar-sankranti",
         title: "Makar Sankranti",
         image: "https://i.postimg.cc/gJrdvSxD/makar-sankranti.jpg",
         type: "Festival",

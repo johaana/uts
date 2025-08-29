@@ -7,13 +7,12 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ShareButtons } from "@/components/ShareButtons";
-import type { Metadata } from 'next';
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 import { ProductCard } from "@/components/ProductCard";
 import { products } from "@/lib/product-data";
 
 const post = { 
-    title: "Diwali 2025: Shubh Muhurat for Lakshmi Puja & Decoration Inspirations", 
+    title: "Diwali 2025: Your Guide to Lakshmi Puja Muhurat, Rituals, and Decor", 
     image: "https://i.postimg.cc/TYs5B2K4/lakshmi_puja.webp",
     excerpt: "Your ultimate guide to Diwali 2025! Find the auspicious Lakshmi Puja timings, step-by-step puja vidhi, and stunning decoration ideas to make your celebration shine."
 };
@@ -29,7 +28,7 @@ const relatedContent: RelatedItem[] = [
     },
     {
         slug: "significance-of-diyas-in-diwali",
-        title: "The Significance of Diyas",
+        title: "More Than a Lamp: The Deep Symbolism of the Diwali Diya",
         image: "https://i.postimg.cc/brM9vjDZ/Diya-diwali.webp",
         type: "Blog",
         link: "/blog/significance-of-diyas-in-diwali",
@@ -37,7 +36,7 @@ const relatedContent: RelatedItem[] = [
     },
     {
         slug: "celebrate-with-conscience-eco-friendly-festivals",
-        title: "Guide to Eco-Friendly Festivals",
+        title: "Love Festivals, Hate Waste? Your Ultimate Guide to a Green Celebration",
         image: "https://i.postimg.cc/XNyGGLXt/eco-friendly.jpg",
         type: "Blog",
         link: "/blog/celebrate-with-conscience-eco-friendly-festivals",

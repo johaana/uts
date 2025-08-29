@@ -9,9 +9,9 @@ import type { Metadata } from 'next';
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 
 const post = { 
-    title: "Acoustic Archaeology: The Science and Spirit of Temple Sounds", 
+    title: "Acoustic Archaeology: The Hidden Science Behind Sacred Temple Sounds", 
     image: "https://i.postimg.cc/Z5hKML4T/temple-bell1.jpg",
-    excerpt: "Ever wondered why temple bells have a specific shape, or why a conch shell's sound is so moving? We explore the fascinating intersection of science, sound, and spirituality in Hindu rituals."
+    excerpt: "Why does a temple bell instantly calm the mind? We explore the fascinating science of 'sacred acoustics' and how ancient temple sounds are designed to alter consciousness."
 };
 
 export const metadata: Metadata = {

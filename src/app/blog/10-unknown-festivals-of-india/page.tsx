@@ -8,7 +8,7 @@ import { ShareButtons } from "@/components/ShareButtons";
 import type { Metadata } from 'next';
 
 const post = { 
-    title: "10 Indian Festivals You've Probably Never Heard Of", 
+    title: "10 Indian Festivals You've Never Heard Of (But Need to Experience)", 
     image: "https://i.postimg.cc/59X4N23Q/unique-festivals1.webp",
     excerpt: "Venture off the beaten path and discover some of India's most unique and fascinating regional festivals, from tribal celebrations to ancient rituals."
 };

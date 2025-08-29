@@ -15,10 +15,10 @@ const post = {
 };
 
 export const metadata: Metadata = {
-  title: "You Think You Know Diwali? In Parts of India, the Festival of Lights is Actually a Festival of Ghosts. | Utsavs",
+  title: `${post.title} | Utsavs`,
   description: post.excerpt,
   openGraph: {
-    title: `You Think You Know Diwali? | Utsavs`,
+    title: `${post.title} | Utsavs`,
     description: post.excerpt,
     images: [{ url: post.image, width: 1200, height: 630, alt: post.title }],
     type: 'article',
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: `You Think You Know Diwali? | Utsavs`,
+    title: `${post.title} | Utsavs`,
     description: post.excerpt,
     images: [post.image],
   },

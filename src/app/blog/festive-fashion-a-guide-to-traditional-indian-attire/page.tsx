@@ -8,7 +8,7 @@ import { ShareButtons } from "@/components/ShareButtons";
 import type { Metadata } from 'next';
 
 const post = {
-    title: "Festive Fashion: A Guide to Traditional Indian Attire",
+    title: "A Guide to Festive Fashion: What to Wear for Diwali, Holi, and More",
     image: "https://i.postimg.cc/Kj45FYzX/festive-Indian-attire.png",
     excerpt: "From vibrant sarees and lehengas to elegant kurtas and sherwanis, find inspiration for your festive wardrobe. We explore the significance of different colors and fabrics in Indian festive wear."
 };

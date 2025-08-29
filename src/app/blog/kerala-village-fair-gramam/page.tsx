@@ -9,7 +9,7 @@ import type { Metadata } from 'next';
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 
 const post = { 
-    title: "Gramam: Step Into the Heart of Kerala's Culture", 
+    title: "Step Back in Time at Gramam, Kerala's Unique Village Fair", 
     image: "https://i.postimg.cc/fydk3zxs/gramam.png",
     excerpt: "Experience the authentic culture of Kerala at the Gramam village fair. A celebration of traditional arts, crafts, and food near Kovalam."
 };
@@ -44,7 +44,7 @@ const relatedContent: RelatedItem[] = [
     },
     {
         slug: "thrissur-pooram-keralas-grandest-festival",
-        title: "Thrissur Pooram",
+        title: "Thrissur Pooram: Kerala's Spectacle of Elephants and Percussion",
         image: "https://i.postimg.cc/j28kQ9WT/thrissur-puram-festival-2.jpg",
         type: "Blog",
         link: "/blog/thrissur-pooram-keralas-grandest-festival",

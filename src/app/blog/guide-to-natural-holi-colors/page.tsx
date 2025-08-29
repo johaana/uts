@@ -9,7 +9,7 @@ import type { Metadata } from 'next';
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 
 const post = {
-    title: "A Guide to Natural Holi Colors",
+    title: "DIY Holi: Make Safe, Skin-Loving Colors in Your Own Kitchen",
     image: "https://i.postimg.cc/gkXKTrQ8/organic-holi-colours.webp",
     excerpt: "Before chemical colors became popular, Holi was played with fragrant, skin-friendly colors made from flowers and herbs. Learn how to make your own natural gulal and celebrate a safe, eco-friendly Holi."
 };
@@ -52,7 +52,7 @@ const relatedContent: RelatedItem[] = [
     },
     {
         slug: "celebrate-with-conscience-eco-friendly-festivals",
-        title: "Guide to Eco-Friendly Festivals",
+        title: "Love Festivals, Hate Waste? Your Ultimate Guide to a Green Celebration",
         image: "https://i.postimg.cc/XNyGGLXt/eco-friendly.jpg",
         type: "Blog",
         link: "/blog/celebrate-with-conscience-eco-friendly-festivals",

@@ -9,7 +9,7 @@ import type { Metadata } from 'next';
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 
 const post = { 
-    title: "Bikaner's Royal Spectacle: The Famous Camel Festival", 
+    title: "A Royal Spectacle in the Sand: The Bikaner Camel Festival", 
     image: "https://i.postimg.cc/cL5m84pX/bikaner-camel-festival.jpg",
     excerpt: "Explore the vibrant Bikaner Camel Festival, a unique celebration of Rajasthan's 'Ship of the Desert'. Discover dates, traditions, and what makes this event a photographer's paradise."
 };
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
 const relatedContent: RelatedItem[] = [
     {
         slug: "pushkar-camel-fair-an-unforgettable-experience",
-        title: "Pushkar Camel Fair",
+        title: "Pushkar Camel Fair: More Than Just a Market",
         image: "https://i.postimg.cc/rmVJnj2w/Pushkar-Camel-Fair.avif",
         type: "Blog",
         link: "/blog/pushkar-camel-fair-an-unforgettable-experience",

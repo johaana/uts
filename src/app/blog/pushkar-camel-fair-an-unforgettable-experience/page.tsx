@@ -36,7 +36,7 @@ export const metadata: Metadata = {
 const relatedContent: RelatedItem[] = [
     {
         slug: "bikaner-camel-festival-a-royal-spectacle",
-        title: "Bikaner Camel Festival",
+        title: "A Royal Spectacle in the Sand: The Bikaner Camel Festival",
         image: "https://i.postimg.cc/1tK9P9dK/bikaner-camel.jpg",
         type: "Blog",
         link: "/blog/bikaner-camel-festival-a-royal-spectacle",

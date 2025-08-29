@@ -9,7 +9,7 @@ import type { Metadata } from 'next';
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 
 const post = { 
-    title: "The Festive Economy: How Cultural Celebrations Boost Local Livelihoods", 
+    title: "How an Ancient Goddess Creates a Billion-Dollar Economy Every Year", 
     image: "https://i.postimg.cc/qvXMVCv2/economics-of-festivals.avif",
     excerpt: "Explore how major festivals like Durga Puja and the Pushkar Camel Fair create a vibrant micro-economy, supporting artisans, local businesses, and sustaining traditional crafts."
 };
@@ -44,7 +44,7 @@ const relatedContent: RelatedItem[] = [
     },
     {
         slug: "pushkar-camel-fair-an-unforgettable-experience",
-        title: "Pushkar Camel Fair",
+        title: "Pushkar Camel Fair: More Than Just a Market",
         image: "https://i.postimg.cc/rmVJnj2w/Pushkar-Camel-Fair.avif",
         type: "Blog",
         link: "/blog/pushkar-camel-fair-an-unforgettable-experience",
@@ -52,7 +52,7 @@ const relatedContent: RelatedItem[] = [
     },
     {
         slug: "celebrate-with-conscience-eco-friendly-festivals",
-        title: "Guide to Eco-Friendly Festivals",
+        title: "Love Festivals, Hate Waste? Your Ultimate Guide to a Green Celebration",
         image: "https://i.postimg.cc/XNyGGLXt/eco-friendly.jpg",
         type: "Blog",
         link: "/blog/celebrate-with-conscience-eco-friendly-festivals",

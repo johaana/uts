@@ -8,7 +8,7 @@ import { ShareButtons } from "@/components/ShareButtons";
 import type { Metadata } from 'next';
 
 const post = { 
-    title: "Losar Festival: Celebrating the Tibetan New Year in the Himalayas", 
+    title: "Chasing Away the Old Year with a Bang: The Story of Losar", 
     image: "https://i.postimg.cc/9QtNjywP/losar.jpg",
     excerpt: "Discover the Losar festival, a vibrant celebration marking the Tibetan New Year with colorful rituals, music, and dance in Sikkim and Ladakh."
 };

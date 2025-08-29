@@ -1,5 +1,4 @@
 
-
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
@@ -11,7 +10,7 @@ import { ProductCard } from "@/components/ProductCard";
 import { products } from "@/lib/product-data";
 
 const post = {
-    title: "12 Beautiful Rangoli Designs for Any Occasion",
+    title: "Can't Draw? These 5 Simple Rangoli Designs Will Still Wow Your Guests",
     image: "https://i.postimg.cc/fRYfMpwb/Rangoli.jpg",
     excerpt: "Get inspired with these beautiful and diverse rangoli patterns. From simple floral designs to intricate traditional art, find the perfect design to adorn your home for any festive occasion."
 };

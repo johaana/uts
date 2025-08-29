@@ -9,7 +9,7 @@ import type { Metadata } from 'next';
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 
 const post = { 
-    title: "Astrology of Festivals: How Planetary Alignments Dictate Hindu Holy Days", 
+    title: "Why Is Diwali Always on a New Moon? The Cosmic Logic Behind Hindu Festivals", 
     image: "https://i.postimg.cc/6QW6958g/astrology-festivals.jpg",
     excerpt: "Why is Diwali tied to the new moon, while Holi is on a full moon? This deep dive explores the fascinating logic of the Hindu lunisolar calendar and how cosmic events shape the spiritual calendar."
 };

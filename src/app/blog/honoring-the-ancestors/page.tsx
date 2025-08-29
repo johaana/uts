@@ -9,7 +9,7 @@ import type { Metadata } from 'next';
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 
 const post = { 
-    title: "Conversations with the Departed: How the World Honors Its Ancestors", 
+    title: "Dancing with the Dead: How the World Honors Its Ancestors", 
     image: "https://i.postimg.cc/05F4GWkS/Dia-de-los-Muertos-Day-of-the-Dead-3.avif",
     excerpt: "From Mexico's vibrant Día de los Muertos to Japan's serene Obon festival, discover the beautiful and profound ways different cultures maintain a living connection with those who have passed on."
 };

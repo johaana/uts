@@ -9,7 +9,7 @@ import type { Metadata } from 'next';
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 
 const post = { 
-    title: "Festivals That Celebrate Animals: Reciprocity, Myth, and Modern Ethics", 
+    title: "A Guide to Animal Festivals: From Sacred Elephants to Worshipped Dogs", 
     image: "https://i.postimg.cc/yYMqHNjd/animal-fest-blog.png",
     excerpt: "From Nepal’s Kukur Tihar to Thailand’s Monkey Buffet, explore how festivals honour animals, the myths behind them, and contemporary welfare and conservation issues."
 };
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
 const relatedContent: RelatedItem[] = [
     {
         slug: "kukur-tihar",
-        title: "Kukur Tihar: Nepal's 'Day of the Dogs'",
+        title: "He Refused to Enter Heaven Without His Dog. How That Single Act of Loyalty Created a National Holiday.",
         image: "https://i.postimg.cc/RCcT1Twd/kukur-tihar1.avif",
         type: "Festival",
         link: "/festivals/kukur-tihar",

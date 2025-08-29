@@ -8,7 +8,7 @@ import { ShareButtons } from "@/components/ShareButtons";
 import type { Metadata } from 'next';
 
 const post = { 
-    title: "Maad Festival in Himachal Pradesh: Celebrating Livestock and Tradition", 
+    title: "Maad Festival: A Unique Himachali Celebration of Farmers and Animals", 
     image: "https://i.postimg.cc/VsJkRdHZ/animal-festival-maad.jpg",
     excerpt: "Explore the Maad Festival, a unique celebration where Himachali communities honor their livestock with songs, rituals, and reverence, highlighting an age-old bond."
 };

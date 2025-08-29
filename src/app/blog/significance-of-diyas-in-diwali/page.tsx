@@ -10,7 +10,7 @@ import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 
 
 const post = {
-    title: "The Significance of Diyas in Diwali",
+    title: "More Than a Lamp: The Deep Symbolism of the Diwali Diya",
     image: "https://i.postimg.cc/brM9vjDZ/Diya-diwali.webp",
     excerpt: "Discover the deep cultural and spiritual meaning behind lighting diyas during the festival of lights. From symbolizing the victory of good over evil to welcoming the goddess Lakshmi, the humble diya holds a universe of meaning."
 };
@@ -53,7 +53,7 @@ const relatedContent: RelatedItem[] = [
     },
     {
         slug: "celebrate-with-conscience-eco-friendly-festivals",
-        title: "Guide to Eco-Friendly Festivals",
+        title: "Love Festivals, Hate Waste? Your Ultimate Guide to a Green Celebration",
         image: "https://i.postimg.cc/XNyGGLXt/eco-friendly.jpg",
         type: "Blog",
         link: "/blog/celebrate-with-conscience-eco-friendly-festivals",

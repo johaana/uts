@@ -1,5 +1,4 @@
 
-
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
@@ -12,7 +11,7 @@ import { ProductCard } from "@/components/ProductCard";
 import { products } from "@/lib/product-data";
 
 const post = { 
-    title: "A Beginner's Guide to Setting Up a Home Puja (Altar)", 
+    title: "A 5-Minute Guide to Setting Up a Home Puja (for Absolute Beginners)", 
     image: "https://i.postimg.cc/8PYnpyjS/home-puja.webp",
     excerpt: "New to Hindu rituals? This simple, accessible guide walks you through creating a sacred space at home, basic offerings, and the philosophy behind daily worship. No prior knowledge needed."
 };
@@ -47,7 +46,7 @@ const relatedContent: RelatedItem[] = [
     },
     {
         slug: "significance-of-diyas-in-diwali",
-        title: "The Significance of Diyas",
+        title: "More Than a Lamp: The Deep Symbolism of the Diwali Diya",
         image: "https://i.postimg.cc/brM9vjDZ/Diya-diwali.webp",
         type: "Blog",
         link: "/blog/significance-of-diyas-in-diwali",

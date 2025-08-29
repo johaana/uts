@@ -8,7 +8,7 @@ import { ShareButtons } from "@/components/ShareButtons";
 import type { Metadata } from 'next';
 
 const post = {
-    title: "Maximize Your Vacations: Your Ultimate Guide to India's Long Weekends in 2025",
+    title: "The 2025 Long Weekend Cheatsheet: Turn 5 Days Off Into 21 Days of Travel",
     image: "https://i.postimg.cc/VLQf0kKF/long-weekend-1.jpg",
     excerpt: "Unlock your 2025 travel potential! This guide details all the long weekends in India, offering festival-based travel ideas to help you plan your holidays and make the most of every break."
 };

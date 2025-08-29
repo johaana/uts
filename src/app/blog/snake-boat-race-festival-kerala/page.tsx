@@ -8,7 +8,7 @@ import { ShareButtons } from "@/components/ShareButtons";
 import type { Metadata } from 'next';
 
 const post = { 
-    title: "Snake Boat Race Festival of Kerala – Vallam Kali’s Spirit of Unity, Tradition, and Thrill", 
+    title: "Thunder on the Backwaters: The Story of Kerala's Snake Boat Races", 
     image: "https://i.postimg.cc/wx4FCb2T/snake-boat-race.jpg",
     excerpt: "Dive deep into the history, cultural significance, rituals, and thrill of Kerala's breathtaking Snake Boat Race Festival (Vallam Kali)."
 };

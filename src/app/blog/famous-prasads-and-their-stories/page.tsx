@@ -9,7 +9,7 @@ import type { Metadata } from 'next';
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 
 const post = { 
-    title: "Divine Offerings: Famous Prasads of India and Their Stories", 
+    title: "Why Does Tirupati's Laddu Taste So Divine? The Stories Behind India's Most Famous Temple Foods", 
     image: "https://i.postimg.cc/K858TgLJ/tirupati-laddu.jpg",
     excerpt: "Journey through the divine flavors of India's most famous temple offerings. Discover the legends and traditions behind iconic prasads like Tirupati Laddu, Jagannath Mahaprasad, and more."
 };

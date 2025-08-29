@@ -9,7 +9,7 @@ import type { Metadata } from 'next';
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 
 const post = { 
-    title: "Cracking the Code: Why Do We Break Coconuts in Hindu Rituals?", 
+    title: "Cracking the Code: The Hidden Meaning Behind Breaking a Coconut", 
     image: "https://i.postimg.cc/dVF0D97h/coconut.webp",
     excerpt: "Uncover the deep spiritual symbolism behind the common practice of breaking a coconut. From shattering the ego to its representation as the 'fruit of the gods,' explore the meaning of this sacred act."
 };
@@ -44,7 +44,7 @@ const relatedContent: RelatedItem[] = [
     },
     {
         slug: "home-puja-guide-for-beginners",
-        title: "A Beginner's Guide to Home Puja",
+        title: "A 5-Minute Guide to Setting Up a Home Puja (for Absolute Beginners)",
         image: "https://i.postimg.cc/brM9vjDZ/Diya-diwali.webp",
         type: "Blog",
         link: "/blog/home-puja-guide-for-beginners",

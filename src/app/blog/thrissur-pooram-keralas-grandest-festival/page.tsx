@@ -9,7 +9,7 @@ import type { Metadata } from 'next';
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 
 const post = { 
-    title: "Thrissur Pooram: Kerala's Spectacle of Elephants and Percussion", 
+    title: "Thrissur Pooram: The Story of Kerala's Grandest Elephant and Percussion Festival", 
     image: "https://i.postimg.cc/QCHNCm16/thrissur-pooram.avif",
     excerpt: "Experience the magic of Thrissur Pooram, a grand temple festival in Kerala featuring caparisoned elephants, traditional music, and a dazzling fireworks display."
 };
@@ -52,7 +52,7 @@ const relatedContent: RelatedItem[] = [
     },
     {
         slug: "thaipusam",
-        title: "Thaipusam",
+        title: "The Burden of Faith: Unpacking the Intense Rituals of Thaipusam",
         image: "https://i.postimg.cc/4y7fTLZd/thaipusam.webp",
         type: "Festival",
         link: "/festivals/thaipusam",

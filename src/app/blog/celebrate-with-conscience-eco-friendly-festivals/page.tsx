@@ -1,5 +1,4 @@
 
-
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
@@ -11,7 +10,7 @@ import { ProductCard } from "@/components/ProductCard";
 import { products } from "@/lib/product-data";
 
 const post = { 
-    title: "Celebrate with Conscience: Your Guide to Vibrant and Eco-Friendly Indian Festivals", 
+    title: "Love Festivals, Hate Waste? Your Ultimate Guide to a Green Celebration", 
     image: "https://i.postimg.cc/XNyGGLXt/eco-friendly.jpg",
     excerpt: "Discover how to blend rich cultural traditions with sustainable practices. Our guide explores the importance of eco-friendly festivals and offers creative, conscious ways to celebrate with joy."
 };

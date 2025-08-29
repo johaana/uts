@@ -9,7 +9,7 @@ import type { Metadata } from 'next';
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 
 const post = { 
-    title: "Hampi Utsav: Where Ancient Ruins Come Alive", 
+    title: "Hampi Utsav: Where the Ruins of an Empire Come Alive", 
     image: "https://i.postimg.cc/9Qp5rxbW/hampi-utsav1.webp",
     excerpt: "Experience the grandeur of the Vijayanagar empire at the Hampi Festival. A cultural extravaganza of music, dance, and art amidst a UNESCO World Heritage Site."
 };

@@ -8,7 +8,7 @@ import { ShareButtons } from "@/components/ShareButtons";
 import type { Metadata } from 'next';
 
 const post = { 
-    title: "Sula Fest: India's Premier Vineyard Music Festival", 
+    title: "Sula Fest: A Guide to India's Premier Vineyard Music Festival", 
     image: "https://i.postimg.cc/Gpm0Ykgv/sula-fest-1.jpg",
     excerpt: "Discover Sula Fest, a unique blend of live music, gourmet food, and fine wine in the picturesque vineyards of Nashik."
 };

@@ -1,5 +1,4 @@
 
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, CheckCircle } from "lucide-react";
 import Link from "next/link";
@@ -12,7 +11,7 @@ import { ProductCard } from "@/components/ProductCard";
 import { products } from "@/lib/product-data";
 
 const post = { 
-    title: "Your Ultimate Guide to an Eco-Friendly Ganesh Chaturthi", 
+    title: "The 5-Step Guide to a 100% Eco-Friendly Ganesh Chaturthi", 
     image: "https://i.postimg.cc/YqXk9YD2/eco-ganesh-1.jpg",
     excerpt: "Celebrate the birth of Lord Ganesha with reverence for both tradition and nature. Discover beautiful, water-soluble idols, DIY clay kits, and sustainable decoration ideas for a joyous and conscious festival."
 };
@@ -47,7 +46,7 @@ const relatedContent: RelatedItem[] = [
     },
     {
         slug: "celebrate-with-conscience-eco-friendly-festivals",
-        title: "Guide to Eco-Friendly Festivals",
+        title: "Love Festivals, Hate Waste? Your Ultimate Guide to a Green Celebration",
         image: "https://i.postimg.cc/XNyGGLXt/eco-friendly.jpg",
         type: "Blog",
         link: "/blog/celebrate-with-conscience-eco-friendly-festivals",

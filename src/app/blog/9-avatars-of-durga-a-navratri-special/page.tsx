@@ -9,7 +9,7 @@ import type { Metadata } from 'next';
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 
 const post = {
-    title: "The 9 Avatars of Durga: A Navratri Special",
+    title: "Navratri's Nine Nights: A Day-by-Day Guide to the 9 Forms of Durga",
     image: "https://i.postimg.cc/GhWjwdnN/Navratri.jpg",
     excerpt: "Explore the nine powerful forms of Goddess Durga worshipped during the nine nights of Navratri. Each avatar has a unique story and significance, representing a different aspect of the divine feminine."
 };

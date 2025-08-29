@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 const relatedContent: RelatedItem[] = [
     {
         slug: "extreme-festivals-of-the-world",
-        title: "Gods, Guts, and Glory: The World's Most Extreme Festivals",
+        title: "Gods, Guts, and Glory: A Journey into the World's Most Extreme Festivals",
         image: "https://i.postimg.cc/Hx8kz3vf/theemithi.jpg",
         type: "Blog",
         link: "/blog/extreme-festivals-of-the-world",

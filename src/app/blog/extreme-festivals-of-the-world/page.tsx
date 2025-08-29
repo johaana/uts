@@ -44,7 +44,7 @@ const relatedContent: RelatedItem[] = [
     },
     {
         slug: "theemithi",
-        title: "A Walk Through Fire: The Story of Theemithi",
+        title: "A Walk Through Fire: How an Ancient Queen's Trial by Fire Became a Modern Festival",
         image: "https://i.postimg.cc/Hx8kz3vf/theemithi.jpg",
         type: "Festival",
         link: "/festivals/theemithi",

@@ -13,7 +13,7 @@ import { ProductCard } from "@/components/ProductCard";
 import { products } from "@/lib/product-data";
 
 const post = { 
-    title: "Navratri & Dussehra 2025: From Garba Nights to Ravan Dahan", 
+    title: "Navratri & Dussehra 2025: A 10-Day Guide to Garba, Gods, and Victory", 
     image: "https://i.postimg.cc/Zn3Rzsz8/navratri1.jpg",
     excerpt: "Your essential guide to the 10 days of celebration! Find Navratri 2025 dates, the significance of the 9 colors, and the story behind Dussehra's Ravan Dahan."
 };
@@ -37,7 +37,7 @@ const relatedContent: RelatedItem[] = [
     },
     {
         slug: "9-avatars-of-durga-a-navratri-special",
-        title: "The 9 Avatars of Durga",
+        title: "Navratri's Nine Nights: A Day-by-Day Guide to the 9 Forms of Durga",
         image: "https://i.postimg.cc/GhWjwdnN/Navratri.jpg",
         type: "Blog",
         link: "/blog/9-avatars-of-durga-a-navratri-special",

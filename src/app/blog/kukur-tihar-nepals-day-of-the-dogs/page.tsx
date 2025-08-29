@@ -44,7 +44,7 @@ const relatedContent: RelatedItem[] = [
     },
     {
         slug: "festivals-that-celebrate-animals",
-        title: "Blog: Festivals That Celebrate Animals",
+        title: "A Guide to Animal Festivals: From Sacred Elephants to Worshipped Dogs",
         image: "https://i.postimg.cc/yYMqHNjd/animal-fest-blog.png",
         type: "Blog",
         link: "/blog/festivals-that-celebrate-animals",

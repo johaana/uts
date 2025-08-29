@@ -9,7 +9,7 @@ import type { Metadata } from 'next';
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 
 const post = { 
-    title: "The Sacred Third Gender: The Divine Role of Kinnars in Indian Festivities", 
+    title: "Blessed & Excluded: The Paradoxical Power of Kinnars in Indian Festivals", 
     image: "https://i.postimg.cc/0NVkrRmQ/kinnar-durga-puja1.jpg",
     excerpt: "A deep dive into the paradoxical role of the Kinnar (Hijra) community in Indian culture, exploring their mythological origins and sacred, auspicious presence in rituals like weddings and childbirth."
 };

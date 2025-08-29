@@ -9,7 +9,7 @@ import type { Metadata } from 'next';
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 
 const post = { 
-    title: "Bail Pola: A Heartfelt Tribute to the Farmer's Closest Ally", 
+    title: "The Day the Bulls Rest: Bail Pola, A Heartfelt Tribute to the Farmer's Closest Ally", 
     image: "https://i.postimg.cc/cJZ0Qj0H/Bail-Pola.jpg",
     excerpt: "Discover Bail Pola, the unique festival where farmers in Maharashtra and Chhattisgarh honor their bulls with decorations, worship, and a day of rest to express gratitude."
 };

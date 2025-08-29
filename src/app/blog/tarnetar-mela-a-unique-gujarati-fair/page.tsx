@@ -8,7 +8,7 @@ import { ShareButtons } from "@/components/ShareButtons";
 import type { Metadata } from 'next';
 
 const post = { 
-    title: "Tarnetar Mela: The Vibrant Matchmaking Fair of Gujarat", 
+    title: "The Swayamvara of the 21st Century: Inside Gujarat's Tarnetar Matchmaking Fair", 
     image: "https://i.postimg.cc/N0qYH9q4/tarnetar-mela.jpg",
     excerpt: "Explore the Tarnetar Mela, a colorful and romantic fair where Gujarat's tribal youth find their life partners amidst folk dance and music."
 };

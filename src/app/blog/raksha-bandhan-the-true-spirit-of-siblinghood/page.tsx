@@ -1,5 +1,4 @@
 
-
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
@@ -12,7 +11,7 @@ import { ProductCard } from "@/components/ProductCard";
 import { products } from "@/lib/product-data";
 
 const post = {
-    title: "More Than a Thread: The True Spirit of Raksha Bandhan",
+    title: "More Than a Thread: The Ancient Vow That Binds Gods, Kings, and Siblings",
     image: "https://i.postimg.cc/9MXxXQhY/Raksha-Bandhan.jpg",
     excerpt: "Explore the deep history and heartfelt traditions of Raksha Bandhan. Discover thoughtful gift ideas that go beyond the material to truly celebrate the unbreakable bond between siblings."
 };

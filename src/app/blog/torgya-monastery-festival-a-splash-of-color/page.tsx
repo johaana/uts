@@ -8,7 +8,7 @@ import { ShareButtons } from "@/components/ShareButtons";
 import type { Metadata } from 'next';
 
 const post = { 
-    title: "Torgya: The Masked Dances of Tawang Monastery", 
+    title: "Torgya: The Otherworldly Masked Dances of Tawang Monastery", 
     image: "https://i.postimg.cc/Dzw5kHTF/torgya.jpg",
     excerpt: "Witness the stunning Torgya festival in Arunachal Pradesh, where monks perform sacred 'Chham' dances to chase away evil spirits."
 };
