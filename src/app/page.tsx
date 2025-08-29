@@ -1,5 +1,4 @@
 
-
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Calendar, Utensils, BookOpen, Globe } from "lucide-react";
 import Link from "next/link";

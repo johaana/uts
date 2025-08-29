@@ -1,7 +1,7 @@
 
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Card, CardContent } from './ui/card';
@@ -12,14 +12,9 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-  type CarouselApi,
 } from "@/components/ui/carousel"
 import Autoplay from "embla-carousel-autoplay"
 import { useMediaQuery } from '@/hooks/use-media-query';
-import { cn } from '@/lib/utils';
-import { Button } from './ui/button';
-import { ArrowRight } from 'lucide-react';
-
 
 function DesktopShowcase() {
     const uniqueFestivals = Array.from(new Map(internationalEvents.map(item => [item.name.split(' (')[0], item])).values());
@@ -38,7 +33,7 @@ function DesktopShowcase() {
             className="w-full"
         >
             <CarouselContent className="-ml-2 md:-ml-4">
-                {uniqueFestivals.map((festival, index) => (
+                {uniqueFestivals.map((festival) => (
                     <CarouselItem key={festival.slug} className="pl-2 md:pl-4 basis-4/5 sm:basis-1/2 lg:basis-1/3 xl:basis-1/4">
                         <div className="p-1 h-full">
                              <Link href={festival.link!} className="group">
@@ -90,7 +85,7 @@ function MobileShowcase() {
         <CarouselContent>
           {uniqueFestivals.map((festival, index) => (
             <CarouselItem key={index}>
-              <Link href={festival.link!}>
+              <Link href={festival.link!} className="group">
                 <Card className="overflow-hidden">
                     <div className="relative w-full aspect-[4/3.2] overflow-hidden">
                         <Image

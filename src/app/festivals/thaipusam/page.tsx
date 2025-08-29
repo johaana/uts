@@ -1,13 +1,13 @@
 
 import type { Metadata } from 'next';
-import { ThaipusamPageContent } from './ThaipusamPageContent';
 import { Card, CardContent } from "@/components/ui/card";
 import { ShareButtons } from "@/components/ShareButtons";
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 import Image from 'next/image';
+import { ThaipusamPageContent } from './ThaipusamPageContent';
 
 export const metadata: Metadata = {
-  title: "The God Who Demands a Pound of Flesh: Thaipusam's Unbelievable Test of Faith",
+  title: "The Burden of Faith: Unpacking the Intense Rituals of Thaipusam",
   description: "Explore the powerful rituals of Thaipusam, a festival of intense devotion to Lord Murugan. Understand the significance of the Kavadi and skin piercings.",
 };
 
@@ -59,7 +59,7 @@ export default function ThaipusamPage() {
                                <article>
                                     <ThaipusamPageContent isContent={true} />
                                </article>
-                               <ShareButtons title="The God Who Demands a Pound of Flesh: Thaipusam's Unbelievable Test of Faith" />
+                               <ShareButtons title="The Burden of Faith: Unpacking the Intense Rituals of Thaipusam" />
                                <RelatedContent items={relatedContent} />
                             </main>
                         </div>
