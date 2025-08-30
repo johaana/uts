@@ -10,7 +10,7 @@ import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 
 const post = { 
     title: "The God Who Disappears: The Mystery of the Kerala Festival Where the Main Idol is Hidden", 
-    image: "https://i.postimg.cc/9F7vB6V7/attuvela.jpg",
+    image: "https://i.postimg.cc/zGMjGxrS/attuvela-mahotsavam.webp",
     excerpt: "At most temple festivals, the main idol leads the procession. But at this unique water carnival in Kerala, the god’s idol is nowhere to be seen. This is the story of a festival that isn't about worship, but about a brother welcoming his sister home."
 };
 

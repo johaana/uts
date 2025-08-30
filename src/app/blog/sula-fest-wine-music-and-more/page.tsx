@@ -6,6 +6,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ShareButtons } from "@/components/ShareButtons";
 import type { Metadata } from 'next';
+import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 
 const post = { 
     title: "Sula Fest: A Guide to India's Premier Vineyard Music Festival", 
@@ -31,6 +32,33 @@ export const metadata: Metadata = {
     images: [post.image],
   },
 };
+
+const relatedContent: RelatedItem[] = [
+    {
+        slug: "goa-carnival",
+        title: "Goa Carnival",
+        image: "https://i.postimg.cc/4xZYzGsQ/Goa-Carnival.jpg",
+        type: "Festival",
+        link: "/festivals/goa-carnival",
+        hint: "carnival parade float"
+    },
+    {
+        slug: "oktoberfest",
+        title: "Oktoberfest",
+        image: "https://i.postimg.cc/g0q0PLJz/Oktoberfest-Munich.jpg",
+        type: "Festival",
+        link: "/festivals/oktoberfest",
+        hint: "beer festival"
+    },
+    {
+        slug: "zomaland",
+        title: "Zomaland",
+        image: "https://i.postimg.cc/y8Yj3p5m/zomaland.avif",
+        type: "Festival",
+        link: "/festivals/zomaland",
+        hint: "food festival"
+    }
+];
 
 export default function SingleBlogPage() {
     return (
@@ -70,6 +98,7 @@ export default function SingleBlogPage() {
                         <p>Sula Fest provides a relaxed, vibrant, and sophisticated atmosphere, making it a unique and sought-after event in India's festival calendar. It's a celebration of the good life, combining great music with the pleasures of food and wine.</p>
                     </article>
                     <ShareButtons title={post.title} />
+                     <RelatedContent items={relatedContent} />
                 </CardContent>
             </Card>
         </div>

@@ -6,6 +6,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ShareButtons } from "@/components/ShareButtons";
 import type { Metadata } from 'next';
+import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 
 const post = { 
     title: "Chasing Away the Old Year with a Bang: The Story of Losar", 
@@ -31,6 +32,33 @@ export const metadata: Metadata = {
     images: [post.image],
   },
 };
+
+const relatedContent: RelatedItem[] = [
+    {
+        slug: "hemis-tsechu",
+        title: "Hemis Tsechu",
+        image: "https://i.postimg.cc/J0P4xMJM/hemis-tsechu.webp",
+        type: "Festival",
+        link: "/festivals/hemis-tsechu",
+        hint: "ladakh festival"
+    },
+    {
+        slug: "buddha-purnima",
+        title: "Buddha Purnima",
+        image: "https://i.postimg.cc/L438TyHZ/buddha-purnima.webp",
+        type: "Festival",
+        link: "/festivals/buddha-purnima",
+        hint: "buddha statue"
+    },
+    {
+        slug: "chinese-new-year",
+        title: "Chinese New Year",
+        image: "https://i.postimg.cc/TYb4tV14/chinese-new-year.webp",
+        type: "Festival",
+        link: "/festivals/chinese-new-year",
+        hint: "dragon dance"
+    }
+];
 
 export default function SingleBlogPage() {
     return (
@@ -68,6 +96,7 @@ export default function SingleBlogPage() {
                         <p>Experiencing the Losar festival is a unique opportunity to witness the rich cultural and spiritual traditions of the Himalayan region. It's a celebration that beautifully blends solemn ritual with exuberant joy, offering a memorable experience for any traveler.</p>
                     </article>
                     <ShareButtons title={post.title} />
+                    <RelatedContent items={relatedContent} />
                 </CardContent>
             </Card>
         </div>

@@ -6,6 +6,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ShareButtons } from "@/components/ShareButtons";
 import type { Metadata } from 'next';
+import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 
 const post = { 
     title: "Torgya: The Otherworldly Masked Dances of Tawang Monastery", 
@@ -31,6 +32,33 @@ export const metadata: Metadata = {
     images: [post.image],
   },
 };
+
+const relatedContent: RelatedItem[] = [
+    {
+        slug: "losar-festival-the-tibetan-new-year",
+        title: "Losar Festival",
+        image: "https://i.postimg.cc/9QtNjywP/losar.jpg",
+        type: "Blog",
+        link: "/blog/losar-festival-the-tibetan-new-year",
+        hint: "ladakh festival"
+    },
+    {
+        slug: "hemis-tsechu",
+        title: "Hemis Tsechu",
+        image: "https://i.postimg.cc/J0P4xMJM/hemis-tsechu.webp",
+        type: "Festival",
+        link: "/festivals/hemis-tsechu",
+        hint: "ladakh festival"
+    },
+    {
+        slug: "buddha-purnima",
+        title: "Buddha Purnima",
+        image: "https://i.postimg.cc/L438TyHZ/buddha-purnima.webp",
+        type: "Festival",
+        link: "/festivals/buddha-purnima",
+        hint: "buddha statue"
+    }
+];
 
 export default function SingleBlogPage() {
     return (
@@ -68,6 +96,7 @@ export default function SingleBlogPage() {
                         <p>The Torgya festival offers a captivating and epic view of the region's spiritual heritage, leaving spectators mesmerized. It's a unique opportunity to witness a living tradition that has been preserved for centuries in the remote and beautiful landscape of Arunachal Pradesh.</p>
                     </article>
                     <ShareButtons title={post.title} />
+                    <RelatedContent items={relatedContent} />
                 </CardContent>
             </Card>
         </div>

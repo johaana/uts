@@ -6,6 +6,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ShareButtons } from "@/components/ShareButtons";
 import type { Metadata } from 'next';
+import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 
 const post = { 
     title: "Maad Festival: A Unique Himachali Celebration of Farmers and Animals", 
@@ -31,6 +32,33 @@ export const metadata: Metadata = {
     images: [post.image],
   },
 };
+
+const relatedContent: RelatedItem[] = [
+    {
+        slug: "bail-pola-festival",
+        title: "Bail Pola Festival",
+        image: "https://i.postimg.cc/cJZ0Qj0H/Bail-Pola.jpg",
+        type: "Blog",
+        link: "/blog/bail-pola-festival",
+        hint: "bull worship"
+    },
+    {
+        slug: "festivals-that-celebrate-animals",
+        title: "Festivals That Celebrate Animals",
+        image: "https://i.postimg.cc/yYMqHNjd/animal-fest-blog.png",
+        type: "Blog",
+        link: "/blog/festivals-that-celebrate-animals",
+        hint: "animal worship"
+    },
+    {
+        slug: "lohri",
+        title: "Lohri",
+        image: "https://i.postimg.cc/MGgSRZNM/lohri-1.webp",
+        type: "Festival",
+        link: "/festivals/lohri",
+        hint: "lohri bonfire"
+    }
+];
 
 export default function SingleBlogPage() {
     return (
@@ -76,6 +104,7 @@ export default function SingleBlogPage() {
                         
                     </article>
                     <ShareButtons title={post.title} />
+                    <RelatedContent items={relatedContent} />
                 </CardContent>
             </Card>
         </div>
