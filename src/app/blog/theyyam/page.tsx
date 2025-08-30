@@ -9,23 +9,23 @@ import Image from "next/image";
 import type { Metadata } from 'next';
 
 const post = { 
-    title: "Theyyam: When Gods Walk the Earth in Kerala", 
-    excerpt: "Explore the ancient ritual of Theyyam, where men transform into gods in a stunning display of devotion, art, and tradition."
+    title: "Theyyam: When Gods Walk the Earth", 
+    excerpt: "Explore the ancient ritual of Theyyam, where men transform into gods in a stunning display of devotion, art, and tradition that bridges the gap between the human and the divine."
 };
 
-const metadata: Metadata = {
-  title: `${post.title} | Utsavs`,
-  description: post.excerpt,
+export const metadata: Metadata = {
+  title: "Theyyam: When Gods Walk the Earth in Kerala's Divine Dance | Utsavs",
+  description: "Explore the ancient ritual of Theyyam, where men transform into gods in a stunning display of devotion, art, and tradition that bridges the gap between the human and the divine.",
   openGraph: {
-    title: `${post.title} | Utsavs`,
-    description: post.excerpt,
-    images: [{ url: "https://i.postimg.cc/HW7r9WfV/Theyyam.jpg", width: 1200, height: 630, alt: post.title }],
+    title: "Theyyam: When Gods Walk the Earth in Kerala's Divine Dance | Utsavs",
+    description: "Explore the ancient ritual of Theyyam, where men transform into gods in a stunning display of devotion, art, and tradition that bridges the gap between the human and the divine.",
+    images: [{ url: "https://i.postimg.cc/HW7r9WfV/Theyyam.jpg", width: 1200, height: 630, alt: "A Theyyam performer in full costume" }],
     type: 'article',
   },
   twitter: {
     card: 'summary_large_image',
-    title: `${post.title} | Utsavs`,
-    description: post.excerpt,
+    title: "Theyyam: When Gods Walk the Earth in Kerala's Divine Dance | Utsavs",
+    description: "Explore the ancient ritual of Theyyam, where men transform into gods in a stunning display of devotion, art, and tradition that bridges the gap between the human and the divine.",
     images: ["https://i.postimg.cc/HW7r9WfV/Theyyam.jpg"],
   },
 };
@@ -66,7 +66,7 @@ export default function TheyyamPage() {
                     <Image src="https://i.postimg.cc/HW7r9WfV/Theyyam.jpg" alt="Theyyam festival" width={1200} height={400} className="w-full h-48 md:h-64 object-cover" data-ai-hint="theyyam dancer" />
                     <div className="p-6 md:p-10 text-center">
                         <h1 className="font-headline text-4xl md:text-7xl font-bold text-primary">{post.title}</h1>
-                        <p className="text-xl md:text-2xl mt-2 text-muted-foreground">The Dance of the Divine in Kerala</p>
+                        <p className="text-xl md:text-2xl mt-2 text-muted-foreground">The Divine Dance of Kerala</p>
                     </div>
                     <CardContent className="p-6 md:p-10 pt-0">
                          <div className="grid md:grid-cols-12 gap-8 lg:gap-12">
