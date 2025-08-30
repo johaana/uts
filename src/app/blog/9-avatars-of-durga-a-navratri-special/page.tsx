@@ -9,9 +9,9 @@ import type { Metadata } from 'next';
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 
 const post = {
-    title: "Navratri's Nine Nights: A Day-by-Day Guide to the 9 Forms of Durga",
+    title: "The 9 Faces of Power: A Night-by-Night Guide to the Goddesses of Navratri",
     image: "https://i.postimg.cc/GhWjwdnN/Navratri.jpg",
-    excerpt: "Explore the nine powerful forms of Goddess Durga worshipped during the nine nights of Navratri. Each avatar has a unique story and significance, representing a different aspect of the divine feminine."
+    excerpt: "Explore the nine powerful forms of Goddess Durga worshipped during Navratri. Each avatar represents a different stage of her journey, from a gentle daughter to the fierce destroyer of evil."
 };
 
 export const metadata: Metadata = {

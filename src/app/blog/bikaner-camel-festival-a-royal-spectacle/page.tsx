@@ -9,9 +9,9 @@ import type { Metadata } from 'next';
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 
 const post = { 
-    title: "A Royal Spectacle in the Sand: The Bikaner Camel Festival", 
+    title: "The Ship of the Desert's Royal Holiday: Inside the Bikaner Camel Festival", 
     image: "https://i.postimg.cc/cL5m84pX/bikaner-camel-festival.jpg",
-    excerpt: "Explore the vibrant Bikaner Camel Festival, a unique celebration of Rajasthan's 'Ship of the Desert'. Discover dates, traditions, and what makes this event a photographer's paradise."
+    excerpt: "Explore the vibrant Bikaner Camel Festival, a unique celebration where the 'Ship of the Desert' is honored like royalty in a stunning display of Rajasthani culture."
 };
 
 export const metadata: Metadata = {

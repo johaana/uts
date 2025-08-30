@@ -10,7 +10,7 @@ import type { Metadata } from 'next';
 const post = { 
     title: "The Swayamvara of the 21st Century: Inside Gujarat's Tarnetar Matchmaking Fair", 
     image: "https://i.postimg.cc/N0qYH9q4/tarnetar-mela.jpg",
-    excerpt: "Explore the Tarnetar Mela, a colorful and romantic fair where Gujarat's tribal youth find their life partners amidst folk dance and music."
+    excerpt: "Explore the Tarnetar Mela, a colorful fair where tribal youth find life partners amidst folk dance, music, and the echo of an ancient matchmaking tradition."
 };
 
 export const metadata: Metadata = {

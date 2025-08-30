@@ -8,7 +8,7 @@ import { ShareButtons } from "@/components/ShareButtons";
 import type { Metadata } from 'next';
 
 const post = {
-    title: "A Guide to Festive Fashion: What to Wear for Diwali, Holi, and More",
+    title: "The Language of Color: How a Saffron Kurta and a Red Saree Tell a Deeper Story",
     image: "https://i.postimg.cc/Kj45FYzX/festive-Indian-attire.png",
     excerpt: "From vibrant sarees and lehengas to elegant kurtas and sherwanis, find inspiration for your festive wardrobe. We explore the significance of different colors and fabrics in Indian festive wear."
 };
