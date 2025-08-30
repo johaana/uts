@@ -32,9 +32,9 @@ export const metadata: Metadata = {
   title: defaultTitle,
   description: defaultDescription,
    icons: {
-    icon: 'https://i.postimg.cc/vZTZ0Br5/utsavs-logo.png',
-    shortcut: 'https://i.postimg.cc/vZTZ0Br5/utsavs-logo.png',
-    apple: 'https://i.postimg.cc/vZTZ0Br5/utsavs-logo.png',
+    icon: '/favicon.ico',
+    shortcut: '/favicon.ico',
+    apple: '/favicon.ico',
   },
   openGraph: {
     title: defaultTitle,
