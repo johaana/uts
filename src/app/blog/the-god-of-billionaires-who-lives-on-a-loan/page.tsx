@@ -87,9 +87,9 @@ export default function TheGodInDebtPage() {
                         <p>Kubera granted the loan, but on one condition: it had to be repaid with interest, and the repayment would last until the end of the current cosmic age, the Kali Yuga. Lord Venkateswara agreed, and the wedding was celebrated with unimaginable splendor. But it left the Lord of the Seven Hills in perpetual debt. This is the heart of the belief at Tirupati: the Lord himself is indebted, and his devotees have a personal role in helping him manage this cosmic liability.</p>
 
                         <div className="my-8 flex justify-center">
-                            <Image src="https://i.postimg.cc/qMjgKqdd/tonsure.jpg" width={600} height={400} alt="Hair offering at Tirupati" className="rounded-lg shadow-lg" data-ai-hint="hair offering"/>
+                            <Image src="https://i.postimg.cc/pT3kck0L/tirumala-tirupati-balaji-original.jpg" width={600} height={400} alt="Lord Venkateswara Idol" className="rounded-lg shadow-lg" data-ai-hint="venkateswara idol"/>
                         </div>
-
+                        
                         <h3>The Offering of Hair: A Sacrifice of Ego</h3>
                         <p>This is where the ritual of hair offering comes in. In Hindu philosophy, hair is often seen as a symbol of physical beauty, vanity, and the ego ('ahamkara'). By shaving their heads and offering their hair to the temple, devotees are performing a powerful act of surrender. They are symbolically shedding their ego, their pride, and their worldly attachments at the feet of the Lord. It is an act of ultimate humility, a declaration that their devotion is greater than their vanity.</p>
                         
