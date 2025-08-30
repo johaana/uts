@@ -113,7 +113,7 @@ export default function BlogPage() {
                          <Link href={`/blog/${post.slug}`} className="block">
                             <div className="relative h-48 w-full bg-black/5">
                                {post.image && <Image src={post.image} alt={post.title} layout="fill" objectFit="cover" data-ai-hint={post.hint}/>}
-                               <div className="absolute top-3 right-3">
+                               <div className="absolute top-3 right-3 z-10">
                                 <Badge className={getCategoryBadgeClass(post.category)}>{post.category}</Badge>
                                </div>
                             </div>
