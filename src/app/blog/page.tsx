@@ -112,7 +112,7 @@ export default function BlogPage() {
                     <Card key={post.slug} className="overflow-hidden group flex flex-col transition-transform duration-300 ease-in-out hover:scale-[1.02] hover:shadow-2xl">
                          <Link href={`/blog/${post.slug}`} className="block">
                             <div className="relative h-48 w-full bg-black/5">
-                               <Image src={post.image} alt={post.title} layout="fill" objectFit="cover" data-ai-hint={post.hint}/>
+                               {post.image && <Image src={post.image} alt={post.title} layout="fill" objectFit="cover" data-ai-hint={post.hint}/>}
                                <div className="absolute top-3 right-3">
                                 <Badge className={getCategoryBadgeClass(post.category)}>{post.category}</Badge>
                                </div>
