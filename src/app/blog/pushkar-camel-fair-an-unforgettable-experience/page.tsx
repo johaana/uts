@@ -37,7 +37,7 @@ const relatedContent: RelatedItem[] = [
     {
         slug: "bikaner-camel-festival-a-royal-spectacle",
         title: "A Royal Spectacle in the Sand: The Bikaner Camel Festival",
-        image: "https://i.postimg.cc/1tK9P9dK/bikaner-camel.jpg",
+        image: "https://i.postimg.cc/cL5m84pX/bikaner-camel-festival.jpg",
         type: "Blog",
         link: "/blog/bikaner-camel-festival-a-royal-spectacle",
         hint: "bikaner camel festival"

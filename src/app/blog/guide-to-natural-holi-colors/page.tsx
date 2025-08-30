@@ -92,6 +92,17 @@ export default function SingleBlogPage() {
 
                         <h3>Green (Hara)</h3>
                         <p>For a natural green, use pure henna (mehendi) powder mixed with flour. You can also make a paste of spinach or mint leaves for a wet green color.</p>
+                        
+                        <h3>Magenta</h3>
+                        <p>Grate or slice a beetroot and soak it in water overnight. The next morning, you will have a beautiful, deep pinkish-red water that is completely safe and natural. For a dry powder, you can dry and grind beetroot slices.</p>
+                        
+                        <h3>Blue</h3>
+                        <p>The Jacaranda flower, which blooms in spring, can be dried and ground to create a lovely blue powder. Blue hibiscus is another source for natural blue color.</p>
+
+                        <blockquote>
+                            <p>Celebrating with natural colors is not a compromise; it's an enhancement. It makes the festival safer, more fragrant, and more connected to the spirit of spring.</p>
+                        </blockquote>
+
                     </article>
                     <ShareButtons title={post.title} />
                     <RelatedContent items={relatedContent} />

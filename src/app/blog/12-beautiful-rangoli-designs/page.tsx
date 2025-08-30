@@ -8,6 +8,7 @@ import { ShareButtons } from "@/components/ShareButtons";
 import type { Metadata } from 'next';
 import { ProductCard } from "@/components/ProductCard";
 import { products } from "@/lib/product-data";
+import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 
 const post = {
     title: "From a Single Dot to a Divine Masterpiece: The Ancient Art of Rangoli",
@@ -33,6 +34,33 @@ export const metadata: Metadata = {
     images: [post.image],
   },
 };
+
+const relatedContent: RelatedItem[] = [
+    {
+        slug: "diwali",
+        title: "Diwali Festival Guide",
+        image: "https://i.postimg.cc/SjF8HhM1/Diwali2.jpg",
+        type: "Festival",
+        link: "/festivals/diwali",
+        hint: "diwali celebration"
+    },
+    {
+        slug: "significance-of-diyas-in-diwali",
+        title: "More Than a Lamp: The Deep Symbolism of the Diwali Diya",
+        image: "https://i.postimg.cc/brM9vjDZ/Diya-diwali.webp",
+        type: "Blog",
+        link: "/blog/significance-of-diyas-in-diwali",
+        hint: "diwali lamps"
+    },
+    {
+        slug: "onam",
+        title: "Onam",
+        image: "https://i.postimg.cc/0564g0S7/nandu-menon-h-GHldb-Cg-YDA-unsplash.jpg",
+        type: "Festival",
+        link: "/festivals/onam",
+        hint: "onam feast"
+    }
+];
 
 export default function SingleBlogPage() {
     return (
@@ -138,6 +166,7 @@ export default function SingleBlogPage() {
 
                     </article>
                     <ShareButtons title={post.title} />
+                    <RelatedContent items={relatedContent} />
                 </CardContent>
             </Card>
         </div>

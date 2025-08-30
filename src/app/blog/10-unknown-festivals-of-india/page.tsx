@@ -6,6 +6,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ShareButtons } from "@/components/ShareButtons";
 import type { Metadata } from 'next';
+import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 
 const post = { 
     title: "Beyond Diwali: 10 Secret Festivals That Reveal the True Soul of India", 
@@ -31,6 +32,33 @@ export const metadata: Metadata = {
     images: [post.image],
   },
 };
+
+const relatedContent: RelatedItem[] = [
+    {
+        slug: "bastar-dussehra",
+        title: "Bastar Dussehra",
+        image: "https://i.postimg.cc/wMVZW9fk/dussehra.jpg",
+        type: "Festival",
+        link: "/festivals/bastar-dussehra",
+        hint: "dussehra celebration"
+    },
+    {
+        slug: "theyyam",
+        title: "Theyyam",
+        image: "https://i.postimg.cc/HW7r9WfV/Theyyam.jpg",
+        type: "Festival",
+        link: "/festivals/theyyam",
+        hint: "theyyam dancer"
+    },
+    {
+        slug: "hornbill-festival",
+        title: "Hornbill Festival",
+        image: "https://i.postimg.cc/6pL9wGsd/Hornbill-Festival.webp",
+        type: "Festival",
+        link: "/festivals/hornbill-festival",
+        hint: "naga festival"
+    }
+];
 
 export default function SingleBlogPage() {
     return (
@@ -86,6 +114,7 @@ export default function SingleBlogPage() {
 
                     </article>
                     <ShareButtons title={post.title} />
+                    <RelatedContent items={relatedContent} />
                 </CardContent>
             </Card>
         </div>
