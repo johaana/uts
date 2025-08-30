@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import { useState, useMemo } from 'react';
@@ -126,7 +125,7 @@ export default function BlogPage() {
                             <p className="text-xs text-muted-foreground pt-1">By {post.author} on {post.date}</p>
                         </CardHeader>
                         <CardContent className="p-4 pt-0 md:p-6 md:pt-0">
-                            <p className="text-sm text-foreground/80">{post.excerpt}</p>
+                            <p className="text-sm text-foreground/80 line-clamp-3">{post.excerpt}</p>
                         </CardContent>
                     </Card>
                 )) : (

@@ -54,7 +54,7 @@ export default function SingleBlogPage() {
                             <h1 className="font-headline text-4xl font-bold text-primary mt-2">{post.title}</h1>
                         </div>
                         
-                        <p>Rangoli is a timeless art form, a vibrant expression of joy and welcome that adorns the entrances of homes during festivals. Whether you're a beginner or an experienced artist, here are 12 beautiful designs to inspire your next creation.</p>
+                        <p>The entrance to a Hindu home during a festival is a sacred threshold, a vibrant portal where art and devotion meet. This transformation begins not with elaborate structures, but with a single dot of colored powder on the ground. From this one point of focus, an intricate universe of patterns emerges, a divine masterpiece of symmetry and color known as Rangoli. This timeless art form is more than just decoration; it’s a visual prayer, a symbol of welcome, and a tradition passed down through generations. Whether you're a curious beginner or an experienced artist, here are 12 beautiful designs to inspire your next creation.</p>
                         
                         <div className="not-prose my-10 bg-secondary/30 p-6 rounded-lg">
                             <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Get Started with Rangoli (Shop on Amazon)</h3>
