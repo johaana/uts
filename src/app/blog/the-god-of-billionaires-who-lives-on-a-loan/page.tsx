@@ -10,7 +10,7 @@ import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 
 const post = { 
     title: "The God of Billionaires Who Lives on a Loan: Why Millions Offer Their Hair at Tirupati", 
-    image: "https://i.postimg.cc/138WjXpP/tirupati-temple.jpg",
+    image: "https://i.postimg.cc/pT3kck0L/tirumala-tirupati-balaji-original.jpg",
     excerpt: "The Tirupati Temple is one of the richest in the world, yet its deity is eternally in debt. This is the story of a divine loan, a celestial wedding, and why millions of devotees offer their hair as repayment."
 };
 
@@ -62,7 +62,7 @@ export default function TheGodInDebtPage() {
     return (
         <div className="container mx-auto px-4 py-12">
             <div className="relative h-64 md:h-96 w-full mb-8">
-                <Image src={post.image} alt={post.title} layout="fill" objectFit="cover" data-ai-hint="tirupati temple" className="rounded-lg"/>
+                <Image src={post.image} alt={post.title} layout="fill" objectFit="cover" data-ai-hint="venkateswara idol" className="rounded-lg"/>
             </div>
             <Card className="overflow-hidden md:-mt-16 relative z-10 md:rounded-t-2xl">
                 <CardContent className="p-6 md:p-10">
