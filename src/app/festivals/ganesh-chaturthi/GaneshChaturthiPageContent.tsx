@@ -120,6 +120,15 @@ export function GaneshChaturthiPageContent() {
                                         </div>
                                     </li>
                                 </ul>
+                                 <Card className="my-8 bg-secondary/30">
+                                    <CardContent className="p-6 text-center">
+                                        <h3 className="font-headline text-2xl font-bold mb-2 text-primary">Explore Mumbai Beyond the Pandals</h3>
+                                        <p className="text-foreground/80 mb-4 max-w-xl mx-auto">Ganesh Chaturthi is the perfect time to experience Mumbai's energy. When you're not pandal-hopping, discover the city's hidden stories with a self-guided audio tour from VoiceMap.</p>
+                                        <a href="https://www.awin1.com/cread.php?awinmid=99601&awinaffid=2553213&ued=https%3A%2F%2Fvoicemap.me%2Ftours%2Fmumbai" target="_blank" rel="noopener noreferrer nofollow">
+                                            <Button>Find a Mumbai Tour</Button>
+                                        </a>
+                                    </CardContent>
+                                </Card>
                             </section>
 
                             <section id="recipes">

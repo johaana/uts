@@ -94,6 +94,16 @@ export default function ExtremeFestivalsPage() {
                         <h3><Link href="/festivals/krampusnacht" className="text-accent">Krampusnacht:</Link> The Night of the Demon</h3>
                         <p>In Austria and parts of Germany, the festive cheer of Christmas is preceded by a night of terror. On Krampusnacht, men dress as Krampus, a horned, demonic creature from Alpine folklore who is said to punish naughty children. They roam the streets with chains and bells, creating a genuinely frightening spectacle. It's a folk tradition that represents the darker, pre-Christian roots of winter celebrations, a way to confront and ward off the darkness of the long winter nights.</p>
                         
+                         <div className="not-prose my-10 bg-secondary/30 p-6 rounded-lg">
+                            <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Explore these Festivals Yourself</h3>
+                            <p className="text-center text-muted-foreground mb-6">Want to explore the history and culture behind these festivals on your own terms? Ditch the tour groups and immerse yourself with a storyteller-led audio guide.</p>
+                            <div className="text-center">
+                                <a href="https://www.awin1.com/cread.php?awinmid=99601&awinaffid=2553213&ued=https%3A%2F%2Fvoicemap.me%2F" target="_blank" rel="noopener noreferrer nofollow">
+                                    <Button>Discover Audio Tours with VoiceMap</Button>
+                                </a>
+                            </div>
+                        </div>
+
                          <div className="my-8 flex justify-center">
                             <Image src="https://i.postimg.cc/j5Z1fVY4/Hadaka-Matsuri.jpg" alt="Hadaka Matsuri" width={600} height={400} className="rounded-lg shadow-lg" data-ai-hint="naked festival"/>
                         </div>

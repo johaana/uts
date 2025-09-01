@@ -7,7 +7,7 @@ import { Button } from "./ui/button";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import React, { useState, useEffect } from "react";
-import { Bot } from "lucide-react";
+import { Bot, Languages } from "lucide-react";
 
 const navLinks = [
   { href: "/festivals", label: "Festivals" },
@@ -19,12 +19,33 @@ export function Header() {
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
 
+  const handleTranslate = () => {
+    const translateElement = document.getElementById('google_translate_element');
+    if (translateElement && translateElement.firstChild && (translateElement.firstChild as HTMLElement).click) {
+      (translateElement.firstChild as HTMLElement).click();
+    }
+  };
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
     };
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+
+    // Add Google Translate script
+    const addScript = document.createElement('script');
+    addScript.type = 'text/javascript';
+    addScript.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+    document.body.appendChild(addScript);
+    
+    (window as any).googleTranslateElementInit = () => {
+      new (window as any).google.translate.TranslateElement({pageLanguage: 'en', layout: (window as any).google.translate.TranslateElement.InlineLayout.SIMPLE, autoDisplay: false}, 'google_translate_element');
+    };
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      // Clean up script if needed
+    }
   }, []);
 
   return (
@@ -34,6 +55,7 @@ export function Header() {
         isScrolled ? "h-16" : "h-20"
       )}
     >
+      <div id="google_translate_element" style={{display: 'none'}}></div>
       <div className="container mx-auto flex items-center justify-between h-full px-4">
         
         {/* Logo */}
@@ -76,6 +98,15 @@ export function Header() {
               </Link>
             ))}
           </nav>
+            <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={handleTranslate}
+                className="rounded-full px-4 py-1"
+                >
+                <Languages className="w-4 h-4 mr-2"/>
+                Translate
+            </Button>
            <Link href="/planner">
                 <Button 
                   size="sm"
@@ -90,7 +121,15 @@ export function Header() {
         </div>
         
         {/* Mobile Planner Button */}
-        <div className="flex-1 flex justify-end md:hidden">
+        <div className="flex-1 flex justify-end items-center gap-2 md:hidden">
+            <Button 
+                variant="ghost" 
+                size="icon" 
+                onClick={handleTranslate}
+                >
+                <Languages className="w-5 h-5"/>
+                 <span className="sr-only">Translate</span>
+            </Button>
           <Link href="/planner">
               <Button 
                 size="sm"

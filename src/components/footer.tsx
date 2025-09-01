@@ -42,18 +42,23 @@ export function Footer() {
                 <li><Link href="/international-festivals" className="text-foreground/80 hover:text-primary">International Festivals</Link></li>
                 <li><Link href="/recipes" className="text-foreground/80 hover:text-primary">Recipes</Link></li>
                  <li><Link href="/blog" className="text-foreground/80 hover:text-primary">Blog</Link></li>
-                 <li><Link href="/api" className="text-foreground/80 hover:text-primary">Partnerships</Link></li>
+                 <li><Link href="/planner" className="text-foreground/80 hover:text-primary">AI Planner</Link></li>
                  <li><Link href="/about" className="text-foreground/80 hover:text-primary">About Us</Link></li>
                  <li><Link href="/sitemap.xml" className="text-foreground/80 hover:text-primary">Sitemap</Link></li>
               </ul>
             </div>
             
             <div className="lg:col-span-3 text-center md:text-left">
-              <h3 className="font-bold mb-4 font-headline text-lg text-primary">Contact</h3>
-                <a href="mailto:joy@utsavs.com" className="inline-flex items-center gap-2 text-foreground/80 hover:text-primary">
-                    <Mail className="w-4 h-4"/>
-                    <span>joy@utsavs.com</span>
-                </a>
+              <h3 className="font-bold mb-4 font-headline text-lg text-primary">Contact & Legal</h3>
+                <div className="space-y-3">
+                    <a href="mailto:joy@utsavs.com" className="flex items-center gap-2 text-foreground/80 hover:text-primary justify-center md:justify-start">
+                        <Mail className="w-4 h-4"/>
+                        <span>joy@utsavs.com</span>
+                    </a>
+                     <a href="http://paidforadvertising.com/" target="_blank" rel="noopener noreferrer nofollow" className="text-foreground/80 hover:text-primary text-sm">
+                        Affiliate Disclosure
+                    </a>
+                </div>
             </div>
 
              <div className="md:col-span-2 lg:col-span-4 text-center md:text-left">

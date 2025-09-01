@@ -85,6 +85,16 @@ export default function SingleBlogPage() {
                         <h3>1. Mysore Dasara, Karnataka</h3>
                         <p>The Dasara festival in Mysore is arguably the most magnificent royal celebration in India. With a history spanning over 400 years, this 10-day festival was started by the Wadiyar kings in the 17th century after they took over the Srirangapatna fort. While <Link href="/festivals/dussehra" className="text-accent">Dasara</Link> is celebrated across India, the Mysuru Dasara is a state festival ('Nadahabba') of Karnataka and retains its royal essence. The entire Mysore Palace is illuminated with nearly 100,000 light bulbs, creating a breathtaking sight. The highlight is the 'Jumboo Savari', a grand procession on Vijayadashami (the 10th day) featuring decorated elephants, camels, horses, and cultural troupes. The lead elephant carries a golden howdah weighing over 750 kg with the idol of the Goddess Chamundeshwari. The current scion of the Wadiyar dynasty still performs private rituals within the palace, maintaining the continuity of this royal tradition.</p>
 
+                        <div className="not-prose my-10 bg-secondary/30 p-6 rounded-lg">
+                            <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Experience Royal Living</h3>
+                            <p className="text-center text-muted-foreground mb-6">Why just visit the palace when you can stay in one? To truly immerse yourself in the regal atmosphere of these festivals, consider staying in a genuine heritage property.</p>
+                            <div className="text-center">
+                                <a href="https://www.awin1.com/cread.php?awinmid=115308&awinaffid=2553213" target="_blank" rel="noopener noreferrer nofollow">
+                                    <Button>Explore Our Heritage Homes</Button>
+                                </a>
+                            </div>
+                        </div>
+
                         <h3>2. Holi at the City Palace, Jaipur, Rajasthan</h3>
                         <p>The Holi celebrations hosted by the erstwhile royal family of Jaipur offer a truly regal experience. While the public celebrations in Jaipur are vibrant and famous, the royal family holds a special, traditional celebration at the City Palace. A day before <Link href="/festivals/holi" className="text-accent">Holi</Link>, they participate in the 'Holika Dahan' ritual, lighting a sacred bonfire in the palace courtyard. The event is attended by dignitaries and guests, and it's a beautiful blend of religious ritual and royal pageantry. This event helps preserve the age-old customs of the Kachwaha dynasty and offers a more serene and elegant counterpoint to the boisterous public celebrations.</p>
 

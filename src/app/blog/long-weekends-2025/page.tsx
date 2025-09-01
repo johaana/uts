@@ -71,6 +71,17 @@ export default function SingleBlogPage() {
                         <strong>Plan:</strong> A perfect 3-day weekend. <br/>
                         <strong>Travel Idea:</strong> Dive into the joyous atmosphere and culinary delights of Eid in historic cities like Delhi, Lucknow, or Hyderabad.</p>
 
+                        <div className="not-prose my-10 bg-secondary/30 p-6 rounded-lg">
+                            <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Feeling Adventurous This Weekend?</h3>
+                            <p className="text-center text-muted-foreground mb-6">Can't decide where to go? Let fate choose your next cultural journey. Flykube plans a surprise getaway for you—a thrilling way to discover a new city and maybe even a festival you've never heard of!</p>
+                            <div className="text-center">
+                                <a href="https://www.awin1.com/cread.php?awinmid=85831&awinaffid=2553213&ued=https%3A%2F%2Fflykube.com%2Fen" target="_blank" rel="noopener noreferrer nofollow">
+                                    <Button>Plan a Surprise Trip with Flykube</Button>
+                                </a>
+                            </div>
+                        </div>
+
+
                         <h3>April: New Beginnings and Springtime Cheer</h3>
                         <p><strong>The Weekend:</strong> April 12 (Saturday) to April 14 (Monday). <br/>
                         <strong>Holidays:</strong> Vaisakhi / Bihu / Ambedkar Jayanti (Apr 14). <br/>

@@ -8,6 +8,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
+import { Button } from "@/components/ui/button";
 
 const recipes = [
     { name: "Khichuri", link: "/recipes/khichuri" },
@@ -96,6 +97,15 @@ export function DurgaPujaPageContent() {
                                         </div>
                                     </li>
                                 </ul>
+                                 <Card className="my-8 bg-secondary/30">
+                                    <CardContent className="p-6 text-center">
+                                        <h3 className="font-headline text-2xl font-bold mb-2 text-primary">Explore Kolkata on Your Own</h3>
+                                        <p className="text-foreground/80 mb-4 max-w-xl mx-auto">While evenings are for pandal-hopping, discover Kolkata's history during the day. Ditch the slow tour groups and explore at your own pace with a storyteller-led audio tour from VoiceMap.</p>
+                                        <a href="https://www.awin1.com/cread.php?awinmid=99601&awinaffid=2553213&ued=https%3A%2F%2Fvoicemap.me%2Ftours%2Fkolkata" target="_blank" rel="noopener noreferrer nofollow">
+                                            <Button>Find a Kolkata Tour</Button>
+                                        </a>
+                                    </CardContent>
+                                </Card>
                             </TabsContent>
 
                             <TabsContent value="recipes">
