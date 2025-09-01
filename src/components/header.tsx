@@ -8,6 +8,7 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import React, { useState, useEffect } from "react";
 import { Bot, Languages } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 const navLinks = [
   { href: "/festivals", label: "Festivals" },
@@ -18,35 +19,60 @@ const navLinks = [
 export function Header() {
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
+  const { toast } = useToast();
 
   const handleTranslate = () => {
+    // This is a bit of a hack to trigger the Google Translate dropdown.
+    // The library creates a select element which we can programmatically click.
     const translateElement = document.getElementById('google_translate_element');
-    if (translateElement && translateElement.firstChild && (translateElement.firstChild as HTMLElement).click) {
-      (translateElement.firstChild as HTMLElement).click();
+    const select = translateElement?.querySelector('select');
+    if (select) {
+      select.click();
     }
   };
 
   useEffect(() => {
+    setIsScrolled(window.scrollY > 10);
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
     };
     window.addEventListener("scroll", handleScroll);
 
-    // Add Google Translate script
-    const addScript = document.createElement('script');
-    addScript.type = 'text/javascript';
-    addScript.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
-    document.body.appendChild(addScript);
-    
-    (window as any).googleTranslateElementInit = () => {
-      new (window as any).google.translate.TranslateElement({pageLanguage: 'en', layout: (window as any).google.translate.TranslateElement.InlineLayout.SIMPLE, autoDisplay: false}, 'google_translate_element');
+    // Function to initialize Google Translate
+    const googleTranslateElementInit = () => {
+      new (window as any).google.translate.TranslateElement({
+        pageLanguage: 'en', 
+        layout: (window as any).google.translate.TranslateElement.InlineLayout.SIMPLE, 
+        autoDisplay: false
+      }, 'google_translate_element');
     };
+    
+    // Check if the script already exists to avoid duplicates
+    if (!document.getElementById('google-translate-script')) {
+      const addScript = document.createElement('script');
+      addScript.id = 'google-translate-script';
+      addScript.type = 'text/javascript';
+      addScript.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+      document.body.appendChild(addScript);
+      (window as any).googleTranslateElementInit = googleTranslateElementInit;
+    }
+    
+    // Show a one-time toast to inform users about the translation feature
+    const translationToastShown = sessionStorage.getItem('translationToastShown');
+    if (!translationToastShown) {
+      toast({
+        title: "Translate this page!",
+        description: "Click the 'Translate' button in the header to view this site in your preferred language.",
+        duration: 8000,
+      });
+      sessionStorage.setItem('translationToastShown', 'true');
+    }
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
-      // Clean up script if needed
     }
-  }, []);
+  }, [toast]);
+
 
   return (
     <header 
@@ -55,10 +81,9 @@ export function Header() {
         isScrolled ? "h-16" : "h-20"
       )}
     >
-      <div id="google_translate_element" style={{display: 'none'}}></div>
+      <div id="google_translate_element" className="fixed top-20 right-4 z-50" style={{display: 'none'}}></div>
       <div className="container mx-auto flex items-center justify-between h-full px-4">
         
-        {/* Logo */}
         <div className="flex-1 md:flex-none justify-start">
             <Link href="/" className="flex items-center gap-2 py-1 group">
                 <Image 
@@ -76,7 +101,6 @@ export function Header() {
             </Link>
         </div>
 
-        {/* Desktop Navigation */}
         <div className="hidden md:flex flex-1 items-center justify-end gap-6">
           <nav className="flex items-center gap-6">
               {navLinks.map((link) => (
@@ -120,7 +144,6 @@ export function Header() {
             </Link>
         </div>
         
-        {/* Mobile Planner Button */}
         <div className="flex-1 flex justify-end items-center gap-2 md:hidden">
             <Button 
                 variant="ghost" 
