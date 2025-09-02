@@ -22,30 +22,35 @@ export function Header() {
   const { toast } = useToast();
 
   const handleTranslate = () => {
-    // This is a bit of a hack to trigger the Google Translate dropdown.
-    // The library creates a select element which we can programmatically click.
+    // This function is now simpler. The main goal is to ensure the script is loaded.
+    // The user will interact with the Google Translate widget at the top of the page.
     const translateElement = document.getElementById('google_translate_element');
-    const select = translateElement?.querySelector('select');
-    if (select) {
-      select.click();
+    if (!translateElement) {
+        toast({
+            title: "Translation Error",
+            description: "Could not find the Google Translate element. Please try again later.",
+            variant: "destructive",
+        });
     }
   };
 
   useEffect(() => {
-    setIsScrolled(window.scrollY > 10);
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
     };
     window.addEventListener("scroll", handleScroll);
+    setIsScrolled(window.scrollY > 10);
 
-    // Function to initialize Google Translate
-    const googleTranslateElementInit = () => {
-      new (window as any).google.translate.TranslateElement({
-        pageLanguage: 'en', 
-        layout: (window as any).google.translate.TranslateElement.InlineLayout.SIMPLE, 
-        autoDisplay: false
-      }, 'google_translate_element');
-    };
+    // Make the init function globally available
+    if (!(window as any).googleTranslateElementInit) {
+        (window as any).googleTranslateElementInit = () => {
+          new (window as any).google.translate.TranslateElement({
+            pageLanguage: 'en',
+            layout: (window as any).google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        };
+    }
     
     // Check if the script already exists to avoid duplicates
     if (!document.getElementById('google-translate-script')) {
@@ -54,18 +59,19 @@ export function Header() {
       addScript.type = 'text/javascript';
       addScript.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
       document.body.appendChild(addScript);
-      (window as any).googleTranslateElementInit = googleTranslateElementInit;
     }
     
     // Show a one-time toast to inform users about the translation feature
     const translationToastShown = sessionStorage.getItem('translationToastShown');
     if (!translationToastShown) {
-      toast({
-        title: "Translate this page!",
-        description: "Click the 'Translate' button in the header to view this site in your preferred language.",
-        duration: 8000,
-      });
-      sessionStorage.setItem('translationToastShown', 'true');
+      setTimeout(() => {
+         toast({
+            title: "Translate this page!",
+            description: "Use the Google Translate widget at the top of the page to view this site in your language.",
+            duration: 8000,
+        });
+        sessionStorage.setItem('translationToastShown', 'true');
+      }, 2000); // Delay toast slightly to allow page load
     }
 
     return () => {
@@ -81,7 +87,25 @@ export function Header() {
         isScrolled ? "h-16" : "h-20"
       )}
     >
-      <div id="google_translate_element" className="fixed top-20 right-4 z-50" style={{display: 'none'}}></div>
+      <div id="google_translate_element" className="google-translate-container" style={{display: 'block'}}></div>
+      <style jsx global>{`
+        .google-translate-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+        body {
+            top: 0 !important;
+        }
+        .skiptranslate {
+            display: none !important;
+        }
+        #goog-gt-tt {
+            display: none !important;
+        }
+      `}</style>
       <div className="container mx-auto flex items-center justify-between h-full px-4">
         
         <div className="flex-1 md:flex-none justify-start">
