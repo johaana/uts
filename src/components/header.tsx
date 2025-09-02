@@ -6,7 +6,7 @@ import Image from "next/image";
 import { Button } from "./ui/button";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import React, { useState, useEffect } from "react";
+import React, from "react";
 import { Bot, Languages } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -18,42 +18,23 @@ const navLinks = [
 
 export function Header() {
   const pathname = usePathname();
-  const [isScrolled, setIsScrolled] = useState(false);
   const { toast } = useToast();
 
-  const handleTranslate = () => {
-    // This function is now simpler. The main goal is to ensure the script is loaded.
-    // The user will interact with the Google Translate widget at the top of the page.
-    const translateElement = document.getElementById('google_translate_element');
-    if (!translateElement) {
-        toast({
-            title: "Translation Error",
-            description: "Could not find the Google Translate element. Please try again later.",
-            variant: "destructive",
-        });
-    }
-  };
+  React.useEffect(() => {
+    const existingScript = document.getElementById('google-translate-script');
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
+    const googleTranslateElementInit = () => {
+      new (window as any).google.translate.TranslateElement({
+        pageLanguage: 'en',
+        layout: (window as any).google.translate.TranslateElement.InlineLayout.TOP_LEFT
+      }, 'google_translate_element');
     };
-    window.addEventListener("scroll", handleScroll);
-    setIsScrolled(window.scrollY > 10);
 
-    // Make the init function globally available
     if (!(window as any).googleTranslateElementInit) {
-        (window as any).googleTranslateElementInit = () => {
-          new (window as any).google.translate.TranslateElement({
-            pageLanguage: 'en',
-            layout: (window as any).google.translate.TranslateElement.InlineLayout.SIMPLE,
-            autoDisplay: false
-          }, 'google_translate_element');
-        };
+        (window as any).googleTranslateElementInit = googleTranslateElementInit;
     }
-    
-    // Check if the script already exists to avoid duplicates
-    if (!document.getElementById('google-translate-script')) {
+
+    if (!existingScript) {
       const addScript = document.createElement('script');
       addScript.id = 'google-translate-script';
       addScript.type = 'text/javascript';
@@ -61,64 +42,36 @@ export function Header() {
       document.body.appendChild(addScript);
     }
     
-    // Show a one-time toast to inform users about the translation feature
     const translationToastShown = sessionStorage.getItem('translationToastShown');
     if (!translationToastShown) {
       setTimeout(() => {
          toast({
             title: "Translate this page!",
-            description: "Use the Google Translate widget at the top of the page to view this site in your language.",
+            description: "This site can be translated into any language using the Google Translate widget at the top-left of your screen.",
             duration: 8000,
         });
         sessionStorage.setItem('translationToastShown', 'true');
-      }, 2000); // Delay toast slightly to allow page load
+      }, 3000); 
     }
 
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    }
   }, [toast]);
 
 
   return (
     <header 
-      className={cn(
-        "bg-background/80 backdrop-blur-sm border-b sticky top-0 z-40 transition-all duration-300",
-        isScrolled ? "h-16" : "h-20"
-      )}
+      className="bg-background/80 backdrop-blur-sm border-b sticky top-0 z-40"
     >
-      <div id="google_translate_element" className="google-translate-container" style={{display: 'block'}}></div>
-      <style jsx global>{`
-        .google-translate-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-        }
-        body {
-            top: 0 !important;
-        }
-        .skiptranslate {
-            display: none !important;
-        }
-        #goog-gt-tt {
-            display: none !important;
-        }
-      `}</style>
-      <div className="container mx-auto flex items-center justify-between h-full px-4">
+      <div id="google_translate_element" className="absolute top-2 left-2"></div>
+      <div className="container mx-auto flex items-center justify-between h-20 px-4">
         
         <div className="flex-1 md:flex-none justify-start">
             <Link href="/" className="flex items-center gap-2 py-1 group">
                 <Image 
                   src="https://i.postimg.cc/vZTZ0Br5/utsavs-logo.png" 
                   alt="Utsavs Logo" 
-                  className={cn(
-                    "transition-all duration-300 group-hover:scale-105", 
-                    isScrolled ? "w-12 h-12" : "w-16 h-16"
-                  )}
-                  width={isScrolled ? 48 : 64}
-                  height={isScrolled ? 48 : 64}
+                  width={64}
+                  height={64}
+                  className="w-16 h-16 transition-transform duration-300 group-hover:scale-105"
                   style={{ objectFit: 'contain' }}
                 />
                 <span className="hidden md:block font-headline text-2xl font-bold self-center drop-shadow-sm transition-transform duration-300 group-hover:scale-105 text-primary" style={{textShadow: '1px 1px 3px rgba(0,0,0,0.1)'}}>Utsavs</span>
@@ -146,15 +99,6 @@ export function Header() {
               </Link>
             ))}
           </nav>
-            <Button 
-                variant="outline" 
-                size="sm" 
-                onClick={handleTranslate}
-                className="rounded-full px-4 py-1"
-                >
-                <Languages className="w-4 h-4 mr-2"/>
-                Translate
-            </Button>
            <Link href="/planner">
                 <Button 
                   size="sm"
@@ -169,14 +113,6 @@ export function Header() {
         </div>
         
         <div className="flex-1 flex justify-end items-center gap-2 md:hidden">
-            <Button 
-                variant="ghost" 
-                size="icon" 
-                onClick={handleTranslate}
-                >
-                <Languages className="w-5 h-5"/>
-                 <span className="sr-only">Translate</span>
-            </Button>
           <Link href="/planner">
               <Button 
                 size="sm"
