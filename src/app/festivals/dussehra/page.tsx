@@ -1,4 +1,5 @@
 
+'use client';
 
 import type { Metadata } from 'next';
 import { DussehraPageContent } from './DussehraPageContent';
@@ -7,11 +8,6 @@ import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 import { Card, CardContent } from "@/components/ui/card";
 import { BookOpen, Sparkles, MessageSquareQuote } from "lucide-react";
 import Image from 'next/image';
-
-export const metadata: Metadata = {
-  title: "Dussehra 2025: Date, Ravan Dahan & Vijayadashami Story 🔥",
-  description: "Find the Dussehra 2025 date and explore the traditions of Ramlila and Ravan Dahan. Discover the story of Vijayadashami and why it's an auspicious day.",
-};
 
 const relatedContent: RelatedItem[] = [
     {
@@ -64,17 +60,17 @@ export default function DussehraPage() {
                                 </div>
                             </aside>
                             <main className="md:col-span-8 lg:col-span-9">
-                               <div className="md:hidden sticky top-16 z-30 bg-background/95 backdrop-blur-sm py-2 -mx-6 px-6 mb-8 border-b">
-                                        <h3 className="font-headline text-lg font-bold mb-2">In This Article</h3>
-                                        <div className="flex flex-wrap gap-x-4 gap-y-2">
-                                            {pageSections.map(section => (
-                                                <a key={section.id} href={`#${section.id}`} className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary">
-                                                    <section.icon className="w-4 h-4 text-accent" />
-                                                    {section.title}
-                                                </a>
-                                            ))}
-                                        </div>
-                                     </div>
+                               <div className="md:hidden sticky top-20 z-20 bg-background/95 backdrop-blur-sm py-2 -mx-6 px-6 mb-8 border-b">
+                                    <h3 className="font-headline text-lg font-bold mb-2">In This Article</h3>
+                                    <div className="flex flex-wrap gap-x-4 gap-y-2">
+                                        {pageSections.map(section => (
+                                            <a key={section.id} href={`#${section.id}`} className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary">
+                                                <section.icon className="w-4 h-4 text-accent" />
+                                                {section.title}
+                                            </a>
+                                        ))}
+                                    </div>
+                                 </div>
                                <article>
                                     <DussehraPageContent />
                                </article>

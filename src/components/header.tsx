@@ -7,13 +7,15 @@ import { Button } from "./ui/button";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import React, { useEffect } from "react";
-import { Bot, Languages } from "lucide-react";
+import { Bot, Languages, Menu } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { MobileNav } from "./MobileNav";
 
 const navLinks = [
   { href: "/festivals", label: "Festivals" },
@@ -22,23 +24,29 @@ const navLinks = [
 ];
 
 const languages = [
-    { name: 'English', code: '/auto/en' },
-    { name: 'Hindi', code: '/auto/hi' },
-    { name: 'Spanish', code: '/auto/es' },
-    { name: 'French', code: '/auto/fr' },
-    { name: 'German', code: '/auto/de' },
-    { name: 'Mandarin', code: '/auto/zh-CN' },
-    { name: 'Arabic', code: '/auto/ar' },
+    { name: 'English', code: 'en' },
+    { name: 'Hindi', code: 'hi' },
+    { name: 'Spanish', code: 'es' },
+    { name: 'French', code: 'fr' },
+    { name: 'German', code: 'de' },
+    { name: 'Mandarin', code: 'zh-CN' },
+    { name: 'Arabic', code: 'ar' },
 ];
 
 export function Header() {
   const pathname = usePathname();
+  const [isSheetOpen, setIsSheetOpen] = React.useState(false);
 
   useEffect(() => {
     const addGoogleTranslateScript = () => {
       const scriptId = 'google-translate-script';
-      if (document.getElementById(scriptId)) return;
-
+      if (document.getElementById(scriptId)) {
+        const existingScript = document.getElementById(scriptId);
+        if (existingScript) {
+            existingScript.remove();
+        }
+      }
+      
       const addScript = document.createElement('script');
       addScript.id = scriptId;
       addScript.type = 'text/javascript';
@@ -49,6 +57,7 @@ export function Header() {
         new (window as any).google.translate.TranslateElement({
           pageLanguage: 'en',
           layout: (window as any).google.translate.TranslateElement.InlineLayout.HORIZONTAL,
+          autoDisplay: false
         }, 'google_translate_element');
       };
     };
@@ -61,7 +70,7 @@ export function Header() {
     if (googleTranslateElement) {
         const langSelect = googleTranslateElement.querySelector('.goog-te-combo') as HTMLSelectElement;
         if (langSelect) {
-            langSelect.value = langCode.split('/').pop()!;
+            langSelect.value = langCode;
             langSelect.dispatchEvent(new Event('change'));
         }
     }
@@ -139,33 +148,17 @@ export function Header() {
         </div>
         
         <div className="flex-1 flex justify-end items-center gap-2 md:hidden">
-            <div id="google_translate_element_mobile" style={{ display: 'none' }}></div>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="icon" className="h-9 w-9">
-                  <Languages className="h-5 w-5" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                 {languages.map((lang) => (
-                    <DropdownMenuItem key={lang.code} onClick={() => changeLanguage(lang.code)}>
-                      {lang.name}
-                    </DropdownMenuItem>
-                  ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
-
-          <Link href="/planner">
-              <Button 
-                size="sm"
-                className={cn(
-                  "text-white font-bold tracking-wide shadow-lg hover:shadow-blue-500/50 rounded-full px-4 hover:scale-105 transition-all duration-300 py-1 text-xs bg-gradient-to-r from-blue-500 to-blue-600"
-                )}
-              >
-                  <Bot className="w-4 h-4 mr-1.5"/>
-                  AI Planner
-              </Button>
-          </Link>
+            <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
+                <SheetTrigger asChild>
+                    <Button variant="ghost" size="icon">
+                        <Menu className="h-6 w-6" />
+                        <span className="sr-only">Open Menu</span>
+                    </Button>
+                </SheetTrigger>
+                <SheetContent side="left">
+                    <MobileNav navLinks={navLinks} setOpen={setIsSheetOpen} />
+                </SheetContent>
+            </Sheet>
         </div>
 
       </div>

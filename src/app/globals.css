@@ -113,26 +113,8 @@
   .prose blockquote p {
     @apply text-lg text-foreground/80;
   }
-
-  /* GOOGLE TRANSLATE WIDGET STYLING */
-
-  body {
-    top: 0px !important;
-  }
-
-  /* Hide the default Google Translate banner */
-  .goog-te-banner-frame.skiptranslate {
-      display: none !important;
-  } 
-
-  /* Hide the entire default widget */
-  #google_translate_element {
-    display: none !important;
-  }
-  #google_translate_element_mobile {
-    display: none !important;
-  }
 }
+
 
 
 

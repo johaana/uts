@@ -105,7 +105,7 @@ export default function ModakPage() {
                         <h3 className="font-headline text-2xl font-bold mb-4">Instructions</h3>
                         <ol className="space-y-4 list-decimal list-inside text-foreground/80 prose">
                              {instructions.map((step, i) => (
-                                <li key={i}><strong>{step.split(':')[0]}:</strong>{step.split(':')[1]}</li>
+                                <li key={i}>{step}</li>
                              ))}
                         </ol>
                     </div>

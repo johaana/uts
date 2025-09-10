@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import { ThrissurPooramPageContent } from './ThrissurPooramPageContent';
 
 export const metadata: Metadata = {
-  title: "Thrissur Pooram | Kerala's Grandest Festival | Utsavs",
+  title: "Thrissur Pooram: Kerala's Grandest Elephant & Percussion Festival",
   description: "Experience the magic of Thrissur Pooram, a grand temple festival in Kerala featuring caparisoned elephants, traditional music, and a dazzling fireworks display.",
   openGraph: {
     title: "Thrissur Pooram | Kerala's Grandest Festival | Utsavs",
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: "Thrissur Pooram | Kerala's Grandest Festival | Utsavs",
+    title: "Thrissur Pooram: Kerala's Grandest Elephant & Percussion Festival",
     description: "Experience the magic of Thrissur Pooram, a grand temple festival in Kerala featuring caparisoned elephants, traditional music, and a dazzling fireworks display.",
     images: ["https://i.postimg.cc/QCHNCm16/thrissur-pooram.avif"],
   },
