@@ -97,7 +97,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-12 md:py-24 bg-background">
+      <section className="py-12 md:pt-24 md:pb-12 bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="font-headline text-3xl md:text-5xl font-bold text-primary">Upcoming Festivals</h2>
@@ -109,18 +109,9 @@ export default function Home() {
         </div>
       </section>
 
-       <section className="py-12 md:py-24 bg-secondary/30">
-            <div className="container mx-auto px-4">
-                 <FestivalCalendar 
-                    title="Festivals & Holidays Calendar"
-                    description="Plan your year around the vibrant celebrations of India. Never miss a festival or holiday with our comprehensive calendar."
-                 />
-            </div>
-        </section>
-      
-      <section className="py-12 md:py-24 bg-background">
+      <section className="py-12 md:py-16 bg-background">
         <div className="container mx-auto px-4 text-center">
-            <h2 className="font-headline text-3xl md:text-5xl font-bold text-primary">The Rhythm of Celebration</h2>
+            <h2 className="font-headline text-3xl md:text-4xl font-bold text-primary">The Rhythm of Celebration</h2>
             <p className="mt-3 text-base md:text-lg text-foreground/80 max-w-2xl mx-auto">
                 Plan your year with our interactive almanac of global festivities.
             </p>
@@ -136,10 +127,19 @@ export default function Home() {
             </div>
         </div>
       </section>
+
+       <section className="py-12 md:pt-16 md:pb-24 bg-secondary/30">
+            <div className="container mx-auto px-4">
+                 <FestivalCalendar 
+                    title="Festivals & Holidays Calendar"
+                    description="Plan your year around the vibrant celebrations of India. Never miss a festival or holiday with our comprehensive calendar."
+                 />
+            </div>
+        </section>
       
        <AIPlannerShowcase />
 
-      <section className="py-12 md:py-20 bg-secondary/30">
+      <section className="py-12 md:py-20 bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="font-headline text-3xl md:text-5xl font-bold text-primary">Discover by Region</h2>
@@ -151,7 +151,7 @@ export default function Home() {
         </div>
       </section>
 
-       <section className="py-12 md:py-20 bg-background">
+       <section className="py-12 md:py-20 bg-secondary/30">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="font-headline text-3xl md:text-5xl font-bold text-primary">Discover International Festivals</h2>
@@ -171,7 +171,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-12 md:py-24 bg-secondary/30">
+      <section className="py-12 md:py-24 bg-background">
         <div className="container mx-auto px-4">
             <div className="text-center mb-12">
                 <h2 className="font-headline text-3xl md:text-5xl font-bold text-primary">A World of Flavor & Tradition</h2>
