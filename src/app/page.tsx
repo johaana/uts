@@ -109,25 +109,6 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-12 md:py-16 bg-background">
-        <div className="container mx-auto px-4 text-center">
-            <h2 className="font-headline text-3xl md:text-4xl font-bold text-primary">The Rhythm of Celebration</h2>
-            <p className="mt-3 text-base md:text-lg text-foreground/80 max-w-2xl mx-auto">
-                Plan your year with our interactive almanac of global festivities.
-            </p>
-            <div className="mt-8">
-                <Link href="/calendar">
-                    <Button 
-                      size="lg" 
-                      className="group shadow-lg hover:shadow-xl transition-all duration-300 bg-accent hover:bg-accent/90 text-accent-foreground"
-                    >
-                        Explore by Month <Calendar className="w-5 h-5 ml-2 transition-transform group-hover:rotate-12" />
-                    </Button>
-                </Link>
-            </div>
-        </div>
-      </section>
-
        <section className="py-12 md:pt-16 md:pb-24 bg-secondary/30">
             <div className="container mx-auto px-4">
                  <FestivalCalendar 
