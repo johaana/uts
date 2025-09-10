@@ -6,7 +6,7 @@ import Image from "next/image";
 import { Button } from "./ui/button";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Bot, Languages, Menu, Calendar, Rss } from "lucide-react";
 import {
   DropdownMenu,
@@ -37,6 +37,16 @@ const languages = [
 export function Header() {
   const pathname = usePathname();
   const [isSheetOpen, setIsSheetOpen] = React.useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
 
   useEffect(() => {
     const addGoogleTranslateScript = () => {
@@ -78,8 +88,11 @@ export function Header() {
   };
 
   return (
-    <header className="bg-background/80 backdrop-blur-sm border-b sticky top-0 z-40">
-      <div className="container mx-auto flex items-center justify-between h-20 px-4">
+    <header className={cn(
+        "bg-background/80 backdrop-blur-sm border-b sticky top-0 z-40 transition-all duration-300",
+        isScrolled ? 'h-16' : 'h-20'
+    )}>
+      <div className="container mx-auto flex items-center justify-between h-full px-4">
         
         <div className="flex-1 md:flex-none justify-start">
             <Link href="/" className="flex items-center gap-2 py-1 group">
@@ -88,7 +101,10 @@ export function Header() {
                   alt="Utsavs Logo" 
                   width={64}
                   height={64}
-                  className="w-16 h-16 transition-transform duration-300 group-hover:scale-105"
+                  className={cn(
+                    "transition-all duration-300 group-hover:scale-105",
+                    isScrolled ? 'w-14 h-14' : 'w-16 h-16'
+                  )}
                   style={{ objectFit: 'contain' }}
                 />
                 <span className="hidden md:block font-headline text-2xl font-bold self-center drop-shadow-sm transition-transform duration-300 group-hover:scale-105 text-primary" style={{textShadow: '1px 1px 3px rgba(0,0,0,0.1)'}}>Utsavs</span>
