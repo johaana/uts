@@ -122,8 +122,11 @@ export default function Home() {
             </p>
             <div className="mt-8">
                 <Link href="/calendar">
-                    <Button size="lg" className="group shadow-lg hover:shadow-xl transition-all duration-300">
-                        Explore the Yearly Calendar <Calendar className="w-5 h-5 ml-2 transition-transform group-hover:rotate-12" />
+                    <Button 
+                      size="lg" 
+                      className="group shadow-lg hover:shadow-xl transition-all duration-300 bg-accent hover:bg-accent/90 text-accent-foreground"
+                    >
+                        Explore by Month <Calendar className="w-5 h-5 ml-2 transition-transform group-hover:rotate-12" />
                     </Button>
                 </Link>
             </div>
