@@ -112,4 +112,27 @@
   .prose blockquote p {
     @apply text-lg text-foreground/80;
   }
+
+  /* Google Translate Widget Styling */
+  .skiptranslate {
+    display: none !important;
+  }
+  body {
+    top: 0px !important;
+  }
+  .goog-te-gadget-simple {
+    background-color: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    font-size: 0px !important; /* Hide original text */
+    display: inline-block;
+  }
+  .goog-te-gadget-simple .goog-te-menu-value {
+    display: none;
+  }
+  .goog-te-gadget-simple img {
+    display: none; /* Hide Google's icon */
+  }
+
 }

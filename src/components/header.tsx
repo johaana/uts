@@ -6,7 +6,7 @@ import Image from "next/image";
 import { Button } from "./ui/button";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import React, from "react";
+import React, { useEffect, useState } from "react";
 import { Bot, Languages } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -19,49 +19,39 @@ const navLinks = [
 export function Header() {
   const pathname = usePathname();
   const { toast } = useToast();
+  const [isTranslateReady, setIsTranslateReady] = useState(false);
 
-  React.useEffect(() => {
-    const existingScript = document.getElementById('google-translate-script');
+  useEffect(() => {
+    const scriptId = 'google-translate-script';
+    
+    if (document.getElementById(scriptId)) {
+        setIsTranslateReady(true);
+        return;
+    }
 
-    const googleTranslateElementInit = () => {
+    const addScript = document.createElement('script');
+    addScript.id = scriptId;
+    addScript.type = 'text/javascript';
+    addScript.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+    addScript.async = true;
+    
+    (window as any).googleTranslateElementInit = () => {
       new (window as any).google.translate.TranslateElement({
         pageLanguage: 'en',
-        layout: (window as any).google.translate.TranslateElement.InlineLayout.TOP_LEFT
+        layout: (window as any).google.translate.TranslateElement.InlineLayout.SIMPLE
       }, 'google_translate_element');
+      setIsTranslateReady(true);
     };
 
-    if (!(window as any).googleTranslateElementInit) {
-        (window as any).googleTranslateElementInit = googleTranslateElementInit;
-    }
+    document.body.appendChild(addScript);
 
-    if (!existingScript) {
-      const addScript = document.createElement('script');
-      addScript.id = 'google-translate-script';
-      addScript.type = 'text/javascript';
-      addScript.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
-      document.body.appendChild(addScript);
-    }
-    
-    const translationToastShown = sessionStorage.getItem('translationToastShown');
-    if (!translationToastShown) {
-      setTimeout(() => {
-         toast({
-            title: "Translate this page!",
-            description: "This site can be translated into any language using the Google Translate widget at the top-left of your screen.",
-            duration: 8000,
-        });
-        sessionStorage.setItem('translationToastShown', 'true');
-      }, 3000); 
-    }
-
-  }, [toast]);
+  }, []);
 
 
   return (
     <header 
       className="bg-background/80 backdrop-blur-sm border-b sticky top-0 z-40"
     >
-      <div id="google_translate_element" className="absolute top-2 left-2"></div>
       <div className="container mx-auto flex items-center justify-between h-20 px-4">
         
         <div className="flex-1 md:flex-none justify-start">
@@ -99,6 +89,12 @@ export function Header() {
               </Link>
             ))}
           </nav>
+           <div id="google_translate_element" className="relative h-10 w-28">
+             <Button variant="outline" className="w-full h-full absolute inset-0 z-10 pointer-events-none">
+                <Languages className="w-4 h-4 mr-2"/>
+                Translate
+              </Button>
+           </div>
            <Link href="/planner">
                 <Button 
                   size="sm"
@@ -113,6 +109,11 @@ export function Header() {
         </div>
         
         <div className="flex-1 flex justify-end items-center gap-2 md:hidden">
+            <div id="google_translate_element_mobile" className="relative h-9 w-10">
+               <Button variant="outline" size="icon" className="w-full h-full absolute inset-0 z-10 pointer-events-none">
+                  <Languages className="w-4 h-4"/>
+                </Button>
+            </div>
           <Link href="/planner">
               <Button 
                 size="sm"
