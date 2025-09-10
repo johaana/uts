@@ -141,11 +141,17 @@ export default function Home() {
             </p>
           </div>
           <InternationalFestivalsShowcase />
-           <div className="text-center mt-12">
+           <div className="text-center mt-12 flex flex-col items-center gap-4">
                 <Link href="/international-festivals">
                     <Button className="bg-gradient-to-r from-green-500 to-teal-600 text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
                         <Globe className="mr-2 h-4 w-4" />
                         Explore All International Festivals
+                    </Button>
+                </Link>
+                <Link href="/calendar">
+                    <Button className="bg-gradient-to-r from-pink-500 to-rose-500 text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
+                        <Calendar className="mr-2 h-4 w-4" />
+                        Plan by Month
                     </Button>
                 </Link>
             </div>
