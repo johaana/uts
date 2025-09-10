@@ -11,6 +11,7 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Bot } from "lucide-react";
 import Image from 'next/image';
 import { allEvents } from "@/lib/festival-data";
+import { FestivalCalendar } from "@/components/FestivalCalendar";
 
 
 function ResourceSummary() {
@@ -33,22 +34,6 @@ function ResourceSummary() {
       </Card>
     </div>
   )
-}
-
-function FestivalOfTheMonth() {
-    return (
-        <section className="py-12 md:py-24 bg-background">
-            <div className="container mx-auto px-4">
-                 <div className="text-center mb-12">
-                    <h2 className="font-headline text-3xl md:text-5xl font-bold text-primary">Festivals and Holidays</h2>
-                    <p className="mt-3 text-base md:text-lg text-foreground/80 max-w-2xl mx-auto">
-                        A special highlight on the significant celebrations happening soon.
-                    </p>
-                </div>
-                <UpcomingFestivalsCarousel />
-            </div>
-        </section>
-    );
 }
 
 function AIPlannerShowcase() {
@@ -112,7 +97,14 @@ export default function Home() {
         </div>
       </section>
 
-      <FestivalOfTheMonth />
+       <section className="py-12 md:py-24 bg-background">
+            <div className="container mx-auto px-4">
+                 <FestivalCalendar 
+                    title="Festivals & Holidays Calendar"
+                    description="Plan your year around the vibrant celebrations of India. Never miss a festival or holiday with our comprehensive calendar."
+                 />
+            </div>
+        </section>
       
       <section className="py-12 md:py-24 bg-secondary/30">
         <div className="container mx-auto px-4 text-center">
