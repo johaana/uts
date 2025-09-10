@@ -20,32 +20,23 @@ export function Header() {
   const [isTranslateVisible, setTranslateVisible] = useState(false);
 
   useEffect(() => {
-    const scriptId = 'google-translate-script';
-    
-    if (document.getElementById(scriptId)) {
-       if ((window as any).google && (window as any).google.translate) {
-         new (window as any).google.translate.TranslateElement({
-            pageLanguage: 'en',
-            layout: (window as any).google.translate.TranslateElement.InlineLayout.SIMPLE,
-          }, 'google_translate_element');
-      }
-      return;
-    }
-
-    const addScript = document.createElement('script');
-    addScript.id = scriptId;
-    addScript.type = 'text/javascript';
-    addScript.src = `//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit`;
-    addScript.async = true;
-    
-    (window as any).googleTranslateElementInit = () => {
+    const googleTranslateElementInit = () => {
       new (window as any).google.translate.TranslateElement({
         pageLanguage: 'en',
         layout: (window as any).google.translate.TranslateElement.InlineLayout.SIMPLE,
       }, 'google_translate_element');
-    };
+    }
 
-    document.body.appendChild(addScript);
+    const scriptId = 'google-translate-script';
+    if (!document.getElementById(scriptId)) {
+      const addScript = document.createElement('script');
+      addScript.id = scriptId;
+      addScript.type = 'text/javascript';
+      addScript.src = `//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit`;
+      addScript.async = true;
+      document.body.appendChild(addScript);
+      (window as any).googleTranslateElementInit = googleTranslateElementInit;
+    }
   }, []);
 
   return (
@@ -93,17 +84,18 @@ export function Header() {
           <div className="relative">
               <Button
                   variant="outline"
-                  size="icon"
+                  size="sm"
                   onClick={() => setTranslateVisible(!isTranslateVisible)}
                   className="relative z-10"
               >
-                  <Languages className="h-5 w-5" />
+                  <Languages className="h-4 w-4 mr-2" />
+                  Translate
               </Button>
               <div
                   id="google_translate_element"
                   className={cn(
-                      "absolute top-0 left-1/2 -translate-x-1/2",
-                      isTranslateVisible ? "z-20" : "-z-10"
+                      "absolute top-full right-0 mt-2",
+                      isTranslateVisible ? "block" : "hidden"
                   )}
               ></div>
           </div>
@@ -134,8 +126,8 @@ export function Header() {
                    <div
                       id="google_translate_element_mobile"
                       className={cn(
-                          "absolute top-0 left-1/2 -translate-x-1/2",
-                          isTranslateVisible ? "z-20" : "-z-10"
+                          "absolute top-full right-0 mt-2",
+                          isTranslateVisible ? "block" : "hidden"
                       )}
                   ></div>
             </div>

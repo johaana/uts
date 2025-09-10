@@ -116,56 +116,43 @@
 
   /* GOOGLE TRANSLATE WIDGET STYLING */
 
-  /* Hide the default top banner */
   body {
     top: 0px !important;
   }
-  iframe.goog-te-banner-frame {
-    display: none !important;
+
+  /* Hide the default Google Translate banner that can appear at the top of the page */
+  .goog-te-banner-frame.skiptranslate {
+      display: none !important;
+  } 
+
+  /* Style the main dropdown container */
+  #google_translate_element .goog-te-gadget-simple {
+      @apply bg-background border-border border rounded-md p-2;
+  }
+
+  /* Hide the default icon */
+  #google_translate_element .goog-te-gadget-icon {
+      display: none !important;
+  }
+
+  /* Style the text inside the dropdown */
+  #google_translate_element .goog-te-menu-value span {
+      @apply text-foreground;
+  }
+
+  #google_translate_element_mobile .goog-te-gadget-simple {
+      @apply bg-background border-border border rounded-md p-2;
   }
   
-  /* Make the main widget transparent and positioned correctly */
-  .goog-te-gadget-simple {
-    background-color: transparent !important;
-    border: none !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    display: inline-block;
+  #google_translate_element_mobile .goog-te-gadget-icon {
+      display: none !important;
+  }
+  
+  #google_translate_element_mobile .goog-te-menu-value span {
+      @apply text-foreground;
   }
 
-  /* Hide the "Powered by" text and the original language display */
-  .goog-te-gadget-simple .goog-te-menu-value span, 
-  .goog-te-gadget-simple .text {
-    display: none !important;
-  }
-
-  /* Hide the Google icon completely */
-  .goog-te-gadget-icon {
-    display: none !important;
-  }
-
-  #google_translate_element {
-    position: relative;
-    top: -40px; /* Move the invisible widget up */
-    width: 120px; /* Set a fixed width */
-    height: 40px; /* Set a fixed height */
-    opacity: 0; /* Make it fully transparent */
-    cursor: pointer;
-  }
-
-  /* Style the dropdown menu that appears */
-  .goog-te-menu-frame {
-    @apply rounded-lg shadow-lg border-border bg-background max-w-[250px] !important;
-  }
-
-  .goog-te-menu2-item .text {
-     @apply font-sans text-sm text-foreground/80 !important;
-  }
-
-  .goog-te-menu2-item-selected .text,
-  .goog-te-menu2-item:hover .text {
-    @apply text-primary !important;
-  }
 
 }
+
 
