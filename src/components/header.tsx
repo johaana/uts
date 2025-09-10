@@ -6,7 +6,7 @@ import Image from "next/image";
 import { Button } from "./ui/button";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Bot, Languages } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -19,16 +19,13 @@ const navLinks = [
 export function Header() {
   const pathname = usePathname();
   const { toast } = useToast();
-  const [isTranslateReady, setIsTranslateReady] = useState(false);
-  const [isTranslateOpen, setIsTranslateOpen] = useState(false);
 
   useEffect(() => {
     const scriptId = 'google-translate-script';
+    
+    // Check if the script is already added
     if (document.getElementById(scriptId)) {
-        if (typeof (window as any).google !== 'undefined' && (window as any).google.translate) {
-            setIsTranslateReady(true);
-        }
-        return;
+      return;
     }
 
     const addScript = document.createElement('script');
@@ -40,42 +37,36 @@ export function Header() {
     (window as any).googleTranslateElementInit = () => {
       new (window as any).google.translate.TranslateElement({
         pageLanguage: 'en',
-        layout: (window as any).google.translate.TranslateElement.InlineLayout.SIMPLE,
+        layout: (window as any).google.translate.TranslateElement.InlineLayout.TOP_LEFT,
       }, 'google_translate_element');
-      new (window as any).google.translate.TranslateElement({
-        pageLanguage: 'en',
-        layout: (window as any).google.translate.TranslateElement.InlineLayout.SIMPLE,
-      }, 'google_translate_element_mobile');
-      setIsTranslateReady(true);
     };
 
     document.body.appendChild(addScript);
 
     // Show toast only once per session
     if (!sessionStorage.getItem('translateToastShown')) {
-        toast({
-            title: "Translate this page",
-            description: (
-              <div className="flex items-center">
-                <Languages className="w-5 h-5 mr-2 text-primary"/>
-                <span>Click the 'Translate' button in the header to select your language.</span>
-              </div>
-            ),
-            duration: 8000,
-        });
-        sessionStorage.setItem('translateToastShown', 'true');
+        setTimeout(() => {
+            toast({
+                title: "Need this page in another language?",
+                description: (
+                  <div className="flex items-center">
+                    <Languages className="w-5 h-5 mr-2 text-primary"/>
+                    <span>Use the language selector at the top-left of your screen.</span>
+                  </div>
+                ),
+                duration: 8000,
+            });
+            sessionStorage.setItem('translateToastShown', 'true');
+        }, 3000); // Delay toast by 3 seconds
     }
   }, [toast]);
-  
-  const handleToggleTranslate = (e: React.MouseEvent) => {
-    e.preventDefault();
-    setIsTranslateOpen(prev => !prev);
-  }
+
 
   return (
     <header 
       className="bg-background/80 backdrop-blur-sm border-b sticky top-0 z-40"
     >
+      <div id="google_translate_element" className="absolute top-2 left-2 z-50"></div>
       <div className="container mx-auto flex items-center justify-between h-20 px-4">
         
         <div className="flex-1 md:flex-none justify-start">
@@ -113,13 +104,6 @@ export function Header() {
               </Link>
             ))}
           </nav>
-           <div className="translate-container">
-             <Button variant="outline" className="w-full h-full" onClick={handleToggleTranslate}>
-                <Languages className="w-4 h-4 mr-2"/>
-                Translate
-              </Button>
-              <div id="google_translate_element" className={cn("translate-widget-container", { 'active': isTranslateOpen })}></div>
-           </div>
            <Link href="/planner">
                 <Button 
                   size="sm"
@@ -134,12 +118,6 @@ export function Header() {
         </div>
         
         <div className="flex-1 flex justify-end items-center gap-2 md:hidden">
-            <div className="translate-container-mobile">
-               <Button variant="outline" size="icon" className="w-full h-full" onClick={handleToggleTranslate}>
-                  <Languages className="w-4 h-4"/>
-                </Button>
-                <div id="google_translate_element_mobile" className={cn("translate-widget-container", { 'active': isTranslateOpen })}></div>
-            </div>
           <Link href="/planner">
               <Button 
                 size="sm"
