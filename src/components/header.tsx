@@ -20,13 +20,11 @@ export function Header() {
   const pathname = usePathname();
   const { toast } = useToast();
   const [isTranslateReady, setIsTranslateReady] = useState(false);
+  const [isTranslateOpen, setIsTranslateOpen] = useState(false);
 
   useEffect(() => {
     const scriptId = 'google-translate-script';
-    
-    // Check if the script is already added
     if (document.getElementById(scriptId)) {
-        // If script exists, ensure the init function is set and call it if translate is loaded
         if (typeof (window as any).google !== 'undefined' && (window as any).google.translate) {
             setIsTranslateReady(true);
         }
@@ -53,7 +51,26 @@ export function Header() {
 
     document.body.appendChild(addScript);
 
-  }, []);
+    // Show toast only once per session
+    if (!sessionStorage.getItem('translateToastShown')) {
+        toast({
+            title: "Translate this page",
+            description: (
+              <div className="flex items-center">
+                <Languages className="w-5 h-5 mr-2 text-primary"/>
+                <span>Click the 'Translate' button in the header to select your language.</span>
+              </div>
+            ),
+            duration: 8000,
+        });
+        sessionStorage.setItem('translateToastShown', 'true');
+    }
+  }, [toast]);
+  
+  const handleToggleTranslate = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsTranslateOpen(prev => !prev);
+  }
 
   return (
     <header 
@@ -96,12 +113,12 @@ export function Header() {
               </Link>
             ))}
           </nav>
-           <div className="relative h-10 w-28">
-             <Button variant="outline" className="w-full h-full absolute inset-0 z-10 pointer-events-none">
+           <div className="translate-container">
+             <Button variant="outline" className="w-full h-full" onClick={handleToggleTranslate}>
                 <Languages className="w-4 h-4 mr-2"/>
                 Translate
               </Button>
-              <div id="google_translate_element"></div>
+              <div id="google_translate_element" className={cn("translate-widget-container", { 'active': isTranslateOpen })}></div>
            </div>
            <Link href="/planner">
                 <Button 
@@ -117,11 +134,11 @@ export function Header() {
         </div>
         
         <div className="flex-1 flex justify-end items-center gap-2 md:hidden">
-            <div className="relative h-9 w-10">
-               <Button variant="outline" size="icon" className="w-full h-full absolute inset-0 z-10 pointer-events-none">
+            <div className="translate-container-mobile">
+               <Button variant="outline" size="icon" className="w-full h-full" onClick={handleToggleTranslate}>
                   <Languages className="w-4 h-4"/>
                 </Button>
-                <div id="google_translate_element_mobile"></div>
+                <div id="google_translate_element_mobile" className={cn("translate-widget-container", { 'active': isTranslateOpen })}></div>
             </div>
           <Link href="/planner">
               <Button 
