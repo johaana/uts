@@ -2,7 +2,6 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Calendar, Utensils, BookOpen, Globe } from "lucide-react";
 import Link from "next/link";
-import { FestivalCalendar } from "@/components/FestivalCalendar";
 import { RegionShowcase } from "@/components/RegionShowcase";
 import React from "react";
 import { UpcomingFestivalsCarousel } from "@/components/UpcomingFestivalsCarousel";
@@ -116,12 +115,18 @@ export default function Home() {
       <FestivalOfTheMonth />
       
       <section className="py-12 md:py-24 bg-secondary/30">
-        <div className="container mx-auto px-4">
-           <FestivalCalendar 
-              events={allEvents} 
-              title="Festival & Holiday Calendar" 
-              description="Plan your year around the vibrant celebrations of India. Never miss a festival or holiday with our comprehensive calendar."
-           />
+        <div className="container mx-auto px-4 text-center">
+            <h2 className="font-headline text-3xl md:text-5xl font-bold text-primary">The Rhythm of Celebration</h2>
+            <p className="mt-3 text-base md:text-lg text-foreground/80 max-w-2xl mx-auto">
+                Plan your year with our interactive almanac of global festivities.
+            </p>
+            <div className="mt-8">
+                <Link href="/calendar">
+                    <Button size="lg" className="group shadow-lg hover:shadow-xl transition-all duration-300">
+                        Explore the Yearly Calendar <Calendar className="w-5 h-5 ml-2 transition-transform group-hover:rotate-12" />
+                    </Button>
+                </Link>
+            </div>
         </div>
       </section>
       

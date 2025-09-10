@@ -3,14 +3,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Calendar, Utensils, BookOpen } from "lucide-react";
+import { Home, Calendar, Utensils, BookOpen, Rss } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const navLinks = [
     { href: "/", label: "Home", icon: Home },
-    { href: "/festivals", label: "Festivals", icon: Calendar },
+    { href: "/calendar", label: "Calendar", icon: Calendar },
     { href: "/recipes", label: "Recipes", icon: Utensils },
-    { href: "/blog", label: "Blog", icon: BookOpen },
+    { href: "/blog", label: "Blog", icon: Rss },
 ];
 
 export function BottomNavBar() {

@@ -4,17 +4,46 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Button } from './ui/button';
-import { Bot } from 'lucide-react';
+import { Bot, Languages } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface MobileNavProps {
     navLinks: { href: string; label: string }[];
     setOpen: (open: boolean) => void;
 }
 
+const languages = [
+    { name: 'English', code: 'en' },
+    { name: 'Hindi', code: 'hi' },
+    { name: 'Spanish', code: 'es' },
+    { name: 'French', code: 'fr' },
+    { name: 'German', code: 'de' },
+    { name: 'Mandarin', code: 'zh-CN' },
+    { name: 'Arabic', code: 'ar' },
+];
+
 export function MobileNav({ navLinks, setOpen }: MobileNavProps) {
   const pathname = usePathname();
+
+  const changeLanguage = (langCode: string) => {
+    const googleTranslateElement = document.getElementById('google_translate_element');
+    if (googleTranslateElement) {
+        const langSelect = googleTranslateElement.querySelector('.goog-te-combo') as HTMLSelectElement;
+        if (langSelect) {
+            langSelect.value = langCode;
+            langSelect.dispatchEvent(new Event('change'));
+        }
+    }
+    setOpen(false);
+  };
+
 
   return (
     <div className="flex flex-col h-full">
@@ -44,7 +73,23 @@ export function MobileNav({ navLinks, setOpen }: MobileNavProps) {
           </Link>
         ))}
       </nav>
-      <div className="p-4 border-t">
+      <div className="p-4 border-t space-y-4">
+        <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" className="w-full">
+                <Languages className="h-4 w-4 mr-2" />
+                Translate Page
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-[--radix-dropdown-menu-trigger-width]]">
+              {languages.map((lang) => (
+                <DropdownMenuItem key={lang.code} onClick={() => changeLanguage(lang.code)}>
+                  {lang.name}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+
         <Link href="/planner" onClick={() => setOpen(false)}>
             <Button 
               size="lg"

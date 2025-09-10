@@ -7,7 +7,7 @@ import { Button } from "./ui/button";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import React, { useEffect } from "react";
-import { Bot, Languages, Menu } from "lucide-react";
+import { Bot, Languages, Menu, Calendar, Rss } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -21,6 +21,7 @@ const navLinks = [
   { href: "/festivals", label: "Festivals" },
   { href: "/recipes", label: "Recipes" },
   { href: "/blog", label: "Blog" },
+  { href: "/calendar", label: "Calendar" },
 ];
 
 const languages = [
@@ -155,7 +156,7 @@ export function Header() {
                         <span className="sr-only">Open Menu</span>
                     </Button>
                 </SheetTrigger>
-                <SheetContent side="left">
+                <SheetContent side="left" className="w-full">
                     <MobileNav navLinks={navLinks} setOpen={setIsSheetOpen} />
                 </SheetContent>
             </Sheet>
