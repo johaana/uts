@@ -73,7 +73,7 @@ export default function CalendarPage() {
                                         data-ai-hint={month.hint}
                                         variants={{
                                             initial: { scale: 1 },
-                                            hover: { scale: 1.1, rotate: 2 }
+                                            hover: { scale: 1.1 }
                                         }}
                                         transition={{ duration: 0.5, ease: 'easeInOut' }}
                                     ></motion.div>
