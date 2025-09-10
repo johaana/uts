@@ -47,9 +47,9 @@ export default function CalendarPage() {
         <div className="bg-background text-foreground min-h-screen">
             <div className="container mx-auto px-4 py-12 md:py-20">
                 <div className="text-center mb-12 md:mb-16">
-                    <h1 className="font-headline text-4xl md:text-6xl font-bold text-primary">The Rhythm of Celebration</h1>
+                    <h1 className="font-headline text-4xl md:text-6xl font-bold text-primary">A Year of Celebration</h1>
                     <p className="mt-4 text-lg text-foreground/80 max-w-3xl mx-auto">
-                        An almanac of global festivities. Choose a month to begin your journey through the year's most vibrant cultural events.
+                        Your monthly guide to the world's most vibrant festivals.
                     </p>
                 </div>
                 
@@ -64,7 +64,7 @@ export default function CalendarPage() {
                             <Link href={`/calendar/${month.name.toLowerCase()}`} passHref>
                                 <motion.div
                                     className="block relative aspect-[4/5] rounded-lg overflow-hidden group shadow-lg"
-                                    whileHover="hover"
+                                    whileHover={{ scale: 1.05 }}
                                     transition={{ type: 'spring', stiffness: 300 }}
                                 >
                                     <motion.div 

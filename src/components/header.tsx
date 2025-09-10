@@ -21,7 +21,7 @@ const navLinks = [
   { href: "/festivals", label: "Festivals" },
   { href: "/recipes", label: "Recipes" },
   { href: "/blog", label: "Blog" },
-  { href: "/calendar", label: "Plan Monthwise" },
+  { href: "/calendar", label: "Explore by Month" },
 ];
 
 const languages = [
