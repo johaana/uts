@@ -24,29 +24,36 @@ export function Header() {
   useEffect(() => {
     const scriptId = 'google-translate-script';
     
+    // Check if the script is already added
     if (document.getElementById(scriptId)) {
-        setIsTranslateReady(true);
+        // If script exists, ensure the init function is set and call it if translate is loaded
+        if (typeof (window as any).google !== 'undefined' && (window as any).google.translate) {
+            setIsTranslateReady(true);
+        }
         return;
     }
 
     const addScript = document.createElement('script');
     addScript.id = scriptId;
     addScript.type = 'text/javascript';
-    addScript.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+    addScript.src = `//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit`;
     addScript.async = true;
     
     (window as any).googleTranslateElementInit = () => {
       new (window as any).google.translate.TranslateElement({
         pageLanguage: 'en',
-        layout: (window as any).google.translate.TranslateElement.InlineLayout.SIMPLE
+        layout: (window as any).google.translate.TranslateElement.InlineLayout.SIMPLE,
       }, 'google_translate_element');
+      new (window as any).google.translate.TranslateElement({
+        pageLanguage: 'en',
+        layout: (window as any).google.translate.TranslateElement.InlineLayout.SIMPLE,
+      }, 'google_translate_element_mobile');
       setIsTranslateReady(true);
     };
 
     document.body.appendChild(addScript);
 
   }, []);
-
 
   return (
     <header 
@@ -89,11 +96,12 @@ export function Header() {
               </Link>
             ))}
           </nav>
-           <div id="google_translate_element" className="relative h-10 w-28">
+           <div className="relative h-10 w-28">
              <Button variant="outline" className="w-full h-full absolute inset-0 z-10 pointer-events-none">
                 <Languages className="w-4 h-4 mr-2"/>
                 Translate
               </Button>
+              <div id="google_translate_element"></div>
            </div>
            <Link href="/planner">
                 <Button 
@@ -109,10 +117,11 @@ export function Header() {
         </div>
         
         <div className="flex-1 flex justify-end items-center gap-2 md:hidden">
-            <div id="google_translate_element_mobile" className="relative h-9 w-10">
+            <div className="relative h-9 w-10">
                <Button variant="outline" size="icon" className="w-full h-full absolute inset-0 z-10 pointer-events-none">
                   <Languages className="w-4 h-4"/>
                 </Button>
+                <div id="google_translate_element_mobile"></div>
             </div>
           <Link href="/planner">
               <Button 

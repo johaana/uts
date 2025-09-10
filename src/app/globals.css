@@ -117,22 +117,44 @@
   .skiptranslate {
     display: none !important;
   }
+  
   body {
     top: 0px !important;
   }
+
+  #google_translate_element, #google_translate_element_mobile {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    z-index: 20;
+    cursor: pointer;
+  }
+
+  .goog-te-gadget {
+    height: 100%;
+    width: 100%;
+  }
+
   .goog-te-gadget-simple {
     background-color: transparent !important;
     border: none !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    font-size: 0px !important; /* Hide original text */
-    display: inline-block;
+    font-size: 0px !important;
+    display: block !important;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
   }
-  .goog-te-gadget-simple .goog-te-menu-value {
-    display: none;
+  
+  .goog-te-menu-frame {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+    border-radius: 0.5rem !important;
   }
-  .goog-te-gadget-simple img {
-    display: none; /* Hide Google's icon */
+
+  iframe.goog-te-banner-frame {
+    display: none !important;
   }
 
 }
