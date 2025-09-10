@@ -63,21 +63,32 @@ export default function CalendarPage() {
                         <motion.div key={month.name} variants={itemVariants}>
                             <Link href={`/calendar/${month.name.toLowerCase()}`} passHref>
                                 <motion.div
-                                    className="block relative aspect-square rounded-lg overflow-hidden group shadow-lg"
-                                    whileHover={{ scale: 1.05, y: -5 }}
+                                    className="block relative aspect-[4/5] rounded-lg overflow-hidden group shadow-lg"
+                                    whileHover="hover"
                                     transition={{ type: 'spring', stiffness: 300 }}
                                 >
-                                    <div 
-                                        className="absolute inset-0 bg-cover bg-center transition-transform duration-500 ease-in-out group-hover:scale-110"
+                                    <motion.div 
+                                        className="absolute inset-0 bg-cover bg-center"
                                         style={{ backgroundImage: `url(${month.image})` }}
                                         data-ai-hint={month.hint}
-                                    ></div>
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent transition-colors duration-300"></div>
-                                    <div className="absolute inset-0 flex items-center justify-center">
-                                        <h2 className="font-headline text-3xl md:text-4xl font-bold text-white text-center drop-shadow-2xl">
+                                        variants={{
+                                            initial: { scale: 1 },
+                                            hover: { scale: 1.1, rotate: 2 }
+                                        }}
+                                        transition={{ duration: 0.5, ease: 'easeInOut' }}
+                                    ></motion.div>
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent transition-colors duration-300"></div>
+                                    <motion.div 
+                                        className="absolute inset-0 flex items-end p-4"
+                                        variants={{
+                                            initial: { y: 0 },
+                                            hover: { y: -10 }
+                                        }}
+                                    >
+                                        <h2 className="font-headline text-2xl md:text-3xl font-bold text-white text-left drop-shadow-2xl w-full">
                                             {month.name}
                                         </h2>
-                                    </div>
+                                    </motion.div>
                                 </motion.div>
                             </Link>
                         </motion.div>
