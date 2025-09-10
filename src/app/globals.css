@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -113,45 +114,70 @@
     @apply text-lg text-foreground/80;
   }
 
-  /* Google Translate Widget Styling */
-  .skiptranslate {
-    display: none !important;
+  /* GOOGLE TRANSLATE WIDGET STYLING */
+  /* Hide the default banner */
+  iframe.goog-te-banner-frame {
+    @apply hidden !important;
+  }
+
+  body {
+    top: 0px !important; /* Prevent body from being pushed down */
+  }
+
+  /* Style the container for our custom button */
+  #google_translate_element, #google_translate_element_mobile {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
   }
   
-  body {
-    top: 0px !important;
-  }
-
-  iframe.goog-te-banner-frame {
-    display: none !important;
-  }
-
-  #google_translate_element {
-    position: absolute;
-    top: 1rem;
-    left: 1rem;
-    z-index: 50;
+  /* Hide all default elements of the widget */
+  .goog-te-gadget {
+    font-size: 0px !important;
+    display: inline-block;
   }
 
   .goog-te-gadget-simple {
     background-color: transparent !important;
-    border: 1px solid hsl(var(--border)) !important;
-    border-radius: var(--radius) !important;
-    padding: 0.5rem !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: inline-block;
+    width: auto;
+    height: auto;
   }
 
-  .goog-te-gadget-simple .goog-te-menu-value span {
-    color: hsl(var(--foreground)) !important;
+  .goog-te-gadget-simple .goog-te-menu-value {
+    display: none !important; /* Hide the default language display */
+  }
+
+  /* Repurpose the icon element as our clickable button */
+  .goog-te-gadget-icon {
+    background-image: none !important; /* Remove Google's icon */
+    @apply bg-accent text-accent-foreground h-9 w-9 rounded-md flex items-center justify-center cursor-pointer;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
   }
   
+  .goog-te-gadget-icon::after {
+    content: "A\\A"; /* Unicode for line break to display the language code*/
+    font-size: 14px; /* Set a visible font size for our custom text */
+    font-weight: bold;
+    white-space: pre;
+    font-family: sans-serif; /* Use a standard font */
+  }
+
+  /* Style the dropdown menu */
   .goog-te-menu-frame {
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
-    border-radius: 0.5rem !important;
-    background-color: hsl(var(--background)) !important;
+    @apply rounded-lg shadow-lg border-border bg-background max-w-[250px] !important;
   }
-  
+
+  .goog-te-menu2-item .text {
+     @apply font-sans text-sm text-foreground/80 !important;
+  }
+
   .goog-te-menu2-item-selected .text,
   .goog-te-menu2-item:hover .text {
-    color: hsl(var(--primary)) !important;
+    @apply text-primary !important;
   }
 }

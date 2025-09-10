@@ -8,7 +8,6 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import React, { useEffect } from "react";
 import { Bot, Languages } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
 
 const navLinks = [
   { href: "/festivals", label: "Festivals" },
@@ -18,13 +17,18 @@ const navLinks = [
 
 export function Header() {
   const pathname = usePathname();
-  const { toast } = useToast();
 
   useEffect(() => {
     const scriptId = 'google-translate-script';
     
-    // Check if the script is already added
     if (document.getElementById(scriptId)) {
+      // Script already exists, maybe re-initialize
+       if ((window as any).google && (window as any).google.translate) {
+         (window as any).google.translate.TranslateElement({
+            pageLanguage: 'en',
+            layout: (window as any).google.translate.TranslateElement.InlineLayout.TOP_LEFT,
+          }, 'google_translate_element');
+      }
       return;
     }
 
@@ -42,31 +46,13 @@ export function Header() {
     };
 
     document.body.appendChild(addScript);
-
-    // Show toast only once per session
-    if (!sessionStorage.getItem('translateToastShown')) {
-        setTimeout(() => {
-            toast({
-                title: "Need this page in another language?",
-                description: (
-                  <div className="flex items-center">
-                    <Languages className="w-5 h-5 mr-2 text-primary"/>
-                    <span>Use the language selector at the top-left of your screen.</span>
-                  </div>
-                ),
-                duration: 8000,
-            });
-            sessionStorage.setItem('translateToastShown', 'true');
-        }, 3000); // Delay toast by 3 seconds
-    }
-  }, [toast]);
+  }, []);
 
 
   return (
     <header 
       className="bg-background/80 backdrop-blur-sm border-b sticky top-0 z-40"
     >
-      <div id="google_translate_element" className="absolute top-2 left-2 z-50"></div>
       <div className="container mx-auto flex items-center justify-between h-20 px-4">
         
         <div className="flex-1 md:flex-none justify-start">
@@ -104,6 +90,7 @@ export function Header() {
               </Link>
             ))}
           </nav>
+            <div id="google_translate_element" className="w-40"></div>
            <Link href="/planner">
                 <Button 
                   size="sm"
@@ -118,6 +105,7 @@ export function Header() {
         </div>
         
         <div className="flex-1 flex justify-end items-center gap-2 md:hidden">
+            <div id="google_translate_element_mobile"></div>
           <Link href="/planner">
               <Button 
                 size="sm"
