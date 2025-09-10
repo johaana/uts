@@ -40,7 +40,7 @@ export function Footer() {
               <ul className="space-y-3">
                 <li><Link href="/festivals" className="text-foreground/80 hover:text-primary">Indian Festivals</Link></li>
                 <li><Link href="/international-festivals" className="text-foreground/80 hover:text-primary">International</Link></li>
-                <li><Link href="/calendar" className="text-foreground/80 hover:text-primary">Calendar</Link></li>
+                <li><Link href="/calendar" className="text-foreground/80 hover:text-primary">Plan Monthwise</Link></li>
                 <li><Link href="/recipes" className="text-foreground/80 hover:text-primary">Recipes</Link></li>
                  <li><Link href="/blog" className="text-foreground/80 hover:text-primary">Blog</Link></li>
                  <li><Link href="/planner" className="text-foreground/80 hover:text-primary">AI Planner</Link></li>

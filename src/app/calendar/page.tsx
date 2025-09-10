@@ -72,7 +72,7 @@ export default function CalendarPage() {
                                         style={{ backgroundImage: `url(${month.image})` }}
                                         data-ai-hint={month.hint}
                                     ></div>
-                                    <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-300"></div>
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent transition-colors duration-300"></div>
                                     <div className="absolute inset-0 flex items-center justify-center">
                                         <h2 className="font-headline text-3xl md:text-4xl font-bold text-white text-center drop-shadow-2xl">
                                             {month.name}
