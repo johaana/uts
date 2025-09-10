@@ -48,7 +48,7 @@ function AIPlannerShowcase() {
                         <div className="p-6 md:p-12 md:w-1/2 order-2 md:order-1">
                             <h2 className="font-headline text-3xl md:text-5xl font-bold text-primary mb-4">Let AI Be Your Guide</h2>
                             <p className="text-base md:text-lg text-foreground/80 mb-6 max-w-lg">
-                                Planning a trip around a festival? Curious about specific dates or customs? Our AI Holiday Planner can provide personalized suggestions and answer your questions in an instant.
+                                Not sure where to travel? Check out our month-wise planner and find out. Our AI Holiday Planner can provide personalized suggestions and answer your questions in an instant.
                             </p>
                             <Link href="/planner">
                                 <Button size="lg" className="group shadow-lg hover:shadow-xl transition-all duration-300">
