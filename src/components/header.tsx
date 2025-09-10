@@ -6,7 +6,7 @@ import Image from "next/image";
 import { Button } from "./ui/button";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Bot, Languages } from "lucide-react";
 
 const navLinks = [
@@ -17,16 +17,16 @@ const navLinks = [
 
 export function Header() {
   const pathname = usePathname();
+  const [isTranslateVisible, setTranslateVisible] = useState(false);
 
   useEffect(() => {
     const scriptId = 'google-translate-script';
     
     if (document.getElementById(scriptId)) {
-      // Script already exists, maybe re-initialize
        if ((window as any).google && (window as any).google.translate) {
-         (window as any).google.translate.TranslateElement({
+         new (window as any).google.translate.TranslateElement({
             pageLanguage: 'en',
-            layout: (window as any).google.translate.TranslateElement.InlineLayout.TOP_LEFT,
+            layout: (window as any).google.translate.TranslateElement.InlineLayout.SIMPLE,
           }, 'google_translate_element');
       }
       return;
@@ -41,13 +41,12 @@ export function Header() {
     (window as any).googleTranslateElementInit = () => {
       new (window as any).google.translate.TranslateElement({
         pageLanguage: 'en',
-        layout: (window as any).google.translate.TranslateElement.InlineLayout.TOP_LEFT,
+        layout: (window as any).google.translate.TranslateElement.InlineLayout.SIMPLE,
       }, 'google_translate_element');
     };
 
     document.body.appendChild(addScript);
   }, []);
-
 
   return (
     <header 
@@ -90,7 +89,25 @@ export function Header() {
               </Link>
             ))}
           </nav>
-            <div id="google_translate_element" className="w-40"></div>
+          
+          <div className="relative">
+              <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={() => setTranslateVisible(!isTranslateVisible)}
+                  className="relative z-10"
+              >
+                  <Languages className="h-5 w-5" />
+              </Button>
+              <div
+                  id="google_translate_element"
+                  className={cn(
+                      "absolute top-0 left-1/2 -translate-x-1/2",
+                      isTranslateVisible ? "z-20" : "-z-10"
+                  )}
+              ></div>
+          </div>
+
            <Link href="/planner">
                 <Button 
                   size="sm"
@@ -105,7 +122,23 @@ export function Header() {
         </div>
         
         <div className="flex-1 flex justify-end items-center gap-2 md:hidden">
-            <div id="google_translate_element_mobile"></div>
+            <div className="relative">
+                 <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={() => setTranslateVisible(!isTranslateVisible)}
+                    className="relative z-10 h-9 w-9"
+                  >
+                      <Languages className="h-5 w-5" />
+                  </Button>
+                   <div
+                      id="google_translate_element_mobile"
+                      className={cn(
+                          "absolute top-0 left-1/2 -translate-x-1/2",
+                          isTranslateVisible ? "z-20" : "-z-10"
+                      )}
+                  ></div>
+            </div>
           <Link href="/planner">
               <Button 
                 size="sm"
