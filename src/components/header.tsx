@@ -6,8 +6,14 @@ import Image from "next/image";
 import { Button } from "./ui/button";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Bot, Languages } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const navLinks = [
   { href: "/festivals", label: "Festivals" },
@@ -15,34 +21,54 @@ const navLinks = [
   { href: "/blog", label: "Blog" },
 ];
 
+const languages = [
+    { name: 'English', code: '/auto/en' },
+    { name: 'Hindi', code: '/auto/hi' },
+    { name: 'Spanish', code: '/auto/es' },
+    { name: 'French', code: '/auto/fr' },
+    { name: 'German', code: '/auto/de' },
+    { name: 'Mandarin', code: '/auto/zh-CN' },
+    { name: 'Arabic', code: '/auto/ar' },
+];
+
 export function Header() {
   const pathname = usePathname();
-  const [isTranslateVisible, setTranslateVisible] = useState(false);
 
   useEffect(() => {
-    const googleTranslateElementInit = () => {
-      new (window as any).google.translate.TranslateElement({
-        pageLanguage: 'en',
-        layout: (window as any).google.translate.TranslateElement.InlineLayout.SIMPLE,
-      }, 'google_translate_element');
-    }
+    const addGoogleTranslateScript = () => {
+      const scriptId = 'google-translate-script';
+      if (document.getElementById(scriptId)) return;
 
-    const scriptId = 'google-translate-script';
-    if (!document.getElementById(scriptId)) {
       const addScript = document.createElement('script');
       addScript.id = scriptId;
       addScript.type = 'text/javascript';
       addScript.src = `//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit`;
-      addScript.async = true;
       document.body.appendChild(addScript);
-      (window as any).googleTranslateElementInit = googleTranslateElementInit;
-    }
+
+      (window as any).googleTranslateElementInit = () => {
+        new (window as any).google.translate.TranslateElement({
+          pageLanguage: 'en',
+          layout: (window as any).google.translate.TranslateElement.InlineLayout.HORIZONTAL,
+        }, 'google_translate_element');
+      };
+    };
+
+    addGoogleTranslateScript();
   }, []);
 
+  const changeLanguage = (langCode: string) => {
+    const googleTranslateElement = document.getElementById('google_translate_element');
+    if (googleTranslateElement) {
+        const langSelect = googleTranslateElement.querySelector('.goog-te-combo') as HTMLSelectElement;
+        if (langSelect) {
+            langSelect.value = langCode.split('/').pop()!;
+            langSelect.dispatchEvent(new Event('change'));
+        }
+    }
+  };
+
   return (
-    <header 
-      className="bg-background/80 backdrop-blur-sm border-b sticky top-0 z-40"
-    >
+    <header className="bg-background/80 backdrop-blur-sm border-b sticky top-0 z-40">
       <div className="container mx-auto flex items-center justify-between h-20 px-4">
         
         <div className="flex-1 md:flex-none justify-start">
@@ -81,24 +107,23 @@ export function Header() {
             ))}
           </nav>
           
-          <div className="relative">
-              <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setTranslateVisible(!isTranslateVisible)}
-                  className="relative z-10"
-              >
-                  <Languages className="h-4 w-4 mr-2" />
-                  Translate
+          <div id="google_translate_element" style={{ display: 'none' }}></div>
+          
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="sm">
+                <Languages className="h-4 w-4 mr-2" />
+                Translate
               </Button>
-              <div
-                  id="google_translate_element"
-                  className={cn(
-                      "absolute top-full right-0 mt-2",
-                      isTranslateVisible ? "block" : "hidden"
-                  )}
-              ></div>
-          </div>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              {languages.map((lang) => (
+                <DropdownMenuItem key={lang.code} onClick={() => changeLanguage(lang.code)}>
+                  {lang.name}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
 
            <Link href="/planner">
                 <Button 
@@ -114,23 +139,22 @@ export function Header() {
         </div>
         
         <div className="flex-1 flex justify-end items-center gap-2 md:hidden">
-            <div className="relative">
-                 <Button
-                    variant="outline"
-                    size="icon"
-                    onClick={() => setTranslateVisible(!isTranslateVisible)}
-                    className="relative z-10 h-9 w-9"
-                  >
-                      <Languages className="h-5 w-5" />
-                  </Button>
-                   <div
-                      id="google_translate_element_mobile"
-                      className={cn(
-                          "absolute top-full right-0 mt-2",
-                          isTranslateVisible ? "block" : "hidden"
-                      )}
-                  ></div>
-            </div>
+            <div id="google_translate_element_mobile" style={{ display: 'none' }}></div>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" size="icon" className="h-9 w-9">
+                  <Languages className="h-5 w-5" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                 {languages.map((lang) => (
+                    <DropdownMenuItem key={lang.code} onClick={() => changeLanguage(lang.code)}>
+                      {lang.name}
+                    </DropdownMenuItem>
+                  ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+
           <Link href="/planner">
               <Button 
                 size="sm"

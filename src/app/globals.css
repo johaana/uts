@@ -120,39 +120,19 @@
     top: 0px !important;
   }
 
-  /* Hide the default Google Translate banner that can appear at the top of the page */
+  /* Hide the default Google Translate banner */
   .goog-te-banner-frame.skiptranslate {
       display: none !important;
   } 
 
-  /* Style the main dropdown container */
-  #google_translate_element .goog-te-gadget-simple {
-      @apply bg-background border-border border rounded-md p-2;
+  /* Hide the entire default widget */
+  #google_translate_element {
+    display: none !important;
   }
-
-  /* Hide the default icon */
-  #google_translate_element .goog-te-gadget-icon {
-      display: none !important;
+  #google_translate_element_mobile {
+    display: none !important;
   }
-
-  /* Style the text inside the dropdown */
-  #google_translate_element .goog-te-menu-value span {
-      @apply text-foreground;
-  }
-
-  #google_translate_element_mobile .goog-te-gadget-simple {
-      @apply bg-background border-border border rounded-md p-2;
-  }
-  
-  #google_translate_element_mobile .goog-te-gadget-icon {
-      display: none !important;
-  }
-  
-  #google_translate_element_mobile .goog-te-menu-value span {
-      @apply text-foreground;
-  }
-
-
 }
+
 
 
