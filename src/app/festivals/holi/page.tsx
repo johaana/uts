@@ -118,7 +118,7 @@ export default function HoliPage() {
                                 </div>
                             </section>
 
-                            <section id="recipes">
+                            <section id="recipes" className="scroll-mt-20">
                                 <h2 className="font-headline text-3xl font-bold mb-4">Holi Delicacies</h2>
                                 <p className="mb-6 text-foreground/80 prose max-w-none">Holi is a time for indulgence. Sweet and savory treats are prepared in abundance to share with everyone who comes to play.</p>
                                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">

@@ -56,10 +56,13 @@ export function OnamPageContent() {
         <div className="bg-background">
             <div className="container mx-auto px-4 py-12">
                 <Card className="mb-12 overflow-hidden">
-                    <Image src="https://i.postimg.cc/bvmpScwr/pongal.jpg" alt="Onam festival" width={1200} height={400} className="w-full h-48 md:h-64 object-cover" data-ai-hint="onam feast" />
-                    <div className="p-6 md:p-10 text-center">
-                        <h1 className="font-headline text-4xl md:text-7xl font-bold text-primary">Onam</h1>
-                        <p className="text-xl md:text-2xl mt-2 text-muted-foreground">Kerala's Harvest Festival</p>
+                    <div className="relative h-64 md:h-[50vh] w-full">
+                        <Image src="https://i.postimg.cc/bvmpScwr/pongal.jpg" alt="Onam festival" layout="fill" objectFit="cover" data-ai-hint="onam feast" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                        <div className="absolute bottom-0 p-6 md:p-10">
+                             <h1 className="font-headline text-4xl md:text-7xl text-white font-bold drop-shadow-lg">Onam</h1>
+                             <p className="text-xl md:text-2xl mt-2 text-white/90 drop-shadow-md">Kerala's Harvest Festival</p>
+                        </div>
                     </div>
                     <CardContent className="p-6 md:p-10 pt-0">
                          <div className="grid md:grid-cols-12 gap-8 lg:gap-12">
@@ -84,22 +87,14 @@ export function OnamPageContent() {
                             <main className="md:col-span-8 lg:col-span-9">
                                 <article className="space-y-12">
                                     <section id="overview" className="scroll-mt-20">
-                                         <div className="flex flex-col md:flex-row gap-8 items-center">
-                                            <div className="md:w-2/3">
-                                                <h2 className="font-headline text-3xl font-bold mb-4">The Legend of King Mahabali's Homecoming</h2>
-                                                <div className="space-y-4 text-foreground/80 prose max-w-none">
-                                                    <p>Onam is the soul of Kerala, a vibrant harvest festival that transcends religion and caste, celebrated with unparalleled joy and unity. It's a festival that paints the entire state in hues of gold and green, celebrating the annual homecoming of the beloved, mythical King Mahabali. The legend speaks of a golden era in Kerala under the reign of the benevolent demon king Mahabali. His rule was so just and prosperous that the gods themselves grew envious of his popularity.</p>
-                                                    <p>To test his righteousness, Lord Vishnu descended to Earth in his Vamana (dwarf) avatar and asked Mahabali for three paces of land. The generous king agreed. The dwarf then grew to a cosmic size, covering the earth and the heavens in two steps. With no space left for the third step, the noble Mahabali offered his own head. Impressed by his devotion, Vishnu granted him a boon: he could return to his kingdom and visit his beloved subjects once every year. This annual royal visit is what Kerala celebrates as Onam.</p>
-                                                    <p>The celebration unfolds over ten days, beginning on the Atham day, when the first layer of the beautiful 'Pookalam' (floral carpet) is laid. Each day, a new layer of flowers is added, growing in size and complexity, until the grand finale on the tenth day, Thiru Onam. This ten-day festival of feasting, flowers, boat races, and cultural pageantry is a heartfelt tribute to a king who sacrificed everything for his people.</p>
-                                                </div>
-                                            </div>
-                                            <div className="md:w-1/3">
-                                                <Image src="https://i.postimg.cc/0564g0S7/nandu-menon-h-GHldb-Cg-YDA-unsplash.jpg" alt="Onam Sadya feast" width={400} height={400} className="rounded-lg shadow-lg" data-ai-hint="onam feast"/>
-                                            </div>
+                                         <div className="prose max-w-none text-foreground/80">
+                                            <p>Onam is the soul of Kerala, a vibrant harvest festival that transcends religion and caste, celebrated with unparalleled joy and unity. It's a festival that paints the entire state in hues of gold and green, celebrating the annual homecoming of the beloved, mythical King Mahabali. The legend speaks of a golden era in Kerala under the reign of the benevolent demon king Mahabali. His rule was so just and prosperous that the gods themselves grew envious of his popularity.</p>
+                                            <p>To test his righteousness, Lord Vishnu descended to Earth in his Vamana (dwarf) avatar and asked Mahabali for three paces of land. The generous king agreed. The dwarf then grew to a cosmic size, covering the earth and the heavens in two steps. With no space left for the third step, the noble Mahabali offered his own head. Impressed by his devotion, Vishnu granted him a boon: he could return to his kingdom and visit his beloved subjects once every year. This annual royal visit is what Kerala celebrates as Onam.</p>
+                                            <p>The celebration unfolds over ten days, beginning on the Atham day, when the first layer of the beautiful 'Pookalam' (floral carpet) is laid. Each day, a new layer of flowers is added, growing in size and complexity, until the grand finale on the tenth day, Thiru Onam. This ten-day festival of feasting, flowers, boat races, and cultural pageantry is a heartfelt tribute to a king who sacrificed everything for his people.</p>
                                         </div>
                                     </section>
                                     
-                                    <div className="md:hidden sticky top-16 z-30 bg-background/95 backdrop-blur-sm py-2 -mx-6 px-6 mb-8 border-b">
+                                     <div className="md:hidden sticky top-16 z-30 bg-background/95 backdrop-blur-sm py-2 -mx-6 px-6 mb-8 border-b">
                                         <h3 className="font-headline text-lg font-bold mb-2">In This Article</h3>
                                         <div className="flex flex-wrap gap-x-4 gap-y-2">
                                             {pageSections.map(section => (
@@ -113,26 +108,26 @@ export function OnamPageContent() {
                                      
                                     <section id="traditions" className="scroll-mt-20">
                                         <h2 className="font-headline text-3xl font-bold mb-4">How to Celebrate Onam</h2>
-                                        <ul className="space-y-4 pl-4">
+                                        <ul className="space-y-4 pl-4 prose max-w-none text-foreground/80">
                                             <li className="flex items-start">
                                                 <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
                                                 <div>
                                                     <h4 className="font-bold">Pookalam (Floral Carpet)</h4>
-                                                    <p className="text-foreground/80">Intricate and colorful carpets made of fresh flowers are laid at the entrance of homes to welcome King Mahabali.</p>
+                                                    <p>Intricate and colorful carpets made of fresh flowers are laid at the entrance of homes to welcome King Mahabali.</p>
                                                 </div>
                                             </li>
                                             <li className="flex items-start">
                                                 <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
                                                 <div>
                                                     <h4 className="font-bold">Onasadya (The Grand Feast)</h4>
-                                                    <p className="text-foreground/80">The highlight of Onam is the 'Onasadya', a grand vegetarian feast served on a banana leaf, featuring a wide variety of dishes.</p>
+                                                    <p>The highlight of Onam is the 'Onasadya', a grand vegetarian feast served on a banana leaf, featuring a wide variety of dishes.</p>
                                                 </div>
                                             </li>
                                             <li className="flex items-start">
                                                 <CheckCircle className="w-6 h-6 mr-3 mt-1 text-primary shrink-0"/>
                                                 <div>
                                                     <h4 className="font-bold">Vallam Kali (Snake Boat Race)</h4>
-                                                    <p className="text-foreground/80">Spectacular snake boat races are held on the rivers of Kerala, adding to the festive fervor.</p>
+                                                    <p>Spectacular snake boat races are held on the rivers of Kerala, adding to the festive fervor.</p>
                                                 </div>
                                             </li>
                                         </ul>

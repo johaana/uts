@@ -4,11 +4,16 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BookOpen, MessageSquareQuote, Drama } from "lucide-react";
 
+const pageSections = [
+    { id: "story", title: "The Story", icon: BookOpen },
+    { id: "ritual", title: "The Ritual", icon: Drama },
+    { id: "meaning", title: "The Meaning", icon: MessageSquareQuote },
+];
+
+
 const pageContent = [
     {
         id: "story",
-        title: "The Story",
-        icon: BookOpen,
         content: (
             <>
                 <h2 className="font-headline text-3xl font-bold mb-4">A Living Link to the Divine</h2>
@@ -21,8 +26,6 @@ const pageContent = [
     },
     {
         id: "ritual",
-        title: "The Ritual",
-        icon: Drama,
         content: (
             <>
                 <h2 className="font-headline text-3xl font-bold mb-4">The Divine Transformation</h2>
@@ -35,8 +38,6 @@ const pageContent = [
     },
     {
         id: "meaning",
-        title: "The Meaning",
-        icon: MessageSquareQuote,
         content: (
             <>
                 <h2 className="font-headline text-3xl font-bold mb-4">A Social and Spiritual Bridge</h2>
@@ -55,28 +56,10 @@ const pageContent = [
     }
 ];
 
-export function TheyyamPageContent() {
-    const pageSections = pageContent.map(item => ({
-        id: item.id,
-        title: item.title,
-        icon: item.icon,
-    }));
-    
-    return (
-        <>
-            <div className="mb-10 p-4 border-l-4 border-primary bg-primary/5 rounded-r-lg">
-                <h2 className="font-headline text-2xl font-bold mb-4">In This Article</h2>
-                <ul className="space-y-2">
-                    {pageSections.map(section => (
-                        <li key={section.id}>
-                            <a href={`#${section.id}`} className="flex items-center gap-3 text-foreground/80 hover:text-primary transition-colors">
-                                <section.icon className="w-5 h-5 text-accent" />
-                                <span className="font-semibold">{section.title}</span>
-                            </a>
-                        </li>
-                    ))}
-                </ul>
-            </div>
+export function TheyyamPageContent({ isContent = false }: { isContent?: boolean }) {
+
+    if (isContent) {
+        return (
              <article className="space-y-12">
                 {pageContent.map((section) => (
                     <section key={section.id} id={section.id} className="scroll-mt-20">
@@ -84,6 +67,22 @@ export function TheyyamPageContent() {
                     </section>
                 ))}
             </article>
-        </>
+        )
+    }
+
+    return (
+        <div className="p-4 border-l-4 border-primary bg-primary/5 rounded-r-lg">
+            <h2 className="font-headline text-2xl font-bold mb-4">In This Article</h2>
+            <ul className="space-y-2">
+                {pageSections.map(section => (
+                    <li key={section.id}>
+                        <a href={`#${section.id}`} className="flex items-center gap-3 text-foreground/80 hover:text-primary transition-colors">
+                            <section.icon className="w-5 h-5 text-accent" />
+                            <span className="font-semibold">{section.title}</span>
+                        </a>
+                    </li>
+                ))}
+            </ul>
+        </div>
     );
 }

@@ -11,9 +11,9 @@ import { Button } from "@/components/ui/button";
 import { ProductCard } from "@/components/ProductCard";
 
 const recipes = [
-    { name: "Modak", link: "/recipes/modak" },
-    { name: "Puran Poli", link: "/recipes/puran-poli" },
-    { name: "Ladoo", link: "/recipes/ladoo" },
+    { name: "Modak", link: "/recipes/modak", image: "https://i.postimg.cc/ZYv7DzmT/ukadiche-modak-recipe.jpg", hint: "steamed dumplings" },
+    { name: "Puran Poli", link: "/recipes/puran-poli", image: "https://i.postimg.cc/jj8gBsCj/puranpoli.jpg", hint: "sweet flatbread" },
+    { name: "Ladoo", link: "/recipes/ladoo", image: "https://i.postimg.cc/9MkWX5gm/Besan-Laddoo.webp", hint: "ladoo sweet" },
 ]
 
 const pageSections = [
@@ -29,9 +29,12 @@ export function GaneshChaturthiPageContent() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-primary/10">
+                 <div className="absolute inset-0 z-0 opacity-20">
+                    <Image src="https://i.postimg.cc/SNGxJ8VJ/ganesh-chaturthi-festival.jpg" alt="Ganesh Chaturthi" layout="fill" objectFit="cover" data-ai-hint="ganesha idol"/>
+                </div>
                 <div className="relative text-center text-primary-foreground z-10 p-4">
-                    <h1 className="font-headline text-5xl md:text-7xl font-bold text-primary shadow-lg">Ganesh Chaturthi</h1>
-                    <p className="text-xl md:text-2xl mt-4 text-primary/90 shadow-md">Celebrating the Birth of the Elephant God</p>
+                    <h1 className="font-headline text-5xl md:text-7xl font-bold text-primary drop-shadow-lg">Ganesh Chaturthi</h1>
+                    <p className="text-xl md:text-2xl mt-4 text-primary/90 drop-shadow-md">Celebrating the Birth of the Elephant God</p>
                 </div>
             </section>
             
@@ -131,27 +134,31 @@ export function GaneshChaturthiPageContent() {
                                 </Card>
                             </section>
 
-                            <section id="recipes">
+                            <section id="recipes" className="scroll-mt-20">
                                 <h2 className="font-headline text-3xl font-bold mb-4">Ganesha's Favorite Foods</h2>
+                                <p className="mb-6 text-foreground/80 prose max-w-none">No Ganesh Chaturthi celebration is complete without preparing Ganesha's favorite sweet, the modak. A variety of other festive sweets and savories are also made.</p>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                                     {recipes.map(recipe => (
-                                       <Link href={recipe.link} key={recipe.name}>
+                                       <Link href={recipe.link} key={recipe.name} className="group">
                                             <Card className="overflow-hidden h-full hover:shadow-xl transition-shadow duration-300">
+                                                 <div className="relative h-40">
+                                                    <Image src={recipe.image} alt={recipe.name} layout="fill" objectFit="cover" data-ai-hint={recipe.hint}/>
+                                                </div>
                                                 <CardContent className="p-4">
-                                                    <h3 className="font-headline text-xl font-bold text-center text-primary h-14 flex items-center justify-center">{recipe.name}</h3>
+                                                    <h3 className="font-headline text-lg font-bold text-center text-primary group-hover:text-accent transition-colors">{recipe.name}</h3>
                                                 </CardContent>
                                             </Card>
                                         </Link>
                                     ))}
                                 </div>
-                                 <div className="text-center mt-6">
-                                    <Link href="/recipes" className="text-accent hover:underline font-semibold">
-                                        Find more festive recipes &rarr;
+                                 <div className="text-center mt-8">
+                                    <Link href="/recipes" className="text-accent hover:underline font-semibold text-lg">
+                                        Discover more festive recipes &rarr;
                                     </Link>
                                 </div>
                             </section>
 
-                             <section id="aartis">
+                             <section id="aartis" className="scroll-mt-20">
                                 <h2 className="font-headline text-3xl font-bold mb-4">Marathi Aartis for Lord Ganesha</h2>
                                 <div className="space-y-6">
                                     <Card>

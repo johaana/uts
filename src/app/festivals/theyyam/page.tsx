@@ -41,10 +41,13 @@ export default function TheyyamPage() {
         <div className="bg-background">
              <div className="container mx-auto px-4 py-12">
                 <Card className="mb-12 overflow-hidden">
-                    <Image src="https://i.postimg.cc/HW7r9WfV/Theyyam.jpg" alt="Theyyam festival" width={1200} height={400} className="w-full h-48 md:h-64 object-cover" data-ai-hint="theyyam dancer" />
-                    <div className="p-6 md:p-10 text-center">
-                        <h1 className="font-headline text-4xl md:text-7xl font-bold text-primary">Theyyam</h1>
-                        <p className="text-xl md:text-2xl mt-2 text-muted-foreground">When Gods Walk the Earth in Kerala</p>
+                     <div className="relative h-64 md:h-[50vh] w-full">
+                        <Image src="https://i.postimg.cc/HW7r9WfV/Theyyam.jpg" alt="Theyyam festival" layout="fill" objectFit="cover" data-ai-hint="theyyam dancer" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                        <div className="absolute bottom-0 p-6 md:p-10">
+                            <h1 className="font-headline text-4xl md:text-7xl text-white font-bold drop-shadow-lg">Theyyam</h1>
+                            <p className="text-xl md:text-2xl mt-2 text-white/90 drop-shadow-md">When Gods Walk the Earth</p>
+                        </div>
                     </div>
                     <CardContent className="p-6 md:p-10 pt-0">
                          <div className="grid md:grid-cols-12 gap-8 lg:gap-12">
@@ -54,9 +57,7 @@ export default function TheyyamPage() {
                                 </div>
                             </aside>
                             <main className="md:col-span-8 lg:col-span-9">
-                               <article>
-                                    <TheyyamPageContent />
-                               </article>
+                               <TheyyamPageContent isContent={true} />
                                <ShareButtons title="Theyyam: When Gods Walk the Earth in Kerala" />
                                <RelatedContent items={relatedContent} />
                             </main>
