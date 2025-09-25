@@ -22,7 +22,6 @@ const navLinks = [
   { href: "/recipes", label: "Recipes" },
   { href: "/blog", label: "Blog" },
   { href: "/calendar", label: "Explore by Month" },
-  { href: "/color-palettes", label: "Color Palettes" },
 ];
 
 const languages = [
