@@ -12,7 +12,10 @@ export default function SakkaraiPongalPage() {
                     <CardTitle className="font-headline text-4xl mb-4">Sakkarai Pongal (Sweet Pongal)</CardTitle>
                      <div className="flex flex-col md:flex-row gap-6">
                         <div className="md:w-2/3">
-                           <p className="text-lg text-muted-foreground">A sweet and fragrant rice and lentil pudding, Sakkarai Pongal is a quintessential dish prepared during the Pongal festival in Tamil Nadu as an offering to the gods.</p>
+                            <div className="prose max-w-none text-lg text-muted-foreground">
+                                <p>Sakkarai Pongal is the soul of the Pongal harvest festival in Tamil Nadu. It's a sweet, aromatic, and deeply comforting pudding made as a 'naivedyam' (offering) to the Sun God, Surya, to express gratitude for a bountiful harvest. The name 'Pongal' itself means 'to boil over', and the symbolic act of letting the pot of rice and milk overflow is the centerpiece of the festival, signifying overflowing abundance and prosperity for the year ahead.</p>
+                                <p>This delectable dish is crafted from freshly harvested raw rice and moong dal, slow-cooked together until soft and creamy. It's sweetened with the rich, earthy flavor of jaggery, which also gives it its characteristic golden-brown color. The final flourish is a generous tempering of ghee, laden with fried cashews and raisins, and perfumed with the warm notes of cardamom and a hint of edible camphor. Every spoonful is a taste of tradition, a perfect blend of humble ingredients transformed into a divine offering.</p>
+                            </div>
                         </div>
                          <div className="md:w-1/3">
                            <Image src="https://i.postimg.cc/j2nb1MYh/sakkarai-pongal.webp" alt="Sakkarai Pongal" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="sweet rice pudding"/>

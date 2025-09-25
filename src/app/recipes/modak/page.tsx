@@ -51,7 +51,10 @@ export default function ModakPage() {
                     </div>
                 </div>
                 <div className="p-6 md:p-10">
-                    <p className="text-lg text-muted-foreground max-w-3xl">{recipeDetails.description}</p>
+                    <div className="prose max-w-none text-lg text-muted-foreground">
+                        <p>In the heart of the vibrant Ganesh Chaturthi festival, one sweet offering stands above all others, a perfect, teardrop-shaped dumpling that is said to be the absolute favorite of Lord Ganesha himself. This is the Ukadiche Modak, a culinary masterpiece from Maharashtra that is as much an act of devotion as it is a delicious treat. The word 'ukad' refers to the steamed rice-flour dough that forms its delicate, pearly-white shell, a soft and pliable casing that holds a heavenly secret within.</p>
+                        <p>The magic unfolds as you bite into it. The soft outer layer gives way to a burst of warm, fragrant filling—a sublime mixture of freshly grated coconut and earthy, molten jaggery, perfumed with the subtle warmth of cardamom and nutmeg. Making these modaks is a cherished family tradition, an art passed down through generations. The process, from preparing the soft dough to patiently shaping the delicate pleats, is a labor of love, a meditative practice that fills the home with an aura of festivity and devotion. Each perfectly shaped modak is not just a sweet; it's a prayer, an offering made with a pure heart to the beloved Remover of Obstacles.</p>
+                    </div>
                      <div className="flex gap-4 md:gap-8 mt-6 border-t pt-6">
                         <div className="flex items-center gap-2">
                             <Clock className="w-6 h-6 text-accent"/>

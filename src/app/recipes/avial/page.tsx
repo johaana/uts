@@ -16,7 +16,10 @@ export default function AvialPage() {
                     </div>
                 </div>
                 <div className="p-6 md:p-10">
-                    <p className="text-lg text-muted-foreground max-w-3xl">A star dish of the Onam Sadya, Avial is a thick stew of mixed vegetables cooked in a coconut and yogurt gravy, seasoned with coconut oil and curry leaves.</p>
+                    <div className="prose max-w-none text-lg text-muted-foreground">
+                        <p>Avial is the undisputed star of the Onam Sadya, a beautiful and wholesome stew that perfectly encapsulates the spirit of Kerala's harvest. It is a brilliant medley of various seasonal vegetables, all cut into uniform strips, cooked to perfection, and brought together in a creamy, tangy gravy of ground coconut and yogurt. This dish is a testament to the region's agricultural bounty, a celebration of colors, textures, and flavors on a single plate.</p>
+                        <p>The genius of Avial lies in its balance. No single vegetable overpowers the other; instead, they all contribute to a harmonious whole. From the earthiness of yam and the sweetness of carrots to the subtle notes of raw banana and drumsticks, every bite is a new discovery. The final touch—a generous drizzle of fragrant, virgin coconut oil and a sprig of fresh curry leaves—elevates the dish to a divine status. It’s a dish that is not just cooked, but lovingly assembled, a culinary embodiment of unity in diversity, much like the festival of Onam itself.</p>
+                    </div>
                 </div>
             </RecipeHeader>
             <RecipeBody recipeName="Avial">

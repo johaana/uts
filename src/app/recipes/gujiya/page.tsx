@@ -16,7 +16,10 @@ export default function GujiyaPage() {
                     </div>
                 </div>
                 <div className="p-6 md:p-10">
-                    <p className="text-lg text-muted-foreground max-w-3xl">A classic sweet for the festival of Holi, Gujiya are crescent-shaped fried pastries filled with a sweet mixture of khoya (milk solids), nuts, and coconut.</p>
+                    <div className="prose max-w-none text-lg text-muted-foreground">
+                        <p>When the air begins to fill with the playful spirit of Holi, you know that kitchens across North India are coming alive with the sizzle and sweet aroma of Gujiya. This delightful, crescent-shaped pastry is the undisputed king of Holi sweets, a treat that embodies the festive spirit of joy and indulgence. Each gujiya is a pocket of happiness, with a flaky, crispy outer shell giving way to a rich and fragrant filling.</p>
+                        <p>The traditional filling is a decadent mixture of 'khoya' (milk solids) that has been slow-cooked to a beautiful pink hue, combined with roasted semolina, desiccated coconut, and an assortment of finely chopped nuts like almonds and cashews. A hint of cardamom lends a beautiful aroma, completing this perfect festive package. The process of making gujiyas is often a communal affair, with family members gathering to stuff, pleat, and fry these golden pockets of joy. Whether enjoyed on their own or dipped in sugar syrup for an extra layer of sweetness, Gujiyas are a symbol of togetherness and a taste of pure, unadulterated festive bliss.</p>
+                    </div>
                 </div>
             </RecipeHeader>
             <RecipeBody recipeName="Gujiya">

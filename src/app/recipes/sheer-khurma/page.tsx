@@ -12,7 +12,10 @@ export default function SheerKhurmaPage() {
                     <CardTitle className="font-headline text-4xl mb-4">Sheer Khurma</CardTitle>
                     <div className="flex flex-col md:flex-row gap-6">
                         <div className="md:w-2/3">
-                            <p className="text-lg text-muted-foreground">A rich and creamy vermicelli pudding made with milk, dates, nuts, and aromatic spices. It's the quintessential dessert for Eid-al-Fitr celebrations.</p>
+                            <div className="prose max-w-none text-lg text-muted-foreground">
+                                <p>Sheer Khurma is not just a dessert; it is the very essence of Eid-al-Fitr, a dish that embodies the spirit of warmth, generosity, and sweet celebration. The name itself, from Persian, translates to "milk with dates," but this luxurious vermicelli pudding is so much more. It marks the joyous culmination of Ramadan, the sacred month of fasting, and is the first thing many Muslims eat in the morning before heading for Eid prayers.</p>
+                                <p>This rich and creamy pudding is a symphony of flavors and textures. Fine, roasted vermicelli noodles are simmered in milk until it thickens into a luscious consistency. The soul of the dish comes from the assortment of finely chopped nuts—almonds, pistachios, and cashews—that are fried in ghee until golden, and the soft, sweet chewiness of dates. Fragrant with cardamom and saffron, every spoonful of Sheer Khurma is a taste of pure festive indulgence, a sweet reward for a month of devotion, shared with family and friends in a beautiful display of community and togetherness.</p>
+                            </div>
                         </div>
                          <div className="md:w-1/3">
                            <Image src="https://i.postimg.cc/Hk9V3k2k/sheer-kurma.jpg" alt="Sheer Khurma" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="vermicelli pudding"/>

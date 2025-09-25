@@ -56,7 +56,10 @@ export default function PuranPoliPage() {
                     </div>
                 </div>
                 <div className="p-6 md:p-10">
-                    <p className="text-lg text-muted-foreground max-w-3xl">{recipeDetails.description}</p>
+                    <div className="prose max-w-none text-lg text-muted-foreground">
+                        <p>Puran Poli is not just a dish; it's a taste of pure nostalgia, a golden, paper-thin parcel of festive joy. This classic Maharashtrian delicacy is a sweet flatbread that defines celebration, especially during festivals like Ganesh Chaturthi, Gudi Padwa, and Holi. The magic lies in its perfect contrast: a soft, delicate outer covering made from whole wheat flour, embracing a rich, aromatic filling of cooked chana dal and jaggery, spiced with the warm fragrance of cardamom and nutmeg.</p>
+                        <p>The art of making the perfect Puran Poli is a treasured skill in Maharashtrian households. It requires a delicate hand to roll the stuffed dough so thinly that the filling is evenly distributed without tearing the outer layer. When cooked on a griddle with a generous dollop of ghee, the poli puffs up beautifully, turning a delightful golden-brown. Served hot, with even more ghee drizzled on top, it's a melt-in-your-mouth experience that is both comforting and royally indulgent. Each bite is a sweet symphony of flavors and textures, a culinary hug that encapsulates the very essence of home and festivity.</p>
+                    </div>
                      <div className="flex gap-4 md:gap-8 mt-6 border-t pt-6">
                         <div className="flex items-center gap-2">
                             <Clock className="w-6 h-6 text-accent"/>

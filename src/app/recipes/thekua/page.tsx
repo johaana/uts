@@ -1,3 +1,4 @@
+
 'use client';
 import { ShareButtons } from "@/components/ShareButtons";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -12,7 +13,10 @@ export default function ThekuaPage() {
                     <CardTitle className="font-headline text-4xl mb-4">Thekua</CardTitle>
                         <div className="flex flex-col md:flex-row gap-6">
                         <div className="md:w-2/3">
-                            <p className="text-lg text-muted-foreground">A revered prasad (offering) from Bihar, Thekua is a crispy, cookie-like sweet made especially for the Chhath Puja festival.</p>
+                            <div className="prose max-w-none text-lg text-muted-foreground">
+                                <p>Deeply woven into the cultural fabric of Bihar and Eastern Uttar Pradesh, Thekua is far more than just a sweet snack; it is a revered 'prasad' (sacred offering) at the heart of the Chhath Puja. This rustic, cookie-like delicacy is a testament to the simplicity and purity of the festival itself. Made from a humble mixture of whole wheat flour and jaggery, and fragrant with fennel seeds, Thekua is a taste of ancient tradition.</p>
+                                <p>Its wonderfully crunchy and crumbly texture comes from being deep-fried in ghee, a process that fills the entire home with an unmistakably festive aroma. Preparing Thekua is a ritual in itself, undertaken with great piety and cleanliness by the 'vratis' (devotees observing the fast). The dough is often pressed into beautifully carved wooden molds ('saancha') to give the cookies their distinctive patterns. Each bite of this earthy, wholesome sweet is imbued with the spirit of devotion, a tribute to the life-giving Sun God and a cherished taste of home and heritage.</p>
+                            </div>
                         </div>
                             <div className="md:w-1/3">
                             <Image src="https://i.postimg.cc/d1N07T3K/thekua1.webp" alt="Thekua" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="fried cookie"/>

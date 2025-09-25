@@ -13,10 +13,13 @@ export default function PayasamPage() {
                     <CardTitle className="font-headline text-4xl mb-4">Semiya Payasam (Vermicelli Kheer)</CardTitle>
                     <div className="flex flex-col md:flex-row gap-6">
                         <div className="md:w-2/3">
-                            <p className="text-lg text-muted-foreground">A classic South Indian dessert, Semiya Payasam is a creamy and aromatic pudding made with roasted vermicelli, milk, and sugar, typically served during Onam and other celebrations.</p>
+                            <div className="prose max-w-none text-lg text-muted-foreground">
+                                <p>Semiya Payasam is the quintessential dessert of South India, a creamy, fragrant pudding that graces every celebration, from birthdays and weddings to grand festivals like Onam and Vishu. It's a culinary hug in a bowl—simple, comforting, and universally loved. Its beauty lies in its elegant simplicity and the delightful textures it offers.</p>
+                                <p>The star of the dish is fine vermicelli (semiya), which is patiently roasted in ghee to a perfect golden-brown, unlocking a beautiful nutty aroma. This is then slow-cooked in simmering full-fat milk until it becomes tender and the milk thickens into a rich, creamy consistency. Sweetened with sugar and perfumed with the warm notes of cardamom, the payasam is finished with a final flourish of ghee-fried cashews and plump raisins, adding a delightful crunch and sweetness. Whether served warm on a cool evening or chilled on a hot day, Semiya Payasam is a taste of pure, unadulterated festive joy.</p>
+                            </div>
                         </div>
-                        <div className="md:w-1/3">
-                            <Image src="https://i.postimg.cc/59n9d7My/payasam.jpg" alt="Semiya Payasam" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="vermicelli pudding" />
+                         <div className="md:w-1/3">
+                           <Image src="https://i.postimg.cc/59n9d7My/payasam.jpg" alt="Semiya Payasam" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="vermicelli pudding" />
                         </div>
                     </div>
                 </CardHeader>
