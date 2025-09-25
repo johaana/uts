@@ -5,7 +5,7 @@
 
 @layer base {
   :root {
-    --background: 45 100% 97%; /* Light Yellow */
+    --background: 30 50% 97%; /* Warm Ivory */
     --foreground: 20 14% 4%;
 
     --card: 0 0% 100%;
@@ -14,65 +14,65 @@
     --popover: 0 0% 100%;
     --popover-foreground: 20 14% 4%;
  
-    --primary: 325 80% 50%; /* Bright Fuchsia */
-    --primary-foreground: 330 40% 98%;
+    --primary: 350 70% 45%; /* Deep Ruby Red */
+    --primary-foreground: 355 70% 98%;
  
-    --secondary: 45 90% 96%;
+    --secondary: 30 40% 94%;
     --secondary-foreground: 24 10% 12%;
  
-    --muted: 45 90% 91%;
+    --muted: 30 40% 90%;
     --muted-foreground: 25 10% 45%;
  
-    --accent: 35 100% 55%; /* Vibrant Marigold Orange */
+    --accent: 25 80% 55%; /* Burnt Orange */
     --accent-foreground: 25 25% 15%;
  
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 45 90% 88%;
-    --input: 45 90% 92%;
-    --ring: 325 80% 50%;
+    --border: 30 40% 88%;
+    --input: 30 40% 92%;
+    --ring: 350 70% 45%;
  
     --radius: 0.75rem;
 
-    --chart-1: 325 70% 50%;
-    --chart-2: 35 80% 50%;
+    --chart-1: 350 60% 50%;
+    --chart-2: 25 70% 50%;
     --chart-3: 280 60% 60%;
     --chart-4: 43 74% 66%;
     --chart-5: 200 70% 50%;
   }
 
   .dark {
-    --background: 330 15% 10%;
+    --background: 20 15% 5%;
     --foreground: 0 0% 98%;
  
-    --card: 330 15% 10%;
+    --card: 20 15% 8%;
     --card-foreground: 0 0% 98%;
  
-    --popover: 330 15% 5%;
+    --popover: 20 15% 5%;
     --popover-foreground: 0 0% 98%;
  
-    --primary: 325 80% 60%;
-    --primary-foreground: 330 40% 98%;
+    --primary: 350 70% 55%;
+    --primary-foreground: 355 70% 98%;
  
-    --secondary: 330 10% 15%;
+    --secondary: 20 10% 12%;
     --secondary-foreground: 0 0% 98%;
  
-    --muted: 330 10% 15%;
+    --muted: 20 10% 12%;
     --muted-foreground: 24 5% 64%;
  
-    --accent: 35 100% 60%;
+    --accent: 25 80% 60%;
     --accent-foreground: 25 25% 15%;
  
     --destructive: 0 63% 31%;
     --destructive-foreground: 0 0% 98%;
  
-    --border: 330 10% 15%;
-    --input: 330 10% 15%;
-    --ring: 325 80% 60%;
+    --border: 20 10% 12%;
+    --input: 20 10% 12%;
+    --ring: 350 70% 55%;
 
-    --chart-1: 325 70% 50%;
-    --chart-2: 35 80% 50%;
+    --chart-1: 350 60% 50%;
+    --chart-2: 25 70% 50%;
     --chart-3: 280 60% 60%;
     --chart-4: 43 74% 66%;
     --chart-5: 200 70% 50%;
@@ -114,6 +114,8 @@
     @apply text-lg text-foreground/80;
   }
 }
+
+
 
 
 
