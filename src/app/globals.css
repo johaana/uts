@@ -5,23 +5,23 @@
 
 @layer base {
   :root {
-    --background: 220 40% 98%; /* Light Cool Gray */
-    --foreground: 220 25% 20%; /* Deep Indigo-Gray */
+    --background: 30 50% 98%; /* Warm Ivory */
+    --foreground: 20 20% 15%; /* Dark Ash */
 
-    --card: 220 40% 100%; /* Pure White */
-    --card-foreground: 220 25% 15%;
+    --card: 0 0% 100%; /* Pure White */
+    --card-foreground: 20 20% 15%;
  
-    --popover: 220 40% 100%;
-    --popover-foreground: 220 25% 15%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 20 20% 15%;
  
     --primary: 10 80% 60%; /* Vibrant Coral */
     --primary-foreground: 0 0% 100%;
  
-    --secondary: 220 20% 94%; /* Light Gray */
-    --secondary-foreground: 225 30% 30%;
+    --secondary: 30 40% 94%; /* Light Ivory */
+    --secondary-foreground: 20 20% 25%;
  
-    --muted: 220 20% 94%;
-    --muted-foreground: 220 15% 45%;
+    --muted: 30 30% 90%;
+    --muted-foreground: 20 15% 45%;
  
     --accent: 225 40% 30%; /* Deep Indigo */
     --accent-foreground: 210 40% 98%;
@@ -29,8 +29,8 @@
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 220 20% 88%;
-    --input: 220 20% 92%;
+    --border: 30 20% 88%;
+    --input: 30 20% 92%;
     --ring: 10 80% 70%; /* Lighter Coral for focus */
  
     --radius: 0.75rem;
@@ -43,23 +43,23 @@
   }
 
   .dark {
-    --background: 220 25% 8%; /* Very Dark Navy */
-    --foreground: 220 20% 90%; /* Light Gray */
+    --background: 20 15% 8%; /* Dark Ash-Brown */
+    --foreground: 30 20% 90%; /* Light Ivory */
  
-    --card: 220 25% 12%;
-    --card-foreground: 220 20% 90%;
+    --card: 20 15% 12%;
+    --card-foreground: 30 20% 90%;
  
-    --popover: 220 25% 8%;
-    --popover-foreground: 220 20% 90%;
+    --popover: 20 15% 8%;
+    --popover-foreground: 30 20% 90%;
  
     --primary: 10 75% 65%; /* Softer Coral */
     --primary-foreground: 0 0% 0%;
  
-    --secondary: 220 25% 15%;
-    --secondary-foreground: 220 20% 90%;
+    --secondary: 20 15% 15%;
+    --secondary-foreground: 30 20% 90%;
  
-    --muted: 220 25% 15%;
-    --muted-foreground: 220 15% 60%;
+    --muted: 20 15% 15%;
+    --muted-foreground: 30 15% 60%;
  
     --accent: 220 50% 70%; /* Lighter Indigo */
     --accent-foreground: 220 20% 10%;
@@ -67,8 +67,8 @@
     --destructive: 0 63% 40%;
     --destructive-foreground: 0 0% 98%;
  
-    --border: 220 25% 20%;
-    --input: 220 25% 20%;
+    --border: 20 15% 20%;
+    --input: 20 15% 20%;
     --ring: 10 75% 70%;
 
     --chart-1: 10 75% 65%;

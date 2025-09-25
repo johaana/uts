@@ -40,7 +40,7 @@ function AIPlannerShowcase() {
     return (
         <section className="py-12 md:py-20 bg-background">
             <div className="container mx-auto px-4">
-                <Card className="bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-blue-950/50 dark:to-indigo-950/80 border-2 border-blue-200/50 shadow-xl overflow-hidden">
+                <Card className="bg-gradient-to-br from-primary/10 to-secondary/30 border-2 border-primary/20 shadow-xl overflow-hidden">
                     <div className="flex flex-col md:flex-row items-center">
                          <div className="md:w-1/2 h-64 md:h-96 w-full order-1 md:order-2">
                            <Image src="https://i.postimg.cc/VLQf0kKF/long-weekend-1.jpg" alt="AI Planner" width={600} height={400} className="w-full h-full object-cover" data-ai-hint="holiday planning calendar" />
@@ -80,7 +80,7 @@ export default function Home() {
                 <Button 
                   variant="default" 
                   size="sm" 
-                  className="md:h-11 md:px-8 md:text-lg group transition-all duration-300 hover:scale-105 hover:shadow-2xl text-primary-foreground font-bold bg-gradient-to-r from-primary to-accent shadow-lg border-none"
+                  className="md:h-11 md:px-8 md:text-lg group transition-all duration-300 hover:scale-105 hover:shadow-2xl font-bold shadow-lg border-none"
                 >
                     Explore All Festivals <ArrowRight className="ml-2 transition-transform group-hover:translate-x-1" />
                 </Button>
@@ -143,13 +143,13 @@ export default function Home() {
           <InternationalFestivalsShowcase />
            <div className="text-center mt-12 flex flex-col items-center gap-4">
                 <Link href="/international-festivals">
-                    <Button className="bg-gradient-to-r from-green-500 to-teal-600 text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
+                    <Button>
                         <Globe className="mr-2 h-4 w-4" />
                         Explore All International Festivals
                     </Button>
                 </Link>
                 <Link href="/calendar">
-                    <Button className="bg-gradient-to-r from-pink-500 to-rose-500 text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
+                    <Button>
                         <Calendar className="mr-2 h-4 w-4" />
                         Plan by Month
                     </Button>
