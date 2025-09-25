@@ -107,7 +107,7 @@ export function Header() {
                   )}
                   style={{ objectFit: 'contain' }}
                 />
-                <span className="hidden md:block font-headline text-2xl font-bold self-center drop-shadow-sm transition-transform duration-300 group-hover:scale-105 text-primary" style={{textShadow: '1px 1px 3px rgba(0,0,0,0.1)'}}>Utsavs</span>
+                <span className="hidden md:block font-headline text-2xl font-bold self-center drop-shadow-sm transition-transform duration-300 group-hover:scale-105 text-[#d32f2f]" style={{textShadow: '1px 1px 3px rgba(0,0,0,0.1)'}}>Utsavs</span>
             </Link>
         </div>
 
@@ -182,3 +182,5 @@ export function Header() {
     </header>
   );
 }
+
+    
