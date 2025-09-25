@@ -176,15 +176,15 @@ export function FestivalCalendar({
 
     const getBadgeClass = (type: string) => {
         switch(type) {
-            case 'Religious': return 'bg-sky-600/80 text-white';
-            case 'Harvest': return 'bg-green-600/80 text-white';
-            case 'Holiday': return 'border-blue-500/80 text-blue-500';
-            case 'Cultural': return 'bg-purple-600/80 text-white';
-            case 'New Year': return 'bg-teal-600/80 text-white';
-            case 'Seasonal': return 'bg-yellow-500/80 text-white';
-            case 'Diwali': return 'bg-amber-500/80 text-white';
-            case 'Solar': return 'bg-orange-500/80 text-white';
-            case 'Monsoon': return 'bg-indigo-500/80 text-white';
+            case 'Religious': return 'bg-chart-1 text-white';
+            case 'Harvest': return 'bg-green-600/90 text-white';
+            case 'Holiday': return 'border-blue-500/80 text-blue-600';
+            case 'Cultural': return 'bg-chart-5 text-white';
+            case 'New Year': return 'bg-chart-2 text-white';
+            case 'Seasonal': return 'bg-chart-4 text-white/90';
+            case 'Diwali': return 'bg-amber-500 text-white';
+            case 'Solar': return 'bg-orange-500 text-white';
+            case 'Monsoon': return 'bg-indigo-500 text-white';
             default: return 'bg-secondary text-secondary-foreground';
         }
     };
@@ -290,7 +290,7 @@ export function FestivalCalendar({
                                             </TableCell>
                                             <TableCell>{event.region}</TableCell>
                                             <TableCell>
-                                                <Badge variant="outline" className={getBadgeClass(event.type)}>
+                                                <Badge variant="outline" className={cn('border-transparent', getBadgeClass(event.type))}>
                                                     {event.type}
                                                 </Badge>
                                             </TableCell>
@@ -344,7 +344,7 @@ export function FestivalCalendar({
                                             <MapPin className="w-4 h-4" />
                                             {event.region}
                                          </p>
-                                         <Badge variant="outline" className={cn("text-xs", getBadgeClass(event.type))}>
+                                         <Badge variant="outline" className={cn("text-xs border-transparent", getBadgeClass(event.type))}>
                                             {event.type}
                                          </Badge>
                                      </div>
