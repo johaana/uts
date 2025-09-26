@@ -111,8 +111,8 @@ export function Header() {
                 key={link.href}
                 href={link.href}
                 className={cn(
-                  "text-base font-medium transition-colors hover:text-primary relative py-2 group",
-                  pathname.startsWith(link.href) ? "text-primary font-bold" : "text-foreground/80"
+                  "text-base font-headline transition-colors relative py-2 group",
+                  pathname.startsWith(link.href) ? "text-accent font-bold" : "text-foreground/80 hover:text-accent"
                 )}
               >
                 {link.label}
