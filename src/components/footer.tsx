@@ -12,13 +12,13 @@ import Image from "next/image";
 const logoSvg = `
 <svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
     <defs>
-        <linearGradient id="flameGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <linearGradient id="flameGradient" x1="50%" y1="0%" x2="50%" y2="100%">
             <stop offset="0%" style="stop-color:hsl(var(--gradient-from));stop-opacity:1" />
             <stop offset="100%" style="stop-color:hsl(var(--gradient-to));stop-opacity:1" />
         </linearGradient>
     </defs>
-    <path d="M256 364.8C256 364.8 256 384 256 384C198.4 384 150.4 336 150.4 278.4C150.4 220.8 198.4 172.8 256 172.8C313.6 172.8 361.6 220.8 361.6 278.4C361.6 336 313.6 384 256 384C256 384 256 364.8 256 364.8Z" fill="hsl(var(--accent))"/>
-    <path d="M256 211.2C241.067 211.2 228.8 221.933 228.8 236.8C228.8 259.2 256 291.2 256 291.2C256 291.2 283.2 259.2 283.2 236.8C283.2 221.933 270.933 211.2 256 211.2Z" fill="url(#flameGradient)"/>
+    <path d="M160 320C160 346.509 181.491 368 208 368H304C330.509 368 352 346.509 352 320V312C352 294.327 337.673 280 320 280H192C174.327 280 160 294.327 160 312V320Z" fill="hsl(var(--accent))"/>
+    <path d="M256 280C256 248.667 256 144 256 144C256 144 304 200 256 280Z" fill="url(#flameGradient)"/>
 </svg>
 `;
 
