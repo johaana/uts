@@ -51,7 +51,7 @@ function AIPlannerShowcase() {
                                 Not sure where to travel? Check out our month-wise planner and find out. Our AI Holiday Planner can provide personalized suggestions and answer your questions in an instant.
                             </p>
                             <Link href="/planner">
-                                <Button size="lg" className="group shadow-lg hover:shadow-xl transition-all duration-300">
+                                <Button variant="gradient" size="lg" className="group shadow-lg hover:shadow-xl transition-all duration-300">
                                     Try the AI Planner <Bot className="w-5 h-5 ml-2 transition-transform group-hover:rotate-12" />
                                 </Button>
                             </Link>
@@ -78,7 +78,7 @@ export default function Home() {
             <div className="mt-6 md:mt-8">
                 <Link href="/festivals">
                 <Button 
-                  variant="default" 
+                  variant="gradient"
                   size="sm" 
                   className="md:h-11 md:px-8 md:text-lg group transition-all duration-300 hover:scale-105 hover:shadow-2xl font-bold shadow-lg border-none"
                 >
@@ -143,7 +143,7 @@ export default function Home() {
           <InternationalFestivalsShowcase />
            <div className="text-center mt-12 flex flex-col items-center gap-4">
                 <Link href="/international-festivals">
-                    <Button>
+                    <Button variant="gradient">
                         <Globe className="mr-2 h-4 w-4" />
                         Explore All International Festivals
                     </Button>

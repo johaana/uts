@@ -5,76 +5,83 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%; /* Pure White */
-    --foreground: 250 40% 20%; /* Deep Indigo */
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
 
     --card: 0 0% 100%;
-    --card-foreground: 250 40% 20%;
+    --card-foreground: 240 10% 3.9%;
  
     --popover: 0 0% 100%;
-    --popover-foreground: 250 40% 20%;
+    --popover-foreground: 240 10% 3.9%;
  
-    --primary: 270 70% 55%; /* Bright Violet */
+    --primary: 330 80% 55%; /* Hot Pink */
     --primary-foreground: 0 0% 100%;
  
-    --secondary: 240 20% 96%; /* Light Lavender Gray */
-    --secondary-foreground: 250 40% 20%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
  
-    --muted: 240 10% 92%;
-    --muted-foreground: 250 20% 45%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
  
-    --accent: 45 100% 55%; /* Sunshine Yellow */
-    --accent-foreground: 250 40% 15%;
+    --accent: 170 50% 45%; /* Teal */
+    --accent-foreground: 0 0% 100%;
  
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 240 10% 90%;
-    --input: 240 10% 94%;
-    --ring: 270 70% 65%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 5.9% 10%;
  
     --radius: 0.75rem;
 
-    --chart-1: 270 70% 55%;
-    --chart-2: 330 80% 60%;
-    --chart-3: 190 50% 50%;
-    --chart-4: 45 100% 55%;
+    /* Gradient Colors */
+    --gradient-from: 330 80% 55%; /* Hot Pink */
+    --gradient-to: 30 100% 55%; /* Sunset Orange */
+
+    --chart-1: 330 80% 55%;
+    --chart-2: 30 100% 55%;
+    --chart-3: 170 50% 45%;
+    --chart-4: 270 70% 60%;
     --chart-5: 220 70% 60%;
   }
 
   .dark {
-    --background: 250 40% 8%; /* Dark Indigo */
-    --foreground: 240 10% 90%; /* Light Lavender Gray */
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
  
-    --card: 250 40% 12%;
-    --card-foreground: 240 10% 90%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
  
-    --popover: 250 40% 8%;
-    --popover-foreground: 240 10% 90%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
  
-    --primary: 270 70% 65%; /* Lighter Violet */
-    --primary-foreground: 250 40% 5%;
+    --primary: 330 80% 65%;
+    --primary-foreground: 330 80% 5%;
  
-    --secondary: 250 40% 15%;
-    --secondary-foreground: 240 10% 90%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
  
-    --muted: 250 40% 15%;
-    --muted-foreground: 240 10% 60%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
  
-    --accent: 45 100% 60%; /* Brighter Yellow */
-    --accent-foreground: 45 100% 10%;
+    --accent: 170 50% 55%;
+    --accent-foreground: 0 0% 100%;
  
-    --destructive: 0 63% 40%;
+    --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
  
-    --border: 250 40% 20%;
-    --input: 250 40% 20%;
-    --ring: 270 70% 70%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 330 80% 65%;
 
-    --chart-1: 270 70% 65%;
-    --chart-2: 330 80% 65%;
-    --chart-3: 190 40% 60%;
-    --chart-4: 45 90% 65%;
+    --gradient-from: 330 80% 60%;
+    --gradient-to: 30 100% 60%;
+
+    --chart-1: 330 80% 65%;
+    --chart-2: 30 90% 65%;
+    --chart-3: 170 40% 55%;
+    --chart-4: 270 70% 65%;
     --chart-5: 220 70% 65%;
   }
 }
@@ -113,4 +120,10 @@
   .prose blockquote p {
     @apply text-lg text-foreground/80;
   }
+}
+
+@layer components {
+    .btn-gradient {
+        @apply bg-gradient-to-r from-[hsl(var(--gradient-from))] to-[hsl(var(--gradient-to))] text-primary-foreground;
+    }
 }
