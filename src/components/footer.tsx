@@ -6,23 +6,9 @@ import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { useRouter } from "next/navigation";
 import React from "react";
-import { Search, Mail } from "lucide-react";
+import { Search, Mail, Sparkles } from "lucide-react";
 import Image from "next/image";
 
-const logoSvg = `
-<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-        <linearGradient id="flameGradient" x1="50%" y1="0%" x2="50%" y2="100%">
-            <stop offset="0%" style="stop-color:hsl(var(--gradient-from));stop-opacity:1" />
-            <stop offset="100%" style="stop-color:hsl(var(--gradient-to));stop-opacity:1" />
-        </linearGradient>
-    </defs>
-    <path d="M160 320C160 346.509 181.491 368 208 368H304C330.509 368 352 346.509 352 320V312C352 294.327 337.673 280 320 280H192C174.327 280 160 294.327 160 312V320Z" fill="hsl(var(--accent))"/>
-    <path d="M256 280C256 248.667 256 144 256 144C256 144 304 200 256 280Z" fill="url(#flameGradient)"/>
-</svg>
-`;
-
-const logoDataUri = `data:image/svg+xml;base64,${btoa(logoSvg)}`;
 
 export function Footer() {
   const router = useRouter();
@@ -42,8 +28,8 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12">
             <div className="lg:col-span-3 flex flex-col items-center md:items-start text-center md:text-left">
                  <Link href="/" className="flex items-center gap-2 mb-4">
-                    <Image src={logoDataUri} alt="Utsavs Logo" width={64} height={64} />
-                    <span className="font-headline text-2xl font-bold text-primary self-center">Utsavs</span>
+                    <Sparkles className="w-12 h-12 text-primary"/>
+                    <span className="font-headline text-2xl font-bold bg-gradient-to-r from-[hsl(var(--gradient-from))] to-[hsl(var(--gradient-to))] text-transparent bg-clip-text">Utsavs</span>
                 </Link>
                 <p className="text-foreground/80 max-w-xs text-sm">
                   Utsavs is your definitive guide to the vibrant world of Indian festivals. Explore dates, traditions, recipes, and the stories that bring them to life.

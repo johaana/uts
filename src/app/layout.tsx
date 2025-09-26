@@ -8,6 +8,7 @@ import { BackToTopButton } from '@/components/BackToTopButton';
 import { Playfair_Display, PT_Sans } from 'next/font/google'
 import Script from 'next/script';
 import { BottomNavBar } from '@/components/BottomNavBar';
+import { Sparkles } from 'lucide-react';
 
 const playfair = Playfair_Display({
   subsets: ['latin'],
@@ -26,27 +27,12 @@ const defaultDescription = "Explore India's vibrant festivals with our guide to 
 const defaultUrl = "https://utsavs.com";
 const defaultOgImage = "https://i.postimg.cc/mD8h1LzB/default-preview.jpg";
 
-const logoSvg = `
-<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-        <linearGradient id="flameGradient" x1="50%" y1="0%" x2="50%" y2="100%">
-            <stop offset="0%" style="stop-color:hsl(var(--gradient-from));stop-opacity:1" />
-            <stop offset="100%" style="stop-color:hsl(var(--gradient-to));stop-opacity:1" />
-        </linearGradient>
-    </defs>
-    <path d="M160 320C160 346.509 181.491 368 208 368H304C330.509 368 352 346.509 352 320V312C352 294.327 337.673 280 320 280H192C174.327 280 160 294.327 160 312V320Z" fill="hsl(var(--accent))"/>
-    <path d="M256 280C256 248.667 256 144 256 144C256 144 304 200 256 280Z" fill="url(#flameGradient)"/>
-</svg>
-`;
-
 export const metadata: Metadata = {
   metadataBase: new URL(defaultUrl),
   title: defaultTitle,
   description: defaultDescription,
    icons: {
-    icon: `data:image/svg+xml;base64,${btoa(logoSvg)}`,
-    shortcut: `data:image/svg+xml;base64,${btoa(logoSvg)}`,
-    apple: `data:image/svg+xml;base64,${btoa(logoSvg)}`,
+    icon: '/favicon.ico',
   },
   openGraph: {
     title: defaultTitle,
@@ -92,6 +78,7 @@ export default function RootLayout({
           crossOrigin="anonymous"
           strategy="lazyOnload"
         />
+         <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✨</text></svg>" />
       </head>
       <body className={`${playfair.variable} ${ptSans.variable} font-body antialiased`}>
         <div className="flex min-h-screen flex-col pb-20 md:pb-0">
