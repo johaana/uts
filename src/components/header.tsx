@@ -97,15 +97,15 @@ export function Header() {
         <div className="flex-1 md:flex-none justify-start">
             <Link href="/" className="flex items-center gap-2 py-1 group">
                  <Sparkles className={cn(
-                    "transition-all duration-300 text-primary drop-shadow-lg",
+                    "transition-all duration-300 text-primary drop-shadow-[0_1px_2px_hsl(var(--primary)/0.5)]",
                     isScrolled ? 'w-8 h-8' : 'w-10 h-10'
                   )} />
-                <span className="hidden md:block font-headline text-3xl font-bold self-center drop-shadow-sm transition-transform duration-300 group-hover:scale-105 bg-gradient-to-r from-[hsl(var(--gradient-from))] to-[hsl(var(--gradient-to))] text-transparent bg-clip-text" style={{textShadow: '1px 1px 3px hsla(var(--primary), 0.1)'}}>Utsavs</span>
+                <span className="hidden md:block font-headline text-3xl font-bold self-center transition-transform duration-300 group-hover:scale-105 bg-gradient-to-r from-[hsl(var(--gradient-from))] to-[hsl(var(--gradient-to))] text-transparent bg-clip-text" style={{textShadow: '1px 1px 3px hsla(var(--primary), 0.1)'}}>Utsavs</span>
             </Link>
         </div>
 
-        <div className="hidden md:flex flex-1 items-center justify-end gap-6">
-          <nav className="flex items-center gap-6">
+        <div className="hidden md:flex flex-1 items-center justify-end gap-2 lg:gap-4">
+          <nav className="flex items-center gap-4 lg:gap-6">
               {navLinks.map((link) => (
               <Link
                 key={link.href}
@@ -130,7 +130,7 @@ export function Header() {
           
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm">
+              <Button variant="outline" size="sm" className="hidden lg:inline-flex">
                 <Languages className="h-4 w-4 mr-2" />
                 Translate
               </Button>
@@ -153,7 +153,7 @@ export function Header() {
                   )}
                 >
                     <Bot className="w-4 w-4 mr-2"/>
-                    AI Holiday Planner
+                    AI Planner
                 </Button>
             </Link>
         </div>
