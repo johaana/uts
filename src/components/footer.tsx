@@ -6,7 +6,7 @@ import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { useRouter } from "next/navigation";
 import React from "react";
-import { Search, Mail, Sparkles } from "lucide-react";
+import { Search, Mail, Feather } from "lucide-react";
 import Image from "next/image";
 
 
@@ -28,7 +28,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12">
             <div className="lg:col-span-3 flex flex-col items-center md:items-start text-center md:text-left">
                  <Link href="/" className="flex items-center gap-2 mb-4">
-                    <Sparkles className="w-12 h-12 text-primary"/>
+                    <Feather className="w-12 h-12 text-primary"/>
                     <span className="font-headline text-2xl font-bold bg-gradient-to-r from-[hsl(var(--gradient-from))] to-[hsl(var(--gradient-to))] text-transparent bg-clip-text">Utsavs</span>
                 </Link>
                 <p className="text-foreground/80 max-w-xs text-sm">
@@ -66,7 +66,6 @@ export function Footer() {
              <div className="md:col-span-2 lg:col-span-4 text-center md:text-left">
               <h3 className="font-bold mb-4 font-headline text-lg text-primary">Admin</h3>
               <ul className="space-y-3">
-                <li><Link href="/logo-options" className="text-foreground/80 hover:text-primary">Logo Options</Link></li>
               </ul>
             </div>
         </div>
