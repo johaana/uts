@@ -7,7 +7,7 @@ import { Button } from "./ui/button";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import React, { useEffect, useState } from "react";
-import { Bot, Languages, Menu, Feather } from "lucide-react";
+import { Bot, Languages, Menu, Flame } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -96,7 +96,7 @@ export function Header() {
         
         <div className="flex-1 md:flex-none justify-start">
             <Link href="/" className="flex items-center gap-2 py-1 group">
-                 <Feather className={cn(
+                 <Flame className={cn(
                     "transition-all duration-300 text-primary drop-shadow-[0_1px_2px_hsl(var(--primary)/0.5)]",
                     isScrolled ? 'w-8 h-8' : 'w-10 h-10'
                   )} />
