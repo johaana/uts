@@ -25,16 +25,6 @@ const navLinks = [
   { href: "/calendar", label: "Explore by Month" },
 ];
 
-const languages = [
-    { name: 'English', code: 'en' },
-    { name: 'Hindi', code: 'hi' },
-    { name: 'Spanish', code: 'es' },
-    { name: 'French', code: 'fr' },
-    { name: 'German', code: 'de' },
-    { name: 'Mandarin', code: 'zh-CN' },
-    { name: 'Arabic', code: 'ar' },
-];
-
 export function Header() {
   const pathname = usePathname();
   const { setTheme } = useTheme();
@@ -43,7 +33,7 @@ export function Header() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 0);
+      setIsScrolled(window.scrollY > 20);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -78,30 +68,17 @@ export function Header() {
     addGoogleTranslateScript();
   }, []);
 
-  const changeLanguage = (langCode: string) => {
-    const googleTranslateElement = document.getElementById('google_translate_element');
-    if (googleTranslateElement) {
-        const langSelect = googleTranslateElement.querySelector('.goog-te-combo') as HTMLSelectElement;
-        if (langSelect) {
-            langSelect.value = langCode;
-            langSelect.dispatchEvent(new Event('change'));
-        }
-    }
-  };
-
   return (
     <header className={cn(
-        "sticky top-0 z-40 w-full border-b transition-all duration-300",
-        isScrolled 
-            ? "h-16 bg-background" 
-            : "h-20 bg-transparent"
+        "sticky top-0 z-40 w-full border-b transition-all duration-300 bg-background",
+        isScrolled ? "shadow-md" : "shadow-none"
     )}>
-      <div className="container mx-auto flex items-center justify-between h-full px-4">
+      <div className="container mx-auto flex items-center justify-between h-16 px-4">
         
         <div className="flex items-center">
             <Link href="/" className="flex flex-col items-start group -my-1">
-                <span className="font-headline text-3xl font-bold self-center transition-transform duration-300 group-hover:scale-105 bg-gradient-to-r from-[hsl(var(--gradient-from))] to-[hsl(var(--gradient-to))] text-transparent bg-clip-text" style={{textShadow: '1px 1px 3px hsla(var(--primary), 0.1)'}}>Utsavs</span>
-                <span className="text-xs text-secondary-foreground font-semibold -mt-1 italic">Every Festival Tells a Story</span>
+                <span className="font-headline text-3xl font-bold self-center transition-transform duration-300 group-hover:scale-105 bg-gradient-to-r from-primary to-accent text-transparent bg-clip-text" style={{textShadow: '1px 1px 3px hsla(var(--primary), 0.1)'}}>Utsavs</span>
+                <span className="text-xs text-accent font-semibold -mt-1 italic tracking-tight">Every Festival Tells a Story</span>
             </Link>
         </div>
 
@@ -113,7 +90,7 @@ export function Header() {
                 href={link.href}
                 className={cn(
                   "text-base font-bold transition-colors relative py-2 group",
-                  pathname.startsWith(link.href) ? "text-accent" : "text-foreground/80 hover:text-accent"
+                  pathname.startsWith(link.href) ? "text-primary" : "text-foreground/80 hover:text-primary"
                 )}
               >
                 {link.label}
@@ -155,7 +132,7 @@ export function Header() {
                   variant="gradient"
                   size="sm"
                   className={cn(
-                    "font-bold tracking-wide shadow-lg hover:shadow-primary/50 rounded-full px-4 hover:scale-105 transition-all duration-300 py-1"
+                    "font-bold tracking-wide shadow-lg hover:shadow-accent/50 rounded-full px-4 hover:scale-105 transition-all duration-300 py-1"
                   )}
                 >
                     <Bot className="w-4 w-4 mr-2"/>

@@ -176,11 +176,11 @@ export function FestivalCalendar({
 
     const getBadgeClass = (type: string) => {
         switch(type) {
-            case 'Religious': return 'bg-chart-1 text-white';
+            case 'Religious': return 'bg-chart-3 text-white';
             case 'Harvest': return 'bg-green-600/90 text-white';
             case 'Holiday': return 'border-blue-500/80 text-blue-600';
             case 'Cultural': return 'bg-chart-5 text-white';
-            case 'New Year': return 'bg-chart-2 text-white';
+            case 'New Year': return 'bg-chart-1 text-white';
             case 'Seasonal': return 'bg-chart-4 text-white/90';
             case 'Diwali': return 'bg-amber-500 text-white';
             case 'Solar': return 'bg-orange-500 text-white';
