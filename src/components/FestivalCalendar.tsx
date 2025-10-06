@@ -10,7 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { ArrowRight, Star, Calendar, MapPin, Tag, Loader2 } from "lucide-react";
 import { format, parse, getYear, isValid, isFuture, isToday, startOfDay, addYears, getMonth, startOfToday, endOfDay } from 'date-fns';
-import { allEvents } from '@/lib/festival-data';
+import { allEvents as defaultEvents } from '@/lib/festival-data';
 import { cn } from '@/lib/utils';
 import React from 'react';
 
@@ -37,7 +37,7 @@ interface FestivalCalendarProps {
 }
 
 export function FestivalCalendar({
-    events = allEvents,
+    events = defaultEvents,
     availableRegions = defaultRegions,
     availableEventTypes = defaultEventTypes,
     title,

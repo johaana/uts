@@ -7,7 +7,8 @@ import { Button } from "./ui/button";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import React, { useEffect, useState } from "react";
-import { Bot, Languages, Menu } from "lucide-react";
+import { Bot, Languages, Menu, Moon, Sun } from "lucide-react";
+import { useTheme } from "next-themes";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -36,12 +37,13 @@ const languages = [
 
 export function Header() {
   const pathname = usePathname();
+  const { setTheme } = useTheme();
   const [isSheetOpen, setIsSheetOpen] = React.useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
+      setIsScrolled(window.scrollY > 0);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -89,14 +91,15 @@ export function Header() {
 
   return (
     <header className={cn(
-        "bg-background/80 backdrop-blur-sm border-b sticky top-0 z-40 transition-all duration-300",
-        isScrolled ? 'h-16' : 'h-20'
+        "bg-transparent border-b sticky top-0 z-40 transition-all duration-300",
+        isScrolled ? 'h-16 bg-background/80 backdrop-blur-sm' : 'h-20'
     )}>
       <div className="container mx-auto flex items-center justify-between h-full px-4">
         
         <div className="flex-1 md:flex-none justify-start">
-            <Link href="/" className="flex items-center gap-2 py-1 group">
+            <Link href="/" className="flex flex-col items-start py-1 group">
                 <span className="font-headline text-3xl font-bold self-center transition-transform duration-300 group-hover:scale-105 bg-gradient-to-r from-[hsl(var(--gradient-from))] to-[hsl(var(--gradient-to))] text-transparent bg-clip-text" style={{textShadow: '1px 1px 3px hsla(var(--primary), 0.1)'}}>Utsavs</span>
+                <span className="text-xs text-foreground/70 -mt-1">Celebrate Every Utsav, Everywhere.</span>
             </Link>
         </div>
 
@@ -124,19 +127,24 @@ export function Header() {
           
           <div id="google_translate_element" style={{ display: 'none' }}></div>
           
-          <DropdownMenu>
+           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" className="hidden lg:inline-flex">
-                <Languages className="h-4 w-4 mr-2" />
-                Translate
+              <Button variant="ghost" size="icon">
+                <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+                <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+                <span className="sr-only">Toggle theme</span>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              {languages.map((lang) => (
-                <DropdownMenuItem key={lang.code} onClick={() => changeLanguage(lang.code)}>
-                  {lang.name}
-                </DropdownMenuItem>
-              ))}
+              <DropdownMenuItem onClick={() => setTheme("light")}>
+                Light
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setTheme("dark")}>
+                Dark
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setTheme("system")}>
+                System
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
 

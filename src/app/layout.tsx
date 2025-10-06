@@ -8,6 +8,7 @@ import { BackToTopButton } from '@/components/BackToTopButton';
 import { Playfair_Display, PT_Sans } from 'next/font/google'
 import Script from 'next/script';
 import { BottomNavBar } from '@/components/BottomNavBar';
+import { ThemeProvider } from '@/components/ThemeProvider';
 
 const playfair = Playfair_Display({
   subsets: ['latin'],
@@ -60,7 +61,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "hsl(10 80% 60%)",
+  themeColor: "hsl(15 75% 48%)",
 };
 
 export default function RootLayout({
@@ -80,14 +81,21 @@ export default function RootLayout({
          <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>U</text></svg>" />
       </head>
       <body className={`${playfair.variable} ${ptSans.variable} font-body antialiased`}>
-        <div className="flex min-h-screen flex-col pb-20 md:pb-0">
-          <Header />
-          <main className="flex-1">{children}</main>
-          <Footer />
-        </div>
-        <BottomNavBar />
-        <BackToTopButton />
-        <Toaster />
+        <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+          <div className="flex min-h-screen flex-col pb-20 md:pb-0">
+            <Header />
+            <main className="flex-1">{children}</main>
+            <Footer />
+          </div>
+          <BottomNavBar />
+          <BackToTopButton />
+          <Toaster />
+        </ThemeProvider>
       </body>
     </html>
   );
