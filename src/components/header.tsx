@@ -80,7 +80,7 @@ export function Header() {
         <div className="flex items-center">
             <Link href="/" className="flex flex-col items-center group">
                 <span className="font-headline text-3xl font-bold transition-transform duration-300 group-hover:scale-105 text-gradient">Utsavs</span>
-                <span className="text-[10px] text-muted-foreground italic tracking-tight">Every Festival Tells a Story</span>
+                <span className="text-[10px] text-muted-foreground italic tracking-tight -mt-1">Every Festival Tells a Story</span>
             </Link>
         </div>
 
