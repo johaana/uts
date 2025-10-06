@@ -78,9 +78,9 @@ export function Header() {
       <div className="container mx-auto flex items-center justify-between h-16 px-4">
         
         <div className="flex items-center">
-            <Link href="/" className="flex flex-col items-start group -my-1">
-                <span className="font-headline text-3xl font-bold self-center transition-transform duration-300 group-hover:scale-105 text-gradient">Utsavs</span>
-                <span className="text-xs text-accent font-semibold -mt-1.5 italic tracking-tight">Every Festival Tells a Story</span>
+            <Link href="/" className="flex flex-col items-center group">
+                <span className="font-headline text-3xl font-bold transition-transform duration-300 group-hover:scale-105 text-gradient">Utsavs</span>
+                <span className="text-[10px] text-muted-foreground italic tracking-tight">Every Festival Tells a Story</span>
             </Link>
         </div>
 
