@@ -4,7 +4,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Button } from './ui/button';
-import { Bot, Languages, Flame } from 'lucide-react';
+import { Bot, Languages } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import {
@@ -57,7 +57,6 @@ export function MobileNav({ navLinks, setOpen }: MobileNavProps) {
     <div className="flex flex-col h-full">
       <div className="p-4 border-b">
         <Link href="/" className="flex items-center gap-2" onClick={() => setOpen(false)}>
-            <Flame className="w-10 h-10 text-primary"/>
             <span className="font-headline text-2xl font-bold bg-gradient-to-r from-[hsl(var(--gradient-from))] to-[hsl(var(--gradient-to))] text-transparent bg-clip-text">Utsavs</span>
         </Link>
       </div>

@@ -8,7 +8,6 @@ import { BackToTopButton } from '@/components/BackToTopButton';
 import { Playfair_Display, PT_Sans } from 'next/font/google'
 import Script from 'next/script';
 import { BottomNavBar } from '@/components/BottomNavBar';
-import { Flame } from 'lucide-react';
 
 const playfair = Playfair_Display({
   subsets: ['latin'],
@@ -78,7 +77,7 @@ export default function RootLayout({
           crossOrigin="anonymous"
           strategy="lazyOnload"
         />
-         <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔥</text></svg>" />
+         <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>U</text></svg>" />
       </head>
       <body className={`${playfair.variable} ${ptSans.variable} font-body antialiased`}>
         <div className="flex min-h-screen flex-col pb-20 md:pb-0">

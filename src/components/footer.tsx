@@ -6,7 +6,7 @@ import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { useRouter } from "next/navigation";
 import React from "react";
-import { Search, Mail, Flame } from "lucide-react";
+import { Search, Mail } from "lucide-react";
 import Image from "next/image";
 
 
@@ -28,7 +28,6 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12">
             <div className="lg:col-span-3 flex flex-col items-center md:items-start text-center md:text-left">
                  <Link href="/" className="flex items-center gap-2 mb-4">
-                    <Flame className="w-12 h-12 text-primary"/>
                     <span className="font-headline text-2xl font-bold bg-gradient-to-r from-[hsl(var(--gradient-from))] to-[hsl(var(--gradient-to))] text-transparent bg-clip-text">Utsavs</span>
                 </Link>
                 <p className="text-foreground/80 max-w-xs text-sm">

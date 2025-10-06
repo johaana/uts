@@ -7,7 +7,7 @@ import { Button } from "./ui/button";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import React, { useEffect, useState } from "react";
-import { Bot, Languages, Menu, Flame } from "lucide-react";
+import { Bot, Languages, Menu } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -96,11 +96,7 @@ export function Header() {
         
         <div className="flex-1 md:flex-none justify-start">
             <Link href="/" className="flex items-center gap-2 py-1 group">
-                 <Flame className={cn(
-                    "transition-all duration-300 text-primary drop-shadow-[0_1px_2px_hsl(var(--primary)/0.5)]",
-                    isScrolled ? 'w-6 h-6' : 'w-8 h-8'
-                  )} />
-                <span className="hidden md:block font-headline text-3xl font-bold self-center transition-transform duration-300 group-hover:scale-105 bg-gradient-to-r from-[hsl(var(--gradient-from))] to-[hsl(var(--gradient-to))] text-transparent bg-clip-text" style={{textShadow: '1px 1px 3px hsla(var(--primary), 0.1)'}}>Utsavs</span>
+                <span className="font-headline text-3xl font-bold self-center transition-transform duration-300 group-hover:scale-105 bg-gradient-to-r from-[hsl(var(--gradient-from))] to-[hsl(var(--gradient-to))] text-transparent bg-clip-text" style={{textShadow: '1px 1px 3px hsla(var(--primary), 0.1)'}}>Utsavs</span>
             </Link>
         </div>
 
