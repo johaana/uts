@@ -73,14 +73,14 @@ export function Header() {
   return (
     <header className={cn(
         "sticky top-0 z-40 w-full border-b transition-all duration-300",
-        isScrolled ? "h-16 bg-background/80 backdrop-blur-sm shadow-md" : (isHomePage ? "h-20 bg-transparent border-transparent" : "h-20 bg-background")
+        isScrolled ? "h-16 bg-background shadow-md" : (isHomePage ? "h-20 bg-transparent border-transparent" : "h-20 bg-background")
     )}>
       <div className="container mx-auto flex items-center justify-between h-full px-4">
         
         <div className="flex items-center">
             <Link href="/" className="flex flex-col items-center group">
-                <span className="font-headline text-3xl font-bold transition-transform duration-300 group-hover:scale-105 text-gradient">Utsavs</span>
-                <span className="text-xs text-secondary-foreground/80 italic tracking-tight -mt-0.5">Every Festival Tells a Story</span>
+                <span className="font-headline text-3xl font-bold transition-transform duration-300 group-hover:scale-105 text-primary">Utsavs</span>
+                <span className="text-xs text-foreground/70 italic tracking-tight -mt-0.5">Every Festival Tells a Story</span>
             </Link>
         </div>
 
