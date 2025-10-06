@@ -3,16 +3,16 @@
 
 import { PageLayout } from "@/components/PageLayout";
 import { Card, CardContent } from "@/components/ui/card";
-import { PartyPopper, Palette, Drama, Music, Sunrise, Feather, Moon } from "lucide-react";
+import { Mandala, Origami, Wind, Flame, Flower, Hand, Sun } from "lucide-react";
 
 const logoOptions = [
-    { name: "Party Popper", icon: PartyPopper },
-    { name: "Palette", icon: Palette },
-    { name: "Drama", icon: Drama },
-    { name: "Music", icon: Music },
-    { name: "Sunrise", icon: Sunrise },
-    { name: "Feather", icon: Feather },
-    { name: "Moon", icon: Moon },
+    { name: "Mandala", icon: Mandala },
+    { name: "Origami", icon: Origami },
+    { name: "Wind", icon: Wind },
+    { name: "Flame", icon: Flame },
+    { name: "Flower", icon: Flower },
+    { name: "Hand", icon: Hand },
+    { name: "Sun", icon: Sun },
 ];
 
 export default function LogoOptionsPage() {
@@ -21,7 +21,7 @@ export default function LogoOptionsPage() {
             <div className="text-center mb-12">
                 <h1 className="font-headline text-4xl md:text-5xl font-bold">Logo Options</h1>
                 <p className="mt-4 text-lg text-foreground/80 max-w-3xl mx-auto">
-                    Here are some festive icon options for the new logo. Please choose the one you feel best represents Utsavs.
+                    Here are some more creative icon options for the new logo. Please choose the one you feel best represents Utsavs.
                 </p>
             </div>
 
