@@ -3,12 +3,12 @@
 
 import { PageLayout } from "@/components/PageLayout";
 import { Card, CardContent } from "@/components/ui/card";
-import { Sparkles, Sun, Lotus, Flame, Gift, HandPlatter, Star } from "lucide-react";
+import { Sparkles, Sun, Flower2, Flame, Gift, HandPlatter, Star } from "lucide-react";
 
 const logoOptions = [
     { name: "Sparkles", icon: Sparkles },
     { name: "Sun", icon: Sun },
-    { name: "Lotus", icon: Lotus },
+    { name: "Lotus", icon: Flower2 },
     { name: "Flame", icon: Flame },
     { name: "Gift", icon: Gift },
     { name: "HandPlatter", icon: HandPlatter },
