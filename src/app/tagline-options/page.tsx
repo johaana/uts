@@ -99,7 +99,7 @@ export function Header() {
         <div className="flex-1 md:flex-none justify-start">
             <Link href="/" className="flex flex-col items-start py-1 group">
                 <span className="font-headline text-3xl font-bold self-center transition-transform duration-300 group-hover:scale-105 text-primary">Utsavs</span>
-                <span className="text-xs text-foreground/70 -mt-1 italic">Every Festival Tells a Story</span>
+                <span className="text-sm text-accent italic">Every Festival Tells a Story</span>
             </Link>
         </div>
 
