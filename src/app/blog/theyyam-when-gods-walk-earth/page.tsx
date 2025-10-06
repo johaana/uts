@@ -42,25 +42,24 @@ const relatedContent: RelatedItem[] = [
     }
 ];
 
+export const metadata: Metadata = {
+  title: `${post.title} | Utsavs`,
+  description: post.excerpt,
+  openGraph: {
+    title: `${post.title} | Utsavs`,
+    description: post.excerpt,
+    images: [{ url: post.image, width: 1200, height: 630, alt: post.title }],
+    type: 'article',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: `${post.title} | Utsavs`,
+    description: post.excerpt,
+    images: [post.image],
+  },
+};
+
 export default function TheyyamBlogPage() {
-    const metadata: Metadata = {
-      title: `${post.title} | Utsavs`,
-      description: post.excerpt,
-      openGraph: {
-        title: `${post.title} | Utsavs`,
-        description: post.excerpt,
-        images: [{ url: post.image, width: 1200, height: 630, alt: post.title }],
-        type: 'article',
-        publishedTime: new Date().toISOString(),
-        authors: ['Utsavs'],
-      },
-      twitter: {
-        card: 'summary_large_image',
-        title: `${post.title} | Utsavs`,
-        description: post.excerpt,
-        images: [post.image],
-      },
-    };
 
     return (
         <div className="bg-background">

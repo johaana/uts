@@ -6,6 +6,7 @@ import { ShareButtons } from "@/components/ShareButtons";
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 import { TheyyamPageContent } from "./TheyyamPageContent";
 import Image from "next/image";
+import type { Metadata } from 'next';
 
 
 const relatedContent: RelatedItem[] = [
@@ -34,6 +35,22 @@ const relatedContent: RelatedItem[] = [
         hint: "onam feast"
     }
 ];
+
+export const metadata: Metadata = {
+  title: "Theyyam: When Gods Walk the Earth in Kerala | Utsavs",
+  description: "Explore the ancient ritual of Theyyam, where men transform into gods in a stunning display of devotion, art, and tradition that bridges the gap between the human and the divine.",
+   openGraph: {
+    title: "Theyyam: When Gods Walk the Earth in Kerala | Utsavs",
+    description: "Explore the ancient ritual of Theyyam, where men transform into gods in a stunning display of devotion, art, and tradition that bridges the gap between the human and the divine.",
+    images: [{ url: "https://i.postimg.cc/HW7r9WfV/Theyyam.jpg", width: 1200, height: 630, alt: "Theyyam dancer" }],
+  },
+   twitter: {
+    card: 'summary_large_image',
+    title: "Theyyam: When Gods Walk the Earth in Kerala | Utsavs",
+    description: "Explore the ancient ritual of Theyyam, where men transform into gods in a stunning display of devotion, art, and tradition that bridges the gap between the human and the divine.",
+    images: ["https://i.postimg.cc/HW7r9WfV/Theyyam.jpg"],
+  },
+};
 
 
 export default function TheyyamPage() {

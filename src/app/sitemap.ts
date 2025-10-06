@@ -3,6 +3,8 @@ import { MetadataRoute } from 'next';
 import { allEvents, internationalEvents } from '@/lib/festival-data';
 import { metadata } from './layout';
 import { blogPosts } from '@/lib/blog-data';
+import { allProducts } from '@/lib/product-data';
+
 
 const allRecipes = [
     { link: "/recipes/gajar-ka-halwa" },

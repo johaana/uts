@@ -7,8 +7,19 @@ import Image from 'next/image';
 import { ThaipusamPageContent } from './ThaipusamPageContent';
 
 export const metadata: Metadata = {
-  title: "The Burden of Faith: Unpacking the Intense Rituals of Thaipusam",
+  title: "Thaipusam: The Burden of Faith & Intense Rituals | Utsavs",
   description: "Explore the powerful rituals of Thaipusam, a festival of intense devotion to Lord Murugan. Understand the significance of the Kavadi and skin piercings.",
+   openGraph: {
+    title: "Thaipusam: The Burden of Faith & Intense Rituals | Utsavs",
+    description: "Explore the powerful rituals of Thaipusam, a festival of intense devotion to Lord Murugan. Understand the significance of the Kavadi and skin piercings.",
+    images: [{ url: "https://i.postimg.cc/cJbJfPhR/thaipusam.webp", width: 1200, height: 630, alt: "Devotee carrying a Kavadi" }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: "Thaipusam: The Burden of Faith & Intense Rituals | Utsavs",
+    description: "Explore the powerful rituals of Thaipusam, a festival of intense devotion to Lord Murugan. Understand the significance of the Kavadi and skin piercings.",
+    images: ["https://i.postimg.cc/cJbJfPhR/thaipusam.webp"],
+  },
 };
 
 const relatedContent: RelatedItem[] = [
