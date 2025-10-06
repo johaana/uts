@@ -5,8 +5,8 @@
 
 @layer base {
   :root {
-    --background: 30 50% 98%;
-    --foreground: 20 20% 25%;
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
  
     --card: 0 0% 100%;
     --card-foreground: 240 10% 3.9%;
@@ -14,8 +14,8 @@
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 3.9%;
  
-    --primary: 340 85% 60%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 325 90% 55%;
+    --primary-foreground: 310 100% 98%;
  
     --secondary: 240 4.8% 95.9%;
     --secondary-foreground: 240 5.9% 10%;
@@ -24,20 +24,20 @@
     --muted-foreground: 240 3.8% 46.1%;
  
     --accent: 45 100% 55%;
-    --accent-foreground: 30 100% 10%;
+    --accent-foreground: 24 9.8% 10%;
  
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
 
     --border: 240 5.9% 90%;
     --input: 240 5.9% 90%;
-    --ring: 340 85% 65%;
+    --ring: 325 90% 60%;
  
     --radius: 0.75rem;
 
     /* Gradient Colors */
-    --gradient-from: 340 85% 65%;
-    --gradient-to: 45 100% 60%;
+    --gradient-from: 325 90% 55%;
+    --gradient-to: 45 100% 55%;
 
     --chart-1: 340 85% 60%;
     --chart-2: 45 100% 55%;
@@ -47,17 +47,17 @@
   }
 
   .dark {
-    --background: 20 10% 10%;
+    --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
  
-    --card: 240 5% 15%;
+    --card: 240 10% 3.9%;
     --card-foreground: 0 0% 98%;
  
     --popover: 240 10% 3.9%;
     --popover-foreground: 0 0% 98%;
  
-    --primary: 340 85% 70%;
-    --primary-foreground: 340 85% 10%;
+    --primary: 325 90% 65%;
+    --primary-foreground: 310 100% 98%;
  
     --secondary: 240 3.7% 15.9%;
     --secondary-foreground: 0 0% 98%;
@@ -71,12 +71,12 @@
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
  
-    --border: 240 3.7% 20%;
+    --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
-    --ring: 340 85% 70%;
+    --ring: 325 90% 65%;
 
-    --gradient-from: 340 85% 70%;
-    --gradient-to: 45 100% 70%;
+    --gradient-from: 325 90% 65%;
+    --gradient-to: 45 100% 65%;
 
     --chart-1: 340 85% 70%;
     --chart-2: 45 100% 65%;
