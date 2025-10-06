@@ -78,9 +78,9 @@ export function Header() {
       <div className="container mx-auto flex items-center justify-between h-full px-4">
         
         <div className="flex items-center">
-            <Link href="/" className="flex flex-col items-center group">
+            <Link href="/" className="flex flex-col items-start group">
                 <span className="font-headline text-3xl font-bold transition-transform duration-300 group-hover:scale-105 text-primary">Utsavs</span>
-                <span className="text-xs text-foreground/70 italic tracking-tight -mt-0.5">Every Festival Tells a Story</span>
+                <span className="text-sm text-accent italic tracking-tight -mt-0.5">Every Festival Tells a Story</span>
             </Link>
         </div>
 
@@ -131,10 +131,10 @@ export function Header() {
 
            <Link href="/planner">
                 <Button 
-                  variant="gradient"
+                  variant="default"
                   size="sm"
                   className={cn(
-                    "font-bold tracking-wide shadow-lg hover:shadow-accent/50 rounded-full px-4 hover:scale-105 transition-all duration-300 py-1"
+                    "font-bold tracking-wide shadow-lg hover:shadow-primary/50 rounded-full px-4 hover:scale-105 transition-all duration-300 py-1"
                   )}
                 >
                     <Bot className="w-4 w-4 mr-2"/>

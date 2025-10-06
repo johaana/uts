@@ -28,8 +28,8 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12">
             <div className="lg:col-span-3 flex flex-col items-center md:items-start text-center md:text-left">
                  <Link href="/" className="flex flex-col items-start py-1 group">
-                    <span className="font-headline text-3xl font-bold self-center transition-transform duration-300 group-hover:scale-105 bg-gradient-to-r from-[hsl(var(--gradient-from))] to-[hsl(var(--gradient-to))] text-transparent bg-clip-text" style={{textShadow: '1px 1px 3px hsla(var(--primary), 0.1)'}}>Utsavs</span>
-                    <span className="text-xs text-foreground/70 -mt-1 italic">Every Festival Tells a Story</span>
+                    <span className="font-headline text-3xl font-bold self-center transition-transform duration-300 group-hover:scale-105 text-primary">Utsavs</span>
+                    <span className="text-sm text-accent italic -mt-1">Every Festival Tells a Story</span>
                 </Link>
                 <p className="text-foreground/80 max-w-xs text-sm mt-2">
                   Utsavs is your definitive guide to the vibrant world of Indian festivals. Explore dates, traditions, recipes, and the stories that bring them to life.
