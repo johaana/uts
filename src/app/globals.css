@@ -5,125 +5,96 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
+    --background: 40 80% 97%;
+    --foreground: 25 60% 20%;
  
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
+    --card: 40 80% 98%;
+    --card-foreground: 25 60% 20%;
  
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
+    --popover: 40 80% 98%;
+    --popover-foreground: 25 60% 20%;
  
-    --primary: 0 0% 15%;
+    --primary: 350 65% 42%;
     --primary-foreground: 0 0% 98%;
  
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
+    --secondary: 30 50% 95%;
+    --secondary-foreground: 30 20% 20%;
  
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
+    --muted: 30 50% 95%;
+    --muted-foreground: 25 60% 45%;
  
-    --accent: 80 80% 50%;
-    --accent-foreground: 80 100% 10%;
+    --accent: 45 80% 60%;
+    --accent-foreground: 30 50% 15%;
  
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 80 80% 55%;
+    --border: 30 50% 90%;
+    --input: 30 50% 90%;
+    --ring: 350 65% 52%;
  
     --radius: 0.75rem;
 
-    /* Gradient Colors */
-    --gradient-from: 0 0% 25%;
-    --gradient-to: 80 80% 50%;
+    --gradient-from: 350 65% 42%;
+    --gradient-to: 15 85% 52%;
 
-    --chart-1: 340 85% 60%;
-    --chart-2: 45 100% 55%;
-    --chart-3: 210 60% 50%;
-    --chart-4: 170 55% 40%;
-    --chart-5: 280 50% 55%;
+    --chart-1: 350 75% 55%;
+    --chart-2: 15 85% 58%;
+    --chart-3: 45 80% 60%;
+    --chart-4: 210 50% 50%;
+    --chart-5: 160 50% 45%;
   }
 
   .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
+    --background: 25 20% 10%;
+    --foreground: 30 20% 90%;
  
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
+    --card: 25 20% 12%;
+    --card-foreground: 30 20% 90%;
  
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
+    --popover: 25 20% 10%;
+    --popover-foreground: 30 20% 90%;
  
-    --primary: 0 0% 90%;
-    --primary-foreground: 240 10% 3.9%;
+    --primary: 45 80% 70%;
+    --primary-foreground: 25 50% 10%;
  
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
+    --secondary: 30 20% 15%;
+    --secondary-foreground: 30 20% 90%;
  
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
+    --muted: 30 20% 15%;
+    --muted-foreground: 30 20% 70%;
  
-    --accent: 80 70% 60%;
-    --accent-foreground: 80 100% 10%;
+    --accent: 45 80% 60%;
+    --accent-foreground: 30 50% 10%;
  
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
  
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 80 70% 60%;
+    --border: 30 20% 20%;
+    --input: 30 20% 20%;
+    --ring: 45 80% 70%;
 
-    --gradient-from: 0 0% 80%;
-    --gradient-to: 80 70% 60%;
+    --gradient-from: 350 70% 50%;
+    --gradient-to: 45 80% 60%;
 
-    --chart-1: 340 85% 70%;
-    --chart-2: 45 100% 65%;
-    --chart-3: 210 50% 60%;
-    --chart-4: 170 55% 50%;
-    --chart-5: 280 50% 65%;
+    --chart-1: 350 75% 65%;
+    --chart-2: 15 85% 68%;
+    --chart-3: 45 80% 70%;
+    --chart-4: 210 50% 60%;
+    --chart-5: 160 50% 55%;
   }
 }
- 
+
 @layer base {
   * {
     @apply border-border;
   }
   body {
     @apply bg-background text-foreground;
-    background-image: url('https://www.transparenttextures.com/patterns/soft-wallpaper.png');
-    font-family: var(--font-body);
-    font-size: 16px;
-  }
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-headline;
-  }
-   /* Magazine-style Drop Cap */
-  .prose > p:first-of-type::first-letter {
-    @apply float-left text-7xl font-bold font-headline text-primary mr-4 leading-[0.8];
-  }
-
-  /* Improved Prose Readability */
-  .prose {
-    @apply leading-relaxed;
-  }
-  .prose ul li, .prose ol li {
-    @apply my-2;
-  }
-
-
-  /* Magazine-style blockquote */
-  .prose blockquote {
-    @apply border-l-4 border-accent bg-secondary/30 p-4 my-8 italic;
-  }
-  .prose blockquote p {
-    @apply text-lg text-foreground/80;
   }
 }
 
-@layer components {
-    .btn-gradient {
-        @apply bg-gradient-to-r from-[hsl(var(--gradient-from))] to-[hsl(var(--gradient-to))] text-primary-foreground;
-    }
+.btn-gradient {
+    background-image: linear-gradient(to right, hsl(var(--gradient-from)), hsl(var(--gradient-to)));
+    color: hsl(var(--primary-foreground));
 }
