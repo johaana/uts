@@ -1,4 +1,7 @@
 
+
+'use client';
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BookOpen, Sparkles, MessageSquareQuote, CheckCircle } from "lucide-react";
 import Image from "next/image";
@@ -17,6 +20,9 @@ export default function KarvaChauthPage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-pink-500/10">
+                 <div className="absolute inset-0 z-0 opacity-20">
+                    <Image src="https://i.postimg.cc/k500G1RW/karva-chauth.webp" alt="Karva Chauth Puja" width={1200} height={400} className="w-full h-48 md:h-64 object-cover" data-ai-hint="karva chauth puja"/>
+                </div>
                 <div className="relative text-center text-primary-foreground z-10 p-4">
                     <h1 className="font-headline text-4xl md:text-5xl lg:text-7xl font-bold text-pink-900 drop-shadow-lg">Karva Chauth</h1>
                     <p className="text-lg md:text-xl lg:text-2xl mt-4 text-pink-800/90 drop-shadow-md">A Festival of Love and Devotion</p>
@@ -43,7 +49,7 @@ export default function KarvaChauthPage() {
 
                         <article className="space-y-12">
 
-                            <section id="overview">
+                            <section id="overview" className="scroll-mt-20">
                                  <div className="flex flex-col md:flex-row gap-8 items-center">
                                     <div className="md:order-2 md:w-1/3">
                                         <Image src="https://i.postimg.cc/k500G1RW/karva-chauth.webp" alt="Karva Chauth Puja" width={400} height={400} className="rounded-lg shadow-lg w-full" data-ai-hint="karva chauth puja"/>
@@ -56,8 +62,8 @@ export default function KarvaChauthPage() {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="not-prose my-10">
-                                    <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Karva Chauth Essentials</h3>
+                                <div className="not-prose my-10 bg-secondary/30 p-6 rounded-lg">
+                                    <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Karva Chauth Essentials (Shop on Amazon)</h3>
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-md mx-auto">
                                         <ProductCard product={products.craftsWorldKarwaThali} />
                                         <ProductCard product={products.tiedRibbonsKarwaThali} />
@@ -65,7 +71,7 @@ export default function KarvaChauthPage() {
                                 </div>
                             </section>
                             
-                            <section id="traditions">
+                            <section id="traditions" className="scroll-mt-20">
                                 <h2 className="font-headline text-3xl font-bold mb-4">Rituals of the Day</h2>
                                 <ul className="space-y-4 pl-4 mb-8">
                                     <li className="flex items-start">
@@ -92,7 +98,7 @@ export default function KarvaChauthPage() {
                                 </ul>
                             </section>
 
-                             <section id="significance">
+                             <section id="significance" className="scroll-mt-20">
                                 <h2 className="font-headline text-3xl font-bold mb-4">A Celebration of Marital Bond</h2>
                                 <div className="space-y-6">
                                     <Card>

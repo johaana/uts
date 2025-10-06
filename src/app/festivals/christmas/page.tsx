@@ -1,10 +1,13 @@
 
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
+import { ProductCard } from "@/components/ProductCard";
+import { products } from "@/lib/product-data";
 
 const recipes = [
     { name: "Christmas Cake", link: "/recipes/christmas-cake" },
@@ -16,6 +19,9 @@ export default function ChristmasPage() {
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-red-700/10">
+                 <div className="absolute inset-0 z-0 opacity-20">
+                    <Image src="https://i.postimg.cc/rpDTKRn2/Christmas.webp" alt="Christmas" layout="fill" objectFit="cover" data-ai-hint="christmas decor" />
+                </div>
                 <div className="relative text-center text-primary-foreground z-10 p-4">
                     <h1 className="font-headline text-5xl md:text-7xl font-bold text-red-900 drop-shadow-lg">Christmas</h1>
                     <p className="text-xl md:text-2xl mt-4 text-red-800/90 drop-shadow-md">Celebrating Peace, Joy, and Goodwill</p>
