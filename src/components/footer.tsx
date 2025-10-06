@@ -64,15 +64,10 @@ export function Footer() {
             </div>
 
              <div className="md:col-span-2 lg:col-span-4 text-center md:text-left">
-              <h3 className="font-bold mb-4 font-headline text-lg text-primary">Search Utsavs</h3>
-              <p className="text-foreground/80 mb-4 text-sm">Looking for a specific festival or recipe? Find it here.</p>
-              <form className="flex gap-2 max-w-sm mx-auto md:mx-0" onSubmit={handleSearch}>
-                <Input name="search" type="search" placeholder="Search festivals..." className="bg-background"/>
-                <Button type="submit" size="icon" className="shrink-0">
-                    <Search className="h-4 w-4"/>
-                    <span className="sr-only">Search</span>
-                </Button>
-              </form>
+              <h3 className="font-bold mb-4 font-headline text-lg text-primary">Admin</h3>
+              <ul className="space-y-3">
+                <li><Link href="/logo-options" className="text-foreground/80 hover:text-primary">Logo Options</Link></li>
+              </ul>
             </div>
         </div>
         <div className="mt-12 border-t pt-8 text-center text-sm text-foreground/60">
