@@ -8,7 +8,7 @@ import Image from 'next/image';
 import { internationalEvents } from "@/lib/festival-data";
 import { FestivalCalendar } from '@/components/FestivalCalendar';
 import { Button } from '@/components/ui/button';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Globe } from 'lucide-react';
 import { InternationalHeroCarousel } from '@/components/InternationalHeroCarousel';
 
 export function InternationalFestivalsPageContent() {

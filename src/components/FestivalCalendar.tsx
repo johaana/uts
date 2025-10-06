@@ -19,8 +19,8 @@ const defaultRegions = ["Nationwide", "North", "South", "East", "West", "Northea
 const defaultEventTypes = ["Festivals", "Holidays", "Long Weekends"];
 
 interface FestivalEvent {
-    date: string;
     name: string;
+    date: string;
     region: string;
     type: string;
     link?: string;
