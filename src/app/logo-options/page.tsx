@@ -3,10 +3,10 @@
 
 import { PageLayout } from "@/components/PageLayout";
 import { Card, CardContent } from "@/components/ui/card";
-import { Mandala, Origami, Wind, Flame, Flower, Hand, Sun } from "lucide-react";
+import { Sparkles, Origami, Wind, Flame, Flower, Hand, Sun } from "lucide-react";
 
 const logoOptions = [
-    { name: "Mandala", icon: Mandala },
+    { name: "Sparkles", icon: Sparkles },
     { name: "Origami", icon: Origami },
     { name: "Wind", icon: Wind },
     { name: "Flame", icon: Flame },
