@@ -93,15 +93,15 @@ export function Header() {
     <header className={cn(
         "sticky top-0 z-40 w-full border-b transition-all duration-300",
         isScrolled 
-            ? "h-16 bg-background backdrop-blur-sm" 
+            ? "h-16 bg-background" 
             : "h-20 bg-transparent"
     )}>
       <div className="container mx-auto flex items-center justify-between h-full px-4">
         
         <div className="flex items-center">
-            <Link href="/" className="flex flex-col items-start group">
+            <Link href="/" className="flex flex-col items-start group -my-1">
                 <span className="font-headline text-3xl font-bold self-center transition-transform duration-300 group-hover:scale-105 bg-gradient-to-r from-[hsl(var(--gradient-from))] to-[hsl(var(--gradient-to))] text-transparent bg-clip-text" style={{textShadow: '1px 1px 3px hsla(var(--primary), 0.1)'}}>Utsavs</span>
-                <span className="text-xs text-secondary-foreground font-semibold -mt-0.5 italic">Every Festival Tells a Story</span>
+                <span className="text-xs text-secondary-foreground font-semibold -mt-1 italic">Every Festival Tells a Story</span>
             </Link>
         </div>
 
