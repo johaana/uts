@@ -38,7 +38,7 @@ function ResourceSummary() {
 
 function AIPlannerShowcase() {
     return (
-        <section className="py-12 md:py-20 bg-background">
+        <section className="py-16 md:py-24 bg-background">
             <div className="container mx-auto px-4">
                 <Card className="bg-gradient-to-br from-primary/10 to-secondary/30 border-2 border-primary/20 shadow-xl overflow-hidden">
                     <div className="flex flex-col md:flex-row items-center">
@@ -97,7 +97,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-12 md:pt-24 md:pb-12 bg-background">
+      <section className="py-16 md:py-24 bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="font-headline text-3xl md:text-5xl font-bold text-primary">Upcoming Festivals</h2>
@@ -109,7 +109,7 @@ export default function Home() {
         </div>
       </section>
 
-       <section className="py-12 md:pt-16 md:pb-24 bg-secondary/30">
+       <section className="py-16 md:py-24 bg-secondary/30">
             <div className="container mx-auto px-4">
               <FestivalCalendar 
                 events={allEvents}
@@ -121,7 +121,7 @@ export default function Home() {
       
        <AIPlannerShowcase />
 
-      <section className="py-12 md:py-20 bg-background">
+      <section className="py-16 md:py-24 bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="font-headline text-3xl md:text-5xl font-bold text-primary">Discover by Region</h2>
@@ -133,7 +133,7 @@ export default function Home() {
         </div>
       </section>
 
-       <section className="py-12 md:py-20 bg-secondary/30">
+       <section className="py-16 md:py-24 bg-secondary/30">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="font-headline text-3xl md:text-5xl font-bold text-primary">Discover International Festivals</h2>
@@ -159,7 +159,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-12 md:py-24 bg-background">
+      <section className="py-16 md:py-24 bg-background">
         <div className="container mx-auto px-4">
             <div className="text-center mb-12">
                 <h2 className="font-headline text-3xl md:text-5xl font-bold text-primary">A World of Flavor & Tradition</h2>
