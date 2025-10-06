@@ -1,17 +1,18 @@
+
 'use client';
 
 import { PageLayout } from "@/components/PageLayout";
 import { Card, CardContent } from "@/components/ui/card";
-import { Feather, Palette, Drama, Sunrise, Tent, HandHeart, Album } from "lucide-react";
+import { Torus, HeartHandshake, Grape, Mountain, Pyramid, Speaker, Vegan } from "lucide-react";
 
 const logoOptions = [
-    { name: "Feather", icon: Feather },
-    { name: "Palette", icon: Palette },
-    { name: "Drama", icon: Drama },
-    { name: "Sunrise", icon: Sunrise },
-    { name: "Tent", icon: Tent },
-    { name: "Hand-Heart", icon: HandHeart },
-    { name: "Album", icon: Album },
+    { name: "Torus", icon: Torus },
+    { name: "Heart-Handshake", icon: HeartHandshake },
+    { name: "Grape", icon: Grape },
+    { name: "Mountain", icon: Mountain },
+    { name: "Pyramid", icon: Pyramid },
+    { name: "Speaker", icon: Speaker },
+    { name: "Vegan", icon: Vegan },
 ];
 
 export default function LogoOptionsPage() {
