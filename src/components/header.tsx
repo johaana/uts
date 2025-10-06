@@ -99,7 +99,7 @@ export function Header() {
         <div className="flex items-center">
             <Link href="/" className="flex flex-col items-start py-1 group">
                 <span className="font-headline text-3xl font-bold self-center transition-transform duration-300 group-hover:scale-105 bg-gradient-to-r from-[hsl(var(--gradient-from))] to-[hsl(var(--gradient-to))] text-transparent bg-clip-text" style={{textShadow: '1px 1px 3px hsla(var(--primary), 0.1)'}}>Utsavs</span>
-                <span className="text-xs text-accent font-bold -mt-1 italic">Every Festival Tells a Story</span>
+                <span className="text-xs text-muted-foreground font-semibold -mt-0.5 italic">Every Festival Tells a Story</span>
             </Link>
         </div>
 
