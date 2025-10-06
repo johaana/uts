@@ -1,18 +1,17 @@
-
 'use client';
 
 import { PageLayout } from "@/components/PageLayout";
 import { Card, CardContent } from "@/components/ui/card";
-import { Sparkles, Origami, Wind, Flame, Flower, Hand, Sun } from "lucide-react";
+import { Feather, Palette, Drama, Sunrise, Tent, HandHeart, Album } from "lucide-react";
 
 const logoOptions = [
-    { name: "Sparkles", icon: Sparkles },
-    { name: "Origami", icon: Origami },
-    { name: "Wind", icon: Wind },
-    { name: "Flame", icon: Flame },
-    { name: "Flower", icon: Flower },
-    { name: "Hand", icon: Hand },
-    { name: "Sun", icon: Sun },
+    { name: "Feather", icon: Feather },
+    { name: "Palette", icon: Palette },
+    { name: "Drama", icon: Drama },
+    { name: "Sunrise", icon: Sunrise },
+    { name: "Tent", icon: Tent },
+    { name: "Hand-Heart", icon: HandHeart },
+    { name: "Album", icon: Album },
 ];
 
 export default function LogoOptionsPage() {
@@ -21,7 +20,7 @@ export default function LogoOptionsPage() {
             <div className="text-center mb-12">
                 <h1 className="font-headline text-4xl md:text-5xl font-bold">Logo Options</h1>
                 <p className="mt-4 text-lg text-foreground/80 max-w-3xl mx-auto">
-                    Here are some more creative icon options for the new logo. Please choose the one you feel best represents Utsavs.
+                    Here is a new, more creative set of icon options for the logo. Please choose the one you feel best represents Utsavs.
                 </p>
             </div>
 
