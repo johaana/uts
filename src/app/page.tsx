@@ -144,7 +144,7 @@ export default function Home() {
           <InternationalFestivalsShowcase />
            <div className="text-center mt-12 flex flex-col items-center gap-4">
                 <Link href="/international-festivals">
-                    <Button>
+                    <Button variant="gradient" className="shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
                         <Globe className="mr-2 h-4 w-4" />
                         Explore All International Festivals
                     </Button>
