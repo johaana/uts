@@ -3,16 +3,16 @@
 
 import { PageLayout } from "@/components/PageLayout";
 import { Card, CardContent } from "@/components/ui/card";
-import { Sparkles, Sun, Flower2, Flame, Gift, HandPlatter, Star } from "lucide-react";
+import { PartyPopper, Palette, Drama, Music, Sunrise, Feather, Moon } from "lucide-react";
 
 const logoOptions = [
-    { name: "Sparkles", icon: Sparkles },
-    { name: "Sun", icon: Sun },
-    { name: "Lotus", icon: Flower2 },
-    { name: "Flame", icon: Flame },
-    { name: "Gift", icon: Gift },
-    { name: "HandPlatter", icon: HandPlatter },
-    { name: "Star", icon: Star },
+    { name: "Party Popper", icon: PartyPopper },
+    { name: "Palette", icon: Palette },
+    { name: "Drama", icon: Drama },
+    { name: "Music", icon: Music },
+    { name: "Sunrise", icon: Sunrise },
+    { name: "Feather", icon: Feather },
+    { name: "Moon", icon: Moon },
 ];
 
 export default function LogoOptionsPage() {
