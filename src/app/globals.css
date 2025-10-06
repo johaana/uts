@@ -5,8 +5,8 @@
 
 @layer base {
   :root {
-    --background: 330 30% 98%;
-    --foreground: 330 20% 20%;
+    --background: 30 50% 98%;
+    --foreground: 20 20% 25%;
  
     --card: 0 0% 100%;
     --card-foreground: 240 10% 3.9%;
@@ -14,7 +14,7 @@
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 3.9%;
  
-    --primary: 325 70% 48%;
+    --primary: 340 85% 60%;
     --primary-foreground: 0 0% 100%;
  
     --secondary: 240 4.8% 95.9%;
@@ -23,31 +23,31 @@
     --muted: 240 4.8% 95.9%;
     --muted-foreground: 240 3.8% 46.1%;
  
-    --accent: 170 55% 40%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 45 100% 55%;
+    --accent-foreground: 30 100% 10%;
  
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
 
     --border: 240 5.9% 90%;
     --input: 240 5.9% 90%;
-    --ring: 325 70% 55%;
+    --ring: 340 85% 65%;
  
     --radius: 0.75rem;
 
     /* Gradient Colors */
-    --gradient-from: 325 70% 55%;
-    --gradient-to: 345 80% 60%;
+    --gradient-from: 340 85% 65%;
+    --gradient-to: 45 100% 60%;
 
-    --chart-1: 325 70% 48%;
-    --chart-2: 170 55% 40%;
+    --chart-1: 340 85% 60%;
+    --chart-2: 45 100% 55%;
     --chart-3: 210 60% 50%;
-    --chart-4: 30 100% 55%;
+    --chart-4: 170 55% 40%;
     --chart-5: 280 50% 55%;
   }
 
   .dark {
-    --background: 240 5% 12%;
+    --background: 20 10% 10%;
     --foreground: 0 0% 98%;
  
     --card: 240 5% 15%;
@@ -56,8 +56,8 @@
     --popover: 240 10% 3.9%;
     --popover-foreground: 0 0% 98%;
  
-    --primary: 325 70% 58%;
-    --primary-foreground: 325 70% 10%;
+    --primary: 340 85% 70%;
+    --primary-foreground: 340 85% 10%;
  
     --secondary: 240 3.7% 15.9%;
     --secondary-foreground: 0 0% 98%;
@@ -65,23 +65,23 @@
     --muted: 240 3.7% 15.9%;
     --muted-foreground: 240 5% 64.9%;
  
-    --accent: 170 55% 50%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 45 100% 65%;
+    --accent-foreground: 45 100% 10%;
  
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
  
     --border: 240 3.7% 20%;
     --input: 240 3.7% 15.9%;
-    --ring: 325 70% 58%;
+    --ring: 340 85% 70%;
 
-    --gradient-from: 325 70% 60%;
-    --gradient-to: 345 80% 65%;
+    --gradient-from: 340 85% 70%;
+    --gradient-to: 45 100% 70%;
 
-    --chart-1: 325 70% 58%;
-    --chart-2: 170 55% 50%;
+    --chart-1: 340 85% 70%;
+    --chart-2: 45 100% 65%;
     --chart-3: 210 50% 60%;
-    --chart-4: 30 90% 65%;
+    --chart-4: 170 55% 50%;
     --chart-5: 280 50% 65%;
   }
 }
