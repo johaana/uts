@@ -98,7 +98,7 @@ export function Header() {
             <Link href="/" className="flex items-center gap-2 py-1 group">
                  <Flame className={cn(
                     "transition-all duration-300 text-primary drop-shadow-[0_1px_2px_hsl(var(--primary)/0.5)]",
-                    isScrolled ? 'w-8 h-8' : 'w-10 h-10'
+                    isScrolled ? 'w-6 h-6' : 'w-8 h-8'
                   )} />
                 <span className="hidden md:block font-headline text-3xl font-bold self-center transition-transform duration-300 group-hover:scale-105 bg-gradient-to-r from-[hsl(var(--gradient-from))] to-[hsl(var(--gradient-to))] text-transparent bg-clip-text" style={{textShadow: '1px 1px 3px hsla(var(--primary), 0.1)'}}>Utsavs</span>
             </Link>
