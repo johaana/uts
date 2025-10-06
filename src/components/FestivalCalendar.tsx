@@ -221,27 +221,27 @@ export function FestivalCalendar({
             <Card className="p-4 md:p-6 mb-2">
                  <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4 items-center">
                     <Select onValueChange={setSelectedYear} value={selectedYear}>
-                        <SelectTrigger><SelectValue placeholder="Year" /></SelectTrigger>
+                        <SelectTrigger className="w-full"><Calendar className="w-4 h-4 mr-2 text-muted-foreground" /><SelectValue placeholder="Year" /></SelectTrigger>
                         <SelectContent>
                             {dynamicYears.map(year => <SelectItem key={year} value={year}>{year}</SelectItem>)}
                         </SelectContent>
                     </Select>
                     <Select onValueChange={setSelectedMonth} value={selectedMonth}>
-                        <SelectTrigger><SelectValue placeholder="Month" /></SelectTrigger>
+                        <SelectTrigger><Calendar className="w-4 h-4 mr-2 text-muted-foreground" /><SelectValue placeholder="Month" /></SelectTrigger>
                         <SelectContent>
                             <SelectItem value="all">All Months</SelectItem>
                             {defaultMonths.map(month => <SelectItem key={month} value={month}>{month}</SelectItem>)}
                         </SelectContent>
                     </Select>
                      <Select onValueChange={setSelectedRegion} value={selectedRegion}>
-                        <SelectTrigger><SelectValue placeholder="Region" /></SelectTrigger>
+                        <SelectTrigger><MapPin className="w-4 h-4 mr-2 text-muted-foreground" /><SelectValue placeholder="Region" /></SelectTrigger>
                         <SelectContent>
                              <SelectItem value="all">All Regions</SelectItem>
                             {availableRegions.map(region => <SelectItem key={region} value={region}>{region}</SelectItem>)}
                         </SelectContent>
                     </Select>
                     <Select onValueChange={setSelectedEventType} value={selectedEventType}>
-                        <SelectTrigger><SelectValue placeholder="Type" /></SelectTrigger>
+                        <SelectTrigger><Tag className="w-4 h-4 mr-2 text-muted-foreground" /><SelectValue placeholder="Type" /></SelectTrigger>
                         <SelectContent>
                              <SelectItem value="all">All Types</SelectItem>
                             {availableEventTypes.map(type => <SelectItem key={type} value={type}>{type}</SelectItem>)}

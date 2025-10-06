@@ -10,7 +10,7 @@ import { InternationalFestivalsShowcase } from "@/components/InternationalFestiv
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Bot } from "lucide-react";
 import Image from 'next/image';
-import { allEvents, internationalEvents } from "@/lib/festival-data";
+import { allEvents } from "@/lib/festival-data";
 import { FestivalCalendar } from "@/components/FestivalCalendar";
 
 
@@ -111,15 +111,11 @@ export default function Home() {
 
        <section className="py-12 md:pt-16 md:pb-24 bg-secondary/30">
             <div className="container mx-auto px-4">
-              <Card>
-                <CardContent className="p-6">
-                 <FestivalCalendar 
-                    events={allEvents}
-                    title="Festivals & Holidays Calendar"
-                    description="Plan your year around the vibrant celebrations of India. Never miss a festival or holiday with our comprehensive calendar."
-                 />
-                </CardContent>
-              </Card>
+              <FestivalCalendar 
+                events={allEvents}
+                title="Festivals & Holidays Calendar"
+                description="Plan your year around the vibrant celebrations of India. Never miss a festival or holiday with our comprehensive calendar."
+              />
             </div>
         </section>
       
