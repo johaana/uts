@@ -1,77 +1,42 @@
 'use client';
 
+import { PageLayout } from "@/components/PageLayout";
+import { Card, CardContent } from "@/components/ui/card";
+import { Leaf, Sprout, Wheat, Flame } from "lucide-react";
+import { Button } from "../components/ui/button";
 import Link from "next/link";
-import { Input } from "./ui/input";
-import { Button } from "./ui/button";
-import { useRouter } from "next/navigation";
-import React from "react";
-import { Search, Mail, Feather } from "lucide-react";
-import Image from "next/image";
 
+const logoOptions = [
+    { name: "Leaf", icon: Leaf },
+    { name: "Sprout", icon: Sprout },
+    { name: "Wheat", icon: Wheat },
+    { name: "Flame", icon: Flame },
+];
 
-export function Footer() {
-  const router = useRouter();
-
-  const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    const searchQuery = formData.get('search') as string;
-    if (searchQuery.trim()) {
-      router.push(`/festivals?search=${searchQuery.trim()}`);
-    }
-  };
-
+export default function LogoOptionsPage() {
   return (
-    <footer className="bg-secondary/50 border-t">
-      <div className="container mx-auto max-w-7xl px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12">
-            <div className="lg:col-span-3 flex flex-col items-center md:items-start text-center md:text-left">
-                 <Link href="/" className="flex items-center gap-2 mb-4">
-                    <Feather className="w-12 h-12 text-primary"/>
-                    <span className="font-headline text-2xl font-bold bg-gradient-to-r from-[hsl(var(--gradient-from))] to-[hsl(var(--gradient-to))] text-transparent bg-clip-text">Utsavs</span>
-                </Link>
-                <p className="text-foreground/80 max-w-xs text-sm">
-                  Utsavs is your definitive guide to the vibrant world of Indian festivals. Explore dates, traditions, recipes, and the stories that bring them to life.
-                </p>
-            </div>
-
-            <div className="lg:col-span-2 text-center md:text-left">
-              <h3 className="font-bold mb-4 font-headline text-lg text-primary">Explore</h3>
-              <ul className="space-y-3">
-                <li><Link href="/festivals" className="text-foreground/80 hover:text-primary">Indian Festivals</Link></li>
-                <li><Link href="/international-festivals" className="text-foreground/80 hover:text-primary">International</Link></li>
-                <li><Link href="/calendar" className="text-foreground/80 hover:text-primary">Explore by Month</Link></li>
-                <li><Link href="/recipes" className="text-foreground/80 hover:text-primary">Recipes</Link></li>
-                 <li><Link href="/blog" className="text-foreground/80 hover:text-primary">Blog</Link></li>
-                 <li><Link href="/planner" className="text-foreground/80 hover:text-primary">AI Planner</Link></li>
-                 <li><Link href="/about" className="text-foreground/80 hover:text-primary">About Us</Link></li>
-                 <li><Link href="/sitemap.xml" className="text-foreground/80 hover:text-primary">Sitemap</Link></li>
-              </ul>
-            </div>
-            
-            <div className="lg:col-span-3 text-center md:text-left">
-              <h3 className="font-bold mb-4 font-headline text-lg text-primary">Contact & Legal</h3>
-                <div className="space-y-3">
-                    <a href="mailto:joy@utsavs.com" className="flex items-center gap-2 text-foreground/80 hover:text-primary justify-center md:justify-start">
-                        <Mail className="w-4 h-4"/>
-                        <span>joy@utsavs.com</span>
-                    </a>
-                     <a href="http://paidforadvertising.com/" target="_blank" rel="noopener noreferrer nofollow" className="text-foreground/80 hover:text-primary text-sm">
-                        Affiliate Disclosure
-                    </a>
-                </div>
-            </div>
-
-             <div className="md:col-span-2 lg:col-span-4 text-center md:text-left">
-              <h3 className="font-bold mb-4 font-headline text-lg text-primary">Admin</h3>
-              <ul className="space-y-3">
-              </ul>
-            </div>
+    <PageLayout>
+        <div className="text-center mb-12">
+            <h1 className="font-headline text-4xl md:text-5xl font-bold">Logo Options</h1>
+            <p className="mt-4 text-lg text-foreground/80 max-w-3xl mx-auto">
+                Please choose the icon that best represents the Utsavs brand.
+            </p>
         </div>
-        <div className="mt-12 border-t pt-8 text-center text-sm text-foreground/60">
-          <p>&copy; {new Date().getFullYear()} Utsavs. All Rights Reserved.</p>
+
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {logoOptions.map((logo) => (
+                <Card key={logo.name} className="flex flex-col items-center justify-center p-8 aspect-square group cursor-pointer hover:bg-primary/10 transition-colors">
+                    <logo.icon className="w-16 h-16 text-primary group-hover:scale-110 transition-transform" />
+                    <p className="mt-4 font-bold text-lg text-foreground/80">{logo.name}</p>
+                </Card>
+            ))}
         </div>
-      </div>
-    </footer>
+
+        <div className="text-center mt-12">
+            <p className="text-muted-foreground">Once you have decided, let me know your choice.</p>
+        </div>
+
+    </PageLayout>
   );
 }
+    
