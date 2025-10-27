@@ -7,15 +7,14 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ShareButtons } from "@/components/ShareButtons";
-import type { Metadata } from 'next';
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 import { ProductCard } from "@/components/ProductCard";
 import { products } from "@/lib/product-data";
 
 const post = { 
-    title: "Ganesh Chaturthi 2025: Best Murti Designs, Decoration Ideas & Visarjan Dates", 
+    title: "Ganesh Chaturthi 2026: Best Murti Designs, Decoration Ideas & Visarjan Dates", 
     image: "https://i.postimg.cc/SNGxJ8VJ/ganesh-chaturthi-festival.jpg",
-    excerpt: "Your complete guide to celebrating Ganesh Chaturthi 2025! Discover stunning murti designs, creative home decoration ideas, and the all-important visarjan dates."
+    excerpt: "Your complete guide to celebrating Ganesh Chaturthi 2026! Discover stunning murti designs, creative home decoration ideas, and the all-important visarjan dates."
 };
 
 const relatedContent: RelatedItem[] = [
@@ -45,7 +44,7 @@ const relatedContent: RelatedItem[] = [
     }
 ];
 
-export default function GaneshChaturthi2025GuidePage() {
+export default function GaneshChaturthi2026GuidePage() {
     return (
         <div className="container mx-auto px-4 py-12">
             <div className="relative h-64 md:h-96 w-full mb-8">
@@ -64,9 +63,9 @@ export default function GaneshChaturthi2025GuidePage() {
                             <h1 className="font-headline text-4xl font-bold text-primary mt-2">{post.title}</h1>
                         </div>
 
-                        <p>Ganesh Chaturthi is a time of immense joy, devotion, and creativity. As we prepare to welcome Lord Ganesha in 2025, planning the perfect celebration is key. This guide covers everything from choosing the right murti to beautiful decoration ideas and the all-important visarjan dates.</p>
+                        <p>Ganesh Chaturthi is a time of immense joy, devotion, and creativity. As we prepare to welcome Lord Ganesha in 2026, planning the perfect celebration is key. This guide covers everything from choosing the right murti to beautiful decoration ideas and the all-important visarjan dates.</p>
 
-                        <h2 className="font-headline text-3xl text-primary">Best Murti Designs for 2025</h2>
+                        <h2 className="font-headline text-3xl text-primary">Best Murti Designs for 2026</h2>
                         <p>The heart of the celebration is the Ganesha idol. This year, the trend is moving towards devotion combined with artistry and sustainability.</p>
                         
                         <div className="not-prose my-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
@@ -94,15 +93,15 @@ export default function GaneshChaturthi2025GuidePage() {
                         </ul>
 
 
-                        <h2 className="font-headline text-3xl text-primary mt-12">Ganesh Visarjan 2025 Dates</h2>
-                        <p>The immersion of the Ganesha idol can take place after 1.5, 3, 5, 7, or 10 days. Here are the key dates:</p>
+                        <h2 className="font-headline text-3xl text-primary mt-12">Ganesh Visarjan 2026 Dates</h2>
+                        <p>The immersion of the Ganesha idol can take place after 1.5, 3, 5, 7, or 10 days. The festival begins on **September 5th, 2026**.</p>
                         
                          <Card className="my-8 bg-primary/10 border-primary/20">
                             <CardHeader>
                                 <CardTitle className="text-primary">Anant Chaturdashi (10th Day Visarjan)</CardTitle>
                             </CardHeader>
                             <CardContent>
-                                <p><strong>The final and grandest day for visarjan is Anant Chaturdashi on September 6, 2025.</strong></p>
+                                <p><strong>The final and grandest day for visarjan is Anant Chaturdashi on September 15, 2026.</strong></p>
                             </CardContent>
                         </Card>
 

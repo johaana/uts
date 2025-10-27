@@ -12,9 +12,9 @@ import { ProductCard } from "@/components/ProductCard";
 import { products } from "@/lib/product-data";
 
 const post = { 
-    title: "Diwali 2025: Your Guide to Lakshmi Puja Muhurat, Rituals, and Decor", 
+    title: "Diwali 2026: Your Guide to Lakshmi Puja Muhurat, Rituals, and Decor", 
     image: "https://i.postimg.cc/TYs5B2K4/lakshmi_puja.webp",
-    excerpt: "Your ultimate guide to Diwali 2025! Find the auspicious Lakshmi Puja timings, step-by-step puja vidhi, and stunning decoration ideas to make your celebration shine."
+    excerpt: "Your ultimate guide to Diwali 2026! Find the auspicious Lakshmi Puja timings, step-by-step puja vidhi, and stunning decoration ideas to make your celebration shine."
 };
 
 const relatedContent: RelatedItem[] = [
@@ -44,7 +44,7 @@ const relatedContent: RelatedItem[] = [
     }
 ];
 
-export default function Diwali2025GuidePage() {
+export default function Diwali2026GuidePage() {
     return (
         <div className="container mx-auto px-4 py-12">
             <div className="relative h-64 md:h-96 w-full mb-8">
@@ -63,21 +63,21 @@ export default function Diwali2025GuidePage() {
                             <h1 className="font-headline text-4xl font-bold text-primary mt-2">{post.title}</h1>
                         </div>
 
-                        <p>Diwali, the festival of lights, is the most anticipated celebration in the Hindu calendar. As 2025 approaches, it's time to prepare for the most important ritual: Lakshmi Puja. This guide provides the auspicious timings and a step-by-step vidhi to ensure you welcome the Goddess of Wealth with perfect devotion.</p>
+                        <p>Diwali, the festival of lights, is the most anticipated celebration in the Hindu calendar. As 2026 approaches, it's time to prepare for the most important ritual: Lakshmi Puja. This guide provides the auspicious timings and a step-by-step vidhi to ensure you welcome the Goddess of Wealth with perfect devotion.</p>
 
-                        <h2 className="font-headline text-3xl text-primary">Lakshmi Puja 2025: Shubh Muhurat & Vidhi</h2>
+                        <h2 className="font-headline text-3xl text-primary">Lakshmi Puja 2026: Shubh Muhurat & Vidhi</h2>
                         <p>The heart of Diwali lies in the Lakshmi Puja performed on the Amavasya (new moon) night. It is crucial to perform the puja during the 'Pradosh Kaal', which starts after sunset.</p>
                         
                         <Card className="my-8 bg-primary/10 border-primary/20">
                             <CardHeader>
-                                <CardTitle className="text-primary flex items-center gap-2"><Sparkles />Diwali Lakshmi Puja Muhurat 2025</CardTitle>
+                                <CardTitle className="text-primary flex items-center gap-2"><Sparkles />Diwali Lakshmi Puja Muhurat 2026</CardTitle>
                             </CardHeader>
                             <CardContent>
-                                <p><strong>Date:</strong> October 20, 2025 (Monday)</p>
-                                <p><strong>Amavasya Tithi Begins:</strong> 12:45 PM on Oct 20, 2025</p>
-                                <p><strong>Amavasya Tithi Ends:</strong> 02:42 PM on Oct 21, 2025</p>
-                                <p><strong>Pradosh Kaal:</strong> 05:46 PM to 08:20 PM</p>
-                                <p className="font-bold text-lg text-primary">Lakshmi Puja Muhurat: 06:15 PM to 07:10 PM (Duration: 55 Mins)</p>
+                                <p><strong>Date:</strong> October 29, 2026 (Thursday)</p>
+                                <p><strong>Amavasya Tithi Begins:</strong> 08:20 AM on Oct 29, 2026</p>
+                                <p><strong>Amavasya Tithi Ends:</strong> 10:29 AM on Oct 30, 2026</p>
+                                <p><strong>Pradosh Kaal:</strong> 05:38 PM to 08:11 PM</p>
+                                <p className="font-bold text-lg text-primary">Lakshmi Puja Muhurat: 05:38 PM to 07:34 PM (Duration: 1 Hour 56 Mins)</p>
                             </CardContent>
                         </Card>
 
@@ -89,7 +89,7 @@ export default function Diwali2025GuidePage() {
                             <li><strong>Aarti:</strong> Conclude the puja with the Lakshmi Aarti, ringing bells and showering flowers.</li>
                         </ol>
 
-                        <h2 className="font-headline text-3xl text-primary mt-12">Stunning Decoration Ideas for 2025</h2>
+                        <h2 className="font-headline text-3xl text-primary mt-12">Stunning Decoration Ideas for 2026</h2>
                         <div className="grid md:grid-cols-2 gap-6 my-8 not-prose">
                             <Card>
                                 <CardContent className="p-4">
