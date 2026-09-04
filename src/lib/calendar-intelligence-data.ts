@@ -9,7 +9,7 @@ export interface GHIEvent {
   country: string;
   countryCode: string;
   scope: 'National' | 'Regional' | 'Local' | 'Global';
-  date: string; // ISO format for logic, or human readable
+  date: string; // ISO format for logic
   day: number;
   month: number; // 0-11
   category: string[];
@@ -19,28 +19,51 @@ export interface GHIEvent {
   whyItMatters: string;
   regionalContext: string;
   impact: string;
+  image?: string;
+  hint?: string;
 }
 
 export const GHI_RECORDS: GHIEvent[] = [
   {
-    id: 'ganesh-in',
-    name: 'Ganesh Chaturthi',
+    id: 'janmashtami-26',
+    name: 'Janmashtami / Dahi Handi',
     country: 'India',
     countryCode: 'IN',
     scope: 'Regional',
-    date: '2026-09-05',
-    day: 5,
+    date: '2026-09-04',
+    day: 4,
     month: 8,
     category: ['Religious', 'Public Holiday'],
     type: 'Religious',
     model: 'Lunisolar',
     status: 'Confirmed',
-    whyItMatters: 'Marks the birth of Lord Ganesha. Symbolizes wisdom, new beginnings, and the removal of obstacles.',
-    regionalContext: 'Primary impact in Maharashtra and Karnataka. Public processions cause significant urban movement.',
-    impact: 'Full office and bank closures in specific states.'
+    whyItMatters: 'Celebrates the birth of Lord Krishna. Dahi Handi reenacts his childhood love for butter.',
+    regionalContext: 'Primary impact in Maharashtra. Public processions and human pyramids (Dahi Handi) create major urban movement.',
+    impact: 'Market closures in Mumbai and Pune. High traffic density.',
+    image: 'https://i.postimg.cc/T3ccXCRv/dahi-handi.jpg',
+    hint: 'dahi handi'
   },
   {
-    id: 'respect-jp',
+    id: 'ganesh-26',
+    name: 'Ganesh Chaturthi',
+    country: 'India',
+    countryCode: 'IN',
+    scope: 'Regional',
+    date: '2026-09-15',
+    day: 15,
+    month: 8,
+    category: ['Religious', 'Public Holiday'],
+    type: 'Religious',
+    model: 'Lunisolar',
+    status: 'Confirmed',
+    whyItMatters: 'Marks the birth of Lord Ganesha, the remover of obstacles.',
+    regionalContext: 'Massive 10-day celebration in West India. Final immersion processions on Sep 25.',
+    impact: 'Full office and bank closures in Maharashtra and Goa.',
+    image: 'https://i.postimg.cc/SNGxJ8VJ/ganesh-chaturthi-festival.jpg',
+    hint: 'ganesha idol'
+  },
+  {
+    id: 'respect-jp-26',
     name: 'Respect for the Aged Day',
     country: 'Japan',
     countryCode: 'JP',
@@ -52,12 +75,14 @@ export const GHI_RECORDS: GHIEvent[] = [
     type: 'Public',
     model: 'Fixed',
     status: 'Confirmed',
-    whyItMatters: 'A day to honor elderly citizens and celebrate their longevity.',
-    regionalContext: 'Observed nationwide. Government and financial institutions are offline.',
-    impact: 'National bank holiday.'
+    whyItMatters: 'National holiday to honor elderly citizens.',
+    regionalContext: 'Observed nationwide across all prefectures.',
+    impact: 'Japan financial markets and banks closed.',
+    image: 'https://picsum.photos/seed/jp-aged/1200/800',
+    hint: 'japan culture'
   },
   {
-    id: 'mid-autumn-cn',
+    id: 'mid-autumn-26',
     name: 'Mid-Autumn Festival',
     country: 'China',
     countryCode: 'CN',
@@ -69,42 +94,29 @@ export const GHI_RECORDS: GHIEvent[] = [
     type: 'Cultural',
     model: 'Lunisolar',
     status: 'Confirmed',
-    whyItMatters: 'A harvest festival celebrating family reunion, centered around moon worship and mooncakes.',
-    regionalContext: 'Massive internal migration. Logistical hubs typically operate at 50% capacity.',
-    impact: '3-day public holiday bridge.'
+    whyItMatters: 'A major harvest festival celebrating family and reunions.',
+    regionalContext: 'Massive logistics impact across East Asia.',
+    impact: '3-day national holiday bridge.',
+    image: 'https://i.postimg.cc/XJs7rMdt/Yi-Peng-Lantern-Festival-Thailand.webp',
+    hint: 'mid autumn lanterns'
   },
   {
-    id: 'diwali-in',
-    name: 'Diwali',
+    id: 'diwali-in-26',
+    name: 'Diwali (Lakshmi Puja)',
     country: 'India',
     countryCode: 'IN',
     scope: 'National',
     date: '2026-11-08',
     day: 8,
     month: 10,
-    category: ['Religious', 'Public Holiday', 'Cultural'],
+    category: ['Religious', 'Public Holiday'],
     type: 'Public',
     model: 'Lunisolar',
     status: 'Confirmed',
-    whyItMatters: 'The spiritual victory of light over darkness and knowledge over ignorance.',
-    regionalContext: 'Date varies in South India (Naraka Chaturdashi). North India observes major market closures.',
-    impact: 'Widespread commercial shutdown for 2-5 days.'
-  },
-  {
-    id: 'thanksgiving-us',
-    name: 'Thanksgiving',
-    country: 'USA',
-    countryCode: 'US',
-    scope: 'National',
-    date: '2026-11-26',
-    day: 26,
-    month: 10,
-    category: ['Public Holiday', 'Cultural'],
-    type: 'Public',
-    model: 'Declared',
-    status: 'Confirmed',
-    whyItMatters: 'A national holiday dedicated to giving thanks for the harvest and the preceding year.',
-    regionalContext: 'Federal closure. Creates a 4-day operational gap in North American markets.',
-    impact: 'National retail and corporate closure.'
+    whyItMatters: 'The spiritual victory of light over darkness.',
+    regionalContext: 'Major market closures across North and West India.',
+    impact: 'Widespread commercial shutdown for 2-5 days.',
+    image: 'https://i.postimg.cc/TYs5B2K4/lakshmi_puja.webp',
+    hint: 'lakshmi ganesh puja'
   }
 ];
