@@ -3,7 +3,7 @@
 
 import { useState, useMemo, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
@@ -15,13 +15,13 @@ import { cn } from '@/lib/utils';
 import React from 'react';
 
 const defaultMonths = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-const defaultRegions = ["Nationwide", "North", "South", "East", "West", "Northeast", "Central", "Global"];
 const defaultEventTypes = ["Festivals", "Holidays", "Long Weekends"];
 
 interface FestivalEvent {
     name: string;
     date: string;
     region: string;
+    country?: string;
     type: string;
     link?: string;
     longWeekend?: boolean;
@@ -38,7 +38,6 @@ interface FestivalCalendarProps {
 
 export function FestivalCalendar({
     events = defaultEvents,
-    availableRegions = defaultRegions,
     availableEventTypes = defaultEventTypes,
     title,
     description,
@@ -46,9 +45,13 @@ export function FestivalCalendar({
 }: FestivalCalendarProps) {
     const [isClient, setIsClient] = useState(false);
     const [selectedMonth, setSelectedMonth] = useState('all');
-    const [selectedRegion, setSelectedRegion] = useState('all');
+    const [selectedGeography, setSelectedGeography] = useState('all');
     const [selectedEventType, setSelectedEventType] = useState('all');
     const [selectedYear, setSelectedYear] = useState('Upcoming');
+
+    useEffect(() => {
+        setIsClient(true);
+    }, []);
 
     const dynamicYears = useMemo(() => {
         const years = Array.from(new Set(events.map(event => {
@@ -60,11 +63,13 @@ export function FestivalCalendar({
         
         return ['Upcoming', ...years.sort().map(String), 'All Years'];
     }, [events]);
-    
-    useEffect(() => {
-        setIsClient(true);
-    }, []);
 
+    const geographies = useMemo(() => {
+        const countries = Array.from(new Set(events.filter(e => e.country).map(e => e.country)));
+        const regions = Array.from(new Set(events.filter(e => !e.country).map(e => e.region)));
+        return Array.from(new Set([...countries, ...regions])).sort();
+    }, [events]);
+    
     const getEventDateRange = (dateString: string): { start: Date, end: Date } | null => {
         try {
             const parts = dateString.split(' - ');
@@ -89,7 +94,6 @@ export function FestivalCalendar({
             }
             return { start: startOfDay(startDate), end: endOfDay(endDate) };
         } catch (e) {
-            console.error("Error parsing date string:", dateString, e);
             return null;
         }
     };
@@ -98,17 +102,16 @@ export function FestivalCalendar({
         if (!isClient) return [];
 
         const today = startOfToday();
-        const oneYearFromNow = addYears(today, 1);
+        const futureLimit = addYears(today, 3);
         const selectedMonthIndex = selectedMonth === 'all' ? -1 : defaultMonths.indexOf(selectedMonth);
 
         let filtered = events.filter(event => {
             const range = getEventDateRange(event.date);
             if (!range) return false;
 
-            // Year Filtering Logic
             let yearMatch = false;
             if (selectedYear === 'Upcoming') {
-                yearMatch = range.end >= today && range.start <= oneYearFromNow;
+                yearMatch = range.end >= today;
             } else if (selectedYear === 'All Years') {
                 yearMatch = true;
             } else {
@@ -116,20 +119,17 @@ export function FestivalCalendar({
                 yearMatch = getYear(range.start) === yearNum || getYear(range.end) === yearNum;
             }
             
-            // Month Filtering
             const monthMatch = selectedMonth === 'all' || 
-                (range.start.getMonth() <= selectedMonthIndex && range.end.getMonth() >= selectedMonthIndex) ||
-                (getYear(range.start) < getYear(range.end) && (range.start.getMonth() <= selectedMonthIndex || range.end.getMonth() >= selectedMonthIndex));
+                (range.start.getMonth() <= selectedMonthIndex && range.end.getMonth() >= selectedMonthIndex);
 
-
-            // Region Filtering
-            const regionMatch = selectedRegion === 'all' || event.region === selectedRegion || event.region.includes(selectedRegion);
+            const geoMatch = selectedGeography === 'all' || 
+                event.country === selectedGeography || 
+                event.region === selectedGeography;
             
-            // Event Type Filtering
             let eventTypeMatch = true;
             if (selectedEventType !== 'all') {
                  if (selectedEventType === 'Festivals') {
-                    eventTypeMatch = event.type !== 'Holiday' && event.type !== 'Diwali';
+                    eventTypeMatch = !['Holiday', 'Diwali'].includes(event.type);
                 } else if (selectedEventType === 'Holidays') {
                     eventTypeMatch = event.type === 'Holiday';
                 } else if (selectedEventType === 'Long Weekends') {
@@ -139,109 +139,62 @@ export function FestivalCalendar({
                 }
             }
 
-            return yearMatch && monthMatch && regionMatch && eventTypeMatch;
+            return yearMatch && monthMatch && geoMatch && eventTypeMatch;
         });
         
-        // Finally, sort by date
         filtered.sort((a, b) => {
              const dateA = getEventDateRange(a.date)?.start.getTime() || 0;
              const dateB = getEventDateRange(b.date)?.start.getTime() || 0;
              return dateA - dateB;
         });
 
-
         return filtered;
-    }, [isClient, selectedYear, selectedMonth, selectedRegion, selectedEventType, events]);
-
-    
-    const formatDateString = (dateString: string) => {
-        const range = getEventDateRange(dateString);
-        if (!range) return dateString;
-        const { start, end } = range;
-        
-        const singleDay = format(start, 'yyyy-MM-dd') === format(end, 'yyyy-MM-dd');
-        
-        if (singleDay) {
-            return format(start, 'MMM dd, yyyy (EEEE)');
-        }
-        
-        if (getYear(start) !== getYear(end)) {
-            return `${format(start, 'MMM dd, yyyy')} - ${format(end, 'MMM dd, yyyy')}`;
-        } else if (getMonth(start) !== getMonth(end)) {
-            return `${format(start, 'MMM dd')} - ${format(end, 'MMM dd, yyyy')}`;
-        } else {
-            return `${format(start, 'MMM dd')} - ${format(end, 'dd, yyyy')}`;
-        }
-    };
+    }, [isClient, selectedYear, selectedMonth, selectedGeography, selectedEventType, events]);
 
     const getBadgeClass = (type: string) => {
         switch(type) {
             case 'Religious': return 'bg-chart-3 text-white';
-            case 'Harvest': return 'bg-green-600/90 text-white';
-            case 'Holiday': return 'border-blue-500/80 text-blue-600';
+            case 'Harvest': return 'bg-green-600 text-white';
+            case 'Holiday': return 'border-blue-500 text-blue-600';
             case 'Cultural': return 'bg-chart-5 text-white';
             case 'New Year': return 'bg-chart-1 text-white';
-            case 'Seasonal': return 'bg-chart-4 text-white/90';
-            case 'Diwali': return 'bg-amber-500 text-white';
-            case 'Solar': return 'bg-orange-500 text-white';
-            case 'Monsoon': return 'bg-indigo-500 text-white';
             default: return 'bg-secondary text-secondary-foreground';
         }
     };
 
-    const renderEventName = (name: string, link?: string) => {
-        const content = name.split(' (')[0];
-        const subtext = name.match(/\(([^)]+)\)/);
-
-        const nameElement = link ? (
-            <Link href={link} className="font-bold text-base hover:underline hover:text-primary">{content}</Link>
-        ) : (
-            <span className="font-bold text-base">{content}</span>
-        );
-        
-        return (
-            <>
-                {nameElement}
-                {subtext && <span className="font-normal text-muted-foreground ml-1">({subtext[1]})</span>}
-            </>
-        );
-    };
-
     return (
         <div className="w-full">
-           {title && description && (
+           {title && (
                 <div className="text-center mb-12">
                     <h2 className="font-headline text-3xl md:text-5xl font-bold text-primary">{title}</h2>
-                    <p className="mt-3 text-base md:text-lg text-foreground/80 max-w-2xl mx-auto">
-                        {description}
-                    </p>
+                    {description && <p className="mt-3 text-base text-foreground/80 max-w-2xl mx-auto">{description}</p>}
                 </div>
             )}
             
-            <Card className="p-4 md:p-6 mb-2">
-                 <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4 items-center">
+            <Card className="p-4 mb-8">
+                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 items-center">
                     <Select onValueChange={setSelectedYear} value={selectedYear}>
-                        <SelectTrigger className="w-full"><Calendar className="w-4 h-4 mr-2 text-muted-foreground" /><SelectValue placeholder="Year" /></SelectTrigger>
+                        <SelectTrigger><Calendar className="w-4 h-4 mr-2" /><SelectValue placeholder="Year" /></SelectTrigger>
                         <SelectContent>
                             {dynamicYears.map(year => <SelectItem key={year} value={year}>{year}</SelectItem>)}
                         </SelectContent>
                     </Select>
                     <Select onValueChange={setSelectedMonth} value={selectedMonth}>
-                        <SelectTrigger><Calendar className="w-4 h-4 mr-2 text-muted-foreground" /><SelectValue placeholder="Month" /></SelectTrigger>
+                        <SelectTrigger><Calendar className="w-4 h-4 mr-2" /><SelectValue placeholder="Month" /></SelectTrigger>
                         <SelectContent>
                             <SelectItem value="all">All Months</SelectItem>
                             {defaultMonths.map(month => <SelectItem key={month} value={month}>{month}</SelectItem>)}
                         </SelectContent>
                     </Select>
-                     <Select onValueChange={setSelectedRegion} value={selectedRegion}>
-                        <SelectTrigger><MapPin className="w-4 h-4 mr-2 text-muted-foreground" /><SelectValue placeholder="Region" /></SelectTrigger>
+                     <Select onValueChange={setSelectedGeography} value={selectedGeography}>
+                        <SelectTrigger><MapPin className="w-4 h-4 mr-2" /><SelectValue placeholder="Country / Region" /></SelectTrigger>
                         <SelectContent>
-                             <SelectItem value="all">All Regions</SelectItem>
-                            {availableRegions.map(region => <SelectItem key={region} value={region}>{region}</SelectItem>)}
+                             <SelectItem value="all">Everywhere</SelectItem>
+                            {geographies.map(geo => <SelectItem key={geo} value={geo}>{geo}</SelectItem>)}
                         </SelectContent>
                     </Select>
                     <Select onValueChange={setSelectedEventType} value={selectedEventType}>
-                        <SelectTrigger><Tag className="w-4 h-4 mr-2 text-muted-foreground" /><SelectValue placeholder="Type" /></SelectTrigger>
+                        <SelectTrigger><Tag className="w-4 h-4 mr-2" /><SelectValue placeholder="Type" /></SelectTrigger>
                         <SelectContent>
                              <SelectItem value="all">All Types</SelectItem>
                             {availableEventTypes.map(type => <SelectItem key={type} value={type}>{type}</SelectItem>)}
@@ -250,121 +203,38 @@ export function FestivalCalendar({
                 </div>
             </Card>
 
-            {showLongWeekendInfo && (
-                 <div className="flex items-center justify-start text-sm text-muted-foreground mb-8 ml-2">
-                    <Star className="w-4 h-4 mr-2 text-amber-500 fill-amber-500" />
-                    <span>Indicates a long weekend opportunity. See our <Link href="/blog/long-weekends-2025" className="font-semibold text-accent-foreground bg-accent/20 hover:bg-accent/40 px-2 py-0.5 rounded-md transition-colors">Long Weekends Guide</Link> for travel ideas.</span>
-                </div>
-            )}
-
-            <div className="hidden md:block">
-                 <Card className="overflow-hidden">
-                    <div className={cn("overflow-y-auto", "max-h-[60vh] relative")}>
-                        <Table>
-                            <TableHeader className="sticky top-0 bg-background z-10">
-                                <TableRow>
-                                    <TableHead className="w-[250px] text-primary">Date</TableHead>
-                                    <TableHead className="text-primary">Name</TableHead>
-                                    <TableHead className="text-primary">Region</TableHead>
-                                    <TableHead className="text-primary">Type</TableHead>
-                                    <TableHead className="text-right text-primary">Details</TableHead>
+            <Card className="overflow-hidden">
+                <Table>
+                    <TableHeader className="bg-muted/50">
+                        <TableRow>
+                            <TableHead>Date</TableHead>
+                            <TableHead>Festival</TableHead>
+                            <TableHead>Location</TableHead>
+                            <TableHead>Type</TableHead>
+                            <TableHead className="text-right">Link</TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        {!isClient ? (
+                            <TableRow><TableCell colSpan={5} className="text-center py-10"><Loader2 className="animate-spin inline mr-2"/>Loading...</TableCell></TableRow>
+                        ) : filteredEvents.length > 0 ? (
+                            filteredEvents.map((event, i) => (
+                                <TableRow key={i}>
+                                    <TableCell className="font-data text-xs">{event.date}</TableCell>
+                                    <TableCell className="font-bold">{event.name}</TableCell>
+                                    <TableCell className="text-sm">{event.country || event.region}</TableCell>
+                                    <TableCell><Badge className={getBadgeClass(event.type)}>{event.type}</Badge></TableCell>
+                                    <TableCell className="text-right">
+                                        {event.link ? <Link href={event.link}><Button size="icon" variant="ghost"><ArrowRight className="h-4 w-4"/></Button></Link> : null}
+                                    </TableCell>
                                 </TableRow>
-                            </TableHeader>
-                            <TableBody>
-                                {!isClient ? (
-                                    <TableRow>
-                                        <TableCell colSpan={5} className="text-center h-24">
-                                            <div className="flex items-center justify-center">
-                                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                                Loading calendar...
-                                            </div>
-                                        </TableCell>
-                                    </TableRow>
-                                ) : filteredEvents.length > 0 ? (
-                                    filteredEvents.map((event, index) => (
-                                        <TableRow key={event.name + event.date + index}>
-                                            <TableCell className="w-[250px] font-medium">{formatDateString(event.date)}</TableCell>
-                                            <TableCell>
-                                                {renderEventName(event.name, event.link)}
-                                                {event.longWeekend && <Star className="w-4 h-4 text-amber-500 fill-amber-500 inline-block ml-2" />}
-                                            </TableCell>
-                                            <TableCell>{event.region}</TableCell>
-                                            <TableCell>
-                                                <Badge variant="outline" className={cn('border-transparent', getBadgeClass(event.type))}>
-                                                    {event.type}
-                                                </Badge>
-                                            </TableCell>
-                                            <TableCell className="text-right">
-                                                {event.link && (event.link.startsWith('/') || event.link.startsWith('http')) ? (
-                                                    <Link href={event.link}>
-                                                        <Button variant="ghost" size="icon">
-                                                            <ArrowRight className="h-4 w-4" />
-                                                        </Button>
-                                                    </Link>
-                                                ) : <div className="h-10 w-10"/>}
-                                            </TableCell>
-                                        </TableRow>
-                                    ))
-                                ) : (
-                                    <TableRow>
-                                        <TableCell colSpan={5} className="text-center h-24">
-                                            No events found for the selected filters.
-                                        </TableCell>
-                                    </TableRow>
-                                )}
-                            </TableBody>
-                        </Table>
-                    </div>
-                </Card>
-            </div>
-
-            <div className={cn("md:hidden space-y-4", "max-h-[60vh] overflow-y-auto pr-2 relative")}>
-                 {!isClient ? (
-                    <Card className="text-center h-24 flex items-center justify-center text-muted-foreground">
-                        <div className="flex items-center">
-                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                            Loading calendar...
-                        </div>
-                    </Card>
-                 ) : filteredEvents.length > 0 ? (
-                    filteredEvents.map((event, index) => (
-                        <Card key={event.name + event.date + index} className="p-4">
-                            <CardContent className="p-0 flex items-center justify-between">
-                                <div className="flex-1">
-                                    <div className="font-bold flex items-center gap-2 mb-2">
-                                        {renderEventName(event.name, event.link)}
-                                        {event.longWeekend && <Star className="w-4 h-4 text-amber-500 fill-amber-500 inline-block ml-2" />}
-                                    </div>
-                                     <p className="text-sm text-muted-foreground flex items-center gap-2 mb-2">
-                                        <Calendar className="w-4 h-4" />
-                                        {formatDateString(event.date)}
-                                     </p>
-                                     <div className="flex items-center gap-4">
-                                         <p className="text-sm text-muted-foreground flex items-center gap-2">
-                                            <MapPin className="w-4 h-4" />
-                                            {event.region}
-                                         </p>
-                                         <Badge variant="outline" className={cn("text-xs border-transparent", getBadgeClass(event.type))}>
-                                            {event.type}
-                                         </Badge>
-                                     </div>
-                                </div>
-                                {event.link && (event.link.startsWith('/') || event.link.startsWith('http')) && (
-                                    <Link href={event.link} className="ml-4">
-                                        <Button variant="ghost" size="icon">
-                                            <ArrowRight className="h-5 w-5" />
-                                        </Button>
-                                    </Link>
-                                )}
-                            </CardContent>
-                        </Card>
-                    ))
-                ) : (
-                    <Card className="text-center h-24 flex items-center justify-center text-muted-foreground">
-                        No events found for the selected filters.
-                    </Card>
-                )}
-            </div>
+                            ))
+                        ) : (
+                            <TableRow><TableCell colSpan={5} className="text-center py-10">No events found for these filters.</TableCell></TableRow>
+                        )}
+                    </TableBody>
+                </Table>
+            </Card>
         </div>
     );
 }

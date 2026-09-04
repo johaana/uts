@@ -4,7 +4,7 @@
 import { useParams, useRouter } from 'next/navigation';
 import { allEvents, internationalEvents } from '@/lib/festival-data';
 import { useMemo } from 'react';
-import { parse } from 'date-fns';
+import { parse, isValid } from 'date-fns';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -28,12 +28,9 @@ const monthData: { [key: string]: { image: string; hint: string; tagline: string
 
 
 export default function MonthPage() {
-    const router = useRouter();
     const params = useParams();
     const monthName = Array.isArray(params.month) ? params.month[0] : params.month;
-
     const monthIndex = new Date(Date.parse(monthName +" 1, 2025")).getMonth();
-
     const currentMonthData = monthData[monthName.toLowerCase()];
     
     const allGlobalEvents = [...allEvents, ...internationalEvents];
@@ -43,21 +40,19 @@ export default function MonthPage() {
         return allGlobalEvents.filter(event => {
             const dateStr = event.date.split(' - ')[0];
             const eventDate = parse(dateStr, 'MMM dd, yyyy', new Date());
-            return eventDate.getMonth() === monthIndex;
+            return isValid(eventDate) && eventDate.getMonth() === monthIndex;
         }).sort((a, b) => {
-            const dateA = parse(a.date.split(' - ')[0], 'MMM dd, yyyy', new Date()).getDate();
-            const dateB = parse(b.date.split(' - ')[0], 'MMM dd, yyyy', new Date()).getDate();
-            return dateA - dateB;
+            const dateA = parse(a.date.split(' - ')[0], 'MMM dd, yyyy', new Date());
+            const dateB = parse(b.date.split(' - ')[0], 'MMM dd, yyyy', new Date());
+            return dateA.getTime() - dateB.getTime();
         });
-    }, [monthIndex]);
+    }, [monthIndex, allGlobalEvents]);
 
     if (!currentMonthData) {
         return (
-            <div className="flex items-center justify-center h-screen">
+            <div className="flex flex-col items-center justify-center h-screen">
                 <p>Invalid month. Please return to the calendar.</p>
-                <Link href="/calendar">
-                    <Button variant="link">Back to Calendar</Button>
-                </Link>
+                <Link href="/calendar"><Button className="mt-4">Back to Calendar</Button></Link>
             </div>
         )
     }
@@ -83,40 +78,34 @@ export default function MonthPage() {
                 </div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {festivals.map(festival => (
-                         <Card key={festival.slug || festival.name} className="bg-background/70 hover:bg-background transition-shadow duration-300 shadow-md hover:shadow-xl">
+                    {festivals.map((festival, i) => (
+                         <Card key={i} className="bg-background/70 hover:bg-background transition-shadow duration-300 shadow-md hover:shadow-xl">
                             <CardContent className="p-6">
-                                <h3 className="font-headline text-2xl font-bold text-primary mb-2">{festival.name.split(' (')[0]}</h3>
-                                <p className="text-sm text-muted-foreground mb-3">{festival.region}</p>
-                                <p className="text-foreground/80 mb-4 text-sm">{festival.description}</p>
-                                <Link href={festival.link || '#'} passHref>
-                                    <Button variant="link" className="p-0 text-accent">
-                                        Explore Festival <ArrowRight className="w-4 h-4 ml-2"/>
-                                    </Button>
-                                </Link>
+                                <h3 className="font-headline text-2xl font-bold text-primary mb-1">{festival.name}</h3>
+                                <p className="text-xs font-data mb-2 text-muted-foreground">{festival.date}</p>
+                                <p className="text-sm font-semibold text-accent mb-3">{festival.country || festival.region}</p>
+                                <p className="text-foreground/80 mb-4 text-sm line-clamp-3">{festival.description}</p>
+                                {festival.link && (
+                                    <Link href={festival.link}>
+                                        <Button variant="link" className="p-0 text-primary">
+                                            Explore <ArrowRight className="w-4 h-4 ml-2"/>
+                                        </Button>
+                                    </Link>
+                                )}
                             </CardContent>
                         </Card>
                     ))}
                 </div>
 
                 <div className="flex justify-between items-center mt-16">
-                     <Link href={`/calendar/${currentMonthData.prev}`} passHref>
-                        <Button variant="outline">
-                            <ArrowLeft className="w-4 h-4 mr-2" />
-                            Previous Month
-                        </Button>
+                     <Link href={`/calendar/${currentMonthData.prev}`}>
+                        <Button variant="outline"><ArrowLeft className="w-4 h-4 mr-2" /> {currentMonthData.prev}</Button>
                     </Link>
-                     <Link href="/calendar" passHref>
-                        <Button>Back to Yearly Calendar</Button>
-                    </Link>
-                     <Link href={`/calendar/${currentMonthData.next}`} passHref>
-                        <Button variant="outline">
-                           Next Month
-                            <ArrowRight className="w-4 h-4 ml-2" />
-                        </Button>
+                     <Link href="/calendar"><Button>Yearly View</Button></Link>
+                     <Link href={`/calendar/${currentMonthData.next}`}>
+                        <Button variant="outline">{currentMonthData.next} <ArrowRight className="w-4 h-4 ml-2" /></Button>
                     </Link>
                 </div>
-
             </div>
         </div>
     );
