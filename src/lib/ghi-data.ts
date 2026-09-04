@@ -1,3 +1,4 @@
+
 /**
  * @fileOverview TEMPORARY PROTOTYPE DATA — replace with production intelligence layer later.
  * High-fidelity data points for the cinematic GHI prototype.
