@@ -1,185 +1,207 @@
 'use client';
 
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, useScroll, useTransform, AnimatePresence, useSpring } from 'framer-motion';
 import Link from 'next/link';
-import { format, parse, isFuture, isToday, startOfDay, addDays } from 'date-fns';
-import { allEvents, internationalEvents } from '@/lib/festival-data';
-import { DIWALI_NUANCE, LONG_WEEKENDS_PROTOTYPE, CountryNuance } from '@/lib/ghi-data';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Search, ArrowRight, Info, Calendar as CalendarIcon, MapPin, Globe } from 'lucide-react';
+import Image from 'next/image';
+import { Search, ArrowRight, MapPin, Sparkles, Zap, Globe, Layers, Wind } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { TODAY_RECORDS, DIWALI_NUANCE, LONG_WEEKENDS_CINEMA } from '@/lib/ghi-data';
 
 /**
- * GHI Header: Minimal and focused
+ * 00. CUSTOM CURSOR / ANNOTATOR
  */
-function GHIHeader() {
+function DataCursor() {
+  const [pos, setPos] = useState({ x: 0, y: 0 });
+  useEffect(() => {
+    const handle = (e: MouseEvent) => setPos({ x: e.clientX, y: e.clientY });
+    window.addEventListener('mousemove', handle);
+    return () => window.removeEventListener('mousemove', handle);
+  }, []);
+
   return (
-    <header className="h-16 border-b border-[#DED9D0] bg-[#F7F4EE] sticky top-0 z-50 px-6 flex items-center justify-between">
-      <div className="flex items-center gap-4">
-        <Link href="/" className="font-headline text-2xl font-bold tracking-tight text-[#17151A]">
-          UTSAVS
-        </Link>
-        <span className="hidden sm:inline text-[9px] font-bold uppercase tracking-[0.2em] text-[#6D6870] mt-1 border-l border-[#DED9D0] pl-4">
-          Global Holiday Intelligence
-        </span>
+    <motion.div 
+      className="fixed pointer-events-none z-[9999] hidden lg:flex items-center gap-4"
+      animate={{ x: pos.x + 20, y: pos.y + 20 }}
+      transition={{ type: 'spring', damping: 30, stiffness: 400 }}
+    >
+      <div className="w-4 h-4 border border-coral rounded-full" />
+      <span className="font-mono text-[9px] text-coral uppercase tracking-widest bg-ivory/80 px-2 py-1 rounded">
+        {pos.x.toFixed(0)}:{pos.y.toFixed(0)}
+      </span>
+    </motion.div>
+  );
+}
+
+/**
+ * 01. HEADER — Minimalist / Floating
+ */
+function Header() {
+  return (
+    <header className="fixed top-0 left-0 right-0 h-20 z-50 flex items-center justify-between px-10">
+      <div className="flex flex-col">
+        <span className="font-headline text-2xl font-bold tracking-tight text-ink">UTSAVS</span>
+        <span className="text-[8px] font-bold uppercase tracking-[0.3em] text-muted-foreground -mt-1">GLOBAL INTELLIGENCE</span>
       </div>
-      <Link href="/" className="text-[11px] font-bold uppercase tracking-widest text-[#6D6870] hover:text-[#E94368] transition-colors">
-        ← utsavs.com
-      </Link>
+      <div className="flex items-center gap-8">
+        <div className="hidden md:flex gap-6 text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60">
+          <span className="text-ink">Live Ticker:</span>
+          <span>U_GEN_921 Confirmed</span>
+          <span className="text-coral">●</span>
+          <span>Lunisolar Sync Complete</span>
+        </div>
+        <Link href="/" className="text-[10px] font-bold uppercase tracking-widest text-ink hover:text-coral transition-colors">
+          ← Back to Site
+        </Link>
+      </div>
     </header>
   );
 }
 
 /**
- * Hero Section: "Today, Actually"
+ * 02. CINEMATIC HERO
  */
-function GHIHero() {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [isClient, setIsClient] = useState(false);
-  const now = startOfDay(new Date());
-
-  useEffect(() => setIsClient(true), []);
-
-  const todayEvent = useMemo(() => {
-    const combined = [...allEvents, ...internationalEvents];
-    const match = combined.find(e => {
-      const d = parse(e.date.split(' - ')[0], 'MMM dd, yyyy', new Date());
-      return isToday(d);
-    });
-    if (match) return { ...match, isToday: true };
-    
-    const next = combined
-      .map(e => ({ ...e, parsedDate: parse(e.date.split(' - ')[0], 'MMM dd, yyyy', new Date()) }))
-      .filter(e => isFuture(e.parsedDate))
-      .sort((a, b) => a.parsedDate.getTime() - b.parsedDate.getTime())[0];
-    
-    return next ? { ...next, isToday: false } : null;
-  }, []);
-
-  const searchResults = useMemo(() => {
-    if (!searchQuery || searchQuery.length < 2) return [];
-    const combined = [...allEvents, ...internationalEvents];
-    const filtered = combined.filter(e => 
-      e.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
-      (e.country && e.country.toLowerCase().includes(searchQuery.toLowerCase())) ||
-      (e.region && e.region.toLowerCase().includes(searchQuery.toLowerCase()))
-    );
-    // Unique by slug
-    return Array.from(new Map(filtered.map(item => [item.slug, item])).values()).slice(0, 5);
-  }, [searchQuery]);
-
-  if (!isClient) return <div className="min-h-screen bg-[#F7F4EE]" />;
+function Hero() {
+  const containerRef = useRef(null);
+  const { scrollYProgress } = useScroll({ target: containerRef, offset: ["start start", "end start"] });
+  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
+  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
   return (
-    <section className="container mx-auto px-6 py-12 md:py-24 border-b border-[#DED9D0]">
-      <div className="grid lg:grid-cols-12 gap-16 items-start">
-        <div className="lg:col-span-6 space-y-10">
-          <div className="space-y-4">
-            <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#E94368]">
-              TODAY · {format(new Date(), 'EEEE, MMMM dd, yyyy').toUpperCase()}
-            </p>
-            <h1 className="font-headline text-5xl md:text-7xl font-bold text-[#17151A] leading-[1.05]">
-              Here's what today <br /> actually is.
+    <section ref={containerRef} className="relative h-screen flex items-center px-10 overflow-hidden bg-ivory">
+      {/* Background Texture */}
+      <motion.div style={{ y }} className="absolute inset-0 z-0">
+        <div className="absolute inset-0 bg-ivory/40 z-10 backdrop-blur-[2px]" />
+        <Image 
+          src="https://picsum.photos/seed/utsavs1/1920/1080" 
+          alt="Atmosphere" 
+          fill 
+          className="object-cover grayscale brightness-125 sepia-[0.2]"
+          priority
+        />
+      </motion.div>
+
+      <div className="relative z-20 grid lg:grid-cols-12 gap-20 w-full">
+        <div className="lg:col-span-7 space-y-12">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            <p className="text-[11px] font-bold uppercase tracking-[0.6em] text-coral mb-6">TEMPORAL INSTRUMENT V3.0</p>
+            <h1 className="font-headline text-7xl md:text-[9rem] leading-[0.85] font-bold tracking-tighter text-ink">
+              The world <br /> in sync.
             </h1>
-            <p className="text-lg text-[#6D6870] font-medium leading-relaxed max-w-lg">
-              {todayEvent?.isToday 
-                ? `Today is ${todayEvent.name} in ${todayEvent.country || todayEvent.region}. Not a holiday everywhere, but significant for millions.`
-                : "A quiet day on most major global calendars—but not for long. See what the world is preparing for next."
-              }
+          </motion.div>
+
+          <motion.div 
+            className="max-w-md space-y-6"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.6 }}
+          >
+            <p className="text-xl text-muted-foreground font-medium leading-relaxed italic">
+              "We don't just list holidays. We map the heartbeat of global culture into precise operational intelligence."
             </p>
-          </div>
-
-          <div className="space-y-4 relative max-w-xl">
             <div className="relative group">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6D6870]" />
-              <Input 
-                placeholder="Search a festival, country, or date..."
-                className="h-14 pl-12 bg-white border-[#DED9D0] rounded-sm text-base font-medium focus:ring-0 focus:border-[#17151A]"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+              <input 
+                placeholder="Search a place, date or celebration..."
+                className="w-full h-16 pl-12 bg-white/80 border-warm-border text-lg font-medium focus:ring-0 focus:border-ink transition-all rounded-none"
               />
-            </div>
-            
-            {searchResults.length > 0 && (
-              <div className="absolute top-full left-0 right-0 z-20 bg-white border border-[#DED9D0] mt-1 shadow-xl rounded-sm overflow-hidden">
-                <div className="p-2 border-b border-[#F7F4EE] bg-[#F7F4EE]/50 text-[9px] font-bold uppercase tracking-widest text-[#6D6870]">
-                  Matches Found
-                </div>
-                {searchResults.map(res => (
-                  <Link key={res.slug} href={res.link || `/festivals`} className="flex items-center justify-between p-4 hover:bg-[#F7F4EE] group transition-colors">
-                    <div>
-                      <p className="font-bold text-sm text-[#17151A]">{res.name}</p>
-                      <p className="text-[10px] font-bold uppercase tracking-wider text-[#6D6870]">{res.country || res.region}</p>
-                    </div>
-                    <ArrowRight className="w-4 h-4 text-[#DED9D0] group-hover:text-[#E94368] group-hover:translate-x-1 transition-all" />
-                  </Link>
-                ))}
+              <div className="absolute right-4 top-1/2 -translate-y-1/2 flex gap-2">
+                <span className="text-[9px] font-bold bg-muted px-2 py-1 rounded">⌘ K</span>
               </div>
-            )}
-
-            <div className="flex flex-wrap gap-x-8 gap-y-4 pt-2">
-              <Link href="/calendar" className="text-[11px] font-bold uppercase tracking-widest text-[#17151A] flex items-center gap-2 hover:text-[#E94368] transition-colors">
-                This month's calendar <ArrowRight className="w-3 h-3" />
-              </Link>
-              <Link href="/international-festivals" className="text-[11px] font-bold uppercase tracking-widest text-[#17151A] flex items-center gap-2 hover:text-[#E94368] transition-colors">
-                Explore global festivals <ArrowRight className="w-3 h-3" />
-              </Link>
             </div>
+          </motion.div>
+        </div>
+
+        <div className="lg:col-span-5 hidden lg:flex flex-col justify-center gap-4">
+           {TODAY_RECORDS.map((record, i) => (
+              <motion.div
+                key={record.name}
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.8 + (i * 0.1) }}
+                whileHover={{ x: -10 }}
+                className="bg-white border border-warm-border p-6 shadow-sm hover:shadow-xl transition-all group cursor-pointer"
+              >
+                <div className="flex justify-between items-start">
+                   <div className="space-y-1">
+                      <p className="font-mono text-[9px] text-muted-foreground uppercase tracking-widest">{record.coords}</p>
+                      <h3 className="font-headline text-2xl font-bold">{record.name}</h3>
+                      <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">{record.place} · {record.type}</p>
+                   </div>
+                   <div className={cn(
+                     "px-2 py-0.5 text-[8px] font-bold tracking-widest border",
+                     record.status === 'LIVE' ? "border-coral text-coral" : "border-muted-foreground text-muted-foreground"
+                   )}>
+                     {record.status}
+                   </div>
+                </div>
+              </motion.div>
+           ))}
+        </div>
+      </div>
+
+      {/* Grain Overlay */}
+      <div className="absolute inset-0 pointer-events-none opacity-[0.03] z-[99] bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
+    </section>
+  );
+}
+
+/**
+ * 03. TEMPORAL CONSTELLATION (The interactive world view)
+ */
+function Constellation() {
+  return (
+    <section className="py-32 px-10 bg-ink text-ivory relative overflow-hidden">
+      <div className="absolute inset-0 opacity-10">
+        <div className="grid grid-cols-12 h-full w-full">
+           {Array.from({ length: 144 }).map((_, i) => (
+             <div key={i} className="border-[0.5px] border-ivory/20" />
+           ))}
+        </div>
+      </div>
+
+      <div className="relative z-10 grid lg:grid-cols-2 gap-20 items-center">
+        <div className="space-y-8">
+          <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-coral">WORLD PULSE</p>
+          <h2 className="font-headline text-5xl md:text-7xl font-bold tracking-tight">The density of <br/> human celebration.</h2>
+          <p className="text-xl text-ivory/60 max-w-lg leading-relaxed">
+            Every dot is a verified event. Every pulse is a localized closure. We monitor the grid so your systems stay in sync with the planet's time.
+          </p>
+          <div className="pt-10 flex gap-12">
+             <div>
+                <p className="text-4xl font-headline font-bold">142</p>
+                <p className="text-[9px] font-bold uppercase tracking-widest text-ivory/40">Events Today</p>
+             </div>
+             <div>
+                <p className="text-4xl font-headline font-bold">18</p>
+                <p className="text-[9px] font-bold uppercase tracking-widest text-ivory/40">Active Closures</p>
+             </div>
           </div>
         </div>
 
-        <div className="lg:col-span-6">
-          <Card className="bg-white border-[#DED9D0] rounded-sm shadow-sm relative overflow-hidden">
-             <div className="absolute top-0 right-0 p-4">
-                <Badge className="bg-[#557568] text-white text-[8px] font-bold tracking-widest uppercase rounded-none px-2 py-0.5">
-                  {todayEvent?.isToday ? "LIVE TODAY" : "COMING UP NEXT"}
-                </Badge>
-             </div>
-             <CardContent className="p-8 md:p-12 space-y-8">
-                <div>
-                   <p className="font-mono text-[10px] text-[#6D6870] mb-2 uppercase tracking-widest">
-                     Record: {todayEvent?.slug?.replace('-', '_').toUpperCase() || 'U_GEN_001'}
-                   </p>
-                   <h3 className="font-headline text-4xl md:text-5xl font-bold text-[#17151A] leading-tight">
-                     {todayEvent?.name || "The World's Calendar"}
-                   </h3>
-                   <p className="text-xs font-bold text-[#6D6870] mt-2 flex items-center gap-2">
-                     <MapPin className="w-3 h-3 text-[#E94368]" />
-                     {todayEvent?.country || todayEvent?.region || "Global"} · {todayEvent?.type}
-                   </p>
-                </div>
-
-                <div className="grid grid-cols-2 gap-8 py-8 border-y border-[#F7F4EE]">
-                  <div>
-                    <p className="text-[9px] font-bold text-[#6D6870] uppercase tracking-widest mb-1">Observed Date</p>
-                    <p className="font-mono text-xl font-bold text-[#17151A]">{todayEvent?.date.split(' - ')[0] || "—"}</p>
-                  </div>
-                   <div>
-                    <p className="text-[9px] font-bold text-[#6D6870] uppercase tracking-widest mb-1">Status</p>
-                    <p className="font-mono text-xl font-bold text-[#557568]">Confirmed</p>
-                  </div>
-                </div>
-
-                <div className="space-y-4">
-                  <p className="text-[9px] font-bold text-[#E94368] uppercase tracking-widest">Why it matters</p>
-                  <p className="text-sm font-medium leading-relaxed text-[#17151A]">
-                    {todayEvent?.description || "Utsavs standardizes global temporal data into human-readable and machine-ready intelligence."}
-                  </p>
-                </div>
-
-                <div className="pt-4">
-                  <Link href="#nuance" className="text-[11px] font-bold text-[#6D6870] uppercase tracking-widest hover:text-[#17151A] flex items-center gap-2">
-                    Date works differently elsewhere <ArrowRight className="w-3 h-3" />
-                  </Link>
-                </div>
-             </CardContent>
-          </Card>
-          <p className="text-[9px] font-bold text-[#6D6870]/50 uppercase tracking-[0.3em] mt-4 text-center">
-            SOURCE: UTSAVS FESTIVAL GUIDE · DATA VERIFIED BY INTERNAL OPS
-          </p>
+        <div className="aspect-square relative border border-ivory/10 bg-ivory/[0.02] rounded-full flex items-center justify-center">
+           <motion.div 
+             animate={{ rotate: 360 }}
+             transition={{ duration: 120, repeat: Infinity, ease: "linear" }}
+             className="absolute inset-0 rounded-full border border-dashed border-ivory/20"
+           />
+           <div className="relative w-4/5 h-4/5">
+              {/* Mapping mock nodes */}
+              {[20, 45, 60, 85].map((pos, i) => (
+                <motion.div
+                  key={i}
+                  className="absolute w-2 h-2 bg-coral rounded-full cursor-pointer shadow-[0_0_20px_rgba(233,67,104,0.8)]"
+                  style={{ left: `${pos}%`, top: `${pos}%` }}
+                  animate={{ scale: [1, 1.5, 1] }}
+                  transition={{ repeat: Infinity, duration: 2, delay: i * 0.5 }}
+                />
+              ))}
+              <Globe className="absolute inset-0 m-auto w-12 h-12 text-ivory/10" />
+           </div>
         </div>
       </div>
     </section>
@@ -187,89 +209,67 @@ function GHIHero() {
 }
 
 /**
- * Storytelling: One Festival, Five Countries
+ * 04. NUANCE EXPLORER (The Diwali interaction)
  */
-function OneFestivalManyWorlds() {
-  const [activeChip, setActiveChip] = useState(DIWALI_NUANCE[0]);
+function NuanceExplorer() {
+  const [active, setActive] = useState(DIWALI_NUANCE[0]);
 
   return (
-    <section id="nuance" className="container mx-auto px-6 py-24 bg-white/50 border-b border-[#DED9D0]">
-       <div className="max-w-4xl mx-auto space-y-12">
-          <div className="text-center space-y-4">
-            <h2 className="font-headline text-4xl md:text-5xl font-bold text-[#17151A]">Same festival. Different day, different rules.</h2>
-            <p className="text-lg text-[#6D6870] max-w-xl mx-auto">
-              A holiday is not just a point in time. It is a local law, a regional ritual, and a specific economic status.
-            </p>
+    <section className="py-32 px-10 bg-ivory">
+      <div className="max-w-6xl mx-auto space-y-20">
+        <div className="text-center space-y-4">
+           <h2 className="font-headline text-5xl md:text-8xl font-bold tracking-tighter">One day. <br />Many worlds.</h2>
+           <p className="text-xl text-muted-foreground max-w-xl mx-auto">The same festival, refracted through different borders and laws.</p>
+        </div>
+
+        <div className="grid lg:grid-cols-2 gap-12">
+          <div className="space-y-2">
+            {DIWALI_NUANCE.map(n => (
+              <button 
+                key={n.id}
+                onClick={() => setActive(n)}
+                className={cn(
+                  "w-full flex items-center justify-between p-8 border transition-all text-left group",
+                  active.id === n.id ? "bg-ink text-ivory border-ink" : "bg-white border-warm-border hover:border-ink"
+                )}
+              >
+                <div className="flex items-center gap-6">
+                  <span className="font-mono text-xs opacity-40">{n.countryCode}</span>
+                  <span className="font-display text-2xl font-bold">{n.country}</span>
+                </div>
+                <ArrowRight className={cn("w-5 h-5 transition-transform", active.id === n.id ? "translate-x-2" : "opacity-0 group-hover:opacity-100")} />
+              </button>
+            ))}
           </div>
 
-          <div className="bg-white border border-[#DED9D0] p-6 rounded-sm shadow-sm">
-            <div className="flex flex-wrap gap-2 justify-center mb-10 pb-6 border-b border-[#F7F4EE]">
-              {DIWALI_NUANCE.map(n => (
-                <button 
-                  key={n.country}
-                  onClick={() => setActiveChip(n)}
-                  className={cn(
-                    "px-6 py-2 text-[10px] font-bold uppercase tracking-widest transition-all rounded-full border",
-                    activeChip.country === n.country 
-                      ? "bg-[#17151A] text-white border-[#17151A]" 
-                      : "bg-[#F7F4EE] text-[#6D6870] border-[#DED9D0] hover:border-[#17151A]"
-                  )}
-                >
-                  {n.country}
-                </button>
-              ))}
-            </div>
-
-            <div className="px-4 md:px-12 space-y-6 min-h-[160px]">
-              <div className="flex flex-col md:flex-row justify-between gap-4">
-                <div className="space-y-1">
-                   <p className="text-[9px] font-bold uppercase tracking-widest text-[#E94368]">Observed Date</p>
-                   <p className="font-mono text-2xl font-bold text-[#17151A]">{activeChip.date}</p>
-                </div>
-                 <div className="space-y-1 md:text-right">
-                   <p className="text-[9px] font-bold uppercase tracking-widest text-[#6D6870]">Operational Status</p>
-                   <p className="text-base font-bold text-[#17151A]">{activeChip.status}</p>
-                </div>
+          <AnimatePresence mode="wait">
+            <motion.div 
+              key={active.id}
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              className="bg-white border border-warm-border p-12 shadow-2xl relative overflow-hidden"
+            >
+              <div className="absolute top-0 right-0 p-8">
+                 <Zap className="w-6 h-6 text-coral opacity-20" />
               </div>
-              <div className="pt-6 border-t border-[#F7F4EE]">
-                 <p className="text-[9px] font-bold uppercase tracking-widest text-[#6D6870] mb-3">Local Nuance</p>
-                 <p className="text-xl font-headline italic leading-relaxed text-[#17151A]">
-                   "{activeChip.nuance}"
+              <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-coral mb-8">INTELLIGENCE RECORD</p>
+              <h3 className="font-headline text-6xl font-bold mb-4">{active.name}</h3>
+              <p className="text-lg font-mono font-bold text-ink mb-12">{active.date} · {active.status}</p>
+              
+              <div className="pt-8 border-t border-muted/20">
+                 <p className="text-[9px] font-bold uppercase tracking-widest text-muted-foreground mb-4">LOCAL NUANCE</p>
+                 <p className="text-2xl font-display italic leading-relaxed text-ink">
+                    "{active.nuance}"
                  </p>
               </div>
-            </div>
-          </div>
-       </div>
-    </section>
-  );
-}
 
-/**
- * Why the Date Moves: Logic Cards
- */
-function WhyDateMoves() {
-  const logicItems = [
-    { title: "Fixed", desc: "Christmas is always 25 December—the Gregorian calendar doesn't shift it, making it operationally predictable." },
-    { title: "Lunar", desc: "Diwali follows the moon, so it lands on a different Gregorian date each year. In 2026, it falls on Nov 8." },
-    { title: "Declared", desc: "Some holidays are set by government notification every year, not by any astronomical or calendar rule at all." },
-  ];
-
-  return (
-    <section className="container mx-auto px-6 py-24 border-b border-[#DED9D0]">
-      <div className="max-w-6xl mx-auto space-y-16">
-        <div className="text-center md:text-left">
-           <h2 className="font-headline text-4xl font-bold text-[#17151A]">Why the date moves.</h2>
-           <p className="text-lg text-[#6D6870] mt-2">Time is calculated differently across cultures. Utsavs knows which is which.</p>
-        </div>
-        <div className="grid md:grid-cols-3 gap-8">
-          {logicItems.map(item => (
-            <Card key={item.title} className="bg-[#F7F4EE] border-none shadow-none rounded-none p-8 border-l border-[#DED9D0]">
-               <h3 className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#E94368] mb-6">{item.title}</h3>
-               <p className="text-base font-medium leading-relaxed text-[#17151A]">
-                 {item.desc}
-               </p>
-            </Card>
-          ))}
+              <div className="mt-12 pt-8 border-t border-muted/10 flex justify-between items-center text-[9px] font-bold uppercase tracking-[0.2em] text-muted-foreground">
+                 <span>Source: Utsavs Protocol</span>
+                 <span>Verification: Confirmed</span>
+              </div>
+            </motion.div>
+          </AnimatePresence>
         </div>
       </div>
     </section>
@@ -277,52 +277,60 @@ function WhyDateMoves() {
 }
 
 /**
- * Long Weekends: Real Data Opportunity
+ * 05. LONG WEEKEND SLIDER
  */
-function LongWeekendsSection() {
+function PlanningSlider() {
   return (
-    <section className="container mx-auto px-6 py-24 bg-white/30 border-b border-[#DED9D0]">
-      <div className="max-w-6xl mx-auto flex flex-col lg:flex-row gap-16 lg:items-center">
-        <div className="flex-1 space-y-6">
-           <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#E94368]">PLANNING</p>
-           <h2 className="font-headline text-4xl md:text-5xl font-bold text-[#17151A]">Long weekends <br />worth knowing.</h2>
-           <p className="text-lg text-[#6D6870]">The smart way to find your next escape, driven by calendar alignment logic.</p>
-           <Link href="/blog/long-weekends-2026">
-              <Button variant="link" className="p-0 h-auto text-[#17151A] font-bold uppercase tracking-widest text-xs">
-                See the full 2026 cheatsheet <ArrowRight className="ml-2 w-3 h-3"/>
-              </Button>
+    <section className="py-32 bg-ink text-ivory overflow-hidden">
+      <div className="px-10 mb-16">
+         <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-coral mb-4">PLANNING</p>
+         <h2 className="font-headline text-5xl md:text-7xl font-bold tracking-tight">Your next <br/> reason to go.</h2>
+      </div>
+
+      <div className="flex gap-8 px-10 overflow-x-auto pb-10 no-scrollbar">
+         {LONG_WEEKENDS_CINEMA.map((lw, i) => (
+           <motion.div 
+             key={i}
+             whileHover={{ y: -10 }}
+             className="min-w-[400px] bg-ivory/[0.03] border border-ivory/10 p-10 space-y-12 group cursor-pointer hover:bg-coral hover:text-white transition-all duration-500"
+           >
+              <div className="flex justify-between items-start">
+                 <span className="text-[10px] font-bold uppercase tracking-widest opacity-60">{lw.label}</span>
+                 <Wind className="w-5 h-5 opacity-40 group-hover:opacity-100" />
+              </div>
+              <div>
+                 <h3 className="font-headline text-4xl font-bold mb-2">{lw.title}</h3>
+                 <p className="font-mono text-lg">{lw.dates}</p>
+              </div>
+              <p className="text-sm font-medium leading-relaxed opacity-60 group-hover:opacity-100">
+                {lw.logic}
+              </p>
+              <button className="text-[10px] font-bold uppercase tracking-widest underline underline-offset-8">Explore Options</button>
+           </motion.div>
+         ))}
+      </div>
+    </section>
+  );
+}
+
+/**
+ * 06. FOOTER
+ */
+function Footer() {
+  return (
+    <footer className="py-20 px-10 bg-ivory border-t border-warm-border text-center">
+      <div className="max-w-3xl mx-auto space-y-10">
+        <h2 className="font-headline text-4xl md:text-6xl font-bold tracking-tighter">Understand the calendar.</h2>
+        <div className="flex flex-col sm:flex-row justify-center gap-6">
+           <Link href="/">
+              <button className="h-14 px-10 bg-ink text-ivory text-[10px] font-bold uppercase tracking-widest rounded-none shadow-2xl hover:scale-105 transition-all">Explore Utsavs.com</button>
+           </Link>
+           <Link href="/calendar">
+              <button className="h-14 px-10 border-2 border-ink text-ink text-[10px] font-bold uppercase tracking-widest rounded-none hover:bg-muted/10 transition-all">Full Calendar</button>
            </Link>
         </div>
-
-        <div className="flex-[1.2] space-y-1">
-          {LONG_WEEKENDS_PROTOTYPE.map((lw, i) => (
-            <div key={i} className="flex flex-col md:flex-row md:items-center justify-between p-8 bg-white border border-[#DED9D0] group hover:border-[#17151A] transition-all cursor-pointer">
-              <div className="space-y-1">
-                <h4 className="text-xl font-bold text-[#17151A]">{lw.name}</h4>
-                <p className="font-mono text-[10px] text-[#6D6870] uppercase tracking-widest">{lw.date} · {lw.alignment}</p>
-              </div>
-              <div className="mt-4 md:mt-0 flex flex-col md:items-end">
-                <Badge className="bg-[#E94368] text-white rounded-none font-bold text-[10px] tracking-widest px-3 py-1 mb-2">{lw.duration}</Badge>
-                <p className="text-xs text-[#6D6870] font-medium italic">"{lw.logic}"</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/**
- * Footer: Minimal one-liner
- */
-function GHIFooter() {
-  return (
-    <footer className="py-12 bg-[#F7F4EE] border-t border-[#DED9D0] text-center">
-      <div className="container mx-auto px-6">
-        <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#6D6870]">
-          UTSAVS · Global Holiday Intelligence (prototype) · © {new Date().getFullYear()} Utsavs · 
-          <Link href="/" className="ml-2 hover:text-[#E94368] transition-colors underline underline-offset-4">← utsavs.com</Link>
+        <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-muted-foreground pt-10">
+          © 2026 UTSAVS · GLOBAL HOLIDAY INTELLIGENCE · PROTOTYPE V3
         </p>
       </div>
     </footer>
@@ -330,32 +338,33 @@ function GHIFooter() {
 }
 
 export default function GHIPage() {
+  const [isClient, setIsClient] = useState(false);
+  useEffect(() => setIsClient(true), []);
+
+  if (!isClient) return <div className="min-h-screen bg-ivory" />;
+
   return (
-    <div className="min-h-screen bg-[#F7F4EE] text-[#17151A] font-sans selection:bg-[#E94368]/20 antialiased">
-      <GHIHeader />
+    <div className="min-h-screen bg-ivory text-ink selection:bg-coral/20 font-sans antialiased">
+      <DataCursor />
+      <Header />
       <main>
-        <GHIHero />
-        <OneFestivalManyWorlds />
-        <WhyDateMoves />
-        <LongWeekendsSection />
+        <Hero />
+        <Constellation />
+        <NuanceExplorer />
+        <PlanningSlider />
         
-        <section className="container mx-auto px-6 py-24 text-center">
-           <div className="max-w-3xl mx-auto space-y-10">
-              <p className="text-2xl md:text-3xl font-headline italic leading-relaxed text-[#6D6870]">
-                "This is Utsavs figuring out how to know the world's calendar, not just India's. The full festival guides, recipes and stories are still at the heart of it—this page is just us thinking out loud."
+        {/* BRIDGE SECTION */}
+        <section className="py-32 px-10 border-y border-warm-border bg-white">
+           <div className="max-w-4xl mx-auto text-center space-y-8">
+              <Layers className="w-10 h-10 mx-auto text-coral opacity-40" />
+              <p className="text-3xl md:text-5xl font-display italic leading-tight text-muted-foreground">
+                "Utsavs is the infrastructure for the moments that matter. <br/>
+                From deep ritual to global logistics."
               </p>
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-                <Link href="/">
-                  <Button size="lg" className="bg-[#17151A] text-white rounded-none h-14 px-10 font-bold uppercase tracking-widest text-[10px]">Explore Utsavs.com</Button>
-                </Link>
-                <Link href="/calendar">
-                  <Button variant="outline" size="lg" className="border-[#17151A] text-[#17151A] rounded-none h-14 px-10 font-bold uppercase tracking-widest text-[10px]">See the full calendar</Button>
-                </Link>
-              </div>
            </div>
         </section>
       </main>
-      <GHIFooter />
+      <Footer />
     </div>
   );
 }
