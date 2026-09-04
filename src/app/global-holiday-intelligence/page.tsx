@@ -1,99 +1,107 @@
-import React from 'react';
+
+'use client';
+
+import React, { useEffect } from 'react';
 import { B2BHeader } from '@/components/b2b/B2BHeader';
 import { B2BFooter } from '@/components/b2b/B2BFooter';
 import { B2BHero } from '@/components/b2b/B2BHero';
-import { CapabilityGrid } from '@/components/b2b/CapabilityGrid';
-import { ComparisonSection } from '@/components/b2b/ComparisonSection';
-import { GlobalCoverageSection } from '@/components/b2b/GlobalCoverageSection';
-import { DataTrustSection } from '@/components/b2b/DataTrustSection';
-import { ApiExampleSection } from '@/components/b2b/ApiExampleSection';
-import { UseCaseGrid } from '@/components/b2b/UseCaseGrid';
-import { CulturalIntelligenceSection } from '@/components/b2b/CulturalIntelligenceSection';
-import { FinalCTA } from '@/components/b2b/FinalCTA';
-import { SampleIntelligenceCard } from '@/components/b2b/SampleIntelligenceCard';
-
-export const metadata = {
-  title: "Utsavs | Global Holiday Intelligence",
-  description: "The world's structured, verified holiday, festival and observance intelligence.",
-};
+import { Capabilities } from '@/components/b2b/Capabilities';
+import { Comparison } from '@/components/b2b/Comparison';
+import { DataHierarchy } from '@/components/b2b/DataHierarchy';
+import { ApiTeaser } from '@/components/b2b/ApiTeaser';
+import { 
+  TrustPillars, 
+  CulturalContext, 
+  UseCaseGrid, 
+  EcosystemStatement, 
+  FinalCTA,
+  BeyondTheDate
+} from '@/components/b2b/SharedComponents';
+import { IntelligenceRecord } from '@/components/b2b/IntelligenceRecord';
 
 export default function GlobalHolidayIntelligencePage() {
+  // Scoped typography loading
+  useEffect(() => {
+    const link = document.createElement('link');
+    link.href = 'https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&family=IBM+Plex+Mono:wght@400;500&display=swap';
+    link.rel = 'stylesheet';
+    document.head.appendChild(link);
+  }, []);
+
   return (
-    <div className="bg-background text-foreground selection:bg-primary/20">
+    <div className="min-h-screen bg-[#F7F4EE] text-[#17151A] selection:bg-[#E94368]/20 font-sans antialiased overflow-x-hidden">
+      {/* Scoped CSS overrides */}
+      <style jsx global>{`
+        :root {
+          --font-display: 'Newsreader', serif;
+          --font-ui: 'Manrope', sans-serif;
+          --font-data: 'IBM Plex Mono', monospace;
+        }
+        .font-display { font-family: var(--font-display); }
+        .font-ui { font-family: var(--font-ui); }
+        .font-data { font-family: var(--font-data); }
+        h1, h2, h3 { font-family: var(--font-display); }
+        .btn-ink {
+          background-color: #17151A;
+          color: #F7F4EE;
+          transition: all 0.3s ease;
+        }
+        .btn-ink:hover {
+          background-color: #17151A;
+          box-shadow: 0 4px 20px -4px rgba(233, 67, 104, 0.3);
+          transform: translateY(-1px);
+        }
+        .data-line {
+          height: 1px;
+          background: linear-gradient(to right, #DED9D0 0%, #E94368 50%, #DED9D0 100%);
+          position: relative;
+        }
+        .data-dot {
+          width: 6px;
+          height: 6px;
+          background: #E94368;
+          border-radius: 50%;
+          position: absolute;
+          top: -2.5px;
+        }
+      `}</style>
+
       <B2BHeader />
-      <main>
+      
+      <main className="space-y-[120px] md:space-y-[180px] pb-[120px]">
         <B2BHero />
         
-        {/* Not Just Holiday Dates Section */}
-        <section className="py-20 border-y bg-primary/5">
-            <div className="container mx-auto px-4">
-                <div className="max-w-4xl mx-auto text-center">
-                    <h2 className="font-headline text-3xl md:text-5xl font-bold mb-8">Not just holiday dates.</h2>
-                    <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed mb-12">
-                        Utsavs adds the context machines usually miss — where a holiday applies, what kind of day it is, how certain the date is, where the information came from, and what it means.
-                    </p>
-                    <div className="flex flex-wrap items-center justify-center gap-4 md:gap-8">
-                        {['Date', 'Context', 'Verification', 'Regional intelligence', 'Operational insight'].map((step, i) => (
-                            <React.Fragment key={step}>
-                                <span className="font-bold text-sm uppercase tracking-widest text-primary">{step}</span>
-                                {i < 4 && <span className="text-muted-foreground/30 hidden md:inline">→</span>}
-                            </React.Fragment>
-                        ))}
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <CapabilityGrid />
+        <BeyondTheDate />
         
-        {/* Sample Section */}
-        <section id="data" className="py-24 bg-background">
-            <div className="container mx-auto px-4">
-                <div className="text-center mb-16">
-                    <h2 className="font-headline text-3xl md:text-4xl font-bold text-primary">One holiday. More useful information.</h2>
-                    <p className="mt-4 text-muted-foreground max-w-xl mx-auto">Showing how the Utsavs data model transforms a simple calendar event into actionable intelligence.</p>
-                </div>
-                <div className="max-w-4xl mx-auto">
-                    <SampleIntelligenceCard />
-                </div>
+        <Capabilities />
+        
+        <Comparison />
+        
+        <section className="container mx-auto px-6">
+            <div className="text-center mb-16">
+                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#E94368] mb-4">The Intelligence Model</p>
+                <h2 className="text-4xl md:text-6xl font-bold mb-6">One holiday.<br/>More useful information.</h2>
+            </div>
+            <div className="max-w-4xl mx-auto">
+                <IntelligenceRecord size="large" />
             </div>
         </section>
 
-        <ComparisonSection />
-        <GlobalCoverageSection />
-        <DataTrustSection />
-        <CulturalIntelligenceSection />
-        <ApiExampleSection />
+        <DataHierarchy />
+        
+        <TrustPillars />
+        
+        <CulturalContext />
+        
+        <ApiTeaser />
+        
         <UseCaseGrid />
-
-        {/* Ecosystem Statement */}
-        <section className="py-24 border-t bg-muted/20">
-            <div className="container mx-auto px-4 text-center">
-                <p className="text-xl font-medium text-muted-foreground max-w-3xl mx-auto mb-12">
-                    Utsavs began by helping people discover festivals. <br className="hidden md:block" />
-                    We're now building the intelligence layer that helps systems understand them.
-                </p>
-                <div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-12">
-                    <div className="space-y-1">
-                        <p className="font-bold text-lg">Utsavs.com</p>
-                        <p className="text-xs text-muted-foreground">Culture · Stories · Recipes · Festival Guides</p>
-                    </div>
-                    <div className="text-muted-foreground hidden md:block">↓</div>
-                    <div className="space-y-1">
-                        <p className="font-bold text-lg text-primary">Global Holiday Intelligence</p>
-                        <p className="text-xs text-muted-foreground">Structured · Verified · Regional · Source-aware</p>
-                    </div>
-                    <div className="text-muted-foreground hidden md:block">↓</div>
-                    <div className="space-y-1">
-                        <p className="font-bold text-lg text-zinc-900 dark:text-white">Utsavs Intelligence API</p>
-                        <p className="text-xs text-muted-foreground">For Developers and Businesses</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
+        
+        <EcosystemStatement />
+        
         <FinalCTA />
       </main>
+
       <B2BFooter />
     </div>
   );

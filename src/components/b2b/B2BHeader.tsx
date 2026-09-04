@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from 'next/link';
@@ -5,26 +6,26 @@ import { Button } from '@/components/ui/button';
 
 export function B2BHeader() {
   return (
-    <header className="h-16 border-b bg-background/95 backdrop-blur-sm sticky top-0 z-50">
-      <div className="container mx-auto h-full flex items-center justify-between px-4">
-        <div className="flex items-center gap-6">
-            <Link href="/global-holiday-intelligence" className="flex items-center gap-2 group">
-                <span className="font-headline text-2xl font-bold text-primary">Utsavs</span>
-                <span className="hidden sm:inline-block text-[11px] uppercase tracking-wider font-bold text-muted-foreground border-l pl-3 h-4 flex items-center">Global Holiday Intelligence</span>
+    <header className="h-[80px] border-b border-[#DED9D0] bg-[#F7F4EE]/95 backdrop-blur-sm sticky top-0 z-50">
+      <div className="container mx-auto h-full flex items-center justify-between px-6">
+        <div className="flex flex-col items-start leading-none group">
+            <Link href="/global-holiday-intelligence" className="flex flex-col">
+                <span className="font-display text-2xl font-bold tracking-tight text-[#17151A]">UTSAVS</span>
+                <span className="text-[9px] font-bold uppercase tracking-[0.15em] text-[#6D6870] mt-1">Global Holiday Intelligence</span>
             </Link>
         </div>
         
-        <nav className="hidden lg:flex items-center gap-8">
-          <Link href="#capabilities" className="text-sm font-semibold text-muted-foreground hover:text-primary transition-colors">Product</Link>
-          <Link href="#data" className="text-sm font-semibold text-muted-foreground hover:text-primary transition-colors">Data</Link>
-          <Link href="#api" className="text-sm font-semibold text-muted-foreground hover:text-primary transition-colors">Developers</Link>
+        <nav className="hidden md:flex items-center gap-10">
+          <Link href="#product" className="text-[13px] font-bold text-[#6D6870] hover:text-[#17151A] transition-colors uppercase tracking-wider">Product</Link>
+          <Link href="#data" className="text-[13px] font-bold text-[#6D6870] hover:text-[#17151A] transition-colors uppercase tracking-wider">Data</Link>
+          <Link href="#developers" className="text-[13px] font-bold text-[#6D6870] hover:text-[#17151A] transition-colors uppercase tracking-wider">Developers</Link>
         </nav>
 
-        <div className="flex items-center gap-4">
-          <Link href="/" className="text-xs font-bold text-muted-foreground hover:text-primary transition-colors hidden md:inline-block">
+        <div className="flex items-center gap-6">
+          <Link href="/" className="hidden lg:inline-block text-[11px] font-bold text-[#6D6870] hover:text-[#E94368] transition-colors uppercase tracking-widest">
             ← Utsavs.com
           </Link>
-          <Button variant="gradient" size="sm" className="font-bold shadow-sm">
+          <Button className="btn-ink h-10 px-6 font-bold text-xs uppercase tracking-widest rounded-none">
             API Preview
           </Button>
         </div>

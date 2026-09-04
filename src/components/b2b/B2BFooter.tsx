@@ -3,51 +3,47 @@ import Link from 'next/link';
 
 export function B2BFooter() {
   return (
-    <footer className="py-20 border-t bg-muted/10">
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-12 mb-16">
-            <div className="col-span-2">
-                <Link href="/" className="flex flex-col items-start mb-6">
-                    <span className="font-headline text-2xl font-bold text-primary">UTSAVS</span>
-                    <span className="text-[10px] uppercase tracking-widest font-bold text-muted-foreground">Global Holiday Intelligence</span>
+    <footer className="pt-32 pb-16 border-t border-[#DED9D0]">
+      <div className="container mx-auto px-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-12 gap-16 mb-24">
+            <div className="lg:col-span-4 space-y-6">
+                <Link href="/global-holiday-intelligence" className="flex flex-col">
+                    <span className="font-display text-3xl font-bold tracking-tight text-[#17151A]">UTSAVS</span>
+                    <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#6D6870] mt-1">Global Holiday Intelligence</span>
                 </Link>
-                <p className="text-sm text-muted-foreground max-w-xs leading-relaxed">
+                <p className="text-sm text-[#6D6870] max-w-xs leading-relaxed font-ui">
                     The world's structured, verified holiday, festival and observance intelligence.
                 </p>
             </div>
             
-            <div className="space-y-4">
-                <h4 className="font-bold text-sm">Product</h4>
-                <ul className="space-y-2 text-sm text-muted-foreground">
-                    <li><Link href="#" className="hover:text-primary transition-colors">Holiday Data</Link></li>
-                    <li><Link href="#" className="hover:text-primary transition-colors">Working Days</Link></li>
-                    <li><Link href="#" className="hover:text-primary transition-colors">Long Weekends</Link></li>
+            <div className="lg:col-span-2 space-y-6">
+                <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#E94368]">Product</h4>
+                <ul className="space-y-4 text-xs font-bold uppercase tracking-wider text-[#6D6870]">
+                    <li><Link href="#product" className="hover:text-[#17151A] transition-colors">Capabilities</Link></li>
+                    <li><Link href="#data" className="hover:text-[#17151A] transition-colors">Data Model</Link></li>
+                    <li><Link href="#developers" className="hover:text-[#17151A] transition-colors">API</Link></li>
                 </ul>
             </div>
 
-            <div className="space-y-4">
-                <h4 className="font-bold text-sm">Developers</h4>
-                <ul className="space-y-2 text-sm text-muted-foreground">
-                    <li><Link href="#" className="hover:text-primary transition-colors">API Preview</Link></li>
-                    <li><Link href="#" className="hover:text-primary transition-colors">Documentation</Link></li>
-                    <li><Link href="#" className="hover:text-primary transition-colors">Status</Link></li>
+            <div className="lg:col-span-2 space-y-6">
+                <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#E94368]">Company</h4>
+                <ul className="space-y-4 text-xs font-bold uppercase tracking-wider text-[#6D6870]">
+                    <li><Link href="/about" className="hover:text-[#17151A] transition-colors">About Us</Link></li>
+                    <li><Link href="/" className="hover:text-[#17151A] transition-colors">Utsavs.com</Link></li>
                 </ul>
             </div>
 
-            <div className="space-y-4">
-                <h4 className="font-bold text-sm">Company</h4>
-                <ul className="space-y-2 text-sm text-muted-foreground">
-                    <li><Link href="/about" className="hover:text-primary transition-colors">About Us</Link></li>
-                    <li><Link href="#" className="hover:text-primary transition-colors">Contact</Link></li>
-                </ul>
+            <div className="lg:col-span-4 space-y-6 lg:text-right">
+                <p className="text-[11px] font-bold text-[#6D6870] uppercase tracking-[0.2em]">Contact</p>
+                <p className="text-lg font-display font-bold">joy@utsavs.com</p>
             </div>
         </div>
         
-        <div className="pt-8 border-t flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-muted-foreground font-medium">
-            <p>&copy; {new Date().getFullYear()} Utsavs Global Holiday Intelligence. All rights reserved.</p>
-            <div className="flex gap-6">
-                <Link href="#" className="hover:text-primary transition-colors">Privacy Policy</Link>
-                <Link href="#" className="hover:text-primary transition-colors">Terms of Service</Link>
+        <div className="pt-8 border-t border-[#DED9D0] flex flex-col md:flex-row justify-between items-center gap-4">
+            <p className="text-[10px] font-bold text-[#6D6870] uppercase tracking-widest">&copy; 2026 Utsavs Global Holiday Intelligence</p>
+            <div className="flex gap-8 text-[10px] font-bold text-[#6D6870] uppercase tracking-widest">
+                <Link href="#" className="hover:text-[#E94368]">Privacy</Link>
+                <Link href="#" className="hover:text-[#E94368]">Terms</Link>
             </div>
         </div>
       </div>
