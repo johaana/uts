@@ -2,7 +2,6 @@
 
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
-import Link from 'next/link';
 
 export function BeyondTheDate() {
   const steps = [
@@ -59,14 +58,14 @@ export function TrustPillars() {
       <div className="bg-[#17151A] text-[#F7F4EE] p-12 md:p-24 rounded-sm relative overflow-hidden">
         <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#E94368]/10 blur-[150px] -mr-48 -mt-48"></div>
         <div className="relative z-10 space-y-24">
-            <div className="max-w-3xl space-y-6">
+            <div className="max-w-3xl space-y-6 text-left">
                 <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#E94368]">Data Architecture</p>
                 <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold font-display leading-[0.95] tracking-tighter">Trust is part <br/>of the data.</h2>
                 <p className="text-lg md:text-xl text-[#F7F4EE]/60 font-ui leading-relaxed max-w-2xl">
                     Holiday information is not equally certain everywhere. Utsavs exposes the origin, status, and context of every record.
                 </p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 md:gap-16">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 md:gap-16 text-left">
                 {pillars.map(p => (
                     <div key={p.title} className="space-y-4">
                         <div className="h-0.5 w-10 bg-[#E94368]"></div>

@@ -21,6 +21,7 @@ export interface IntelligenceRecordData {
   regionalContext: string;
   source: string;
   status: 'Verified' | 'Illustrative';
+  isLiveToday?: boolean;
   dna: {
     religious: boolean;
     cultural: boolean;
@@ -32,28 +33,55 @@ export interface IntelligenceRecordData {
 
 export const MOCK_RECORDS: IntelligenceRecordData[] = [
   {
+    id: 'ganesh-in',
+    name: 'Ganesh Chaturthi',
+    location: { country: 'India', scope: 'Regional' },
+    date: { observed: '05 SEP 2026', model: 'Lunisolar', certainty: 'Confirmed' },
+    classification: ['Public Holiday', 'Religious', 'Cultural'],
+    whyItMatters: 'Celebrates the birth of Lord Ganesha. Symbolizes wisdom, prosperity, and the removal of obstacles.',
+    regionalContext: 'Significant public processions in Maharashtra and Karnataka. Partial commercial closures in urban centers.',
+    source: 'Authoritative Reference',
+    status: 'Verified',
+    isLiveToday: true,
+    dna: { religious: true, cultural: true, public: true, bank: true, workingDayImpact: 'Full Closure' }
+  },
+  {
+    id: 'respect-jp',
+    name: 'Respect for the Aged Day',
+    location: { country: 'Japan', scope: 'National' },
+    date: { observed: '21 SEP 2026', model: 'Fixed', certainty: 'Confirmed' },
+    classification: ['Public Holiday', 'Cultural'],
+    whyItMatters: 'A national holiday to honor elderly citizens and pray for their longevity.',
+    regionalContext: 'Observed nationwide. Banking and government systems offline.',
+    source: 'National Schedule',
+    status: 'Verified',
+    isLiveToday: true,
+    dna: { religious: false, cultural: true, public: true, bank: true, workingDayImpact: 'Full Closure' }
+  },
+  {
+    id: 'labor-us',
+    name: 'Labor Day',
+    location: { country: 'USA', scope: 'Federal' },
+    date: { observed: '07 SEP 2026', model: 'Calculated', certainty: 'Declared' },
+    classification: ['Public Holiday', 'Cultural'],
+    whyItMatters: 'Honors the American labor movement and the contributions that workers have made.',
+    regionalContext: 'Federal holiday; widespread retail and corporate closures.',
+    source: 'Federal Schedule',
+    status: 'Verified',
+    isLiveToday: false,
+    dna: { religious: false, cultural: true, public: true, bank: true, workingDayImpact: 'Full Closure' }
+  },
+  {
     id: 'diwali-in',
     name: 'Diwali',
     location: { country: 'India', scope: 'National' },
     date: { observed: '08 NOV 2026', model: 'Lunisolar', certainty: 'Confirmed' },
     classification: ['Public Holiday', 'Religious', 'Cultural'],
     whyItMatters: 'The Festival of Lights, symbolizing the spiritual victory of light over darkness and knowledge over ignorance.',
-    regionalContext: 'Date variations apply in South India (Naraka Chaturdashi). Commercial closures vary by state jurisdiction.',
+    regionalContext: 'Date variations apply in South India. Major market closures nationwide.',
     source: 'Authoritative Reference',
     status: 'Verified',
     dna: { religious: true, cultural: true, public: true, bank: true, workingDayImpact: 'Full Closure' }
-  },
-  {
-    id: 'thanksgiving-us',
-    name: 'Thanksgiving Day',
-    location: { country: 'United States', scope: 'Federal' },
-    date: { observed: '26 NOV 2026', model: 'Declared', certainty: 'Declared' },
-    classification: ['Public Holiday', 'Cultural'],
-    whyItMatters: 'A national holiday in the US and Canada celebrating the harvest and other blessings of the past year.',
-    regionalContext: 'Observed on the fourth Thursday of November in the US. Often creates a 4-day weekend.',
-    source: 'Federal Schedule',
-    status: 'Verified',
-    dna: { religious: false, cultural: true, public: true, bank: true, workingDayImpact: 'Full Closure' }
   },
   {
     id: 'lunar-new-year-cn',
@@ -61,34 +89,10 @@ export const MOCK_RECORDS: IntelligenceRecordData[] = [
     location: { country: 'China', scope: 'National' },
     date: { observed: '17 FEB 2026', model: 'Lunisolar', certainty: 'Confirmed' },
     classification: ['Public Holiday', 'Cultural'],
-    whyItMatters: 'The most important traditional festival in China, marking the turn of the traditional lunisolar Chinese calendar.',
-    regionalContext: 'Extended closures across Greater China. Operational impact is high for 7-10 days.',
+    whyItMatters: 'The most important traditional festival in China, marking the turn of the traditional Chinese calendar.',
+    regionalContext: 'Extended factory and shipping closures for 7-10 days.',
     source: 'Lunisolar Calculation',
     status: 'Verified',
     dna: { religious: false, cultural: true, public: true, bank: true, workingDayImpact: 'Full Closure' }
-  },
-  {
-    id: 'christmas-global',
-    name: 'Christmas Day',
-    location: { country: 'Global', scope: 'Global' },
-    date: { observed: '25 DEC 2026', model: 'Fixed', certainty: 'Confirmed' },
-    classification: ['Public Holiday', 'Religious', 'Cultural'],
-    whyItMatters: 'An annual festival commemorating the birth of Jesus Christ, observed primarily on December 25 as a religious and cultural celebration.',
-    regionalContext: 'Widespread public closures in most Western nations. Banking systems typically offline.',
-    source: 'Gregorian Calendar',
-    status: 'Verified',
-    dna: { religious: true, cultural: true, public: true, bank: true, workingDayImpact: 'Full Closure' }
-  },
-  {
-    id: 'hanukkah-global',
-    name: 'Hanukkah',
-    location: { country: 'Global', scope: 'Global' },
-    date: { observed: '04 DEC 2026', model: 'Lunar', certainty: 'Provisional' },
-    classification: ['Religious Observance', 'Cultural'],
-    whyItMatters: 'The Jewish Festival of Lights, commemorating the recovery of Jerusalem and subsequent rededication of the Second Temple.',
-    regionalContext: 'Varies by local community. Not a public holiday in most jurisdictions outside Israel.',
-    source: 'Hebrew Calendar',
-    status: 'Verified',
-    dna: { religious: true, cultural: true, public: false, bank: false, workingDayImpact: 'None' }
   }
 ];

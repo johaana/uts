@@ -15,7 +15,7 @@ export function IntelligenceRecord({ record, className }: IntelligenceRecordProp
       "bg-white border border-[#DED9D0] p-8 md:p-12 relative transition-all duration-700 font-ui overflow-hidden rounded-sm shadow-[0_48px_96px_-24px_rgba(23,21,26,0.12)]",
       className
     )}>
-      {/* Corner Precision Marker */}
+      {/* Precision Marker */}
       <div className="absolute top-0 left-0 w-6 h-6 border-t border-l border-[#E94368]/30"></div>
       
       {/* Header Status */}
@@ -24,17 +24,17 @@ export function IntelligenceRecord({ record, className }: IntelligenceRecordProp
            <motion.div 
               animate={{ opacity: [0.3, 1, 0.3] }}
               transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
-              className={cn("w-1.5 h-1.5 rounded-full", record.status === 'Verified' ? "bg-[#557568]" : "bg-[#D99A3D]")}
+              className={cn("w-1.5 h-1.5 rounded-full", record.isLiveToday ? "bg-[#E94368]" : "bg-[#557568]")}
            />
            <span className="text-[9px] font-extrabold uppercase tracking-[0.3em] text-[#17151A]">
-             {record.status}
+             {record.isLiveToday ? 'LIVE TODAY' : record.status}
            </span>
         </div>
-        <p className="text-[9px] font-bold text-[#6D6870] uppercase tracking-[0.2em]">Record ID: {record.id.toUpperCase()}</p>
+        <p className="text-[9px] font-bold text-[#6D6870] uppercase tracking-[0.2em]">Record: {record.id.toUpperCase()}</p>
       </div>
 
       {/* Main Content */}
-      <div className="space-y-8">
+      <div className="space-y-8 text-left">
         <div>
           <h3 className="font-display font-bold text-[#17151A] tracking-tight text-4xl md:text-5xl lg:text-7xl">
             {record.name}
@@ -84,10 +84,9 @@ export function IntelligenceRecord({ record, className }: IntelligenceRecordProp
 
       <div className="mt-10 pt-6 border-t border-[#DED9D0]/60 flex items-center justify-between text-[9px] font-bold uppercase tracking-[0.3em] text-[#6D6870]/50">
         <div className="flex flex-col gap-1">
-          <span>Source: {record.source}</span>
           <span>Determination: {record.date.certainty}</span>
         </div>
-        <span className="text-[#E94368]/40">Intelligence Protocol v3.0</span>
+        <span className="text-[#E94368]/40">Source: Authoritative</span>
       </div>
     </div>
   );

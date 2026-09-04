@@ -1,13 +1,12 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Button } from '@/components/ui/button';
 import { IntelligenceRecord } from './IntelligenceRecord';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MOCK_RECORDS, IntelligenceRecordData } from '@/lib/calendar-intelligence-data';
-import { cn } from '@/lib/utils';
-import { Search, MapPin } from 'lucide-react';
+import { MOCK_RECORDS } from '@/lib/calendar-intelligence-data';
+import { Search, MapPin, Sparkles } from 'lucide-react';
 import { Input } from '@/components/ui/input';
+import { cn } from '@/lib/utils';
 
 export function B2BHero() {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -22,8 +21,6 @@ export function B2BHero() {
     return () => clearInterval(interval);
   }, [isRotating]);
 
-  const handleSearchFocus = () => setIsRotating(false);
-
   const activeRecord = MOCK_RECORDS[currentIndex];
 
   return (
@@ -37,7 +34,7 @@ export function B2BHero() {
                 Understand the <br /> world's calendar.
               </h1>
               <p className="text-lg md:text-xl text-[#6D6870] leading-relaxed font-ui font-medium max-w-md">
-                Search holidays, festivals and observances anywhere in the world.
+                "The verified intelligence layer for global holidays, festivals and observances."
               </p>
             </div>
 
@@ -49,7 +46,7 @@ export function B2BHero() {
                   <Input 
                     placeholder="Search a holiday, place, date or ask a question..."
                     className="h-14 pl-12 bg-white border-[#DED9D0] rounded-sm font-ui text-base focus:ring-0 focus:border-[#17151A] transition-all"
-                    onFocus={handleSearchFocus}
+                    onFocus={() => setIsRotating(false)}
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                   />
@@ -62,15 +59,26 @@ export function B2BHero() {
               </div>
 
               <div className="pt-6 border-t border-[#DED9D0]">
-                <div className="flex items-center gap-2">
-                   <MapPin className="w-4 h-4 text-[#E94368]" />
-                   <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#17151A] font-ui">Your Location: <span className="text-[#6D6870]">Mumbai, India</span> · <button className="underline">Change</button></p>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                     <MapPin className="w-4 h-4 text-[#E94368]" />
+                     <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#17151A] font-ui">Your Location: <span className="text-[#6D6870]">Mumbai, India</span></p>
+                  </div>
+                  <button className="text-[10px] font-bold uppercase tracking-widest text-[#6D6870] hover:text-[#17151A] transition-colors">Change →</button>
                 </div>
               </div>
             </div>
           </div>
           
           <div className="flex-[1.2] w-full relative">
+            <div className="absolute -top-12 left-0 flex items-center gap-3">
+              <div className="flex items-center gap-2 px-3 py-1 bg-[#E94368]/5 border border-[#E94368]/20 rounded-full">
+                <Sparkles className="w-3 h-3 text-[#E94368]" />
+                <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#E94368]">Living Calendar</span>
+              </div>
+              <p className="text-[10px] font-bold text-[#6D6870]/60 uppercase tracking-widest">Showing: World Celebrates Today</p>
+            </div>
+
             <AnimatePresence mode="wait">
               <motion.div 
                 key={activeRecord.id}

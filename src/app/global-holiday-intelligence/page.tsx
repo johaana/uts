@@ -5,6 +5,7 @@ import { B2BHeader } from '@/components/b2b/B2BHeader';
 import { B2BHero } from '@/components/b2b/B2BHero';
 import { WorldPulse } from '@/components/b2b/WorldPulse';
 import { CalendarExplorer } from '@/components/b2b/CalendarExplorer';
+import { JurisdictionHierarchy } from '@/components/b2b/JurisdictionHierarchy';
 import { BeyondTheDate, TrustPillars, CulturalContext, EcosystemStatement, FinalCTA } from '@/components/b2b/SharedComponents';
 import { B2BFooter } from '@/components/b2b/B2BFooter';
 
@@ -54,25 +55,25 @@ export default function GlobalHolidayIntelligenceV3() {
       <B2BHeader />
       
       <main className="space-y-[100px] md:space-y-[160px] pb-[100px]">
-        {/* 01. HERO / PRODUCT SEARCH */}
+        {/* 01. HERO / PRODUCT INTERACTION */}
         <B2BHero />
 
-        {/* 02. BEYOND THE DATE PIPELINE */}
-        <BeyondTheDate />
-
-        {/* 03. WORLD PULSE (The Living Timeline) */}
+        {/* 02. WORLD PULSE (The Living Heatmap) */}
         <WorldPulse />
+
+        {/* 03. JURISDICTION HIERARCHY (The Enterprise Moat) */}
+        <JurisdictionHierarchy />
 
         {/* 04. CALENDAR EXPLORER (Operational Lenses) */}
         <CalendarExplorer />
 
-        {/* 05. CULTURAL CONTEXT */}
-        <CulturalContext />
+        {/* 05. BEYOND THE DATE PIPELINE (Philosophy) */}
+        <BeyondTheDate />
 
-        {/* 06. TRUST INFRASTRUCTURE */}
+        {/* 06. TRUST INFRASTRUCTURE (Credibility) */}
         <TrustPillars />
 
-        {/* 07. ECOSYSTEM BRIDGE */}
+        {/* 07. ECOSYSTEM BRIDGE (The Story) */}
         <EcosystemStatement />
 
         {/* 08. FINAL CTA */}
