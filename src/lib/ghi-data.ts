@@ -25,7 +25,7 @@ export const DIWALI_NUANCE: GHINuance[] = [
     date: "29 OCT 2026",
     status: "Public Holiday",
     type: "Religious · Cultural",
-    impact: "Total market closure. High logistics load.",
+    impact: "Total market closure.",
     nuance: "The North lights lamps for Rama's return; the South cleanses for Krishna's victory over Narakasura."
   },
   {
@@ -37,7 +37,7 @@ export const DIWALI_NUANCE: GHINuance[] = [
     status: "National Holiday",
     type: "Religious",
     impact: "Government offline for 5 days.",
-    nuance: "A five-day celebration where crows, dogs, and cows are garlanded before the lamps are lit."
+    nuance: "A five-day sequence honoring crows, dogs, and cows before the lamps are lit."
   },
   {
     id: 'dw-sg',
@@ -47,8 +47,19 @@ export const DIWALI_NUANCE: GHINuance[] = [
     date: "29 OCT 2026",
     status: "Public Holiday",
     type: "Cultural",
-    impact: "Regional bank holiday. Localised closures.",
+    impact: "Regional bank holiday.",
     nuance: "Centred in Little India, characterized by massive street-light installations and open-air bazaars."
+  },
+  {
+    id: 'dw-uk',
+    name: "Diwali",
+    country: "UK",
+    countryCode: "UK",
+    date: "29 OCT 2026",
+    status: "Observance",
+    type: "Cultural",
+    impact: "Normal working day.",
+    nuance: "Major public celebrations in Leicester's Golden Mile and London's Trafalgar Square."
   }
 ];
 
@@ -60,12 +71,12 @@ export const CALENDAR_LOGIC_EXPLANATION = [
   },
   {
     title: "Lunar & Lunisolar",
-    desc: "Festivals like Diwali, Holi, or Lunar New Year shift according to the moon's phases, requiring complex annual recalculation.",
+    desc: "Festivals like Diwali or Lunar New Year shift according to the moon's phases, requiring annual recalculation.",
     example: "Diwali · Shifts Yearly"
   },
   {
-    title: "Government Declared",
-    desc: "Some public holidays are set by official notification each year and do not follow a fixed mathematical rule.",
+    title: "Declared",
+    desc: "Some public holidays are set by government notification each year, not by any fixed mathematical rule.",
     example: "Bank Holidays · Varies"
   }
 ];
