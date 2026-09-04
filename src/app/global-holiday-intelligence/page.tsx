@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useEffect } from 'react';
@@ -80,12 +81,22 @@ export default function GlobalHolidayIntelligencePage() {
           position: absolute;
           top: -2.5px;
         }
+        .tech-grid {
+          background-image: 
+            linear-gradient(to right, #DED9D0 1px, transparent 1px),
+            linear-gradient(to bottom, #DED9D0 1px, transparent 1px);
+          background-size: 60px 60px;
+          mask-image: radial-gradient(circle at 50% 50%, black, transparent 80%);
+        }
       `}</style>
 
       <B2BHeader />
       
       <main className="space-y-[120px] md:space-y-[180px] pb-[120px]">
-        <B2BHero />
+        <div className="relative">
+          <div className="absolute inset-0 tech-grid opacity-[0.15] pointer-events-none"></div>
+          <B2BHero />
+        </div>
         
         <BeyondTheDate />
         
