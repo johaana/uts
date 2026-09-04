@@ -80,3 +80,12 @@ export const CALENDAR_LOGIC_EXPLANATION = [
     example: "Bank Holidays · Varies"
   }
 ];
+
+export const TODAY_STORY = {
+    date: "Sep 04, 2026",
+    festival: "Janmashtami / Dahi Handi",
+    headline: "Gravity, Grit, and the Butter Thief.",
+    content: "Today, Mumbai's narrowest lanes transform into vertical arenas. The Dahi Handi ritual isn't just about breaking a pot; it's a display of extreme teamwork where human pyramids reach up to nine tiers high. While it's a religious celebration of Lord Krishna's mischievous childhood, in 2026, it remains one of India's most high-density urban events, affecting market operations across the entire Western state of Maharashtra.",
+    stat: "9-Tier Pyramids",
+    context: "Regional Scope: Maharashtra"
+}

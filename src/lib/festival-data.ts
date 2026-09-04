@@ -1,7 +1,42 @@
 
 export const allEvents = [
-    // 2026
-    { slug: "lohri-2026", name: "Lohri", date: "Jan 13, 2026", region: "North", country: "India", type: "Harvest", link: "/festivals/lohri", image: "https://i.postimg.cc/MGgSRZNM/lohri-1.webp", description: "A popular Punjabi folk festival celebrating the winter solstice and harvest.", hint: "lohri bonfire" },
+    // 2026 - High Precision for Prototype
+    { 
+        slug: "janmashtami-2026", 
+        name: "Janmashtami / Dahi Handi", 
+        date: "Sep 04, 2026", 
+        region: "Regional: Maharashtra", 
+        country: "India", 
+        type: "Religious", 
+        link: "/festivals/janmashtami", 
+        image: "https://i.postimg.cc/T3ccXCRv/dahi-handi.jpg", 
+        description: "The birth of Lord Krishna, celebrated with human pyramids (Dahi Handi) and massive public processions.", 
+        hint: "dahi handi" 
+    },
+    { 
+        slug: "ganesh-chaturthi-2026", 
+        name: "Ganesh Chaturthi", 
+        date: "Sep 15, 2026", 
+        region: "Regional: Maharashtra & West", 
+        country: "India", 
+        type: "Religious", 
+        link: "/festivals/ganesh-chaturthi", 
+        image: "https://i.postimg.cc/SNGxJ8VJ/ganesh-chaturthi-festival.jpg", 
+        description: "Celebrating the arrival of Lord Ganesha. Expect full commercial closures in Maharashtra.", 
+        hint: "ganesha idol" 
+    },
+    { 
+        slug: "lohri-2026", 
+        name: "Lohri", 
+        date: "Jan 13, 2026", 
+        region: "North", 
+        country: "India", 
+        type: "Harvest", 
+        link: "/festivals/lohri", 
+        image: "https://i.postimg.cc/MGgSRZNM/lohri-1.webp", 
+        description: "A popular Punjabi folk festival celebrating the winter solstice and harvest.", 
+        hint: "lohri bonfire" 
+    },
     { slug: "makar-sankranti-2026", name: "Makar Sankranti", date: "Jan 14, 2026", region: "Nationwide", country: "India", type: "Harvest", link: "/festivals/makar-sankranti", image: "https://i.postimg.cc/gJrdvSxD/makar-sankranti.jpg", description: "A festival marking the sun's transit into Capricorn, celebrated with kite flying and feasts.", hint: "kites festival" },
     { slug: "pongal-2026", name: "Pongal", date: "Jan 14, 2026 - Jan 17, 2026", region: "South", country: "India", type: "Harvest", link: "/festivals/pongal", image: "https://i.postimg.cc/bvmpScwr/pongal.jpg", description: "A four-day harvest festival of gratitude to nature, celebrated in Tamil Nadu.", hint: "pongal dish" },
     { slug: "republic-day-2026", name: "Republic Day", date: "Jan 26, 2026", region: "Nationwide", country: "India", type: "Holiday", link: "/festivals/republic-day", longWeekend: true, image: "https://i.postimg.cc/W4kyBGYz/independence-day.avif", description: "Celebrating the adoption of the Indian Constitution with a grand parade.", hint: "indian army parade" },
@@ -33,13 +68,4 @@ export const internationalEvents = [
     { slug: "st-patricks-day", name: "St. Patrick's Day", date: "Mar 17, 2026", region: "Global", country: "Ireland", type: "Cultural", link: "/festivals/st-patricks-day", image: "https://i.postimg.cc/1XTmKpWH/St-Patrick-s-Day-Ireland-Global.avif", description: "A global celebration of Irish culture with parades and festivities.", hint: "irish parade" },
     { slug: "la-tomatina-2026", name: "La Tomatina", date: "Aug 26, 2026", region: "Europe", country: "Spain", type: "Cultural", link: "/festivals/la-tomatina", image: "https://i.postimg.cc/GhwH7wCz/la-tomatina1.jpg", description: "The world's most famous food fight.", hint: "tomato fight" },
     { slug: "oktoberfest-2026", name: "Oktoberfest", date: "Sep 19, 2026 - Oct 04, 2026", region: "Europe", country: "Germany", type: "Cultural", link: "/festivals/oktoberfest", image: "https://i.postimg.cc/g0q0PLJz/Oktoberfest-Munich.jpg", description: "The world's largest beer festival.", hint: "beer festival" },
-    
-    // 2027
-    { slug: "chinese-new-year-2027", name: "Chinese New Year", date: "Feb 06, 2027", region: "Asia", country: "China", type: "New Year", link: "/festivals/chinese-new-year", image: "https://i.postimg.cc/TYb4tV14/chinese-new-year.webp", description: "Year of the Goat/Sheep.", hint: "dragon dance" },
-    { slug: "carnival-2027", name: "Carnival", date: "Feb 05, 2027 - Feb 10, 2027", region: "South America", country: "Brazil", type: "Cultural", link: "/festivals/carnival", image: "https://i.postimg.cc/0r1MZd3v/Carnival.jpg", description: "Rio's electric celebration.", hint: "brazil carnival" },
-    { slug: "la-tomatina-2027", name: "La Tomatina", date: "Aug 25, 2027", region: "Europe", country: "Spain", type: "Cultural", link: "/festivals/la-tomatina", image: "https://i.postimg.cc/GhwH7wCz/la-tomatina1.jpg", description: "Tomato hurling fun.", hint: "tomato fight" },
-
-    // 2028
-    { slug: "chinese-new-year-2028", name: "Chinese New Year", date: "Jan 26, 2028", region: "Asia", country: "China", type: "New Year", link: "/festivals/chinese-new-year", image: "https://i.postimg.cc/TYb4tV14/chinese-new-year.webp", description: "Year of the Monkey.", hint: "dragon dance" },
-    { slug: "oktoberfest-2028", name: "Oktoberfest", date: "Sep 16, 2028 - Oct 01, 2028", region: "Europe", country: "Germany", type: "Cultural", link: "/festivals/oktoberfest", image: "https://i.postimg.cc/g0q0PLJz/Oktoberfest-Munich.jpg", description: "Bavarian traditions.", hint: "beer festival" },
 ];
