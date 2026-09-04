@@ -1,4 +1,3 @@
-
 const items = [
   {
     num: "01",
@@ -31,21 +30,21 @@ export function Capabilities() {
   return (
     <section id="product" className="container mx-auto px-6">
       <div className="mb-20">
-        <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#E94368] mb-4">The Platform</p>
+        <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#E94368] mb-4 font-ui">The Platform</p>
         <h2 className="text-4xl md:text-6xl font-bold max-w-3xl">One intelligence layer.<br/>Five capabilities.</h2>
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-12">
         {items.map((item) => (
-          <div key={item.num} className="space-y-8 group">
-            <div className="space-y-2">
-                <p className="font-data text-[13px] text-[#E94368] font-bold">{item.num}</p>
-                <h3 className="text-sm font-bold uppercase tracking-widest leading-tight">{item.title}</h3>
+          <div key={item.num} className="space-y-6 group">
+            <div className="space-y-3">
+                <p className="font-data text-[14px] text-[#E94368] font-bold">{item.num}</p>
+                <h3 className="text-sm font-bold uppercase tracking-[0.15em] leading-tight font-ui">{item.title}</h3>
             </div>
-            <p className="text-sm leading-relaxed text-[#6D6870] min-h-[60px]">
+            <p className="text-sm leading-relaxed text-[#6D6870] font-ui min-h-[50px]">
               {item.desc}
             </p>
-            <div className="w-8 h-[1px] bg-[#E94368] transition-all duration-500 group-hover:w-full"></div>
+            <div className="w-8 h-[1px] bg-[#E94368] transition-all duration-700 group-hover:w-full"></div>
           </div>
         ))}
       </div>

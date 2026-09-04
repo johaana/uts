@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useEffect } from 'react';
@@ -20,17 +19,31 @@ import {
 import { IntelligenceRecord } from '@/components/b2b/IntelligenceRecord';
 
 export default function GlobalHolidayIntelligencePage() {
-  // Scoped typography loading
+  // Inject required fonts and suppress global header/footer for this isolated route
   useEffect(() => {
+    // Fonts
     const link = document.createElement('link');
     link.href = 'https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&family=IBM+Plex+Mono:wght@400;500&display=swap';
     link.rel = 'stylesheet';
     document.head.appendChild(link);
+
+    // Suppress global header/footer
+    const style = document.createElement('style');
+    style.id = 'b2b-isolation-styles';
+    style.innerHTML = `
+      header:not(.b2b-header), footer:not(.b2b-footer), .bottom-nav { display: none !important; }
+      body { background-color: #F7F4EE !important; }
+    `;
+    document.head.appendChild(style);
+
+    return () => {
+      document.getElementById('b2b-isolation-styles')?.remove();
+    };
   }, []);
 
   return (
     <div className="min-h-screen bg-[#F7F4EE] text-[#17151A] selection:bg-[#E94368]/20 font-sans antialiased overflow-x-hidden">
-      {/* Scoped CSS overrides */}
+      {/* Scoped CSS Utility Classes */}
       <style jsx global>{`
         :root {
           --font-display: 'Newsreader', serif;
@@ -40,10 +53,13 @@ export default function GlobalHolidayIntelligencePage() {
         .font-display { font-family: var(--font-display); }
         .font-ui { font-family: var(--font-ui); }
         .font-data { font-family: var(--font-data); }
+        
         h1, h2, h3 { font-family: var(--font-display); }
+        
         .btn-ink {
           background-color: #17151A;
-          color: #F7F4EE;
+          color: #FFFFFF;
+          font-family: var(--font-ui);
           transition: all 0.3s ease;
         }
         .btn-ink:hover {
@@ -53,7 +69,7 @@ export default function GlobalHolidayIntelligencePage() {
         }
         .data-line {
           height: 1px;
-          background: linear-gradient(to right, #DED9D0 0%, #E94368 50%, #DED9D0 100%);
+          background: #DED9D0;
           position: relative;
         }
         .data-dot {
@@ -79,7 +95,7 @@ export default function GlobalHolidayIntelligencePage() {
         
         <section className="container mx-auto px-6">
             <div className="text-center mb-16">
-                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#E94368] mb-4">The Intelligence Model</p>
+                <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#E94368] mb-4 font-ui">The Intelligence Model</p>
                 <h2 className="text-4xl md:text-6xl font-bold mb-6">One holiday.<br/>More useful information.</h2>
             </div>
             <div className="max-w-4xl mx-auto">
