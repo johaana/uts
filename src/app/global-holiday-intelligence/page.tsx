@@ -91,7 +91,7 @@ export default function GlobalHolidayIntelligencePage() {
 
       <B2BHeader />
       
-      <main className="space-y-[80px] md:space-y-[120px] pb-[100px]">
+      <main className="space-y-[60px] md:space-y-[90px] pb-[100px]">
         <div className="relative">
           <div className="absolute inset-0 tech-grid opacity-[0.15] pointer-events-none"></div>
           <B2BHero />

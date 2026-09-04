@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 
 export function B2BHeader() {
   return (
-    <header className="b2b-header h-[60px] border-b border-[#DED9D0] bg-[#F7F4EE]/95 backdrop-blur-sm sticky top-0 z-50">
+    <header className="b2b-header h-[54px] border-b border-[#DED9D0] bg-[#F7F4EE]/95 backdrop-blur-sm sticky top-0 z-50">
       <div className="container mx-auto h-full flex items-center justify-between px-6">
         <div className="flex flex-col items-start leading-none group">
             <Link href="/global-holiday-intelligence" className="flex flex-col">
@@ -24,7 +24,7 @@ export function B2BHeader() {
           <Link href="/" className="hidden lg:inline-block text-[9px] font-bold text-[#6D6870] hover:text-[#E94368] transition-colors uppercase tracking-widest font-ui">
             ← Utsavs.com
           </Link>
-          <Button className="btn-ink h-8 px-4 font-bold text-[9px] uppercase tracking-widest rounded-sm">
+          <Button className="btn-ink h-7 px-3 text-[9px] font-bold uppercase tracking-widest rounded-sm">
             API Preview
           </Button>
         </div>

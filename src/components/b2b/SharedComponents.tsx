@@ -15,16 +15,16 @@ export function BeyondTheDate() {
 
   return (
     <section className="container mx-auto px-6">
-      <div className="max-w-5xl mx-auto text-center space-y-20">
-        <div className="space-y-6">
+      <div className="max-w-5xl mx-auto text-center space-y-12">
+        <div className="space-y-4">
             <h2 className="text-4xl md:text-6xl font-bold font-display tracking-tight text-[#17151A]">Beyond the date.</h2>
-            <p className="text-lg md:text-2xl text-[#6D6870] leading-relaxed font-ui max-w-2xl mx-auto font-medium">
+            <p className="text-lg md:text-xl text-[#6D6870] leading-relaxed font-ui max-w-2xl mx-auto font-medium">
                 Utsavs provides the context systems need: where it applies, why it matters, and how certain the information is.
             </p>
         </div>
-        <div className="pt-12 relative max-w-4xl mx-auto px-8">
+        <div className="pt-8 relative max-w-4xl mx-auto px-8">
             <div className="data-line opacity-50"></div>
-            <div className="flex justify-between mt-12 relative">
+            <div className="flex justify-between mt-10 relative">
                 {steps.map((step, i) => (
                     <motion.div 
                         key={step.label} 
@@ -35,8 +35,8 @@ export function BeyondTheDate() {
                         className="relative flex flex-col items-center"
                     >
                         <div className="data-dot" style={{ left: '50%', marginLeft: '-3px' }}></div>
-                        <p className="text-[12px] font-bold uppercase tracking-[0.3em] text-[#17151A] mb-2 font-ui">{step.label}</p>
-                        <p className="text-[10px] font-bold text-[#E94368] uppercase tracking-[0.25em] font-data">{step.sub}</p>
+                        <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#17151A] mb-1 font-ui">{step.label}</p>
+                        <p className="text-[9px] font-bold text-[#E94368] uppercase tracking-[0.25em] font-data">{step.sub}</p>
                     </motion.div>
                 ))}
             </div>
@@ -56,22 +56,22 @@ export function TrustPillars() {
 
   return (
     <section className="container mx-auto px-6">
-      <div className="bg-[#17151A] text-[#F7F4EE] p-16 md:p-32 rounded-sm relative overflow-hidden">
+      <div className="bg-[#17151A] text-[#F7F4EE] p-12 md:p-24 rounded-sm relative overflow-hidden">
         <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#E94368]/10 blur-[150px] -mr-48 -mt-48"></div>
-        <div className="relative z-10 space-y-32">
-            <div className="max-w-3xl space-y-8">
-                <p className="text-[11px] font-bold uppercase tracking-[0.5em] text-[#E94368]">Data Architecture</p>
-                <h2 className="text-5xl md:text-7xl lg:text-8xl font-bold font-display leading-[0.95] tracking-tighter">Trust is part <br/>of the data.</h2>
-                <p className="text-xl md:text-2xl text-[#F7F4EE]/60 font-ui leading-relaxed max-w-2xl">
+        <div className="relative z-10 space-y-24">
+            <div className="max-w-3xl space-y-6">
+                <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#E94368]">Data Architecture</p>
+                <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold font-display leading-[0.95] tracking-tighter">Trust is part <br/>of the data.</h2>
+                <p className="text-lg md:text-xl text-[#F7F4EE]/60 font-ui leading-relaxed max-w-2xl">
                     Holiday information is not equally certain everywhere. Utsavs exposes the origin, status, and context of every record.
                 </p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 md:gap-24">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 md:gap-16">
                 {pillars.map(p => (
-                    <div key={p.title} className="space-y-6">
-                        <div className="h-0.5 w-12 bg-[#E94368]"></div>
-                        <h4 className="text-[12px] font-bold uppercase tracking-[0.3em] text-[#E94368] font-ui">{p.title}</h4>
-                        <p className="text-base leading-relaxed text-[#F7F4EE]/80 font-ui font-medium">{p.desc}</p>
+                    <div key={p.title} className="space-y-4">
+                        <div className="h-0.5 w-10 bg-[#E94368]"></div>
+                        <h4 className="text-[11px] font-bold uppercase tracking-[0.3em] text-[#E94368] font-ui">{p.title}</h4>
+                        <p className="text-sm leading-relaxed text-[#F7F4EE]/80 font-ui font-medium">{p.desc}</p>
                     </div>
                 ))}
             </div>
@@ -86,20 +86,20 @@ export function CulturalContext() {
 
   return (
     <section className="container mx-auto px-6">
-      <div className="max-w-5xl mx-auto text-center space-y-20">
-        <div className="space-y-8">
-            <h2 className="text-4xl md:text-7xl font-bold font-display tracking-tight">Data with <br className="md:hidden" /> cultural context.</h2>
-            <p className="text-xl md:text-2xl text-[#6D6870] leading-relaxed font-ui max-w-3xl mx-auto font-medium">
+      <div className="max-w-5xl mx-auto text-center space-y-16">
+        <div className="space-y-6">
+            <h2 className="text-4xl md:text-6xl font-bold font-display tracking-tight">Data with <br className="md:hidden" /> cultural context.</h2>
+            <p className="text-lg md:text-xl text-[#6D6870] leading-relaxed font-ui max-w-3xl mx-auto font-medium">
                 A holiday is more than a date. Utsavs combines structured schemas with concise cultural intelligence — why it is celebrated and how it varies.
             </p>
         </div>
-        <div className="flex flex-wrap justify-center gap-6">
+        <div className="flex flex-wrap justify-center gap-4">
             {labels.map(l => (
-                <span key={l} className="px-10 py-5 border border-[#DED9D0] text-[11px] font-bold uppercase tracking-[0.3em] font-ui bg-white hover:border-[#E94368] transition-colors duration-500 cursor-default">{l}</span>
+                <span key={l} className="px-8 py-4 border border-[#DED9D0] text-[10px] font-bold uppercase tracking-[0.3em] font-ui bg-white hover:border-[#E94368] transition-colors duration-500 cursor-default">{l}</span>
             ))}
         </div>
-        <div className="pt-12">
-            <p className="text-2xl md:text-[42px] font-display font-bold leading-[1.1] text-[#17151A] tracking-tight">
+        <div className="pt-8">
+            <p className="text-xl md:text-[36px] font-display font-bold leading-[1.1] text-[#17151A] tracking-tight">
                 Structured enough for machines. <br />
                 Meaningful enough for people.
             </p>
@@ -119,15 +119,15 @@ export function UseCaseGrid() {
 
   return (
     <section className="container mx-auto px-6">
-      <div className="text-center mb-24 space-y-6">
-        <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#E94368] font-ui">Implementation</p>
-        <h2 className="text-4xl md:text-6xl font-bold font-display tracking-tight text-[#17151A]">Built for systems that <br className="hidden md:block"/> need to understand time.</h2>
+      <div className="text-center mb-16 space-y-4">
+        <p className="text-[9px] font-bold uppercase tracking-[0.4em] text-[#E94368] font-ui">Implementation</p>
+        <h2 className="text-4xl md:text-5xl font-bold font-display tracking-tight text-[#17151A]">Built for systems that <br className="hidden md:block"/> need to understand time.</h2>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {cases.map(c => (
-          <div key={c.title} className="p-12 border border-[#DED9D0] bg-white rounded-sm space-y-6 hover:border-[#17151A] transition-all duration-500 hover:shadow-xl group">
-            <h4 className="text-[13px] font-bold uppercase tracking-[0.2em] font-ui text-[#17151A]">{c.title}</h4>
-            <p className="text-sm text-[#6D6870] leading-relaxed font-ui font-medium group-hover:text-[#17151A] transition-colors">{c.desc}</p>
+          <div key={c.title} className="p-8 border border-[#DED9D0] bg-white rounded-sm space-y-4 hover:border-[#17151A] transition-all duration-500 hover:shadow-xl group">
+            <h4 className="text-[11px] font-bold uppercase tracking-[0.2em] font-ui text-[#17151A]">{c.title}</h4>
+            <p className="text-xs text-[#6D6870] leading-relaxed font-ui font-medium group-hover:text-[#17151A] transition-colors">{c.desc}</p>
           </div>
         ))}
       </div>
@@ -138,26 +138,26 @@ export function UseCaseGrid() {
 export function EcosystemStatement() {
   return (
     <section className="container mx-auto px-6">
-      <div className="max-w-5xl mx-auto text-center py-32 border-t border-b border-[#DED9D0] space-y-24">
-        <p className="text-3xl md:text-5xl font-display font-bold leading-tight text-[#6D6870] tracking-tight">
+      <div className="max-w-5xl mx-auto text-center py-20 border-t border-b border-[#DED9D0] space-y-16">
+        <p className="text-2xl md:text-4xl font-display font-bold leading-tight text-[#6D6870] tracking-tight">
             Utsavs began by helping people discover festivals. <br />
             <span className="text-[#17151A]">Now we build the layer that helps systems understand them.</span>
         </p>
         
-        <div className="flex flex-col md:flex-row items-center justify-center gap-12 md:gap-24 relative">
-            <div className="space-y-3">
-                <p className="font-display text-2xl font-bold text-[#17151A]">Utsavs.com</p>
-                <p className="text-[10px] text-[#6D6870] uppercase font-bold tracking-[0.3em] font-ui">Discovery</p>
+        <div className="flex flex-col md:flex-row items-center justify-center gap-10 md:gap-16 relative">
+            <div className="space-y-2">
+                <p className="font-display text-xl font-bold text-[#17151A]">Utsavs.com</p>
+                <p className="text-[9px] text-[#6D6870] uppercase font-bold tracking-[0.3em] font-ui">Discovery</p>
             </div>
-            <div className="text-[#E94368] rotate-90 md:rotate-0 font-bold text-2xl opacity-40">→</div>
-            <div className="space-y-3 px-10 py-6 bg-white border border-[#DED9D0] shadow-sm">
-                <p className="font-display text-2xl font-bold text-[#E94368]">Global Intelligence</p>
-                <p className="text-[10px] text-[#6D6870] uppercase font-bold tracking-[0.3em] font-ui">Infrastructure</p>
+            <div className="text-[#E94368] rotate-90 md:rotate-0 font-bold text-xl opacity-40">→</div>
+            <div className="space-y-2 px-8 py-5 bg-white border border-[#DED9D0] shadow-sm">
+                <p className="font-display text-xl font-bold text-[#E94368]">Global Intelligence</p>
+                <p className="text-[9px] text-[#6D6870] uppercase font-bold tracking-[0.3em] font-ui">Infrastructure</p>
             </div>
-            <div className="text-[#E94368] rotate-90 md:rotate-0 font-bold text-2xl opacity-40">→</div>
-            <div className="space-y-3">
-                <p className="font-display text-2xl font-bold text-[#17151A]">Intelligence API</p>
-                <p className="text-[10px] text-[#6D6870] uppercase font-bold tracking-[0.3em] font-ui">Delivery</p>
+            <div className="text-[#E94368] rotate-90 md:rotate-0 font-bold text-xl opacity-40">→</div>
+            <div className="space-y-2">
+                <p className="font-display text-xl font-bold text-[#17151A]">Intelligence API</p>
+                <p className="text-[9px] text-[#6D6870] uppercase font-bold tracking-[0.3em] font-ui">Delivery</p>
             </div>
         </div>
       </div>
@@ -167,15 +167,15 @@ export function EcosystemStatement() {
 
 export function FinalCTA() {
   return (
-    <section className="container mx-auto px-6 text-center py-12">
-      <div className="max-w-4xl mx-auto space-y-16">
-        <h2 className="text-5xl md:text-8xl font-bold tracking-tighter font-display leading-[0.9]">Understand <br/> the calendar.</h2>
-        <p className="text-xl md:text-2xl text-[#6D6870] font-ui font-medium max-w-2xl mx-auto">Verified global intelligence for the technical systems people use every day.</p>
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-8">
-            <Button size="lg" className="btn-ink h-16 px-14 text-[12px] font-bold uppercase tracking-[0.3em] rounded-sm shadow-2xl hover:scale-105 transition-all duration-300">
+    <section className="container mx-auto px-6 text-center py-8">
+      <div className="max-w-4xl mx-auto space-y-12">
+        <h2 className="text-4xl md:text-7xl font-bold tracking-tighter font-display leading-[0.9]">Understand <br/> the calendar.</h2>
+        <p className="text-lg md:text-xl text-[#6D6870] font-ui font-medium max-w-2xl mx-auto">Verified global intelligence for the technical systems people use every day.</p>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+            <Button size="lg" className="btn-ink h-14 px-10 text-[10px] font-bold uppercase tracking-[0.3em] rounded-sm shadow-2xl hover:scale-105 transition-all duration-300">
                 Join API Preview
             </Button>
-            <Button variant="outline" size="lg" className="h-16 px-14 border-2 border-[#17151A] text-[12px] font-bold uppercase tracking-[0.3em] rounded-sm font-ui hover:bg-[#F7F4EE] transition-all">
+            <Button variant="outline" size="lg" className="h-14 px-10 border-2 border-[#17151A] text-[10px] font-bold uppercase tracking-[0.3em] rounded-sm font-ui hover:bg-[#F7F4EE] transition-all">
                 Explore Utsavs
             </Button>
         </div>
