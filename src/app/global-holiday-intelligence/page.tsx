@@ -1,389 +1,247 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, useScroll, useTransform, AnimatePresence, useSpring } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Search, ArrowRight, MapPin, Sparkles, Zap, Globe, Layers, Wind, Activity, Timer } from 'lucide-react';
+import { Search, ArrowRight, MapPin, Sparkles, Wind, Activity, Timer, Layers, Zap, Plane, Calendar } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { TODAY_RECORDS, DIWALI_NUANCE, LONG_WEEKENDS_CINEMA } from '@/lib/ghi-data';
+import { DIWALI_NUANCE, ESCAPE_DATA, PULSE_FEED } from '@/lib/ghi-data';
 import imageData from '@/app/lib/placeholder-images.json';
 
 /**
- * 00. CUSTOM CURSOR / ANNOTATOR
- */
-function DataCursor() {
-  const [pos, setPos] = useState({ x: 0, y: 0 });
-  useEffect(() => {
-    const handle = (e: MouseEvent) => setPos({ x: e.clientX, y: e.clientY });
-    window.addEventListener('mousemove', handle);
-    return () => window.removeEventListener('mousemove', handle);
-  }, []);
-
-  return (
-    <motion.div 
-      className="fixed pointer-events-none z-[9999] hidden lg:flex items-center gap-4"
-      animate={{ x: pos.x + 20, y: pos.y + 20 }}
-      transition={{ type: 'spring', damping: 30, stiffness: 400 }}
-    >
-      <div className="w-5 h-5 border border-coral rounded-full flex items-center justify-center">
-        <div className="w-1 h-1 bg-coral rounded-full" />
-      </div>
-      <span className="font-mono text-[10px] text-coral uppercase tracking-widest bg-ivory/90 px-3 py-1.5 rounded-sm shadow-sm backdrop-blur-md">
-        LOC_{pos.x.toFixed(0)}:{pos.y.toFixed(0)}
-      </span>
-    </motion.div>
-  );
-}
-
-/**
- * 01. HEADER — Minimalist / Floating
+ * 01. DASHBOARD HEADER
  */
 function Header() {
   return (
-    <header className="fixed top-0 left-0 right-0 h-24 z-50 flex items-center justify-between px-8 md:px-16 pointer-events-none">
-      <div className="flex flex-col pointer-events-auto">
-        <span className="font-headline text-3xl font-bold tracking-tight text-ink">UTSAVS</span>
-        <span className="text-[9px] font-bold uppercase tracking-[0.4em] text-coral -mt-1">GLOBAL INTELLIGENCE</span>
+    <header className="fixed top-0 left-0 right-0 h-16 z-50 flex items-center justify-between px-8 md:px-12 pointer-events-none">
+      <div className="flex items-center gap-8 pointer-events-auto">
+        <Link href="/global-holiday-intelligence" className="flex flex-col group">
+          <span className="font-headline text-2xl font-bold tracking-tight text-ink group-hover:text-coral transition-colors">UTSAVS</span>
+          <span className="text-[8px] font-bold uppercase tracking-[0.3em] text-coral -mt-1">INTELLIGENCE</span>
+        </Link>
+        <div className="hidden lg:flex items-center gap-6 text-[9px] font-bold uppercase tracking-[0.2em] text-muted-foreground/40 border-l border-warm-border pl-8">
+           <span>VERIFIED_2026</span>
+           <div className="flex items-center gap-2">
+             <div className="w-1 h-1 bg-muted-foreground/20 rounded-full" />
+             <span>UTC_SYNCED</span>
+           </div>
+        </div>
       </div>
       
-      <div className="flex items-center gap-12 pointer-events-auto">
-        <div className="hidden lg:flex items-center gap-6 text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground/60">
-          <div className="flex items-center gap-2">
-            <Activity className="w-3 h-3 text-coral" />
-            <span className="text-ink">STREAMING_GHI_V3</span>
-          </div>
-          <span className="w-1.5 h-1.5 bg-warm-border rounded-full" />
-          <span>SYNCED TO UTC_0</span>
-        </div>
-        
-        <Link href="/" className="group flex items-center gap-3 text-[11px] font-bold uppercase tracking-widest text-ink hover:text-coral transition-all">
-          <span className="w-8 h-[1px] bg-ink group-hover:bg-coral transition-colors" />
-          BACK TO SITE
+      <div className="flex items-center gap-8 pointer-events-auto">
+        <Link href="/" className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground hover:text-ink transition-all">
+          ← BACK TO SITE
         </Link>
+        <button className="h-9 px-5 bg-ink text-ivory text-[9px] font-bold uppercase tracking-[0.2em] rounded-sm hover:bg-coral transition-all">
+          API PREVIEW
+        </button>
       </div>
     </header>
   );
 }
 
 /**
- * 02. CINEMATIC HERO
+ * 02. DASHBOARD HERO — THE CONTROL CENTER
  */
-function Hero() {
-  const containerRef = useRef(null);
-  const { scrollYProgress } = useScroll({ target: containerRef, offset: ["start start", "end start"] });
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "40%"]);
-  const opacity = useTransform(scrollYProgress, [0, 0.4], [1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
+function DashboardHero() {
+  const [country, setCountry] = useState<'IN' | 'SG' | 'JP'>('IN');
+  const [activeRecord, setActiveRecord] = useState(DIWALI_NUANCE[0]);
 
   return (
-    <section ref={containerRef} className="relative h-screen flex items-center px-8 md:px-16 overflow-hidden bg-ivory">
-      {/* Immersive Background */}
-      <motion.div style={{ y, scale }} className="absolute inset-0 z-0">
-        <Image 
-          src={imageData.ghiHero.url} 
-          alt="Atmospheric human celebration" 
-          fill 
-          className="object-cover grayscale brightness-125 opacity-30 mix-blend-multiply"
-          priority
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-ivory via-ivory/80 to-transparent z-10" />
-      </motion.div>
+    <section className="relative min-h-screen pt-24 pb-12 px-8 md:px-12 flex flex-col justify-between overflow-hidden bg-ivory">
+      {/* Background Ambience */}
+      <div className="absolute top-0 right-0 w-[50%] h-full opacity-5 pointer-events-none">
+        <Image src={imageData.ghiHero.url} alt="Ambient" fill className="object-cover grayscale" />
+      </div>
 
-      <div className="relative z-20 w-full">
-        <div className="max-w-4xl space-y-16">
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <p className="text-[12px] font-bold uppercase tracking-[0.8em] text-coral mb-8 block">TEMPORAL INSTRUMENT</p>
-            <h1 className="font-headline text-7xl md:text-[11rem] leading-[0.8] font-bold tracking-tighter text-ink">
-              The world <br /> <span className="italic font-display font-medium text-coral">actually</span> <br /> in sync.
+      <div className="relative z-10 grid lg:grid-cols-12 gap-12 items-start h-full">
+        {/* LEFT: PRIMARY ACTION & ESCAPE MATRIX */}
+        <div className="lg:col-span-7 space-y-12">
+          <div className="space-y-4">
+            <p className="text-[10px] font-bold uppercase tracking-[0.6em] text-coral">TEMPORAL INSTRUMENT</p>
+            <h1 className="font-headline text-6xl md:text-8xl font-bold tracking-tighter text-ink leading-[0.9]">
+              The world <br /> <span className="italic font-display font-medium text-coral">actually</span> in sync.
             </h1>
-          </motion.div>
+          </div>
 
-          <motion.div 
-            className="max-w-xl space-y-10"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.8 }}
-          >
-            <p className="text-2xl text-muted-foreground font-medium leading-relaxed italic font-display">
-              "We map the heartbeat of global culture into structured intelligence. Beyond the date, into the meaning."
-            </p>
-            
-            <div className="relative group">
-              <div className="absolute -left-6 top-1/2 -translate-y-1/2 w-4 h-[1px] bg-coral group-focus-within:w-8 transition-all" />
-              <input 
-                placeholder="Search holiday, place or Ask the Calendar..."
-                className="w-full h-20 bg-transparent border-b border-warm-border text-2xl font-display focus:outline-none focus:border-ink transition-all placeholder:text-muted-foreground/30 px-4"
-              />
-              <div className="absolute right-0 top-1/2 -translate-y-1/2 flex items-center gap-4 text-[10px] font-bold tracking-[0.2em] text-muted-foreground">
-                <span className="bg-white/80 px-2 py-1 border border-warm-border">CMD+K</span>
-                <Search className="w-5 h-5 text-ink" />
-              </div>
+          {/* GLOBAL SEARCH COMMAND */}
+          <div className="max-w-2xl relative group">
+            <div className="absolute -left-4 top-1/2 -translate-y-1/2 w-1.5 h-1/2 bg-warm-border group-focus-within:bg-coral transition-colors" />
+            <input 
+              placeholder="Search holiday, place, or ask: 'When is the next break?'"
+              className="w-full h-16 bg-white border-warm-border border-b text-xl font-display focus:outline-none focus:border-ink transition-all placeholder:text-muted-foreground/30 px-4 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)]"
+            />
+            <div className="absolute right-4 top-1/2 -translate-y-1/2">
+              <Search className="w-5 h-5 text-ink/30" />
             </div>
-          </motion.div>
-        </div>
-      </div>
+          </div>
 
-      {/* Floating Record Overlay */}
-      <motion.div 
-        className="absolute right-16 top-1/2 -translate-y-1/2 hidden xl:block w-[450px]"
-        initial={{ opacity: 0, y: 100 }}
-        animate={{ opacity: 1, y: -50 }}
-        transition={{ delay: 1.2, duration: 1 }}
-      >
-        <div className="bg-white p-12 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.15)] border border-warm-border relative overflow-hidden group">
-          <div className="absolute top-0 left-0 w-1 h-full bg-coral scale-y-0 group-hover:scale-y-100 transition-transform origin-top duration-700" />
-          <div className="space-y-10 text-left">
-            <div className="flex justify-between items-start">
-               <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-coral">FEATURED RECORD</span>
-               <div className="flex items-center gap-2">
-                 <div className="w-1.5 h-1.5 bg-coral rounded-full animate-pulse" />
-                 <span className="font-mono text-[9px] text-muted-foreground">LIVE_ID_092</span>
-               </div>
-            </div>
-            
-            <div>
-               <h3 className="text-5xl font-headline font-bold mb-2">Ganesh Chaturthi</h3>
-               <p className="text-[11px] font-bold text-muted-foreground tracking-[0.3em] uppercase">India · Regional Scope</p>
-            </div>
-
-            <div className="pt-8 border-t border-warm-border space-y-4">
-               <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">Operational Status</p>
-               <div className="flex items-end justify-between">
-                 <span className="text-3xl font-display italic">Partial Closure</span>
-                 <span className="font-mono text-sm font-bold text-ink">05 SEP 2026</span>
+          {/* ESCAPE MATRIX */}
+          <div className="space-y-6 max-w-2xl">
+            <div className="flex items-center justify-between border-b border-warm-border pb-4">
+               <h2 className="text-[10px] font-bold uppercase tracking-[0.4em] text-ink">Find Your Next Escape</h2>
+               <div className="flex gap-4">
+                  {(['IN', 'SG', 'JP'] as const).map(c => (
+                    <button 
+                      key={c} 
+                      onClick={() => setCountry(c)}
+                      className={cn("text-[10px] font-bold transition-all", country === c ? "text-coral border-b border-coral" : "text-muted-foreground/40 hover:text-ink")}
+                    >
+                      {c}
+                    </button>
+                  ))}
                </div>
             </div>
 
-            <Link href="/festivals/ganesh-chaturthi">
-              <button className="w-full h-14 bg-ink text-ivory text-[10px] font-bold uppercase tracking-[0.3em] mt-8 hover:bg-coral transition-colors">
-                Explore Intelligence →
-              </button>
-            </Link>
-          </div>
-        </div>
-      </motion.div>
-
-      {/* Grain Overlay */}
-      <div className="absolute inset-0 pointer-events-none opacity-[0.04] z-[99] bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
-    </section>
-  );
-}
-
-/**
- * 03. TEMPORAL CONSTELLATION
- */
-function Constellation() {
-  return (
-    <section className="py-48 px-8 md:px-16 bg-ink text-ivory relative overflow-hidden">
-      <div className="absolute inset-0 z-0">
-        <div className="grid grid-cols-12 h-full opacity-10">
-          {Array.from({ length: 144 }).map((_, i) => (
-            <div key={i} className="border-[0.5px] border-ivory/20" />
-          ))}
-        </div>
-      </div>
-
-      <div className="relative z-10 grid lg:grid-cols-2 gap-32 items-center">
-        <div className="space-y-12">
-          <div className="space-y-4">
-            <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-coral">WORLD PULSE</p>
-            <h2 className="font-headline text-6xl md:text-8xl font-bold tracking-tighter leading-[0.9]">
-              The density of <br/> <span className="italic font-display font-medium text-coral/80">human</span> celebration.
-            </h2>
-          </div>
-          <p className="text-2xl text-ivory/60 max-w-xl leading-relaxed font-display">
-            Every dot is a verified event. Every pulse is a localized closure. We monitor the grid so your life stays in sync with the planet's time.
-          </p>
-          <div className="flex gap-20 pt-8">
-            <div className="space-y-1">
-              <p className="text-6xl font-headline font-bold">142</p>
-              <p className="text-[10px] font-bold uppercase tracking-widest text-ivory/40">Verified Today</p>
-            </div>
-            <div className="space-y-1">
-              <p className="text-6xl font-headline font-bold text-coral">18</p>
-              <p className="text-[10px] font-bold uppercase tracking-widest text-ivory/40">Active Closures</p>
+            <div className="grid md:grid-cols-2 gap-4">
+               {ESCAPE_DATA[country].map((escape, i) => (
+                 <motion.div 
+                   key={escape.title + country}
+                   initial={{ opacity: 0, y: 10 }}
+                   animate={{ opacity: 1, y: 0 }}
+                   transition={{ delay: i * 0.1 }}
+                   className="p-6 bg-white border border-warm-border hover:border-coral transition-all cursor-pointer group shadow-sm"
+                 >
+                    <div className="flex justify-between items-start mb-4">
+                       <span className="text-[9px] font-bold uppercase tracking-widest text-muted-foreground">{escape.days}</span>
+                       <Plane className="w-3 h-3 text-coral opacity-0 group-hover:opacity-100 transition-opacity" />
+                    </div>
+                    <h3 className="text-2xl font-headline font-bold mb-1">{escape.title}</h3>
+                    <p className="font-mono text-xs text-ink/60">{escape.dates}</p>
+                    <div className="mt-4 pt-4 border-t border-warm-border flex items-center justify-between">
+                       <span className="text-[9px] font-bold uppercase tracking-tighter text-muted-foreground">{escape.requirement}</span>
+                       <span className="text-[9px] font-bold uppercase tracking-widest text-coral opacity-0 group-hover:opacity-100 transition-opacity">Details →</span>
+                    </div>
+                 </motion.div>
+               ))}
             </div>
           </div>
         </div>
 
-        <div className="relative aspect-square flex items-center justify-center">
-          {/* Pulsing Visual */}
-          <motion.div 
-            animate={{ rotate: 360 }}
-            transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
-            className="absolute inset-0 rounded-full border border-ivory/10"
-          />
-          <div className="w-4/5 h-4/5 relative bg-ivory/[0.02] rounded-full border border-ivory/5 backdrop-blur-3xl">
-             <div className="absolute inset-0 flex items-center justify-center opacity-10">
-               <Globe className="w-48 h-48" />
-             </div>
-             {/* Interaction points */}
-             {[15, 35, 55, 75].map((pos, i) => (
-               <motion.div
-                 key={i}
-                 className="absolute w-3 h-3 bg-coral rounded-full shadow-[0_0_30px_rgba(233,67,104,0.6)] cursor-pointer"
-                 style={{ left: `${pos}%`, top: `${pos + (i % 2 ? 10 : -10)}%` }}
-                 animate={{ scale: [1, 1.4, 1], opacity: [0.4, 1, 0.4] }}
-                 transition={{ repeat: Infinity, duration: 3, delay: i * 0.8 }}
-                 whileHover={{ scale: 2 }}
-               />
-             ))}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/**
- * 04. DIWALI NUANCE EXPLORER
- */
-function NuanceExplorer() {
-  const [active, setActive] = useState(DIWALI_NUANCE[0]);
-
-  return (
-    <section className="py-48 bg-ivory overflow-hidden">
-      <div className="container mx-auto px-8 md:px-16 space-y-24">
-        <div className="text-center space-y-6">
-           <h2 className="font-headline text-6xl md:text-9xl font-bold tracking-tighter">One day. <br />Many worlds.</h2>
-           <p className="text-2xl text-muted-foreground max-w-xl mx-auto font-display italic">The same festival, refracted through different borders and laws.</p>
-        </div>
-
-        <div className="grid lg:grid-cols-2 gap-20 items-stretch">
-          <div className="space-y-4">
-            {DIWALI_NUANCE.map(n => (
-              <button 
-                key={n.id}
-                onClick={() => setActive(n)}
-                className={cn(
-                  "w-full flex items-center justify-between p-10 border transition-all duration-500 text-left relative",
-                  active.id === n.id ? "bg-ink text-ivory border-ink translate-x-4 shadow-2xl" : "bg-white border-warm-border hover:border-muted-foreground/30"
-                )}
-              >
-                <div className="flex items-center gap-10">
-                  <span className="font-mono text-xs opacity-40">{n.countryCode}</span>
-                  <span className="font-display text-4xl font-bold">{n.country}</span>
-                </div>
-                <ArrowRight className={cn("w-6 h-6 transition-all duration-500", active.id === n.id ? "translate-x-0 opacity-100" : "-translate-x-4 opacity-0")} />
-                {active.id === n.id && (
-                  <motion.div layoutId="tab-underline" className="absolute left-0 w-1.5 h-1/2 bg-coral top-1/4" />
-                )}
-              </button>
-            ))}
-          </div>
-
-          <AnimatePresence mode="wait">
-            <motion.div 
-              key={active.id}
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 1.05 }}
-              className="bg-white border border-warm-border p-16 shadow-[0_60px_120px_-30px_rgba(0,0,0,0.1)] relative flex flex-col justify-between"
-            >
-              <div className="space-y-12">
-                <div className="flex items-center gap-3">
-                   <div className="w-1.5 h-1.5 bg-coral rounded-full" />
-                   <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-coral">LOCAL_NUANCE_REPORT</span>
-                </div>
-                
-                <div className="space-y-4">
-                   <h3 className="font-headline text-7xl font-bold tracking-tight">{active.name}</h3>
-                   <p className="font-mono text-xl text-ink">{active.date}</p>
+        {/* RIGHT: FEATURED RECORD & LIVE PULSE */}
+        <div className="lg:col-span-5 flex flex-col gap-8">
+          {/* THE RECORD */}
+          <div className="bg-white p-10 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.08)] border border-warm-border relative overflow-hidden group rounded-sm">
+             <div className="absolute top-0 left-0 w-1 h-full bg-coral/10 group-hover:bg-coral transition-colors duration-700" />
+             
+             <div className="space-y-8">
+                <div className="flex justify-between items-start">
+                   <div className="flex items-center gap-2">
+                      <div className="w-1.5 h-1.5 bg-coral rounded-full animate-pulse" />
+                      <span className="text-[9px] font-bold uppercase tracking-[0.3em] text-coral">LIVE_RECORD_092</span>
+                   </div>
+                   <span className="font-mono text-[9px] text-muted-foreground uppercase">{activeRecord.id}</span>
                 </div>
 
-                <div className="pt-12 border-t border-muted/10">
-                   <p className="text-[9px] font-bold uppercase tracking-[0.3em] text-muted-foreground mb-6">INTELLIGENCE SUMMARY</p>
-                   <p className="text-3xl font-display leading-[1.3] text-ink italic">
-                      "{active.nuance}"
+                <div>
+                   <h3 className="text-5xl font-headline font-bold tracking-tight mb-1">{activeRecord.name}</h3>
+                   <p className="text-[10px] font-bold text-muted-foreground tracking-[0.2em] uppercase">{activeRecord.country} · {activeRecord.status}</p>
+                </div>
+
+                <div className="grid grid-cols-2 gap-8 py-6 border-y border-warm-border">
+                   <div className="space-y-1">
+                      <p className="text-[8px] font-bold uppercase tracking-widest text-muted-foreground">Local Date</p>
+                      <p className="font-mono text-sm font-bold text-ink">{activeRecord.date}</p>
+                   </div>
+                   <div className="space-y-1 text-right">
+                      <p className="text-[8px] font-bold uppercase tracking-widest text-muted-foreground">Classification</p>
+                      <p className="text-[9px] font-bold uppercase tracking-widest text-coral">{activeRecord.type}</p>
+                   </div>
+                </div>
+
+                <div className="space-y-3">
+                   <p className="text-[9px] font-bold uppercase tracking-widest text-muted-foreground">Intelligence Nuance</p>
+                   <p className="text-base font-display italic leading-snug">
+                     "{activeRecord.nuance}"
                    </p>
                 </div>
-              </div>
 
-              <div className="mt-16 flex items-center justify-between text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60 border-t border-warm-border pt-8">
-                 <span>Source: Utsavs Protocol 9</span>
-                 <div className="flex items-center gap-2">
-                   <Timer className="w-3 h-3" />
-                   <span>VERIFIED_2026</span>
-                 </div>
-              </div>
-            </motion.div>
-          </AnimatePresence>
+                <div className="pt-4 flex items-center justify-between">
+                   <div className="flex gap-2">
+                      {['Government', 'Local', 'Verified'].map(t => (
+                        <span key={t} className="text-[8px] font-bold uppercase tracking-widest px-2 py-0.5 bg-ivory rounded-full text-muted-foreground">{t}</span>
+                      ))}
+                   </div>
+                   <button className="text-[10px] font-bold uppercase tracking-widest text-ink hover:text-coral transition-colors">Details →</button>
+                </div>
+             </div>
+          </div>
+
+          {/* WORLD PULSE TICKER */}
+          <div className="bg-ink text-ivory p-8 rounded-sm space-y-6">
+             <div className="flex items-center justify-between">
+                <span className="text-[9px] font-bold uppercase tracking-[0.4em] text-coral">WORLD_PULSE_FEED</span>
+                <Activity className="w-4 h-4 text-coral animate-pulse" />
+             </div>
+             <div className="space-y-4">
+                {PULSE_FEED.map((feed, i) => (
+                  <div key={i} className="flex items-center gap-4 group cursor-pointer" onClick={() => {
+                    // Simulation: Update featured record if it were India
+                    if(feed.code === 'IN') setActiveRecord(DIWALI_NUANCE[0]);
+                  }}>
+                    <span className="font-mono text-[10px] opacity-30 w-12">{feed.region}</span>
+                    <div className={cn("w-1.5 h-1.5 rounded-full transition-colors", feed.active ? "bg-coral shadow-[0_0_10px_#E94368]" : "bg-ivory/10")} />
+                    <span className="text-xs font-bold uppercase tracking-widest flex-1 group-hover:text-coral transition-colors">{feed.label}</span>
+                    <span className="font-mono text-[9px] opacity-20">{feed.code}</span>
+                  </div>
+                ))}
+             </div>
+          </div>
         </div>
       </div>
+
+      {/* Grain Overlay */}
+      <div className="absolute inset-0 pointer-events-none opacity-[0.03] z-[99] bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
     </section>
   );
 }
 
 /**
- * 05. PLANNING SLIDER
+ * 03. CALENDAR INFRASTRUCTURE SECTION
  */
-function PlanningSlider() {
-  return (
-    <section className="py-48 bg-ink text-ivory overflow-hidden">
-      <div className="px-8 md:px-16 mb-24">
-         <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-coral mb-6">OPERATIONAL PLANNING</p>
-         <h2 className="font-headline text-6xl md:text-8xl font-bold tracking-tighter">The next reason <br/> to depart.</h2>
-      </div>
+function Infrastructure() {
+  const points = [
+    { title: "Source-Aware", icon: Layers, desc: "Direct integration with local government notifications." },
+    { title: "Verification-Trail", icon: Activity, desc: "Algorithmic validation of lunar and lunisolar cycles." },
+    { title: "Jurisdiction-Certainty", icon: MapPin, desc: "Local municipal rules indexed to the city level." },
+    { title: "Impact-Modeling", icon: Zap, desc: "Operational closure density mapped across sectors." }
+  ];
 
-      <div className="flex gap-12 px-8 md:px-16 overflow-x-auto pb-20 no-scrollbar">
-         {LONG_WEEKENDS_CINEMA.map((lw, i) => (
-           <motion.div 
-             key={i}
-             whileHover={{ y: -20, backgroundColor: "#E94368", color: "#FFF" }}
-             className="min-w-[480px] bg-ivory/[0.03] border border-ivory/10 p-16 space-y-16 group cursor-pointer transition-all duration-700 ease-[0.16, 1, 0.3, 1]"
-           >
-              <div className="flex justify-between items-start">
-                 <span className="text-[11px] font-bold uppercase tracking-[0.3em] opacity-40 group-hover:opacity-100 transition-opacity">{lw.label}</span>
-                 <Wind className="w-6 h-6 opacity-20 group-hover:opacity-100 transition-opacity" />
-              </div>
-              <div className="space-y-4">
-                 <h3 className="font-headline text-5xl font-bold tracking-tight leading-none">{lw.title}</h3>
-                 <p className="font-mono text-2xl font-bold opacity-60 group-hover:opacity-100 transition-opacity">{lw.dates}</p>
-              </div>
-              <p className="text-lg font-medium leading-relaxed font-display italic opacity-40 group-hover:opacity-100 transition-opacity">
-                "{lw.logic}"
-              </p>
-              <div className="pt-4">
-                 <span className="text-[11px] font-bold uppercase tracking-[0.3em] border-b border-ivory/20 pb-2 group-hover:border-white transition-all">Explore Availability</span>
-              </div>
-           </motion.div>
-         ))}
+  return (
+    <section className="py-32 px-8 md:px-12 bg-white border-y border-warm-border">
+      <div className="max-w-6xl mx-auto grid lg:grid-cols-4 gap-12">
+        {points.map((p, i) => (
+          <div key={i} className="space-y-6 text-left">
+             <div className="w-8 h-8 flex items-center justify-center text-coral mb-4">
+                <p.icon className="w-6 h-6" />
+             </div>
+             <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-ink">{p.title}</h4>
+             <p className="text-sm text-muted-foreground leading-relaxed font-ui font-medium">{p.desc}</p>
+          </div>
+        ))}
       </div>
     </section>
   );
 }
 
 /**
- * 06. FINAL CALL
+ * 04. FOOTER
  */
 function Footer() {
   return (
-    <footer className="py-48 px-8 md:px-16 bg-ivory border-t border-warm-border text-center relative overflow-hidden">
-      <div className="absolute inset-0 opacity-5 z-0">
-        <Image src={imageData.ghiHero.url} alt="Background" fill className="object-cover" />
-      </div>
-      
-      <div className="max-w-4xl mx-auto space-y-16 relative z-10">
-        <h2 className="font-headline text-6xl md:text-9xl font-bold tracking-tighter leading-[0.85]">Understand <br /> the calendar.</h2>
-        <div className="flex flex-col sm:flex-row justify-center gap-8">
-           <Link href="/">
-              <button className="h-20 px-12 bg-ink text-ivory text-[11px] font-bold uppercase tracking-[0.4em] rounded-none shadow-[0_20px_40px_-10px_rgba(0,0,0,0.3)] hover:scale-105 active:scale-95 transition-all">EXPLORE UTSAVS.COM</button>
-           </Link>
-           <Link href="/calendar">
-              <button className="h-20 px-12 border-2 border-ink text-ink text-[11px] font-bold uppercase tracking-[0.4em] rounded-none hover:bg-ink hover:text-ivory transition-all">FULL CALENDAR VIEW</button>
-           </Link>
-        </div>
-        
-        <div className="pt-24 border-t border-warm-border flex flex-col md:flex-row justify-between items-center gap-8 opacity-40 text-[10px] font-bold uppercase tracking-[0.5em]">
-           <p>© 2026 UTSAVS · GLOBAL HOLIDAY INTELLIGENCE</p>
-           <p>SYNCED_TO_GRID_REF_092</p>
-        </div>
-      </div>
+    <footer className="py-24 px-8 md:px-12 bg-ivory text-center">
+       <div className="max-w-2xl mx-auto space-y-12">
+          <div className="space-y-4">
+            <h2 className="text-5xl font-headline font-bold tracking-tight">Understand the calendar.</h2>
+            <p className="text-lg text-muted-foreground font-display italic">"Structured enough for systems. Meaningful enough for people."</p>
+          </div>
+          <div className="flex justify-center gap-8 pt-8 border-t border-warm-border">
+             <button className="btn-ink h-14 px-10 text-[10px] font-bold uppercase tracking-widest rounded-sm">EXPLORE UTSAVS.COM</button>
+             <button className="h-14 px-10 border border-ink text-ink text-[10px] font-bold uppercase tracking-widest rounded-sm hover:bg-ink hover:text-ivory transition-all">API PREVIEW</button>
+          </div>
+          <p className="text-[9px] font-bold uppercase tracking-[0.5em] text-muted-foreground/30 pt-12">© 2026 UTSAVS · GLOBAL HOLIDAY INTELLIGENCE</p>
+       </div>
     </footer>
   );
 }
@@ -396,19 +254,16 @@ export default function GHIPage() {
 
   return (
     <div className="min-h-screen bg-ivory text-ink selection:bg-coral/20 font-sans antialiased">
-      <DataCursor />
       <Header />
       <main>
-        <Hero />
-        <Constellation />
-        <NuanceExplorer />
-        <PlanningSlider />
+        <DashboardHero />
+        <Infrastructure />
         
-        {/* BRIDGE SECTION */}
-        <section className="py-48 px-8 md:px-16 border-y border-warm-border bg-white overflow-hidden">
-           <div className="max-w-5xl mx-auto text-center space-y-12">
-              <Layers className="w-12 h-12 mx-auto text-coral opacity-20" />
-              <p className="text-4xl md:text-6xl font-display italic leading-tight text-muted-foreground/80 font-medium">
+        {/* Philosophy Break */}
+        <section className="py-48 px-8 md:px-12 bg-white flex items-center justify-center border-b border-warm-border">
+           <div className="max-w-3xl text-center space-y-12">
+              <Sparkles className="w-12 h-12 mx-auto text-coral/20" />
+              <p className="text-5xl md:text-7xl font-display font-medium italic tracking-tight text-ink leading-tight">
                 "Utsavs is the infrastructure for the moments that matter. From deep cultural ritual to precision global logistics."
               </p>
            </div>

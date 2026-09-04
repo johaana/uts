@@ -11,7 +11,9 @@ export interface GHIEvent {
   date: string;
   status: string;
   nuance: string;
-  coordinates: { x: number, y: number }; // Relative percentage for the "Constellation"
+  type: string;
+  impact: string;
+  monthIndex: number;
 }
 
 export const DIWALI_NUANCE: GHIEvent[] = [
@@ -20,68 +22,57 @@ export const DIWALI_NUANCE: GHIEvent[] = [
     name: "Diwali",
     country: "India",
     countryCode: "IN",
-    date: "Oct 29, 2026",
+    date: "29 OCT 2026",
     status: "Public Holiday",
+    type: "Religious · Cultural",
+    impact: "Total market closure. High logistics load.",
     nuance: "The North lights lamps for Rama's return; the South cleanses for Krishna's victory over Narakasura.",
-    coordinates: { x: 72, y: 45 }
+    monthIndex: 9
   },
   {
     id: 'dw-np',
     name: "Tihar",
     country: "Nepal",
     countryCode: "NP",
-    date: "Oct 29, 2026",
+    date: "29 OCT 2026",
     status: "National Holiday",
+    type: "Religious",
+    impact: "Government offline for 5 days.",
     nuance: "A five-day celebration where crows, dogs, and cows are garlanded before the lamps are lit.",
-    coordinates: { x: 75, y: 40 }
+    monthIndex: 9
   },
   {
     id: 'dw-sg',
     name: "Deepavali",
     country: "Singapore",
     countryCode: "SG",
-    date: "Oct 29, 2026",
+    date: "29 OCT 2026",
     status: "Public Holiday",
-    nuance: "Centred in Little India, characterized by massive street-light installations and open-air bazaars.",
-    coordinates: { x: 80, y: 55 }
-  }
-];
-
-export const TODAY_RECORDS = [
-  {
-    name: "Ganesh Chaturthi",
-    place: "India · MH",
-    type: "Religious",
-    status: "LIVE",
-    coords: "19.0760° N, 72.8777° E"
-  },
-  {
-    name: "Labor Day",
-    place: "USA",
-    type: "Public",
-    status: "LIVE",
-    coords: "38.9072° N, 77.0369° W"
-  },
-  {
-    name: "Respect for the Aged",
-    place: "Japan",
     type: "Cultural",
-    status: "NEXT",
-    coords: "35.6762° N, 139.6503° E"
+    impact: "Regional bank holiday. Localised closures.",
+    nuance: "Centred in Little India, characterized by massive street-light installations and open-air bazaars.",
+    monthIndex: 9
   }
 ];
 
-export const LONG_WEEKENDS_CINEMA = [
-  {
-    title: "Diwali 2026",
-    dates: "OCT 29 – NOV 01",
-    label: "4 DAY BRIDGE",
-    logic: "Take Friday off for a full golden autumn escape."
-  },
-  {
-    title: "Holi 2026",
-    dates: "MAR 04 – MAR 08",
-    label: "5 DAY ESCAPE",
-    logic: "A mid-week celebration creates a massive planning opportunity."
-  }
+export const ESCAPE_DATA = {
+  IN: [
+    { title: "Diwali Bridge", dates: "OCT 29 – NOV 01", days: "4 DAYS", requirement: "1 Day Leave" },
+    { title: "Holi Escape", dates: "MAR 04 – MAR 08", days: "5 DAYS", requirement: "2 Days Leave" },
+  ],
+  SG: [
+    { title: "Lunar New Year", dates: "JAN 29 – FEB 01", days: "4 DAYS", requirement: "0 Days Leave" },
+    { title: "National Day", dates: "AUG 07 – AUG 10", days: "4 DAYS", requirement: "1 Day Leave" },
+  ],
+  JP: [
+    { title: "Golden Week", dates: "APR 29 – MAY 05", days: "7 DAYS", requirement: "2 Days Leave" },
+    { title: "Obon Season", dates: "AUG 13 – AUG 16", days: "4 DAYS", requirement: "1 Day Leave" },
+  ]
+};
+
+export const PULSE_FEED = [
+  { region: "ASIA", active: true, label: "Ganesh Chaturthi", code: "IN" },
+  { region: "EUROPE", active: false, label: "Oktoberfest Pre-prep", code: "DE" },
+  { region: "AMERICAS", active: true, label: "Labor Day", code: "US" },
+  { region: "OCEANIA", active: false, label: "Father's Day", code: "AU" },
 ];
