@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useEffect } from 'react';
@@ -92,7 +91,7 @@ export default function GlobalHolidayIntelligencePage() {
 
       <B2BHeader />
       
-      <main className="space-y-[120px] md:space-y-[180px] pb-[120px]">
+      <main className="space-y-[80px] md:space-y-[120px] pb-[100px]">
         <div className="relative">
           <div className="absolute inset-0 tech-grid opacity-[0.15] pointer-events-none"></div>
           <B2BHero />
@@ -105,9 +104,9 @@ export default function GlobalHolidayIntelligencePage() {
         <Comparison />
         
         <section className="container mx-auto px-6">
-            <div className="text-center mb-16">
-                <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#E94368] mb-4 font-ui">The Intelligence Model</p>
-                <h2 className="text-4xl md:text-6xl font-bold mb-6">One holiday.<br/>More useful information.</h2>
+            <div className="text-center mb-10">
+                <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#E94368] mb-3 font-ui">The Intelligence Model</p>
+                <h2 className="text-3xl md:text-5xl font-bold mb-4">One holiday.<br/>More useful information.</h2>
             </div>
             <div className="max-w-4xl mx-auto">
                 <IntelligenceRecord size="large" />
