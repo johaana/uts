@@ -4,17 +4,15 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
-import Image from 'next/image';
 import { 
-  Search, ArrowRight, MapPin, 
-  Globe, ChevronRight, Sparkles, Clock, BookOpen, Send
+  Search, MapPin, 
+  Globe, BookOpen
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { allEvents, internationalEvents } from '@/lib/festival-data';
 import { DIWALI_NUANCE, TODAY_STORY } from '@/lib/ghi-data';
-import { format, parse, isValid, addDays, startOfDay, differenceInDays } from 'date-fns';
+import { format, addDays, startOfDay, differenceInDays } from 'date-fns';
 
-// Constants from the provided design
+// Constants for the simulation logic
 const HOLIDAYS_REGISTRY: Record<string, any[]> = {
   IN: [
     { date: "2026-09-05", name: "Ganesh Chaturthi", type: "religious" },
@@ -103,7 +101,7 @@ export default function GlobalHolidayIntelligencePage() {
         <nav className="max-w-[1180px] mx-auto px-6 md:px-8 flex items-center justify-between h-[76px]">
           <div className="flex items-baseline gap-2">
             <span className="font-headline text-2xl font-semibold tracking-tight">Utsavs</span>
-            <span className="font-mono text-[10px] text-[#E8A33D] tracking-[0.14em] font-medium">GLOBAL CALENDAR INTELLIGENCE</span>
+            <span className="font-mono text-[10px] text-[#E8A33D] tracking-[0.14em] font-medium uppercase">GLOBAL CALENDAR INTELLIGENCE</span>
           </div>
           <div className="hidden md:flex gap-9 text-[14.5px] text-[#9AA1C0]">
             <Link href="#explore" className="hover:text-white transition-colors">Explore</Link>
@@ -123,7 +121,6 @@ export default function GlobalHolidayIntelligencePage() {
         <section className="py-11 md:py-14" id="explore">
           <div className="max-w-[1180px] mx-auto px-6 md:px-8 grid lg:grid-cols-[1.05fr_0.95fr] gap-12 items-center">
             
-            {/* Left: Headline & Search */}
             <div className="space-y-6">
               <div className="font-mono text-[12.5px] text-[#4FD1C5] tracking-wide flex items-center gap-2.5">
                 <div className="w-1.5 h-1.5 rounded-full bg-[#4FD1C5] shadow-[0_0_8px_#4FD1C5]" />
@@ -155,7 +152,7 @@ export default function GlobalHolidayIntelligencePage() {
               </div>
             </div>
 
-            {/* Right: Checker Widget */}
+            {/* Checker Widget */}
             <div className="bg-[#171D3A] border border-[#F4F1E8]/18 rounded-[18px] p-7 md:p-8 space-y-5">
               <div className="flex justify-between items-center">
                 <h3 className="font-headline text-lg font-medium text-white">Trip & business impact checker</h3>
@@ -244,7 +241,7 @@ export default function GlobalHolidayIntelligencePage() {
                       <span className="flex-1 text-[#F4F1E8] font-medium">{h.name}</span>
                       <span className={cn(
                         "text-[10.5px] font-mono px-2 py-0.5 rounded-full uppercase",
-                        h.type === 'public' ? "bg-[#E8A33D]/16 text-[#F0C888]" : "bg-[#4FD1C5]/14 text-[#4FD1C5]"
+                        h.type === 'public' ? "bg-[#E8A33D]/16 text-[#F0C888]" : h.type === 'religious' ? "bg-[#4FD1C5]/14 text-[#4FD1C5]" : "bg-[#F4F1E8]/8 text-[#9AA1C0]"
                       )}>{h.type}</span>
                     </div>
                   ))
@@ -320,19 +317,6 @@ export default function GlobalHolidayIntelligencePage() {
                     <b className="text-[#F4F1E8] font-medium">{item.c}</b> — {item.e}
                   </span>
                 ))}
-                {/* Duplicate for seamless loop */}
-                {[
-                  { c: 'India', e: 'Janmashtami, Dahi Handi' },
-                  { c: 'Japan', e: 'no observance today' },
-                  { c: 'USA', e: 'Labor Day season' },
-                  { c: 'Singapore', e: 'Hungry Ghost Month' },
-                  { c: 'India', e: 'Janmashtami, Dahi Handi' },
-                  { c: 'Japan', e: 'no observance today' },
-                ].map((item, i) => (
-                  <span key={`dup-${i}`} className="text-[13.5px] text-[#9AA1C0] border border-[#F4F1E8]/10 px-3.5 py-1.5 rounded-full">
-                    <b className="text-[#F4F1E8] font-medium">{item.c}</b> — {item.e}
-                  </span>
-                ))}
               </div>
             </div>
           </div>
@@ -382,7 +366,7 @@ export default function GlobalHolidayIntelligencePage() {
                         className="space-y-8"
                       >
                         <div>
-                          <h3 className="text-4xl md:text-5xl font-bold font-headline tracking-tight leading-none mb-2">
+                          <h3 className="text-4xl md:text-5xl font-bold font-headline tracking-tight leading-none mb-2 text-white">
                             {DIWALI_NUANCE[activeNuance].name}
                           </h3>
                           <p className="text-xs font-bold uppercase tracking-[0.4em] text-[#9AA1C0]">{DIWALI_NUANCE[activeNuance].status} · {DIWALI_NUANCE[activeNuance].country}</p>
@@ -428,8 +412,8 @@ export default function GlobalHolidayIntelligencePage() {
                   <span className="font-mono text-[11px] text-[#6E7495] uppercase">national view</span>
                 </div>
                 <div className="grid grid-cols-7 gap-1.5 mb-4">
-                  {['M','T','W','T','F','S','S'].map(d => (
-                    <div key={d} className="text-[11px] text-[#6E7495] text-center font-mono pb-2">{d}</div>
+                  {['M','T','W','T','F','S','S'].map((d, idx) => (
+                    <div key={`${d}-${idx}`} className="text-[11px] text-[#6E7495] text-center font-mono pb-2">{d}</div>
                   ))}
                   {[28,29,30,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,1].map((d, i) => (
                     <div key={i} className={cn(
@@ -549,9 +533,9 @@ export default function GlobalHolidayIntelligencePage() {
         .mask-marquee {
           mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
         }
-        .font-headline { font-family: 'Fraunces', serif; }
-        .font-display { font-family: 'Fraunces', serif; font-style: italic; }
-        .font-mono { font-family: 'IBM Plex Mono', monospace; }
+        .font-headline { font-family: var(--font-headline), serif; }
+        .font-display { font-family: var(--font-display), serif; font-style: italic; }
+        .font-mono { font-family: var(--font-mono), monospace; }
         .custom-scrollbar::-webkit-scrollbar { width: 4px; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(244,241,232,0.1); border-radius: 10px; }
       `}</style>
