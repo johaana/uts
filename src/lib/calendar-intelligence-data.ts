@@ -1,98 +1,110 @@
 /**
- * @fileOverview Mock data for the Calendar Intelligence prototype.
- * This powers the interactive Search, World Pulse, and Intelligence Records.
+ * @fileOverview Refined data for the Global Holiday Intelligence prototype.
+ * Includes a diverse set of global events to ensure "Today" logic feels alive.
  */
 
-export interface IntelligenceRecordData {
+export interface GHIEvent {
   id: string;
   name: string;
-  location: {
-    country: string;
-    region?: string;
-    scope: 'National' | 'Regional' | 'Global' | 'Federal';
-  };
-  date: {
-    observed: string;
-    model: 'Lunisolar' | 'Lunar' | 'Fixed' | 'Declared' | 'Calculated';
-    certainty: 'Confirmed' | 'Declared' | 'Provisional' | 'Estimated';
-  };
-  classification: string[];
+  country: string;
+  countryCode: string;
+  scope: 'National' | 'Regional' | 'Local' | 'Global';
+  date: string; // ISO format for logic, or human readable
+  day: number;
+  month: number; // 0-11
+  category: string[];
+  type: 'Public' | 'Religious' | 'Cultural' | 'Observance';
+  model: 'Lunisolar' | 'Lunar' | 'Fixed' | 'Declared';
+  status: 'Confirmed' | 'Declared' | 'Provisional' | 'Estimated';
   whyItMatters: string;
   regionalContext: string;
-  source: string;
-  status: 'Verified' | 'Illustrative';
-  isLiveToday?: boolean;
-  dna: {
-    religious: boolean;
-    cultural: boolean;
-    public: boolean;
-    bank: boolean;
-    workingDayImpact: 'None' | 'Partial' | 'Full Closure';
-  };
+  impact: string;
 }
 
-export const MOCK_RECORDS: IntelligenceRecordData[] = [
+export const GHI_RECORDS: GHIEvent[] = [
   {
     id: 'ganesh-in',
     name: 'Ganesh Chaturthi',
-    location: { country: 'India', scope: 'Regional' },
-    date: { observed: '05 SEP 2026', model: 'Lunisolar', certainty: 'Confirmed' },
-    classification: ['Public Holiday', 'Religious', 'Cultural'],
-    whyItMatters: 'Celebrates the birth of Lord Ganesha. Symbolizes wisdom, prosperity, and the removal of obstacles.',
-    regionalContext: 'Significant public processions in Maharashtra and Karnataka. Partial commercial closures in urban centers.',
-    source: 'Authoritative Reference',
-    status: 'Verified',
-    isLiveToday: true,
-    dna: { religious: true, cultural: true, public: true, bank: true, workingDayImpact: 'Full Closure' }
+    country: 'India',
+    countryCode: 'IN',
+    scope: 'Regional',
+    date: '2026-09-05',
+    day: 5,
+    month: 8,
+    category: ['Religious', 'Public Holiday'],
+    type: 'Religious',
+    model: 'Lunisolar',
+    status: 'Confirmed',
+    whyItMatters: 'Marks the birth of Lord Ganesha. Symbolizes wisdom, new beginnings, and the removal of obstacles.',
+    regionalContext: 'Primary impact in Maharashtra and Karnataka. Public processions cause significant urban movement.',
+    impact: 'Full office and bank closures in specific states.'
   },
   {
     id: 'respect-jp',
     name: 'Respect for the Aged Day',
-    location: { country: 'Japan', scope: 'National' },
-    date: { observed: '21 SEP 2026', model: 'Fixed', certainty: 'Confirmed' },
-    classification: ['Public Holiday', 'Cultural'],
-    whyItMatters: 'A national holiday to honor elderly citizens and pray for their longevity.',
-    regionalContext: 'Observed nationwide. Banking and government systems offline.',
-    source: 'National Schedule',
-    status: 'Verified',
-    isLiveToday: true,
-    dna: { religious: false, cultural: true, public: true, bank: true, workingDayImpact: 'Full Closure' }
+    country: 'Japan',
+    countryCode: 'JP',
+    scope: 'National',
+    date: '2026-09-21',
+    day: 21,
+    month: 8,
+    category: ['Public Holiday', 'Cultural'],
+    type: 'Public',
+    model: 'Fixed',
+    status: 'Confirmed',
+    whyItMatters: 'A day to honor elderly citizens and celebrate their longevity.',
+    regionalContext: 'Observed nationwide. Government and financial institutions are offline.',
+    impact: 'National bank holiday.'
   },
   {
-    id: 'labor-us',
-    name: 'Labor Day',
-    location: { country: 'USA', scope: 'Federal' },
-    date: { observed: '07 SEP 2026', model: 'Calculated', certainty: 'Declared' },
-    classification: ['Public Holiday', 'Cultural'],
-    whyItMatters: 'Honors the American labor movement and the contributions that workers have made.',
-    regionalContext: 'Federal holiday; widespread retail and corporate closures.',
-    source: 'Federal Schedule',
-    status: 'Verified',
-    isLiveToday: false,
-    dna: { religious: false, cultural: true, public: true, bank: true, workingDayImpact: 'Full Closure' }
+    id: 'mid-autumn-cn',
+    name: 'Mid-Autumn Festival',
+    country: 'China',
+    countryCode: 'CN',
+    scope: 'National',
+    date: '2026-09-25',
+    day: 25,
+    month: 8,
+    category: ['Cultural', 'Public Holiday'],
+    type: 'Cultural',
+    model: 'Lunisolar',
+    status: 'Confirmed',
+    whyItMatters: 'A harvest festival celebrating family reunion, centered around moon worship and mooncakes.',
+    regionalContext: 'Massive internal migration. Logistical hubs typically operate at 50% capacity.',
+    impact: '3-day public holiday bridge.'
   },
   {
     id: 'diwali-in',
     name: 'Diwali',
-    location: { country: 'India', scope: 'National' },
-    date: { observed: '08 NOV 2026', model: 'Lunisolar', certainty: 'Confirmed' },
-    classification: ['Public Holiday', 'Religious', 'Cultural'],
-    whyItMatters: 'The Festival of Lights, symbolizing the spiritual victory of light over darkness and knowledge over ignorance.',
-    regionalContext: 'Date variations apply in South India. Major market closures nationwide.',
-    source: 'Authoritative Reference',
-    status: 'Verified',
-    dna: { religious: true, cultural: true, public: true, bank: true, workingDayImpact: 'Full Closure' }
+    country: 'India',
+    countryCode: 'IN',
+    scope: 'National',
+    date: '2026-11-08',
+    day: 8,
+    month: 10,
+    category: ['Religious', 'Public Holiday', 'Cultural'],
+    type: 'Public',
+    model: 'Lunisolar',
+    status: 'Confirmed',
+    whyItMatters: 'The spiritual victory of light over darkness and knowledge over ignorance.',
+    regionalContext: 'Date varies in South India (Naraka Chaturdashi). North India observes major market closures.',
+    impact: 'Widespread commercial shutdown for 2-5 days.'
   },
   {
-    id: 'lunar-new-year-cn',
-    name: 'Lunar New Year',
-    location: { country: 'China', scope: 'National' },
-    date: { observed: '17 FEB 2026', model: 'Lunisolar', certainty: 'Confirmed' },
-    classification: ['Public Holiday', 'Cultural'],
-    whyItMatters: 'The most important traditional festival in China, marking the turn of the traditional Chinese calendar.',
-    regionalContext: 'Extended factory and shipping closures for 7-10 days.',
-    source: 'Lunisolar Calculation',
-    status: 'Verified',
-    dna: { religious: false, cultural: true, public: true, bank: true, workingDayImpact: 'Full Closure' }
+    id: 'thanksgiving-us',
+    name: 'Thanksgiving',
+    country: 'USA',
+    countryCode: 'US',
+    scope: 'National',
+    date: '2026-11-26',
+    day: 26,
+    month: 10,
+    category: ['Public Holiday', 'Cultural'],
+    type: 'Public',
+    model: 'Declared',
+    status: 'Confirmed',
+    whyItMatters: 'A national holiday dedicated to giving thanks for the harvest and the preceding year.',
+    regionalContext: 'Federal closure. Creates a 4-day operational gap in North American markets.',
+    impact: 'National retail and corporate closure.'
   }
 ];

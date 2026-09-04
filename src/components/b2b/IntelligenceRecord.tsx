@@ -2,10 +2,10 @@
 
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import { IntelligenceRecordData } from '@/lib/calendar-intelligence-data';
+import { GHIEvent } from '@/lib/calendar-intelligence-data';
 
 interface IntelligenceRecordProps {
-  record: IntelligenceRecordData;
+  record: GHIEvent;
   className?: string;
 }
 
@@ -24,10 +24,10 @@ export function IntelligenceRecord({ record, className }: IntelligenceRecordProp
            <motion.div 
               animate={{ opacity: [0.3, 1, 0.3] }}
               transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
-              className={cn("w-1.5 h-1.5 rounded-full", record.isLiveToday ? "bg-[#E94368]" : "bg-[#557568]")}
+              className="w-1.5 h-1.5 rounded-full bg-[#E94368]"
            />
            <span className="text-[9px] font-extrabold uppercase tracking-[0.3em] text-[#17151A]">
-             {record.isLiveToday ? 'LIVE TODAY' : record.status}
+             LIVE TODAY
            </span>
         </div>
         <p className="text-[9px] font-bold text-[#6D6870] uppercase tracking-[0.2em]">Record: {record.id.toUpperCase()}</p>
@@ -40,25 +40,25 @@ export function IntelligenceRecord({ record, className }: IntelligenceRecordProp
             {record.name}
           </h3>
           <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#6D6870]/60 mt-1">
-            {record.location.country} · {record.location.scope} Scope
+            {record.country} · {record.scope} Scope
           </p>
         </div>
 
         <div className="grid grid-cols-2 gap-10">
           <div className="space-y-1.5">
             <p className="text-[9px] font-extrabold uppercase tracking-[0.4em] text-[#E94368]">Date</p>
-            <p className="font-data text-xl md:text-2xl font-medium tracking-tighter text-[#17151A]">{record.date.observed}</p>
+            <p className="font-data text-xl md:text-2xl font-medium tracking-tighter text-[#17151A]">{record.date.split('-').reverse().join(' ')}</p>
           </div>
           <div className="space-y-1.5">
             <p className="text-[9px] font-extrabold uppercase tracking-[0.4em] text-[#6D6870]">Date Model</p>
-            <p className="font-data text-xl md:text-2xl font-medium tracking-tighter text-[#17151A]">{record.date.model}</p>
+            <p className="font-data text-xl md:text-2xl font-medium tracking-tighter text-[#17151A]">{record.model}</p>
           </div>
         </div>
 
         <div className="space-y-4">
           <p className="text-[9px] font-extrabold uppercase tracking-[0.4em] text-[#6D6870]">Classification</p>
           <div className="flex flex-wrap gap-2">
-            {record.classification.map(tag => (
+            {record.category.map(tag => (
               <span key={tag} className="px-3 py-1 border border-[#DED9D0] text-[9px] font-bold uppercase tracking-[0.25em] text-[#17151A]/70 rounded-sm">
                 {tag}
               </span>
@@ -74,9 +74,9 @@ export function IntelligenceRecord({ record, className }: IntelligenceRecordProp
             </p>
           </div>
           <div className="space-y-2">
-            <p className="text-[9px] font-extrabold uppercase tracking-[0.4em] text-[#6D6870]">Regional Context</p>
+            <p className="text-[9px] font-extrabold uppercase tracking-[0.4em] text-[#6D6870]">Impact</p>
             <p className="text-sm leading-relaxed text-[#6D6870] font-medium">
-              {record.regionalContext}
+              {record.impact}
             </p>
           </div>
         </div>
@@ -84,7 +84,7 @@ export function IntelligenceRecord({ record, className }: IntelligenceRecordProp
 
       <div className="mt-10 pt-6 border-t border-[#DED9D0]/60 flex items-center justify-between text-[9px] font-bold uppercase tracking-[0.3em] text-[#6D6870]/50">
         <div className="flex flex-col gap-1">
-          <span>Determination: {record.date.certainty}</span>
+          <span>Determination: {record.status}</span>
         </div>
         <span className="text-[#E94368]/40">Source: Authoritative</span>
       </div>

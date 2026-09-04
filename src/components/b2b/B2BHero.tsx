@@ -1,9 +1,9 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { IntelligenceRecord } from './IntelligenceRecord';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MOCK_RECORDS } from '@/lib/calendar-intelligence-data';
+import { GHI_RECORDS, GHIEvent } from '@/lib/calendar-intelligence-data';
 import { Search, MapPin, Sparkles } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
@@ -13,20 +13,40 @@ export function B2BHero() {
   const [isRotating, setIsRotating] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
 
+  // Live Logic: Filter GHI_RECORDS based on the current system date
+  // We match by month and day to simulate "Live" status using the 2026 mock data
+  const todayEvents = useMemo(() => {
+    const now = new Date();
+    const currentMonth = now.getMonth(); // 0-11
+    const currentDay = now.getDate();
+
+    // 1. Try to find exact matches for today's month/day
+    const matches = GHI_RECORDS.filter(r => r.month === currentMonth && r.day === currentDay);
+    if (matches.length > 0) return matches;
+
+    // 2. If no exact matches, show events from the current month
+    const monthly = GHI_RECORDS.filter(r => r.month === currentMonth);
+    if (monthly.length > 0) return monthly;
+
+    // 3. Fallback to a curated subset for the prototype
+    return GHI_RECORDS.slice(0, 3);
+  }, []);
+
   useEffect(() => {
-    if (!isRotating) return;
+    if (!isRotating || todayEvents.length <= 1) return;
     const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % MOCK_RECORDS.length);
+      setCurrentIndex((prev) => (prev + 1) % todayEvents.length);
     }, 6000);
     return () => clearInterval(interval);
-  }, [isRotating]);
+  }, [isRotating, todayEvents.length]);
 
-  const activeRecord = MOCK_RECORDS[currentIndex];
+  const activeRecord = todayEvents[currentIndex];
 
   return (
     <section className="pt-6 pb-24 lg:pt-12 lg:pb-32 overflow-hidden">
-      <div className="container mx-auto px-6">
+      <div className="container mx-auto px-6 text-left">
         <div className="flex flex-col lg:flex-row items-start gap-12 lg:gap-24">
+          {/* 01. INTENT / SEARCH */}
           <div className="flex-1 max-w-xl space-y-10">
             <div className="space-y-4">
               <p className="text-[11px] font-bold uppercase tracking-[0.5em] text-[#E94368] mb-4 font-ui">Calendar Intelligence</p>
@@ -34,7 +54,7 @@ export function B2BHero() {
                 Understand the <br /> world's calendar.
               </h1>
               <p className="text-lg md:text-xl text-[#6D6870] leading-relaxed font-ui font-medium max-w-md">
-                "The verified intelligence layer for global holidays, festivals and observances."
+                Verified temporal data for human discovery and operational systems.
               </p>
             </div>
 
@@ -52,7 +72,7 @@ export function B2BHero() {
                   />
                 </div>
                 <div className="flex flex-wrap gap-4 mt-4 text-[10px] font-bold uppercase tracking-widest text-[#6D6870]">
-                  {['Diwali', 'Japan', 'October 2026', 'What\'s next in India?'].map(ex => (
+                  {['Diwali', 'Japan', 'October 2026', 'What\'s next?'].map(ex => (
                     <button key={ex} className="hover:text-[#17151A] transition-colors underline underline-offset-4">{ex}</button>
                   ))}
                 </div>
@@ -62,7 +82,7 @@ export function B2BHero() {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                      <MapPin className="w-4 h-4 text-[#E94368]" />
-                     <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#17151A] font-ui">Your Location: <span className="text-[#6D6870]">Mumbai, India</span></p>
+                     <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#17151A] font-ui">Your Location: <span className="text-[#6D6870]">MUMBAI, INDIA</span></p>
                   </div>
                   <button className="text-[10px] font-bold uppercase tracking-widest text-[#6D6870] hover:text-[#17151A] transition-colors">Change →</button>
                 </div>
@@ -70,29 +90,32 @@ export function B2BHero() {
             </div>
           </div>
           
+          {/* 02. LIVE RECORD */}
           <div className="flex-[1.2] w-full relative">
             <div className="absolute -top-12 left-0 flex items-center gap-3">
               <div className="flex items-center gap-2 px-3 py-1 bg-[#E94368]/5 border border-[#E94368]/20 rounded-full">
                 <Sparkles className="w-3 h-3 text-[#E94368]" />
                 <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#E94368]">Living Calendar</span>
               </div>
-              <p className="text-[10px] font-bold text-[#6D6870]/60 uppercase tracking-widest">Showing: World Celebrates Today</p>
+              <p className="text-[10px] font-bold text-[#6D6870]/60 uppercase tracking-widest">Showing: Celebrations Today</p>
             </div>
 
             <AnimatePresence mode="wait">
-              <motion.div 
-                key={activeRecord.id}
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-              >
-                <IntelligenceRecord record={activeRecord} />
-              </motion.div>
+              {activeRecord && (
+                <motion.div 
+                  key={activeRecord.id}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                >
+                  <IntelligenceRecord record={activeRecord} />
+                </motion.div>
+              )}
             </AnimatePresence>
             
             <div className="mt-8 flex items-center justify-center gap-4 text-[9px] font-bold uppercase tracking-[0.4em] text-[#6D6870]/40">
-              {MOCK_RECORDS.map((_, i) => (
+              {todayEvents.map((_, i) => (
                 <div 
                   key={i} 
                   className={cn(
