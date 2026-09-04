@@ -80,15 +80,15 @@ export const MOCK_RECORDS: IntelligenceRecordData[] = [
     dna: { religious: true, cultural: true, public: true, bank: true, workingDayImpact: 'Full Closure' }
   },
   {
-    id: 'eid-al-fitr-global',
-    name: 'Eid al-Fitr',
+    id: 'hanukkah-global',
+    name: 'Hanukkah',
     location: { country: 'Global', scope: 'Global' },
-    date: { observed: '20 MAR 2026', model: 'Lunar', certainty: 'Provisional' },
-    classification: ['Public Holiday', 'Religious'],
-    whyItMatters: 'The "Festival of Breaking the Fast," marking the end of Ramadan, the Islamic holy month of fasting.',
-    regionalContext: 'Exact date depends on moon sighting. Public holiday status varies by country.',
-    source: 'Lunar Observation',
-    status: 'Illustrative',
-    dna: { religious: true, cultural: true, public: true, bank: true, workingDayImpact: 'Full Closure' }
+    date: { observed: '04 DEC 2026', model: 'Lunar', certainty: 'Provisional' },
+    classification: ['Religious Observance', 'Cultural'],
+    whyItMatters: 'The Jewish Festival of Lights, commemorating the recovery of Jerusalem and subsequent rededication of the Second Temple.',
+    regionalContext: 'Varies by local community. Not a public holiday in most jurisdictions outside Israel.',
+    source: 'Hebrew Calendar',
+    status: 'Verified',
+    dna: { religious: true, cultural: true, public: false, bank: false, workingDayImpact: 'None' }
   }
 ];

@@ -23,7 +23,7 @@ export function BeyondTheDate() {
             </p>
         </div>
         <div className="pt-8 relative max-w-4xl mx-auto px-8">
-            <div className="data-line opacity-50"></div>
+            <div className="h-px bg-[#DED9D0] w-full absolute top-10 left-0 opacity-50"></div>
             <div className="flex justify-between mt-10 relative">
                 {steps.map((step) => (
                     <motion.div 
@@ -34,7 +34,7 @@ export function BeyondTheDate() {
                         transition={{ duration: 0.6, delay: step.delay }}
                         className="relative flex flex-col items-center"
                     >
-                        <div className="data-dot" style={{ left: '50%', marginLeft: '-3px' }}></div>
+                        <div className="w-1.5 h-1.5 rounded-full bg-[#E94368] mb-6 shadow-[0_0_8px_rgba(233,67,104,0.4)]"></div>
                         <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#17151A] mb-1 font-ui">{step.label}</p>
                         <p className="text-[9px] font-bold text-[#E94368] uppercase tracking-[0.25em] font-data">{step.sub}</p>
                     </motion.div>
@@ -104,32 +104,6 @@ export function CulturalContext() {
                 Meaningful enough for people.
             </p>
         </div>
-      </div>
-    </section>
-  );
-}
-
-export function UseCaseGrid() {
-  const cases = [
-    { title: "HR & Operations", desc: "Automate working-day calculations, payroll, and regional closure tracking." },
-    { title: "Travel & Hospitality", desc: "Power discovery engines with verified festival dates and long-weekend intelligence." },
-    { title: "Fintech & Business", desc: "Integrate market and regional holiday calendars for precise operational planning." },
-    { title: "Developers", desc: "Leverage the first structured API built for global calendar intelligence." }
-  ];
-
-  return (
-    <section className="container mx-auto px-6">
-      <div className="text-center mb-16 space-y-4">
-        <p className="text-[9px] font-bold uppercase tracking-[0.4em] text-[#E94368] font-ui">Implementation</p>
-        <h2 className="text-4xl md:text-5xl font-bold font-display tracking-tight text-[#17151A]">Built for systems that <br className="hidden md:block"/> need to understand time.</h2>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {cases.map(c => (
-          <div key={c.title} className="p-8 border border-[#DED9D0] bg-white rounded-sm space-y-4 hover:border-[#17151A] transition-all duration-500 hover:shadow-xl group">
-            <h4 className="text-[11px] font-bold uppercase tracking-[0.2em] font-ui text-[#17151A]">{c.title}</h4>
-            <p className="text-xs text-[#6D6870] leading-relaxed font-ui font-medium group-hover:text-[#17151A] transition-colors">{c.desc}</p>
-          </div>
-        ))}
       </div>
     </section>
   );
