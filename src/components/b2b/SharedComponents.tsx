@@ -25,7 +25,7 @@ export function BeyondTheDate() {
         <div className="pt-8 relative max-w-4xl mx-auto px-8">
             <div className="data-line opacity-50"></div>
             <div className="flex justify-between mt-10 relative">
-                {steps.map((step, i) => (
+                {steps.map((step) => (
                     <motion.div 
                         key={step.label} 
                         initial={{ opacity: 0, y: 10 }}
@@ -172,7 +172,7 @@ export function FinalCTA() {
         <h2 className="text-4xl md:text-7xl font-bold tracking-tighter font-display leading-[0.9]">Understand <br/> the calendar.</h2>
         <p className="text-lg md:text-xl text-[#6D6870] font-ui font-medium max-w-2xl mx-auto">Verified global intelligence for the technical systems people use every day.</p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-            <Button size="lg" className="btn-ink h-14 px-10 text-[10px] font-bold uppercase tracking-[0.3em] rounded-sm shadow-2xl hover:scale-105 transition-all duration-300">
+            <Button size="lg" className="bg-[#17151A] text-white hover:bg-[#17151A]/90 h-14 px-10 text-[10px] font-bold uppercase tracking-[0.3em] rounded-sm shadow-2xl hover:scale-105 transition-all duration-300">
                 Join API Preview
             </Button>
             <Button variant="outline" size="lg" className="h-14 px-10 border-2 border-[#17151A] text-[10px] font-bold uppercase tracking-[0.3em] rounded-sm font-ui hover:bg-[#F7F4EE] transition-all">

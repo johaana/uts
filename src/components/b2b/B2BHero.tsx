@@ -1,10 +1,26 @@
+'use client';
+
+import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { IntelligenceRecord } from './IntelligenceRecord';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+import { MOCK_RECORDS, IntelligenceRecordData } from '@/lib/calendar-intelligence-data';
+import { cn } from '@/lib/utils';
 
 export function B2BHero() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % MOCK_RECORDS.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const activeRecord = MOCK_RECORDS[currentIndex];
+
   return (
-    <section className="pt-8 pb-16 lg:pt-16 lg:pb-24">
+    <section className="pt-8 pb-16 lg:pt-12 lg:pb-24 overflow-hidden">
       <div className="container mx-auto px-6">
         <div className="flex flex-col lg:flex-row items-start gap-12 lg:gap-24">
           <motion.div 
@@ -26,7 +42,7 @@ export function B2BHero() {
               </p>
             </div>
             <div className="flex flex-col sm:flex-row items-center justify-start gap-10">
-              <Button size="lg" className="btn-ink h-12 px-8 text-[11px] font-bold uppercase tracking-[0.3em] rounded-sm transition-all duration-300 hover:scale-105 active:scale-95 shadow-xl shadow-[#17151A]/10">
+              <Button size="lg" className="bg-[#17151A] text-white hover:bg-[#17151A]/90 h-12 px-8 text-[11px] font-bold uppercase tracking-[0.3em] rounded-sm transition-all duration-300 hover:scale-105 active:scale-95 shadow-xl shadow-[#17151A]/10">
                 Explore the Intelligence
               </Button>
               <Button variant="ghost" className="text-[#6D6870] hover:text-[#17151A] font-bold text-[11px] uppercase tracking-[0.3em] font-ui transition-all">
@@ -35,22 +51,33 @@ export function B2BHero() {
             </div>
           </motion.div>
           
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.96, x: 40 }}
-            animate={{ opacity: 1, scale: 1, x: 0 }}
-            transition={{ duration: 1.2, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="flex-1 w-full max-w-lg lg:sticky lg:top-8"
-          >
-            <div className="relative group">
+          <div className="flex-1 w-full max-w-lg lg:sticky lg:top-8 relative">
+            <AnimatePresence mode="wait">
+              <motion.div 
+                key={activeRecord.id}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                className="relative group"
+              >
                 <div className="absolute -inset-16 bg-gradient-to-tr from-[#E94368]/10 to-transparent blur-[120px] rounded-full group-hover:opacity-100 transition-opacity duration-1000 opacity-60"></div>
-                <IntelligenceRecord />
-                <div className="mt-8 flex items-center justify-center gap-6">
-                  <div className="h-[1px] w-12 bg-[#DED9D0]"></div>
-                  <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#6D6870] font-ui whitespace-nowrap opacity-60">Technical Protocol Preview</p>
-                  <div className="h-[1px] w-12 bg-[#DED9D0]"></div>
-                </div>
+                <IntelligenceRecord record={activeRecord} />
+              </motion.div>
+            </AnimatePresence>
+            
+            <div className="mt-8 flex items-center justify-center gap-4">
+              {MOCK_RECORDS.map((_, i) => (
+                <div 
+                  key={i} 
+                  className={cn(
+                    "h-1 transition-all duration-500", 
+                    i === currentIndex ? "w-8 bg-[#E94368]" : "w-2 bg-[#DED9D0]"
+                  )} 
+                />
+              ))}
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>
