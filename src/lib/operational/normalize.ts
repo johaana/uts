@@ -1,8 +1,8 @@
 /**
  * @fileOverview Data Normalization Layer
  * 
- * Maps raw authoritative source records into the canonical types defined in types.ts.
- * This layer is responsible for preserving all available provenance.
+ * Maps raw authoritative source records into the canonical types.
+ * Responsible for preserving all available provenance.
  */
 
 import { DateIntelligenceRecord, UserPurpose } from './types';
@@ -15,7 +15,8 @@ export function normalizeRecord(raw: any): DateIntelligenceRecord | null {
   try {
     if (!raw || typeof raw !== 'object') return null;
 
-    // Preserve original dates and structures
+    // Mapping raw fields to canonical OperationalRecord
+    // This ensures provenance and institutional identity survive the pipeline.
     const record: DateIntelligenceRecord = {
       id: raw.id || raw.record_id,
       date: raw.date || raw.start_date,
@@ -39,15 +40,15 @@ export function normalizeRecord(raw: any): DateIntelligenceRecord | null {
       confidence: raw.confidence || raw.confidence_tier || 'reference',
       evidence: {
         source_id: raw.evidence?.source_id || raw.source_id || 'unknown',
-        source_name: raw.evidence?.source_name || raw.source_name,
+        source_name: raw.evidence?.source_name || raw.source_name || 'Unspecified Source',
         source_url: raw.evidence?.source_url || raw.source_url,
-        source_type: raw.evidence?.source_type || raw.source_type || 'manual_verification',
-        last_checked: raw.evidence?.last_checked || raw.last_checked || new Date().toISOString(),
+        source_type: raw.evidence?.source_type || 'manual_verification',
+        last_checked: raw.evidence?.last_checked || new Date().toISOString(),
         verification_status: raw.evidence?.verification_status || 'provisional'
       },
       consequences: {
-        implication: raw.consequences?.implication || raw.implication,
-        action_suggested: raw.consequences?.action_suggested || raw.action_suggested,
+        implication: raw.consequences?.implication || raw.implication || 'Details pending connection',
+        action_suggested: raw.consequences?.action_suggested,
         affected_operations: raw.consequences?.affected_operations || [],
         severity: raw.consequences?.severity || 'medium'
       }

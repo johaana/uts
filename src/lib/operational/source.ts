@@ -23,17 +23,17 @@ export interface OperationalSource {
  */
 class AuthoritativeSource implements OperationalSource {
   async getRecords(): Promise<unknown[]> {
-    // This is where the authoritative bundle (utsavs-app.js or JSON)
-    // will be ingested once available on the disk or via URL.
+    // This is where the authoritative bundle (e.g., records.json)
+    // will be ingested once available in the workspace.
     return []; 
   }
 
   async getStatus(): Promise<SourceStatus> {
-    const sourceUrl = process.env.UTSAVS_OPERATIONAL_SOURCE_URL;
+    // Source availability depends on presence of authoritative bundle
+    // Currently hardcoded to false as the source is missing from workspace.
     return {
-      available: !!sourceUrl,
-      sourceId: process.env.UTSAVS_OPERATIONAL_SOURCE_ID,
-      version: process.env.UTSAVS_OPERATIONAL_SOURCE_VERSION
+      available: false,
+      sourceId: 'utsavs-authoritative-primary'
     };
   }
 }
