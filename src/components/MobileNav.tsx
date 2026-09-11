@@ -6,11 +6,6 @@ import { Button } from './ui/button';
 import { Bot } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-interface MobileNavProps {
-    navLinks: { href: string; label: string }[];
-    setOpen: (open: boolean) => void;
-}
-
 const navLinksMobile = [
   { href: "/festivals", label: "Festivals" },
   { href: "/recipes", label: "Recipes" },

@@ -123,7 +123,7 @@ export function Header() {
                     </Button>
                 </SheetTrigger>
                 <SheetContent side="left" className="w-full">
-                    <MobileNav navLinks={navLinks} setOpen={setIsSheetOpen} />
+                    <MobileNav setOpen={setIsSheetOpen} />
                 </SheetContent>
             </Sheet>
         </div>

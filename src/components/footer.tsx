@@ -1,26 +1,12 @@
-
-'use client';
+"use client";
 
 import Link from "next/link";
-import { Input } from "./ui/input";
-import { Button } from "./ui/button";
 import { useRouter } from "next/navigation";
 import React from "react";
-import { Search, Mail } from "lucide-react";
-import Image from "next/image";
-
+import { Mail } from "lucide-react";
 
 export function Footer() {
   const router = useRouter();
-
-  const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    const searchQuery = formData.get('search') as string;
-    if (searchQuery.trim()) {
-      router.push(`/festivals?search=${searchQuery.trim()}`);
-    }
-  };
 
   return (
     <footer className="bg-secondary/50 border-t">
@@ -43,7 +29,7 @@ export function Footer() {
                 <li><Link href="/international-festivals" className="text-foreground/80 hover:text-primary">International</Link></li>
                 <li><Link href="/calendar" className="text-foreground/80 hover:text-primary">Explore by Month</Link></li>
                 <li><Link href="/recipes" className="text-foreground/80 hover:text-primary">Recipes</Link></li>
-                 <li><Link href="/blog" className="text-foreground/80 hover:text-primary">Blog</Link></li>
+                 <li><a href="https://utsavs.com" target="_blank" rel="noopener noreferrer" className="text-foreground/80 hover:text-primary">Stories ↗</a></li>
                  <li><Link href="/planner" className="text-foreground/80 hover:text-primary">AI Planner</Link></li>
                  <li><Link href="/about" className="text-foreground/80 hover:text-primary">About Us</Link></li>
                  <li><Link href="/sitemap.xml" className="text-foreground/80 hover:text-primary">Sitemap</Link></li>
