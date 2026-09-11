@@ -1,18 +1,10 @@
-
-'use client';
+"use client";
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Button } from './ui/button';
-import { Bot, Languages } from 'lucide-react';
+import { Bot } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import Image from 'next/image';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 
 interface MobileNavProps {
     navLinks: { href: string; label: string }[];
@@ -22,76 +14,41 @@ interface MobileNavProps {
 const navLinksMobile = [
   { href: "/festivals", label: "Festivals" },
   { href: "/recipes", label: "Recipes" },
-  { href: "/blog", label: "Blog" },
   { href: "/calendar", label: "Explore by Month" },
+  { href: "https://utsavs.com", label: "Stories ↗" },
 ];
 
-
-const languages = [
-    { name: 'English', code: 'en' },
-    { name: 'Hindi', code: 'hi' },
-    { name: 'Spanish', code: 'es' },
-    { name: 'French', code: 'fr' },
-    { name: 'German', code: 'de' },
-    { name: 'Mandarin', code: 'zh-CN' },
-    { name: 'Arabic', code: 'ar' },
-];
-
-export function MobileNav({ navLinks, setOpen }: MobileNavProps) {
+export function MobileNav({ setOpen }: { setOpen: (open: boolean) => void }) {
   const pathname = usePathname();
-
-  const changeLanguage = (langCode: string) => {
-    const googleTranslateElement = document.getElementById('google_translate_element');
-    if (googleTranslateElement) {
-        const langSelect = googleTranslateElement.querySelector('.goog-te-combo') as HTMLSelectElement;
-        if (langSelect) {
-            langSelect.value = langCode;
-            langSelect.dispatchEvent(new Event('change'));
-        }
-    }
-    setOpen(false);
-  };
-
 
   return (
     <div className="flex flex-col h-full">
       <div className="p-4 border-b">
-        <Link href="/" className="flex items-center gap-2" onClick={() => setOpen(false)}>
-            <span className="font-headline text-2xl font-bold bg-gradient-to-r from-[hsl(var(--gradient-from))] to-[hsl(var(--gradient-to))] text-transparent bg-clip-text">Utsavs</span>
+        <Link href="/" className="flex flex-col items-start" onClick={() => setOpen(false)}>
+            <span className="font-headline text-2xl font-bold text-primary">Utsavs</span>
+            <span className="text-xs text-foreground/80 font-sans font-bold">Every Festival Tells a Story</span>
         </Link>
       </div>
       <nav className="flex flex-col p-4 space-y-2 flex-grow">
-        {navLinksMobile.map((link) => (
+        {navLinksMobile.map((link) => {
+          const isExternal = link.href.startsWith('http');
+          return (
           <Link
             key={link.href}
             href={link.href}
+            target={isExternal ? "_blank" : undefined}
+            rel={isExternal ? "noopener noreferrer" : undefined}
             onClick={() => setOpen(false)}
             className={cn(
-              "text-lg font-medium transition-colors hover:text-primary p-2 rounded-md",
-              pathname.startsWith(link.href) ? "text-primary bg-muted" : "text-foreground/80"
+              "text-lg font-bold transition-colors p-2 rounded-md",
+              !isExternal && pathname.startsWith(link.href) ? "text-primary bg-muted" : "text-foreground/80 hover:text-primary"
             )}
           >
             {link.label}
           </Link>
-        ))}
+        )})}
       </nav>
       <div className="p-4 border-t space-y-4">
-        <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="w-full">
-                <Languages className="h-4 w-4 mr-2" />
-                Translate Page
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-[--radix-dropdown-menu-trigger-width]]">
-              {languages.map((lang) => (
-                <DropdownMenuItem key={lang.code} onClick={() => changeLanguage(lang.code)}>
-                  {lang.name}
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
-
         <Link href="/planner" onClick={() => setOpen(false)}>
             <Button 
               variant="gradient"

@@ -27,6 +27,7 @@ const newsreader = Newsreader({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('http://localhost:3000'),
   title: "Utsavs: Global Holiday Intelligence",
   description: "Understand the world's calendar. Structured, verified intelligence for holidays, festivals and observances.",
   other: {

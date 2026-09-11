@@ -1,13 +1,11 @@
-
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { Button } from "./ui/button";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import React, { useEffect, useState } from "react";
-import { Bot, Languages, Menu, Moon, Sun } from "lucide-react";
+import { Bot, Menu, Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import {
   DropdownMenu,
@@ -21,8 +19,8 @@ import { MobileNav } from "./MobileNav";
 const navLinks = [
   { href: "/festivals", label: "Festivals" },
   { href: "/recipes", label: "Recipes" },
-  { href: "/blog", label: "Blog" },
   { href: "/calendar", label: "Explore by Month" },
+  { href: "https://utsavs.com", label: "Stories ↗" },
 ];
 
 export function Header() {
@@ -41,35 +39,6 @@ export function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-
-  useEffect(() => {
-    const addGoogleTranslateScript = () => {
-      const scriptId = 'google-translate-script';
-      if (document.getElementById(scriptId)) {
-        const existingScript = document.getElementById(scriptId);
-        if (existingScript) {
-            existingScript.remove();
-        }
-      }
-      
-      const addScript = document.createElement('script');
-      addScript.id = scriptId;
-      addScript.type = 'text/javascript';
-      addScript.src = `//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit`;
-      document.body.appendChild(addScript);
-
-      (window as any).googleTranslateElementInit = () => {
-        new (window as any).google.translate.TranslateElement({
-          pageLanguage: 'en',
-          layout: (window as any).google.translate.TranslateElement.InlineLayout.HORIZONTAL,
-          autoDisplay: false
-        }, 'google_translate_element');
-      };
-    };
-
-    addGoogleTranslateScript();
-  }, []);
-
   return (
     <header className={cn(
         "sticky top-0 z-40 w-full border-b transition-all duration-300",
@@ -79,34 +48,36 @@ export function Header() {
         
         <div className="flex items-center">
             <Link href="/" className="flex flex-col items-start group">
-                <span className="font-headline text-3xl font-bold text-gradient">Utsavs</span>
-                <span className="text-xs text-foreground/80">Every Festival Tells a Story</span>
+                <span className="font-headline text-3xl font-bold text-primary">Utsavs</span>
+                <span className="text-xs text-foreground/80 font-sans font-bold">Every Festival Tells a Story</span>
             </Link>
         </div>
 
         <div className="hidden md:flex flex-1 items-center justify-end gap-2 lg:gap-4">
           <nav className="flex items-center gap-4 lg:gap-6">
-              {navLinks.map((link) => (
+              {navLinks.map((link) => {
+              const isExternal = link.href.startsWith('http');
+              return (
               <Link
                 key={link.href}
                 href={link.href}
+                target={isExternal ? "_blank" : undefined}
+                rel={isExternal ? "noopener noreferrer" : undefined}
                 className={cn(
                   "text-base font-bold transition-colors relative py-2 group",
-                  pathname.startsWith(link.href) ? "text-primary" : "text-foreground/80 hover:text-primary"
+                  !isExternal && pathname.startsWith(link.href) ? "text-primary" : "text-foreground/80 hover:text-primary"
                 )}
               >
                 {link.label}
                 <span
                   className={cn(
                     "absolute bottom-0 left-0 w-full h-0.5 bg-accent transform scale-x-0 origin-left transition-transform duration-300 ease-in-out group-hover:scale-x-100",
-                    { "scale-x-100": pathname.startsWith(link.href) }
+                    { "scale-x-100": !isExternal && pathname.startsWith(link.href) }
                   )}
                 />
               </Link>
-            ))}
+            )})}
           </nav>
-          
-          <div id="google_translate_element" style={{ display: 'none' }}></div>
           
            <DropdownMenu>
             <DropdownMenuTrigger asChild>
