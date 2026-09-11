@@ -35,7 +35,9 @@
 }
 
 body {
-  @apply bg-background text-foreground antialiased;
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  @apply antialiased;
   font-feature-settings: "ss01", "ss02", "cv01", "cv02";
 }
 
@@ -45,10 +47,18 @@ body {
 .status-pill {
   @apply inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider;
 }
-.status-pill.high { @apply bg-teal/10 text-teal border border-teal/20; }
-.status-pill.medium { @apply bg-gold/10 text-gold-soft border border-gold/40; }
+.status-pill.high { 
+  background-color: hsla(var(--teal), 0.1);
+  color: hsl(var(--teal));
+  border: 1px solid hsla(var(--teal), 0.2);
+}
+.status-pill.medium { 
+  background-color: hsla(var(--gold), 0.1);
+  color: hsl(var(--gold-soft));
+  border: 1px solid hsla(var(--gold), 0.4);
+}
 .status-pill.listed { 
-  @apply border border-dashed border-white/20;
+  border: 1px dashed rgba(255, 255, 255, 0.2);
   color: hsl(var(--muted));
 }
 
