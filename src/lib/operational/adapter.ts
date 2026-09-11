@@ -40,7 +40,7 @@ export function validateRecord(record: any): record is DateIntelligenceRecord {
  * 
  * DATA INTEGRITY RULE:
  * This function currently returns 'source_unavailable' because the
- * authoritative source bundle (utsavs-app.js) is not present in the workspace.
+ * authoritative source bundle is not present in the workspace.
  */
 export async function getOperationalImpact(query: OperationalQuery): Promise<OperationalResult> {
   const timestamp = new Date().toISOString();
@@ -55,12 +55,18 @@ export async function getOperationalImpact(query: OperationalQuery): Promise<Ope
     };
   }
 
-  // 2. Integration Point
-  // In the future, this is where we will import and filter the authoritative dataset.
-  // Example: const allRecords = await fetchAuthoritativeSource();
-  // const validatedRecords = allRecords.filter(validateRecord);
+  // 2. Authoritative Source Ingestion Point
+  // FUTURE INTEGRATION:
+  // try {
+  //   const { AUTHORITATIVE_SOURCE } = await import('./source-bundle');
+  //   const records = AUTHORITATIVE_SOURCE.filter(validateRecord);
+  //   // ... query filtering logic
+  // } catch (e) {
+  //   // Fall through to source_unavailable
+  // }
   
   // CURRENT STATUS: SOURCE DISCONNECTED
+  // We do not reconstruct or synthesize data from memory or fragments.
   const status: OperationalResultStatus = 'source_unavailable';
 
   return {

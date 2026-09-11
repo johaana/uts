@@ -4,12 +4,11 @@ import React, { useState } from 'react';
 import { PageLayout } from "@/components/PageLayout";
 import { OperationalFAQ } from "@/components/operational/OperationalFAQ";
 import { EmptyState } from "@/components/operational/EmptyState";
-import { ContextualInsurance } from "@/components/operational/ContextualInsurance";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Search, ShieldCheck, Info, Loader2 } from "lucide-react";
+import { Search, Loader2 } from "lucide-react";
 import { getOperationalImpact } from '@/lib/operational/adapter';
 import { OperationalQuery, OperationalResult } from '@/lib/operational/types';
 
@@ -26,12 +25,12 @@ export default function DateIntelligencePage() {
 
   const handleCheckImpact = async () => {
     setIsSearching(true);
-    // Artificially delay for UI demonstration
+    // Simulate slight network delay for UI feedback
     setTimeout(async () => {
       const impact = await getOperationalImpact(query);
       setResult(impact);
       setIsSearching(false);
-    }, 800);
+    }, 600);
   };
 
   return (
@@ -52,10 +51,6 @@ export default function DateIntelligencePage() {
               <div className="flex items-center gap-3">
                 <Search className="w-5 h-5 text-primary" />
                 <span className="font-bold text-sm uppercase tracking-widest">Trip Impact Checker</span>
-              </div>
-              <div className="hidden sm:flex gap-4 text-[10px] font-mono text-muted-foreground uppercase tracking-widest">
-                <span className="flex items-center gap-1"><div className="w-1.5 h-1.5 rounded-full bg-primary"></div> Sourced</span>
-                <span className="flex items-center gap-1"><div className="w-1.5 h-1.5 rounded-full bg-accent"></div> Live</span>
               </div>
             </CardHeader>
             <CardContent className="p-6 md:p-8 space-y-8">
@@ -127,15 +122,19 @@ export default function DateIntelligencePage() {
               <div className="pt-8 border-t">
                 {!result ? (
                   <div className="text-center py-10 text-muted-foreground">
-                    <p className="text-sm italic">Select a place and dates to begin. Results will be based on the relevant calendar and institutional sources available for that journey.</p>
+                    <p className="text-sm italic">Select a destination and dates to begin. Results will be based on the relevant calendar and institutional sources available for that journey.</p>
                   </div>
                 ) : result.status === 'source_unavailable' ? (
                   <EmptyState 
                     title="Source disconnected" 
-                    message="The operational dataset required for this comparison is not currently available in this project workspace." 
+                    message="The operational intelligence source is not currently connected to this application. No production records are available." 
                   />
+                ) : result.status === 'no_matching_records' ? (
+                  <div className="text-center py-10 text-muted-foreground">
+                    <p className="text-sm">No specific operational impacts flagged for these criteria in the verified dataset.</p>
+                  </div>
                 ) : (
-                  // Future: Map result.records
+                  // Future: Render validated records here
                   null
                 )}
               </div>
@@ -155,42 +154,6 @@ export default function DateIntelligencePage() {
               <p className="text-muted-foreground leading-relaxed">
                 The same date can be desirable for a traveller who wants to experience an event, but disruptive for a business meeting or a logistics movement. Utsavs does not decide the "best" date; it exposes the practical implications so you can.
               </p>
-            </div>
-          </div>
-        </section>
-
-        {/* LENSES GRID */}
-        <section className="py-20 grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {[
-            { title: "Travel", desc: "Identify periods of high cultural activity or public closures that change an itinerary." },
-            { title: "Business", desc: "Plan around market closures and banking holidays with verified, source-aware data." },
-            { title: "Study", desc: "Check host-country holidays alongside institutional academic dates." },
-            { title: "Workforce", desc: "Manage leave and scheduling for global teams with jurisdictional awareness." },
-            { title: "Logistics", desc: "Identify dates requiring specific attention to customs, ports, and carrier schedules." },
-            { title: "Jurisdiction", desc: "Navigate the complex differences between national, regional, and local laws." }
-          ].map(lens => (
-            <Card key={lens.title} className="hover:border-primary/40 transition-colors">
-              <CardHeader>
-                <CardTitle className="font-headline text-xl">{lens.title}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground leading-relaxed">{lens.desc}</p>
-              </CardContent>
-            </Card>
-          ))}
-        </section>
-
-        <section className="py-20 border-t bg-muted/5 rounded-3xl p-12">
-          <div className="max-w-4xl mx-auto text-center">
-            <Info className="w-12 h-12 text-primary mx-auto mb-6" />
-            <h2 className="font-headline text-3xl font-bold mb-6">Honest, Sourced Data.</h2>
-            <p className="text-lg text-muted-foreground mb-8">
-              A holiday name is not evidence. Utsavs exposes the origin, status, and context of every record so you can evaluate the information yourself.
-            </p>
-            <div className="flex flex-wrap justify-center gap-4 text-xs font-bold uppercase tracking-widest text-primary">
-              <span className="px-4 py-2 border rounded-full">Source-Aware</span>
-              <span className="px-4 py-2 border rounded-full">Verification-Aware</span>
-              <span className="px-4 py-2 border rounded-full">Institution-Specific</span>
             </div>
           </div>
         </section>
