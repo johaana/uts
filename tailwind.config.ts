@@ -9,63 +9,32 @@ const config: Config = {
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
-    container: {
-      center: true,
-      padding: '2rem',
-      screens: {
-        '2xl': '1400px',
-      },
-    },
     extend: {
       fontFamily: {
-        sans: ['Manrope', ...fontFamily.sans],
-        mono: ['"IBM Plex Mono"', ...fontFamily.mono],
-        display: ['Newsreader', 'serif'],
-        headline: ['"Playfair Display"', 'serif'],
+        sans: ['var(--font-sans)', ...fontFamily.sans],
+        mono: ['var(--font-mono)', ...fontFamily.mono],
+        headline: ['var(--font-headline)', 'serif'],
+        display: ['var(--font-display)', 'serif'],
       },
       colors: {
-        ivory: '#F7F4EE',
-        ink: '#17151A',
-        coral: '#E94368',
-        'warm-border': '#DED9D0',
+        ink: 'hsl(var(--ink))',
+        panel: 'hsl(var(--panel))',
+        'panel-2': 'hsl(var(--panel-2))',
+        paper: 'hsl(var(--paper))',
+        gold: 'hsl(var(--gold))',
+        'gold-soft': 'hsl(var(--gold-soft))',
+        teal: 'hsl(var(--teal))',
+        muted: 'hsl(var(--muted))',
+        'muted-dim': 'hsl(var(--muted-dim))',
+        terracotta: 'hsl(var(--terracotta))',
+        'terracotta-soft': 'hsl(var(--terracotta-soft))',
         border: 'hsl(var(--border))',
-        input: 'hsl(var(--input))',
-        ring: 'hsl(var(--ring))',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         primary: {
           DEFAULT: 'hsl(var(--primary))',
           foreground: 'hsl(var(--primary-foreground))',
         },
-        secondary: {
-          DEFAULT: 'hsl(var(--secondary))',
-          foreground: 'hsl(var(--secondary-foreground))',
-        },
-        destructive: {
-          DEFAULT: 'hsl(var(--destructive))',
-          foreground: 'hsl(var(--destructive-foreground))',
-        },
-        muted: {
-          DEFAULT: 'hsl(var(--muted))',
-          foreground: 'hsl(var(--muted-foreground))',
-        },
-        accent: {
-          DEFAULT: 'hsl(var(--accent))',
-          foreground: 'hsl(var(--accent-foreground))',
-        },
-        popover: {
-          DEFAULT: 'hsl(var(--popover))',
-          foreground: 'hsl(var(--popover-foreground))',
-        },
-        card: {
-          DEFAULT: 'hsl(var(--card))',
-          foreground: 'hsl(var(--card-foreground))',
-        },
-      },
-      borderRadius: {
-        lg: 'var(--radius)',
-        md: 'calc(var(--radius) - 2px)',
-        sm: 'calc(var(--radius) - 4px)',
       },
     },
   },

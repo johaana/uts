@@ -1,110 +1,61 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 224 71.4% 4.1%;
- 
-    --card: 0 0% 100%;
-    --card-foreground: 224 71.4% 4.1%;
- 
-    --popover: 0 0% 100%;
-    --popover-foreground: 224 71.4% 4.1%;
- 
-    --primary: 340 80% 55%;
-    --primary-foreground: 355.7 100% 97.3%;
- 
-    --secondary: 220 14.3% 95.9%;
-    --secondary-foreground: 220.9 39.3% 11%;
- 
-    --muted: 220 14.3% 95.9%;
-    --muted-foreground: 220 8.9% 46.1%;
- 
-    --accent: 45 100% 55%;
-    --accent-foreground: 45 80% 10%;
- 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
+    --ink: 228 45% 11%;     /* #0F1428 */
+    --panel: 228 44% 16%;   /* #171D3A */
+    --panel-2: 229 45% 22%; /* #1E2650 */
+    --paper: 46 30% 94%;    /* #F4F1E8 */
+    --muted: 228 24% 68%;   /* #9AA1C0 */
+    --muted-dim: 229 16% 51%; /* #6E7495 */
+    --gold: 36 78% 57%;     /* #E8A33D */
+    --gold-soft: 37 77% 74%; /* #F0C888 */
+    --teal: 174 56% 56%;    /* #4FD1C5 */
+    --terracotta: 20 63% 47%; /* #C4622D */
+    --terracotta-soft: 23 72% 63%; /* #E38F5C */
+    --line: 46 30% 94% / 0.1;
+    --line-strong: 46 30% 94% / 0.18;
 
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 340 80% 55%;
- 
-    --radius: 0.75rem;
-
-    --gradient-from: 340 80% 55%;
-    --gradient-via: 15 90% 58%;
-    --gradient-to: 45 100% 55%;
-
-    --chart-1: 340 70% 50%;
-    --chart-2: 45 80% 55%;
-    --chart-3: 20 80% 55%;
-    --chart-4: 210 50% 50%;
-    --chart-5: 280 50% 55%;
-  }
-
-  .dark {
-    --background: 224 71.4% 4.1%;
-    --foreground: 210 20% 98%;
- 
-    --card: 224 71.4% 4.1%;
-    --card-foreground: 210 20% 98%;
- 
-    --popover: 224 71.4% 4.1%;
-    --popover-foreground: 210 20% 98%;
- 
-    --primary: 340 80% 60%;
-    --primary-foreground: 355.7 100% 97.3%;
- 
-    --secondary: 215 27.9% 16.9%;
-    --secondary-foreground: 210 20% 98%;
- 
-    --muted: 215 27.9% 16.9%;
-    --muted-foreground: 217.9 10.6% 64.9%;
- 
-    --accent: 45 100% 55%;
-    --accent-foreground: 45 80% 10%;
- 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
- 
-    --border: 215 27.9% 16.9%;
-    --input: 215 27.9% 16.9%;
-    --ring: 340 80% 60%;
-
-    --gradient-from: 340 80% 60%;
-    --gradient-via: 15 90% 62%;
-    --gradient-to: 45 100% 60%;
-
-    --chart-1: 340 70% 55%;
-    --chart-2: 45 80% 60%;
-    --chart-3: 20 80% 60%;
-    --chart-4: 210 50% 60%;
-    --chart-5: 280 50% 60%;
+    --background: var(--ink);
+    --foreground: var(--paper);
+    --card: var(--panel);
+    --card-foreground: var(--paper);
+    --primary: var(--gold);
+    --primary-foreground: var(--ink);
+    --secondary: var(--panel-2);
+    --secondary-foreground: var(--muted);
+    --accent: var(--teal);
+    --accent-foreground: var(--ink);
+    --border: var(--line-strong);
+    --input: var(--panel-2);
+    --ring: var(--gold);
   }
 }
 
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
+body {
+  @apply bg-background text-foreground antialiased;
+  font-feature-settings: "ss01", "ss02", "cv01", "cv02";
 }
 
-.btn-gradient {
-    background-image: linear-gradient(to right, hsl(var(--gradient-from)), hsl(var(--gradient-via)), hsl(var(--gradient-to)));
-    color: hsl(var(--primary-foreground));
+.font-mono { font-family: var(--font-mono); }
+.font-serif { font-family: var(--font-headline); }
+
+.status-pill {
+  @apply inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider;
+}
+.status-pill.high { @apply bg-teal/10 text-teal border border-teal/20; }
+.status-pill.medium { @apply bg-gold/10 text-gold-soft border border-gold/40; }
+.status-pill.listed { @apply border border-dashed border-white/20 text-muted; }
+
+.marquee-track {
+  display: inline-flex;
+  gap: 1rem;
+  animation: scroll 32s linear infinite;
 }
 
-.text-gradient {
-  background-image: linear-gradient(to right, hsl(var(--gradient-from)), hsl(var(--gradient-via)), hsl(var(--gradient-to)));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  color: transparent;
+@keyframes scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
 }
