@@ -1,81 +1,76 @@
 /**
- * @fileOverview Authoritative Operational Data Adapter
+ * @fileOverview Operational Data Adapter
  * 
- * This module is the single integration point for the Utsavs operational dataset.
- * It enforces the separation between the UI and the data layer and ensures
- * that provenance and integrity rules are maintained.
+ * The single application entry point for operational intelligence.
+ * Coordinates Source -> Normalize -> Validate -> Filter.
  */
 
-import { 
-  OperationalQuery, 
-  OperationalResult, 
-  DateIntelligenceRecord,
-  OperationalResultStatus
-} from './types';
+import { getSource } from './source';
+import { normalizeRecord } from './normalize';
+import { validateRecord } from './validator';
+import { OperationalQuery, OperationalResult, DateIntelligenceRecord } from './types';
 
 /**
- * Validates a record against the authoritative schema and integrity rules.
- * REJECTS malformed records or those without proper provenance.
- */
-export function validateRecord(record: any): record is DateIntelligenceRecord {
-  if (!record || typeof record !== 'object') return false;
-  
-  // Hard Rule: Dates must be valid YYYY-MM-DD
-  if (!record.date || !/^\d{4}-\d{2}-\d{2}$/.test(record.date)) return false;
-  
-  // Hard Rule: Provenance must be present
-  if (!record.evidence || !record.evidence.source_id || !record.evidence.source_name) return false;
-  
-  // Hard Rule: Institution-specific consequences require institution-specific evidence
-  if (record.jurisdiction?.scope === 'institutional' && !record.institution?.id) return false;
-  
-  // Purpose must be supported
-  if (!Array.isArray(record.purpose_relevance) || record.purpose_relevance.length === 0) return false;
-
-  return true;
-}
-
-/**
- * Fetches operational impact based on user query.
- * 
- * DATA INTEGRITY RULE:
- * This function currently returns 'source_unavailable' because the
- * authoritative source bundle is not present in the workspace.
+ * Main query function for the Date Intelligence product.
  */
 export async function getOperationalImpact(query: OperationalQuery): Promise<OperationalResult> {
   const timestamp = new Date().toISOString();
+  const source = getSource();
+  const status = await source.getStatus();
 
-  // 1. Validate Query
-  if (!query.destination || !query.startDate || !query.endDate) {
+  // 1. Source Availability Check
+  if (!status.available) {
     return {
-      status: 'invalid_query',
+      status: 'source_unavailable',
       records: [],
       query_context: query,
       metadata: { timestamp, source_connected: false }
     };
   }
 
-  // 2. Authoritative Source Ingestion Point
-  // FUTURE INTEGRATION:
-  // try {
-  //   const { AUTHORITATIVE_SOURCE } = await import('./source-bundle');
-  //   const records = AUTHORITATIVE_SOURCE.filter(validateRecord);
-  //   // ... query filtering logic
-  // } catch (e) {
-  //   // Fall through to source_unavailable
-  // }
-  
-  // CURRENT STATUS: SOURCE DISCONNECTED
-  // We do not reconstruct or synthesize data from memory or fragments.
-  const status: OperationalResultStatus = 'source_unavailable';
+  try {
+    // 2. Fetch Raw Records
+    const rawRecords = await source.getRecords();
 
-  return {
-    status,
-    records: [],
-    query_context: query,
-    metadata: {
-      timestamp,
-      source_connected: false
-    }
-  };
+    // 3. Pipeline: Normalize and Validate
+    const validRecords: DateIntelligenceRecord[] = rawRecords
+      .map(normalizeRecord)
+      .filter((r): r is DateIntelligenceRecord => r !== null)
+      .filter(r => validateRecord(r).valid);
+
+    // 4. Query Filtering
+    const matches = validRecords.filter(record => {
+      // Filter by Country
+      if (record.jurisdiction.country_code !== query.destination) return false;
+
+      // Filter by Purpose
+      if (!record.purpose_relevance.includes(query.purpose)) return false;
+
+      // Filter by Date Range
+      const recordDate = new Date(record.date).getTime();
+      const start = new Date(query.startDate).getTime();
+      const end = new Date(query.endDate).getTime();
+      
+      return recordDate >= start && recordDate <= end;
+    });
+
+    return {
+      status: matches.length > 0 ? 'results_found' : 'no_matching_records',
+      records: matches,
+      query_context: query,
+      metadata: { 
+        timestamp, 
+        source_connected: true,
+        version: status.version 
+      }
+    };
+
+  } catch (e) {
+    return {
+      status: 'error',
+      records: [],
+      query_context: query,
+      metadata: { timestamp, source_connected: true }
+    };
+  }
 }

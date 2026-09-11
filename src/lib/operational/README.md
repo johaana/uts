@@ -1,24 +1,30 @@
-# Utsavs Operational Intelligence Data Layer
+# Utsavs Operational Data Pipeline
 
-This directory is the authoritative location for the Utsavs operational dataset integration and contract.
+This directory manages the authoritative operational intelligence layer.
 
-## Integration Contract
+## Ingestion Contract
 
-### 1. Authoritative Source Interface
-The future source bundle is expected to provide an array of objects matching the `DateIntelligenceRecord` interface defined in `types.ts`. 
+The authoritative source must provide records that can be normalized into the `DateIntelligenceRecord` schema.
 
-### 2. Source Integrity Rules (Mandatory)
-*   **No Data Fabrication**: Do not synthesize, reconstruct, or infer records from memory or external fragments.
-*   **No Automatic Inference**: A generic holiday feed must NOT automatically become an institutional closure.
-*   **Institution-Specific Evidence**: Any claim about a port, bank, or market closure must retain a direct link to that institution's official calendar or announcement.
-*   **Provenance Survival**: Every record must carry its `SourceEvidence` through the entire pipeline. If a user asks "Why is this closed?", the system must be able to cite the source.
-*   **Honest Uncertainty**: Dates marked as `provisional` or `estimated` must be rendered as such in the UI.
+### Mandatory Fields
+* `id`: Unique identifier for the record.
+* `date`: YYYY-MM-DD format.
+* `country_code`: ISO 3166-1 alpha-2.
+* `purpose_relevance`: Array containing at least one of `travel`, `business`, `study`, `workforce`, `logistics`.
+* `evidence`: Source name and verification status.
 
-### 3. Integration Failure
-If the authoritative source is missing or fails validation, the system must return a `source_unavailable` status. The UI will truthfully display "Source Disconnected".
+### Integrity Rules
+1. **Provenance Survival**: Evidence metadata must accompany the record through the entire pipeline.
+2. **Institutional Evidence**: Any claim about an institutional closure (Bank, Port, University, etc.) must cite an institutional or regulatory source.
+3. **No Automatic Inference**: National holidays do not automatically imply specific institutional closures.
+4. **Honest Uncertainty**: Dates marked as `provisional` or `estimated` must be rendered as such.
 
-## Implementation Status
-*   **UI Shell**: Frozen & Verified
-*   **Adapter Contract**: Finalized (`src/lib/operational/adapter.ts`)
-*   **Data Model**: Canonical (`src/lib/operational/types.ts`)
-*   **Production Data**: **DISCONNECTED**. Authoritative source bundle is required for population.
+## Pipeline Architecture
+1. **Source (`source.ts`)**: Connects to the authoritative storage (configured via environment).
+2. **Normalize (`normalize.ts`)**: Maps raw data to canonical TypeScript interfaces.
+3. **Validator (`validator.ts`)**: Enforces integrity and provenance rules.
+4. **Adapter (`adapter.ts`)**: The single entry point for the UI to query validated data.
+
+## Status
+* **Infrastructure**: Production-Ready.
+* **Production Records**: 0 (Authoritative source disconnected).
