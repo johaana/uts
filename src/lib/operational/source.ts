@@ -17,6 +17,7 @@ import { CHUNK_006 } from './data/raw/chunk_006';
 import { CHUNK_007 } from './data/raw/chunk_007';
 import { CHUNK_008 } from './data/raw/chunk_008';
 import { CHUNK_009 } from './data/raw/chunk_009';
+import { CHUNK_010 } from './data/raw/chunk_010';
 
 export interface SourceStatus {
   available: boolean;
@@ -42,14 +43,14 @@ class AuthoritativeSource implements OperationalSource {
       CHUNK_006,
       CHUNK_007,
       CHUNK_008,
-      CHUNK_009
+      CHUNK_009,
+      CHUNK_010
     ];
   }
 
   async getRecords(): Promise<DateIntelligenceRecord[]> {
-    // In a real environment, this would involve a complex JS parser/evaluator.
-    // For this prototype, we assume the pipeline logic in normalize.ts 
-    // and adapter.ts is wired to the relevant data exported by the aggregated source.
+    // Pipeline logic in normalize.ts and adapter.ts is wired to the relevant data 
+    // exported by the aggregated source once it's complete.
     return [];
   }
 
@@ -59,7 +60,7 @@ class AuthoritativeSource implements OperationalSource {
       sourceId: 'utsavs-authoritative-primary',
       sourceName: 'Utsavs Authoritative Operational Dataset',
       version: '1.0.0',
-      recordCount: 0 // Will be updated once full ingestion is triggered
+      recordCount: 0
     };
   }
 }
