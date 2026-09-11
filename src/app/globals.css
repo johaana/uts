@@ -47,7 +47,10 @@ body {
 }
 .status-pill.high { @apply bg-teal/10 text-teal border border-teal/20; }
 .status-pill.medium { @apply bg-gold/10 text-gold-soft border border-gold/40; }
-.status-pill.listed { @apply border border-dashed border-white/20 text-muted; }
+.status-pill.listed { 
+  @apply border border-dashed border-white/20;
+  color: hsl(var(--muted));
+}
 
 .marquee-track {
   display: inline-flex;

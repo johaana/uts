@@ -19,10 +19,8 @@ const config: Config = {
         panel: "hsl(var(--panel))",
         "panel-2": "hsl(var(--panel-2))",
         paper: "hsl(var(--paper))",
-        muted: {
-          DEFAULT: "hsl(var(--muted))",
-          dim: "hsl(var(--muted-dim))",
-        },
+        muted: "hsl(var(--muted))",
+        "muted-dim": "hsl(var(--muted-dim))",
         gold: {
           DEFAULT: "hsl(var(--gold))",
           soft: "hsl(var(--gold-soft))",
