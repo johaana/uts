@@ -1,41 +1,45 @@
 /**
  * @fileOverview Data interfaces for the Utsavs Operational Intelligence layer.
- * These types define the schema for the future authoritative source integration.
+ * These types define the canonical schema for the authoritative source integration.
  */
 
-export type ConfidenceTier = 'high' | 'medium' | 'provisional' | 'estimated' | 'listed';
+export type ConfidenceTier = 'high' | 'medium' | 'provisional' | 'estimated' | 'listed' | 'reference';
 export type DateState = 'confirmed' | 'declared' | 'provisional' | 'estimated';
 export type OperationalStatus = 'OPEN' | 'CLOSED' | 'EARLY_CLOSE' | 'LIMITED' | 'HOLIDAY_APPLIES' | 'UNKNOWN';
+export type EvidenceType = 'government' | 'institutional' | 'regulatory' | 'algorithmic' | 'manual_verification';
 
 export type UserPurpose = 'travel' | 'business' | 'study' | 'workforce' | 'logistics';
 
 export interface SourceEvidence {
+  source_id: string;
   source_name: string;
   source_url?: string;
-  last_checked?: string;
+  source_type: EvidenceType;
+  last_checked: string; // ISO Date
+  verification_status: 'verified' | 'provisional' | 'stale';
   link_label?: string;
-  source_type?: 'government' | 'institutional' | 'regulatory' | 'algorithmic';
 }
 
 export interface Jurisdiction {
-  country_code: string;
+  country_code: string; // ISO 3116-1 alpha-2
   country_name: string;
-  region?: string; // state/province
+  region?: string; // state/province/ISO 3166-2
   local?: string;  // city/municipality
-  scope: 'national' | 'regional' | 'local';
+  scope: 'national' | 'regional' | 'local' | 'institutional';
 }
 
 export interface Institution {
   id: string;
   name: string;
-  type: 'bank' | 'market' | 'customs' | 'port' | 'university' | 'embassy';
+  type: 'bank' | 'market' | 'customs' | 'port' | 'university' | 'embassy' | 'transport';
   applicability: string; // describing how/who it affects
 }
 
 export interface PracticalConsequence {
-  implication: string;   // "Total market closure", "Reduced transport", etc.
+  implication: string;   // e.g., "Total market closure", "Reduced transport"
   action_suggested?: string;
   affected_operations: string[];
+  severity: 'low' | 'medium' | 'high';
 }
 
 export interface DateIntelligenceRecord {
@@ -60,12 +64,20 @@ export interface OperationalQuery {
   purpose: UserPurpose;
 }
 
+export type OperationalResultStatus = 
+  | 'results_found' 
+  | 'no_matching_records' 
+  | 'source_unavailable' 
+  | 'invalid_query' 
+  | 'error';
+
 export interface OperationalResult {
-  status: 'results_found' | 'no_impact' | 'source_unavailable' | 'error';
+  status: OperationalResultStatus;
   records: DateIntelligenceRecord[];
   query_context: OperationalQuery;
   metadata: {
     timestamp: string;
     source_connected: boolean;
+    version?: string;
   };
 }
