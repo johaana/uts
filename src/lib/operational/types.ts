@@ -10,6 +10,17 @@ export type EvidenceType = 'government' | 'institutional' | 'regulatory' | 'algo
 
 export type UserPurpose = 'travel' | 'business' | 'study' | 'workforce' | 'logistics';
 
+export type OperationalCategory = 
+  | 'holiday' 
+  | 'regional' 
+  | 'institutional' 
+  | 'business_travel' 
+  | 'banking' 
+  | 'market' 
+  | 'customs' 
+  | 'student_risk' 
+  | 'global_expansion';
+
 export interface SourceEvidence {
   source_id: string;
   source_name: string;
@@ -47,6 +58,7 @@ export interface DateIntelligenceRecord {
   date: string; // YYYY-MM-DD
   date_end?: string;
   name: string;
+  category: OperationalCategory;
   jurisdiction: Jurisdiction;
   institution?: Institution;
   purpose_relevance: UserPurpose[];
@@ -54,6 +66,7 @@ export interface DateIntelligenceRecord {
   confidence: ConfidenceTier;
   evidence: SourceEvidence;
   consequences: PracticalConsequence;
+  raw_source_ref?: any; // Preserve original record for audit
 }
 
 export interface OperationalQuery {

@@ -31,13 +31,14 @@ export async function getOperationalImpact(query: OperationalQuery): Promise<Ope
 
     // Query Filtering
     const matches = validRecords.filter(record => {
-      // Filter by Country (if provided and record has jurisdiction)
+      // 1. Filter by Country (Destination)
       if (query.destination && record.jurisdiction.country_code !== query.destination) return false;
 
-      // Filter by Purpose
+      // 2. Filter by Purpose (Lens)
+      // Logic: Does the record's purpose list overlap with the requested purpose?
       if (query.purpose && !record.purpose_relevance.includes(query.purpose)) return false;
 
-      // Filter by Date Range
+      // 3. Filter by Date Range
       const recordDate = new Date(record.date).getTime();
       const start = new Date(query.startDate).getTime();
       const end = new Date(query.endDate).getTime();

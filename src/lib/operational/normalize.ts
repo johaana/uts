@@ -4,11 +4,11 @@
  * Maps raw authoritative source records into the canonical types.
  */
 
-import { DateIntelligenceRecord, UserPurpose } from './types';
-import { HolidayRule, OperationalRecordRaw, PolicyRecordRaw } from './data/raw/utsavs-app';
+import { DateIntelligenceRecord, OperationalCategory } from './types';
+import { HolidayRule } from './data/raw/utsavs-app';
 
 export function normalizeHoliday(code: string, rule: HolidayRule, year: number): DateIntelligenceRecord | null {
-  const dateStr = rule.dates ? rule.dates[year] : `${year}-${String(rule.month).padStart(2, '0')}-${String(rule.day).padStart(2, '0')}`;
+  const dateStr = rule.dates ? rule.dates[year] : (rule.month && rule.day ? `${year}-${String(rule.month).padStart(2, '0')}-${String(rule.day).padStart(2, '0')}` : null);
   
   if (!dateStr) return null;
 
@@ -16,9 +16,10 @@ export function normalizeHoliday(code: string, rule: HolidayRule, year: number):
     id: `HOL_${code}_${dateStr}_${rule.name.replace(/\s+/g, '_')}`,
     date: dateStr,
     name: rule.name,
+    category: 'holiday',
     jurisdiction: {
       country_code: code,
-      country_name: code === 'IN' ? 'India' : code === 'US' ? 'United States' : 'Other',
+      country_name: code, 
       scope: 'national'
     },
     purpose_relevance: ['travel', 'business', 'logistics', 'workforce', 'study'],
@@ -36,71 +37,81 @@ export function normalizeHoliday(code: string, rule: HolidayRule, year: number):
       implication: rule.state === 'listed' ? 'Listed public holiday; commercial impact expected.' : 'Operational signal; verify local closures.',
       affected_operations: ['banking', 'government', 'public_services'],
       severity: 'medium'
-    }
+    },
+    raw_source_ref: rule
   };
 }
 
-export function normalizeOperational(raw: OperationalRecordRaw): DateIntelligenceRecord | null {
+export function normalizeRegional(raw: any): DateIntelligenceRecord | null {
+  if (!raw.date || !raw.country_code) return null;
+  
   return {
-    id: `OP_${raw.institution_id || 'GEN'}_${raw.date}_${raw.segment?.replace(/\s+/g, '_')}`,
+    id: `REG_${raw.country_code}_${raw.region || 'GEN'}_${raw.date}_${raw.name.replace(/\s+/g, '_')}`,
     date: raw.date,
-    date_end: raw.date_end,
-    name: raw.segment || 'Operational Alert',
+    name: raw.name,
+    category: 'regional',
     jurisdiction: {
-      country_code: 'UNKNOWN',
-      country_name: 'Global/Unknown',
-      scope: 'institutional'
+      country_code: raw.country_code,
+      country_name: raw.country_code,
+      region: raw.region,
+      scope: 'regional'
     },
-    institution: {
-      id: raw.institution_id || 'UNKNOWN',
-      name: raw.institution || 'Unknown Institution',
-      type: 'transport', // Default
-      applicability: raw.scope
-    },
-    purpose_relevance: ['logistics', 'workforce', 'business'],
-    state: 'confirmed',
-    confidence: raw.confidence,
+    purpose_relevance: ['travel', 'business', 'workforce'],
+    state: raw.status || 'confirmed',
+    confidence: 'high',
     evidence: {
       source_id: 'utsavs-authoritative-primary',
-      source_name: raw.evidence.source_name,
-      source_url: raw.evidence.source_url,
-      source_type: 'institutional',
-      last_checked: raw.evidence.last_checked || new Date().toISOString(),
+      source_name: raw.evidence?.source_name || 'Regional Authority',
+      source_url: raw.evidence?.source_url,
+      source_type: 'government',
+      last_checked: raw.evidence?.last_checked || new Date().toISOString(),
       verification_status: 'verified'
     },
     consequences: {
-      implication: raw.detail || raw.status,
-      affected_operations: [raw.scope_type],
+      implication: raw.implication || 'Regional operational impact.',
+      affected_operations: ['local_business', 'transport'],
       severity: 'high'
-    }
+    },
+    raw_source_ref: raw
   };
 }
 
-export function normalizePolicy(raw: PolicyRecordRaw): DateIntelligenceRecord | null {
-  return {
-    id: `POL_${raw.country}_${raw.topic.replace(/\s+/g, '_')}`,
-    date: raw.effective_date || new Date().toISOString().split('T')[0],
-    name: raw.topic,
-    jurisdiction: {
-      country_code: raw.country,
-      country_name: raw.country === 'CA' ? 'Canada' : 'Other',
-      scope: 'national'
-    },
-    purpose_relevance: ['study', 'business', 'workforce'],
-    state: 'confirmed',
-    confidence: raw.confidence,
-    evidence: {
-      source_id: 'utsavs-authoritative-primary',
-      source_name: raw.source_name || 'Policy Authority',
-      source_url: raw.source_url,
-      source_type: 'regulatory',
-      last_checked: raw.last_checked || new Date().toISOString(),
-      verification_status: 'verified'
-    },
-    consequences: {
-      implication: raw.summary,
-      affected_operations: ['immigration', 'admissions'],
-      severity: 'medium'
-    }
-  };
+export function normalizeInstitutional(raw: any): DateIntelligenceRecord | null {
+    if (!raw.date || !raw.institution) return null;
+    return {
+        id: `INST_${raw.institution_id || 'GEN'}_${raw.date}`,
+        date: raw.date,
+        name: raw.name || 'Institutional Timing',
+        category: 'institutional',
+        jurisdiction: {
+            country_code: raw.country_code || 'UNKNOWN',
+            country_name: 'Institutional',
+            scope: 'institutional'
+        },
+        institution: {
+            id: raw.institution_id || 'UNKNOWN',
+            name: raw.institution,
+            type: raw.type || 'university',
+            applicability: raw.applicability || 'Campus-wide'
+        },
+        purpose_relevance: ['study'],
+        state: 'confirmed',
+        confidence: 'high',
+        evidence: {
+            source_id: 'utsavs-authoritative-primary',
+            source_name: raw.evidence?.source_name || 'Institutional Source',
+            source_url: raw.evidence?.source_url,
+            source_type: 'institutional',
+            last_checked: raw.evidence?.last_checked || new Date().toISOString(),
+            verification_status: 'verified'
+        },
+        consequences: {
+            implication: raw.implication || 'Academic or institutional deadline.',
+            affected_operations: ['admissions', 'classes'],
+            severity: 'medium'
+        },
+        raw_source_ref: raw
+    };
 }
+
+// Additional specific normalizers for Corporate, Banking, etc. can be added here
