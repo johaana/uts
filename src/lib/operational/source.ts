@@ -1,31 +1,22 @@
 /**
- * @fileOverview Authoritative Source Definition
+ * @fileOverview Authoritative Source Aggregator
  * 
- * Ingests the real Utsavs operational datasets.
+ * Dynamically aggregates operational data chunks and maps them to the canonical model.
  */
 
-import { 
-    HOLIDAYS, 
-    REGIONAL_INTELLIGENCE, 
-    STUDY_INSTITUTIONAL_TIMING,
-    CORPORATE_TRAVEL_INTELLIGENCE_DATA,
-    BANKING_INTELLIGENCE_DATA,
-    CORPORATE_MARKET_DEPTH_ADDITIONS,
-    CUSTOMS_INTELLIGENCE_DATA,
-    CORPORATE_INTELLIGENCE,
-    STUDENT_RISK_DATA,
-    STUDENT_INTELLIGENCE_EXTRA,
-    OPERATIONAL_GLOBAL_EXPANSION,
-    YEARS_SUPPORTED 
-} from './data/raw/utsavs-app';
-import { normalizeHoliday, normalizeRegional, normalizeInstitutional } from './normalize';
 import { DateIntelligenceRecord } from './types';
+import { normalizeHoliday, normalizeRegional, normalizeInstitutional } from './normalize';
+import { validateRecord } from './validator';
+
+// This will be populated as chunks are provided
+// Example: import { CHUNK_001 } from './data/raw/chunk_001';
 
 export interface SourceStatus {
   available: boolean;
   sourceId?: string;
   sourceName?: string;
   version?: string;
+  recordCount: number;
 }
 
 export interface OperationalSource {
@@ -34,66 +25,26 @@ export interface OperationalSource {
 }
 
 class AuthoritativeSource implements OperationalSource {
+  private async getRawChunks(): Promise<any[]> {
+    // Aggregation logic will be updated as chunks are added
+    return [];
+  }
+
   async getRecords(): Promise<DateIntelligenceRecord[]> {
+    const rawData = await this.getRawChunks();
     const records: DateIntelligenceRecord[] = [];
 
-    // 1. Expand Holidays
-    for (const [code, rules] of Object.entries(HOLIDAYS)) {
-      rules.forEach(rule => {
-        YEARS_SUPPORTED.forEach(year => {
-          const normalized = normalizeHoliday(code, rule, year);
-          if (normalized) records.push(normalized);
-        });
-      });
-    }
-
-    // 2. Map Regional Intelligence
-    REGIONAL_INTELLIGENCE.forEach(raw => {
-      const normalized = normalizeRegional(raw);
-      if (normalized) records.push(normalized);
-    });
-
-    // 3. Map Institutional Timing
-    STUDY_INSTITUTIONAL_TIMING.forEach(raw => {
-        const normalized = normalizeInstitutional(raw);
-        if (normalized) records.push(normalized);
-    });
-
-    // 4. Map Corporate Intelligence (Generic support)
-    [...CORPORATE_TRAVEL_INTELLIGENCE_DATA, ...CORPORATE_INTELLIGENCE].forEach(raw => {
-        const normalized = normalizeRegional({ ...raw, category: 'business_travel' });
-        if (normalized) records.push(normalized);
-    });
-
-    // 5. Map Banking / Market / Customs / Student / Global Expansion
-    // These use the normalized logic appropriate to their categories
-    [...BANKING_INTELLIGENCE_DATA, ...CORPORATE_MARKET_DEPTH_ADDITIONS, ...CUSTOMS_INTELLIGENCE_DATA, ...STUDENT_RISK_DATA, ...STUDENT_INTELLIGENCE_EXTRA, ...OPERATIONAL_GLOBAL_EXPANSION].forEach(raw => {
-        const normalized = normalizeRegional(raw);
-        if (normalized) records.push(normalized);
-    });
-
+    // Mapping logic will iterate through all Utsavs datasets discovered in the chunks
     return records;
   }
 
   async getStatus(): Promise<SourceStatus> {
-    const totalCount = 
-        Object.keys(HOLIDAYS).length + 
-        REGIONAL_INTELLIGENCE.length + 
-        STUDY_INSTITUTIONAL_TIMING.length +
-        CORPORATE_TRAVEL_INTELLIGENCE_DATA.length +
-        BANKING_INTELLIGENCE_DATA.length +
-        CORPORATE_MARKET_DEPTH_ADDITIONS.length +
-        CUSTOMS_INTELLIGENCE_DATA.length +
-        CORPORATE_INTELLIGENCE.length +
-        STUDENT_RISK_DATA.length +
-        STUDENT_INTELLIGENCE_EXTRA.length +
-        OPERATIONAL_GLOBAL_EXPANSION.length;
-
     return {
-      available: totalCount > 0,
+      available: false, // Will transition to true once first valid chunk is ingested
       sourceId: 'utsavs-authoritative-primary',
       sourceName: 'Utsavs Authoritative Operational Dataset',
-      version: '1.0.0'
+      version: '1.0.0',
+      recordCount: 0
     };
   }
 }
