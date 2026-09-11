@@ -1,35 +1,26 @@
 "use client";
 
 import Link from "next/link";
-import { Button } from "./ui/button";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import React, { useEffect, useState } from "react";
-import { Bot, Menu, Moon, Sun } from "lucide-react";
-import { useTheme } from "next-themes";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { Menu } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { MobileNav } from "./MobileNav";
+import { Button } from "./ui/button";
 
 const navLinks = [
-  { href: "/festivals", label: "Festivals" },
-  { href: "/recipes", label: "Recipes" },
-  { href: "/calendar", label: "Explore by Month" },
-  { href: "https://utsavs.com", label: "Stories ↗" },
+  { href: "/date-intelligence", label: "Date Intelligence" },
+  { href: "/built-for", label: "Built For" },
+  { href: "/api", label: "API" },
+  { href: "/travel-insurance", label: "Travel Insurance" },
+  { href: "https://utsavs.com", label: "Stories ↗", external: true },
 ];
 
 export function Header() {
   const pathname = usePathname();
-  const { setTheme } = useTheme();
   const [isSheetOpen, setIsSheetOpen] = React.useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  
-  const isHomePage = pathname === '/';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -42,79 +33,34 @@ export function Header() {
   return (
     <header className={cn(
         "sticky top-0 z-40 w-full border-b transition-all duration-300",
-        isScrolled ? "h-16 bg-background/95 backdrop-blur-sm shadow-sm" : (isHomePage ? "h-20 bg-transparent border-transparent" : "h-20 bg-background")
+        isScrolled ? "h-16 bg-background/95 backdrop-blur-sm shadow-sm" : "h-20 bg-background"
     )}>
       <div className="container mx-auto flex items-center justify-between h-full px-4">
-        
         <div className="flex items-center">
             <Link href="/" className="flex flex-col items-start group">
                 <span className="font-headline text-3xl font-bold text-primary">Utsavs</span>
-                <span className="text-xs text-foreground/80 font-sans font-bold">Every Festival Tells a Story</span>
+                <span className="text-[10px] text-foreground/60 font-mono font-bold uppercase tracking-widest mt-0.5">Global Calendar Intelligence</span>
             </Link>
         </div>
 
-        <div className="hidden md:flex flex-1 items-center justify-end gap-2 lg:gap-4">
-          <nav className="flex items-center gap-4 lg:gap-6">
-              {navLinks.map((link) => {
-              const isExternal = link.href.startsWith('http');
-              return (
-              <Link
-                key={link.href}
-                href={link.href}
-                target={isExternal ? "_blank" : undefined}
-                rel={isExternal ? "noopener noreferrer" : undefined}
-                className={cn(
-                  "text-base font-bold transition-colors relative py-2 group",
-                  !isExternal && pathname.startsWith(link.href) ? "text-primary" : "text-foreground/80 hover:text-primary"
-                )}
-              >
-                {link.label}
-                <span
-                  className={cn(
-                    "absolute bottom-0 left-0 w-full h-0.5 bg-accent transform scale-x-0 origin-left transition-transform duration-300 ease-in-out group-hover:scale-x-100",
-                    { "scale-x-100": !isExternal && pathname.startsWith(link.href) }
-                  )}
-                />
-              </Link>
-            )})}
-          </nav>
-          
-           <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon">
-                <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-                <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-                <span className="sr-only">Toggle theme</span>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => setTheme("light")}>
-                Light
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setTheme("dark")}>
-                Dark
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setTheme("system")}>
-                System
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-
-           <Link href="/planner">
-                <Button 
-                  variant="gradient"
-                  size="sm"
-                  className={cn(
-                    "font-bold tracking-wide shadow-lg hover:shadow-primary/50 rounded-full px-4 hover:scale-105 transition-all duration-300 py-1"
-                  )}
-                >
-                    <Bot className="w-4 w-4 mr-2"/>
-                    AI Planner
-                </Button>
+        <nav className="hidden md:flex items-center gap-6 lg:gap-8">
+            {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              target={link.external ? "_blank" : undefined}
+              rel={link.external ? "noopener noreferrer" : undefined}
+              className={cn(
+                "text-sm font-bold transition-colors relative py-1",
+                !link.external && pathname === link.href ? "text-primary" : "text-foreground/80 hover:text-primary"
+              )}
+            >
+              {link.label}
             </Link>
-        </div>
+          ))}
+        </nav>
         
-        <div className="flex-1 flex justify-end items-center gap-2 md:hidden">
+        <div className="flex md:hidden">
             <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
                 <SheetTrigger asChild>
                     <Button variant="ghost" size="icon">
@@ -127,7 +73,6 @@ export function Header() {
                 </SheetContent>
             </Sheet>
         </div>
-
       </div>
     </header>
   );

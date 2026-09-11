@@ -2,15 +2,14 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Button } from './ui/button';
-import { Bot } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-const navLinksMobile = [
-  { href: "/festivals", label: "Festivals" },
-  { href: "/recipes", label: "Recipes" },
-  { href: "/calendar", label: "Explore by Month" },
-  { href: "https://utsavs.com", label: "Stories ↗" },
+const navLinks = [
+  { href: "/date-intelligence", label: "Date Intelligence" },
+  { href: "/built-for", label: "Built For" },
+  { href: "/api", label: "API" },
+  { href: "/travel-insurance", label: "Travel Insurance" },
+  { href: "https://utsavs.com", label: "Stories ↗", external: true },
 ];
 
 export function MobileNav({ setOpen }: { setOpen: (open: boolean) => void }) {
@@ -21,40 +20,26 @@ export function MobileNav({ setOpen }: { setOpen: (open: boolean) => void }) {
       <div className="p-4 border-b">
         <Link href="/" className="flex flex-col items-start" onClick={() => setOpen(false)}>
             <span className="font-headline text-2xl font-bold text-primary">Utsavs</span>
-            <span className="text-xs text-foreground/80 font-sans font-bold">Every Festival Tells a Story</span>
+            <span className="text-[10px] text-foreground/60 font-mono font-bold uppercase tracking-widest mt-0.5">Global Calendar Intelligence</span>
         </Link>
       </div>
-      <nav className="flex flex-col p-4 space-y-2 flex-grow">
-        {navLinksMobile.map((link) => {
-          const isExternal = link.href.startsWith('http');
-          return (
+      <nav className="flex flex-col p-4 space-y-4">
+        {navLinks.map((link) => (
           <Link
             key={link.href}
             href={link.href}
-            target={isExternal ? "_blank" : undefined}
-            rel={isExternal ? "noopener noreferrer" : undefined}
+            target={link.external ? "_blank" : undefined}
+            rel={link.external ? "noopener noreferrer" : undefined}
             onClick={() => setOpen(false)}
             className={cn(
-              "text-lg font-bold transition-colors p-2 rounded-md",
-              !isExternal && pathname.startsWith(link.href) ? "text-primary bg-muted" : "text-foreground/80 hover:text-primary"
+              "text-lg font-bold transition-colors",
+              !link.external && pathname === link.href ? "text-primary" : "text-foreground/80 hover:text-primary"
             )}
           >
             {link.label}
           </Link>
-        )})}
+        ))}
       </nav>
-      <div className="p-4 border-t space-y-4">
-        <Link href="/planner" onClick={() => setOpen(false)}>
-            <Button 
-              variant="gradient"
-              size="lg"
-              className="w-full font-bold tracking-wide shadow-lg"
-            >
-                <Bot className="w-5 h-5 mr-2"/>
-                AI Holiday Planner
-            </Button>
-        </Link>
-      </div>
     </div>
   );
 }

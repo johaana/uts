@@ -1,0 +1,111 @@
+import { PageLayout } from "@/components/PageLayout";
+import { OperationalFAQ } from "@/components/operational/OperationalFAQ";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Globe, Plane, Briefcase, GraduationCap, Truck, HeartHandshake } from "lucide-react";
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: "Built For | Decisions Powered by Date Intelligence | Utsavs",
+  description: "Different plans need different dates. Explore how Utsavs helps travel, corporate, and logistics teams plan effectively.",
+  alternates: { canonical: '/built-for' }
+};
+
+const useCases = [
+  {
+    title: "Travel",
+    tag: "Choosing when to go",
+    icon: Plane,
+    desc: "See festival periods, public holidays and likely closures before you build an itinerary."
+  },
+  {
+    title: "Corporate / HR",
+    tag: "Choosing when to operate",
+    icon: Briefcase,
+    desc: "Check destination calendars before approving international travel or scheduling important regional activities."
+  },
+  {
+    title: "Business & Finance",
+    tag: "Choosing when to schedule",
+    icon: Globe,
+    desc: "Compare origin and destination calendars before scheduling cross-border work or market-sensitive deadlines."
+  },
+  {
+    title: "Study",
+    tag: "Choosing when to arrive",
+    icon: GraduationCap,
+    desc: "Check host-country holidays alongside orientation and registration dates before booking student travel."
+  },
+  {
+    title: "Logistics",
+    tag: "Choosing when to move",
+    icon: Truck,
+    desc: "Cross-check field operations and deliveries against local religious and cultural calendars."
+  },
+  {
+    title: "Travel Protection",
+    tag: "Planning around real travel periods",
+    icon: HeartHandshake,
+    desc: "Identify periods that may be especially relevant to travellers to provide context-aware protection options."
+  }
+];
+
+export default function BuiltForPage() {
+  return (
+    <div className="bg-background text-foreground min-h-screen">
+      <PageLayout>
+        <section className="py-20 text-center max-w-3xl mx-auto">
+          <h1 className="font-headline text-4xl md:text-6xl font-bold mb-6">Different plans need<br/>different dates.</h1>
+          <p className="text-xl text-muted-foreground leading-relaxed">
+            The question is not simply whether a date is a holiday. It is whether that date works for what you are trying to do.
+          </p>
+        </section>
+
+        <section className="py-12">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-1">
+            {useCases.map((uc, i) => (
+              <Card key={i} className="rounded-none border-border/60 hover:bg-muted/5 transition-colors">
+                <CardHeader className="pb-2">
+                  <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center mb-6">
+                    <uc.icon className="w-5 h-5 text-primary" />
+                  </div>
+                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-accent mb-2">{uc.tag}</p>
+                  <CardTitle className="font-headline text-2xl">{uc.title}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground text-sm leading-relaxed">{uc.desc}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </section>
+
+        <section className="py-24 border-t">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="font-headline text-3xl font-bold mb-8 text-center">Understand the Relationship</h2>
+            <div className="flex flex-col md:flex-row items-center justify-between gap-12 text-center">
+              <div className="flex-1 space-y-2">
+                <div className="text-3xl font-bold text-primary">DATE</div>
+                <p className="text-sm text-muted-foreground">The temporal point</p>
+              </div>
+              <div className="text-2xl text-muted-foreground hidden md:block">→</div>
+              <div className="flex-1 space-y-2">
+                <div className="text-3xl font-bold text-primary">PLACE</div>
+                <p className="text-sm text-muted-foreground">The geography</p>
+              </div>
+              <div className="text-2xl text-muted-foreground hidden md:block">→</div>
+              <div className="flex-1 space-y-2">
+                <div className="text-3xl font-bold text-primary">INSTITUTION</div>
+                <p className="text-sm text-muted-foreground">The operational impact</p>
+              </div>
+            </div>
+            <p className="mt-16 text-center text-muted-foreground italic">
+              "We capture the nuance of how one day affects different sectors differently."
+            </p>
+          </div>
+        </section>
+
+        <OperationalFAQ />
+      </PageLayout>
+    </div>
+  );
+}
