@@ -32,7 +32,9 @@ export default function ApiPage() {
             Put date intelligence into the products and workflows your users already rely on.
           </p>
           <div className="mt-10">
-            <Button size="lg" className="font-bold px-10 h-14 text-lg">Join API Preview</Button>
+            <a href="mailto:joy@utsavs.com?subject=API Access Inquiry">
+              <Button size="lg" className="font-bold px-10 h-14 text-lg">Join API Preview</Button>
+            </a>
           </div>
         </section>
 

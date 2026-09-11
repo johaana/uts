@@ -38,7 +38,10 @@ export default function DateIntelligencePage() {
             </div>
             <CardContent className="p-0">
                <div className="p-8 md:p-12">
-                  <EmptyState />
+                  <EmptyState 
+                    title="Select a place and dates to begin" 
+                    message="Results will be based on the relevant calendar and institutional sources available for that journey." 
+                  />
                </div>
             </CardContent>
           </Card>
