@@ -2,23 +2,17 @@
  * @fileOverview Operational Data Adapter
  * 
  * The single application entry point for operational intelligence.
- * Coordinates Source -> Normalize -> Validate -> Filter.
  */
 
 import { getSource } from './source';
-import { normalizeRecord } from './normalize';
 import { validateRecord } from './validator';
 import { OperationalQuery, OperationalResult, DateIntelligenceRecord } from './types';
 
-/**
- * Main query function for the Date Intelligence product.
- */
 export async function getOperationalImpact(query: OperationalQuery): Promise<OperationalResult> {
   const timestamp = new Date().toISOString();
   const source = getSource();
   const status = await source.getStatus();
 
-  // 1. Source Availability Check
   if (!status.available) {
     return {
       status: 'source_unavailable',
@@ -29,22 +23,19 @@ export async function getOperationalImpact(query: OperationalQuery): Promise<Ope
   }
 
   try {
-    // 2. Fetch Raw Records
-    const rawRecords = await source.getRecords();
+    const allRecords = await source.getRecords();
 
-    // 3. Pipeline: Normalize and Validate
-    const validRecords: DateIntelligenceRecord[] = rawRecords
-      .map(normalizeRecord)
-      .filter((r): r is DateIntelligenceRecord => r !== null)
+    // Pipeline: Validate
+    const validRecords: DateIntelligenceRecord[] = allRecords
       .filter(r => validateRecord(r).valid);
 
-    // 4. Query Filtering
+    // Query Filtering
     const matches = validRecords.filter(record => {
-      // Filter by Country
-      if (record.jurisdiction.country_code !== query.destination) return false;
+      // Filter by Country (if provided and record has jurisdiction)
+      if (query.destination && record.jurisdiction.country_code !== query.destination) return false;
 
       // Filter by Purpose
-      if (!record.purpose_relevance.includes(query.purpose)) return false;
+      if (query.purpose && !record.purpose_relevance.includes(query.purpose)) return false;
 
       // Filter by Date Range
       const recordDate = new Date(record.date).getTime();
@@ -66,6 +57,7 @@ export async function getOperationalImpact(query: OperationalQuery): Promise<Ope
     };
 
   } catch (e) {
+    console.error('Operational Adapter Error:', e);
     return {
       status: 'error',
       records: [],

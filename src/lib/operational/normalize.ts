@@ -2,60 +2,105 @@
  * @fileOverview Data Normalization Layer
  * 
  * Maps raw authoritative source records into the canonical types.
- * Responsible for preserving all available provenance.
  */
 
 import { DateIntelligenceRecord, UserPurpose } from './types';
+import { HolidayRule, OperationalRecordRaw, PolicyRecordRaw } from './data/raw/utsavs-app';
 
-/**
- * Normalizes a raw authoritative record.
- * Returns null if the record cannot be honestly mapped to the canonical contract.
- */
-export function normalizeRecord(raw: any): DateIntelligenceRecord | null {
-  try {
-    if (!raw || typeof raw !== 'object') return null;
+export function normalizeHoliday(code: string, rule: HolidayRule, year: number): DateIntelligenceRecord | null {
+  const dateStr = rule.dates ? rule.dates[year] : `${year}-${String(rule.month).padStart(2, '0')}-${String(rule.day).padStart(2, '0')}`;
+  
+  if (!dateStr) return null;
 
-    // Mapping raw fields to canonical OperationalRecord
-    // This ensures provenance and institutional identity survive the pipeline.
-    const record: DateIntelligenceRecord = {
-      id: raw.id || raw.record_id,
-      date: raw.date || raw.start_date,
-      date_end: raw.date_end || raw.end_date,
-      name: raw.name || raw.event_name,
-      jurisdiction: {
-        country_code: raw.country_code || raw.jurisdiction?.country_code,
-        country_name: raw.country_name || raw.jurisdiction?.country_name,
-        region: raw.region || raw.jurisdiction?.region,
-        local: raw.local || raw.jurisdiction?.local,
-        scope: raw.scope || raw.jurisdiction?.scope || 'national'
-      },
-      institution: raw.institution ? {
-        id: raw.institution.id,
-        name: raw.institution.name,
-        type: raw.institution.type,
-        applicability: raw.institution.applicability
-      } : undefined,
-      purpose_relevance: (raw.purpose_relevance || []) as UserPurpose[],
-      state: raw.state || raw.date_state || 'provisional',
-      confidence: raw.confidence || raw.confidence_tier || 'reference',
-      evidence: {
-        source_id: raw.evidence?.source_id || raw.source_id || 'unknown',
-        source_name: raw.evidence?.source_name || raw.source_name || 'Unspecified Source',
-        source_url: raw.evidence?.source_url || raw.source_url,
-        source_type: raw.evidence?.source_type || 'manual_verification',
-        last_checked: raw.evidence?.last_checked || new Date().toISOString(),
-        verification_status: raw.evidence?.verification_status || 'provisional'
-      },
-      consequences: {
-        implication: raw.consequences?.implication || raw.implication || 'Details pending connection',
-        action_suggested: raw.consequences?.action_suggested,
-        affected_operations: raw.consequences?.affected_operations || [],
-        severity: raw.consequences?.severity || 'medium'
-      }
-    };
+  return {
+    id: `HOL_${code}_${dateStr}_${rule.name.replace(/\s+/g, '_')}`,
+    date: dateStr,
+    name: rule.name,
+    jurisdiction: {
+      country_code: code,
+      country_name: code === 'IN' ? 'India' : code === 'US' ? 'United States' : 'Other',
+      scope: 'national'
+    },
+    purpose_relevance: ['travel', 'business', 'logistics', 'workforce', 'study'],
+    state: rule.status === 'confirmed' ? 'confirmed' : 'provisional',
+    confidence: rule.confidence || 'reference',
+    evidence: {
+      source_id: 'utsavs-authoritative-primary',
+      source_name: rule.evidence?.source_name || 'Authoritative Calendar',
+      source_url: rule.evidence?.source_url,
+      source_type: 'government',
+      last_checked: rule.evidence?.last_checked || new Date().toISOString(),
+      verification_status: 'verified'
+    },
+    consequences: {
+      implication: rule.state === 'listed' ? 'Listed public holiday; commercial impact expected.' : 'Operational signal; verify local closures.',
+      affected_operations: ['banking', 'government', 'public_services'],
+      severity: 'medium'
+    }
+  };
+}
 
-    return record;
-  } catch (e) {
-    return null;
-  }
+export function normalizeOperational(raw: OperationalRecordRaw): DateIntelligenceRecord | null {
+  return {
+    id: `OP_${raw.institution_id || 'GEN'}_${raw.date}_${raw.segment?.replace(/\s+/g, '_')}`,
+    date: raw.date,
+    date_end: raw.date_end,
+    name: raw.segment || 'Operational Alert',
+    jurisdiction: {
+      country_code: 'UNKNOWN',
+      country_name: 'Global/Unknown',
+      scope: 'institutional'
+    },
+    institution: {
+      id: raw.institution_id || 'UNKNOWN',
+      name: raw.institution || 'Unknown Institution',
+      type: 'transport', // Default
+      applicability: raw.scope
+    },
+    purpose_relevance: ['logistics', 'workforce', 'business'],
+    state: 'confirmed',
+    confidence: raw.confidence,
+    evidence: {
+      source_id: 'utsavs-authoritative-primary',
+      source_name: raw.evidence.source_name,
+      source_url: raw.evidence.source_url,
+      source_type: 'institutional',
+      last_checked: raw.evidence.last_checked || new Date().toISOString(),
+      verification_status: 'verified'
+    },
+    consequences: {
+      implication: raw.detail || raw.status,
+      affected_operations: [raw.scope_type],
+      severity: 'high'
+    }
+  };
+}
+
+export function normalizePolicy(raw: PolicyRecordRaw): DateIntelligenceRecord | null {
+  return {
+    id: `POL_${raw.country}_${raw.topic.replace(/\s+/g, '_')}`,
+    date: raw.effective_date || new Date().toISOString().split('T')[0],
+    name: raw.topic,
+    jurisdiction: {
+      country_code: raw.country,
+      country_name: raw.country === 'CA' ? 'Canada' : 'Other',
+      scope: 'national'
+    },
+    purpose_relevance: ['study', 'business', 'workforce'],
+    state: 'confirmed',
+    confidence: raw.confidence,
+    evidence: {
+      source_id: 'utsavs-authoritative-primary',
+      source_name: raw.source_name || 'Policy Authority',
+      source_url: raw.source_url,
+      source_type: 'regulatory',
+      last_checked: raw.last_checked || new Date().toISOString(),
+      verification_status: 'verified'
+    },
+    consequences: {
+      implication: raw.summary,
+      affected_operations: ['immigration', 'admissions'],
+      severity: 'medium'
+    }
+  };
 }
