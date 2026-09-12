@@ -23,6 +23,8 @@ import { CHUNK_012 } from './data/raw/chunk_012';
 import { CHUNK_013 } from './data/raw/chunk_013';
 import { CHUNK_014 } from './data/raw/chunk_014';
 import { CHUNK_015 } from './data/raw/chunk_015';
+import { CHUNK_016 } from './data/raw/chunk_016';
+import { CHUNK_017 } from './data/raw/chunk_017';
 
 export interface SourceStatus {
   available: boolean;
@@ -54,7 +56,9 @@ class AuthoritativeSource implements OperationalSource {
       CHUNK_012,
       CHUNK_013,
       CHUNK_014,
-      CHUNK_015
+      CHUNK_015,
+      CHUNK_016,
+      CHUNK_017
     ];
   }
 
