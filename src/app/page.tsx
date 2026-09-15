@@ -28,12 +28,6 @@ export default function HomePage() {
   const [country, setCountry] = useState('IN');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
-  const [compareA, setCompareA] = useState('IN');
-  const [compareB, setCompareB] = useState('JP');
-  const [compareC, setCompareC] = useState('US');
-  const [compareOpen, setCompareOpen] = useState(false);
-  const [thirdCountryOn, setThirdCountryOn] = useState(false);
-  const [compareFilter, setCompareFilter] = useState('all');
 
   const TODAY = useMemo(() => {
     const d = new Date();
@@ -134,7 +128,8 @@ export default function HomePage() {
         items.push(`<span class="chip"><b>${COUNTRY_LABELS[code] || code}</b> — ${names.join(", ")} · ${dLabel}</span>`);
       });
     });
-    return items.length > 0 ? items.concat(items) : [];
+    const looped = items.slice(0, 14).concat(items.slice(0, 14));
+    return looped.length > 0 ? looped : [];
   }, [forwardIndex, TODAY]);
 
   const checkerData = useMemo(() => {
@@ -214,13 +209,14 @@ export default function HomePage() {
       </header>
 
       <main>
+        {/* Date Intelligence Page */}
         <section className="hero" id="explore">
           <div className="wrap hero-grid">
             <div className="hero-copy">
               <h1 className="headline">Know before you fly. Know before you schedule.</h1>
               <p className="sub">Check a country and your actual dates — before you book, schedule, send a student, or send an employee across borders.</p>
 
-              <aside className="hero-tracker" id="world" aria-label="Next holiday tracker">
+              <aside className="hero-tracker" aria-label="Next holiday tracker">
                 <div className="hero-tracker-head">
                   <div>
                     <span className="hero-tracker-kicker">NEXT HOLIDAY UP</span>
@@ -249,11 +245,11 @@ export default function HomePage() {
                     <div className="marquee-track" dangerouslySetInnerHTML={{ __html: marqueeItems.join('') }} />
                   </div>
                 </div>
-                <a className="hero-tracker-link" href="#date-intelligence">See what this date means <span>→</span></a>
+                <a className="hero-tracker-link" href="#specialized-intelligence">See what this date means <span>→</span></a>
               </aside>
 
               <div className="hero-trust">
-                <span><b>100</b> countries tracked</span>
+                <span><b>101</b> countries tracked</span>
                 <span className="sep">·</span>
                 <span>live feeds where available</span>
                 <span className="sep">·</span>
@@ -264,10 +260,6 @@ export default function HomePage() {
             <div className="checker">
               <div className="checker-top">
                 <h3>Trip impact checker</h3>
-                <button type="button" className="compare-launch" onClick={() => setCompareOpen(!compareOpen)}>
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M8 3 4 7l4 4M4 7h13M16 21l4-4-4-4M20 17H7"/></svg>
-                  <span>{compareOpen ? "Back to lens" : "Compare countries"}</span>
-                </button>
               </div>
               <div className="mode-toggle" role="tablist">
                 <button type="button" className={cn(mode === 'traveler' && "active")} onClick={() => setMode('traveler')}>Travel</button>
@@ -275,37 +267,16 @@ export default function HomePage() {
                 <button type="button" className={cn(mode === 'corporate' && "active")} onClick={() => setMode('corporate')}>Business travel</button>
               </div>
               
-              {!compareOpen ? (
-                <div className="checker-row">
-                  <div className="checker-field">
-                    <label>Destination / jurisdiction</label>
-                    <select value={country} onChange={e => setCountry(e.target.value)}>
-                      {Object.entries(COUNTRY_LABELS).map(([code, name]) => (
-                        <option key={code} value={code}>{name}</option>
-                      ))}
-                    </select>
-                  </div>
+              <div className="checker-row">
+                <div className="checker-field">
+                  <label>Destination / jurisdiction</label>
+                  <select value={country} onChange={e => setCountry(e.target.value)}>
+                    {Object.entries(COUNTRY_LABELS).map(([code, name]) => (
+                      <option key={code} value={code}>{name}</option>
+                    ))}
+                  </select>
                 </div>
-              ) : (
-                <div className="checker-row">
-                  <div className="checker-field">
-                    <label>Country A</label>
-                    <select value={compareA} onChange={e => setCompareA(e.target.value)}>
-                      {Object.entries(COUNTRY_LABELS).map(([code, name]) => (
-                        <option key={code} value={code}>{name}</option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="checker-field">
-                    <label>Country B</label>
-                    <select value={compareB} onChange={e => setCompareB(e.target.value)}>
-                      {Object.entries(COUNTRY_LABELS).map(([code, name]) => (
-                        <option key={code} value={code}>{name}</option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-              )}
+              </div>
 
               <div className="checker-row">
                 <div className="checker-field">
@@ -324,7 +295,7 @@ export default function HomePage() {
                 <div><b className="font-headline">{checkerData.nextDays}</b><span>{checkerData.nextDays === 1 ? 'day to next one' : 'days to next one'}</span></div>
               </div>
               
-              <div className={cn("checker-brief", briefText === "" && "empty")}>
+              <div className={cn("checker-brief", briefText === "" && "hidden")}>
                 <span className="brief-label">IN SHORT</span>{briefText}
               </div>
 
@@ -345,17 +316,187 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Other sections omitted for brevity but they remain part of the single-page routing logic */}
+        {/* Specialized Intelligence Strip */}
+        <section id="world-today" className="wrap">
+           <div className="section-head">
+              <span className="kicker">WORLD TODAY</span>
+              <h2 className="section-title">Dates are not just dates.</h2>
+              <p>Around the world, a date can mean a public holiday, a regional observance, an institutional closure, a working-day difference or something entirely specific to your trip.</p>
+           </div>
+           <div className="grid md:grid-cols-2 gap-8">
+              <div className="checker p-8 bg-panel-2">
+                 <h3 className="text-xl font-bold mb-4">Understanding today's calendar</h3>
+                 <p className="text-sm text-muted mb-6">See the dates and places that may matter today across our global index.</p>
+                 <a href="#specialized-intelligence" className="navcta inline-block">Explore today</a>
+              </div>
+              <div className="checker p-8 border-line">
+                 <h3 className="text-xl font-bold mb-4">Coming up next</h3>
+                 <p className="text-sm text-muted mb-6">{globalNext?.name} · {globalNext ? new Date(globalNext.date + 'T00:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'long' }) : '—'} · {globalNext?.countryCount} countries</p>
+                 <a href="#specialized-intelligence" className="text-sm font-bold text-gold-soft hover:underline">Check the date →</a>
+              </div>
+           </div>
+        </section>
+
+        <section id="how-it-works" className="wrap">
+           <div className="section-head">
+              <span className="kicker">HOW IT WORKS</span>
+              <h2 className="section-title">See what your dates may mean.</h2>
+              <p>Utsavs brings relevant calendars and institutional information together around the date you actually care about.</p>
+           </div>
+           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+              {[
+                { n: "01", t: "Travel", d: "Understand what may be happening when you arrive, from public dates to travel info.", a: "Choosing when to go" },
+                { n: "02", t: "Business", d: "See dates that may affect meetings, operations, working days and activity.", a: "Choosing when to schedule" },
+                { n: "03", t: "Study", d: "Put institutional calendars and arrival timing around your target dates.", a: "Choosing when to arrive" },
+                { n: "04", t: "Operations", d: "Go deeper when the job requires it — markets, banking, and logistics.", a: "Choosing when to operate" }
+              ].map(item => (
+                <div key={item.n} className="space-y-4">
+                   <span className="text-3xl font-headline font-bold text-line-strong">{item.n}</span>
+                   <h3 className="text-xl font-bold">{item.t}</h3>
+                   <p className="text-sm text-muted leading-relaxed">{item.d}</p>
+                   <p className="text-[10px] font-bold uppercase tracking-widest text-gold-soft">{item.a} →</p>
+                </div>
+              ))}
+           </div>
+        </section>
+
+        <section id="specialized-intelligence" className="wrap">
+           <div className="grid lg:grid-cols-[1fr_1.5fr] gap-16 items-center">
+              <div className="space-y-6">
+                 <span className="kicker">SPECIALIZED INTELLIGENCE</span>
+                 <h2 className="section-title">One calendar underneath. <br/>Deeper calendars when required.</h2>
+                 <p className="text-muted">The same date can affect a traveller, market, bank or operation differently. Utsavs keeps those layers distinct.</p>
+                 <a href="#api" className="text-sm font-bold text-gold-soft hover:underline">Get API access →</a>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-line-strong border border-line-strong rounded-xl overflow-hidden">
+                 {[
+                   { n: "01", t: "Regional calendars", s: "Country, state, province and jurisdiction" },
+                   { n: "02", t: "Institutions", s: "Universities, missions and other institutions" },
+                   { n: "03", t: "Markets & banking", s: "Trading, settlement, payments and working days" },
+                   { n: "04", t: "Trade & logistics", s: "Customs, ports and documented operational timing" }
+                 ].map(item => (
+                   <div key={item.n} className="bg-panel p-8 space-y-2">
+                     <span className="text-[10px] font-bold text-muted-dim">{item.n}</span>
+                     <h4 className="font-bold text-lg">{item.t}</h4>
+                     <p className="text-xs text-muted">{item.s}</p>
+                   </div>
+                 ))}
+              </div>
+           </div>
+        </section>
+
+        {/* Built For Page (Pseudo-hidden) */}
+        <section id="built-for-intro" className="wrap">
+           <div className="section-head">
+              <span className="kicker">BUILT FOR</span>
+              <h1 className="headline">Choose the right day for what you are trying to do.</h1>
+              <p>Travel, study, business, workforce and operations can all be affected by the same date in different ways. Utsavs helps you see the practical consequence.</p>
+           </div>
+        </section>
+        <section id="built-for" className="wrap">
+           <div className="grid md:grid-cols-2 gap-8">
+              {[
+                { t: "Travel", s: "Choosing when to go", d: "Understand what may be happening when you arrive, from public and regional dates to relevant travel information and local observances." },
+                { t: "Corporate / HR", s: "Choosing when to operate", d: "Check destination holidays before approving international travel or onboarding. Know exactly which state or city holidays apply to your team." },
+                { t: "Business & Finance", s: "Choosing when to schedule", d: "Don't get caught out by market closures or banking holidays. Compare origin and destination calendars before scheduling market-sensitive deadlines." },
+                { t: "Study Abroad", s: "Choosing when to arrive", d: "Put institutional calendars and arrival timing around your dates. Align visa interviews and orientation sessions with verified host-country info." }
+              ].map((item, i) => (
+                <div key={i} className="checker p-8 bg-panel-2">
+                   <span className="text-[9px] font-bold uppercase tracking-widest text-gold-soft">{item.s}</span>
+                   <h3 className="text-2xl font-headline font-medium mt-1 mb-4">{item.t}</h3>
+                   <p className="text-sm text-muted leading-relaxed">{item.d}</p>
+                </div>
+              ))}
+           </div>
+        </section>
+
+        {/* API Page (Pseudo-hidden) */}
+        <section id="api-intro" className="wrap">
+           <div className="section-head">
+              <span className="kicker">API</span>
+              <h1 className="headline">Put date intelligence into the tools you already use.</h1>
+              <p>Use Utsavs programmatically when your product, workflow or operation needs calendar intelligence at scale.</p>
+           </div>
+        </section>
+        <section id="intelligence-api" className="wrap">
+           <div className="grid lg:grid-cols-2 gap-16 items-center">
+              <div className="space-y-6">
+                 <h2 className="text-3xl font-headline font-bold">One API. Global intelligence.</h2>
+                 <p className="text-muted">Build calendars, scheduling tools, travel experiences and operational systems on structured holiday intelligence.</p>
+                 <div className="flex gap-4">
+                    <a href="#api" className="navcta">Join API Preview</a>
+                    <a href="mailto:api@utsavs.com" className="text-sm font-bold text-paper border border-line-strong px-5 py-2.5 rounded-full">Contact Support</a>
+                 </div>
+              </div>
+              <div className="bg-ink p-8 rounded-2xl border border-line-strong font-mono text-xs">
+                 <p className="text-teal mb-2">GET /v1/holidays?country=IN&year=2026</p>
+                 <pre className="text-muted-dim leading-relaxed">
+{`{
+  "name": "Diwali",
+  "date": "2026-11-08",
+  "country": "IN",
+  "scope": "trading",
+  "status": "CLOSED",
+  "confidence": "HIGH",
+  "source": "Nasdaq Trader"
+}`}
+                 </pre>
+              </div>
+           </div>
+        </section>
+
+        {/* Insurance Page (Pseudo-hidden) */}
+        <section id="insurance-intro" className="wrap">
+           <div className="section-head">
+              <span className="kicker">TRAVEL INSURANCE</span>
+              <h1 className="headline">Plan for what you can predict. Protect against what you can't.</h1>
+              <p>Utsavs helps you plan around dates, calendars and other things you can anticipate. Protection can help with the unexpected.</p>
+           </div>
+        </section>
+        <section id="insurance-grid" className="wrap">
+            <div className="grid md:grid-cols-2 gap-px bg-line-strong border border-line-strong rounded-2xl overflow-hidden">
+               <div className="bg-panel p-10 space-y-6">
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-gold-soft">FOR USERS</span>
+                  <h3 className="text-2xl font-headline font-medium">Personal Protection</h3>
+                  <p className="text-sm text-muted leading-relaxed">Whether you are a student, a business traveller or exploring for leisure, insurance provides a safety net for covered medical emergencies and travel disruptions.</p>
+               </div>
+               <div className="bg-panel p-10 space-y-6 border-l border-line-strong">
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-gold-soft">PARTNERSHIPS</span>
+                  <h3 className="text-2xl font-headline font-medium">Partner with Utsavs</h3>
+                  <p className="text-sm text-muted leading-relaxed">Interested in bringing travel protection into your own customer or employee journey? We work with providers and institutions on context-aware protection.</p>
+               </div>
+            </div>
+        </section>
+        <section id="insurance-disclosure" className="wrap">
+           <div className="p-10 rounded-3xl border-2 border-dashed border-line-strong bg-panel-2/30">
+              <h2 className="font-headline text-2xl font-medium mb-6">Important Disclosure</h2>
+              <p className="text-sm text-muted leading-relaxed">Insurance is the subject matter of solicitation. Coverage, eligibility, benefits, exclusions and terms are determined by the applicable policy and insurer. Please review the policy wording and applicable requirements before purchase.</p>
+           </div>
+        </section>
+
+        <section id="closing-flow" className="wrap">
+           <h2 className="flow-line italic">"We started out just helping people find out what's being celebrated today. Turns out a lot of systems needed to know that too."</h2>
+           <div className="flow-steps">
+              <span className="flow-step active">Discovery</span>
+              <span className="text-muted">—</span>
+              <span className="flow-step">Global intelligence</span>
+              <span className="text-muted">—</span>
+              <span className="flow-step">Intelligence API</span>
+           </div>
+        </section>
       </main>
 
       <footer>
         <div className="wrap foot-row">
           <div>Utsavs · global calendar intelligence · 2026</div>
           <div>
-            <a href="https://utsavs.com">Explore Utsavs.com</a>
-            <a href="#date">Full calendar</a>
+            <a href="https://utsavs.com" target="_blank" rel="noopener">Explore Utsavs.com</a>
+            <a href="#specialized-intelligence">Full calendar</a>
             <a href="#api">Join API preview</a>
           </div>
+        </div>
+        <div className="wrap foot-disclaimer">
+           Each record carries a date state and, where available, a named source. Institutional closures are sourced separately from calendar events. Lunar, Hijri and government-declared dates can change; Utsavs keeps the source and last-checked date visible so users can verify the underlying authority.
         </div>
       </footer>
     </div>

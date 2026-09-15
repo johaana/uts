@@ -93,27 +93,27 @@ function dated(dates: Record<number, string>, name: string, type: EventType, sta
 export const HOLIDAYS: Record<string, HolidayRule[]> = {
   IN: [
     fixed(1, 26, "Republic Day", "public", "high", {
-      source_name: "DoPT Office Memorandum F.No.12/2/2023-JCA (3 Jul 2025)",
+      source_name: "DoPT Office Memorandum F.No.12/2/2023-JCA (3 Jul 2025), “Holidays to be Observed in Central Government Offices During the Year 2026,” Annexure-I",
       source_url: "https://www.aiimsmangalagiri.edu.in/wp-content/uploads/2025/11/Holidays-Circular-2026-1.pdf",
       last_checked: "2026-09-05"
     }),
     fixed(8, 15, "Independence Day", "public", "high", {
-      source_name: "DoPT Office Memorandum F.No.12/2/2023-JCA (3 Jul 2025)",
+      source_name: "DoPT Office Memorandum F.No.12/2/2023-JCA (3 Jul 2025), Annexure-I",
       source_url: "https://www.aiimsmangalagiri.edu.in/wp-content/uploads/2025/11/Holidays-Circular-2026-1.pdf",
       last_checked: "2026-09-05"
     }),
     fixed(10, 2, "Gandhi Jayanti", "public", "high", {
-      source_name: "DoPT Office Memorandum F.No.12/2/2023-JCA (3 Jul 2025)",
+      source_name: "DoPT Office Memorandum F.No.12/2/2023-JCA (3 Jul 2025), Annexure-I",
       source_url: "https://www.aiimsmangalagiri.edu.in/wp-content/uploads/2025/11/Holidays-Circular-2026-1.pdf",
       last_checked: "2026-09-05"
     }),
     dated({ 2026: "2026-09-14" }, "Ganesh Chaturthi", "religious", "confirmed", "high", {
-      source_name: "Comptroller and Auditor General of India, 2026",
+      source_name: "Comptroller and Auditor General of India, 2026 List of Public Holidays (Annexure-I)",
       source_url: "https://cag.gov.in/uploads/media/Holiday-List-2026-06982ddd8e2f3c2-57681843.pdf",
       last_checked: "2026-09-05"
     }, "listed"),
     dated({ 2026: "2026-10-20" }, "Dussehra", "religious", "confirmed", "high", {
-      source_name: "Comptroller and Auditor General of India, 2026",
+      source_name: "Comptroller and Auditor General of India, 2026 List of Public Holidays (Annexure-I)",
       source_url: "https://cag.gov.in/uploads/media/Holiday-List-2026-06982ddd8e2f3c2-57681843.pdf",
       last_checked: "2026-09-05"
     }, "listed"),
@@ -125,7 +125,7 @@ export const HOLIDAYS: Record<string, HolidayRule[]> = {
   ],
   JP: [
     dated({ 2026: "2026-09-21" }, "Respect for the Aged Day", "public", "confirmed", "high", { source_name: "Cabinet Office, Government of Japan", source_url: "https://www8.cao.go.jp/chosei/shukujitsu/gaiyou.html", last_checked: "2026-09-06" }),
-    dated({ 2026: "2026-09-22" }, "Holiday under the National Holidays Act", "public", "confirmed", "high", { source_name: "Cabinet Office, Government of Japan", source_url: "https://www8.cao.go.jp/chosei/shukujitsu/gaiyou.html", last_checked: "2026-09-06" }),
+    dated({ 2026: "2026-09-22" }, "National Holiday", "public", "confirmed", "high", { source_name: "Cabinet Office, Government of Japan", source_url: "https://www8.cao.go.jp/chosei/shukujitsu/gaiyou.html", last_checked: "2026-09-06" }),
     dated({ 2026: "2026-09-23" }, "Autumn Equinox Day", "public", "confirmed", "high", { source_name: "Cabinet Office, Government of Japan", source_url: "https://www8.cao.go.jp/chosei/shukujitsu/gaiyou.html", last_checked: "2026-09-06" }),
   ],
   US: [
