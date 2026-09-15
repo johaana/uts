@@ -6,10 +6,10 @@ import { cn } from "@/lib/utils";
 import React from "react";
 
 const navLinks = [
-  { href: "/date-intelligence", label: "Date Intelligence" },
-  { href: "/built-for", label: "Built For" },
-  { href: "/api", label: "API" },
-  { href: "/travel-insurance", label: "Travel Insurance" },
+  { href: "/", label: "Date Intelligence", key: "home" },
+  { href: "/built-for", label: "Built For", key: "built" },
+  { href: "/api", label: "API", key: "api" },
+  { href: "/travel-insurance", label: "Travel Insurance", key: "insurance" },
   { href: "https://utsavs.com", label: "Stories ↗", external: true },
 ];
 
@@ -23,7 +23,7 @@ export function Header() {
         <div className="navlinks">
           {navLinks.map((link) => (
             <Link
-              key={link.href}
+              key={link.key || link.href}
               href={link.href}
               target={link.external ? "_blank" : undefined}
               rel={link.external ? "noopener noreferrer" : undefined}

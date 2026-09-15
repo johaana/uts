@@ -10,7 +10,7 @@ export function Footer() {
         <div>Utsavs · global calendar intelligence · 2026 · <span style={{ color: 'var(--muted-dim)' }}>Curated data last reviewed 8 Sept 2026</span></div>
         <div>
           <a href="https://utsavs.com" target="_blank" rel="noopener">Explore Utsavs.com</a>
-          <Link href="/date-intelligence">Full calendar</Link>
+          <Link href="/">Full calendar</Link>
           <Link href="/api">Join API preview</Link>
         </div>
       </div>
