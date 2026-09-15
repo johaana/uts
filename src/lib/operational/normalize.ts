@@ -14,7 +14,11 @@ import { validateRecord } from './validator';
 export function extractDatasets(source: string): DateIntelligenceRecord[] {
   const records: DateIntelligenceRecord[] = [];
 
-  // 1. Extract HOLIDAYS (The primary country-keyed dictionary)
+  // 1. Meta-Data: Institutions & Locations (for source-aware context)
+  const institutions = extractMeta(source, 'INSTITUTIONS');
+  const locations = extractMeta(source, 'LOCATIONS');
+
+  // 2. Primary: HOLIDAYS
   const holidaySection = source.match(/const\s+HOLIDAYS\s*=\s*\{([\s\S]*?)\};/);
   if (holidaySection) {
     const content = holidaySection[1];
@@ -26,22 +30,28 @@ export function extractDatasets(source: string): DateIntelligenceRecord[] {
     }
   }
 
-  // 2. Extract STUDENT_INTELLIGENCE_EXTRA
-  const studentExtraSection = source.match(/const\s+STUDENT_INTELLIGENCE_EXTRA\s*=\s*\[([\s\S]*?)\];/);
-  if (studentExtraSection) {
-    records.push(...parseObjectArray(studentExtraSection[1], 'student_risk', ['study']));
-  }
+  // 3. Operational Arrays (Using the user's specific variable names)
+  const arrayVariables = [
+    'REGIONAL_INTELLIGENCE',
+    'STUDENT_INTELLIGENCE_EXTRA',
+    'CORPORATE_TRAVEL_INTELLIGENCE_DATA',
+    'STUDY_INSTITUTIONAL_TIMING',
+    'BANKING_INTELLIGENCE_DATA',
+    'CORPORATE_MARKET_DEPTH_ADDITIONS',
+    'CUSTOMS_INTELLIGENCE_DATA',
+    'CORPORATE_INTELLIGENCE',
+    'STUDENT_RISK_DATA',
+    'POLICY_RECORDS',
+    'OPERATIONAL_GLOBAL_EXPANSION'
+  ];
 
-  // 3. Extract POLICY_RECORDS
-  const policySection = source.match(/const\s+POLICY_RECORDS\s*=\s*\[([\s\S]*?)\];/);
-  if (policySection) {
-    records.push(...parseObjectArray(policySection[1], 'global_expansion'));
-  }
-
-  // 4. Extract REGIONAL_INTELLIGENCE (Required for Operational Parity)
-  const regionalSection = source.match(/const\s+REGIONAL_INTELLIGENCE\s*=\s*\[([\s\S]*?)\];/);
-  if (regionalSection) {
-    records.push(...parseObjectArray(regionalSection[1], 'regional', undefined, 'regional'));
+  for (const varName of arrayVariables) {
+    const regex = new RegExp(`const\\s+${varName}\\s*=\\s*\\[([\\s\\S]*?)\\];`);
+    const match = source.match(regex);
+    if (match) {
+      const category = mapVarToCategory(varName);
+      records.push(...parseObjectArray(match[1], category));
+    }
   }
 
   return records.filter(r => validateRecord(r).valid);
@@ -74,7 +84,7 @@ function parseHolidayRules(countryCode: string, block: string): DateIntelligence
   return localRecords;
 }
 
-function parseObjectArray(block: string, defaultCat: OperationalCategory, forcedPurposes?: UserPurpose[], forcedScope?: string): DateIntelligenceRecord[] {
+function parseObjectArray(block: string, defaultCat: OperationalCategory): DateIntelligenceRecord[] {
   const records: DateIntelligenceRecord[] = [];
   const objRegex = /\{([\s\S]*?)\}/g;
   const matches = block.matchAll(objRegex);
@@ -86,17 +96,20 @@ function parseObjectArray(block: string, defaultCat: OperationalCategory, forced
 
     if (obj.country) {
       const date = obj.effective_date || obj.date || '2026-01-01';
+      const topic = obj.topic || obj.name || 'unnamed';
+      const category = refineCategory(topic, defaultCat);
+      
       records.push({
-        id: `REC_${obj.country}_${date}_${(obj.topic || obj.name || 'unnamed').replace(/[^a-zA-Z0-9]/g, '_')}`,
+        id: `REC_${obj.country}_${date}_${topic.replace(/[^a-zA-Z0-9]/g, '_')}`,
         date: date,
-        name: obj.topic || obj.name,
-        category: defaultCat,
+        name: topic,
+        category: category,
         jurisdiction: { 
           country_code: obj.country, 
           country_name: obj.country, 
-          scope: (forcedScope || obj.scope || 'national') as any
+          scope: (obj.scope || 'national') as any
         },
-        purpose_relevance: forcedPurposes || determinePurposes(obj.topic || obj.name || ''),
+        purpose_relevance: determinePurposes(topic),
         state: (obj.status?.toLowerCase() as any) || 'confirmed',
         confidence: (obj.confidence?.toLowerCase() as ConfidenceTier) || 'high',
         evidence: {
@@ -108,23 +121,49 @@ function parseObjectArray(block: string, defaultCat: OperationalCategory, forced
           verification_status: 'verified'
         },
         consequences: {
-          implication: obj.summary || obj.detail || 'Contextual detail.',
+          implication: obj.summary || obj.detail || 'Contextual operational detail.',
           affected_operations: ['regulatory', 'compliance'],
           severity: 'medium'
         },
-        source_label: obj.source_name || (defaultCat === 'regional' ? 'Regional Source' : 'Official Authority')
+        source_label: obj.source_name || (category === 'regional' ? 'Regional Source' : 'Official Authority')
       });
     }
   }
   return records;
 }
 
+function mapVarToCategory(varName: string): OperationalCategory {
+  switch (varName) {
+    case 'REGIONAL_INTELLIGENCE': return 'regional';
+    case 'STUDENT_INTELLIGENCE_EXTRA': return 'student_risk';
+    case 'STUDY_INSTITUTIONAL_TIMING': return 'institutional';
+    case 'BANKING_INTELLIGENCE_DATA': return 'banking';
+    case 'CORPORATE_MARKET_DEPTH_ADDITIONS': return 'market';
+    case 'CUSTOMS_INTELLIGENCE_DATA': return 'customs';
+    case 'CORPORATE_INTELLIGENCE': return 'business_travel';
+    case 'POLICY_RECORDS': return 'global_expansion';
+    case 'OPERATIONAL_GLOBAL_EXPANSION': return 'global_expansion';
+    default: return 'business_travel';
+  }
+}
+
+function refineCategory(topic: string, defaultCat: OperationalCategory): OperationalCategory {
+  const t = topic.toLowerCase();
+  if (t.includes('bank') || t.includes('payment')) return 'banking';
+  if (t.includes('market') || t.includes('exchange') || t.includes('trading')) return 'market';
+  if (t.includes('customs')) return 'customs';
+  if (t.includes('academic') || t.includes('enrolment') || t.includes('study')) return 'institutional';
+  return defaultCat;
+}
+
 function determinePurposes(text: string): UserPurpose[] {
   const t = text.toLowerCase();
-  if (t.includes('study')) return ['study'];
-  if (t.includes('business') || t.includes('market')) return ['business'];
-  if (t.includes('logistics') || t.includes('customs')) return ['logistics'];
-  return ['travel', 'business'];
+  const purposes: UserPurpose[] = [];
+  if (t.includes('study') || t.includes('student') || t.includes('permit')) purposes.push('study');
+  if (t.includes('business') || t.includes('market') || t.includes('bank') || t.includes('corporate')) purposes.push('business');
+  if (t.includes('logistics') || t.includes('customs') || t.includes('port')) purposes.push('logistics');
+  if (purposes.length === 0) purposes.push('travel', 'business');
+  return Array.from(new Set(purposes));
 }
 
 export function createEventRecord(cc: string, date: string, name: string, type: string = 'public', conf: string = 'listed', evidenceStr: string = '', state: string = 'listed', dateState: string = 'confirmed'): DateIntelligenceRecord {
@@ -199,4 +238,12 @@ function parseEvidence(s: string): any {
   const pairs = s.matchAll(/(\w+):\s*["']([^"']+)["']/g);
   for (const p of pairs) { obj[p[1]] = p[2]; }
   return obj;
+}
+
+function extractMeta(source: string, varName: string): any {
+  const regex = new RegExp(`const\\s+${varName}\\s*=\\s*\\{([\\s\\S]*?)\\};`);
+  const match = source.match(regex);
+  if (!match) return {};
+  // Simplified extraction of top-level keys in the object
+  return match[1];
 }
