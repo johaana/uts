@@ -23,7 +23,7 @@ export function Header() {
       <nav className="wrap site-nav">
         <Link href="/" className="brand" aria-label="Utsavs home">
           <span className="brand-name">Utsavs</span>
-          <span className="brand-sub">DATE INTELLIGENCE</span>
+          <span className="brand-sub">GLOBAL CALENDAR INTELLIGENCE</span>
         </Link>
 
         {/* Desktop Nav */}

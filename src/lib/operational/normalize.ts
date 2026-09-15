@@ -52,6 +52,7 @@ function parseHolidayRules(countryCode: string, block: string): DateIntelligence
     
     if (kind === 'fixed') {
       const [m, d, name, type, conf, evidence, state] = args;
+      if (!m || !d) continue;
       [2026, 2027].forEach(y => {
         const date = `${y}-${m.padStart(2, '0')}-${d.padStart(2, '0')}`;
         localRecords.push(createEventRecord(countryCode, date, clean(name), type, conf, evidence, state));

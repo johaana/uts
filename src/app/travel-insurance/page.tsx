@@ -33,7 +33,7 @@ export default function TravelInsurancePage() {
               <p className="text-xl text-[#9AA1C0] leading-relaxed max-w-2xl mx-auto font-medium">
                 Utsavs helps you plan around dates, calendars and other things you can anticipate. Protection can help with the unexpected.
               </p>
-              <div className="pt-4">
+              <div className="pt-4 flex flex-col sm:flex-row gap-4 justify-center">
                 <a href="mailto:joy@utsavs.com?subject=Travel Protection Inquiry">
                   <Button className="bg-[#E8A33D] text-[#0F1428] hover:bg-[#F0C888] font-bold px-12 h-16 rounded-full shadow-2xl transition-transform hover:scale-105">
                     Get in touch with us <ArrowRight className="ml-2 w-4 h-4" />
@@ -71,7 +71,7 @@ export default function TravelInsurancePage() {
                      </div>
                      <div className="p-4 bg-white/5 rounded-lg border border-white/5 space-y-2">
                         <p className="text-xs font-bold flex items-center gap-2"><Users2 className="w-4 h-4 text-[#4FD1C5]" /> B2B2C</p>
-                        <p className="text-[11px] text-[#9AA1C0]">Embed travel-protection experiences into your own customer or student workflow.</p>
+                        <p className="text-[11px] text-[#9AA1C0]">Bring travel-protection experiences into your own customer or student workflow.</p>
                      </div>
                   </div>
                </div>

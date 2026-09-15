@@ -117,7 +117,7 @@ select:focus-visible {
   color: var(--paper);
 }
 .navlinks a.active {
-  color: var(--paper);
+  color: var(--gold);
 }
 .navcta {
   font-size: 14px;
@@ -204,7 +204,7 @@ h1.headline {
   margin: 22px 0 20px;
   border: 1px solid var(--line-strong);
   border-radius: 16px;
-  background: linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,.012));
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.012));
   overflow: hidden;
   min-width: 0;
 }
@@ -219,7 +219,7 @@ h1.headline {
 .hero-tracker-kicker {
   display: block;
   font: 10px var(--mono);
-  letter-spacing: .08em;
+  letter-spacing: 0.08em;
   color: var(--teal);
   margin-bottom: 4px;
 }
@@ -243,7 +243,7 @@ h1.headline {
   height: 5px;
   border-radius: 50%;
   background: var(--teal);
-  box-shadow: 0 0 8px rgba(79,209,197,.65);
+  box-shadow: 0 0 8px rgba(79, 209, 197, .65);
 }
 .hero-tracker-next-grid {
   display: flex;
@@ -252,7 +252,7 @@ h1.headline {
 }
 .hero-tracker-next-card {
   padding: 10px 18px;
-  background: rgba(255,255,255,.012);
+  background: rgba(255, 255, 255, 0.012);
   min-width: 0;
 }
 .hero-tracker-next-card + .hero-tracker-next-card {
@@ -288,7 +288,7 @@ h1.headline {
   border-top: 1px solid var(--line);
   font-size: 11.5px;
   color: var(--gold-soft);
-  background: rgba(216,178,92,.035);
+  background: rgba(216, 178, 92, .035);
 }
 
 /* ---------- TRACKER CARD ---------- */
@@ -721,7 +721,7 @@ h1.headline {
 }
 
 .custom-scrollbar::-webkit-scrollbar { width: 4px; }
-.custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(244,241,232,0.12); border-radius: 10px; }
+.custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(244, 241, 232, 0.12); border-radius: 10px; }
 
 .button {
   display: inline-flex;
