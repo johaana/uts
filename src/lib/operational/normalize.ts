@@ -2,7 +2,7 @@
  * @fileOverview Data Normalization & Extraction Layer
  * 
  * Extracts JS structures (objects/arrays) from the 17-chunk authoritative source.
- * Maps them to canonical DateIntelligenceRecord types while preserving provenance.
+ * Maps them to canonical DateIntelligenceRecord types while preserving subject classification and provenance.
  */
 
 import { DateIntelligenceRecord, UserPurpose, ConfidenceTier, DateState, OperationalCategory } from './types';
@@ -14,11 +14,7 @@ import { validateRecord } from './validator';
 export function extractDatasets(source: string): DateIntelligenceRecord[] {
   const records: DateIntelligenceRecord[] = [];
 
-  // 1. Meta-Data: Institutions & Locations (for source-aware context)
-  const institutions = extractMeta(source, 'INSTITUTIONS');
-  const locations = extractMeta(source, 'LOCATIONS');
-
-  // 2. Primary: HOLIDAYS
+  // 1. Primary: HOLIDAYS (Rules Engine)
   const holidaySection = source.match(/const\s+HOLIDAYS\s*=\s*\{([\s\S]*?)\};/);
   if (holidaySection) {
     const content = holidaySection[1];
@@ -30,27 +26,17 @@ export function extractDatasets(source: string): DateIntelligenceRecord[] {
     }
   }
 
-  // 3. Operational Arrays (Using the user's specific variable names)
+  // 2. Operational Arrays (Explicit checks for every collection present in source)
   const arrayVariables = [
     'REGIONAL_INTELLIGENCE',
-    'STUDENT_INTELLIGENCE_EXTRA',
-    'CORPORATE_TRAVEL_INTELLIGENCE_DATA',
-    'STUDY_INSTITUTIONAL_TIMING',
-    'BANKING_INTELLIGENCE_DATA',
-    'CORPORATE_MARKET_DEPTH_ADDITIONS',
-    'CUSTOMS_INTELLIGENCE_DATA',
-    'CORPORATE_INTELLIGENCE',
-    'STUDENT_RISK_DATA',
-    'POLICY_RECORDS',
-    'OPERATIONAL_GLOBAL_EXPANSION'
+    'STUDENT_INTELLIGENCE_EXTRA'
   ];
 
   for (const varName of arrayVariables) {
     const regex = new RegExp(`const\\s+${varName}\\s*=\\s*\\[([\\s\\S]*?)\\];`);
     const match = source.match(regex);
     if (match) {
-      const category = mapVarToCategory(varName);
-      records.push(...parseObjectArray(match[1], category));
+      records.push(...parseObjectArray(match[1]));
     }
   }
 
@@ -64,7 +50,8 @@ function parseHolidayRules(countryCode: string, block: string): DateIntelligence
 
   for (const match of matches) {
     const kind = match[1];
-    const args = splitArgs(match[2]);
+    const rawArgs = match[2];
+    const args = splitArgs(rawArgs);
     
     if (kind === 'fixed') {
       const [m, d, name, type, conf, evidence, state] = args;
@@ -84,7 +71,7 @@ function parseHolidayRules(countryCode: string, block: string): DateIntelligence
   return localRecords;
 }
 
-function parseObjectArray(block: string, defaultCat: OperationalCategory): DateIntelligenceRecord[] {
+function parseObjectArray(block: string): DateIntelligenceRecord[] {
   const records: DateIntelligenceRecord[] = [];
   const objRegex = /\{([\s\S]*?)\}/g;
   const matches = block.matchAll(objRegex);
@@ -97,7 +84,7 @@ function parseObjectArray(block: string, defaultCat: OperationalCategory): DateI
     if (obj.country) {
       const date = obj.effective_date || obj.date || '2026-01-01';
       const topic = obj.topic || obj.name || 'unnamed';
-      const category = refineCategory(topic, defaultCat);
+      const category = classifyTopic(topic);
       
       records.push({
         id: `REC_${obj.country}_${date}_${topic.replace(/[^a-zA-Z0-9]/g, '_')}`,
@@ -107,9 +94,9 @@ function parseObjectArray(block: string, defaultCat: OperationalCategory): DateI
         jurisdiction: { 
           country_code: obj.country, 
           country_name: obj.country, 
-          scope: (obj.scope || 'national') as any
+          scope: (obj.scope || (category === 'regional' ? 'regional' : 'national')) as any
         },
-        purpose_relevance: determinePurposes(topic),
+        purpose_relevance: determinePurposes(topic, category),
         state: (obj.status?.toLowerCase() as any) || 'confirmed',
         confidence: (obj.confidence?.toLowerCase() as ConfidenceTier) || 'high',
         evidence: {
@@ -122,7 +109,7 @@ function parseObjectArray(block: string, defaultCat: OperationalCategory): DateI
         },
         consequences: {
           implication: obj.summary || obj.detail || 'Contextual operational detail.',
-          affected_operations: ['regulatory', 'compliance'],
+          affected_operations: [category],
           severity: 'medium'
         },
         source_label: obj.source_name || (category === 'regional' ? 'Regional Source' : 'Official Authority')
@@ -132,46 +119,32 @@ function parseObjectArray(block: string, defaultCat: OperationalCategory): DateI
   return records;
 }
 
-function mapVarToCategory(varName: string): OperationalCategory {
-  switch (varName) {
-    case 'REGIONAL_INTELLIGENCE': return 'regional';
-    case 'STUDENT_INTELLIGENCE_EXTRA': return 'student_risk';
-    case 'STUDY_INSTITUTIONAL_TIMING': return 'institutional';
-    case 'BANKING_INTELLIGENCE_DATA': return 'banking';
-    case 'CORPORATE_MARKET_DEPTH_ADDITIONS': return 'market';
-    case 'CUSTOMS_INTELLIGENCE_DATA': return 'customs';
-    case 'CORPORATE_INTELLIGENCE': return 'business_travel';
-    case 'POLICY_RECORDS': return 'global_expansion';
-    case 'OPERATIONAL_GLOBAL_EXPANSION': return 'global_expansion';
-    default: return 'business_travel';
-  }
-}
-
-function refineCategory(topic: string, defaultCat: OperationalCategory): OperationalCategory {
+/**
+ * Subject-level classification engine based on actual source topics.
+ */
+function classifyTopic(topic: string): OperationalCategory {
   const t = topic.toLowerCase();
+  if (t.includes('maharashtra') || t.includes('regional')) return 'regional';
   if (t.includes('bank') || t.includes('payment')) return 'banking';
-  if (t.includes('market') || t.includes('exchange') || t.includes('trading')) return 'market';
-  if (t.includes('customs')) return 'customs';
-  if (t.includes('academic') || t.includes('enrolment') || t.includes('study')) return 'institutional';
-  return defaultCat;
+  if (t.includes('market') || t.includes('settlement') || t.includes('exchange')) return 'market';
+  if (t.includes('academic') || t.includes('institutional') || t.includes('university')) return 'institutional';
+  if (t.includes('study') || t.includes('permit') || t.includes('visa')) return 'student_risk';
+  if (t.includes('business-day')) return 'business_travel';
+  return 'holiday';
 }
 
-function determinePurposes(text: string): UserPurpose[] {
-  const t = text.toLowerCase();
+function determinePurposes(topic: string, category: OperationalCategory): UserPurpose[] {
   const purposes: UserPurpose[] = [];
-  if (t.includes('study') || t.includes('student') || t.includes('permit')) purposes.push('study');
-  if (t.includes('business') || t.includes('market') || t.includes('bank') || t.includes('corporate')) purposes.push('business');
-  if (t.includes('logistics') || t.includes('customs') || t.includes('port')) purposes.push('logistics');
+  if (category === 'student_risk' || category === 'institutional') purposes.push('study');
+  if (category === 'banking' || category === 'market' || category === 'business_travel') purposes.push('business', 'workforce');
   if (purposes.length === 0) purposes.push('travel', 'business');
   return Array.from(new Set(purposes));
 }
 
 export function createEventRecord(cc: string, date: string, name: string, type: string = 'public', conf: string = 'listed', evidenceStr: string = '', state: string = 'listed', dateState: string = 'confirmed'): DateIntelligenceRecord {
   const evidence = parseEvidence(evidenceStr);
-  
   const safeType = (type || 'public').replace(/['"]/g, '').trim().toLowerCase();
   const safeConf = (conf || 'listed').replace(/['"]/g, '').trim().toLowerCase();
-  const safeState = (state || 'listed').replace(/['"]/g, '').trim();
   const safeDateState = (dateState || 'confirmed').replace(/['"]/g, '').trim().toLowerCase();
 
   return {
@@ -179,8 +152,12 @@ export function createEventRecord(cc: string, date: string, name: string, type: 
     date,
     name,
     category: safeType === 'public' ? 'holiday' : 'regional',
-    jurisdiction: { country_code: cc, country_name: cc, scope: 'national' },
-    purpose_relevance: ['travel', 'business', 'logistics', 'workforce'],
+    jurisdiction: { 
+      country_code: cc, 
+      country_name: cc, 
+      scope: safeType === 'public' ? 'national' : 'regional' 
+    },
+    purpose_relevance: ['travel', 'business', 'workforce'],
     state: (safeDateState as DateState),
     confidence: (safeConf as ConfidenceTier) || 'reference',
     evidence: {
@@ -193,7 +170,7 @@ export function createEventRecord(cc: string, date: string, name: string, type: 
       link_label: evidence.link_label
     },
     consequences: {
-      implication: safeState === 'listed' ? 'Listed public holiday; commercial impact expected.' : 'National observance.',
+      implication: 'Listed national holiday; commercial impact expected.',
       affected_operations: ['government', 'banking'],
       severity: 'medium'
     },
@@ -238,12 +215,4 @@ function parseEvidence(s: string): any {
   const pairs = s.matchAll(/(\w+):\s*["']([^"']+)["']/g);
   for (const p of pairs) { obj[p[1]] = p[2]; }
   return obj;
-}
-
-function extractMeta(source: string, varName: string): any {
-  const regex = new RegExp(`const\\s+${varName}\\s*=\\s*\\{([\\s\\S]*?)\\};`);
-  const match = source.match(regex);
-  if (!match) return {};
-  // Simplified extraction of top-level keys in the object
-  return match[1];
 }
