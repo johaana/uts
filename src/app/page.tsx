@@ -8,7 +8,8 @@ import {
   expandCountry, 
   STUDENT_RISK_DATA,
   STUDENT_INTELLIGENCE_EXTRA,
-  CORPORATE_INTELLIGENCE
+  CORPORATE_INTELLIGENCE,
+  REGIONAL_INTELLIGENCE
 } from '@/lib/calendar-intelligence';
 
 export default function HomePage() {
@@ -35,7 +36,6 @@ export default function HomePage() {
     const pad2 = (n: number) => String(n).padStart(2, "0");
     const localDateStr = (d: Date) => `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`;
     
-    // Exact synchronization with V24 start/end logic
     setStartDate(localDateStr(TODAY));
     const future = new Date(TODAY);
     future.setDate(future.getDate() + 30);
@@ -60,7 +60,6 @@ export default function HomePage() {
     }
   }, [page, isMounted]);
 
-  // Ported literal script logic for data preparation
   const forwardIndex = useMemo(() => {
     const idx = new Map();
     Object.keys(HOLIDAYS).forEach(code => {
@@ -83,7 +82,6 @@ export default function HomePage() {
     const windowEndKey = `${windowEnd.getFullYear()}-${pad2(windowEnd.getMonth()+1)}-${pad2(windowEnd.getDate())}`;
     
     const inWindow = dates.filter(d => d <= windowEndKey);
-    // Fix: add fallback to prevent .length on undefined
     let candidate = inWindow.find(d => (forwardIndex.get(d) || []).length >= BREADTH_MIN);
     if (!candidate) {
       const pool = inWindow.length ? inWindow : dates;
@@ -124,7 +122,6 @@ export default function HomePage() {
         items.push(`<span class="chip"><b>${COUNTRY_LABELS[code] || code}</b> — ${names.join(", ")} · ${dLabel}</span>`);
       });
     });
-    // Literal V24 doubled loop for seamless animation
     const looped = items.slice(0, 14).concat(items.slice(0, 14));
     return looped.length > 0 ? looped : [];
   }, [forwardIndex, TODAY]);
@@ -134,12 +131,25 @@ export default function HomePage() {
     const start = new Date(startDate + "T00:00:00");
     const end = new Date(endDate + "T00:00:00");
     
-    const holidays = expandCountry(country) || [];
-    const inRange = holidays
-      .map(h => ({...h, d: new Date(h.date + "T00:00:00")}))
-      .filter(h => h.d >= start && h.d <= end);
+    // 1. Get Dated Holidays
+    const holidays = expandCountry(country).map(h => ({ ...h, d: new Date(h.date + "T00:00:00"), source_label: 'Public' }));
     
-    const uniqueDates = [...new Set(inRange.map(h => h.date))].sort();
+    // 2. Get Regional Signals (Dated)
+    const regional = REGIONAL_INTELLIGENCE
+      .filter(r => r.country === country && r.date)
+      .map(r => ({
+        date: r.date,
+        name: r.name,
+        summary: r.summary,
+        source_label: r.source_name || 'Regional',
+        d: new Date(r.date + "T00:00:00")
+      }));
+
+    const allRecords = [...holidays, ...regional]
+      .filter(r => r.d >= start && r.d <= end)
+      .sort((a, b) => a.date.localeCompare(b.date));
+    
+    const uniqueDates = [...new Set(allRecords.map(h => h.date))].sort();
     
     let longest = 0, currentRun = 0, prev = null;
     uniqueDates.forEach(d => {
@@ -166,7 +176,7 @@ export default function HomePage() {
       standing = CORPORATE_INTELLIGENCE.filter(x => x.country === country).length;
     }
 
-    return { records: inRange, uniqueDates, count: uniqueDates.length, longest, nextDays, standing };
+    return { records: allRecords, uniqueDates, count: uniqueDates.length, longest, nextDays, standing };
   }, [country, startDate, endDate, todayKey, mode]);
 
   const briefText = useMemo(() => {
@@ -206,7 +216,6 @@ export default function HomePage() {
       </header>
 
       <main>
-        {/* Date Intelligence Page (ID matches V24 logic) */}
         <section className="hero" id="explore">
           <div className="wrap hero-grid">
             <div className="hero-copy">
@@ -287,9 +296,9 @@ export default function HomePage() {
               <div className="checker-list">
                 {checkerData.records.map((r, i) => (
                   <div key={i} className="impact-row">
-                    <span className="impact-date">{new Intl.DateTimeFormat('en-GB', { day: '2-digit', month: 'short' }).format(new Date(r.date + "T00:00:00"))}</span>
+                    <span className="impact-date">{new Intl.DateTimeFormat('en-GB', { day: '2-digit', month: 'short' }).format(r.d)}</span>
                     <span className="impact-name">{r.name}</span>
-                    <span className="status-pill">High</span>
+                    <span className="status-pill">{r.source_label}</span>
                   </div>
                 ))}
               </div>
@@ -305,7 +314,6 @@ export default function HomePage() {
            </div>
         </section>
 
-        {/* Built For Section */}
         <section id="built-for-intro" className="wrap">
            <div className="section-head">
               <span className="kicker">BUILT FOR</span>
