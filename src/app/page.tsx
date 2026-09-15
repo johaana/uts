@@ -2,12 +2,6 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Header } from '@/components/header';
-import { Footer } from '@/components/footer';
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Card, CardContent } from "@/components/ui/card";
 import { 
   ArrowRight, 
   Loader2, 
@@ -20,13 +14,15 @@ import {
 import { getOperationalImpact } from '@/lib/operational/adapter';
 import { OperationalQuery, OperationalResult } from '@/lib/operational/types';
 import { cn } from '@/lib/utils';
+import { Header } from '@/components/header';
+import { Footer } from '@/components/footer';
 import { OperationalResultCard } from '@/components/operational/OperationalResultCard';
 
 export default function HomePage() {
   const [query, setQuery] = useState<OperationalQuery>({
     destination: 'IN',
     startDate: '2026-11-01',
-    endDate: '2026-11-15',
+    endDate: '2026-11-30',
     purpose: 'travel'
   });
   const [result, setResult] = useState<OperationalResult | null>(null);
@@ -34,6 +30,7 @@ export default function HomePage() {
 
   const handleCheckImpact = async () => {
     setIsSearching(true);
+    // Mimic the processing delay for the "verified" feel
     setTimeout(async () => {
       try {
         const impact = await getOperationalImpact(query);
@@ -46,6 +43,10 @@ export default function HomePage() {
     }, 600);
   };
 
+  useEffect(() => {
+    handleCheckImpact();
+  }, []);
+
   return (
     <div className="bg-[#0F1428] text-[#F4F1E8] min-h-screen font-sans">
       <Header />
@@ -54,158 +55,196 @@ export default function HomePage() {
         {/* =========================================================
              HERO
         ========================================================= */}
-        <section className="py-12 md:py-24 border-b border-white/10">
-          <div className="container mx-auto px-6">
-            <div className="grid lg:grid-cols-[0.95fr_1.05fr] gap-12 lg:gap-24 items-start">
-              
-              {/* LEFT */}
-              <div className="space-y-8">
-                <div className="space-y-4">
-                  <div className="flex items-center gap-2 text-[#4FD1C5] font-mono text-[12.5px] tracking-wider">
-                    <div className="w-1.5 h-1.5 rounded-full bg-[#4FD1C5] shadow-[0_0_8px_#4FD1C5]"></div>
-                    DATE INTELLIGENCE
-                  </div>
-                  <h1 className="font-headline text-4xl md:text-6xl font-medium leading-[1.08] tracking-tight">
-                    Know before you fly.<br/>Know before you schedule.
-                  </h1>
-                  <p className="text-lg text-[#9AA1C0] leading-relaxed max-w-lg font-medium">
-                    Check a country and your actual dates — before you book, schedule, send a student, or send an employee across borders.
-                  </p>
-                </div>
-
-                <div className="flex flex-wrap items-center gap-6 pt-2">
-                  <Link href="/date-intelligence">
-                    <Button className="bg-[#E8A33D] text-[#0F1428] hover:bg-[#F0C888] font-bold px-8 h-12 rounded-full">
-                      Check a date <ArrowRight className="ml-2 w-4 h-4" />
-                    </Button>
-                  </Link>
-                  <a href="#how-it-works" className="text-sm font-bold text-[#6E7495] hover:text-[#F4F1E8] flex items-center gap-1">
-                    See how it works <span className="text-xs">↓</span>
-                  </a>
-                </div>
-
-                {/* NEXT HOLIDAY UP (Left Column Aside) */}
-                <aside className="border border-white/18 rounded-2xl bg-white/[0.03] overflow-hidden max-w-[440px]">
-                   <div className="flex justify-between items-start gap-4 p-4 border-b border-white/10 bg-white/[0.01]">
-                      <div>
-                        <span className="block text-[10px] font-mono text-[#4FD1C5] uppercase tracking-widest mb-1">Next Holiday Up</span>
-                        <strong className="block font-headline text-lg font-medium">Sunday, 8 Nov 2026</strong>
-                      </div>
-                      <div className="flex items-center gap-1.5 font-mono text-[10px] text-[#6E7495]">
-                        <div className="w-1.5 h-1.5 rounded-full bg-[#4FD1C5] shadow-[0_0_8px_#4FD1C5]"></div>
-                        Live
-                      </div>
-                   </div>
-                   <div className="divide-y divide-white/10">
-                      <div className="p-4 space-y-1">
-                        <span className="block text-[9.5px] font-mono text-[#4FD1C5] uppercase tracking-widest">Global</span>
-                        <span className="block font-headline text-[15px] font-semibold text-[#F4F1E8]">Diwali</span>
-                        <span className="block text-[11px] text-[#6E7495]">National · 10+ countries</span>
-                      </div>
-                      <div className="p-4 space-y-1">
-                        <span className="block text-[9.5px] font-mono text-[#4FD1C5] uppercase tracking-widest">Regional</span>
-                        <span className="block font-headline text-[15px] font-semibold text-[#F4F1E8]">Lakshmi Puja</span>
-                        <span className="block text-[11px] text-[#6E7495]">India · 46 days away</span>
-                      </div>
-                   </div>
-                   <Link href="/date-intelligence" className="flex justify-between items-center p-4 bg-[#E8A33D]/5 text-[11.5px] text-[#F0C888] hover:bg-[#E8A33D]/10 transition-colors">
-                      See what this date means <ArrowRight className="w-3 h-3" />
-                   </Link>
-                </aside>
+        <section className="home-hero">
+          <div className="wrap home-hero-grid">
+            
+            {/* LEFT: HERO COPY */}
+            <div className="home-hero-copy">
+              <div className="eyebrow">
+                <div className="dot"></div>
+                DATE INTELLIGENCE
               </div>
 
-              {/* RIGHT: TRACKER */}
-              <div className="w-full">
-                <Card className="bg-[#171D3A] border-white/18 shadow-2xl rounded-2xl overflow-hidden">
-                  <div className="p-6 md:p-8 space-y-6">
-                    <div className="flex items-center justify-between border-b border-white/10 pb-4">
-                       <div>
-                          <p className="text-[9px] font-bold uppercase tracking-widest text-[#E8A33D] mb-1">DATE INTELLIGENCE</p>
-                          <h2 className="text-xl font-headline font-medium">Check your dates</h2>
-                       </div>
-                       <div className="flex items-center gap-1.5 px-3 py-1 bg-accent/5 border border-accent/20 rounded-full">
-                          <div className="w-1.5 h-1.5 rounded-full bg-[#4FD1C5] shadow-[0_0_8px_#4FD1C5]"></div>
-                          <span className="text-[10px] font-bold uppercase tracking-wider text-[#4FD1C5]">Live</span>
-                       </div>
-                    </div>
+              <h1 className="headline">
+                Know before you fly.
+                <br />
+                Know before you schedule.
+              </h1>
 
-                    <div className="flex bg-[#1E2650] p-1 rounded-xl">
-                      {['travel', 'study', 'workforce'].map((p) => (
-                        <button 
-                          key={p}
-                          onClick={() => setQuery({...query, purpose: p as any})}
-                          className={cn(
-                            "flex-1 py-2 text-[11px] font-bold uppercase tracking-widest rounded-lg transition-all",
-                            query.purpose === p ? "bg-[#E8A33D] text-[#0F1428]" : "text-[#9AA1C0] hover:text-[#F4F1E8]"
-                          )}
-                        >
-                          {p === 'workforce' ? 'Business' : p}
-                        </button>
+              <p className="hero-lead">
+                Check a country and your actual dates — before you book,
+                schedule, send a student, or send an employee across borders.
+              </p>
+
+              <div className="hero-actions">
+                <Link href="/date-intelligence" className="button button-primary">
+                  Check a date
+                  <span className="ml-2">→</span>
+                </Link>
+
+                <a className="text-link" href="#how-it-works">
+                  See how it works
+                  <span className="ml-1">↓</span>
+                </a>
+              </div>
+
+              {/* NEXT HOLIDAY UP (Left Column Aside) */}
+              <aside className="hero-tracker" id="world" aria-label="Next holiday tracker">
+                <div className="hero-tracker-head">
+                  <div>
+                    <span className="hero-tracker-kicker">NEXT HOLIDAY UP</span>
+                    <strong>Sunday, 8 Nov 2026</strong>
+                  </div>
+                  <span className="hero-tracker-live">
+                    <i></i> Live calendar view
+                  </span>
+                </div>
+                <div className="hero-tracker-next-grid">
+                  <div className="hero-tracker-next-card">
+                    <span className="next-card-kicker">Global</span>
+                    <span className="next-card-name">Diwali</span>
+                    <span className="next-card-date">8 Nov · 10+ countries</span>
+                  </div>
+                  <div className="hero-tracker-next-card">
+                    <span className="next-card-kicker">Regional</span>
+                    <span className="next-card-name">Lakshmi Puja</span>
+                    <span className="next-card-date">India · 46 days away</span>
+                  </div>
+                </div>
+                <Link className="hero-tracker-link" href="/date-intelligence">
+                  See what this date means <span>→</span>
+                </Link>
+              </aside>
+
+              <div className="hero-trust">
+                <span><b>100</b> countries tracked</span>
+                <span className="sep">·</span>
+                <span>live feeds where available</span>
+                <span className="sep">·</span>
+                <span>evidence shown where available</span>
+              </div>
+            </div>
+
+            {/* RIGHT: TRACKER */}
+            <div className="home-hero-tracker">
+              <div className="tracker-card">
+                <div className="tracker-card-header">
+                  <div>
+                    <span className="tracker-kicker">DATE INTELLIGENCE</span>
+                    <h2>Check your dates</h2>
+                  </div>
+                  <span className="tracker-status">
+                    <i></i> Live
+                  </span>
+                </div>
+
+                <div className="mode-toggle" role="tablist" aria-label="Purpose">
+                  {['travel', 'study', 'workforce'].map((p) => (
+                    <button 
+                      key={p}
+                      onClick={() => setQuery({...query, purpose: p as any})}
+                      className={cn(query.purpose === p && "active")}
+                      type="button"
+                    >
+                      {p === 'workforce' ? 'Business' : p}
+                    </button>
+                  ))}
+                </div>
+
+                <div className="tracker-fields">
+                  <div className="tracker-field">
+                    <label htmlFor="country-select">Destination / jurisdiction</label>
+                    <select 
+                      id="country-select"
+                      value={query.destination}
+                      onChange={(e) => setQuery({...query, destination: e.target.value})}
+                    >
+                      <option value="IN">India</option>
+                      <option value="JP">Japan</option>
+                      <option value="US">United States</option>
+                      <option value="CA">Canada</option>
+                      <option value="GB">United Kingdom</option>
+                      <option value="AU">Australia</option>
+                    </select>
+                  </div>
+
+                  <div className="tracker-date-grid">
+                    <div className="tracker-field">
+                      <label htmlFor="start-date">From</label>
+                      <input 
+                        id="start-date" 
+                        type="date" 
+                        value={query.startDate}
+                        onChange={(e) => setQuery({...query, startDate: e.target.value})}
+                      />
+                    </div>
+                    <div className="tracker-field">
+                      <label htmlFor="end-date">To</label>
+                      <input 
+                        id="end-date" 
+                        type="date" 
+                        value={query.endDate}
+                        onChange={(e) => setQuery({...query, endDate: e.target.value})}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="tracker-range">
+                    {[7, 30, 90].map(days => (
+                      <button
+                        key={days}
+                        className={cn("range-chip", (query.endDate === localDateStr(new Date(new Date(query.startDate).getTime() + days * 86400000))) && "active")}
+                        type="button"
+                        onClick={() => {
+                          const start = new Date(query.startDate);
+                          const end = new Date(start.getTime() + days * 86400000);
+                          setQuery({...query, endDate: localDateStr(end)});
+                        }}
+                      >
+                        {days} days
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="tracker-summary">
+                  <div className="tracker-stat">
+                    <strong>{result?.records.length || 0}</strong>
+                    <span>dates to keep in mind</span>
+                  </div>
+                  <div className="tracker-stat">
+                    <strong>{isSearching ? '...' : '1'}</strong>
+                    <span>days in longest flagged run</span>
+                  </div>
+                  <div className="tracker-stat">
+                    <strong>{isSearching ? '...' : '7'}</strong>
+                    <span>days to next one</span>
+                  </div>
+                </div>
+
+                <div className="tracker-results">
+                  {isSearching ? (
+                    <div className="flex items-center justify-center h-24">
+                      <Loader2 className="animate-spin w-6 h-6 text-primary" />
+                    </div>
+                  ) : result && result.records.length > 0 ? (
+                    <div className="space-y-4">
+                      {result.records.map(record => (
+                        <OperationalResultCard key={record.id} record={record} />
                       ))}
                     </div>
-
-                    <div className="space-y-4">
-                       <div className="space-y-1.5">
-                          <label className="text-[10px] font-bold uppercase tracking-wider text-[#6E7495] font-mono">Destination / Jurisdiction</label>
-                          <Select value={query.destination} onValueChange={(v) => setQuery({...query, destination: v})}>
-                            <SelectTrigger className="bg-[#1E2650] border-white/10 h-11"><SelectValue /></SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="IN">India</SelectItem>
-                              <SelectItem value="JP">Japan</SelectItem>
-                              <SelectItem value="US">United States</SelectItem>
-                              <SelectItem value="CA">Canada</SelectItem>
-                              <SelectItem value="GB">United Kingdom</SelectItem>
-                              <SelectItem value="AU">Australia</SelectItem>
-                            </SelectContent>
-                          </Select>
-                       </div>
-                       <div className="grid grid-cols-2 gap-4">
-                          <div className="space-y-1.5">
-                            <label className="text-[10px] font-bold uppercase tracking-wider text-[#6E7495] font-mono">From</label>
-                            <Input type="date" value={query.startDate} onChange={(e) => setQuery({...query, startDate: e.target.value})} className="bg-[#1E2650] border-white/10 h-11" />
-                          </div>
-                          <div className="space-y-1.5">
-                            <label className="text-[10px] font-bold uppercase tracking-wider text-[#6E7495] font-mono">To</label>
-                            <Input type="date" value={query.endDate} onChange={(e) => setQuery({...query, endDate: e.target.value})} className="bg-[#1E2650] border-white/10 h-11" />
-                          </div>
-                       </div>
+                  ) : (
+                    <div className="text-center py-8 text-muted-foreground text-sm">
+                      No matching records found for this period.
                     </div>
+                  )}
+                </div>
 
-                    <Button 
-                      className="w-full bg-[#E8A33D] text-[#0F1428] hover:bg-[#F0C888] font-bold h-12 shadow-lg transition-all active:scale-[0.98]" 
-                      onClick={handleCheckImpact}
-                      disabled={isSearching}
-                    >
-                      {isSearching ? <Loader2 className="animate-spin w-4 h-4 mr-2" /> : "Check dates"}
-                    </Button>
-
-                    {result && !isSearching && (
-                      <div className="pt-6 border-t border-white/10 animate-in fade-in slide-in-from-top-4">
-                        <div className="p-4 rounded-xl mb-4 bg-primary/5 border border-primary/20 flex items-start gap-4">
-                           <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                              <Globe className="w-4 h-4 text-primary" />
-                           </div>
-                           <div className="flex-1 space-y-1">
-                              <h3 className="text-xs font-bold uppercase tracking-widest text-[#F0C888]">In Short</h3>
-                              <p className="text-[13px] text-muted-foreground leading-relaxed">
-                                 We found {result.records.length} signal(s) that may affect your plan. Review the details below.
-                              </p>
-                           </div>
-                        </div>
-                        <div className="space-y-4 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
-                          {result.records.map(record => (
-                            <OperationalResultCard key={record.id} record={record} />
-                          ))}
-                        </div>
-                        <div className="pt-4 text-center border-t border-white/10 mt-4">
-                           <Link href="/date-intelligence" className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#F0C888] hover:underline flex items-center justify-center gap-1">
-                              Open Date Intelligence <ArrowRight className="w-3 h-3" />
-                           </Link>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </Card>
+                <div className="tracker-footer">
+                  <Link href="/date-intelligence">
+                    Open Date Intelligence <span>→</span>
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
@@ -214,37 +253,37 @@ export default function HomePage() {
         {/* =========================================================
              WORLD TODAY
         ========================================================= */}
-        <section className="py-24 bg-[#0F1428]" id="world-today">
-          <div className="container mx-auto px-6">
-            <div className="max-w-3xl mb-16 space-y-4">
-               <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#4FD1C5] font-mono">WORLD TODAY</div>
-               <h2 className="text-3xl md:text-5xl font-headline font-medium">Dates are not just dates.</h2>
-               <p className="text-lg text-[#9AA1C0] leading-relaxed font-medium">
-                 Around the world, a date can mean a public holiday, a regional observance, an institutional closure, 
-                 a working-day difference or something entirely specific to the purpose of your trip.
-               </p>
+        <section className="world-today" id="world-today">
+          <div className="wrap">
+            <div className="section-intro">
+              <div className="eyebrow">WORLD TODAY</div>
+              <h2>Dates are not just dates.</h2>
+              <p>
+                Around the world, a date can mean a public holiday,
+                a regional observance, an institutional closure,
+                a working-day difference or something entirely
+                specific to the purpose of your trip.
+              </p>
             </div>
-            <div className="grid md:grid-cols-2 gap-8">
-               <Card className="bg-white/[0.03] border-white/10 p-8 md:p-12 flex flex-col justify-between group hover:border-white/20 transition-all">
-                  <div className="space-y-6">
-                    <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#4FD1C5]">TODAY</span>
-                    <h3 className="text-3xl font-headline font-medium">Understanding today's calendar</h3>
-                    <p className="text-[#9AA1C0] text-sm leading-relaxed max-w-sm">See the dates and places that may matter today across our global index.</p>
-                  </div>
-                  <Link href="/date-intelligence" className="mt-12">
-                     <Button variant="outline" className="font-bold border-white/10 hover:bg-white/5 rounded-full px-8">Explore today <ArrowRight className="ml-2 w-4 h-4" /></Button>
-                  </Link>
-               </Card>
-               <Card className="bg-white/[0.03] border-white/10 p-8 md:p-12 flex flex-col justify-between group hover:border-white/20 transition-all">
-                  <div className="space-y-6">
-                    <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#E8A33D]">COMING UP</span>
-                    <h3 className="text-3xl font-headline font-medium">Diwali 2026</h3>
-                    <p className="text-[#9AA1C0] text-sm leading-relaxed max-w-sm">8 November 2026 · India · National Closure flagged.</p>
-                  </div>
-                  <Link href="/festivals/diwali" className="mt-12">
-                     <Button variant="ghost" className="font-bold text-[#F0C888] hover:bg-white/5 rounded-full px-8">Check the date <ArrowRight className="ml-2 w-4 h-4" /></Button>
-                  </Link>
-               </Card>
+
+            <div className="world-today-grid">
+              <article className="world-today-card world-today-primary">
+                <span className="card-label">TODAY</span>
+                <h3>Understanding today's calendar</h3>
+                <p>See the dates and places that may matter today.</p>
+                <Link href="/date-intelligence">
+                  Explore today's date <span>→</span>
+                </Link>
+              </article>
+
+              <article className="world-today-card">
+                <span className="card-label">COMING UP</span>
+                <h3>Diwali 2026</h3>
+                <p>8 November 2026 · India · National</p>
+                <Link href="/festivals/diwali">
+                  Check the date <span>→</span>
+                </Link>
+              </article>
             </div>
           </div>
         </section>
@@ -252,151 +291,173 @@ export default function HomePage() {
         {/* =========================================================
              HOW IT WORKS
         ========================================================= */}
-        <section className="py-24 bg-white/[0.02] border-t border-white/10" id="how-it-works">
-           <div className="container mx-auto px-6">
-              <div className="max-w-3xl mb-16 space-y-4">
-                <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#E8A33D] font-mono">HOW IT WORKS</div>
-                <h2 className="text-3xl md:text-5xl font-headline font-medium">See what your dates may mean for travel, study or business.</h2>
-                <p className="text-lg text-[#9AA1C0] font-medium">Utsavs brings relevant calendars and deeper institutional information together around the date you actually care about.</p>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                 {[
-                   { n: "01", t: "Travel", d: "Understand what may be happening when you arrive, from public and regional dates to relevant travel information.", a: "Choosing when to go" },
-                   { n: "02", t: "Business", d: "See dates that may affect meetings, operations, working days and business activity.", a: "Choosing when to schedule" },
-                   { n: "03", t: "Study", d: "Put institutional calendars, arrival timing and relevant student information around the dates you are considering.", a: "Choosing when to arrive" },
-                   { n: "04", t: "Operations", d: "Go deeper when the job requires it — markets, banking, customs, institutions and regional calendars.", a: "Choosing when to operate" }
-                 ].map(item => (
-                   <div key={item.n} className="space-y-6 group">
-                      <span className="text-3xl font-headline font-bold text-white/10 group-hover:text-[#E8A33D] transition-colors">{item.n}</span>
-                      <h3 className="text-xl font-bold font-headline">{item.t}</h3>
-                      <p className="text-sm text-[#9AA1C0] leading-relaxed font-medium min-h-[80px]">{item.d}</p>
-                      <p className="text-[10px] font-bold uppercase tracking-widest text-[#E8A33D] flex items-center gap-1">{item.a} <ArrowRight className="w-3 h-3" /></p>
-                   </div>
-                 ))}
-              </div>
-           </div>
+        <section className="how-it-works" id="how-it-works">
+          <div className="wrap">
+            <div className="section-intro">
+              <div className="eyebrow">HOW IT WORKS</div>
+              <h2>
+                See what your dates may mean
+                for travel, study or business.
+              </h2>
+              <p>
+                Utsavs brings relevant calendars and deeper institutional
+                information together around the date you actually care about.
+              </p>
+            </div>
+
+            <div className="purpose-grid">
+              {[
+                { n: "01", t: "Travel", d: "Understand what may be happening when you arrive, from public and regional dates to relevant travel information.", a: "Choosing when to go" },
+                { n: "02", t: "Business", d: "See dates that may affect meetings, operations, working days and business activity.", a: "Choosing when to schedule" },
+                { n: "03", t: "Study", d: "Put institutional calendars, arrival timing and relevant student information around the dates you are considering.", a: "Choosing when to arrive" },
+                { n: "04", t: "Operations", d: "Go deeper when the job requires it — markets, banking, customs, institutions and regional calendars.", a: "Choosing when to operate" }
+              ].map(item => (
+                <article key={item.n} className="purpose-card">
+                  <span className="purpose-number">{item.n}</span>
+                  <h3>{item.t}</h3>
+                  <p>{item.d}</p>
+                  <span className="purpose-action">{item.a} →</span>
+                </article>
+              ))}
+            </div>
+          </div>
         </section>
 
         {/* =========================================================
              SPECIALIZED INTELLIGENCE
         ========================================================= */}
-        <section className="py-24 border-t border-white/10">
-           <div className="container mx-auto px-6">
-              <div className="grid lg:grid-cols-[1fr_1fr] gap-16 items-start">
-                 <div className="space-y-6">
-                    <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#4FD1C5] font-mono">SPECIALIZED INTELLIGENCE</div>
-                    <h2 className="text-3xl md:text-5xl font-headline font-medium leading-tight">One calendar underneath. <br/>Deeper calendars when the job demands it.</h2>
-                    <p className="text-lg text-[#9AA1C0] leading-relaxed font-medium">
-                      The same date can affect a traveller, market, bank, institution or operation differently. Utsavs keeps those layers distinct and brings the relevant evidence together.
-                    </p>
-                    <Link href="/date-intelligence" className="inline-block text-[#F0C888] font-bold text-sm hover:underline">
-                      Explore Date Intelligence <span>→</span>
-                    </Link>
-                 </div>
-                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-white/10 border border-white/10 rounded-2xl overflow-hidden">
-                    {[
-                      { n: "01", t: "Regional calendars", s: "Country, state, province and jurisdiction" },
-                      { n: "02", t: "Institutions", s: "Universities, missions and other institutions" },
-                      { n: "03", t: "Markets & banking", s: "Trading, settlement, payments and working days" },
-                      { n: "04", t: "Trade & logistics", s: "Customs, ports and documented operational timing" }
-                    ].map(item => (
-                      <div key={item.n} className="bg-[#0F1428] p-8 space-y-2 group hover:bg-white/[0.02] transition-colors border-white/5">
-                        <span className="text-[10px] font-bold text-[#E8A33D]/50 font-mono">{item.n}</span>
-                        <h4 className="font-bold text-lg font-headline">{item.t}</h4>
-                        <p className="text-xs text-[#9AA1C0] font-medium">{item.s}</p>
-                      </div>
-                    ))}
-                 </div>
+        <section className="specialized-intelligence">
+          <div className="wrap">
+            <div className="specialized-layout">
+              <div className="specialized-copy">
+                <div className="eyebrow">SPECIALIZED INTELLIGENCE</div>
+                <h2>
+                  One calendar underneath.
+                  Deeper calendars when the
+                  job demands it.
+                </h2>
+                <p>
+                  The same date can affect a traveller, market,
+                  bank, institution or operation differently.
+                  Utsavs keeps those layers distinct and brings
+                  the relevant evidence together.
+                </p>
+                <Link href="/date-intelligence" className="text-link">
+                  Explore Date Intelligence <span>→</span>
+                </Link>
               </div>
-           </div>
+
+              <div className="specialized-list">
+                {[
+                  { n: "01", t: "Regional calendars", s: "Country, state, province and jurisdiction" },
+                  { n: "02", t: "Institutions", s: "Universities, missions and other institutions" },
+                  { n: "03", t: "Markets & banking", s: "Trading, settlement, payments and working days" },
+                  { n: "04", t: "Trade & logistics", s: "Customs, ports and documented operational timing" }
+                ].map(item => (
+                  <div key={item.n} className="specialized-row">
+                    <span>{item.n}</span>
+                    <strong>{item.t}</strong>
+                    <small>{item.s}</small>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </section>
 
         {/* =========================================================
              API
         ========================================================= */}
-        <section id="api" className="py-24 bg-white/[0.02] border-y border-white/10">
-           <div className="container mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-12">
-              <div className="max-w-xl space-y-4">
-                <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#E8A33D] font-mono">FOR SYSTEMS</div>
-                <h2 className="text-3xl md:text-4xl font-headline font-medium">Need to work with the intelligence continuously?</h2>
-                <p className="text-[#9AA1C0] font-medium leading-relaxed">Use Utsavs through the API for applications, workflows and operational systems that need calendar and date intelligence at scale.</p>
-              </div>
-              <Link href="/api">
-                <Button className="bg-[#E8A33D] text-[#0F1428] hover:bg-[#F0C888] px-10 font-bold h-14 rounded-full shadow-lg">
-                  Explore the API <ArrowRight className="ml-2 w-4 h-4" />
-                </Button>
-              </Link>
-           </div>
+        <section className="home-api">
+          <div className="wrap home-api-inner">
+            <div>
+              <div className="eyebrow">FOR SYSTEMS</div>
+              <h2>Need to work with the intelligence continuously?</h2>
+              <p>
+                Use Utsavs through the API for applications,
+                workflows and operational systems that need
+                calendar and date intelligence at scale.
+              </p>
+            </div>
+            <Link href="/api" className="button button-primary">
+              Explore the API <span>→</span>
+            </Link>
+          </div>
         </section>
 
         {/* =========================================================
              TRAVEL INSURANCE
         ========================================================= */}
-        <section className="py-24 border-b border-white/10">
-           <div className="container mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-12">
-              <div className="max-w-xl space-y-4">
-                <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#4FD1C5] font-mono">TRAVEL INSURANCE</div>
-                <h2 className="text-3xl md:text-4xl font-headline font-medium">Plan for what you can predict. Protect against what you can't.</h2>
-                <p className="text-[#9AA1C0] font-medium leading-relaxed">Explore how travel timing and travel protection can work together — whether you are planning your own journey or building a travel workflow for customers, employees or students.</p>
-              </div>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Link href="/travel-insurance">
-                  <Button className="bg-[#E8A33D] text-[#0F1428] hover:bg-[#F0C888] px-10 font-bold h-14 rounded-full shadow-lg">
-                    Get in touch with us <ArrowRight className="ml-2 w-4 h-4" />
-                  </Button>
-                </Link>
-                <Link href="/travel-insurance#partner">
-                   <Button variant="ghost" className="px-10 font-bold h-14 text-[#F4F1E8] hover:bg-white/5 border border-white/10 rounded-full">
-                     Partner with us →
-                   </Button>
-                </Link>
-              </div>
-           </div>
+        <section className="home-insurance">
+          <div className="wrap home-insurance-inner">
+            <div>
+              <div className="eyebrow">TRAVEL INSURANCE</div>
+              <h2>Plan for what you can predict. Protect against what you can't.</h2>
+              <p>
+                Explore how travel timing and travel protection
+                can work together — whether you are planning
+                your own journey or building a travel workflow
+                for customers, employees or students.
+              </p>
+            </div>
+            <div className="insurance-actions">
+              <Link href="/travel-insurance" className="button button-primary">
+                Get in touch with us <span>→</span>
+              </Link>
+              <Link href="/travel-insurance#partner" className="text-link">
+                Partner with us <span>→</span>
+              </Link>
+            </div>
+          </div>
         </section>
 
         {/* =========================================================
              CLOSING
         ========================================================= */}
-        <section className="py-24 border-t border-white/10 text-center">
-           <div className="container mx-auto px-6 max-w-4xl space-y-12">
-              <h2 className="text-3xl md:text-5xl font-headline font-medium italic leading-relaxed text-[#F4F1E8]">
-                Check the date first. If it turns out to matter to you, the story's one click away.
-              </h2>
-              <div className="flex flex-wrap items-center justify-center gap-4 text-[13px] font-mono text-[#9AA1C0]">
-                <span className="px-6 py-3 bg-[#E8A33D] text-[#0F1428] font-bold rounded-full">Intelligence & API</span>
-                <span className="opacity-20">—</span>
-                <span className="px-6 py-3 border border-white/10 rounded-full">Cultural stories</span>
-                <span className="opacity-20">—</span>
-                <span className="px-6 py-3 border border-white/10 rounded-full">Recipes & travel</span>
-              </div>
-           </div>
+        <section className="home-closing">
+          <div className="wrap">
+            <div className="closing-rule"></div>
+            <h2>
+              Check the date.
+              Understand what it means.
+              Then decide what to do next.
+            </h2>
+            <div className="closing-links">
+              <Link href="/date-intelligence">Date Intelligence <span>→</span></Link>
+              <Link href="/built-for">Built For <span>→</span></Link>
+              <Link href="/api">API <span>→</span></Link>
+            </div>
+          </div>
         </section>
 
         {/* =========================================================
              FAQ
         ========================================================= */}
-        <section className="py-24 border-t border-white/10">
-           <div className="container mx-auto px-6 max-w-3xl">
-              <div className="text-center mb-16 space-y-4">
-                <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#E8A33D] font-mono">QUESTIONS</div>
-                <h2 className="text-3xl md:text-4xl font-headline font-medium">A few things worth knowing.</h2>
-              </div>
-              
-              <div className="space-y-8">
-                 {[
-                   { q: "Does Utsavs tell me whether I should travel?", a: "No. Utsavs shows the dates, evidence and practical implications that may matter to your purpose, so you can make the decision." },
-                   { q: "Why can the same date mean different things?", a: "A public holiday, regional observance, university calendar or institutional closure can affect places and activities differently. Utsavs keeps those scopes separate." },
-                   { q: "Are all dates confirmed?", a: "No. Some dates are officially published well in advance; others depend on later announcements, lunar observation or institutional publication. Source and date state are shown where available." },
-                   { q: "Does Utsavs replace visa or immigration advice?", a: "No. Entry eligibility depends on the traveller's circumstances and the relevant authority. Utsavs provides timing and planning context." },
-                   { q: "Can I use Utsavs for business or study?", a: "Yes. The same date can be examined for travel, business, study, workforce and operational planning, with deeper institutional information where verified." }
-                 ].map((item, i) => (
-                   <div key={i} className="space-y-2 border-b border-white/5 pb-8 last:border-0">
-                      <h4 className="font-bold text-lg">{item.q}</h4>
-                      <p className="text-[#9AA1C0] leading-relaxed">{item.a}</p>
-                   </div>
-                 ))}
-              </div>
-           </div>
+        <section className="home-faq">
+          <div className="wrap">
+            <div className="section-intro">
+              <div className="eyebrow">QUESTIONS</div>
+              <h2>A few things worth knowing.</h2>
+            </div>
+
+            <div className="faq-list space-y-6">
+              {[
+                { q: "Does Utsavs tell me whether I should travel?", a: "No. Utsavs shows the dates, evidence and practical implications that may matter to your purpose, so you can make the decision." },
+                { q: "Why can the same date mean different things?", a: "A public holiday, regional observance, university calendar or institutional closure can affect places and activities differently. Utsavs keeps those scopes separate." },
+                { q: "Are all dates confirmed?", a: "No. Some dates are officially published well in advance; others depend on later announcements, lunar observation or institutional publication. Source and date state are shown where available." },
+                { q: "Does Utsavs replace visa or immigration advice?", a: "No. Entry eligibility depends on the traveller's circumstances and the relevant authority. Utsavs provides timing and planning context." },
+                { q: "Can I use Utsavs for business or study?", a: "Yes. The same date can be examined for travel, business, study, workforce and operational planning, with deeper institutional information where verified." }
+              ].map((item, i) => (
+                <details key={i} className="group border-b border-white/10 pb-4">
+                  <summary className="font-bold cursor-pointer list-none flex justify-between items-center text-lg">
+                    {item.q}
+                    <span className="text-muted-foreground group-open:rotate-180 transition-transform">↓</span>
+                  </summary>
+                  <p className="mt-4 text-muted-foreground leading-relaxed">{item.a}</p>
+                </details>
+              ))}
+            </div>
+          </div>
         </section>
       </main>
 
@@ -405,6 +466,6 @@ export default function HomePage() {
   );
 }
 
-function daysBetween(a: Date, b: Date) {
-  return Math.round((b.getTime() - a.getTime()) / 86400000);
+function localDateStr(d: Date) {
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 }
