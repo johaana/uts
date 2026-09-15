@@ -34,9 +34,9 @@ export function Header() {
         isScrolled ? "h-[64px] bg-[#0F1428]/86 backdrop-blur-md border-white/10" : "h-[76px] bg-[#0F1428] border-transparent"
     )}>
       <div className="container mx-auto flex items-center justify-between h-full px-6">
-        <Link href="/" className="flex items-baseline gap-2 group shrink-0">
+        <Link href="/" className="flex flex-col items-start group shrink-0">
             <span className="font-headline text-2xl font-semibold text-[#F4F1E8]">Utsavs</span>
-            <span className="text-[10px] text-[#E8A33D] font-mono font-medium uppercase tracking-[0.14em]">GLOBAL CALENDAR INTELLIGENCE</span>
+            <span className="text-[10px] text-[#E8A33D] font-mono font-medium uppercase tracking-[0.14em] mt-0.5">DATE INTELLIGENCE</span>
         </Link>
 
         {/* Desktop Nav */}

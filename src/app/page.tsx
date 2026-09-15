@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
@@ -9,55 +9,18 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent } from "@/components/ui/card";
 import { 
-  Search, 
-  Loader2, 
   ArrowRight, 
+  Loader2, 
   Globe, 
   ShieldCheck, 
-  Landmark, 
-  Briefcase, 
-  Plane,
-  Clock,
+  ChevronRight,
   Info,
-  Wind,
-  Droplets,
-  Share,
-  Sparkles,
-  ChevronDown
+  Sparkles
 } from "lucide-react";
 import { getOperationalImpact } from '@/lib/operational/adapter';
 import { OperationalQuery, OperationalResult } from '@/lib/operational/types';
 import { cn } from '@/lib/utils';
 import { OperationalResultCard } from '@/components/operational/OperationalResultCard';
-import { UpcomingFestivalsCarousel } from '@/components/UpcomingFestivalsCarousel';
-
-function TripAdvisory({ result }: { result: OperationalResult }) {
-  const hasImpacts = result.records.length > 0;
-  return (
-    <div className={cn(
-      "p-4 rounded-xl mb-4 border flex items-start gap-4 transition-all animate-in fade-in slide-in-from-top-4 duration-500",
-      !hasImpacts ? "bg-accent/5 border-accent/20" : "bg-primary/5 border-primary/20"
-    )}>
-      <div className={cn(
-        "w-10 h-10 rounded-full flex items-center justify-center shrink-0",
-        !hasImpacts ? "bg-accent/10 text-accent" : "bg-primary/10 text-primary"
-      )}>
-        {!hasImpacts ? <ShieldCheck className="w-5 h-5" /> : <Globe className="w-5 h-5" />}
-      </div>
-      <div className="flex-1 space-y-1">
-        <h3 className="text-sm font-bold uppercase tracking-widest text-[#F0C888]">
-          IN SHORT
-        </h3>
-        <p className="text-[13px] text-muted-foreground leading-relaxed">
-          {!hasImpacts 
-            ? "No specific date impacts were found for this journey in our verified dataset. Standard cross-border rules apply."
-            : `We found ${result.records.length} signal(s) that may affect your ${result.query_context.purpose} plan. Review the details below to understand the practical implications.`
-          }
-        </p>
-      </div>
-    </div>
-  );
-}
 
 export default function HomePage() {
   const [query, setQuery] = useState<OperationalQuery>({
@@ -71,7 +34,6 @@ export default function HomePage() {
 
   const handleCheckImpact = async () => {
     setIsSearching(true);
-    // Simulate natural search delay
     setTimeout(async () => {
       try {
         const impact = await getOperationalImpact(query);
@@ -89,12 +51,14 @@ export default function HomePage() {
       <Header />
       
       <main>
-        {/* HERO SECTION */}
+        {/* =========================================================
+             HERO
+        ========================================================= */}
         <section className="py-12 md:py-24 border-b border-white/10">
           <div className="container mx-auto px-6">
             <div className="grid lg:grid-cols-[0.95fr_1.05fr] gap-12 lg:gap-24 items-start">
               
-              {/* LEFT: Copy */}
+              {/* LEFT */}
               <div className="space-y-8">
                 <div className="space-y-4">
                   <div className="flex items-center gap-2 text-[#4FD1C5] font-mono text-[12.5px] tracking-wider">
@@ -111,29 +75,50 @@ export default function HomePage() {
 
                 <div className="flex flex-wrap items-center gap-6 pt-2">
                   <Link href="/date-intelligence">
-                    <Button className="bg-[#E8A33D] text-[#0F1428] hover:bg-[#F0C888] font-bold px-8 h-12 rounded-full transition-all">
+                    <Button className="bg-[#E8A33D] text-[#0F1428] hover:bg-[#F0C888] font-bold px-8 h-12 rounded-full">
                       Check a date <ArrowRight className="ml-2 w-4 h-4" />
                     </Button>
                   </Link>
-                  <a href="#how-it-works" className="text-sm font-bold text-[#6E7495] hover:text-[#F4F1E8] flex items-center gap-1 transition-colors">
+                  <a href="#how-it-works" className="text-sm font-bold text-[#6E7495] hover:text-[#F4F1E8] flex items-center gap-1">
                     See how it works <span className="text-xs">↓</span>
                   </a>
                 </div>
 
-                <div className="pt-8 border-t border-white/10 flex flex-wrap gap-4 text-[12px] font-mono text-[#6E7495]">
-                   <span><b className="text-[#F4F1E8] font-sans font-medium">100</b> countries tracked</span>
-                   <span className="text-white/10">·</span>
-                   <span>live feeds where available</span>
-                   <span className="text-white/10">·</span>
-                   <span>evidence shown where available</span>
-                </div>
+                {/* NEXT HOLIDAY UP (Left Column Aside) */}
+                <aside className="border border-white/18 rounded-2xl bg-white/[0.03] overflow-hidden max-w-[440px]">
+                   <div className="flex justify-between items-start gap-4 p-4 border-b border-white/10 bg-white/[0.01]">
+                      <div>
+                        <span className="block text-[10px] font-mono text-[#4FD1C5] uppercase tracking-widest mb-1">Next Holiday Up</span>
+                        <strong className="block font-headline text-lg font-medium">Sunday, 8 Nov 2026</strong>
+                      </div>
+                      <div className="flex items-center gap-1.5 font-mono text-[10px] text-[#6E7495]">
+                        <div className="w-1.5 h-1.5 rounded-full bg-[#4FD1C5] shadow-[0_0_8px_#4FD1C5]"></div>
+                        Live
+                      </div>
+                   </div>
+                   <div className="divide-y divide-white/10">
+                      <div className="p-4 space-y-1">
+                        <span className="block text-[9.5px] font-mono text-[#4FD1C5] uppercase tracking-widest">Global</span>
+                        <span className="block font-headline text-[15px] font-semibold text-[#F4F1E8]">Diwali</span>
+                        <span className="block text-[11px] text-[#6E7495]">National · 10+ countries</span>
+                      </div>
+                      <div className="p-4 space-y-1">
+                        <span className="block text-[9.5px] font-mono text-[#4FD1C5] uppercase tracking-widest">Regional</span>
+                        <span className="block font-headline text-[15px] font-semibold text-[#F4F1E8]">Lakshmi Puja</span>
+                        <span className="block text-[11px] text-[#6E7495]">India · 46 days away</span>
+                      </div>
+                   </div>
+                   <Link href="/date-intelligence" className="flex justify-between items-center p-4 bg-[#E8A33D]/5 text-[11.5px] text-[#F0C888] hover:bg-[#E8A33D]/10 transition-colors">
+                      See what this date means <ArrowRight className="w-3 h-3" />
+                   </Link>
+                </aside>
               </div>
 
-              {/* RIGHT: Tracker Card */}
+              {/* RIGHT: TRACKER */}
               <div className="w-full">
                 <Card className="bg-[#171D3A] border-white/18 shadow-2xl rounded-2xl overflow-hidden">
                   <div className="p-6 md:p-8 space-y-6">
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between border-b border-white/10 pb-4">
                        <div>
                           <p className="text-[9px] font-bold uppercase tracking-widest text-[#E8A33D] mb-1">DATE INTELLIGENCE</p>
                           <h2 className="text-xl font-headline font-medium">Check your dates</h2>
@@ -171,8 +156,6 @@ export default function HomePage() {
                               <SelectItem value="CA">Canada</SelectItem>
                               <SelectItem value="GB">United Kingdom</SelectItem>
                               <SelectItem value="AU">Australia</SelectItem>
-                              <SelectItem value="SG">Singapore</SelectItem>
-                              <SelectItem value="DE">Germany</SelectItem>
                             </SelectContent>
                           </Select>
                        </div>
@@ -198,8 +181,18 @@ export default function HomePage() {
 
                     {result && !isSearching && (
                       <div className="pt-6 border-t border-white/10 animate-in fade-in slide-in-from-top-4">
-                        <TripAdvisory result={result} />
-                        <div className="space-y-4 max-h-[250px] overflow-y-auto pr-2 custom-scrollbar">
+                        <div className="p-4 rounded-xl mb-4 bg-primary/5 border border-primary/20 flex items-start gap-4">
+                           <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                              <Globe className="w-4 h-4 text-primary" />
+                           </div>
+                           <div className="flex-1 space-y-1">
+                              <h3 className="text-xs font-bold uppercase tracking-widest text-[#F0C888]">In Short</h3>
+                              <p className="text-[13px] text-muted-foreground leading-relaxed">
+                                 We found {result.records.length} signal(s) that may affect your plan. Review the details below.
+                              </p>
+                           </div>
+                        </div>
+                        <div className="space-y-4 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
                           {result.records.map(record => (
                             <OperationalResultCard key={record.id} record={record} />
                           ))}
@@ -218,41 +211,62 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* WORLD TODAY */}
+        {/* =========================================================
+             WORLD TODAY
+        ========================================================= */}
         <section className="py-24 bg-[#0F1428]" id="world-today">
           <div className="container mx-auto px-6">
-            <div className="grid lg:grid-cols-[1fr_1.5fr] gap-16 items-start">
-               <div className="space-y-4">
-                  <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#4FD1C5] font-mono">WORLD TODAY</div>
-                  <h2 className="text-3xl md:text-5xl font-headline font-medium">Dates are not just dates.</h2>
-                  <p className="text-lg text-[#9AA1C0] leading-relaxed font-medium max-w-lg">
-                    Around the world, a date can mean a public holiday, a regional observance, an institutional closure, 
-                    a working-day difference or something entirely specific to the purpose of your trip.
-                  </p>
-               </div>
-               <div className="w-full">
-                  <UpcomingFestivalsCarousel />
-               </div>
+            <div className="max-w-3xl mb-16 space-y-4">
+               <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#4FD1C5] font-mono">WORLD TODAY</div>
+               <h2 className="text-3xl md:text-5xl font-headline font-medium">Dates are not just dates.</h2>
+               <p className="text-lg text-[#9AA1C0] leading-relaxed font-medium">
+                 Around the world, a date can mean a public holiday, a regional observance, an institutional closure, 
+                 a working-day difference or something entirely specific to the purpose of your trip.
+               </p>
+            </div>
+            <div className="grid md:grid-cols-2 gap-8">
+               <Card className="bg-white/[0.03] border-white/10 p-8 md:p-12 flex flex-col justify-between group hover:border-white/20 transition-all">
+                  <div className="space-y-6">
+                    <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#4FD1C5]">TODAY</span>
+                    <h3 className="text-3xl font-headline font-medium">Understanding today's calendar</h3>
+                    <p className="text-[#9AA1C0] text-sm leading-relaxed max-w-sm">See the dates and places that may matter today across our global index.</p>
+                  </div>
+                  <Link href="/date-intelligence" className="mt-12">
+                     <Button variant="outline" className="font-bold border-white/10 hover:bg-white/5 rounded-full px-8">Explore today <ArrowRight className="ml-2 w-4 h-4" /></Button>
+                  </Link>
+               </Card>
+               <Card className="bg-white/[0.03] border-white/10 p-8 md:p-12 flex flex-col justify-between group hover:border-white/20 transition-all">
+                  <div className="space-y-6">
+                    <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#E8A33D]">COMING UP</span>
+                    <h3 className="text-3xl font-headline font-medium">Diwali 2026</h3>
+                    <p className="text-[#9AA1C0] text-sm leading-relaxed max-w-sm">8 November 2026 · India · National Closure flagged.</p>
+                  </div>
+                  <Link href="/festivals/diwali" className="mt-12">
+                     <Button variant="ghost" className="font-bold text-[#F0C888] hover:bg-white/5 rounded-full px-8">Check the date <ArrowRight className="ml-2 w-4 h-4" /></Button>
+                  </Link>
+               </Card>
             </div>
           </div>
         </section>
 
-        {/* HOW IT WORKS */}
-        <section className="py-24 bg-white/5 border-t border-white/10" id="how-it-works">
+        {/* =========================================================
+             HOW IT WORKS
+        ========================================================= */}
+        <section className="py-24 bg-white/[0.02] border-t border-white/10" id="how-it-works">
            <div className="container mx-auto px-6">
               <div className="max-w-3xl mb-16 space-y-4">
                 <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#E8A33D] font-mono">HOW IT WORKS</div>
                 <h2 className="text-3xl md:text-5xl font-headline font-medium">See what your dates may mean for travel, study or business.</h2>
                 <p className="text-lg text-[#9AA1C0] font-medium">Utsavs brings relevant calendars and deeper institutional information together around the date you actually care about.</p>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-white/10 border border-white/10 rounded-2xl overflow-hidden">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                  {[
                    { n: "01", t: "Travel", d: "Understand what may be happening when you arrive, from public and regional dates to relevant travel information.", a: "Choosing when to go" },
                    { n: "02", t: "Business", d: "See dates that may affect meetings, operations, working days and business activity.", a: "Choosing when to schedule" },
                    { n: "03", t: "Study", d: "Put institutional calendars, arrival timing and relevant student information around the dates you are considering.", a: "Choosing when to arrive" },
                    { n: "04", t: "Operations", d: "Go deeper when the job requires it — markets, banking, customs, institutions and regional calendars.", a: "Choosing when to operate" }
                  ].map(item => (
-                   <div key={item.n} className="bg-[#0F1428] p-8 space-y-6 group">
+                   <div key={item.n} className="space-y-6 group">
                       <span className="text-3xl font-headline font-bold text-white/10 group-hover:text-[#E8A33D] transition-colors">{item.n}</span>
                       <h3 className="text-xl font-bold font-headline">{item.t}</h3>
                       <p className="text-sm text-[#9AA1C0] leading-relaxed font-medium min-h-[80px]">{item.d}</p>
@@ -263,13 +277,15 @@ export default function HomePage() {
            </div>
         </section>
 
-        {/* SPECIALIZED INTELLIGENCE */}
+        {/* =========================================================
+             SPECIALIZED INTELLIGENCE
+        ========================================================= */}
         <section className="py-24 border-t border-white/10">
            <div className="container mx-auto px-6">
-              <div className="grid lg:grid-cols-[1fr_1.5fr] gap-16 items-center">
+              <div className="grid lg:grid-cols-[1fr_1fr] gap-16 items-start">
                  <div className="space-y-6">
                     <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#4FD1C5] font-mono">SPECIALIZED INTELLIGENCE</div>
-                    <h2 className="text-3xl md:text-5xl font-headline font-medium">One calendar underneath. <br/>Deeper calendars when the job demands it.</h2>
+                    <h2 className="text-3xl md:text-5xl font-headline font-medium leading-tight">One calendar underneath. <br/>Deeper calendars when the job demands it.</h2>
                     <p className="text-lg text-[#9AA1C0] leading-relaxed font-medium">
                       The same date can affect a traveller, market, bank, institution or operation differently. Utsavs keeps those layers distinct and brings the relevant evidence together.
                     </p>
@@ -277,14 +293,14 @@ export default function HomePage() {
                       Explore Date Intelligence <span>→</span>
                     </Link>
                  </div>
-                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-white/10 border border-white/10 rounded-2xl overflow-hidden">
                     {[
                       { n: "01", t: "Regional calendars", s: "Country, state, province and jurisdiction" },
                       { n: "02", t: "Institutions", s: "Universities, missions and other institutions" },
                       { n: "03", t: "Markets & banking", s: "Trading, settlement, payments and working days" },
                       { n: "04", t: "Trade & logistics", s: "Customs, ports and documented operational timing" }
                     ].map(item => (
-                      <div key={item.n} className="bg-white/5 border border-white/10 p-8 space-y-2 rounded-xl group hover:bg-white/10 transition-colors">
+                      <div key={item.n} className="bg-[#0F1428] p-8 space-y-2 group hover:bg-white/[0.02] transition-colors border-white/5">
                         <span className="text-[10px] font-bold text-[#E8A33D]/50 font-mono">{item.n}</span>
                         <h4 className="font-bold text-lg font-headline">{item.t}</h4>
                         <p className="text-xs text-[#9AA1C0] font-medium">{item.s}</p>
@@ -295,26 +311,30 @@ export default function HomePage() {
            </div>
         </section>
 
-        {/* API */}
-        <section id="api" className="py-24 bg-white/5 border-y border-white/10">
+        {/* =========================================================
+             API
+        ========================================================= */}
+        <section id="api" className="py-24 bg-white/[0.02] border-y border-white/10">
            <div className="container mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-12">
-              <div className="max-w-xl space-y-4 text-left">
+              <div className="max-w-xl space-y-4">
                 <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#E8A33D] font-mono">FOR SYSTEMS</div>
                 <h2 className="text-3xl md:text-4xl font-headline font-medium">Need to work with the intelligence continuously?</h2>
                 <p className="text-[#9AA1C0] font-medium leading-relaxed">Use Utsavs through the API for applications, workflows and operational systems that need calendar and date intelligence at scale.</p>
               </div>
               <Link href="/api">
-                <Button className="bg-[#E8A33D] text-[#0F1428] hover:bg-[#F0C888] px-10 font-bold h-14 rounded-full">
+                <Button className="bg-[#E8A33D] text-[#0F1428] hover:bg-[#F0C888] px-10 font-bold h-14 rounded-full shadow-lg">
                   Explore the API <ArrowRight className="ml-2 w-4 h-4" />
                 </Button>
               </Link>
            </div>
         </section>
 
-        {/* TRAVEL INSURANCE */}
+        {/* =========================================================
+             TRAVEL INSURANCE
+        ========================================================= */}
         <section className="py-24 border-b border-white/10">
            <div className="container mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-12">
-              <div className="max-w-xl space-y-4 text-left">
+              <div className="max-w-xl space-y-4">
                 <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#4FD1C5] font-mono">TRAVEL INSURANCE</div>
                 <h2 className="text-3xl md:text-4xl font-headline font-medium">Plan for what you can predict. Protect against what you can't.</h2>
                 <p className="text-[#9AA1C0] font-medium leading-relaxed">Explore how travel timing and travel protection can work together — whether you are planning your own journey or building a travel workflow for customers, employees or students.</p>
@@ -322,7 +342,7 @@ export default function HomePage() {
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link href="/travel-insurance">
                   <Button className="bg-[#E8A33D] text-[#0F1428] hover:bg-[#F0C888] px-10 font-bold h-14 rounded-full shadow-lg">
-                    Get in touch <ArrowRight className="ml-2 w-4 h-4" />
+                    Get in touch with us <ArrowRight className="ml-2 w-4 h-4" />
                   </Button>
                 </Link>
                 <Link href="/travel-insurance#partner">
@@ -334,8 +354,28 @@ export default function HomePage() {
            </div>
         </section>
 
-        {/* FAQ */}
-        <section className="py-24">
+        {/* =========================================================
+             CLOSING
+        ========================================================= */}
+        <section className="py-24 border-t border-white/10 text-center">
+           <div className="container mx-auto px-6 max-w-4xl space-y-12">
+              <h2 className="text-3xl md:text-5xl font-headline font-medium italic leading-relaxed text-[#F4F1E8]">
+                Check the date first. If it turns out to matter to you, the story's one click away.
+              </h2>
+              <div className="flex flex-wrap items-center justify-center gap-4 text-[13px] font-mono text-[#9AA1C0]">
+                <span className="px-6 py-3 bg-[#E8A33D] text-[#0F1428] font-bold rounded-full">Intelligence & API</span>
+                <span className="opacity-20">—</span>
+                <span className="px-6 py-3 border border-white/10 rounded-full">Cultural stories</span>
+                <span className="opacity-20">—</span>
+                <span className="px-6 py-3 border border-white/10 rounded-full">Recipes & travel</span>
+              </div>
+           </div>
+        </section>
+
+        {/* =========================================================
+             FAQ
+        ========================================================= */}
+        <section className="py-24 border-t border-white/10">
            <div className="container mx-auto px-6 max-w-3xl">
               <div className="text-center mb-16 space-y-4">
                 <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#E8A33D] font-mono">QUESTIONS</div>
@@ -358,25 +398,13 @@ export default function HomePage() {
               </div>
            </div>
         </section>
-
-        {/* CLOSING */}
-        <section className="py-24 border-t border-white/10 text-center">
-           <div className="container mx-auto px-6 max-w-4xl space-y-12">
-              <h2 className="text-3xl md:text-5xl font-headline font-medium italic leading-relaxed text-[#F4F1E8]">
-                Check the date first. If it turns out to matter to you, the story's one click away.
-              </h2>
-              <div className="flex flex-wrap items-center justify-center gap-4 text-[13px] font-mono text-[#9AA1C0]">
-                <span className="px-6 py-3 bg-[#E8A33D] text-[#0F1428] font-bold rounded-full">Intelligence & API</span>
-                <span className="opacity-20">—</span>
-                <span className="px-6 py-3 border border-white/10 rounded-full">Cultural stories</span>
-                <span className="opacity-20">—</span>
-                <span className="px-6 py-3 border border-white/10 rounded-full">Recipes & travel</span>
-              </div>
-           </div>
-        </section>
       </main>
 
       <Footer />
     </div>
   );
+}
+
+function daysBetween(a: Date, b: Date) {
+  return Math.round((b.getTime() - a.getTime()) / 86400000);
 }
