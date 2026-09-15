@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Menu, X } from "lucide-react";
 
 const navLinks = [
@@ -45,7 +45,7 @@ export function Header() {
         
         <div className="flex items-center gap-4">
           <Link href="/api" className="navcta hidden md:inline-block">
-            Join API preview
+            Get API access
           </Link>
           
           <button 

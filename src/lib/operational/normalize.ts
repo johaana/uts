@@ -41,12 +41,6 @@ export function extractDatasets(source: string): DateIntelligenceRecord[] {
     records.push(...parseObjectArray(policySection[1], 'global_expansion'));
   }
 
-  // 5. Extract OPERATIONAL_RECORDS (where present in chunks)
-  const operationalSection = source.match(/const\s+OPERATIONAL_RECORDS\s*=\s*\[([\s\S]*?)\];/);
-  if (operationalSection) {
-    records.push(...parseObjectArray(operationalSection[1], 'institutional'));
-  }
-
   return records.filter(r => validateRecord(r).valid);
 }
 
@@ -139,16 +133,21 @@ function determinePurposes(text: string): UserPurpose[] {
   return ['travel', 'business'];
 }
 
-function createEventRecord(cc: string, date: string, name: string, type: string, conf: string, evidenceStr: string, state: string, dateState: string = 'confirmed'): DateIntelligenceRecord {
+function createEventRecord(cc: string, date: string, name: string, type: string = 'public', conf: string = 'listed', evidenceStr: string = '', state: string = 'listed', dateState: string = 'confirmed'): DateIntelligenceRecord {
   const evidence = parseEvidence(evidenceStr);
+  
+  // Bug fix: Ensure optional arguments are treated correctly to prevent toLowerCase() on undefined
+  const safeType = clean(type) || 'public';
+  const safeDateState = clean(dateState) || 'confirmed';
+
   return {
     id: `EVT_${cc}_${date}_${name.replace(/\s+/g, '_')}`,
     date,
     name,
-    category: type.toLowerCase() === 'public' ? 'holiday' : 'regional',
+    category: safeType.toLowerCase() === 'public' ? 'holiday' : 'regional',
     jurisdiction: { country_code: cc, country_name: cc, scope: 'national' },
     purpose_relevance: ['travel', 'business', 'logistics', 'workforce'],
-    state: (dateState.toLowerCase() as DateState) || 'confirmed',
+    state: (safeDateState.toLowerCase() as DateState),
     confidence: (clean(conf).toLowerCase() as ConfidenceTier) || 'reference',
     evidence: {
       source_id: 'utsavs-authoritative-primary',
@@ -196,7 +195,7 @@ function parseDatedObject(s: string): Record<number, string> {
 }
 
 function parseEvidence(s: string): any {
-  if (!s || s === 'undefined') return {};
+  if (!s || s === 'undefined' || s === '') return {};
   const obj: any = {};
   const pairs = s.matchAll(/(\w+):\s*["']([^"']+)["']/g);
   for (const p of pairs) { obj[p[1]] = p[2]; }

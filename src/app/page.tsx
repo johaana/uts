@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { 
   ArrowRight, 
@@ -30,7 +30,6 @@ export default function HomePage() {
 
   const handleCheckImpact = async () => {
     setIsSearching(true);
-    // Mimic the processing delay for the "verified" feel
     setTimeout(async () => {
       try {
         const impact = await getOperationalImpact(query);
@@ -89,7 +88,7 @@ export default function HomePage() {
               </div>
 
               {/* NEXT HOLIDAY UP (Left Column Aside) */}
-              <aside className="hero-tracker" id="world" aria-label="Next holiday tracker">
+              <aside className="hero-tracker" aria-label="Next holiday tracker">
                 <div className="hero-tracker-head">
                   <div>
                     <span className="hero-tracker-kicker">NEXT HOLIDAY UP</span>
@@ -106,23 +105,15 @@ export default function HomePage() {
                     <span className="next-card-date">8 Nov · 10+ countries</span>
                   </div>
                   <div className="hero-tracker-next-card">
-                    <span className="next-card-kicker">Regional</span>
+                    <span className="next-card-kicker">Regional · India</span>
                     <span className="next-card-name">Lakshmi Puja</span>
-                    <span className="next-card-date">India · 46 days away</span>
+                    <span className="next-card-date">8 Nov · 46 days away</span>
                   </div>
                 </div>
                 <Link className="hero-tracker-link" href="/date-intelligence">
                   See what this date means <span>→</span>
                 </Link>
               </aside>
-
-              <div className="hero-trust">
-                <span><b>100</b> countries tracked</span>
-                <span className="sep">·</span>
-                <span>live feeds where available</span>
-                <span className="sep">·</span>
-                <span>evidence shown where available</span>
-              </div>
             </div>
 
             {/* RIGHT: TRACKER */}
@@ -146,7 +137,7 @@ export default function HomePage() {
                       className={cn(query.purpose === p && "active")}
                       type="button"
                     >
-                      {p === 'workforce' ? 'Business' : p}
+                      {p === 'workforce' ? 'Business' : p === 'study' ? 'Study' : p}
                     </button>
                   ))}
                 </div>
@@ -156,6 +147,7 @@ export default function HomePage() {
                     <label htmlFor="country-select">Destination / jurisdiction</label>
                     <select 
                       id="country-select"
+                      className="bg-[#1E2650] border border-white/18 text-white rounded-[9px] px-3 py-2.5 text-[13.5px]"
                       value={query.destination}
                       onChange={(e) => setQuery({...query, destination: e.target.value})}
                     >
@@ -174,6 +166,7 @@ export default function HomePage() {
                       <input 
                         id="start-date" 
                         type="date" 
+                        className="bg-[#1E2650] border border-white/18 text-white rounded-[9px] px-3 py-2.5 text-[13.5px]"
                         value={query.startDate}
                         onChange={(e) => setQuery({...query, startDate: e.target.value})}
                       />
@@ -183,6 +176,7 @@ export default function HomePage() {
                       <input 
                         id="end-date" 
                         type="date" 
+                        className="bg-[#1E2650] border border-white/18 text-white rounded-[9px] px-3 py-2.5 text-[13.5px]"
                         value={query.endDate}
                         onChange={(e) => setQuery({...query, endDate: e.target.value})}
                       />
@@ -214,7 +208,7 @@ export default function HomePage() {
                   </div>
                   <div className="tracker-stat">
                     <strong>{isSearching ? '...' : '1'}</strong>
-                    <span>days in longest flagged run</span>
+                    <span>days in longest run</span>
                   </div>
                   <div className="tracker-stat">
                     <strong>{isSearching ? '...' : '7'}</strong>
@@ -222,15 +216,19 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                <div className="tracker-results">
+                <div className="tracker-results h-[200px] overflow-y-auto mt-4 custom-scrollbar">
                   {isSearching ? (
-                    <div className="flex items-center justify-center h-24">
+                    <div className="flex items-center justify-center h-full">
                       <Loader2 className="animate-spin w-6 h-6 text-primary" />
                     </div>
                   ) : result && result.records.length > 0 ? (
-                    <div className="space-y-4">
+                    <div className="space-y-3">
                       {result.records.map(record => (
-                        <OperationalResultCard key={record.id} record={record} />
+                        <div key={record.id} className="flex items-center gap-3 p-2.5 bg-[#1E2650] rounded-[9px] text-[12px]">
+                          <span className="font-mono text-[#9AA1C0] min-w-[52px]">{record.date.split('-').slice(1).reverse().join(' ')}</span>
+                          <span className="flex-1 font-medium truncate">{record.name}</span>
+                          <span className={cn("text-[9px] font-mono px-2 py-0.5 rounded-full uppercase", record.category === 'holiday' ? "bg-[#E8A33D]/20 text-[#F0C888]" : "bg-white/10 text-[#9AA1C0]")}>{record.category}</span>
+                        </div>
                       ))}
                     </div>
                   ) : (
@@ -240,8 +238,8 @@ export default function HomePage() {
                   )}
                 </div>
 
-                <div className="tracker-footer">
-                  <Link href="/date-intelligence">
+                <div className="tracker-footer mt-6 text-center">
+                  <Link href="/date-intelligence" className="text-xs font-bold uppercase tracking-widest text-gold-soft hover:text-gold transition-colors">
                     Open Date Intelligence <span>→</span>
                   </Link>
                 </div>
@@ -253,7 +251,7 @@ export default function HomePage() {
         {/* =========================================================
              WORLD TODAY
         ========================================================= */}
-        <section className="world-today" id="world-today">
+        <section className="world-today py-24 border-y border-white/10" id="world-today">
           <div className="wrap">
             <div className="section-intro">
               <div className="eyebrow">WORLD TODAY</div>
@@ -271,7 +269,7 @@ export default function HomePage() {
                 <span className="card-label">TODAY</span>
                 <h3>Understanding today's calendar</h3>
                 <p>See the dates and places that may matter today.</p>
-                <Link href="/date-intelligence">
+                <Link href="/date-intelligence" className="button button-primary self-start">
                   Explore today's date <span>→</span>
                 </Link>
               </article>
@@ -280,7 +278,7 @@ export default function HomePage() {
                 <span className="card-label">COMING UP</span>
                 <h3>Diwali 2026</h3>
                 <p>8 November 2026 · India · National</p>
-                <Link href="/festivals/diwali">
+                <Link href="/festivals/diwali" className="text-link mt-auto">
                   Check the date <span>→</span>
                 </Link>
               </article>
@@ -291,7 +289,7 @@ export default function HomePage() {
         {/* =========================================================
              HOW IT WORKS
         ========================================================= */}
-        <section className="how-it-works" id="how-it-works">
+        <section className="how-it-works py-24" id="how-it-works">
           <div className="wrap">
             <div className="section-intro">
               <div className="eyebrow">HOW IT WORKS</div>
@@ -326,7 +324,7 @@ export default function HomePage() {
         {/* =========================================================
              SPECIALIZED INTELLIGENCE
         ========================================================= */}
-        <section className="specialized-intelligence">
+        <section className="specialized-intelligence py-24 bg-muted/5 border-y border-white/10">
           <div className="wrap">
             <div className="specialized-layout">
               <div className="specialized-copy">
@@ -342,7 +340,7 @@ export default function HomePage() {
                   Utsavs keeps those layers distinct and brings
                   the relevant evidence together.
                 </p>
-                <Link href="/date-intelligence" className="text-link">
+                <Link href="/date-intelligence" className="text-link mt-6">
                   Explore Date Intelligence <span>→</span>
                 </Link>
               </div>
@@ -368,9 +366,9 @@ export default function HomePage() {
         {/* =========================================================
              API
         ========================================================= */}
-        <section className="home-api">
+        <section className="home-api py-24 border-b border-white/10">
           <div className="wrap home-api-inner">
-            <div>
+            <div className="space-y-4">
               <div className="eyebrow">FOR SYSTEMS</div>
               <h2>Need to work with the intelligence continuously?</h2>
               <p>
@@ -388,9 +386,9 @@ export default function HomePage() {
         {/* =========================================================
              TRAVEL INSURANCE
         ========================================================= */}
-        <section className="home-insurance">
+        <section className="home-insurance py-24 border-b border-white/10">
           <div className="wrap home-insurance-inner">
-            <div>
+            <div className="space-y-4">
               <div className="eyebrow">TRAVEL INSURANCE</div>
               <h2>Plan for what you can predict. Protect against what you can't.</h2>
               <p>
@@ -414,7 +412,7 @@ export default function HomePage() {
         {/* =========================================================
              CLOSING
         ========================================================= */}
-        <section className="home-closing">
+        <section className="home-closing py-24">
           <div className="wrap">
             <div className="closing-rule"></div>
             <h2>
@@ -433,7 +431,7 @@ export default function HomePage() {
         {/* =========================================================
              FAQ
         ========================================================= */}
-        <section className="home-faq">
+        <section className="home-faq py-24 border-t border-white/10">
           <div className="wrap">
             <div className="section-intro">
               <div className="eyebrow">QUESTIONS</div>
@@ -449,11 +447,13 @@ export default function HomePage() {
                 { q: "Can I use Utsavs for business or study?", a: "Yes. The same date can be examined for travel, business, study, workforce and operational planning, with deeper institutional information where verified." }
               ].map((item, i) => (
                 <details key={i} className="group border-b border-white/10 pb-4">
-                  <summary className="font-bold cursor-pointer list-none flex justify-between items-center text-lg">
+                  <summary className="font-bold cursor-pointer list-none flex justify-between items-center text-lg hover:text-gold-soft transition-colors">
                     {item.q}
                     <span className="text-muted-foreground group-open:rotate-180 transition-transform">↓</span>
                   </summary>
-                  <p className="mt-4 text-muted-foreground leading-relaxed">{item.a}</p>
+                  <p className="mt-4 text-muted-foreground leading-relaxed">
+                    {item.a}
+                  </p>
                 </details>
               ))}
             </div>
