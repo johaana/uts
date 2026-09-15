@@ -18,7 +18,8 @@ import {
   Briefcase, 
   Plane,
   Clock,
-  ChevronRight
+  ChevronRight,
+  Info
 } from "lucide-react";
 import { getOperationalImpact } from '@/lib/operational/adapter';
 import { OperationalQuery, OperationalResult } from '@/lib/operational/types';
@@ -85,10 +86,11 @@ export default function HomePage() {
       <Header />
       
       <main>
-        {/* HERO SECTION */}
+        {/* HERO SECTION - TWO COLUMN COMPOSITION */}
         <section className="py-12 md:py-24 border-b">
           <div className="container mx-auto px-4">
             <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 items-center">
+              {/* LEFT: Written content */}
               <div className="space-y-8 text-left">
                 <h1 className="font-headline text-4xl md:text-6xl font-bold leading-[1.1] tracking-tight">
                   Know before you fly.<br/>Know before you schedule.
@@ -102,6 +104,7 @@ export default function HomePage() {
                 </div>
               </div>
 
+              {/* RIGHT: Date Intelligence Tracker */}
               <div className="w-full">
                 <Card className="border-primary/20 shadow-2xl overflow-hidden bg-card">
                   <CardHeader className="bg-primary/5 border-b flex flex-row justify-between items-center px-6 py-4">
@@ -125,6 +128,7 @@ export default function HomePage() {
                             <SelectItem value="AU">Australia</SelectItem>
                             <SelectItem value="SG">Singapore</SelectItem>
                             <SelectItem value="DE">Germany</SelectItem>
+                            <SelectItem value="AE">United Arab Emirates</SelectItem>
                           </SelectContent>
                         </Select>
                       </div>
@@ -167,6 +171,13 @@ export default function HomePage() {
                             <OperationalResultCard key={record.id} record={record} />
                           ))}
                         </div>
+                        <div className="mt-4 text-center">
+                            <Link href="/date-intelligence">
+                                <Button variant="link" className="text-xs font-bold uppercase tracking-widest text-primary">
+                                    Deep Dive Analysis <ArrowRight className="w-3 h-3 ml-1" />
+                                </Button>
+                            </Link>
+                        </div>
                       </div>
                     )}
                   </CardContent>
@@ -176,28 +187,23 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* WORLD TODAY SECTION */}
-        <section className="py-24 bg-muted/5">
+        {/* WORLD TODAY SECTION - BELOW HERO */}
+        <section className="py-24 bg-muted/5" id="world-today">
           <div className="container mx-auto px-4">
             <div className="flex flex-col md:flex-row items-baseline justify-between mb-12 gap-4">
               <div className="space-y-2">
                 <h2 className="font-headline text-3xl md:text-5xl font-bold">World Today</h2>
                 <p className="text-muted-foreground font-medium">Discover what's happening and what's next on the global calendar.</p>
               </div>
-              <Link href="/date-intelligence">
-                <Button variant="ghost" className="font-bold uppercase tracking-widest text-xs group">
-                  View Full Calendar <ChevronRight className="w-4 h-4 ml-1 transition-transform group-hover:translate-x-1" />
-                </Button>
-              </Link>
             </div>
             <UpcomingFestivalsCarousel />
           </div>
         </section>
 
         {/* SPECIALIZED INTELLIGENCE */}
-        <section className="py-24 border-t">
+        <section className="py-24 border-t" id="intelligence">
           <div className="container mx-auto px-4">
-            <div className="max-w-3xl mb-16 space-y-4">
+            <div className="max-w-3xl mb-16 space-y-4 text-left">
               <h2 className="font-headline text-3xl md:text-5xl font-bold">Specialized intelligence.</h2>
               <p className="text-xl text-muted-foreground leading-relaxed">One calendar underneath. Deeper calendars when the job demands it.</p>
             </div>
@@ -217,6 +223,29 @@ export default function HomePage() {
               ))}
             </div>
           </div>
+        </section>
+
+        {/* DATE INTELLIGENCE POSITIONING */}
+        <section className="py-24 border-t bg-muted/5">
+            <div className="container mx-auto px-4">
+                <div className="max-w-3xl mx-auto text-center space-y-12">
+                    <h2 className="font-headline text-3xl md:text-4xl font-bold">The same date means different things.</h2>
+                    <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+                        {[
+                            { label: "Travel", sub: "choosing when to go", icon: Plane },
+                            { label: "Business", sub: "choosing when to schedule", icon: Briefcase },
+                            { label: "Study", sub: "choosing when to arrive", icon: Globe },
+                            { label: "Workforce", sub: "choosing when to operate", icon: Clock },
+                            { label: "Logistics", sub: "choosing when to move", icon: Landmark }
+                        ].map(p => (
+                            <div key={p.label} className="p-4 space-y-2">
+                                <p className="font-bold text-primary">{p.label}</p>
+                                <p className="text-[10px] uppercase font-bold text-muted-foreground tracking-widest leading-tight">{p.sub}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
         </section>
 
         {/* BUILT FOR CTA */}
@@ -257,6 +286,7 @@ export default function HomePage() {
   "verification": "HIGH"
 }`}</code>
                   </pre>
+                  <p className="text-[10px] text-zinc-500 mt-4 uppercase tracking-widest font-bold">Illustrative API Response</p>
                </div>
              </div>
           </div>

@@ -2,9 +2,9 @@
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { OperationalFAQ } from "@/components/operational/OperationalFAQ";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { HeartPulse, PlaneTakeoff, ShieldAlert, GraduationCap, Landmark, Mail } from "lucide-react";
+import { PlaneTakeoff, ShieldAlert, GraduationCap, Landmark, Mail, Handshake, Users2, Rocket } from "lucide-react";
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -18,6 +18,7 @@ export default function TravelInsurancePage() {
     <div className="bg-background text-foreground min-h-screen">
       <Header />
       <div className="container mx-auto px-4">
+        {/* HERO */}
         <section className="py-12 md:py-24 text-center max-w-3xl mx-auto space-y-6">
           <h1 className="font-headline text-4xl md:text-6xl font-bold leading-tight">Plan for what you can predict. Protect against what you can't.</h1>
           <p className="text-xl text-muted-foreground leading-relaxed">
@@ -32,6 +33,7 @@ export default function TravelInsurancePage() {
           </div>
         </section>
 
+        {/* B2C PROTECTION AREAS */}
         <section className="py-12 grid md:grid-cols-3 gap-8">
            {[
              { title: "Your Journey", icon: PlaneTakeoff, items: ["Emergency medical expenses", "Evacuation / Repatriation", "Baggage loss or delay", "Trip delay or cancellation"] },
@@ -46,7 +48,7 @@ export default function TravelInsurancePage() {
                   <h3 className="font-headline text-2xl font-bold mb-6">{section.title}</h3>
                   <ul className="space-y-3">
                     {section.items.map(item => (
-                      <li key={item} className="text-sm text-muted-foreground flex items-center gap-3">
+                      <li key={item} className="text-sm text-muted-foreground flex items-center gap-3 font-medium">
                         <div className="w-1.5 h-1.5 rounded-full bg-accent shrink-0"></div>
                         {item}
                       </li>
@@ -57,15 +59,55 @@ export default function TravelInsurancePage() {
            ))}
         </section>
 
+        {/* PARTNER WITH US - B2B / B2B2C */}
+        <section className="py-24 border-t" id="partner">
+            <div className="max-w-4xl mx-auto space-y-16">
+                <div className="text-center space-y-4">
+                    <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary">Partnerships</p>
+                    <h2 className="font-headline text-3xl md:text-5xl font-bold">Partner with Utsavs.</h2>
+                    <p className="text-xl text-muted-foreground leading-relaxed">
+                        Interested in bringing travel protection into your own customer or employee journey?
+                    </p>
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-8">
+                    <Card className="bg-muted/5 border-dashed">
+                        <CardHeader>
+                            <Handshake className="w-10 h-10 text-primary mb-2" />
+                            <CardTitle>B2B</CardTitle>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                            <p className="text-sm text-muted-foreground leading-relaxed">
+                                Work with Utsavs on business or organizational travel-protection workflows. Enhance your corporate risk mitigation with date-aware context.
+                            </p>
+                            <p className="text-[10px] font-bold uppercase tracking-widest text-primary">Strategic Alignment</p>
+                        </CardContent>
+                    </Card>
+                    <Card className="bg-muted/5 border-dashed">
+                        <CardHeader>
+                            <Users2 className="w-10 h-10 text-primary mb-2" />
+                            <CardTitle>B2B2C</CardTitle>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                            <p className="text-sm text-muted-foreground leading-relaxed">
+                                Bring travel-protection experiences into your own customer, traveller, student, employee, or travel workflow.
+                            </p>
+                            <p className="text-[10px] font-bold uppercase tracking-widest text-primary">Embedded Protection</p>
+                        </CardContent>
+                    </Card>
+                </div>
+
+                <div className="text-center">
+                    <a href="mailto:joy@utsavs.com?subject=Partnership Inquiry">
+                        <Button variant="outline" size="lg" className="font-bold px-12 h-14">Partner with us</Button>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        {/* DISCLOSURE */}
         <section className="py-24 border-t">
           <div className="max-w-4xl mx-auto space-y-12">
-            <div className="text-center space-y-4">
-              <h2 className="font-headline text-3xl font-bold">Integration & Partnerships</h2>
-              <p className="text-muted-foreground leading-relaxed">
-                Utsavs is currently working toward connecting travel intelligence with travel protection workflows. We welcome discussions with providers, partners, and corporate users interested in context-aware protection.
-              </p>
-            </div>
-
             <div className="bg-muted/10 p-10 rounded-3xl border border-dashed text-left space-y-6">
               <h2 className="font-headline text-2xl font-bold flex items-center gap-3">
                 <ShieldAlert className="w-6 h-6 text-accent" />
@@ -75,7 +117,7 @@ export default function TravelInsurancePage() {
                 Insurance is the subject matter of solicitation. Coverage, eligibility, benefits, exclusions and terms are determined by the applicable policy and insurer. Please review the policy wording and applicable requirements before purchase.
               </p>
               <p className="text-xs text-muted-foreground border-t pt-4">
-                Utsavs provides planning and date intelligence context. We may work with travel-insurance and international-health-insurance providers on referral or partnership arrangements.
+                Utsavs provides planning and date intelligence context. We are currently working toward connecting travel intelligence with travel protection workflows. We welcome discussions with providers, partners, and corporate users interested in context-aware protection.
               </p>
             </div>
           </div>
