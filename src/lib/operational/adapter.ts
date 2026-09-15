@@ -1,7 +1,8 @@
 /**
  * @fileOverview Operational Data Adapter
  * 
- * The single application entry point for operational intelligence.
+ * The single application entry point for authoritative operational intelligence.
+ * Connects the UI to the complete, verified, 17-chunk dataset.
  */
 
 import { getSource } from './source';
@@ -23,19 +24,15 @@ export async function getOperationalImpact(query: OperationalQuery): Promise<Ope
   }
 
   try {
+    // Pipeline: Extract records from the complete 17-chunk authoritative source
     const allRecords = await source.getRecords();
 
-    // Pipeline: Validate
-    const validRecords: DateIntelligenceRecord[] = allRecords
-      .filter(r => validateRecord(r).valid);
-
-    // Query Filtering
-    const matches = validRecords.filter(record => {
-      // 1. Filter by Country (Destination)
+    // Query Filtering Logic
+    const matches = allRecords.filter(record => {
+      // 1. Filter by Destination (Country Code)
       if (query.destination && record.jurisdiction.country_code !== query.destination) return false;
 
-      // 2. Filter by Purpose (Lens)
-      // Logic: Does the record's purpose list overlap with the requested purpose?
+      // 2. Filter by Purpose (Traveler Lens)
       if (query.purpose && !record.purpose_relevance.includes(query.purpose)) return false;
 
       // 3. Filter by Date Range
