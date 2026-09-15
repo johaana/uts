@@ -19,25 +19,19 @@ export default function HomePage() {
   const [country, setCountry] = useState('IN');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
-
-  const TODAY = useMemo(() => {
-    const d = new Date();
-    d.setHours(0,0,0,0);
-    return d;
-  }, []);
-
-  const todayKey = useMemo(() => {
-    const pad2 = (n: number) => String(n).padStart(2, "0");
-    return `${TODAY.getFullYear()}-${pad2(TODAY.getMonth()+1)}-${pad2(TODAY.getDate())}`;
-  }, [TODAY]);
+  const [todayState, setTodayState] = useState<Date | null>(null);
 
   useEffect(() => {
     setIsMounted(true);
+    const now = new Date();
+    now.setHours(0, 0, 0, 0);
+    setTodayState(now);
+
     const pad2 = (n: number) => String(n).padStart(2, "0");
-    const localDateStr = (d: Date) => `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`;
+    const localDateStr = (d: Date) => `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`;
     
-    setStartDate(localDateStr(TODAY));
-    const future = new Date(TODAY);
+    setStartDate(localDateStr(now));
+    const future = new Date(now);
     future.setDate(future.getDate() + 30);
     setEndDate(localDateStr(future));
 
@@ -52,7 +46,7 @@ export default function HomePage() {
     window.addEventListener('hashchange', handleHashChange);
     handleHashChange();
     return () => window.removeEventListener('hashchange', handleHashChange);
-  }, [TODAY]);
+  }, []);
 
   useEffect(() => {
     if (isMounted) {
@@ -60,8 +54,16 @@ export default function HomePage() {
     }
   }, [page, isMounted]);
 
+  const todayKey = useMemo(() => {
+    if (!todayState) return '';
+    const pad2 = (n: number) => String(n).padStart(2, "0");
+    return `${todayState.getFullYear()}-${pad2(todayState.getMonth() + 1)}-${pad2(todayState.getDate())}`;
+  }, [todayState]);
+
   const forwardIndex = useMemo(() => {
     const idx = new Map();
+    if (!todayKey) return idx;
+
     Object.keys(HOLIDAYS).forEach(code => {
       const holidays = expandCountry(code) || [];
       holidays.forEach(h => {
@@ -75,42 +77,59 @@ export default function HomePage() {
 
   const globalNext = useMemo(() => {
     const dates = Array.from(forwardIndex.keys()).sort();
-    if (!dates.length) return null;
+    if (!dates.length || !todayState) return null;
+
     const WINDOW_DAYS = 45, BREADTH_MIN = 5;
-    const windowEnd = new Date(TODAY); windowEnd.setDate(windowEnd.getDate() + WINDOW_DAYS);
+    const windowEnd = new Date(todayState);
+    windowEnd.setDate(windowEnd.getDate() + WINDOW_DAYS);
     const pad2 = (n: number) => String(n).padStart(2, "0");
-    const windowEndKey = `${windowEnd.getFullYear()}-${pad2(windowEnd.getMonth()+1)}-${pad2(windowEnd.getDate())}`;
+    const windowEndKey = `${windowEnd.getFullYear()}-${pad2(windowEnd.getMonth() + 1)}-${pad2(windowEnd.getDate())}`;
     
     const inWindow = dates.filter(d => d <= windowEndKey);
     let candidate = inWindow.find(d => (forwardIndex.get(d) || []).length >= BREADTH_MIN);
+    
     if (!candidate) {
       const pool = inWindow.length ? inWindow : dates;
+      if (!pool.length) return null;
       candidate = pool.reduce((best, d) => (forwardIndex.get(d) || []).length > (forwardIndex.get(best) || []).length ? d : best, pool[0]);
     }
+
+    if (!candidate) return null;
+
     const entries = forwardIndex.get(candidate) || [];
     const nameCounts: Record<string, number> = {};
     entries.forEach((e: any) => { nameCounts[e.name] = (nameCounts[e.name] || 0) + 1; });
     const topName = Object.keys(nameCounts).sort((a, b) => nameCounts[b] - nameCounts[a])[0];
-    const diff = Math.round((new Date(candidate + 'T00:00:00').getTime() - TODAY.getTime()) / 86400000);
-    return { date: candidate, name: topName, countryCount: new Set(entries.map((e: any) => e.code)).size, daysAway: diff };
-  }, [forwardIndex, TODAY]);
+    const diff = Math.round((new Date(candidate + 'T00:00:00').getTime() - todayState.getTime()) / 86400000);
+    
+    return { 
+      date: candidate, 
+      name: topName, 
+      countryCount: new Set(entries.map((e: any) => e.code)).size, 
+      daysAway: diff 
+    };
+  }, [forwardIndex, todayState]);
 
   const regionalNext = useMemo(() => {
+    if (!todayKey || !todayState) return null;
     const holidays = expandCountry(country) || [];
     const match = holidays
       .filter(h => h.date >= todayKey)
       .sort((a, b) => a.date.localeCompare(b.date))[0];
     if (!match) return null;
-    const diff = Math.round((new Date(match.date + 'T00:00:00').getTime() - TODAY.getTime()) / 86400000);
+    const diff = Math.round((new Date(match.date + 'T00:00:00').getTime() - todayState.getTime()) / 86400000);
     return { name: match.name, date: match.date, daysAway: diff };
-  }, [TODAY, todayKey, country]);
+  }, [todayState, todayKey, country]);
 
   const marqueeItems = useMemo(() => {
-    const weekEnd = new Date(TODAY); weekEnd.setDate(weekEnd.getDate() + 7);
+    if (!todayState) return [];
+    const weekEnd = new Date(todayState);
+    weekEnd.setDate(weekEnd.getDate() + 7);
     const pad2 = (n: number) => String(n).padStart(2, "0");
-    const weekEndKey = `${weekEnd.getFullYear()}-${pad2(weekEnd.getMonth()+1)}-${pad2(weekEnd.getDate())}`;
+    const weekEndKey = `${weekEnd.getFullYear()}-${pad2(weekEnd.getMonth() + 1)}-${pad2(weekEnd.getDate())}`;
     const weekDates = Array.from(forwardIndex.keys()).filter(d => d <= weekEndKey).sort();
     const items: string[] = [];
+    
     weekDates.forEach(date => {
       const byCountry = new Map();
       (forwardIndex.get(date) || []).forEach((e: any) => { 
@@ -122,31 +141,64 @@ export default function HomePage() {
         items.push(`<span class="chip"><b>${COUNTRY_LABELS[code] || code}</b> — ${names.join(", ")} · ${dLabel}</span>`);
       });
     });
+    
     const looped = items.slice(0, 14).concat(items.slice(0, 14));
     return looped.length > 0 ? looped : [];
-  }, [forwardIndex, TODAY]);
+  }, [forwardIndex, todayState]);
 
   const checkerData = useMemo(() => {
-    if (!startDate || !endDate) return { records: [], uniqueDates: [], count: 0, longest: 0, nextDays: '—', standing: 0 };
-    const start = new Date(startDate + "T00:00:00");
-    const end = new Date(endDate + "T00:00:00");
+    if (!startDate || !endDate) return { records: [], count: 0, longest: 0, nextDays: '—', standing: 0, uniqueDates: [] };
     
-    const holidays = expandCountry(country).map(h => ({ ...h, d: new Date(h.date + "T00:00:00"), source_label: 'Public' }));
+    const purposeMap: Record<string, string[]> = {
+      traveler: ['travel', 'business'],
+      study: ['study'],
+      corporate: ['business', 'workforce']
+    };
+    const activePurposes = purposeMap[mode] || ['travel'];
+
+    const holidays = expandCountry(country).map(h => ({ 
+      ...h, 
+      d: new Date(h.date + "T00:00:00"), 
+      source_label: 'Public', 
+      purposes: ['travel', 'business', 'workforce'] 
+    }));
+    
     const regional = REGIONAL_INTELLIGENCE
-      .filter(r => r.country === country && r.date)
+      .filter(r => r.country === country)
       .map(r => ({
         date: r.date,
         name: r.name,
-        summary: r.summary,
         source_label: r.source_name || 'Regional',
-        d: new Date(r.date + "T00:00:00")
+        d: r.date ? new Date(r.date + "T00:00:00") : null,
+        purposes: ['travel', 'business', 'workforce']
+      }));
+      
+    const extra = STUDENT_INTELLIGENCE_EXTRA
+      .filter(x => x.country === country)
+      .map(x => ({
+        date: x.effective_date || x.date || '2026-01-01',
+        name: x.topic || x.name,
+        source_label: x.source_name || 'Official',
+        d: (x.effective_date || x.date) ? new Date((x.effective_date || x.date) + "T00:00:00") : new Date("2026-01-01T00:00:00"),
+        purposes: (x.topic || "").toLowerCase().includes('study') ? ['study'] : ['business', 'workforce', 'travel']
       }));
 
-    const allRecords = [...holidays, ...regional]
-      .filter(r => r.d >= start && r.d <= end)
-      .sort((a, b) => a.date.localeCompare(b.date));
+    const allSourceRecords = [...holidays, ...regional, ...extra]
+      .filter(r => r.purposes && r.purposes.some((p: string) => activePurposes.includes(p)));
+
+    const isStanding = (r: any) => r.date === '2026-01-01' && !r.name.toLowerCase().includes('new year');
     
-    const uniqueDates = [...new Set(allRecords.map(h => h.date))].sort();
+    const standingItems = allSourceRecords.filter(isStanding);
+    const datedItems = allSourceRecords.filter(r => !isStanding(r));
+
+    const startRange = new Date(startDate + "T00:00:00");
+    const endRange = new Date(endDate + "T00:00:00");
+    
+    const datedInRange = datedItems
+      .filter(r => r.d && r.d >= startRange && r.d <= endRange)
+      .sort((a, b) => a.date.localeCompare(b.date));
+
+    const uniqueDates = [...new Set(datedInRange.map(h => h.date))].sort();
     
     let longest = 0, currentRun = 0, prev = null;
     uniqueDates.forEach(d => {
@@ -160,18 +212,18 @@ export default function HomePage() {
       prev = cur;
     });
 
-    const nextDate = uniqueDates.find(d => d >= todayKey);
-    const nextDays = nextDate ? Math.round((new Date(nextDate + 'T00:00:00').getTime() - TODAY.getTime()) / 86400000) : '—';
+    const nextDate = datedInRange.find(d => d.date >= startDate);
+    const nextDays = nextDate ? Math.round((new Date(nextDate.date + 'T00:00:00').getTime() - startRange.getTime()) / 86400000) : '—';
 
-    let standing = 0;
-    if (mode === 'study') {
-      standing = STUDENT_INTELLIGENCE_EXTRA.filter(x => x.country === country).length;
-    } else if (mode === 'corporate') {
-      standing = CORPORATE_INTELLIGENCE.filter(x => x.country === country).length;
-    }
-
-    return { records: allRecords, uniqueDates, count: uniqueDates.length, longest, nextDays, standing };
-  }, [country, startDate, endDate, todayKey, mode]);
+    return { 
+      records: datedInRange, 
+      count: uniqueDates.length, 
+      longest, 
+      nextDays, 
+      standing: standingItems.length,
+      uniqueDates 
+    };
+  }, [country, startDate, endDate, mode]);
 
   const briefText = useMemo(() => {
     const { uniqueDates, standing } = checkerData;
@@ -220,7 +272,7 @@ export default function HomePage() {
                 <div className="hero-tracker-head">
                   <div>
                     <span className="hero-tracker-kicker">NEXT HOLIDAY UP</span>
-                    <strong>{TODAY.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}</strong>
+                    <strong>{todayState?.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }) || '...'}</strong>
                   </div>
                   <span className="hero-tracker-live"><i></i> Live calendar view</span>
                 </div>
@@ -288,13 +340,17 @@ export default function HomePage() {
               </div>
 
               <div className="checker-list">
-                {checkerData.records.map((r, i) => (
+                {checkerData.records.length > 0 ? checkerData.records.map((r, i) => (
                   <div key={i} className="impact-row">
                     <span className="impact-date">{new Intl.DateTimeFormat('en-GB', { day: '2-digit', month: 'short' }).format(r.d)}</span>
                     <span className="impact-name">{r.name}</span>
                     <span className="status-pill">{r.source_label}</span>
                   </div>
-                ))}
+                )) : (
+                  <div className="checker-brief mt-4 border-none text-center">
+                    {checkerData.standing === 0 ? "Your date looks operationally good." : ""}
+                  </div>
+                )}
               </div>
             </div>
           </div>
