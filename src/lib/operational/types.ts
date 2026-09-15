@@ -66,6 +66,7 @@ export interface DateIntelligenceRecord {
   confidence: ConfidenceTier;
   evidence: SourceEvidence;
   consequences: PracticalConsequence;
+  source_label: string; // V24 UI Requirement
   raw_source_ref?: any; // Preserve original record for audit
 }
 

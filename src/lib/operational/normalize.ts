@@ -38,6 +38,12 @@ export function extractDatasets(source: string): DateIntelligenceRecord[] {
     records.push(...parseObjectArray(policySection[1], 'global_expansion'));
   }
 
+  // 4. Extract REGIONAL_INTELLIGENCE (Required for Operational Parity)
+  const regionalSection = source.match(/const\s+REGIONAL_INTELLIGENCE\s*=\s*\[([\s\S]*?)\];/);
+  if (regionalSection) {
+    records.push(...parseObjectArray(regionalSection[1], 'regional', undefined, 'regional'));
+  }
+
   return records.filter(r => validateRecord(r).valid);
 }
 
@@ -68,7 +74,7 @@ function parseHolidayRules(countryCode: string, block: string): DateIntelligence
   return localRecords;
 }
 
-function parseObjectArray(block: string, defaultCat: OperationalCategory, forcedPurposes?: UserPurpose[]): DateIntelligenceRecord[] {
+function parseObjectArray(block: string, defaultCat: OperationalCategory, forcedPurposes?: UserPurpose[], forcedScope?: string): DateIntelligenceRecord[] {
   const records: DateIntelligenceRecord[] = [];
   const objRegex = /\{([\s\S]*?)\}/g;
   const matches = block.matchAll(objRegex);
@@ -81,11 +87,15 @@ function parseObjectArray(block: string, defaultCat: OperationalCategory, forced
     if (obj.country) {
       const date = obj.effective_date || obj.date || '2026-01-01';
       records.push({
-        id: `REC_${obj.country}_${date}_${(obj.topic || obj.name || 'unnamed').replace(/\s+/g, '_')}`,
+        id: `REC_${obj.country}_${date}_${(obj.topic || obj.name || 'unnamed').replace(/[^a-zA-Z0-9]/g, '_')}`,
         date: date,
         name: obj.topic || obj.name,
         category: defaultCat,
-        jurisdiction: { country_code: obj.country, country_name: obj.country, scope: obj.scope || 'national' },
+        jurisdiction: { 
+          country_code: obj.country, 
+          country_name: obj.country, 
+          scope: (forcedScope || obj.scope || 'national') as any
+        },
         purpose_relevance: forcedPurposes || determinePurposes(obj.topic || obj.name || ''),
         state: (obj.status?.toLowerCase() as any) || 'confirmed',
         confidence: (obj.confidence?.toLowerCase() as ConfidenceTier) || 'high',
@@ -101,7 +111,8 @@ function parseObjectArray(block: string, defaultCat: OperationalCategory, forced
           implication: obj.summary || obj.detail || 'Contextual detail.',
           affected_operations: ['regulatory', 'compliance'],
           severity: 'medium'
-        }
+        },
+        source_label: obj.source_name || (defaultCat === 'regional' ? 'Regional Source' : 'Official Authority')
       });
     }
   }
@@ -125,7 +136,7 @@ export function createEventRecord(cc: string, date: string, name: string, type: 
   const safeDateState = (dateState || 'confirmed').replace(/['"]/g, '').trim().toLowerCase();
 
   return {
-    id: `EVT_${cc}_${date}_${name.replace(/\s+/g, '_')}`,
+    id: `EVT_${cc}_${date}_${name.replace(/[^a-zA-Z0-9]/g, '_')}`,
     date,
     name,
     category: safeType === 'public' ? 'holiday' : 'regional',
@@ -146,7 +157,8 @@ export function createEventRecord(cc: string, date: string, name: string, type: 
       implication: safeState === 'listed' ? 'Listed public holiday; commercial impact expected.' : 'National observance.',
       affected_operations: ['government', 'banking'],
       severity: 'medium'
-    }
+    },
+    source_label: 'Public'
   };
 }
 
