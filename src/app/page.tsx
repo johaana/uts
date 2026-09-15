@@ -6,10 +6,10 @@ import {
   COUNTRY_LABELS, 
   HOLIDAYS, 
   expandCountry, 
-  STUDENT_RISK_DATA,
+  isWeekendFor,
+  REGIONAL_INTELLIGENCE,
   STUDENT_INTELLIGENCE_EXTRA,
-  CORPORATE_INTELLIGENCE,
-  REGIONAL_INTELLIGENCE
+  CORPORATE_INTELLIGENCE
 } from '@/lib/calendar-intelligence';
 
 export default function HomePage() {
@@ -131,10 +131,7 @@ export default function HomePage() {
     const start = new Date(startDate + "T00:00:00");
     const end = new Date(endDate + "T00:00:00");
     
-    // 1. Get Dated Holidays
     const holidays = expandCountry(country).map(h => ({ ...h, d: new Date(h.date + "T00:00:00"), source_label: 'Public' }));
-    
-    // 2. Get Regional Signals (Dated)
     const regional = REGIONAL_INTELLIGENCE
       .filter(r => r.country === country && r.date)
       .map(r => ({
@@ -168,10 +165,7 @@ export default function HomePage() {
 
     let standing = 0;
     if (mode === 'study') {
-      standing = [
-        ...STUDENT_RISK_DATA.filter(x => x.country === country),
-        ...STUDENT_INTELLIGENCE_EXTRA.filter(x => x.country === country)
-      ].length;
+      standing = STUDENT_INTELLIGENCE_EXTRA.filter(x => x.country === country).length;
     } else if (mode === 'corporate') {
       standing = CORPORATE_INTELLIGENCE.filter(x => x.country === country).length;
     }
@@ -205,13 +199,13 @@ export default function HomePage() {
         <nav className="wrap">
           <div className="logo">Utsavs <span>GLOBAL CALENDAR INTELLIGENCE</span></div>
           <div className="navlinks">
-            <a href="#home" className={cn(page === 'home' && "active")}>Date Intelligence</a>
-            <a href="#built" className={cn(page === 'built' && "active")}>Built For</a>
-            <a href="#api" className={cn(page === 'api' && "active")}>API</a>
-            <a href="#insurance" className={cn(page === 'insurance' && "active")}>Travel Insurance</a>
+            <a href="#home" className={cn(page === 'home' && "active")} onClick={(e) => { e.preventDefault(); window.location.hash = '#home'; }}>Date Intelligence</a>
+            <a href="#built" className={cn(page === 'built' && "active")} onClick={(e) => { e.preventDefault(); window.location.hash = '#built'; }}>Built For</a>
+            <a href="#api" className={cn(page === 'api' && "active")} onClick={(e) => { e.preventDefault(); window.location.hash = '#api'; }}>API</a>
+            <a href="#insurance" className={cn(page === 'insurance' && "active")} onClick={(e) => { e.preventDefault(); window.location.hash = '#insurance'; }}>Travel Insurance</a>
             <a href="https://utsavs.com" target="_blank" rel="noopener">Stories ↗</a>
           </div>
-          <a href="#api" className="navcta">Get API Access</a>
+          <a href="#api" className="navcta" onClick={(e) => { e.preventDefault(); window.location.hash = '#api'; }}>Get API Access</a>
         </nav>
       </header>
 
@@ -338,16 +332,21 @@ export default function HomePage() {
            </div>
         </section>
 
-        <section id="intelligence-api" className="wrap">
-           <div className="grid lg:grid-cols-2 gap-16 items-center">
-              <div className="space-y-6">
-                 <span className="kicker">API</span>
-                 <h2 className="section-title">One API. Global intelligence.</h2>
-                 <p className="text-[#9AA1C0]">Build calendars, scheduling tools, travel experiences and operational systems on structured holiday intelligence.</p>
-              </div>
+        <section id="api-intro" className="wrap">
+           <div className="section-head">
+              <span className="kicker">API</span>
+              <h2 className="section-title">One API. Global intelligence.</h2>
+              <p className="text-[#9AA1C0]">Build calendars, scheduling tools, travel experiences and operational systems on structured holiday intelligence.</p>
            </div>
         </section>
 
+        <section id="insurance-intro" className="wrap">
+           <div className="section-head">
+              <span className="kicker">TRAVEL INSURANCE</span>
+              <h2 className="section-title">Plan for what you can predict. Protect against what you can't.</h2>
+              <p className="text-[#9AA1C0]">Explore how travel timing and protection work together — whether planning your own journey or building workflows.</p>
+           </div>
+        </section>
         <section id="insurance-grid" className="wrap">
             <div className="grid md:grid-cols-2 gap-px bg-white/10 border border-white/10 rounded-2xl overflow-hidden">
                <div className="bg-[#171D3A] p-10 space-y-6">
@@ -380,8 +379,8 @@ export default function HomePage() {
           <div>Utsavs · global calendar intelligence · 2026</div>
           <div className="flex gap-6">
             <a href="https://utsavs.com" target="_blank" rel="noopener">Explore Utsavs.com</a>
-            <a href="#home">Full calendar</a>
-            <a href="#api">Join API preview</a>
+            <a href="#home" onClick={(e) => { e.preventDefault(); window.location.hash = '#home'; }}>Full calendar</a>
+            <a href="#api" onClick={(e) => { e.preventDefault(); window.location.hash = '#api'; }}>Join API preview</a>
           </div>
         </div>
         <div className="wrap foot-disclaimer">

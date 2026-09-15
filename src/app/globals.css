@@ -202,26 +202,15 @@ h2.section-title{font-family:var(--font-headline); font-weight:500; font-size:cl
 .section-head p{color:var(--muted); font-size:16px; max-width:52ch;}
 
 /* Internal Router Display Logic */
-body[data-page="home"] main > #explore,
-body[data-page="home"] main > #world-today,
-body[data-page="home"] main > #how-it-works,
-body[data-page="home"] main > #specialized-intelligence,
-body[data-page="home"] main > #closing-flow { display: block; }
-
-body[data-page="built"] main > #built-for-intro,
-body[data-page="built"] main > #built-for,
-body[data-page="built"] main > #closing-flow { display: block; }
-
-body[data-page="api"] main > #api-intro,
-body[data-page="api"] main > #intelligence-api,
-body[data-page="api"] main > #closing-flow { display: block; }
-
-body[data-page="insurance"] main > #insurance-intro,
-body[data-page="insurance"] main > #insurance-grid,
-body[data-page="insurance"] main > #insurance-disclosure,
-body[data-page="insurance"] main > #closing-flow { display: block; }
-
 main > section { display: none; }
+body[data-page="home"] main > #explore,
+body[data-page="home"] main > #world-today { display: block; }
+body[data-page="built"] main > #built-for-intro,
+body[data-page="built"] main > #built-for { display: block; }
+body[data-page="api"] main > #api-intro,
+body[data-page="api"] main > #intelligence-api { display: block; }
+body[data-page="insurance"] main > #insurance-intro,
+body[data-page="insurance"] main > #insurance-grid { display: block; }
 
 footer{border-top:1px solid var(--line); padding:36px 0;}
 .foot-row{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; font-size:13px; color:var(--muted-dim);}
