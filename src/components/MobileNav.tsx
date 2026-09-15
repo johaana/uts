@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from 'next/link';
@@ -16,14 +17,14 @@ export function MobileNav({ setOpen }: { setOpen: (open: boolean) => void }) {
   const pathname = usePathname();
 
   return (
-    <div className="flex flex-col h-full">
-      <div className="p-4 border-b">
+    <div className="flex flex-col h-full bg-background">
+      <div className="p-6 border-b">
         <Link href="/" className="flex flex-col items-start" onClick={() => setOpen(false)}>
-            <span className="font-headline text-2xl font-bold text-primary">Utsavs</span>
-            <span className="text-[10px] text-foreground/60 font-mono font-bold uppercase tracking-widest mt-0.5">Global Calendar Intelligence</span>
+            <span className="font-headline text-3xl font-bold text-primary">Utsavs</span>
+            <span className="text-[10px] text-muted-foreground font-mono font-bold uppercase tracking-widest mt-0.5">Global Calendar Intelligence</span>
         </Link>
       </div>
-      <nav className="flex flex-col p-4 space-y-4">
+      <nav className="flex flex-col p-6 space-y-6">
         {navLinks.map((link) => (
           <Link
             key={link.href}
@@ -40,6 +41,11 @@ export function MobileNav({ setOpen }: { setOpen: (open: boolean) => void }) {
           </Link>
         ))}
       </nav>
+      <div className="mt-auto p-6 border-t bg-muted/10">
+        <a href="mailto:joy@utsavs.com">
+          <Button className="w-full font-bold">Contact Us</Button>
+        </a>
+      </div>
     </div>
   );
 }

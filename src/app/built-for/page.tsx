@@ -1,7 +1,9 @@
-import { PageLayout } from "@/components/PageLayout";
+
+import { Header } from "@/components/header";
+import { Footer } from "@/components/footer";
 import { OperationalFAQ } from "@/components/operational/OperationalFAQ";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Globe, Plane, Briefcase, GraduationCap, Truck, HeartHandshake, MapPin, Landmark } from "lucide-react";
+import { Globe, Plane, Briefcase, GraduationCap, Truck, HeartHandshake, MapPin, Landmark, UserCheck } from "lucide-react";
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -46,24 +48,31 @@ const useCases = [
     tag: "Planning around real periods",
     icon: HeartHandshake,
     desc: "Identify relevant periods to provide context-aware protection options for travellers."
+  },
+  {
+    title: "Global Mobility",
+    tag: "Choosing when to relocate",
+    icon: UserCheck,
+    desc: "Plan employee relocation and visa processing around jurisdictional and institutional availability."
   }
 ];
 
 export default function BuiltForPage() {
   return (
     <div className="bg-background text-foreground min-h-screen">
-      <PageLayout>
-        <section className="py-20 text-center max-w-3xl mx-auto">
-          <h1 className="font-headline text-4xl md:text-6xl font-bold mb-6">Different plans need<br/>different dates.</h1>
+      <Header />
+      <div className="container mx-auto px-4 py-12">
+        <section className="py-12 text-center max-w-3xl mx-auto space-y-6">
+          <h1 className="font-headline text-4xl md:text-6xl font-bold leading-tight">Different plans need<br/>different dates.</h1>
           <p className="text-xl text-muted-foreground leading-relaxed">
             The question is not simply whether a date is a holiday. It is whether that date works for what you are trying to do.
           </p>
         </section>
 
         <section className="py-12">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {useCases.map((uc, i) => (
-              <Card key={i} className="hover:bg-muted/5 transition-colors">
+              <Card key={i} className="hover:border-primary/30 transition-all duration-300 bg-card">
                 <CardHeader className="pb-2">
                   <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center mb-6">
                     <uc.icon className="w-5 h-5 text-primary" />
@@ -81,43 +90,30 @@ export default function BuiltForPage() {
 
         {/* HIERARCHY EXPLAINER */}
         <section className="py-24 border-t">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="font-headline text-3xl font-bold mb-12 text-center">The Context Layer</h2>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
-              <div className="space-y-3">
-                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
-                  <MapPin className="w-6 h-6 text-primary" />
+          <div className="max-w-4xl mx-auto space-y-16">
+            <h2 className="font-headline text-3xl md:text-5xl font-bold text-center">The Context Layer</h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+              {[
+                { label: "Jurisdiction", sub: "National vs. Local rules", icon: MapPin },
+                { label: "Institution", sub: "Banks, Markets, Ports", icon: Landmark },
+                { label: "Purpose", sub: "Work vs. Leisure", icon: Briefcase },
+                { label: "Implication", sub: "Practical consequence", icon: Globe }
+              ].map((item) => (
+                <div key={item.label} className="space-y-4">
+                  <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
+                    <item.icon className="w-6 h-6 text-primary" />
+                  </div>
+                  <h4 className="font-bold text-lg">{item.label}</h4>
+                  <p className="text-xs text-muted-foreground">{item.sub}</p>
                 </div>
-                <h4 className="font-bold">Jurisdiction</h4>
-                <p className="text-xs text-muted-foreground">National vs. Local rules</p>
-              </div>
-              <div className="space-y-3">
-                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
-                  <Landmark className="w-6 h-6 text-primary" />
-                </div>
-                <h4 className="font-bold">Institution</h4>
-                <p className="text-xs text-muted-foreground">Banks, Markets, Ports</p>
-              </div>
-              <div className="space-y-3">
-                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
-                  <Briefcase className="w-6 h-6 text-primary" />
-                </div>
-                <h4 className="font-bold">Purpose</h4>
-                <p className="text-xs text-muted-foreground">Work vs. Leisure</p>
-              </div>
-              <div className="space-y-3">
-                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
-                  <Info className="w-6 h-6 text-primary" />
-                </div>
-                <h4 className="font-bold">Implication</h4>
-                <p className="text-xs text-muted-foreground">Practical consequence</p>
-              </div>
+              ))}
             </div>
           </div>
         </section>
 
         <OperationalFAQ />
-      </PageLayout>
+      </div>
+      <Footer />
     </div>
   );
 }

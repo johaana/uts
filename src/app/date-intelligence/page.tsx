@@ -10,27 +10,27 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Search, Loader2, ShieldCheck, AlertCircle } from "lucide-react";
+import { Search, Loader2, ShieldCheck, Globe, Info } from "lucide-react";
 import { getOperationalImpact } from '@/lib/operational/adapter';
 import { OperationalQuery, OperationalResult } from '@/lib/operational/types';
 import { cn } from '@/lib/utils';
+import { Header } from '@/components/header';
+import { Footer } from '@/components/footer';
+import { Badge } from '@/components/ui/badge';
 
 function TripAdvisory({ result }: { result: OperationalResult }) {
   const hasImpacts = result.records.length > 0;
-  const highSeverity = result.records.filter(r => r.consequences.severity === 'high');
 
   return (
     <div className={cn(
       "p-6 rounded-2xl mb-8 border flex flex-col md:flex-row items-center gap-6 transition-all animate-in fade-in slide-in-from-top-4 duration-500",
-      !hasImpacts ? "bg-green-500/5 border-green-500/20" : 
-      highSeverity.length > 0 ? "bg-red-500/5 border-red-500/20" : "bg-amber-500/5 border-amber-500/20"
+      !hasImpacts ? "bg-accent/5 border-accent/20" : "bg-primary/5 border-primary/20"
     )}>
       <div className={cn(
         "w-12 h-12 rounded-full flex items-center justify-center shrink-0",
-        !hasImpacts ? "bg-green-500/10 text-green-600" : 
-        highSeverity.length > 0 ? "bg-red-500/10 text-red-600" : "bg-amber-500/10 text-amber-600"
+        !hasImpacts ? "bg-accent/10 text-accent" : "bg-primary/10 text-primary"
       )}>
-        {!hasImpacts ? <ShieldCheck className="w-6 h-6" /> : <AlertCircle className="w-6 h-6" />}
+        {!hasImpacts ? <ShieldCheck className="w-6 h-6" /> : <Globe className="w-6 h-6" />}
       </div>
       <div className="flex-1 space-y-1 text-center md:text-left">
         <h3 className="font-headline text-2xl font-bold">
@@ -49,7 +49,6 @@ function TripAdvisory({ result }: { result: OperationalResult }) {
 
 export default function DateIntelligencePage() {
   const [query, setQuery] = useState<OperationalQuery>({
-    origin: '',
     destination: 'IN',
     startDate: '2026-11-01',
     endDate: '2026-11-15',
@@ -60,7 +59,6 @@ export default function DateIntelligencePage() {
 
   const handleCheckImpact = async () => {
     setIsSearching(true);
-    // Simulate slight network delay for UI feedback
     setTimeout(async () => {
       try {
         const impact = await getOperationalImpact(query);
@@ -75,12 +73,13 @@ export default function DateIntelligencePage() {
 
   return (
     <div className="bg-background text-foreground min-h-screen">
-      <PageLayout>
+      <Header />
+      <div className="container mx-auto px-4">
         {/* HERO */}
         <section className="py-12 md:py-20 text-center">
-          <h1 className="font-headline text-4xl md:text-6xl font-bold mb-6">Know before you fly.<br/>Know before you schedule.</h1>
+          <h1 className="font-headline text-4xl md:text-6xl font-bold mb-6">Verified date intelligence.</h1>
           <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto font-medium">
-            Check a country and your actual dates — before you book, schedule, send a student, or send an employee across borders.
+            Understand what a date means for your plan, supported by authoritative evidence.
           </p>
         </section>
 
@@ -93,7 +92,7 @@ export default function DateIntelligencePage() {
                 <span className="font-bold text-sm uppercase tracking-widest">Trip Impact Checker</span>
               </div>
               <div className="hidden md:flex gap-2">
-                 <Badge variant="outline" className="text-[10px] font-mono border-primary/20">SOURCE: AUTHORITATIVE</Badge>
+                 <Badge variant="outline" className="text-[10px] font-mono border-primary/20 uppercase tracking-widest">Source: Authoritative</Badge>
               </div>
             </CardHeader>
             <CardContent className="p-6 md:p-8 space-y-8">
@@ -102,8 +101,9 @@ export default function DateIntelligencePage() {
                   <label className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Origin (Optional)</label>
                   <Input 
                     placeholder="e.g. US" 
-                    value={query.origin}
+                    value={query.origin || ''}
                     onChange={(e) => setQuery({...query, origin: e.target.value.toUpperCase()})}
+                    className="bg-muted/30"
                   />
                 </div>
                 <div className="space-y-1.5">
@@ -112,6 +112,7 @@ export default function DateIntelligencePage() {
                     placeholder="e.g. IN" 
                     value={query.destination}
                     onChange={(e) => setQuery({...query, destination: e.target.value.toUpperCase()})}
+                    className="bg-muted/30"
                   />
                 </div>
                 <div className="space-y-1.5">
@@ -120,6 +121,7 @@ export default function DateIntelligencePage() {
                     type="date" 
                     value={query.startDate}
                     onChange={(e) => setQuery({...query, startDate: e.target.value})}
+                    className="bg-muted/30"
                   />
                 </div>
                 <div className="space-y-1.5">
@@ -128,6 +130,7 @@ export default function DateIntelligencePage() {
                     type="date" 
                     value={query.endDate}
                     onChange={(e) => setQuery({...query, endDate: e.target.value})}
+                    className="bg-muted/30"
                   />
                 </div>
                 <div className="space-y-1.5">
@@ -136,7 +139,7 @@ export default function DateIntelligencePage() {
                     value={query.purpose} 
                     onValueChange={(v: any) => setQuery({...query, purpose: v})}
                   >
-                    <SelectTrigger>
+                    <SelectTrigger className="bg-muted/30">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -152,7 +155,7 @@ export default function DateIntelligencePage() {
               <div className="flex justify-center">
                 <Button 
                   size="lg" 
-                  className="font-bold px-12 transition-all active:scale-95" 
+                  className="font-bold px-12 transition-all active:scale-95 shadow-lg" 
                   onClick={handleCheckImpact}
                   disabled={isSearching}
                 >
@@ -165,7 +168,7 @@ export default function DateIntelligencePage() {
               <div className="pt-8 border-t">
                 {!result && !isSearching && (
                   <div className="text-center py-10 text-muted-foreground">
-                    <p className="text-sm italic">Select a destination and dates to begin. Results will be based on the relevant calendar and institutional sources available for that journey.</p>
+                    <p className="text-sm italic">Select a destination and dates to begin. Results will be based on the verified 17-chunk authoritative source.</p>
                   </div>
                 )}
 
@@ -180,13 +183,6 @@ export default function DateIntelligencePage() {
                   <div className="space-y-6 animate-in fade-in duration-700">
                     <TripAdvisory result={result} />
                     
-                    {result.status === 'source_unavailable' && (
-                      <EmptyState 
-                        title="Source disconnected" 
-                        message="The operational intelligence source is not currently connected to this application. No production records are available." 
-                      />
-                    )}
-                    
                     {result.status === 'no_matching_records' && (
                       <div className="text-center py-10 px-6 border rounded-xl bg-muted/5">
                         <p className="text-sm text-muted-foreground">No specific operational impacts flagged for these criteria in the verified dataset.</p>
@@ -197,7 +193,7 @@ export default function DateIntelligencePage() {
                       <div className="space-y-4">
                         <div className="flex items-center justify-between px-2 mb-2">
                           <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground">Identified Signals</h4>
-                          <span className="text-[10px] font-mono text-muted-foreground">v{result.metadata.version || '1.0.0'}</span>
+                          <span className="text-[10px] font-mono text-muted-foreground">Verified Record Set</span>
                         </div>
                         {result.records.map(record => (
                           <OperationalResultCard key={record.id} record={record} />
@@ -215,20 +211,35 @@ export default function DateIntelligencePage() {
         <section className="py-20 border-t">
           <div className="max-w-4xl mx-auto">
             <h2 className="font-headline text-3xl md:text-4xl font-bold mb-8">What is Date Intelligence?</h2>
-            <p className="text-lg text-muted-foreground leading-relaxed mb-8">
-              Date Intelligence brings the calendar, local differences, and relevant institutional information together so you can understand what a particular date may mean for a particular plan. 
+            <p className="text-lg text-muted-foreground leading-relaxed mb-12">
+              Date Intelligence brings the calendar, local jurisdictional differences, and relevant institutional information together so you can understand what a particular date may mean for a particular plan. 
             </p>
-            <div className="p-8 bg-primary/5 rounded-2xl border border-primary/10">
-              <h3 className="font-bold text-xl mb-4">Does this date work for what I am trying to do?</h3>
-              <p className="text-muted-foreground leading-relaxed">
-                The same date can be desirable for a traveller who wants to experience an event, but disruptive for a business meeting or a logistics movement. Utsavs does not decide the "best" date; it exposes the practical implications so you can.
-              </p>
+            <div className="grid md:grid-cols-2 gap-8">
+               <div className="p-8 bg-card border rounded-2xl space-y-4">
+                  <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
+                    <Info className="w-5 h-5 text-primary" />
+                  </div>
+                  <h3 className="font-bold text-xl">The "Why it Matters" Layer</h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed">
+                    A holiday name doesn't explain the operational impact. Utsavs exposes the practical consequence—market closures, transport reductions, or institutional deadlines.
+                  </p>
+               </div>
+               <div className="p-8 bg-card border rounded-2xl space-y-4">
+                  <div className="w-10 h-10 bg-accent/10 rounded-full flex items-center justify-center">
+                    <Globe className="w-5 h-5 text-accent" />
+                  </div>
+                  <h3 className="font-bold text-xl">Jurisdictional Precision</h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed">
+                    Country rules != Regional rules. Utsavs models the complex overlap of national and sub-national law to ensure precision.
+                  </p>
+               </div>
             </div>
           </div>
         </section>
 
         <OperationalFAQ />
-      </PageLayout>
+      </div>
+      <Footer />
     </div>
   );
 }

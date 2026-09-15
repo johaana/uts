@@ -1,175 +1,268 @@
 
+'use client';
+
+import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Calendar, Utensils, BookOpen, Globe } from "lucide-react";
-import Link from "next/link";
-import { RegionShowcase } from "@/components/RegionShowcase";
-import React from "react";
-import { UpcomingFestivalsCarousel } from "@/components/UpcomingFestivalsCarousel";
-import { HeroCarousel } from "@/components/HeroCarousel";
-import { InternationalFestivalsShowcase } from "@/components/InternationalFestivalsShowcase";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Bot } from "lucide-react";
-import Image from 'next/image';
-import { allEvents } from "@/lib/festival-data";
-import { FestivalCalendar } from "@/components/FestivalCalendar";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { 
+  Search, 
+  Loader2, 
+  ArrowRight, 
+  Globe, 
+  ShieldCheck, 
+  Landmark, 
+  Briefcase, 
+  Plane,
+  Clock,
+  ChevronRight
+} from "lucide-react";
+import { getOperationalImpact } from '@/lib/operational/adapter';
+import { OperationalQuery, OperationalResult } from '@/lib/operational/types';
+import { cn } from '@/lib/utils';
+import { Header } from '@/components/header';
+import { Footer } from '@/components/footer';
+import { OperationalResultCard } from '@/components/operational/OperationalResultCard';
+import { UpcomingFestivalsCarousel } from '@/components/UpcomingFestivalsCarousel';
 
-
-function ResourceSummary() {
+function TripAdvisory({ result }: { result: OperationalResult }) {
+  const hasImpacts = result.records.length > 0;
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8 text-center">
-      <Card className="p-4 md:p-8 flex flex-col items-center">
-        <Calendar className="w-10 h-10 md:w-12 md:h-12 text-accent mb-3"/>
-        <h3 className="font-headline text-2xl md:text-3xl font-bold text-primary mb-1">60+</h3>
-        <p className="text-sm md:text-base text-foreground/80">Festivals</p>
-      </Card>
-      <Card className="p-4 md:p-8 flex flex-col items-center">
-        <Utensils className="w-10 h-10 md:w-12 md:h-12 text-accent mb-3"/>
-        <h3 className="font-headline text-2xl md:text-3xl font-bold text-primary mb-1">40+</h3>
-        <p className="text-sm md:text-base text-foreground/80">Recipes</p>
-      </Card>
-      <Card className="p-4 md:p-8 flex flex-col items-center col-span-2 md:col-span-1">
-        <BookOpen className="w-10 h-10 md:w-12 md:h-12 text-accent mb-3"/>
-        <h3 className="font-headline text-2xl md:text-3xl font-bold text-primary mb-1">25+</h3>
-        <p className="text-sm md:text-base text-foreground/80">Stories</p>
-      </Card>
+    <div className={cn(
+      "p-6 rounded-2xl mb-8 border flex flex-col md:flex-row items-center gap-6 transition-all animate-in fade-in slide-in-from-top-4 duration-500",
+      !hasImpacts ? "bg-accent/5 border-accent/20" : "bg-primary/5 border-primary/20"
+    )}>
+      <div className={cn(
+        "w-12 h-12 rounded-full flex items-center justify-center shrink-0",
+        !hasImpacts ? "bg-accent/10 text-accent" : "bg-primary/10 text-primary"
+      )}>
+        {!hasImpacts ? <ShieldCheck className="w-6 h-6" /> : <Globe className="w-6 h-6" />}
+      </div>
+      <div className="flex-1 space-y-1 text-center md:text-left">
+        <h3 className="font-headline text-2xl font-bold">
+          {!hasImpacts ? "Your date looks operationally good." : "Plan for specific operational impacts."}
+        </h3>
+        <p className="text-muted-foreground text-sm max-w-2xl leading-relaxed">
+          {!hasImpacts 
+            ? "No specific date impacts were found for this journey in our verified dataset. Standard cross-border rules apply."
+            : `We found ${result.records.length} signal(s) that may affect your ${result.query_context.purpose} plan. Review the details below.`
+          }
+        </p>
+      </div>
     </div>
-  )
+  );
 }
 
-function AIPlannerShowcase() {
-    return (
-        <section className="py-16 md:py-24 bg-background">
-            <div className="container mx-auto px-4">
-                <Card className="bg-gradient-to-br from-primary/10 to-secondary/30 border-2 border-primary/20 shadow-xl overflow-hidden">
-                    <div className="flex flex-col md:flex-row items-center">
-                         <div className="md:w-1/2 h-64 md:h-96 w-full order-1 md:order-2">
-                           <Image src="https://i.postimg.cc/VLQf0kKF/long-weekend-1.jpg" alt="AI Planner" width={600} height={400} className="w-full h-full object-cover" data-ai-hint="holiday planning calendar" />
-                        </div>
-                        <div className="p-6 md:p-12 md:w-1/2 order-2 md:order-1">
-                            <h2 className="font-headline text-3xl md:text-5xl font-bold text-primary mb-4">Let AI Be Your Guide</h2>
-                            <p className="text-base md:text-lg text-foreground/80 mb-6 max-w-lg">
-                                Not sure where to travel? Check out our month-wise planner and find out. Our AI Holiday Planner can provide personalized suggestions and answer your questions in an instant.
-                            </p>
-                            <Link href="/planner">
-                                <Button size="lg" className="group shadow-lg hover:shadow-xl transition-all duration-300">
-                                    Try the AI Planner <Bot className="w-5 h-5 ml-2 transition-transform group-hover:rotate-12" />
-                                </Button>
-                            </Link>
-                        </div>
-                    </div>
-                </Card>
-            </div>
-        </section>
-    );
-}
+export default function HomePage() {
+  const [query, setQuery] = useState<OperationalQuery>({
+    destination: 'IN',
+    startDate: '2026-11-01',
+    endDate: '2026-11-15',
+    purpose: 'travel'
+  });
+  const [result, setResult] = useState<OperationalResult | null>(null);
+  const [isSearching, setIsSearching] = useState(false);
 
+  const handleCheckImpact = async () => {
+    setIsSearching(true);
+    setTimeout(async () => {
+      try {
+        const impact = await getOperationalImpact(query);
+        setResult(impact);
+      } catch (e) {
+        console.error(e);
+      } finally {
+        setIsSearching(false);
+      }
+    }, 600);
+  };
 
-export default function Home() {
   return (
-    <div className="flex flex-col">
-       <section className="relative w-full">
-        <div className="absolute inset-0 bg-black/50 z-10"></div>
-         <HeroCarousel />
-        <div className="absolute inset-0 z-20 flex flex-col items-start justify-end text-left p-6 md:p-8 lg:p-12">
-          <h1 className="font-headline text-2xl md:text-5xl lg:text-7xl font-bold text-white drop-shadow-[0_2px_2px_rgba(0,0,0,0.9)] max-w-4xl">Every Festival Tells a Story</h1>
-            <p className="hidden md:block mt-4 text-lg text-white/90 drop-shadow-[0_2px_2px_rgba(0,0,0,0.7)] max-w-2xl">
-                Journey through the rich tapestry of Indian culture. We uncover the legends, rituals, and traditions that bring each celebration to life. Discover the soul of every 'utsav'.
-            </p>
-            <div className="mt-6 md:mt-8">
-                <Link href="/festivals">
-                <Button 
-                  size="sm" 
-                  variant="gradient"
-                  className="md:h-11 md:px-8 md:text-lg group transition-all duration-300 hover:scale-105 hover:shadow-2xl font-bold shadow-lg border-none"
-                >
-                    Explore All Festivals <ArrowRight className="ml-2 transition-transform group-hover:translate-x-1" />
-                </Button>
-                </Link>
-            </div>
-        </div>
-      </section>
-
-      <section className="md:hidden bg-background">
-        <div className="container mx-auto px-6 py-8 text-left">
-             <p className="text-sm text-foreground/80">
-                Journey through the rich tapestry of Indian culture. We uncover the legends, rituals, and traditions that bring each celebration to life. Discover the soul of every 'utsav'.
-            </p>
-        </div>
-      </section>
-
-      <section className="py-16 md:py-24 bg-background">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="font-headline text-3xl md:text-5xl font-bold text-primary">Upcoming Festivals</h2>
-            <p className="mt-3 text-base md:text-lg text-foreground/80 max-w-2xl mx-auto">
-                Discover what's next on the festive calendar. Here are the next major celebrations to look forward to.
-            </p>
-          </div>
-          <UpcomingFestivalsCarousel />
-        </div>
-      </section>
-
-       <section className="py-16 md:py-24 bg-secondary/30">
-            <div className="container mx-auto px-4">
-              <FestivalCalendar 
-                events={allEvents}
-                title="Festivals & Holidays Calendar"
-                description="Plan your year around the vibrant celebrations of India. Never miss a festival or holiday with our comprehensive calendar."
-              />
-            </div>
-        </section>
+    <div className="bg-background text-foreground min-h-screen">
+      <Header />
       
-       <AIPlannerShowcase />
-
-      <section className="py-16 md:py-24 bg-background">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="font-headline text-3xl md:text-5xl font-bold text-primary">Discover by Region</h2>
-            <p className="mt-3 text-base md:text-lg text-foreground/80 max-w-2xl mx-auto">
-                India's cultural landscape is incredibly diverse. Explore festivals unique to each part of the country.
-            </p>
-          </div>
-          <RegionShowcase />
-        </div>
-      </section>
-
-       <section className="py-16 md:py-24 bg-secondary/30">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="font-headline text-3xl md:text-5xl font-bold text-primary">Discover International Festivals</h2>
-            <p className="mt-3 text-base md:text-lg text-foreground/80 max-w-2xl mx-auto">
-                Venture beyond borders and explore unique cultural celebrations from around the globe.
-            </p>
-          </div>
-          <InternationalFestivalsShowcase />
-           <div className="text-center mt-12 flex flex-col items-center gap-4">
-                <Link href="/international-festivals">
-                    <Button variant="gradient" className="shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
-                        <Globe className="mr-2 h-4 w-4" />
-                        Explore All International Festivals
-                    </Button>
-                </Link>
-                <Link href="/calendar">
-                    <Button>
-                        <Calendar className="mr-2 h-4 w-4" />
-                        Plan by Month
-                    </Button>
-                </Link>
-            </div>
-        </div>
-      </section>
-
-      <section className="py-16 md:py-24 bg-background">
-        <div className="container mx-auto px-4">
-            <div className="text-center mb-12">
-                <h2 className="font-headline text-3xl md:text-5xl font-bold text-primary">A World of Flavor & Tradition</h2>
-                <p className="mt-3 text-base md:text-lg text-foreground/80 max-w-2xl mx-auto">
-                    Utsavs is more than a calendar. It's a rich library of cultural knowledge, helping you connect with the heart of India.
+      <main>
+        {/* HERO SECTION */}
+        <section className="py-12 md:py-24 border-b">
+          <div className="container mx-auto px-4">
+            <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 items-center">
+              <div className="space-y-8 text-left">
+                <h1 className="font-headline text-4xl md:text-6xl font-bold leading-[1.1] tracking-tight">
+                  Know before you fly.<br/>Know before you schedule.
+                </h1>
+                <p className="text-xl text-muted-foreground leading-relaxed max-w-lg">
+                  Check a country and your actual dates — before you book, schedule, send a student, or send an employee across borders.
                 </p>
+                <div className="flex gap-4">
+                   <Badge variant="secondary" className="px-3 py-1 font-bold text-[10px] tracking-widest uppercase">Verified Data</Badge>
+                   <Badge variant="secondary" className="px-3 py-1 font-bold text-[10px] tracking-widest uppercase">Source Aware</Badge>
+                </div>
+              </div>
+
+              <div className="w-full">
+                <Card className="border-primary/20 shadow-2xl overflow-hidden bg-card">
+                  <CardHeader className="bg-primary/5 border-b flex flex-row justify-between items-center px-6 py-4">
+                    <div className="flex items-center gap-3">
+                      <Search className="w-5 h-5 text-primary" />
+                      <span className="font-bold text-sm uppercase tracking-widest">Trip Impact Checker</span>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="p-6 md:p-8 space-y-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="space-y-1.5">
+                        <label className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Destination</label>
+                        <Select value={query.destination} onValueChange={(v) => setQuery({...query, destination: v})}>
+                          <SelectTrigger className="bg-background"><SelectValue /></SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="IN">India</SelectItem>
+                            <SelectItem value="JP">Japan</SelectItem>
+                            <SelectItem value="US">United States</SelectItem>
+                            <SelectItem value="CA">Canada</SelectItem>
+                            <SelectItem value="GB">United Kingdom</SelectItem>
+                            <SelectItem value="AU">Australia</SelectItem>
+                            <SelectItem value="SG">Singapore</SelectItem>
+                            <SelectItem value="DE">Germany</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div className="space-y-1.5">
+                        <label className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Purpose</label>
+                        <Select value={query.purpose} onValueChange={(v: any) => setQuery({...query, purpose: v})}>
+                          <SelectTrigger className="bg-background"><SelectValue /></SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="travel">Travel</SelectItem>
+                            <SelectItem value="business">Business</SelectItem>
+                            <SelectItem value="study">Study</SelectItem>
+                            <SelectItem value="workforce">Workforce</SelectItem>
+                            <SelectItem value="logistics">Logistics</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div className="space-y-1.5">
+                        <label className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Start Date</label>
+                        <Input type="date" value={query.startDate} onChange={(e) => setQuery({...query, startDate: e.target.value})} className="bg-background" />
+                      </div>
+                      <div className="space-y-1.5">
+                        <label className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">End Date</label>
+                        <Input type="date" value={query.endDate} onChange={(e) => setQuery({...query, endDate: e.target.value})} className="bg-background" />
+                      </div>
+                    </div>
+                    <Button 
+                      className="w-full font-bold h-12 transition-all active:scale-[0.98]" 
+                      onClick={handleCheckImpact}
+                      disabled={isSearching}
+                    >
+                      {isSearching ? <Loader2 className="animate-spin w-4 h-4 mr-2" /> : null}
+                      Check Impact
+                    </Button>
+
+                    {result && !isSearching && (
+                      <div className="pt-6 border-t mt-6 animate-in fade-in slide-in-from-top-4 duration-500">
+                        <TripAdvisory result={result} />
+                        <div className="space-y-4 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
+                          {result.records.map(record => (
+                            <OperationalResultCard key={record.id} record={record} />
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              </div>
             </div>
-            <ResourceSummary />
-        </div>
-      </section>
+          </div>
+        </section>
+
+        {/* WORLD TODAY SECTION */}
+        <section className="py-24 bg-muted/5">
+          <div className="container mx-auto px-4">
+            <div className="flex flex-col md:flex-row items-baseline justify-between mb-12 gap-4">
+              <div className="space-y-2">
+                <h2 className="font-headline text-3xl md:text-5xl font-bold">World Today</h2>
+                <p className="text-muted-foreground font-medium">Discover what's happening and what's next on the global calendar.</p>
+              </div>
+              <Link href="/date-intelligence">
+                <Button variant="ghost" className="font-bold uppercase tracking-widest text-xs group">
+                  View Full Calendar <ChevronRight className="w-4 h-4 ml-1 transition-transform group-hover:translate-x-1" />
+                </Button>
+              </Link>
+            </div>
+            <UpcomingFestivalsCarousel />
+          </div>
+        </section>
+
+        {/* SPECIALIZED INTELLIGENCE */}
+        <section className="py-24 border-t">
+          <div className="container mx-auto px-4">
+            <div className="max-w-3xl mb-16 space-y-4">
+              <h2 className="font-headline text-3xl md:text-5xl font-bold">Specialized intelligence.</h2>
+              <p className="text-xl text-muted-foreground leading-relaxed">One calendar underneath. Deeper calendars when the job demands it.</p>
+            </div>
+            <div className="grid md:grid-cols-3 gap-8">
+              {[
+                { title: "Bank Closures", desc: "Differentiate between a public holiday and an actual banking shutdown.", icon: Landmark },
+                { title: "Market Depth", desc: "Track exchange operating windows, early closes, and settlement cycles.", icon: Briefcase },
+                { title: "Working Days", desc: "Calculate business days with jurisdictional precision.", icon: Clock }
+              ].map((item) => (
+                <div key={item.title} className="p-8 border rounded-2xl bg-card hover:border-primary/30 transition-colors">
+                  <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-6">
+                    <item.icon className="w-6 h-6 text-primary" />
+                  </div>
+                  <h3 className="font-headline text-2xl font-bold mb-4">{item.title}</h3>
+                  <p className="text-muted-foreground leading-relaxed">{item.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* BUILT FOR CTA */}
+        <section className="py-24 border-t bg-primary/5">
+          <div className="container mx-auto px-4 text-center">
+            <div className="max-w-3xl mx-auto space-y-8">
+              <h2 className="font-headline text-4xl md:text-6xl font-bold">Built for decisions.</h2>
+              <p className="text-xl text-muted-foreground">Utsavs powers timing decisions for global travel, study, and operations.</p>
+              <Link href="/built-for">
+                <Button size="lg" className="px-12 font-bold h-14 text-lg">Explore Use Cases</Button>
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        {/* API PREVIEW */}
+        <section id="api" className="py-24 border-t">
+          <div className="container mx-auto px-4">
+             <div className="flex flex-col lg:flex-row items-center gap-16">
+               <div className="flex-1 space-y-8">
+                 <h2 className="font-headline text-3xl md:text-5xl font-bold">One API.<br/>Global intelligence.</h2>
+                 <p className="text-lg text-muted-foreground leading-relaxed">
+                   Integrate high-precision global holiday and institutional intelligence into your products and workflows.
+                 </p>
+                 <Link href="/api">
+                   <Button variant="outline" className="font-bold px-8 h-12 uppercase tracking-widest text-xs">Join API Preview</Button>
+                 </Link>
+               </div>
+               <div className="flex-1 w-full bg-zinc-950 p-6 md:p-10 rounded-3xl border border-zinc-800 shadow-2xl font-mono text-[13px] text-zinc-300">
+                  <p className="text-emerald-400 mb-2">GET /v1/holidays?country=IN&year=2026</p>
+                  <pre className="whitespace-pre-wrap leading-relaxed">
+                    <code>{`{
+  "name": "Diwali",
+  "date": "2026-11-08",
+  "country": "IN",
+  "scope": "national",
+  "status": "CONFIRMED",
+  "verification": "HIGH"
+}`}</code>
+                  </pre>
+               </div>
+             </div>
+          </div>
+        </section>
+      </main>
+
+      <Footer />
     </div>
   );
 }
