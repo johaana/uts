@@ -1,72 +1,45 @@
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
-import { 
-  Loader2
-} from "lucide-react";
-import { getOperationalImpact } from '@/lib/operational/adapter';
-import { OperationalQuery, OperationalResult } from '@/lib/operational/types';
 import { cn } from '@/lib/utils';
-import { Header } from '@/components/header';
-import { Footer } from '@/components/footer';
-import { COUNTRY_LABELS, HOLIDAYS, expandCountry, isWeekendFor, TYPE_LABELS, STORY_SLUGS } from '@/lib/calendar-intelligence';
+import { 
+  COUNTRY_LABELS, 
+  HOLIDAYS, 
+  expandCountry, 
+  isWeekendFor, 
+  TYPE_LABELS, 
+  STORY_SLUGS,
+  OPERATIONAL_RECORDS,
+  POLICY_RECORDS
+} from '@/lib/calendar-intelligence';
 
 export default function HomePage() {
   const [isMounted, setIsMounted] = useState(false);
-  const [today, setToday] = useState<Date>(new Date());
-  
-  // Tracker State
-  const [query, setQuery] = useState<OperationalQuery>({
-    destination: 'IN',
-    startDate: '2026-09-15',
-    endDate: '2026-10-15',
-    purpose: 'travel'
-  });
-  const [result, setResult] = useState<OperationalResult | null>(null);
-  const [isSearching, setIsSearching] = useState(false);
-  const [compareOpen, setCompareOpen] = useState(false);
-  const [compareFilter, setCompareFilter] = useState<'all' | 'mismatch' | 'overlap'>('all');
-  const [thirdCountryOn, setThirdCountryOn] = useState(false);
+  const [page, setPage] = useState('home');
+  const [mode, setMode] = useState('traveler');
+  const [country, setCountry] = useState('IN');
+  const [startDate, setStartDate] = useState('2026-09-15');
+  const [endDate, setEndDate] = useState('2026-10-15');
   const [compareA, setCompareA] = useState('IN');
   const [compareB, setCompareB] = useState('JP');
   const [compareC, setCompareC] = useState('US');
+  const [compareOpen, setCompareOpen] = useState(false);
+  const [thirdCountryOn, setThirdCountryOn] = useState(false);
+  const [compareFilter, setCompareFilter] = useState('all');
 
-  // Date Intelligence State
-  const [diDate, setDiDate] = useState('2026-09-15');
-  const [diCountry, setDiCountry] = useState('IN');
-  const [diLens, setDiLens] = useState('all');
-
-  // Initialization
   useEffect(() => {
     setIsMounted(true);
-    const d = new Date('2026-09-04T00:00:00');
-    setToday(d);
-    setDiDate('2026-09-04');
+    const hash = window.location.hash.replace('#', '');
+    if (hash && ['home', 'built', 'api', 'insurance'].includes(hash)) {
+      setPage(hash);
+    }
   }, []);
 
-  // Data Fetching
-  useEffect(() => {
-    const handleCheckImpact = async () => {
-      setIsSearching(true);
-      try {
-        const impact = await getOperationalImpact(query);
-        setResult(impact);
-      } catch (e) {
-        console.error(e);
-      } finally {
-        setIsSearching(false);
-      }
-    };
-    handleCheckImpact();
-  }, [query]);
+  const today = useMemo(() => new Date('2026-09-04T00:00:00'), []);
+  const todayKey = '2026-09-04';
 
-  // ---------- LOGIC: FORWARD INDEX & WORLD PULSE ----------
-  
   const forwardIndex = useMemo(() => {
-    if (!isMounted) return new Map();
-    const todayKey = today.toISOString().split('T')[0];
     const idx = new Map();
-    
     Object.keys(HOLIDAYS).forEach(code => {
       expandCountry(code).forEach(h => {
         if (h.date < todayKey) return;
@@ -75,63 +48,42 @@ export default function HomePage() {
       });
     });
     return idx;
-  }, [today, isMounted]);
+  }, [todayKey]);
 
   const globalNext = useMemo(() => {
     const dates = Array.from(forwardIndex.keys()).sort();
     if (!dates.length) return null;
-    
     const WINDOW_DAYS = 45, BREADTH_MIN = 5;
     const windowEnd = new Date(today); windowEnd.setDate(windowEnd.getDate() + WINDOW_DAYS);
     const windowEndKey = windowEnd.toISOString().split('T')[0];
-    
     const inWindow = dates.filter(d => d <= windowEndKey);
     let candidate = inWindow.find(d => forwardIndex.get(d).length >= BREADTH_MIN);
-    
     if (!candidate) {
       const pool = inWindow.length ? inWindow : dates;
       candidate = pool.reduce((best, d) => forwardIndex.get(d).length > forwardIndex.get(best).length ? d : best, pool[0]);
     }
-    
     const entries = forwardIndex.get(candidate);
     const nameCounts: Record<string, number> = {};
     entries.forEach((e: any) => { nameCounts[e.name] = (nameCounts[e.name] || 0) + 1; });
     const topName = Object.keys(nameCounts).sort((a, b) => nameCounts[b] - nameCounts[a])[0];
-    
     const diff = Math.round((new Date(candidate + 'T00:00:00').getTime() - today.getTime()) / 86400000);
-    
-    return { 
-      date: candidate, 
-      name: topName, 
-      countryCount: new Set(entries.map((e: any) => e.code)).size,
-      daysAway: diff
-    };
+    return { date: candidate, name: topName, countryCount: new Set(entries.map((e: any) => e.code)).size, daysAway: diff };
   }, [forwardIndex, today]);
 
   const regionalNext = useMemo(() => {
-    if (!isMounted) return null;
-    const todayKey = today.toISOString().split('T')[0];
-    const countryToTrack = compareOpen ? compareA : query.destination;
-    const match = expandCountry(countryToTrack)
+    const code = compareOpen ? compareA : country;
+    const match = expandCountry(code)
       .filter(h => h.date >= todayKey)
       .sort((a, b) => a.date.localeCompare(b.date))[0];
-      
     if (!match) return null;
-    
     const diff = Math.round((new Date(match.date + 'T00:00:00').getTime() - today.getTime()) / 86400000);
-    
-    return {
-      name: match.name,
-      date: match.date,
-      daysAway: diff
-    };
-  }, [isMounted, today, query.destination, compareOpen, compareA]);
+    return { name: match.name, date: match.date, daysAway: diff };
+  }, [today, todayKey, compareOpen, compareA, country]);
 
   const marqueeItems = useMemo(() => {
     const weekEnd = new Date(today); weekEnd.setDate(weekEnd.getDate() + 7);
     const weekEndKey = weekEnd.toISOString().split('T')[0];
     const weekDates = Array.from(forwardIndex.keys()).filter(d => d <= weekEndKey).sort();
-    
     const items: string[] = [];
     weekDates.forEach(date => {
       const byCountry = new Map();
@@ -139,26 +91,24 @@ export default function HomePage() {
         if (!byCountry.has(e.code)) byCountry.set(e.code, []); 
         byCountry.get(e.code).push(e.name); 
       });
-      
       Array.from(byCountry.entries()).forEach(([code, names]) => {
         const dLabel = new Date(date + 'T00:00:00').toLocaleDateString('en-GB', { day: '2-digit', month: 'short' });
         items.push(`<span class="chip"><b>${COUNTRY_LABELS[code] || code}</b> — ${names.join(", ")} · ${dLabel}</span>`);
       });
     });
-    
     return items.length > 0 ? items.concat(items) : [];
   }, [forwardIndex, today]);
 
-  // ---------- LOGIC: CHECKER SUMMARY & BRIEF ----------
-
-  const checkerStats = useMemo(() => {
-    if (!result) return { count: 0, longest: 0, next: '—' };
+  const checkerData = useMemo(() => {
+    const start = new Date(startDate + "T00:00:00");
+    const end = new Date(endDate + "T00:00:00");
+    const all = expandCountry(country)
+      .map(h => ({...h, d: new Date(h.date + "T00:00:00")}))
+      .filter(h => h.d >= start && h.d <= end);
     
-    const datedRecords = result.records.filter(r => r.date);
-    const uniqueDates = [...new Set(datedRecords.map(r => r.date))].sort();
-    
-    const nextDate = uniqueDates.find(d => d >= today.toISOString().split('T')[0]);
-    const nextDays = nextDate ? Math.round((new Date(nextDate + 'T00:00:00').getTime() - today.getTime()) / 86400000) : '—';
+    const dated = all.map(h => h.date);
+    const uniqueDates = [...new Set(dated)].sort();
+    const standing = 0; // Policy records logic would go here
     
     let longest = 0, currentRun = 0, prev = null;
     uniqueDates.forEach(d => {
@@ -171,41 +121,31 @@ export default function HomePage() {
       longest = Math.max(longest, currentRun);
       prev = cur;
     });
-    
-    return { 
-      count: uniqueDates.length, 
-      standingCount: result.records.filter(r => !r.date).length,
-      uniqueDates,
-      longest, 
-      next: nextDays 
-    };
-  }, [result, today]);
 
-  const briefHtml = useMemo(() => {
-    const { count, standingCount, uniqueDates } = checkerStats;
-    if (count === 0 && standingCount === 0) return "";
+    const nextDate = uniqueDates.find(d => d >= todayKey);
+    const nextDays = nextDate ? Math.round((new Date(nextDate + 'T00:00:00').getTime() - today.getTime()) / 86400000) : '—';
 
-    let text = "";
-    if (count === 1) {
-      const dLabel = new Date(uniqueDates[0] + 'T00:00:00').toLocaleDateString('en-GB', { day: '2-digit', month: 'short' });
-      text = `${dLabel} is the only recorded date to keep in mind in your selected period. The details below explain what is happening and any related local or institutional information.`;
-    } else if (count > 1) {
-      text = `${count} dates in your selected period are worth keeping in mind. The details below show what is happening on each date and any related local or institutional information.`;
-    }
-
-    if (standingCount > 0) {
-      text += ` We have also included ${standingCount === 1 ? "one piece" : `${standingCount} pieces`} of general guidance that is not tied to a particular day.`;
-    }
-
-    return `<span class="brief-label">IN SHORT</span>${text}`;
-  }, [checkerStats]);
+    return { records: all, uniqueDates, count: uniqueDates.length, standing, longest, nextDays };
+  }, [country, startDate, endDate, today, todayKey]);
 
   if (!isMounted) return null;
 
   return (
-    <div className="bg-[#0F1428] text-[#F4F1E8] min-h-screen font-sans">
-      <Header />
-      
+    <div className="bg-[#0F1428] text-[#F4F1E8] min-h-screen font-sans" data-page={page}>
+      <header>
+        <nav className="wrap">
+          <div className="logo">Utsavs <span>GLOBAL CALENDAR INTELLIGENCE</span></div>
+          <div className="navlinks">
+            <a href="#home" className={cn(page === 'home' && "active")} onClick={() => setPage('home')}>Date Intelligence</a>
+            <a href="#built" className={cn(page === 'built' && "active")} onClick={() => setPage('built')}>Built For</a>
+            <a href="#api" className={cn(page === 'api' && "active")} onClick={() => setPage('api')}>API</a>
+            <a href="#insurance" className={cn(page === 'insurance' && "active")} onClick={() => setPage('insurance')}>Travel Insurance</a>
+            <a href="https://utsavs.com" target="_blank" rel="noopener">Stories ↗</a>
+          </div>
+          <a href="#api" className="navcta" onClick={() => setPage('api')}>Get API Access</a>
+        </nav>
+      </header>
+
       <main>
         {/* HERO */}
         <section className="hero" id="explore">
@@ -231,16 +171,16 @@ export default function HomePage() {
                     </span>
                   </div>
                   <div className="hero-tracker-next-card">
-                    <span className="next-card-kicker" id="pulse-regional-kicker">Regional · {COUNTRY_LABELS[query.destination] || query.destination}</span>
+                    <span className="next-card-kicker" id="pulse-regional-kicker">Regional · {COUNTRY_LABELS[country] || country}</span>
                     <span className="next-card-name" id="pulse-regional-name">{regionalNext?.name || "No upcoming holiday listed"}</span>
                     <span className="next-card-date" id="pulse-regional-date">
-                      {regionalNext ? `${new Date(regionalNext.date + 'T00:00:00').toLocaleDateString('en-GB', { day: '2-digit', month: 'short' })} · ${regionalNext.daysAway === 0 ? 'today' : regionalNext.daysAway + ' days away'}` : `for ${COUNTRY_LABELS[query.destination] || query.destination}`}
+                      {regionalNext ? `${new Date(regionalNext.date + 'T00:00:00').toLocaleDateString('en-GB', { day: '2-digit', month: 'short' })} · ${regionalNext.daysAway === 0 ? 'today' : regionalNext.daysAway + ' days away'}` : `for ${COUNTRY_LABELS[country] || country}`}
                     </span>
                   </div>
                 </div>
                 <div className="hero-tracker-feed">
                   <div className={cn("marquee", marqueeItems.length === 0 && "marquee-static")}>
-                    <div className="marquee-track" id="pulse-marquee-track" dangerouslySetInnerHTML={{ __html: marqueeItems.length > 0 ? marqueeItems.join('') : '<span class="chip"><b>No curated observances</b> in the next 7 days</span>' }} />
+                    <div className="marquee-track" id="pulse-marquee-track" dangerouslySetInnerHTML={{ __html: marqueeItems.join('') }} />
                   </div>
                 </div>
                 <a className="hero-tracker-link" href="#date-intelligence">See what this date means <span>→</span></a>
@@ -257,23 +197,23 @@ export default function HomePage() {
 
             <div className="checker">
               <div className="checker-top">
-                <h3 id="checker-title">{CHECKER_TITLES[query.purpose]}</h3>
-                <button type="button" className="compare-launch" id="compare-launch" onClick={() => setCompareOpen(!compareOpen)}>
+                <h3 id="checker-title">Trip impact checker</h3>
+                <button type="button" className="compare-launch" onClick={() => setCompareOpen(!compareOpen)}>
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M8 3 4 7l4 4M4 7h13M16 21l4-4-4-4M20 17H7"/></svg>
-                  <span id="compare-launch-label">{compareOpen ? "Back to lens" : "Compare countries"}</span>
+                  <span>{compareOpen ? "Back to lens" : "Compare countries"}</span>
                 </button>
               </div>
-              <div className="mode-toggle" role="tablist" aria-label="Intelligence lens">
-                <button type="button" className={cn(query.purpose === 'travel' && "active")} onClick={() => setQuery({...query, purpose: 'travel'})}>Travel</button>
-                <button type="button" className={cn(query.purpose === 'study' && "active")} onClick={() => setQuery({...query, purpose: 'study'})}>Study abroad</button>
-                <button type="button" className={cn(query.purpose === 'workforce' && "active")} onClick={() => setQuery({...query, purpose: 'workforce'})}>Business travel</button>
+              <div className="mode-toggle" role="tablist">
+                <button type="button" className={cn(mode === 'traveler' && "active")} onClick={() => setMode('traveler')}>Travel</button>
+                <button type="button" className={cn(mode === 'study' && "active")} onClick={() => setMode('study')}>Study abroad</button>
+                <button type="button" className={cn(mode === 'corporate' && "active")} onClick={() => setMode('corporate')}>Business travel</button>
               </div>
               
               {!compareOpen ? (
-                <div className="checker-row" id="single-country-row">
+                <div className="checker-row">
                   <div className="checker-field">
-                    <label htmlFor="country-select">Destination / jurisdiction</label>
-                    <select id="country-select" value={query.destination} onChange={(e) => setQuery({...query, destination: e.target.value})}>
+                    <label>Destination / jurisdiction</label>
+                    <select value={country} onChange={e => setCountry(e.target.value)}>
                       {Object.entries(COUNTRY_LABELS).map(([code, name]) => (
                         <option key={code} value={code}>{name}</option>
                       ))}
@@ -281,120 +221,69 @@ export default function HomePage() {
                   </div>
                 </div>
               ) : (
-                <div className="checker-row" id="compare-country-row">
+                <div className="checker-row">
                   <div className="checker-field">
-                    <label htmlFor="compare-a">Country A</label>
-                    <select id="compare-a" value={compareA} onChange={(e) => setCompareA(e.target.value)}>
+                    <label>Country A</label>
+                    <select value={compareA} onChange={e => setCompareA(e.target.value)}>
                       {Object.entries(COUNTRY_LABELS).map(([code, name]) => (
                         <option key={code} value={code}>{name}</option>
                       ))}
                     </select>
                   </div>
                   <div className="checker-field">
-                    <label htmlFor="compare-b">Country B</label>
-                    <select id="compare-b" value={compareB} onChange={(e) => setCompareB(e.target.value)}>
+                    <label>Country B</label>
+                    <select value={compareB} onChange={e => setCompareB(e.target.value)}>
                       {Object.entries(COUNTRY_LABELS).map(([code, name]) => (
                         <option key={code} value={code}>{name}</option>
                       ))}
                     </select>
                   </div>
-                  {thirdCountryOn && (
-                    <div className="checker-field" id="compare-c-field">
-                      <label htmlFor="compare-c">Country C</label>
-                      <select id="compare-c" value={compareC} onChange={(e) => setCompareC(e.target.value)}>
-                        {Object.entries(COUNTRY_LABELS).map(([code, name]) => (
-                          <option key={code} value={code}>{name}</option>
-                        ))}
-                      </select>
-                    </div>
-                  )}
-                  <button type="button" className="add-country-btn" id="add-country-btn" onClick={() => setThirdCountryOn(!thirdCountryOn)}>
-                    {thirdCountryOn ? "− Remove third country" : "+ Add a third country"}
-                  </button>
                 </div>
               )}
 
               <div className="checker-row">
                 <div className="checker-field">
-                  <label htmlFor="start-date">From</label>
-                  <input type="date" id="start-date" value={query.startDate} onChange={(e) => setQuery({...query, startDate: e.target.value})} />
+                  <label>From</label>
+                  <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} />
                 </div>
                 <div className="checker-field">
-                  <label htmlFor="end-date">To</label>
-                  <input type="date" id="end-date" value={query.endDate} onChange={(e) => setQuery({...query, endDate: e.target.value})} />
+                  <label>To</label>
+                  <input type="date" value={endDate} onChange={e => setEndDate(e.target.value)} />
                 </div>
               </div>
 
               <div className="range-chips">
-                <button className="range-chip" onClick={() => setQuery({...query, endDate: '2026-09-11'})}>Next 7 days</button>
-                <button className="range-chip active" onClick={() => setQuery({...query, endDate: '2026-10-04'})}>Next 30 days</button>
-                <button className="range-chip" onClick={() => setQuery({...query, endDate: '2026-12-04'})}>Next 90 days</button>
+                <button className="range-chip" onClick={() => setEndDate('2026-09-11')}>Next 7 days</button>
+                <button className="range-chip active" onClick={() => setEndDate('2026-10-04')}>Next 30 days</button>
+                <button className="range-chip" onClick={() => setEndDate('2026-12-04')}>Next 90 days</button>
               </div>
 
-              {!compareOpen ? (
-                <div id="single-view">
-                  <div className="checker-summary">
-                    <div><b id="stat-count">{checkerStats.count}</b><span id="stat-count-label">{checkerStats.count === 1 ? 'date to keep in mind' : 'dates to keep in mind'}</span></div>
-                    <div><b id="stat-longest">{checkerStats.longest}</b><span id="stat-longest-label">{checkerStats.longest === 1 ? 'day in longest flagged run' : 'days in longest run'}</span></div>
-                    <div><b id="stat-next">{checkerStats.next}</b><span id="stat-next-label">days to next one</span></div>
+              <div className="checker-summary">
+                <div><b>{checkerData.count}</b><span>dates to keep in mind</span></div>
+                <div><b>{checkerData.longest}</b><span>day in longest flagged run</span></div>
+                <div><b>{checkerData.nextDays}</b><span>days to next one</span></div>
+              </div>
+              
+              <div className="checker-brief">
+                <span className="brief-label">IN SHORT</span>
+                {checkerData.count === 1 
+                  ? `${new Date(checkerData.uniqueDates[0] + "T00:00:00").toLocaleDateString('en-GB', { day: '2-digit', month: 'short' })} is the only recorded date to keep in mind. Review the details below for institutional impacts.`
+                  : `${checkerData.count} dates in your selected period are worth keeping in mind. Review the details below for institutional impacts.`}
+              </div>
+
+              <div className="checker-list">
+                {checkerData.records.map((r, i) => (
+                  <div key={i} className="impact-row">
+                    <span className="impact-date">{new Date(r.date + "T00:00:00").toLocaleDateString('en-GB', { day: '2-digit', month: 'short' })}</span>
+                    <span className="impact-name">{r.name}</span>
+                    <span className="status-pill high">High</span>
                   </div>
-                  <div className={cn("checker-brief", !briefHtml && "empty")} id="checker-brief" dangerouslySetInnerHTML={{ __html: briefHtml }} />
-                  <div className="checker-list" id="checker-list">
-                    {isSearching ? <div className="flex justify-center py-8"><Loader2 className="animate-spin text-primary" /></div> : 
-                    result?.records.map(r => (
-                      <div key={r.id} className="impact-row">
-                        <span className="impact-date">{r.date ? new Date(r.date + 'T00:00:00').toLocaleDateString('en-GB', { day: '2-digit', month: 'short' }) : 'General'}</span>
-                        <span className="impact-name">{r.name}</span>
-                        <span className={cn("status-pill", r.confidence === 'high' ? "high" : "listed")}>{r.confidence.charAt(0).toUpperCase() + r.confidence.slice(1)}</span>
-                        {r.evidence?.source_url && <a className="story-link" href={r.evidence.source_url} target="_blank" rel="noopener">Source</a>}
-                      </div>
-                    ))}
-                  </div>
-                  <div className="checker-note show">
-                    <b>For your plans.</b> {checkerStats.count} date{checkerStats.count === 1 ? '' : 's'} in this period are worth keeping in mind. Check the named source if you need a particular office or institution to be open.
-                  </div>
-                </div>
-              ) : (
-                <div id="compare-view">
-                   <div className="checker-summary">
-                    <div><b>{result?.records.length || 0}</b><span>dates flagged for either country</span></div>
-                    <div><b>{result?.records.length || 0}</b><span>mismatched days</span></div>
-                    <div><b>{checkerStats.next}</b><span>days to next mismatch</span></div>
-                  </div>
-                  <div className="compare-filters">
-                    <button className={cn("range-chip", compareFilter === 'all' && "active")} onClick={() => setCompareFilter('all')}>All dates</button>
-                    <button className={cn("range-chip", compareFilter === 'mismatch' && "active")} onClick={() => setCompareFilter('mismatch')}>Mismatches only</button>
-                    <button className={cn("range-chip", compareFilter === 'overlap' && "active")} onClick={() => setCompareFilter('overlap')}>Overlaps only</button>
-                  </div>
-                  <div className="compare-table-wrap">
-                    <table className="compare-table">
-                      <thead>
-                        <tr>
-                          <th>Date</th>
-                          <th>{compareA}</th>
-                          <th>{compareB}</th>
-                          {thirdCountryOn && <th>{compareC}</th>}
-                          <th>Signal</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {result?.records.map(r => (
-                          <tr key={r.id}>
-                            <td className="cmp-date">{new Date(r.date + 'T00:00:00').toLocaleDateString('en-GB', { day: '2-digit', month: 'short' })}</td>
-                            <td><div className="cmp-cell"><span className={cn("cmp-dot", r.jurisdiction.country_code === compareA && "on")}></span><span className="cmp-label">{r.jurisdiction.country_code === compareA ? r.name : "—"}</span></div></td>
-                            <td><div className="cmp-cell"><span className={cn("cmp-dot", r.jurisdiction.country_code === compareB && "on")}></span><span className="cmp-label">{r.jurisdiction.country_code === compareB ? r.name : "—"}</span></div></td>
-                            {thirdCountryOn && <td><div className="cmp-cell"><span className={cn("cmp-dot", r.jurisdiction.country_code === compareC && "on")}></span><span className="cmp-label">{r.jurisdiction.country_code === compareC ? r.name : "—"}</span></div></td>}
-                            <td><span className="cmp-signal mismatch">Mismatch</span></td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                  <div className="checker-note neutral show">
-                    <b>Compare result.</b> Select countries above to see scheduling friction points.
-                  </div>
-                </div>
-              )}
+                ))}
+              </div>
+
+              <div className="checker-note show">
+                <b>For your plans.</b> {checkerData.count} dates in this period are worth keeping in mind. Check the named source if you need a particular office or institution to be open.
+              </div>
             </div>
           </div>
         </section>
@@ -411,37 +300,39 @@ export default function HomePage() {
             <div className="date-intel-shell">
               <div className="date-intel-controls">
                 <div className="di-field">
-                  <label htmlFor="di-date">Date · live today by default</label>
-                  <input id="di-date" type="date" value={diDate} onChange={(e) => setDiDate(e.target.value)} />
+                  <label>Date · live today by default</label>
+                  <input type="date" value={todayKey} readOnly />
                 </div>
                 <div className="di-field">
-                  <label htmlFor="di-country">Place</label>
-                  <select id="di-country" value={diCountry} onChange={(e) => setDiCountry(e.target.value)}>
+                  <label>Place</label>
+                  <select value={country} onChange={e => setCountry(e.target.value)}>
                     {Object.entries(COUNTRY_LABELS).map(([code, name]) => (
                       <option key={code} value={code}>{name}</option>
                     ))}
                   </select>
                 </div>
                 <div className="di-nav">
-                  <button type="button" onClick={() => setDiDate('2026-09-04')}>Today</button>
+                  <button type="button">Today</button>
                   <button type="button">←</button>
                   <button type="button">→</button>
                 </div>
               </div>
 
               <div className="di-lenses">
-                {['all', 'government', 'banking', 'markets', 'embassy', 'trade', 'travel'].map(l => (
-                  <button key={l} className={cn("di-lens", diLens === l && "active")} onClick={() => setDiLens(l)}>
-                    {l === 'all' ? 'All intelligence' : l.charAt(0).toUpperCase() + l.slice(1)}
-                  </button>
-                ))}
+                <button className="di-lens active">All intelligence</button>
+                <button className="di-lens">Government</button>
+                <button className="di-lens">Banking</button>
+                <button className="di-lens">Markets</button>
+                <button className="di-lens">Embassy</button>
+                <button className="di-lens">Trade & logistics</button>
+                <button className="di-lens">Travel</button>
               </div>
 
               <div className="di-body">
                 <div className="di-panel">
                    <div className="di-panel-kicker">Date context</div>
-                   <h3 className="di-date-title">{new Date(diDate + 'T00:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</h3>
-                   <p className="di-location">{COUNTRY_LABELS[diCountry]} · Weekday</p>
+                   <h3 className="di-date-title">{today.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</h3>
+                   <p className="di-location">{COUNTRY_LABELS[country]} · Weekday</p>
                    <div className="di-empty">No holiday or observance is currently recorded for this place and date in Utsavs.</div>
                 </div>
                 <div className="di-panel">
@@ -465,7 +356,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* SPECIALIZED LENSES SECTION */}
+        {/* SPECIALIZED CALENDAR LENSES */}
         <section id="specialized-calendars" style={{ paddingTop: 0 }}>
           <div className="wrap">
             <div className="section-head">
@@ -494,15 +385,10 @@ export default function HomePage() {
                 </div>
               ))}
             </div>
-
-            <div className="special-footer">
-              <p>Same evidence model underneath. Different intelligence products on top.</p>
-              <span className="special-api">/v1/markets · /v1/banking · /v1/embassies · /v1/trade · /v1/travel · /v1/impact</span>
-            </div>
           </div>
         </section>
 
-        {/* CLOSING FLOW SECTION */}
+        {/* CLOSING FLOW */}
         <section className="flow" id="closing-flow">
           <div className="wrap">
             <h2 className="flow-line">Check the date first. If it turns out to matter to you, the story's one click away.</h2>
@@ -517,13 +403,16 @@ export default function HomePage() {
         </section>
       </main>
 
-      <Footer />
+      <footer>
+        <div className="wrap foot-row">
+          <div>Utsavs · global calendar intelligence · 2026 · <span style={{ color: 'var(--muted-dim)' }}>Curated data last reviewed 8 Sept 2026</span></div>
+          <div>
+            <a href="https://utsavs.com">Explore Utsavs.com</a>
+            <a href="#home" onClick={() => setPage('home')}>Full calendar</a>
+            <a href="#api" onClick={() => setPage('api')}>Join API preview</a>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
-
-const CHECKER_TITLES: Record<string, string> = {
-  traveler: "Trip impact checker",
-  study: "Study abroad impact checker",
-  corporate: "Business travel impact checker",
-};
