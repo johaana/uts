@@ -2,21 +2,14 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { 
-  ArrowRight, 
-  Loader2, 
-  ChevronRight,
-  Info,
-  MapPin,
-  Search,
-  ExternalLink,
-  ChevronLeft
+  Loader2
 } from "lucide-react";
 import { getOperationalImpact } from '@/lib/operational/adapter';
-import { OperationalQuery, OperationalResult, DateIntelligenceRecord, UserPurpose } from '@/lib/operational/types';
+import { OperationalQuery, OperationalResult } from '@/lib/operational/types';
 import { cn } from '@/lib/utils';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
-import { COUNTRY_LABELS } from '@/lib/calendar-intelligence';
+import { COUNTRY_LABELS, HOLIDAYS, expandCountry, isWeekendFor, TYPE_LABELS, STORY_SLUGS } from '@/lib/calendar-intelligence';
 
 export default function HomePage() {
   const [isMounted, setIsMounted] = useState(false);
@@ -31,7 +24,13 @@ export default function HomePage() {
   });
   const [result, setResult] = useState<OperationalResult | null>(null);
   const [isSearching, setIsSearching] = useState(false);
-  
+  const [compareOpen, setCompareOpen] = useState(false);
+  const [compareFilter, setCompareFilter] = useState<'all' | 'mismatch' | 'overlap'>('all');
+  const [thirdCountryOn, setThirdCountryOn] = useState(false);
+  const [compareA, setCompareA] = useState('IN');
+  const [compareB, setCompareB] = useState('JP');
+  const [compareC, setCompareC] = useState('US');
+
   // Date Intelligence State
   const [diDate, setDiDate] = useState('2026-09-15');
   const [diCountry, setDiCountry] = useState('IN');
@@ -42,6 +41,7 @@ export default function HomePage() {
     setIsMounted(true);
     const d = new Date('2026-09-04T00:00:00');
     setToday(d);
+    setDiDate('2026-09-04');
   }, []);
 
   // Data Fetching
@@ -63,17 +63,19 @@ export default function HomePage() {
   // ---------- LOGIC: FORWARD INDEX & WORLD PULSE ----------
   
   const forwardIndex = useMemo(() => {
-    if (!result || !isMounted) return new Map();
+    if (!isMounted) return new Map();
     const todayKey = today.toISOString().split('T')[0];
     const idx = new Map();
     
-    result.records.forEach(r => {
-      if (r.date < todayKey) return;
-      if (!idx.has(r.date)) idx.set(r.date, []);
-      idx.get(r.date).push({ code: r.jurisdiction.country_code, name: r.name, type: r.category });
+    Object.keys(HOLIDAYS).forEach(code => {
+      expandCountry(code).forEach(h => {
+        if (h.date < todayKey) return;
+        if (!idx.has(h.date)) idx.set(h.date, []);
+        idx.get(h.date).push({ code, name: h.name, type: h.type });
+      });
     });
     return idx;
-  }, [result, today, isMounted]);
+  }, [today, isMounted]);
 
   const globalNext = useMemo(() => {
     const dates = Array.from(forwardIndex.keys()).sort();
@@ -107,10 +109,11 @@ export default function HomePage() {
   }, [forwardIndex, today]);
 
   const regionalNext = useMemo(() => {
-    if (!result) return null;
+    if (!isMounted) return null;
     const todayKey = today.toISOString().split('T')[0];
-    const match = result.records
-      .filter(r => r.date >= todayKey && r.jurisdiction.country_code === query.destination)
+    const countryToTrack = compareOpen ? compareA : query.destination;
+    const match = expandCountry(countryToTrack)
+      .filter(h => h.date >= todayKey)
       .sort((a, b) => a.date.localeCompare(b.date))[0];
       
     if (!match) return null;
@@ -122,7 +125,7 @@ export default function HomePage() {
       date: match.date,
       daysAway: diff
     };
-  }, [result, today, query.destination]);
+  }, [isMounted, today, query.destination, compareOpen, compareA]);
 
   const marqueeItems = useMemo(() => {
     const weekEnd = new Date(today); weekEnd.setDate(weekEnd.getDate() + 7);
@@ -222,25 +225,25 @@ export default function HomePage() {
                 <div className="hero-tracker-next-grid">
                   <div className="hero-tracker-next-card">
                     <span className="next-card-kicker">Global</span>
-                    <span className="next-card-name">{globalNext?.name || "—"}</span>
-                    <span className="next-card-date">
+                    <span className="next-card-name" id="pulse-global-name">{globalNext?.name || "—"}</span>
+                    <span className="next-card-date" id="pulse-global-date">
                       {globalNext ? `${new Date(globalNext.date + 'T00:00:00').toLocaleDateString('en-GB', { day: '2-digit', month: 'short' })} · ${globalNext.countryCount} countries · ${globalNext.daysAway === 0 ? 'today' : globalNext.daysAway + ' days away'}` : "—"}
                     </span>
                   </div>
                   <div className="hero-tracker-next-card">
-                    <span className="next-card-kicker">Regional · {COUNTRY_LABELS[query.destination] || query.destination}</span>
-                    <span className="next-card-name">{regionalNext?.name || "No upcoming holiday listed"}</span>
-                    <span className="next-card-date">
+                    <span className="next-card-kicker" id="pulse-regional-kicker">Regional · {COUNTRY_LABELS[query.destination] || query.destination}</span>
+                    <span className="next-card-name" id="pulse-regional-name">{regionalNext?.name || "No upcoming holiday listed"}</span>
+                    <span className="next-card-date" id="pulse-regional-date">
                       {regionalNext ? `${new Date(regionalNext.date + 'T00:00:00').toLocaleDateString('en-GB', { day: '2-digit', month: 'short' })} · ${regionalNext.daysAway === 0 ? 'today' : regionalNext.daysAway + ' days away'}` : `for ${COUNTRY_LABELS[query.destination] || query.destination}`}
                     </span>
                   </div>
                 </div>
                 <div className="hero-tracker-feed">
                   <div className={cn("marquee", marqueeItems.length === 0 && "marquee-static")}>
-                    <div className="marquee-track" dangerouslySetInnerHTML={{ __html: marqueeItems.length > 0 ? marqueeItems.join('') : '<span class="chip"><b>No curated observances</b> in the next 7 days</span>' }} />
+                    <div className="marquee-track" id="pulse-marquee-track" dangerouslySetInnerHTML={{ __html: marqueeItems.length > 0 ? marqueeItems.join('') : '<span class="chip"><b>No curated observances</b> in the next 7 days</span>' }} />
                   </div>
                 </div>
-                <Link className="hero-tracker-link" href="#date-intelligence">See what this date means <span>→</span></Link>
+                <a className="hero-tracker-link" href="#date-intelligence">See what this date means <span>→</span></a>
               </aside>
 
               <div className="hero-trust">
@@ -255,9 +258,9 @@ export default function HomePage() {
             <div className="checker">
               <div className="checker-top">
                 <h3 id="checker-title">{CHECKER_TITLES[query.purpose]}</h3>
-                <button type="button" className="compare-launch">
+                <button type="button" className="compare-launch" id="compare-launch" onClick={() => setCompareOpen(!compareOpen)}>
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M8 3 4 7l4 4M4 7h13M16 21l4-4-4-4M20 17H7"/></svg>
-                  <span>Compare countries</span>
+                  <span id="compare-launch-label">{compareOpen ? "Back to lens" : "Compare countries"}</span>
                 </button>
               </div>
               <div className="mode-toggle" role="tablist" aria-label="Intelligence lens">
@@ -266,57 +269,132 @@ export default function HomePage() {
                 <button type="button" className={cn(query.purpose === 'workforce' && "active")} onClick={() => setQuery({...query, purpose: 'workforce'})}>Business travel</button>
               </div>
               
-              <div className="checker-row">
-                <div className="checker-field">
-                  <label>Destination / jurisdiction</label>
-                  <select value={query.destination} onChange={(e) => setQuery({...query, destination: e.target.value})}>
-                    {Object.entries(COUNTRY_LABELS).map(([code, name]) => (
-                      <option key={code} value={code}>{name}</option>
-                    ))}
-                  </select>
+              {!compareOpen ? (
+                <div className="checker-row" id="single-country-row">
+                  <div className="checker-field">
+                    <label htmlFor="country-select">Destination / jurisdiction</label>
+                    <select id="country-select" value={query.destination} onChange={(e) => setQuery({...query, destination: e.target.value})}>
+                      {Object.entries(COUNTRY_LABELS).map(([code, name]) => (
+                        <option key={code} value={code}>{name}</option>
+                      ))}
+                    </select>
+                  </div>
                 </div>
-              </div>
+              ) : (
+                <div className="checker-row" id="compare-country-row">
+                  <div className="checker-field">
+                    <label htmlFor="compare-a">Country A</label>
+                    <select id="compare-a" value={compareA} onChange={(e) => setCompareA(e.target.value)}>
+                      {Object.entries(COUNTRY_LABELS).map(([code, name]) => (
+                        <option key={code} value={code}>{name}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="checker-field">
+                    <label htmlFor="compare-b">Country B</label>
+                    <select id="compare-b" value={compareB} onChange={(e) => setCompareB(e.target.value)}>
+                      {Object.entries(COUNTRY_LABELS).map(([code, name]) => (
+                        <option key={code} value={code}>{name}</option>
+                      ))}
+                    </select>
+                  </div>
+                  {thirdCountryOn && (
+                    <div className="checker-field" id="compare-c-field">
+                      <label htmlFor="compare-c">Country C</label>
+                      <select id="compare-c" value={compareC} onChange={(e) => setCompareC(e.target.value)}>
+                        {Object.entries(COUNTRY_LABELS).map(([code, name]) => (
+                          <option key={code} value={code}>{name}</option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
+                  <button type="button" className="add-country-btn" id="add-country-btn" onClick={() => setThirdCountryOn(!thirdCountryOn)}>
+                    {thirdCountryOn ? "− Remove third country" : "+ Add a third country"}
+                  </button>
+                </div>
+              )}
 
               <div className="checker-row">
                 <div className="checker-field">
-                  <label>From</label>
-                  <input type="date" value={query.startDate} onChange={(e) => setQuery({...query, startDate: e.target.value})} />
+                  <label htmlFor="start-date">From</label>
+                  <input type="date" id="start-date" value={query.startDate} onChange={(e) => setQuery({...query, startDate: e.target.value})} />
                 </div>
                 <div className="checker-field">
-                  <label>To</label>
-                  <input type="date" value={query.endDate} onChange={(e) => setQuery({...query, endDate: e.target.value})} />
+                  <label htmlFor="end-date">To</label>
+                  <input type="date" id="end-date" value={query.endDate} onChange={(e) => setQuery({...query, endDate: e.target.value})} />
                 </div>
               </div>
 
               <div className="range-chips">
-                <button className="range-chip" onClick={() => setQuery({...query, endDate: '2026-09-22'})}>Next 7 days</button>
-                <button className="range-chip active" onClick={() => setQuery({...query, endDate: '2026-10-15'})}>Next 30 days</button>
-                <button className="range-chip" onClick={() => setQuery({...query, endDate: '2026-12-15'})}>Next 90 days</button>
+                <button className="range-chip" onClick={() => setQuery({...query, endDate: '2026-09-11'})}>Next 7 days</button>
+                <button className="range-chip active" onClick={() => setQuery({...query, endDate: '2026-10-04'})}>Next 30 days</button>
+                <button className="range-chip" onClick={() => setQuery({...query, endDate: '2026-12-04'})}>Next 90 days</button>
               </div>
 
-              <div className="checker-summary">
-                <div><b>{checkerStats.count}</b><span>{checkerStats.count === 1 ? 'date to keep in mind' : 'dates to keep in mind'}</span></div>
-                <div><b>{checkerStats.longest}</b><span>{checkerStats.longest === 1 ? 'day in longest run' : 'days in longest run'}</span></div>
-                <div><b>{checkerStats.next}</b><span>days to next one</span></div>
-              </div>
-              
-              <div className={cn("checker-brief", !briefHtml && "empty")} dangerouslySetInnerHTML={{ __html: briefHtml }} />
-
-              <div className="checker-list">
-                {isSearching ? <div className="flex justify-center py-8"><Loader2 className="animate-spin text-primary" /></div> : 
-                result?.records.map(r => (
-                  <div key={r.id} className="impact-row">
-                    <span className="impact-date">{r.date ? new Date(r.date + 'T00:00:00').toLocaleDateString('en-GB', { day: '2-digit', month: 'short' }) : 'General'}</span>
-                    <span className="impact-name">{r.name}</span>
-                    <span className={cn("status-pill", r.confidence === 'high' ? "high" : "listed")}>{r.confidence.charAt(0).toUpperCase() + r.confidence.slice(1)}</span>
-                    {r.evidence?.source_url && <a className="story-link" href={r.evidence.source_url} target="_blank" rel="noopener">Source</a>}
+              {!compareOpen ? (
+                <div id="single-view">
+                  <div className="checker-summary">
+                    <div><b id="stat-count">{checkerStats.count}</b><span id="stat-count-label">{checkerStats.count === 1 ? 'date to keep in mind' : 'dates to keep in mind'}</span></div>
+                    <div><b id="stat-longest">{checkerStats.longest}</b><span id="stat-longest-label">{checkerStats.longest === 1 ? 'day in longest flagged run' : 'days in longest run'}</span></div>
+                    <div><b id="stat-next">{checkerStats.next}</b><span id="stat-next-label">days to next one</span></div>
                   </div>
-                ))}
-              </div>
-
-              <div className="checker-note">
-                <b>For your plans.</b> {checkerStats.count} date{checkerStats.count === 1 ? '' : 's'} in this period are worth keeping in mind. Check the named source if you need a particular office or institution to be open.
-              </div>
+                  <div className={cn("checker-brief", !briefHtml && "empty")} id="checker-brief" dangerouslySetInnerHTML={{ __html: briefHtml }} />
+                  <div className="checker-list" id="checker-list">
+                    {isSearching ? <div className="flex justify-center py-8"><Loader2 className="animate-spin text-primary" /></div> : 
+                    result?.records.map(r => (
+                      <div key={r.id} className="impact-row">
+                        <span className="impact-date">{r.date ? new Date(r.date + 'T00:00:00').toLocaleDateString('en-GB', { day: '2-digit', month: 'short' }) : 'General'}</span>
+                        <span className="impact-name">{r.name}</span>
+                        <span className={cn("status-pill", r.confidence === 'high' ? "high" : "listed")}>{r.confidence.charAt(0).toUpperCase() + r.confidence.slice(1)}</span>
+                        {r.evidence?.source_url && <a className="story-link" href={r.evidence.source_url} target="_blank" rel="noopener">Source</a>}
+                      </div>
+                    ))}
+                  </div>
+                  <div className="checker-note show">
+                    <b>For your plans.</b> {checkerStats.count} date{checkerStats.count === 1 ? '' : 's'} in this period are worth keeping in mind. Check the named source if you need a particular office or institution to be open.
+                  </div>
+                </div>
+              ) : (
+                <div id="compare-view">
+                   <div className="checker-summary">
+                    <div><b>{result?.records.length || 0}</b><span>dates flagged for either country</span></div>
+                    <div><b>{result?.records.length || 0}</b><span>mismatched days</span></div>
+                    <div><b>{checkerStats.next}</b><span>days to next mismatch</span></div>
+                  </div>
+                  <div className="compare-filters">
+                    <button className={cn("range-chip", compareFilter === 'all' && "active")} onClick={() => setCompareFilter('all')}>All dates</button>
+                    <button className={cn("range-chip", compareFilter === 'mismatch' && "active")} onClick={() => setCompareFilter('mismatch')}>Mismatches only</button>
+                    <button className={cn("range-chip", compareFilter === 'overlap' && "active")} onClick={() => setCompareFilter('overlap')}>Overlaps only</button>
+                  </div>
+                  <div className="compare-table-wrap">
+                    <table className="compare-table">
+                      <thead>
+                        <tr>
+                          <th>Date</th>
+                          <th>{compareA}</th>
+                          <th>{compareB}</th>
+                          {thirdCountryOn && <th>{compareC}</th>}
+                          <th>Signal</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {result?.records.map(r => (
+                          <tr key={r.id}>
+                            <td className="cmp-date">{new Date(r.date + 'T00:00:00').toLocaleDateString('en-GB', { day: '2-digit', month: 'short' })}</td>
+                            <td><div className="cmp-cell"><span className={cn("cmp-dot", r.jurisdiction.country_code === compareA && "on")}></span><span className="cmp-label">{r.jurisdiction.country_code === compareA ? r.name : "—"}</span></div></td>
+                            <td><div className="cmp-cell"><span className={cn("cmp-dot", r.jurisdiction.country_code === compareB && "on")}></span><span className="cmp-label">{r.jurisdiction.country_code === compareB ? r.name : "—"}</span></div></td>
+                            {thirdCountryOn && <td><div className="cmp-cell"><span className={cn("cmp-dot", r.jurisdiction.country_code === compareC && "on")}></span><span className="cmp-label">{r.jurisdiction.country_code === compareC ? r.name : "—"}</span></div></td>}
+                            <td><span className="cmp-signal mismatch">Mismatch</span></td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                  <div className="checker-note neutral show">
+                    <b>Compare result.</b> Select countries above to see scheduling friction points.
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </section>
@@ -333,15 +411,15 @@ export default function HomePage() {
             <div className="date-intel-shell">
               <div className="date-intel-controls">
                 <div className="di-field">
-                  <label>Date · live today by default</label>
-                  <input type="date" value={diDate} onChange={(e) => setDiDate(e.target.value)} />
+                  <label htmlFor="di-date">Date · live today by default</label>
+                  <input id="di-date" type="date" value={diDate} onChange={(e) => setDiDate(e.target.value)} />
                 </div>
                 <div className="di-field">
-                  <label>Place</label>
-                  <select value={diCountry} onChange={(e) => setDiCountry(e.target.value)}>
-                     {Object.entries(COUNTRY_LABELS).map(([code, name]) => (
-                        <option key={code} value={code}>{name}</option>
-                      ))}
+                  <label htmlFor="di-country">Place</label>
+                  <select id="di-country" value={diCountry} onChange={(e) => setDiCountry(e.target.value)}>
+                    {Object.entries(COUNTRY_LABELS).map(([code, name]) => (
+                      <option key={code} value={code}>{name}</option>
+                    ))}
                   </select>
                 </div>
                 <div className="di-nav">
@@ -403,7 +481,7 @@ export default function HomePage() {
                 { n: '03 · DIPLOMATIC', t: 'Embassies', d: 'Mission, consular and visa calendars — host and home-country holidays kept distinct.', s: ['Mission', 'Consular', 'Visa'] },
                 { n: '04 · TRADE', t: 'Customs & ports', d: 'Authority notices, terminal schedules and documented closure windows.', s: ['Customs', 'Ports', 'Terminals'] },
                 { n: '05 · MOBILITY', t: 'Travel intelligence', d: 'Travel advisories now; entry, visa, passport and border information.', s: ['Advisories', 'Entry', 'Visa'] },
-                { n: '06 · OPERATIONS', t: 'Impact', d: 'Combine the evidence-backed layers for a date and show the planning consequence.', s: ['Date', 'Place', 'Impact'], f: true },
+                { n: '06 · OPERATIONS', t: 'Impact', d: 'Combine the evidence-backed layers for a date, country or corridor and show the planning consequence.', s: ['Date', 'Place', 'Impact'], f: true },
               ].map(item => (
                 <div key={item.t} className={cn("special-card", item.f && "special-featured")}>
                   <div className="special-index">{item.n}</div>
@@ -412,7 +490,7 @@ export default function HomePage() {
                   <div className="special-tags">
                     {item.s.map(tag => <span key={tag} className="special-tag">{tag}</span>)}
                   </div>
-                  <span className="special-open">Open this lens <ArrowRight className="w-3 h-3 ml-2" /></span>
+                  <span className="special-open">Open this lens <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="11" height="11"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
                 </div>
               ))}
             </div>
@@ -445,7 +523,7 @@ export default function HomePage() {
 }
 
 const CHECKER_TITLES: Record<string, string> = {
-  travel: "Trip impact checker",
+  traveler: "Trip impact checker",
   study: "Study abroad impact checker",
   corporate: "Business travel impact checker",
 };
