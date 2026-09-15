@@ -309,7 +309,7 @@ export default function HomePage() {
                 ))}
               </div>
 
-              <div className="checker-note show">
+              <div className="checker-note">
                 <b>For your plans.</b> {checkerData.count} dates in this period are worth keeping in mind. Check the named source if you need a particular office or institution to be open.
               </div>
             </div>
@@ -385,7 +385,7 @@ export default function HomePage() {
            </div>
         </section>
 
-        {/* Built For Page (Pseudo-hidden) */}
+        {/* Hidden Section: Built For */}
         <section id="built-for-intro" className="wrap">
            <div className="section-head">
               <span className="kicker">BUILT FOR</span>
@@ -410,7 +410,7 @@ export default function HomePage() {
            </div>
         </section>
 
-        {/* API Page (Pseudo-hidden) */}
+        {/* Hidden Section: API */}
         <section id="api-intro" className="wrap">
            <div className="section-head">
               <span className="kicker">API</span>
@@ -445,7 +445,7 @@ export default function HomePage() {
            </div>
         </section>
 
-        {/* Insurance Page (Pseudo-hidden) */}
+        {/* Hidden Section: Insurance */}
         <section id="insurance-intro" className="wrap">
            <div className="section-head">
               <span className="kicker">TRAVEL INSURANCE</span>
@@ -475,13 +475,13 @@ export default function HomePage() {
         </section>
 
         <section id="closing-flow" className="wrap">
-           <h2 className="flow-line italic">"We started out just helping people find out what's being celebrated today. Turns out a lot of systems needed to know that too."</h2>
-           <div className="flow-steps">
-              <span className="flow-step active">Discovery</span>
+           <h2 className="text-2xl font-headline font-medium italic text-center mb-12">"We started out just helping people find out what's being celebrated today. Turns out a lot of systems needed to know that too."</h2>
+           <div className="flex flex-wrap items-center justify-center gap-4">
+              <span className="font-mono text-[13px] text-[#0F1428] bg-[#F0C888] px-5 py-2.5 rounded-full">Discovery</span>
               <span className="text-muted">—</span>
-              <span className="flow-step">Global intelligence</span>
+              <span className="font-mono text-[13px] text-[#9AA1C0] border border-white/18 px-5 py-2.5 rounded-full">Global intelligence</span>
               <span className="text-muted">—</span>
-              <span className="flow-step">Intelligence API</span>
+              <span className="font-mono text-[13px] text-[#9AA1C0] border border-white/18 px-5 py-2.5 rounded-full">Intelligence API</span>
            </div>
         </section>
       </main>
@@ -489,9 +489,9 @@ export default function HomePage() {
       <footer>
         <div className="wrap foot-row">
           <div>Utsavs · global calendar intelligence · 2026</div>
-          <div>
+          <div className="flex gap-6">
             <a href="https://utsavs.com" target="_blank" rel="noopener">Explore Utsavs.com</a>
-            <a href="#specialized-intelligence">Full calendar</a>
+            <a href="#home">Full calendar</a>
             <a href="#api">Join API preview</a>
           </div>
         </div>

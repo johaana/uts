@@ -35,18 +35,12 @@ img,svg{display:block; max-width:100%;}
 .wrap{max-width:1180px; margin:0 auto; padding:0 32px;}
 @media (max-width:720px){ .wrap{padding:0 20px;} }
 
+/* Custom Scrollbar */
+.checker-list::-webkit-scrollbar { width: 4px; }
+.checker-list::-webkit-scrollbar-thumb { background: var(--line-strong); border-radius: 10px; }
+
 ::selection{background:var(--gold); color:var(--ink);}
 
-/* focus visibility */
-a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible{
-  outline:2px solid var(--gold); outline-offset:3px; border-radius:2px;
-}
-
-@media (prefers-reduced-motion: reduce){
-  *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
-}
-
-/* ---------- NAV ---------- */
 header{
   position:sticky; top:0; z-index:50;
   background:rgba(15,20,40,0.86);
@@ -67,7 +61,7 @@ nav.wrap{
   letter-spacing:0.14em; font-weight:500;
 }
 .navlinks{display:flex; gap:36px; font-size:14.5px; color:var(--muted);}
-.navlinks a{transition:color .15s ease;}
+.navlinks a{transition:color .15s ease; cursor:pointer;}
 .navlinks a:hover, .navlinks a.active{color:var(--paper);}
 .navcta{
   font-size:14px; font-weight:500; color:var(--ink);
@@ -76,7 +70,6 @@ nav.wrap{
 }
 .navcta:hover{background:var(--gold);}
 
-/* ---------- HERO ---------- */
 .hero{
   padding:44px 0 52px;
   position:relative;
@@ -90,7 +83,7 @@ nav.wrap{
 @media (max-width:760px){
   .hero-grid{grid-template-columns:minmax(0,1fr); gap:32px;}
 }
-[id]{ scroll-margin-top:96px; }
+
 h1.headline{
   font-family:var(--serif); font-weight:500;
   font-size:clamp(34px, 4.4vw, 52px);
@@ -111,7 +104,6 @@ h1.headline{
 .hero-trust b{color:var(--paper); font-weight:500; font-family:var(--sans);}
 .hero-trust .sep{color:var(--line-strong);}
 
-/* ---------- IMPACT CHECKER ---------- */
 .checker{
   min-width:0;
   background:var(--panel);
@@ -147,7 +139,6 @@ h1.headline{
   color:var(--paper); font-family:var(--sans); font-size:13.5px;
   padding:10px 12px; border-radius:9px;
 }
-.checker-field select:focus, .checker-field input:focus{outline:none; border-color:var(--gold);}
 
 .checker-summary{
   display:flex; gap:16px; padding:0 0 18px; margin-bottom:16px;
@@ -186,7 +177,6 @@ h1.headline{
 }
 .checker-note b{color:var(--gold-soft);}
 
-/* ---------- HERO TRACKER ---------- */
 .hero-tracker{
   align-self:start;
   margin:22px 0 20px;
@@ -230,10 +220,9 @@ h1.headline{
   white-space:nowrap; font-family:var(--sans);
 }
 .chip b{color:var(--paper); font-weight:500;}
-.hero-tracker-link{display:flex;justify-content:space-between;align-items:center;padding:13px 18px;border-top:1px solid var(--line);font-size:11.5px;color:var(--gold-soft);background:rgba(216,178,92,.035);}
-.hero-tracker-link span{margin-left:8px;}
+.hero-tracker-link{display:flex; justify-content:space-between; align-items:center; padding:13px 18px; border-top:1px solid var(--line); font-size:11.5px; color:var(--gold-soft); background:rgba(216,178,92,.035); cursor:pointer;}
+.hero-tracker-link:hover{background:rgba(216,178,92,.06);}
 
-/* ---------- SECTIONS ---------- */
 section{padding:56px 0;}
 .section-head{max-width:600px; margin-bottom:56px;}
 .kicker{font-family:var(--mono); font-size:12px; color:var(--teal); letter-spacing:0.02em; margin-bottom:14px;}
