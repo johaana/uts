@@ -108,7 +108,6 @@ export default function HomePage() {
     
     const dated = all.map(h => h.date);
     const uniqueDates = [...new Set(dated)].sort();
-    const standing = 0; // Policy records logic would go here
     
     let longest = 0, currentRun = 0, prev = null;
     uniqueDates.forEach(d => {
@@ -125,7 +124,7 @@ export default function HomePage() {
     const nextDate = uniqueDates.find(d => d >= todayKey);
     const nextDays = nextDate ? Math.round((new Date(nextDate + 'T00:00:00').getTime() - today.getTime()) / 86400000) : '—';
 
-    return { records: all, uniqueDates, count: uniqueDates.length, standing, longest, nextDays };
+    return { records: all, uniqueDates, count: uniqueDates.length, longest, nextDays };
   }, [country, startDate, endDate, today, todayKey]);
 
   if (!isMounted) return null;
@@ -158,7 +157,7 @@ export default function HomePage() {
                 <div className="hero-tracker-head">
                   <div>
                     <span className="hero-tracker-kicker">NEXT HOLIDAY UP</span>
-                    <strong id="hero-tracker-date">{today.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}</strong>
+                    <strong id="hero-tracker-date">{today.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</strong>
                   </div>
                   <span className="hero-tracker-live"><i></i> Live calendar view</span>
                 </div>

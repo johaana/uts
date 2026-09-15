@@ -524,3 +524,34 @@ footer{border-top:1px solid var(--line); padding:36px 0;}
 .foot-row{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; font-size:13px; color:var(--muted-dim);}
 .foot-row a{color:var(--muted); margin-left:20px;}
 .foot-disclaimer{margin-top:18px; padding-top:18px; border-top:1px solid var(--line); font-size:11.5px; line-height:1.6; color:var(--muted-dim); max-width:80ch;}
+
+/* ---------- SEPARATED PAGE PRESENTATION ---------- */
+.page-intro-section{padding:92px 0 24px;}
+body[data-page] main > section{display:none;}
+/* Single-file page routing: each page is named internally; the URL hash selects it. */
+body[data-page="home"] main > #explore,
+body[data-page="home"] main > #date-intelligence,
+body[data-page="home"] main > #specialized-calendars,
+body[data-page="home"] main > #stories,
+body[data-page="home"] main > #closing-flow{display:block;}
+body[data-page="date"] main > #explore,
+body[data-page="date"] main > #date-intelligence,
+body[data-page="date"] main > #specialized-calendars,
+body[data-page="date"] main > #travel-sources,
+body[data-page="date"] main > #calendar,
+body[data-page="date"] main > #accuracy,
+body[data-page="date"] main > #closing-flow{display:block;}
+body[data-page="built"] main > #built-for-intro,
+body[data-page="built"] main > #built-for,
+body[data-page="built"] main > #accuracy,
+body[data-page="built"] main > #usp-comparison,
+body[data-page="built"] main > #closing-flow{display:block;}
+body[data-page="api"] main > #api-intro,
+body[data-page="api"] main > #intelligence,
+body[data-page="api"] main > #accuracy,
+body[data-page="api"] main > #coverage,
+body[data-page="api"] main > #api-pricing,
+body[data-page="api"] main > #closing-flow{display:block;}
+body[data-page="insurance"] main > #travel-insurance,
+body[data-page="insurance"] main > #closing-flow{display:block;}
+@media(max-width:920px){.page-intro-section{padding-top:64px;}}
