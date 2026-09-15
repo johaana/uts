@@ -1,244 +1,254 @@
-
 'use client';
 
-import React, { useState } from 'react';
-import { PageLayout } from "@/components/PageLayout";
-import { OperationalFAQ } from "@/components/operational/OperationalFAQ";
-import { EmptyState } from "@/components/operational/EmptyState";
-import { OperationalResultCard } from "@/components/operational/OperationalResultCard";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import React, { useState, useEffect } from 'react';
+import { Header } from '@/components/header';
+import { Footer } from '@/components/footer';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Search, Loader2, ShieldCheck, Globe, Info } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { 
+  Search, 
+  Loader2, 
+  ArrowRight, 
+  Globe, 
+  ShieldCheck, 
+  Calendar,
+  MapPin,
+  Tag,
+  ChevronLeft,
+  ChevronRight,
+  Info
+} from "lucide-react";
 import { getOperationalImpact } from '@/lib/operational/adapter';
 import { OperationalQuery, OperationalResult } from '@/lib/operational/types';
 import { cn } from '@/lib/utils';
-import { Header } from '@/components/header';
-import { Footer } from '@/components/footer';
-import { Badge } from '@/components/ui/badge';
+import { OperationalResultCard } from '@/components/operational/OperationalResultCard';
 
-function TripAdvisory({ result }: { result: OperationalResult }) {
-  const hasImpacts = result.records.length > 0;
-
-  return (
-    <div className={cn(
-      "p-6 rounded-2xl mb-8 border flex flex-col md:flex-row items-center gap-6 transition-all animate-in fade-in slide-in-from-top-4 duration-500",
-      !hasImpacts ? "bg-accent/5 border-accent/20" : "bg-primary/5 border-primary/20"
-    )}>
-      <div className={cn(
-        "w-12 h-12 rounded-full flex items-center justify-center shrink-0",
-        !hasImpacts ? "bg-accent/10 text-accent" : "bg-primary/10 text-primary"
-      )}>
-        {!hasImpacts ? <ShieldCheck className="w-6 h-6" /> : <Globe className="w-6 h-6" />}
-      </div>
-      <div className="flex-1 space-y-1 text-center md:text-left">
-        <h3 className="font-headline text-2xl font-bold">
-          {!hasImpacts ? "Your date looks operationally good." : "Plan for specific operational impacts."}
-        </h3>
-        <p className="text-muted-foreground text-sm max-w-2xl leading-relaxed">
-          {!hasImpacts 
-            ? "No specific date impacts were found for this journey in our verified dataset. Standard cross-border rules apply."
-            : `We found ${result.records.length} signal(s) that may affect your ${result.query_context.purpose} plan. Review the details below to understand the practical implications.`
-          }
-        </p>
-      </div>
-    </div>
-  );
-}
+const LENS_LABELS = {
+  all: "All intelligence",
+  government: "Government",
+  banking: "Banking",
+  markets: "Markets",
+  embassy: "Embassy",
+  trade: "Trade & logistics",
+  travel: "Travel"
+};
 
 export default function DateIntelligencePage() {
   const [query, setQuery] = useState<OperationalQuery>({
     destination: 'IN',
-    startDate: '2026-11-01',
-    endDate: '2026-11-15',
+    startDate: new Date().toISOString().split('T')[0],
+    endDate: new Date().toISOString().split('T')[0],
     purpose: 'travel'
   });
   const [result, setResult] = useState<OperationalResult | null>(null);
   const [isSearching, setIsSearching] = useState(false);
+  const [activeLens, setActiveLens] = useState('all');
 
-  const handleCheckImpact = async () => {
+  const handleSearch = async (overrideQuery?: any) => {
+    const q = overrideQuery || query;
     setIsSearching(true);
     setTimeout(async () => {
       try {
-        const impact = await getOperationalImpact(query);
+        const impact = await getOperationalImpact(q);
         setResult(impact);
       } catch (e) {
         console.error(e);
       } finally {
         setIsSearching(false);
       }
-    }, 600);
+    }, 400);
+  };
+
+  useEffect(() => {
+    handleSearch();
+  }, []);
+
+  const changeDate = (days: number) => {
+    const current = new Date(query.startDate);
+    current.setDate(current.getDate() + days);
+    const dateStr = current.toISOString().split('T')[0];
+    const newQuery = { ...query, startDate: dateStr, endDate: dateStr };
+    setQuery(newQuery);
+    handleSearch(newQuery);
+  };
+
+  const setToday = () => {
+    const dateStr = new Date().toISOString().split('T')[0];
+    const newQuery = { ...query, startDate: dateStr, endDate: dateStr };
+    setQuery(newQuery);
+    handleSearch(newQuery);
   };
 
   return (
-    <div className="bg-background text-foreground min-h-screen">
+    <div className="bg-[#0F1428] text-[#F4F1E8] min-h-screen font-sans">
       <Header />
-      <div className="container mx-auto px-4">
-        {/* HERO */}
-        <section className="py-12 md:py-20 text-center">
-          <h1 className="font-headline text-4xl md:text-6xl font-bold mb-6">Verified date intelligence.</h1>
-          <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto font-medium">
-            Understand what a date means for your plan, supported by authoritative evidence.
-          </p>
-        </section>
+      
+      <main className="py-12 md:py-24">
+        <div className="container mx-auto px-6">
+          <div className="max-w-4xl mx-auto space-y-12">
+            
+            <div className="space-y-4">
+              <div className="text-[12.5px] font-mono text-[#F0C888] tracking-widest uppercase">★ Date intelligence</div>
+              <h1 className="text-3xl md:text-5xl font-headline font-medium leading-tight">What happens on this date?</h1>
+              <p className="text-[#9AA1C0] leading-relaxed max-w-2xl font-medium">
+                One place for the calendar fact, travel signal and institution-specific evidence around a date — with the scope and source kept visible.
+              </p>
+            </div>
 
-        {/* TRIP IMPACT CHECKER */}
-        <section className="mb-24">
-          <Card className="max-w-4xl mx-auto border-primary/20 shadow-2xl overflow-hidden">
-            <CardHeader className="bg-primary/5 border-b flex flex-row justify-between items-center px-6 py-4">
-              <div className="flex items-center gap-3">
-                <Search className="w-5 h-5 text-primary" />
-                <span className="font-bold text-sm uppercase tracking-widest">Trip Impact Checker</span>
-              </div>
-              <div className="hidden md:flex gap-2">
-                 <Badge variant="outline" className="text-[10px] font-mono border-primary/20 uppercase tracking-widest">Source: Authoritative</Badge>
-              </div>
-            </CardHeader>
-            <CardContent className="p-6 md:p-8 space-y-8">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-                <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Origin (Optional)</label>
-                  <Input 
-                    placeholder="e.g. US" 
-                    value={query.origin || ''}
-                    onChange={(e) => setQuery({...query, origin: e.target.value.toUpperCase()})}
-                    className="bg-muted/30"
-                  />
-                </div>
-                <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Destination</label>
-                  <Input 
-                    placeholder="e.g. IN" 
-                    value={query.destination}
-                    onChange={(e) => setQuery({...query, destination: e.target.value.toUpperCase()})}
-                    className="bg-muted/30"
-                  />
-                </div>
-                <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Start Date</label>
+            <div className="border border-white/18 rounded-2xl bg-[#171D3A] overflow-hidden shadow-2xl">
+              {/* Controls */}
+              <div className="grid grid-cols-1 md:grid-cols-[1fr_1fr_auto] gap-4 p-6 bg-[#1E2650] border-b border-white/10 items-end">
+                <div className="space-y-2">
+                  <label className="block text-[10.5px] font-mono text-[#6E7495] uppercase tracking-wider">Date · live today by default</label>
                   <Input 
                     type="date" 
-                    value={query.startDate}
-                    onChange={(e) => setQuery({...query, startDate: e.target.value})}
-                    className="bg-muted/30"
+                    value={query.startDate} 
+                    onChange={(e) => {
+                      const d = e.target.value;
+                      setQuery({...query, startDate: d, endDate: d});
+                    }}
+                    className="bg-[#0F1428] border-white/10 h-11"
                   />
                 </div>
-                <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">End Date</label>
-                  <Input 
-                    type="date" 
-                    value={query.endDate}
-                    onChange={(e) => setQuery({...query, endDate: e.target.value})}
-                    className="bg-muted/30"
-                  />
-                </div>
-                <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Purpose</label>
-                  <Select 
-                    value={query.purpose} 
-                    onValueChange={(v: any) => setQuery({...query, purpose: v})}
-                  >
-                    <SelectTrigger className="bg-muted/30">
-                      <SelectValue />
-                    </SelectTrigger>
+                <div className="space-y-2">
+                  <label className="block text-[10.5px] font-mono text-[#6E7495] uppercase tracking-wider">Place</label>
+                  <Select value={query.destination} onValueChange={(v) => setQuery({...query, destination: v})}>
+                    <SelectTrigger className="bg-[#0F1428] border-white/10 h-11"><SelectValue /></SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="travel">Travel</SelectItem>
-                      <SelectItem value="business">Business</SelectItem>
-                      <SelectItem value="study">Study</SelectItem>
-                      <SelectItem value="workforce">Workforce</SelectItem>
-                      <SelectItem value="logistics">Logistics</SelectItem>
+                      <SelectItem value="IN">India</SelectItem>
+                      <SelectItem value="JP">Japan</SelectItem>
+                      <SelectItem value="US">United States</SelectItem>
+                      <SelectItem value="CA">Canada</SelectItem>
+                      <SelectItem value="GB">United Kingdom</SelectItem>
+                      <SelectItem value="AU">Australia</SelectItem>
+                      <SelectItem value="SG">Singapore</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
-              </div>
-              <div className="flex justify-center">
-                <Button 
-                  size="lg" 
-                  className="font-bold px-12 transition-all active:scale-95 shadow-lg" 
-                  onClick={handleCheckImpact}
-                  disabled={isSearching}
-                >
-                  {isSearching ? <Loader2 className="animate-spin w-4 h-4 mr-2" /> : null}
-                  Check Impact
-                </Button>
+                <div className="flex gap-2 h-11">
+                  <Button variant="ghost" onClick={setToday} className="h-full border border-white/10 hover:bg-white/5 px-4 font-bold text-xs uppercase tracking-widest">Today</Button>
+                  <Button variant="ghost" size="icon" onClick={() => changeDate(-1)} className="h-full border border-white/10 hover:bg-white/5"><ChevronLeft className="w-4 h-4" /></Button>
+                  <Button variant="ghost" size="icon" onClick={() => changeDate(1)} className="h-full border border-white/10 hover:bg-white/5"><ChevronRight className="w-4 h-4" /></Button>
+                </div>
               </div>
 
-              {/* RESULTS AREA */}
-              <div className="pt-8 border-t">
-                {!result && !isSearching && (
-                  <div className="text-center py-10 text-muted-foreground">
-                    <p className="text-sm italic">Select a destination and dates to begin. Results will be based on the verified 17-chunk authoritative source.</p>
-                  </div>
-                )}
+              {/* Lenses */}
+              <div className="flex flex-wrap gap-2 p-4 md:px-6 border-b border-white/10">
+                {Object.entries(LENS_LABELS).map(([key, label]) => (
+                  <button
+                    key={key}
+                    onClick={() => setActiveLens(key)}
+                    className={cn(
+                      "px-4 py-2 text-[11.5px] font-bold uppercase tracking-wider rounded-full transition-all border",
+                      activeLens === key 
+                        ? "bg-[#E8A33D] text-[#0F1428] border-[#E8A33D]" 
+                        : "bg-transparent text-[#9AA1C0] border-white/10 hover:border-white/30"
+                    )}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
 
-                {isSearching && (
-                   <div className="flex flex-col items-center justify-center py-20 space-y-4">
-                      <Loader2 className="w-8 h-8 animate-spin text-primary" />
-                      <p className="text-sm font-medium animate-pulse text-muted-foreground">Analyzing authoritative records...</p>
+              {/* Body */}
+              <div className="grid md:grid-cols-2">
+                {/* Left: Date context */}
+                <div className="p-8 space-y-6 border-b md:border-b-0 md:border-r border-white/10">
+                   <div className="space-y-1">
+                      <p className="text-[10.5px] font-mono text-[#4FD1C5] uppercase tracking-widest">Date context</p>
+                      <h2 className="text-3xl font-headline font-medium text-[#F4F1E8] flex items-baseline gap-3">
+                        {new Date(query.startDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
+                        {query.startDate === new Date().toISOString().split('T')[0] && (
+                          <span className="text-[10px] font-mono text-[#4FD1C5] border border-[#4FD1C5]/30 rounded-full px-2 py-0.5 uppercase">Today</span>
+                        )}
+                      </h2>
+                      <p className="text-[13px] text-[#9AA1C0]">
+                        {query.destination} · Weekday
+                      </p>
                    </div>
-                )}
 
-                {result && !isSearching && (
-                  <div className="space-y-6 animate-in fade-in duration-700">
-                    <TripAdvisory result={result} />
-                    
-                    {result.status === 'no_matching_records' && (
-                      <div className="text-center py-10 px-6 border rounded-xl bg-muted/5">
-                        <p className="text-sm text-muted-foreground">No specific operational impacts flagged for these criteria in the verified dataset.</p>
+                   <div className="grid grid-cols-3 gap-px bg-white/10 border border-white/10 rounded-xl overflow-hidden">
+                      <div className="bg-[#1E2650] p-4 space-y-1">
+                        <span className="text-[10px] font-mono text-[#6E7495] uppercase">Calendar</span>
+                        <p className="text-sm font-headline font-medium">0 events</p>
                       </div>
-                    )}
+                      <div className="bg-[#1E2650] p-4 space-y-1">
+                        <span className="text-[10px] font-mono text-[#6E7495] uppercase">Signals</span>
+                        <p className="text-sm font-headline font-medium">0 signals</p>
+                      </div>
+                      <div className="bg-[#1E2650] p-4 space-y-1">
+                        <span className="text-[10px] font-mono text-[#6E7495] uppercase">Confidence</span>
+                        <p className="text-sm font-headline font-medium">HIGH</p>
+                      </div>
+                   </div>
 
-                    {result.records.length > 0 && (
-                      <div className="space-y-4">
-                        <div className="flex items-center justify-between px-2 mb-2">
-                          <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground">Identified Signals</h4>
-                          <span className="text-[10px] font-mono text-muted-foreground">Verified Record Set</span>
+                   <div className="pt-6">
+                      {isSearching ? (
+                        <div className="flex items-center gap-3 text-[#9AA1C0] py-4">
+                           <Loader2 className="w-5 h-5 animate-spin" />
+                           <span className="text-sm font-medium italic">Analyzing authoritative records...</span>
                         </div>
-                        {result.records.map(record => (
-                          <OperationalResultCard key={record.id} record={record} />
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                )}
+                      ) : result && result.records.length > 0 ? (
+                        <div className="space-y-4">
+                           <TripAdvisory result={result} />
+                        </div>
+                      ) : (
+                        <div className="p-6 text-center border border-dashed border-white/10 rounded-xl">
+                          <p className="text-sm text-[#9AA1C0] italic font-medium">
+                            No holiday or observance is currently recorded for this place and date in Utsavs.
+                          </p>
+                        </div>
+                      )}
+                   </div>
+                </div>
+
+                {/* Right: Operational signals */}
+                <div className="p-8 space-y-6 bg-white/5">
+                   <div className="space-y-1">
+                      <p className="text-[10.5px] font-mono text-[#4FD1C5] uppercase tracking-widest">What affects this date?</p>
+                   </div>
+                   
+                   <div className="space-y-4">
+                      {isSearching ? (
+                        <div className="space-y-4">
+                          {[1,2,3].map(i => <div key={i} className="h-20 bg-white/5 animate-pulse rounded-lg"></div>)}
+                        </div>
+                      ) : result && result.records.length > 0 ? (
+                        <div className="space-y-4">
+                           {result.records.map(record => (
+                             <OperationalResultCard key={record.id} record={record} />
+                           ))}
+                        </div>
+                      ) : (
+                        <div className="space-y-8 pt-4">
+                           {['Government', 'Banking', 'Markets', 'Travel'].map(cat => (
+                             <div key={cat} className="flex justify-between items-start gap-4 group">
+                                <div className="space-y-1">
+                                   <p className="text-[11px] font-mono text-[#6E7495] uppercase tracking-wider">{cat}</p>
+                                   <p className="text-sm font-medium text-[#9AA1C0]">No specific closure record in Utsavs.</p>
+                                </div>
+                                <span className="text-[10px] font-mono text-[#6E7495] px-2 py-0.5 border border-dashed border-white/10 rounded-full">NONE</span>
+                             </div>
+                           ))}
+                        </div>
+                      )}
+                   </div>
+                </div>
               </div>
-            </CardContent>
-          </Card>
-        </section>
 
-        {/* CORE PRODUCT EXPLANATION */}
-        <section className="py-20 border-t">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="font-headline text-3xl md:text-4xl font-bold mb-8">What is Date Intelligence?</h2>
-            <p className="text-lg text-muted-foreground leading-relaxed mb-12">
-              Date Intelligence brings the calendar, local jurisdictional differences, and relevant institutional information together so you can understand what a particular date may mean for a particular plan. 
-            </p>
-            <div className="grid md:grid-cols-2 gap-8">
-               <div className="p-8 bg-card border rounded-2xl space-y-4">
-                  <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
-                    <Info className="w-5 h-5 text-primary" />
-                  </div>
-                  <h3 className="font-bold text-xl">The "Why it Matters" Layer</h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed">
-                    A holiday name doesn't explain the operational impact. Utsavs exposes the practical consequence—market closures, transport reductions, or institutional deadlines.
-                  </p>
-               </div>
-               <div className="p-8 bg-card border rounded-2xl space-y-4">
-                  <div className="w-10 h-10 bg-accent/10 rounded-full flex items-center justify-center">
-                    <Globe className="w-5 h-5 text-accent" />
-                  </div>
-                  <h3 className="font-bold text-xl">Jurisdictional Precision</h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed">
-                    Country rules != Regional rules. Utsavs models the complex overlap of national and sub-national law to ensure precision.
-                  </p>
-               </div>
+              {/* Foot */}
+              <div className="p-4 md:px-6 bg-[#1E2650] border-t border-white/10 text-[11.5px] text-[#6E7495] leading-relaxed">
+                <b>Reading the page:</b> the calendar tells you what the date is; institutional rows show published institution-level signals; 
+                the travel row adds a live public advisory when available. No closure is inferred from a holiday or weekend alone.
+              </div>
             </div>
-          </div>
-        </section>
 
-        <OperationalFAQ />
-      </div>
+          </div>
+        </div>
+      </main>
+
       <Footer />
     </div>
   );

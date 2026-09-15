@@ -1,146 +1,119 @@
+'use client';
 
-import { Header } from "@/components/header";
-import { Footer } from "@/components/footer";
-import { OperationalFAQ } from "@/components/operational/OperationalFAQ";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import React from 'react';
+import { Header } from '@/components/header';
+import { Footer } from '@/components/footer';
 import { Button } from "@/components/ui/button";
-import { Code, Server, Database, Lock, Globe, Layers, ShieldCheck } from "lucide-react";
-import type { Metadata } from 'next';
-
-export const metadata: Metadata = {
-  title: "API | Global Date Intelligence for Developers | Utsavs",
-  description: "Integrate high-precision global holiday and institutional intelligence into your products and workflows.",
-  alternates: { canonical: '/api' }
-};
+import { Card, CardContent } from "@/components/ui/card";
+import { 
+  Code, 
+  Terminal, 
+  Database, 
+  ShieldCheck, 
+  Layers, 
+  Globe,
+  ArrowRight,
+  Server
+} from "lucide-react";
+import Link from 'next/link';
 
 export default function ApiPage() {
-  const illustrativeJson = `{
+  const jsonCode = `{
   "name": "Diwali",
   "date": "2026-11-08",
   "country": "IN",
-  "scope": "national",
-  "categories": ["religious", "cultural", "public"],
-  "status": "CONFIRMED",
-  "verification": "HIGH",
-  "source": "Ministry of Personnel, Public Grievances and Pensions"
+  "institution": "Nasdaq U.S. Equity & Options Markets",
+  "scope": "trading",
+  "status": "CLOSED",
+  "confidence": "HIGH",
+  "source": "Nasdaq Trader — Holiday Schedule 2026"
 }`;
 
   return (
-    <div className="bg-background text-foreground min-h-screen">
+    <div className="bg-[#0F1428] text-[#F4F1E8] min-h-screen font-sans">
       <Header />
-      <div className="container mx-auto px-4">
-        <section className="py-12 md:py-24 text-center max-w-3xl mx-auto space-y-6">
-          <h1 className="font-headline text-4xl md:text-6xl font-bold leading-tight">One API.<br/>Global intelligence.</h1>
-          <p className="text-xl text-muted-foreground leading-relaxed">
-            Put date intelligence into the products and workflows your users already rely on.
-          </p>
-          <div className="pt-4">
-            <a href="mailto:joy@utsavs.com?subject=API Access Inquiry">
-              <Button size="lg" className="font-bold px-10 h-14 text-lg">Join API Preview</Button>
-            </a>
-          </div>
-        </section>
-
-        <section className="py-20 border-t grid lg:grid-cols-2 gap-16 items-center">
-          <div className="space-y-8">
-            <h2 className="font-headline text-3xl font-bold leading-tight">Built for systems that need to understand the calendar.</h2>
-            <p className="text-muted-foreground leading-relaxed">
-              Payroll runs, travel planners, and scheduling tools all ask the same question: is this day different anywhere that matters to me?
-            </p>
-            <ul className="space-y-6">
-              {[
-                { title: "Structured Data", sub: "Every record carries a date state and a named source.", icon: Server },
-                { title: "Institutional Logic", sub: "Distinguish between a general holiday and specific closures.", icon: Database },
-                { title: "High Precision", sub: "Differentiate between confirmed, declared, and estimated dates.", icon: Lock }
-              ].map((item) => (
-                <li key={item.title} className="flex items-start gap-4">
-                  <div className="p-2 bg-primary/10 rounded-md shrink-0"><item.icon className="w-5 h-5 text-primary" /></div>
-                  <div>
-                    <h4 className="font-bold">{item.title}</h4>
-                    <p className="text-sm text-muted-foreground">{item.sub}</p>
+      
+      <main className="py-12 md:py-24">
+        <div className="container mx-auto px-6">
+          <div className="max-w-5xl mx-auto space-y-16">
+            
+            <div className="grid lg:grid-cols-[1fr_1fr] gap-12 lg:gap-24 items-center">
+               <div className="space-y-6">
+                  <div className="text-[12.5px] font-mono text-[#E8A33D] tracking-widest uppercase">API</div>
+                  <h1 className="text-4xl md:text-6xl font-headline font-medium leading-tight tracking-tight">Put date intelligence into the tools you already use.</h1>
+                  <p className="text-xl text-[#9AA1C0] leading-relaxed font-medium">
+                    Use Utsavs programmatically when your product, workflow or operation needs calendar intelligence at scale.
+                  </p>
+                  <div className="pt-4 flex gap-4">
+                    <Button className="bg-[#E8A33D] text-[#0F1428] hover:bg-[#F0C888] font-bold px-8 h-12 rounded-full shadow-lg">Join API Preview</Button>
+                    <a href="mailto:api@utsavs.com">
+                      <Button variant="ghost" className="border border-white/10 hover:bg-white/5 font-bold px-8 h-12 rounded-full">Contact Support</Button>
+                    </a>
                   </div>
-                </li>
-              ))}
-            </ul>
-          </div>
+               </div>
 
-          <div className="bg-zinc-950 p-6 md:p-10 rounded-3xl border border-zinc-800 shadow-2xl overflow-hidden font-mono text-[13px] text-zinc-300">
-            <div className="flex items-center justify-between mb-6 border-b border-zinc-800 pb-4">
-              <div className="flex items-center gap-2 text-zinc-500 text-[10px] uppercase tracking-tighter">
-                <Code className="w-3 h-3" />
-                <span>Illustrative API Response</span>
-              </div>
+               <div className="bg-[#0B0F22] p-8 md:p-10 rounded-3xl border border-zinc-800 shadow-2xl font-mono text-[13px] text-zinc-300 overflow-hidden relative group">
+                  <div className="absolute top-0 right-0 p-4 text-[10px] font-bold uppercase tracking-widest text-[#4FD1C5]/40">Illustrative JSON</div>
+                  <p className="text-[#4FD1C5] mb-2 font-bold">GET /v1/holidays?country=IN&year=2026</p>
+                  <pre className="whitespace-pre-wrap leading-relaxed overflow-x-auto">
+                    <code>{jsonCode}</code>
+                  </pre>
+               </div>
             </div>
-            <p className="text-emerald-400 mb-2">GET /v1/holidays?country=IN&year=2026</p>
-            <pre className="whitespace-pre-wrap leading-relaxed">
-              <code>{illustrativeJson}</code>
-            </pre>
-          </div>
-        </section>
 
-        {/* CAPABILITIES */}
-        <section className="py-24 border-t">
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              { title: "Origin → Destination", desc: "Identify mismatches between working calendars across borders.", icon: Globe },
-              { title: "Change Intelligence", desc: "Track official date changes and late government announcements.", icon: Layers },
-              { title: "Evidence/Verification", desc: "Access the exact authoritative source backing every record.", icon: ShieldCheck }
-            ].map(cap => (
-              <div key={cap.title} className="space-y-4">
-                <div className="w-10 h-10 bg-muted rounded-lg flex items-center justify-center">
-                  <cap.icon className="w-5 h-5 text-primary" />
-                </div>
-                <h3 className="font-bold text-lg">{cap.title}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">{cap.desc}</p>
-              </div>
-            ))}
-          </div>
-        </section>
+            <section className="grid md:grid-cols-3 gap-8 pt-16 border-t border-white/10">
+               {[
+                 { title: "Structured Data", desc: "Access verified, cleaned and structured holiday information beyond a simple list.", icon: Database },
+                 { title: "Origin → Destination", desc: "Identify mismatches between working calendars across borders automatically.", icon: Globe },
+                 { title: "Change Intelligence", desc: "Track official date changes and late government announcements in real-time.", icon: Server }
+               ].map(item => (
+                 <div key={item.title} className="space-y-4">
+                    <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center text-[#E8A33D]">
+                      <item.icon className="w-5 h-5" />
+                    </div>
+                    <h3 className="text-lg font-bold font-headline">{item.title}</h3>
+                    <p className="text-sm text-[#9AA1C0] leading-relaxed font-medium">{item.desc}</p>
+                 </div>
+               ))}
+            </section>
 
-        {/* PRICING */}
-        <section className="py-24 border-t">
-          <h2 className="font-headline text-3xl font-bold mb-12 text-center">API Access & Pricing</h2>
-          <div className="grid md:grid-cols-3 gap-8">
-             <Card className="border-border/60">
-              <CardHeader>
-                <CardTitle className="text-xl">Standard</CardTitle>
-                <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest mt-1">For products & workflows</p>
-              </CardHeader>
-              <CardContent className="text-sm text-muted-foreground leading-relaxed">
-                Standard access to the calendar and intelligence your application needs. Scoped according to volume.
-              </CardContent>
+            <Card className="bg-[#171D3A] border-white/10 rounded-2xl overflow-hidden p-8 md:p-12">
+               <div className="grid lg:grid-cols-2 gap-12 items-center">
+                  <div className="space-y-6 text-left">
+                    <h2 className="text-3xl font-headline font-medium">Enterprise & Custom Access</h2>
+                    <p className="text-[#9AA1C0] font-medium leading-relaxed">
+                      We support large-scale deployments and specialized data requirements including banking, 
+                      markets, trade lanes and specific jurisdictional rules.
+                    </p>
+                    <ul className="space-y-4">
+                       {["Custom country/region sets", "High-volume SLAs", "Dedicated documentation", "Direct technical support"].map(li => (
+                         <li key={li} className="flex items-center gap-3 text-sm font-bold text-[#F4F1E8]">
+                            <ShieldCheck className="w-4 h-4 text-[#4FD1C5]" />
+                            {li}
+                         </li>
+                       ))}
+                    </ul>
+                  </div>
+                  <div className="bg-[#0B0F22] p-8 rounded-xl border border-white/5 space-y-4">
+                    <div className="space-y-1">
+                      <p className="text-[10px] font-bold uppercase tracking-widest text-[#4FD1C5]">Endpoint Coverage</p>
+                      <p className="text-2xl font-headline font-bold">100+ Jurisdictions</p>
+                    </div>
+                    <div className="space-y-1">
+                      <p className="text-[10px] font-bold uppercase tracking-widest text-[#4FD1C5]">Update Frequency</p>
+                      <p className="text-2xl font-headline font-bold">Real-time Analysis</p>
+                    </div>
+                    <Link href="mailto:joy@utsavs.com?subject=Enterprise API Inquiry">
+                      <Button className="w-full mt-4 bg-[#4FD1C5] text-[#0F1428] hover:bg-[#F4F1E8] font-bold h-12 rounded-full">Contact Enterprise Sales</Button>
+                    </Link>
+                  </div>
+               </div>
             </Card>
-            <Card className="border-primary/30 bg-primary/5">
-              <CardHeader>
-                <CardTitle className="text-xl">Custom</CardTitle>
-                <p className="text-[10px] text-primary font-bold uppercase tracking-widest mt-1">For specialised needs</p>
-              </CardHeader>
-              <CardContent className="text-sm text-muted-foreground leading-relaxed">
-                For particular countries, institutions, or specific operational coverage requirements.
-              </CardContent>
-            </Card>
-            <Card className="border-border/60">
-              <CardHeader>
-                <CardTitle className="text-xl">Enterprise</CardTitle>
-                <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest mt-1">For large deployments</p>
-              </CardHeader>
-              <CardContent className="text-sm text-muted-foreground leading-relaxed">
-                High-volume and organisation-specific requirements including priority support and SLA.
-              </CardContent>
-            </Card>
-          </div>
-          <div className="mt-12 text-center space-y-4">
-            <p className="text-sm text-muted-foreground italic max-w-2xl mx-auto">
-              Commercial pricing is scoped according to coverage, volume and implementation details.
-            </p>
-            <a href="mailto:joy@utsavs.com?subject=Enterprise API Inquiry" className="block">
-              <Button variant="link" className="font-bold">Contact Enterprise Sales →</Button>
-            </a>
-          </div>
-        </section>
 
-        <OperationalFAQ />
-      </div>
+          </div>
+        </div>
+      </main>
+
       <Footer />
     </div>
   );

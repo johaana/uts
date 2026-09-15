@@ -1,118 +1,145 @@
+'use client';
 
-import { Header } from "@/components/header";
-import { Footer } from "@/components/footer";
-import { OperationalFAQ } from "@/components/operational/OperationalFAQ";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Globe, Plane, Briefcase, GraduationCap, Truck, HeartHandshake, MapPin, Landmark, UserCheck } from "lucide-react";
-import type { Metadata } from 'next';
-
-export const metadata: Metadata = {
-  title: "Built For | Decisions Powered by Date Intelligence | Utsavs",
-  description: "Different plans need different dates. Explore how Utsavs helps travel, corporate, and logistics teams plan effectively.",
-  alternates: { canonical: '/built-for' }
-};
-
-const useCases = [
-  {
-    title: "Travel",
-    tag: "Choosing when to go",
-    icon: Plane,
-    desc: "Understand festival periods, public holidays, and likely closures before building an itinerary."
-  },
-  {
-    title: "Corporate / HR",
-    tag: "Choosing when to operate",
-    icon: Briefcase,
-    desc: "Check destination calendars before approving international travel or scheduling regional activities."
-  },
-  {
-    title: "Business & Finance",
-    tag: "Choosing when to schedule",
-    icon: Globe,
-    desc: "Compare origin and destination calendars before scheduling market-sensitive deadlines."
-  },
-  {
-    title: "Study",
-    tag: "Choosing when to arrive",
-    icon: GraduationCap,
-    desc: "Check host-country holidays alongside institutional orientation and registration dates."
-  },
-  {
-    title: "Logistics",
-    tag: "Choosing when to move",
-    icon: Truck,
-    desc: "Cross-check field operations and deliveries against local religious and cultural calendars."
-  },
-  {
-    title: "Travel Protection",
-    tag: "Planning around real periods",
-    icon: HeartHandshake,
-    desc: "Identify relevant periods to provide context-aware protection options for travellers."
-  },
-  {
-    title: "Global Mobility",
-    tag: "Choosing when to relocate",
-    icon: UserCheck,
-    desc: "Plan employee relocation and visa processing around jurisdictional and institutional availability."
-  }
-];
+import React from 'react';
+import { Header } from '@/components/header';
+import { Footer } from '@/components/footer';
+import { Card, CardContent } from "@/components/ui/card";
+import { 
+  Plane, 
+  Briefcase, 
+  Globe, 
+  Clock, 
+  Landmark,
+  ShieldCheck,
+  ChevronRight,
+  ArrowRight
+} from "lucide-react";
+import Link from 'next/link';
 
 export default function BuiltForPage() {
+  const useCases = [
+    {
+      title: "Travel",
+      subtitle: "Choosing when to go",
+      icon: Plane,
+      description: "Understand what may be happening when you arrive, from public and regional dates to relevant travel information and local observances.",
+      benefits: [
+        "Flag festival dates before booking flights",
+        "See if your trip lands on a long weekend",
+        "Plan around crowds and potential price spikes"
+      ]
+    },
+    {
+      title: "Corporate / HR",
+      subtitle: "Choosing when to operate",
+      icon: Clock,
+      description: "Check destination holidays before approving international travel or onboarding. Know exactly which state or city holidays apply to your team.",
+      benefits: [
+        "Avoid scheduling audits on local holidays",
+        "Build region-aware global leave calendars",
+        "Coordinate projects across multi-country teams"
+      ]
+    },
+    {
+      title: "Business & Finance",
+      subtitle: "Choosing when to schedule",
+      icon: Briefcase,
+      description: "Don't get caught out by market closures or banking holidays. Compare origin and destination calendars before scheduling market-sensitive deadlines.",
+      benefits: [
+        "Track early closes and settlement cycles",
+        "Plan payroll and payments with confidence",
+        "Identify cross-border working day mismatches"
+      ]
+    },
+    {
+      title: "Study Abroad",
+      subtitle: "Choosing when to arrive",
+      icon: Globe,
+      description: "Put institutional calendars and arrival timing around your dates. Align visa interviews and orientation sessions with verified host-country info.",
+      benefits: [
+        "Check arrival windows against academic start",
+        "Avoid move-in or exam date conflicts",
+        "Navigate student visa and policy changes"
+      ]
+    },
+    {
+      title: "Logistics",
+      subtitle: "Choosing when to move",
+      icon: Landmark,
+      description: "Cross-check field operations and deliveries against several countries' holidays at once. Anticipate reduced staffing at customs and ports.",
+      benefits: [
+        "Plan around port and terminal closures",
+        "Calculate demurrage exposure in advance",
+        "Align carrier schedules with local observances"
+      ]
+    }
+  ];
+
   return (
-    <div className="bg-background text-foreground min-h-screen">
+    <div className="bg-[#0F1428] text-[#F4F1E8] min-h-screen font-sans">
       <Header />
-      <div className="container mx-auto px-4 py-12">
-        <section className="py-12 text-center max-w-3xl mx-auto space-y-6">
-          <h1 className="font-headline text-4xl md:text-6xl font-bold leading-tight">Different plans need<br/>different dates.</h1>
-          <p className="text-xl text-muted-foreground leading-relaxed">
-            The question is not simply whether a date is a holiday. It is whether that date works for what you are trying to do.
-          </p>
-        </section>
-
-        <section className="py-12">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {useCases.map((uc, i) => (
-              <Card key={i} className="hover:border-primary/30 transition-all duration-300 bg-card">
-                <CardHeader className="pb-2">
-                  <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center mb-6">
-                    <uc.icon className="w-5 h-5 text-primary" />
-                  </div>
-                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-accent mb-2">{uc.tag}</p>
-                  <CardTitle className="font-headline text-2xl">{uc.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground text-sm leading-relaxed">{uc.desc}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </section>
-
-        {/* HIERARCHY EXPLAINER */}
-        <section className="py-24 border-t">
+      
+      <main className="py-12 md:py-24">
+        <div className="container mx-auto px-6">
           <div className="max-w-4xl mx-auto space-y-16">
-            <h2 className="font-headline text-3xl md:text-5xl font-bold text-center">The Context Layer</h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-              {[
-                { label: "Jurisdiction", sub: "National vs. Local rules", icon: MapPin },
-                { label: "Institution", sub: "Banks, Markets, Ports", icon: Landmark },
-                { label: "Purpose", sub: "Work vs. Leisure", icon: Briefcase },
-                { label: "Implication", sub: "Practical consequence", icon: Globe }
-              ].map((item) => (
-                <div key={item.label} className="space-y-4">
-                  <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
-                    <item.icon className="w-6 h-6 text-primary" />
-                  </div>
-                  <h4 className="font-bold text-lg">{item.label}</h4>
-                  <p className="text-xs text-muted-foreground">{item.sub}</p>
-                </div>
+            
+            <div className="space-y-4">
+              <div className="text-[12.5px] font-mono text-[#4FD1C5] tracking-widest uppercase">Built For</div>
+              <h1 className="text-4xl md:text-6xl font-headline font-medium leading-tight tracking-tight">Choose the right day for what you are trying to do.</h1>
+              <p className="text-xl text-[#9AA1C0] leading-relaxed max-w-2xl font-medium">
+                Travel, study, business, workforce and operations can all be affected by the same date in different ways. Utsavs helps you see the practical consequence.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {useCases.map((uc, i) => (
+                <Card key={i} className="bg-[#171D3A] border-white/10 hover:border-white/20 transition-all group rounded-2xl overflow-hidden shadow-lg">
+                  <CardContent className="p-8 space-y-6">
+                    <div className="flex justify-between items-start">
+                      <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-[#E8A33D] group-hover:scale-110 transition-transform">
+                        <uc.icon className="w-6 h-6" />
+                      </div>
+                      <div className="text-right">
+                         <span className="text-[9px] font-bold uppercase tracking-widest text-[#E8A33D]">{uc.subtitle}</span>
+                         <h3 className="text-2xl font-headline font-medium mt-1">{uc.title}</h3>
+                      </div>
+                    </div>
+                    <p className="text-[15px] text-[#9AA1C0] leading-relaxed font-medium">
+                      {uc.description}
+                    </p>
+                    <ul className="space-y-3 pt-4 border-t border-white/5">
+                       {uc.benefits.map((benefit, j) => (
+                         <li key={j} className="flex items-start gap-3 text-sm text-[#F4F1E8] font-medium leading-snug">
+                            <ChevronRight className="w-4 h-4 text-[#4FD1C5] shrink-0 mt-0.5" />
+                            {benefit}
+                         </li>
+                       ))}
+                    </ul>
+                  </CardContent>
+                </Card>
               ))}
             </div>
-          </div>
-        </section>
 
-        <OperationalFAQ />
-      </div>
+            <section className="py-16 border-y border-white/10 text-center space-y-8">
+               <h2 className="text-3xl font-headline font-medium">Ready to understand your dates?</h2>
+               <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <Link href="/date-intelligence">
+                    <Button className="bg-[#E8A33D] text-[#0F1428] hover:bg-[#F0C888] font-bold px-10 h-14 rounded-full">
+                      Start Planning Now <ArrowRight className="ml-2 w-4 h-4" />
+                    </Button>
+                  </Link>
+                  <Link href="/api">
+                    <Button variant="ghost" className="px-10 h-14 font-bold border border-white/10 rounded-full">
+                      Explore the API →
+                    </Button>
+                  </Link>
+               </div>
+            </section>
+
+          </div>
+        </div>
+      </main>
+
       <Footer />
     </div>
   );
