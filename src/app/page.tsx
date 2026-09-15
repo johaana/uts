@@ -18,8 +18,8 @@ export default function HomePage() {
   const [page, setPage] = useState('home');
   const [mode, setMode] = useState('traveler');
   const [country, setCountry] = useState('IN');
-  const [startDate, setStartDate] = useState('2026-09-15');
-  const [endDate, setEndDate] = useState('2026-10-15');
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
   const [compareA, setCompareA] = useState('IN');
   const [compareB, setCompareB] = useState('JP');
   const [compareC, setCompareC] = useState('US');
@@ -27,21 +27,46 @@ export default function HomePage() {
   const [thirdCountryOn, setThirdCountryOn] = useState(false);
   const [compareFilter, setCompareFilter] = useState('all');
 
-  useEffect(() => {
-    setIsMounted(true);
-    const hash = window.location.hash.replace('#', '');
-    if (hash && ['home', 'built', 'api', 'insurance'].includes(hash)) {
-      setPage(hash);
-    }
+  const TODAY = useMemo(() => {
+    const d = new Date();
+    d.setHours(0,0,0,0);
+    return d;
   }, []);
 
-  const today = useMemo(() => new Date('2026-09-04T00:00:00'), []);
-  const todayKey = '2026-09-04';
+  const todayKey = useMemo(() => {
+    const pad2 = n => String(n).padStart(2, "0");
+    return `${TODAY.getFullYear()}-${pad2(TODAY.getMonth()+1)}-${pad2(TODAY.getDate())}`;
+  }, [TODAY]);
+
+  useEffect(() => {
+    setIsMounted(true);
+    const pad2 = n => String(n).padStart(2, "0");
+    const localDateStr = d => `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`;
+    setStartDate(localDateStr(TODAY));
+    setEndDate(localDateStr(new Date(TODAY.getTime() + 30*86400000)));
+
+    const handleHashChange = () => {
+      const hash = window.location.hash.replace('#', '');
+      if (['home', 'built', 'api', 'insurance'].includes(hash)) {
+        setPage(hash);
+      }
+    };
+    window.addEventListener('hashchange', handleHashChange);
+    handleHashChange();
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, [TODAY]);
+
+  useEffect(() => {
+    if (isMounted) {
+      document.body.dataset.page = page;
+    }
+  }, [page, isMounted]);
 
   const forwardIndex = useMemo(() => {
     const idx = new Map();
     Object.keys(HOLIDAYS).forEach(code => {
-      expandCountry(code).forEach(h => {
+      const holidays = expandCountry(code) || [];
+      holidays.forEach(h => {
         if (h.date < todayKey) return;
         if (!idx.has(h.date)) idx.set(h.date, []);
         idx.get(h.date).push({ code, name: h.name, type: h.type });
@@ -54,40 +79,43 @@ export default function HomePage() {
     const dates = Array.from(forwardIndex.keys()).sort();
     if (!dates.length) return null;
     const WINDOW_DAYS = 45, BREADTH_MIN = 5;
-    const windowEnd = new Date(today); windowEnd.setDate(windowEnd.getDate() + WINDOW_DAYS);
-    const windowEndKey = windowEnd.toISOString().split('T')[0];
+    const windowEnd = new Date(TODAY); windowEnd.setDate(windowEnd.getDate() + WINDOW_DAYS);
+    const pad2 = n => String(n).padStart(2, "0");
+    const windowEndKey = `${windowEnd.getFullYear()}-${pad2(windowEnd.getMonth()+1)}-${pad2(windowEnd.getDate())}`;
+    
     const inWindow = dates.filter(d => d <= windowEndKey);
-    let candidate = inWindow.find(d => forwardIndex.get(d).length >= BREADTH_MIN);
+    let candidate = inWindow.find(d => (forwardIndex.get(d) || []).length >= BREADTH_MIN);
     if (!candidate) {
       const pool = inWindow.length ? inWindow : dates;
-      candidate = pool.reduce((best, d) => forwardIndex.get(d).length > forwardIndex.get(best).length ? d : best, pool[0]);
+      candidate = pool.reduce((best, d) => (forwardIndex.get(d) || []).length > (forwardIndex.get(best) || []).length ? d : best, pool[0]);
     }
-    const entries = forwardIndex.get(candidate);
+    const entries = forwardIndex.get(candidate) || [];
     const nameCounts: Record<string, number> = {};
     entries.forEach((e: any) => { nameCounts[e.name] = (nameCounts[e.name] || 0) + 1; });
     const topName = Object.keys(nameCounts).sort((a, b) => nameCounts[b] - nameCounts[a])[0];
-    const diff = Math.round((new Date(candidate + 'T00:00:00').getTime() - today.getTime()) / 86400000);
+    const diff = Math.round((new Date(candidate + 'T00:00:00').getTime() - TODAY.getTime()) / 86400000);
     return { date: candidate, name: topName, countryCount: new Set(entries.map((e: any) => e.code)).size, daysAway: diff };
-  }, [forwardIndex, today]);
+  }, [forwardIndex, TODAY]);
 
   const regionalNext = useMemo(() => {
-    const code = compareOpen ? compareA : country;
-    const match = expandCountry(code)
+    const holidays = expandCountry(country) || [];
+    const match = holidays
       .filter(h => h.date >= todayKey)
       .sort((a, b) => a.date.localeCompare(b.date))[0];
     if (!match) return null;
-    const diff = Math.round((new Date(match.date + 'T00:00:00').getTime() - today.getTime()) / 86400000);
+    const diff = Math.round((new Date(match.date + 'T00:00:00').getTime() - TODAY.getTime()) / 86400000);
     return { name: match.name, date: match.date, daysAway: diff };
-  }, [today, todayKey, compareOpen, compareA, country]);
+  }, [TODAY, todayKey, country]);
 
   const marqueeItems = useMemo(() => {
-    const weekEnd = new Date(today); weekEnd.setDate(weekEnd.getDate() + 7);
-    const weekEndKey = weekEnd.toISOString().split('T')[0];
+    const weekEnd = new Date(TODAY); weekEnd.setDate(weekEnd.getDate() + 7);
+    const pad2 = n => String(n).padStart(2, "0");
+    const weekEndKey = `${weekEnd.getFullYear()}-${pad2(weekEnd.getMonth()+1)}-${pad2(weekEnd.getDate())}`;
     const weekDates = Array.from(forwardIndex.keys()).filter(d => d <= weekEndKey).sort();
     const items: string[] = [];
     weekDates.forEach(date => {
       const byCountry = new Map();
-      forwardIndex.get(date).forEach((e: any) => { 
+      (forwardIndex.get(date) || []).forEach((e: any) => { 
         if (!byCountry.has(e.code)) byCountry.set(e.code, []); 
         byCountry.get(e.code).push(e.name); 
       });
@@ -97,17 +125,19 @@ export default function HomePage() {
       });
     });
     return items.length > 0 ? items.concat(items) : [];
-  }, [forwardIndex, today]);
+  }, [forwardIndex, TODAY]);
 
   const checkerData = useMemo(() => {
+    if (!startDate || !endDate) return { records: [], uniqueDates: [], count: 0, longest: 0, nextDays: '—' };
     const start = new Date(startDate + "T00:00:00");
     const end = new Date(endDate + "T00:00:00");
-    const all = expandCountry(country)
+    
+    const holidays = expandCountry(country) || [];
+    const all = holidays
       .map(h => ({...h, d: new Date(h.date + "T00:00:00")}))
       .filter(h => h.d >= start && h.d <= end);
     
-    const dated = all.map(h => h.date);
-    const uniqueDates = [...new Set(dated)].sort();
+    const uniqueDates = [...new Set(all.map(h => h.date))].sort();
     
     let longest = 0, currentRun = 0, prev = null;
     uniqueDates.forEach(d => {
@@ -122,31 +152,44 @@ export default function HomePage() {
     });
 
     const nextDate = uniqueDates.find(d => d >= todayKey);
-    const nextDays = nextDate ? Math.round((new Date(nextDate + 'T00:00:00').getTime() - today.getTime()) / 86400000) : '—';
+    const nextDays = nextDate ? Math.round((new Date(nextDate + 'T00:00:00').getTime() - TODAY.getTime()) / 86400000) : '—';
 
     return { records: all, uniqueDates, count: uniqueDates.length, longest, nextDays };
-  }, [country, startDate, endDate, today, todayKey]);
+  }, [country, startDate, endDate, todayKey]);
+
+  const briefText = useMemo(() => {
+    const { uniqueDates } = checkerData;
+    if (uniqueDates.length === 0) return "No information is currently recorded for this period.";
+    
+    let text = "";
+    if (uniqueDates.length === 1) {
+      const d = new Date(uniqueDates[0] + "T00:00:00").toLocaleDateString('en-GB', { day: '2-digit', month: 'short' });
+      text = `${d} is the only recorded date to keep in mind in your selected period. The details below explain what is happening and any related local or institutional information.`;
+    } else {
+      text = `${uniqueDates.length} dates in your selected period are worth keeping in mind. The details below show what is happening on each date and any related local or institutional information.`;
+    }
+    return text;
+  }, [checkerData]);
 
   if (!isMounted) return null;
 
   return (
-    <div className="bg-[#0F1428] text-[#F4F1E8] min-h-screen font-sans" data-page={page}>
+    <div className="bg-[#0F1428] text-[#F4F1E8] min-h-screen font-sans">
       <header>
         <nav className="wrap">
           <div className="logo">Utsavs <span>GLOBAL CALENDAR INTELLIGENCE</span></div>
           <div className="navlinks">
-            <a href="#home" className={cn(page === 'home' && "active")} onClick={() => setPage('home')}>Date Intelligence</a>
-            <a href="#built" className={cn(page === 'built' && "active")} onClick={() => setPage('built')}>Built For</a>
-            <a href="#api" className={cn(page === 'api' && "active")} onClick={() => setPage('api')}>API</a>
-            <a href="#insurance" className={cn(page === 'insurance' && "active")} onClick={() => setPage('insurance')}>Travel Insurance</a>
+            <a href="#home" className={cn(page === 'home' && "active")}>Date Intelligence</a>
+            <a href="#built" className={cn(page === 'built' && "active")}>Built For</a>
+            <a href="#api" className={cn(page === 'api' && "active")}>API</a>
+            <a href="#insurance" className={cn(page === 'insurance' && "active")}>Travel Insurance</a>
             <a href="https://utsavs.com" target="_blank" rel="noopener">Stories ↗</a>
           </div>
-          <a href="#api" className="navcta" onClick={() => setPage('api')}>Get API Access</a>
+          <a href="#api" className="navcta">Get API Access</a>
         </nav>
       </header>
 
       <main>
-        {/* HERO */}
         <section className="hero" id="explore">
           <div className="wrap hero-grid">
             <div className="hero-copy">
@@ -157,29 +200,29 @@ export default function HomePage() {
                 <div className="hero-tracker-head">
                   <div>
                     <span className="hero-tracker-kicker">NEXT HOLIDAY UP</span>
-                    <strong id="hero-tracker-date">{today.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</strong>
+                    <strong id="hero-tracker-date">{TODAY.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}</strong>
                   </div>
                   <span className="hero-tracker-live"><i></i> Live calendar view</span>
                 </div>
                 <div className="hero-tracker-next-grid">
                   <div className="hero-tracker-next-card">
                     <span className="next-card-kicker">Global</span>
-                    <span className="next-card-name" id="pulse-global-name">{globalNext?.name || "—"}</span>
-                    <span className="next-card-date" id="pulse-global-date">
-                      {globalNext ? `${new Date(globalNext.date + 'T00:00:00').toLocaleDateString('en-GB', { day: '2-digit', month: 'short' })} · ${globalNext.countryCount} countries · ${globalNext.daysAway === 0 ? 'today' : globalNext.daysAway + ' days away'}` : "—"}
+                    <span className="next-card-name">{globalNext?.name || "—"}</span>
+                    <span className="next-card-date">
+                      {globalNext ? `${new Date(globalNext.date + 'T00:00:00').toLocaleDateString('en-GB', { day: '2-digit', month: 'short' })} · ${globalNext.countryCount} countries · ${globalNext.daysAway === 0 ? 'today' : globalNext.daysAway + ' day' + (globalNext.daysAway === 1 ? '' : 's') + ' away'}` : "—"}
                     </span>
                   </div>
                   <div className="hero-tracker-next-card">
-                    <span className="next-card-kicker" id="pulse-regional-kicker">Regional · {COUNTRY_LABELS[country] || country}</span>
-                    <span className="next-card-name" id="pulse-regional-name">{regionalNext?.name || "No upcoming holiday listed"}</span>
-                    <span className="next-card-date" id="pulse-regional-date">
-                      {regionalNext ? `${new Date(regionalNext.date + 'T00:00:00').toLocaleDateString('en-GB', { day: '2-digit', month: 'short' })} · ${regionalNext.daysAway === 0 ? 'today' : regionalNext.daysAway + ' days away'}` : `for ${COUNTRY_LABELS[country] || country}`}
+                    <span className="next-card-kicker">Regional · {COUNTRY_LABELS[country] || country}</span>
+                    <span className="next-card-name">{regionalNext?.name || "No upcoming holiday listed"}</span>
+                    <span className="next-card-date">
+                      {regionalNext ? `${new Date(regionalNext.date + 'T00:00:00').toLocaleDateString('en-GB', { day: '2-digit', month: 'short' })} · ${regionalNext.daysAway === 0 ? 'today' : regionalNext.daysAway + ' day' + (regionalNext.daysAway === 1 ? '' : 's') + ' away'}` : `for ${COUNTRY_LABELS[country] || country}`}
                     </span>
                   </div>
                 </div>
                 <div className="hero-tracker-feed">
-                  <div className={cn("marquee", marqueeItems.length === 0 && "marquee-static")}>
-                    <div className="marquee-track" id="pulse-marquee-track" dangerouslySetInnerHTML={{ __html: marqueeItems.join('') }} />
+                  <div className="marquee">
+                    <div className="marquee-track" dangerouslySetInnerHTML={{ __html: marqueeItems.join('') }} />
                   </div>
                 </div>
                 <a className="hero-tracker-link" href="#date-intelligence">See what this date means <span>→</span></a>
@@ -258,16 +301,13 @@ export default function HomePage() {
               </div>
 
               <div className="checker-summary">
-                <div><b>{checkerData.count}</b><span>dates to keep in mind</span></div>
-                <div><b>{checkerData.longest}</b><span>day in longest flagged run</span></div>
-                <div><b>{checkerData.nextDays}</b><span>days to next one</span></div>
+                <div><b className="font-headline">{checkerData.count}</b><span>{checkerData.count === 1 ? 'date to keep in mind' : 'dates to keep in mind'}</span></div>
+                <div><b className="font-headline">{checkerData.longest}</b><span>{checkerData.longest === 1 ? 'day in longest run' : 'days in longest run'}</span></div>
+                <div><b className="font-headline">{checkerData.nextDays}</b><span>{checkerData.nextDays === 1 ? 'day to next one' : 'days to next one'}</span></div>
               </div>
               
-              <div className="checker-brief">
-                <span className="brief-label">IN SHORT</span>
-                {checkerData.count === 1 
-                  ? `${new Date(checkerData.uniqueDates[0] + "T00:00:00").toLocaleDateString('en-GB', { day: '2-digit', month: 'short' })} is the only recorded date to keep in mind. Review the details below for institutional impacts.`
-                  : `${checkerData.count} dates in your selected period are worth keeping in mind. Review the details below for institutional impacts.`}
+              <div className={cn("checker-brief", briefText === "" && "empty")}>
+                <span className="brief-label">IN SHORT</span>{briefText}
               </div>
 
               <div className="checker-list">
@@ -287,107 +327,26 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* DATE INTELLIGENCE SECTION */}
-        <section id="date-intelligence" className="date-intel-featured">
+        <section id="date-intelligence">
           <div className="wrap">
             <div className="section-head">
               <div className="kicker">★ Date intelligence</div>
               <h2 className="section-title">What happens on this date?</h2>
               <p>One place for the calendar fact, travel signal and institution-specific evidence around a date — with the scope and source kept visible.</p>
             </div>
-
-            <div className="date-intel-shell">
-              <div className="date-intel-controls">
-                <div className="di-field">
-                  <label>Date · live today by default</label>
-                  <input type="date" value={todayKey} readOnly />
-                </div>
-                <div className="di-field">
-                  <label>Place</label>
-                  <select value={country} onChange={e => setCountry(e.target.value)}>
-                    {Object.entries(COUNTRY_LABELS).map(([code, name]) => (
-                      <option key={code} value={code}>{name}</option>
-                    ))}
-                  </select>
-                </div>
-                <div className="di-nav">
-                  <button type="button">Today</button>
-                  <button type="button">←</button>
-                  <button type="button">→</button>
-                </div>
-              </div>
-
-              <div className="di-lenses">
-                <button className="di-lens active">All intelligence</button>
-                <button className="di-lens">Government</button>
-                <button className="di-lens">Banking</button>
-                <button className="di-lens">Markets</button>
-                <button className="di-lens">Embassy</button>
-                <button className="di-lens">Trade & logistics</button>
-                <button className="di-lens">Travel</button>
-              </div>
-
-              <div className="di-body">
-                <div className="di-panel">
-                   <div className="di-panel-kicker">Date context</div>
-                   <h3 className="di-date-title">{today.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</h3>
-                   <p className="di-location">{COUNTRY_LABELS[country]} · Weekday</p>
-                   <div className="di-empty">No holiday or observance is currently recorded for this place and date in Utsavs.</div>
-                </div>
-                <div className="di-panel">
-                   <div className="di-panel-kicker">Operational signals</div>
-                   <div className="space-y-4">
-                      {['Government', 'Banking', 'Markets', 'Travel'].map(s => (
-                        <div key={s} className="di-signal">
-                           <div className="di-signal-name">{s}</div>
-                           <div className="di-signal-main"><b>No closure record</b><div className="di-signal-note">No specific information found in verified dataset.</div></div>
-                           <span className="di-status none">NONE</span>
-                        </div>
-                      ))}
-                   </div>
-                </div>
-              </div>
-
-              <div className="di-foot">
-                <b>Reading the page:</b> the calendar tells you what the date is; institutional rows show published institution-level signals; the travel row adds a live public advisory when available. No closure is inferred from a holiday or weekend alone.
-              </div>
-            </div>
           </div>
         </section>
-
-        {/* SPECIALIZED CALENDAR LENSES */}
-        <section id="specialized-calendars" style={{ paddingTop: 0 }}>
+        
+        <section id="specialized-calendars">
           <div className="wrap">
             <div className="section-head">
               <div className="kicker">Specialized intelligence</div>
               <h2 className="section-title">One calendar underneath. Deeper calendars when the job demands it.</h2>
               <p>The core calendar stays unified. Specialized views can go deeper into the systems that care about a date differently.</p>
             </div>
-
-            <div className="special-grid">
-              {[
-                { n: '01 · FINANCIAL', t: 'Markets', d: 'Trading, early closes, clearing and settlement — institution by institution.', s: ['Trading', 'Clearing', 'Settlement'] },
-                { n: '02 · PAYMENTS', t: 'Banking', d: 'Branch calendars and, later, the payment and settlement systems behind them.', s: ['Branches', 'Payments', 'Settlement'] },
-                { n: '03 · DIPLOMATIC', t: 'Embassies', d: 'Mission, consular and visa calendars — host and home-country holidays kept distinct.', s: ['Mission', 'Consular', 'Visa'] },
-                { n: '04 · TRADE', t: 'Customs & ports', d: 'Authority notices, terminal schedules and documented closure windows.', s: ['Customs', 'Ports', 'Terminals'] },
-                { n: '05 · MOBILITY', t: 'Travel intelligence', d: 'Travel advisories now; entry, visa, passport and border information.', s: ['Advisories', 'Entry', 'Visa'] },
-                { n: '06 · OPERATIONS', t: 'Impact', d: 'Combine the evidence-backed layers for a date, country or corridor and show the planning consequence.', s: ['Date', 'Place', 'Impact'], f: true },
-              ].map(item => (
-                <div key={item.t} className={cn("special-card", item.f && "special-featured")}>
-                  <div className="special-index">{item.n}</div>
-                  <h4>{item.t}</h4>
-                  <p>{item.d}</p>
-                  <div className="special-tags">
-                    {item.s.map(tag => <span key={tag} className="special-tag">{tag}</span>)}
-                  </div>
-                  <span className="special-open">Open this lens <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="11" height="11"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-                </div>
-              ))}
-            </div>
           </div>
         </section>
 
-        {/* CLOSING FLOW */}
         <section className="flow" id="closing-flow">
           <div className="wrap">
             <h2 className="flow-line">Check the date first. If it turns out to matter to you, the story's one click away.</h2>
@@ -404,11 +363,11 @@ export default function HomePage() {
 
       <footer>
         <div className="wrap foot-row">
-          <div>Utsavs · global calendar intelligence · 2026 · <span style={{ color: 'var(--muted-dim)' }}>Curated data last reviewed 8 Sept 2026</span></div>
+          <div>Utsavs · global calendar intelligence · 2026</div>
           <div>
             <a href="https://utsavs.com">Explore Utsavs.com</a>
-            <a href="#home" onClick={() => setPage('home')}>Full calendar</a>
-            <a href="#api" onClick={() => setPage('api')}>Join API preview</a>
+            <a href="#date">Full calendar</a>
+            <a href="#api">Join API preview</a>
           </div>
         </div>
       </footer>
