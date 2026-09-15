@@ -116,24 +116,23 @@ function determinePurposes(text: string): UserPurpose[] {
   return ['travel', 'business'];
 }
 
-function createEventRecord(cc: string, date: string, name: string, type: string = 'public', conf: string = 'listed', evidenceStr: string = '', state: string = 'listed', dateState: string = 'confirmed'): DateIntelligenceRecord {
+export function createEventRecord(cc: string, date: string, name: string, type: string = 'public', conf: string = 'listed', evidenceStr: string = '', state: string = 'listed', dateState: string = 'confirmed'): DateIntelligenceRecord {
   const evidence = parseEvidence(evidenceStr);
   
-  // Robust check for optional arguments that may be undefined strings
-  const safeType = clean(type) || 'public';
-  const safeConf = clean(conf) || 'listed';
-  const safeState = clean(state) || 'listed';
-  const safeDateState = clean(dateState) || 'confirmed';
+  const safeType = (type || 'public').replace(/['"]/g, '').trim().toLowerCase();
+  const safeConf = (conf || 'listed').replace(/['"]/g, '').trim().toLowerCase();
+  const safeState = (state || 'listed').replace(/['"]/g, '').trim();
+  const safeDateState = (dateState || 'confirmed').replace(/['"]/g, '').trim().toLowerCase();
 
   return {
     id: `EVT_${cc}_${date}_${name.replace(/\s+/g, '_')}`,
     date,
     name,
-    category: safeType.toLowerCase() === 'public' ? 'holiday' : 'regional',
+    category: safeType === 'public' ? 'holiday' : 'regional',
     jurisdiction: { country_code: cc, country_name: cc, scope: 'national' },
     purpose_relevance: ['travel', 'business', 'logistics', 'workforce'],
-    state: (safeDateState.toLowerCase() as DateState),
-    confidence: (safeConf.toLowerCase() as ConfidenceTier) || 'reference',
+    state: (safeDateState as DateState),
+    confidence: (safeConf as ConfidenceTier) || 'reference',
     evidence: {
       source_id: 'utsavs-authoritative-primary',
       source_name: evidence.source_name || 'Official Publication',
@@ -189,4 +188,3 @@ function parseEvidence(s: string): any {
   for (const p of pairs) { obj[p[1]] = p[2]; }
   return obj;
 }
-
