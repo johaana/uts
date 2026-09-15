@@ -1,6 +1,1 @@
-/**
- * @fileOverview Authoritative Source Chunk 006
- * FILE: utsavs-app.ts
- */
-
 export const CHUNK_006 = `membrance Day","public","confirmed","high",{source_name:"Namibia Ministry of Information and Communication Technology — Public Holidays 2026",source_url:"https://mict.gov.na/public-holidays",link_label:"Namibia official holiday calendar",last_checked`;
