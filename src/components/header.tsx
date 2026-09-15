@@ -27,7 +27,7 @@ export function Header() {
         </Link>
 
         {/* Desktop Nav */}
-        <div className="navlinks">
+        <div className="navlinks hidden md:flex">
           {navLinks.map((link) => (
             <Link
               key={link.href}

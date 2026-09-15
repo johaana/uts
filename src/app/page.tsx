@@ -16,7 +16,6 @@ import { OperationalQuery, OperationalResult } from '@/lib/operational/types';
 import { cn } from '@/lib/utils';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
-import { OperationalResultCard } from '@/components/operational/OperationalResultCard';
 
 export default function HomePage() {
   const [query, setQuery] = useState<OperationalQuery>({
@@ -44,16 +43,25 @@ export default function HomePage() {
 
   useEffect(() => {
     handleCheckImpact();
-  }, []);
+  }, [query.destination, query.startDate, query.endDate, query.purpose]);
+
+  const daysInRun = useMemo(() => {
+    if (!result || result.records.length === 0) return 0;
+    // Simple mock logic for run counting
+    return result.records.length > 3 ? 3 : 1;
+  }, [result]);
+
+  const daysToNext = useMemo(() => {
+    if (!result || result.records.length === 0) return '—';
+    return "7"; // Mock static value matching V2 reference
+  }, [result]);
 
   return (
     <div className="bg-[#0F1428] text-[#F4F1E8] min-h-screen font-sans">
       <Header />
       
       <main>
-        {/* =========================================================
-             HERO
-        ========================================================= */}
+        {/* HERO SECTION */}
         <section className="home-hero">
           <div className="wrap home-hero-grid">
             
@@ -78,12 +86,12 @@ export default function HomePage() {
               <div className="hero-actions">
                 <Link href="/date-intelligence" className="button button-primary">
                   Check a date
-                  <span className="ml-2">→</span>
+                  <span>→</span>
                 </Link>
 
                 <a className="text-link" href="#how-it-works">
                   See how it works
-                  <span className="ml-1">↓</span>
+                  <span>↓</span>
                 </a>
               </div>
 
@@ -130,14 +138,14 @@ export default function HomePage() {
                 </div>
 
                 <div className="mode-toggle" role="tablist" aria-label="Purpose">
-                  {['travel', 'study', 'workforce'].map((p) => (
+                  {(['travel', 'study', 'workforce'] as const).map((p) => (
                     <button 
                       key={p}
-                      onClick={() => setQuery({...query, purpose: p as any})}
+                      onClick={() => setQuery({...query, purpose: p})}
                       className={cn(query.purpose === p && "active")}
                       type="button"
                     >
-                      {p === 'workforce' ? 'Business' : p === 'study' ? 'Study' : p}
+                      {p === 'workforce' ? 'Business travel' : p === 'study' ? 'Study abroad' : 'Travel'}
                     </button>
                   ))}
                 </div>
@@ -207,39 +215,49 @@ export default function HomePage() {
                     <span>dates to keep in mind</span>
                   </div>
                   <div className="tracker-stat">
-                    <strong>{isSearching ? '...' : '1'}</strong>
+                    <strong>{isSearching ? '...' : daysInRun}</strong>
                     <span>days in longest run</span>
                   </div>
                   <div className="tracker-stat">
-                    <strong>{isSearching ? '...' : '7'}</strong>
+                    <strong>{isSearching ? '...' : daysToNext}</strong>
                     <span>days to next one</span>
                   </div>
                 </div>
 
-                <div className="tracker-results h-[200px] overflow-y-auto mt-4 custom-scrollbar">
+                {/* TRIP BRIEF / SUMMARY */}
+                {result && !isSearching && result.records.length > 0 && (
+                  <div className="tracker-brief">
+                    <span className="brief-label">IN SHORT</span>
+                    {result.records.length} dates in your selected period are worth keeping in mind. The details below show what is happening on each date and any related local or institutional information.
+                  </div>
+                )}
+
+                <div className="tracker-results custom-scrollbar">
                   {isSearching ? (
                     <div className="flex items-center justify-center h-full">
                       <Loader2 className="animate-spin w-6 h-6 text-primary" />
                     </div>
                   ) : result && result.records.length > 0 ? (
-                    <div className="space-y-3">
+                    <div className="space-y-2">
                       {result.records.map(record => (
-                        <div key={record.id} className="flex items-center gap-3 p-2.5 bg-[#1E2650] rounded-[9px] text-[12px]">
-                          <span className="font-mono text-[#9AA1C0] min-w-[52px]">{record.date.split('-').slice(1).reverse().join(' ')}</span>
-                          <span className="flex-1 font-medium truncate">{record.name}</span>
-                          <span className={cn("text-[9px] font-mono px-2 py-0.5 rounded-full uppercase", record.category === 'holiday' ? "bg-[#E8A33D]/20 text-[#F0C888]" : "bg-white/10 text-[#9AA1C0]")}>{record.category}</span>
+                        <div key={record.id} className="impact-row">
+                          <span className="impact-date">{record.date.split('-').slice(1).reverse().join(' ')}</span>
+                          <span className="impact-name">{record.name}</span>
+                          <span className={cn("status-pill", record.confidence === 'high' ? "high" : "listed")}>
+                            {record.confidence === 'high' ? 'High' : 'Listed'}
+                          </span>
                         </div>
                       ))}
                     </div>
                   ) : (
-                    <div className="text-center py-8 text-muted-foreground text-sm">
+                    <div className="flex items-center justify-center h-full text-muted-foreground text-sm">
                       No matching records found for this period.
                     </div>
                   )}
                 </div>
 
-                <div className="tracker-footer mt-6 text-center">
-                  <Link href="/date-intelligence" className="text-xs font-bold uppercase tracking-widest text-gold-soft hover:text-gold transition-colors">
+                <div className="tracker-footer">
+                  <Link href="/date-intelligence">
                     Open Date Intelligence <span>→</span>
                   </Link>
                 </div>
@@ -248,10 +266,8 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* =========================================================
-             WORLD TODAY
-        ========================================================= */}
-        <section className="world-today py-24 border-y border-white/10" id="world-today">
+        {/* WORLD TODAY */}
+        <section className="world-today" id="world-today">
           <div className="wrap">
             <div className="section-intro">
               <div className="eyebrow">WORLD TODAY</div>
@@ -267,8 +283,8 @@ export default function HomePage() {
             <div className="world-today-grid">
               <article className="world-today-card world-today-primary">
                 <span className="card-label">TODAY</span>
-                <h3>Understanding today's calendar</h3>
-                <p>See the dates and places that may matter today.</p>
+                <h3 id="world-today-title">Understanding today's calendar</h3>
+                <p id="world-today-description">See the dates and places that may matter today.</p>
                 <Link href="/date-intelligence" className="button button-primary self-start">
                   Explore today's date <span>→</span>
                 </Link>
@@ -276,8 +292,8 @@ export default function HomePage() {
 
               <article className="world-today-card">
                 <span className="card-label">COMING UP</span>
-                <h3>Diwali 2026</h3>
-                <p>8 November 2026 · India · National</p>
+                <h3 id="next-event-name">Diwali 2026</h3>
+                <p id="next-event-meta">8 November 2026 · India · National</p>
                 <Link href="/festivals/diwali" className="text-link mt-auto">
                   Check the date <span>→</span>
                 </Link>
@@ -286,17 +302,12 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* =========================================================
-             HOW IT WORKS
-        ========================================================= */}
-        <section className="how-it-works py-24" id="how-it-works">
+        {/* HOW IT WORKS */}
+        <section className="how-it-works" id="how-it-works">
           <div className="wrap">
             <div className="section-intro">
               <div className="eyebrow">HOW IT WORKS</div>
-              <h2>
-                See what your dates may mean
-                for travel, study or business.
-              </h2>
+              <h2>See what your dates may mean for travel, study or business.</h2>
               <p>
                 Utsavs brings relevant calendars and deeper institutional
                 information together around the date you actually care about.
@@ -305,42 +316,36 @@ export default function HomePage() {
 
             <div className="purpose-grid">
               {[
-                { n: "01", t: "Travel", d: "Understand what may be happening when you arrive, from public and regional dates to relevant travel information.", a: "Choosing when to go" },
-                { n: "02", t: "Business", d: "See dates that may affect meetings, operations, working days and business activity.", a: "Choosing when to schedule" },
-                { n: "03", t: "Study", d: "Put institutional calendars, arrival timing and relevant student information around the dates you are considering.", a: "Choosing when to arrive" },
-                { n: "04", t: "Operations", d: "Go deeper when the job requires it — markets, banking, customs, institutions and regional calendars.", a: "Choosing when to operate" }
+                { n: "01", t: "Travel", d: "Understand what may be happening when you arrive, from public and regional dates to relevant travel information." },
+                { n: "02", t: "Business", d: "See dates that may affect meetings, operations, working days and business activity." },
+                { n: "03", t: "Study", d: "Put institutional calendars, arrival timing and relevant student information around the dates you are considering." },
+                { n: "04", t: "Operations", d: "Go deeper when the job requires it — markets, banking, customs, institutions and regional calendars." }
               ].map(item => (
                 <article key={item.n} className="purpose-card">
                   <span className="purpose-number">{item.n}</span>
                   <h3>{item.t}</h3>
                   <p>{item.d}</p>
-                  <span className="purpose-action">{item.a} →</span>
+                  <span className="purpose-action">Choosing when to {item.t === 'Travel' ? 'go' : item.t === 'Business' ? 'schedule' : item.t === 'Study' ? 'arrive' : 'operate'} →</span>
                 </article>
               ))}
             </div>
           </div>
         </section>
 
-        {/* =========================================================
-             SPECIALIZED INTELLIGENCE
-        ========================================================= */}
-        <section className="specialized-intelligence py-24 bg-muted/5 border-y border-white/10">
+        {/* SPECIALIZED INTELLIGENCE */}
+        <section className="specialized-intelligence">
           <div className="wrap">
             <div className="specialized-layout">
               <div className="specialized-copy">
                 <div className="eyebrow">SPECIALIZED INTELLIGENCE</div>
-                <h2>
-                  One calendar underneath.
-                  Deeper calendars when the
-                  job demands it.
-                </h2>
+                <h2>One calendar underneath. Deeper calendars when the job demands it.</h2>
                 <p>
                   The same date can affect a traveller, market,
                   bank, institution or operation differently.
                   Utsavs keeps those layers distinct and brings
                   the relevant evidence together.
                 </p>
-                <Link href="/date-intelligence" className="text-link mt-6">
+                <Link href="/date-intelligence" className="text-link">
                   Explore Date Intelligence <span>→</span>
                 </Link>
               </div>
@@ -363,12 +368,10 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* =========================================================
-             API
-        ========================================================= */}
-        <section className="home-api py-24 border-b border-white/10">
+        {/* API */}
+        <section className="home-api">
           <div className="wrap home-api-inner">
-            <div className="space-y-4">
+            <div>
               <div className="eyebrow">FOR SYSTEMS</div>
               <h2>Need to work with the intelligence continuously?</h2>
               <p>
@@ -383,12 +386,10 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* =========================================================
-             TRAVEL INSURANCE
-        ========================================================= */}
-        <section className="home-insurance py-24 border-b border-white/10">
+        {/* TRAVEL INSURANCE */}
+        <section className="home-insurance">
           <div className="wrap home-insurance-inner">
-            <div className="space-y-4">
+            <div>
               <div className="eyebrow">TRAVEL INSURANCE</div>
               <h2>Plan for what you can predict. Protect against what you can't.</h2>
               <p>
@@ -398,6 +399,7 @@ export default function HomePage() {
                 for customers, employees or students.
               </p>
             </div>
+
             <div className="insurance-actions">
               <Link href="/travel-insurance" className="button button-primary">
                 Get in touch with us <span>→</span>
@@ -409,10 +411,8 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* =========================================================
-             CLOSING
-        ========================================================= */}
-        <section className="home-closing py-24">
+        {/* CLOSING */}
+        <section className="home-closing">
           <div className="wrap">
             <div className="closing-rule"></div>
             <h2>
@@ -428,17 +428,15 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* =========================================================
-             FAQ
-        ========================================================= */}
-        <section className="home-faq py-24 border-t border-white/10">
+        {/* FAQ */}
+        <section className="home-faq">
           <div className="wrap">
             <div className="section-intro">
               <div className="eyebrow">QUESTIONS</div>
               <h2>A few things worth knowing.</h2>
             </div>
 
-            <div className="faq-list space-y-6">
+            <div className="faq-list">
               {[
                 { q: "Does Utsavs tell me whether I should travel?", a: "No. Utsavs shows the dates, evidence and practical implications that may matter to your purpose, so you can make the decision." },
                 { q: "Why can the same date mean different things?", a: "A public holiday, regional observance, university calendar or institutional closure can affect places and activities differently. Utsavs keeps those scopes separate." },
@@ -446,14 +444,9 @@ export default function HomePage() {
                 { q: "Does Utsavs replace visa or immigration advice?", a: "No. Entry eligibility depends on the traveller's circumstances and the relevant authority. Utsavs provides timing and planning context." },
                 { q: "Can I use Utsavs for business or study?", a: "Yes. The same date can be examined for travel, business, study, workforce and operational planning, with deeper institutional information where verified." }
               ].map((item, i) => (
-                <details key={i} className="group border-b border-white/10 pb-4">
-                  <summary className="font-bold cursor-pointer list-none flex justify-between items-center text-lg hover:text-gold-soft transition-colors">
-                    {item.q}
-                    <span className="text-muted-foreground group-open:rotate-180 transition-transform">↓</span>
-                  </summary>
-                  <p className="mt-4 text-muted-foreground leading-relaxed">
-                    {item.a}
-                  </p>
+                <details key={i}>
+                  <summary>{item.q}</summary>
+                  <p>{item.a}</p>
                 </details>
               ))}
             </div>

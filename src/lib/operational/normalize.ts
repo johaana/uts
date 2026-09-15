@@ -14,10 +14,7 @@ import { validateRecord } from './validator';
 export function extractDatasets(source: string): DateIntelligenceRecord[] {
   const records: DateIntelligenceRecord[] = [];
 
-  // 1. Extract INSTITUTIONS (for reference lookup)
-  const institutions = parseInstitutions(source);
-
-  // 2. Extract HOLIDAYS (The primary country-keyed dictionary)
+  // 1. Extract HOLIDAYS (The primary country-keyed dictionary)
   const holidaySection = source.match(/const\s+HOLIDAYS\s*=\s*\{([\s\S]*?)\};/);
   if (holidaySection) {
     const content = holidaySection[1];
@@ -29,34 +26,19 @@ export function extractDatasets(source: string): DateIntelligenceRecord[] {
     }
   }
 
-  // 3. Extract STUDENT_INTELLIGENCE_EXTRA
+  // 2. Extract STUDENT_INTELLIGENCE_EXTRA
   const studentExtraSection = source.match(/const\s+STUDENT_INTELLIGENCE_EXTRA\s*=\s*\[([\s\S]*?)\];/);
   if (studentExtraSection) {
     records.push(...parseObjectArray(studentExtraSection[1], 'student_risk', ['study']));
   }
 
-  // 4. Extract POLICY_RECORDS
+  // 3. Extract POLICY_RECORDS
   const policySection = source.match(/const\s+POLICY_RECORDS\s*=\s*\[([\s\S]*?)\];/);
   if (policySection) {
     records.push(...parseObjectArray(policySection[1], 'global_expansion'));
   }
 
   return records.filter(r => validateRecord(r).valid);
-}
-
-function parseInstitutions(source: string): Record<string, any> {
-  const instSection = source.match(/const\s+INSTITUTIONS\s*=\s*\{([\s\S]*?)\};/);
-  if (!instSection) return {};
-  const out: Record<string, any> = {};
-  const matches = instSection[1].matchAll(/(\w+):\s*\{([\s\S]*?)\}/g);
-  for (const m of matches) {
-    const id = m[1];
-    const pairs = m[2].matchAll(/(\w+):\s*(?:"([^"]*)"|'([^']*)')/g);
-    const obj: any = {};
-    for (const p of pairs) { obj[p[1]] = p[2] || p[3]; }
-    out[id] = obj;
-  }
-  return out;
 }
 
 function parseHolidayRules(countryCode: string, block: string): DateIntelligenceRecord[] {
@@ -136,8 +118,10 @@ function determinePurposes(text: string): UserPurpose[] {
 function createEventRecord(cc: string, date: string, name: string, type: string = 'public', conf: string = 'listed', evidenceStr: string = '', state: string = 'listed', dateState: string = 'confirmed'): DateIntelligenceRecord {
   const evidence = parseEvidence(evidenceStr);
   
-  // Bug fix: Ensure optional arguments are treated correctly to prevent toLowerCase() on undefined
+  // Robust check for optional arguments that may be undefined strings
   const safeType = clean(type) || 'public';
+  const safeConf = clean(conf) || 'listed';
+  const safeState = clean(state) || 'listed';
   const safeDateState = clean(dateState) || 'confirmed';
 
   return {
@@ -148,7 +132,7 @@ function createEventRecord(cc: string, date: string, name: string, type: string 
     jurisdiction: { country_code: cc, country_name: cc, scope: 'national' },
     purpose_relevance: ['travel', 'business', 'logistics', 'workforce'],
     state: (safeDateState.toLowerCase() as DateState),
-    confidence: (clean(conf).toLowerCase() as ConfidenceTier) || 'reference',
+    confidence: (safeConf.toLowerCase() as ConfidenceTier) || 'reference',
     evidence: {
       source_id: 'utsavs-authoritative-primary',
       source_name: evidence.source_name || 'Official Publication',
@@ -159,14 +143,17 @@ function createEventRecord(cc: string, date: string, name: string, type: string 
       link_label: evidence.link_label
     },
     consequences: {
-      implication: clean(state) === 'listed' ? 'Listed public holiday; commercial impact expected.' : 'National observance.',
+      implication: safeState === 'listed' ? 'Listed public holiday; commercial impact expected.' : 'National observance.',
       affected_operations: ['government', 'banking'],
       severity: 'medium'
     }
   };
 }
 
-function clean(s: string) { return s?.trim().replace(/^["']|["']$/g, '') || ''; }
+function clean(s: any) { 
+  if (s === undefined || s === null) return '';
+  return String(s).trim().replace(/^["']|["']$/g, ''); 
+}
 
 function splitArgs(s: string): string[] {
   const args = [];
