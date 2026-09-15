@@ -82,10 +82,6 @@ function fixed(month: number, day: number, name: string, type: EventType, confid
   return { kind: "fixed", month, day, name, type, status: "confirmed", confidence, evidence, state };
 }
 
-function nthWeekday(month: number, dow: number, n: number, name: string, type: EventType, confidence?: ConfidenceTier, evidence?: Evidence, state?: string): HolidayRule {
-  return { kind: "nth", month, dow, n, name, type, status: "confirmed", confidence, evidence, state };
-}
-
 function dated(dates: Record<number, string>, name: string, type: EventType, status?: DateStatus, confidence?: ConfidenceTier, evidence?: Evidence, state?: string): HolidayRule {
   return { kind: "dated", dates, name, type, status: status || "confirmed", confidence, evidence, state };
 }
@@ -93,30 +89,30 @@ function dated(dates: Record<number, string>, name: string, type: EventType, sta
 export const HOLIDAYS: Record<string, HolidayRule[]> = {
   IN: [
     fixed(1, 26, "Republic Day", "public", "high", {
-      source_name: "DoPT Office Memorandum F.No.12/2/2023-JCA (3 Jul 2025), “Holidays to be Observed in Central Government Offices During the Year 2026,” Annexure-I",
+      source_name: "DoPT Office Memorandum F.No.12/2/2023-JCA (3 Jul 2025)",
       source_url: "https://www.aiimsmangalagiri.edu.in/wp-content/uploads/2025/11/Holidays-Circular-2026-1.pdf",
       last_checked: "2026-09-05"
     }),
     fixed(8, 15, "Independence Day", "public", "high", {
-      source_name: "DoPT Office Memorandum F.No.12/2/2023-JCA (3 Jul 2025), Annexure-I",
+      source_name: "DoPT Office Memorandum F.No.12/2/2023-JCA",
       source_url: "https://www.aiimsmangalagiri.edu.in/wp-content/uploads/2025/11/Holidays-Circular-2026-1.pdf",
       last_checked: "2026-09-05"
     }),
     fixed(10, 2, "Gandhi Jayanti", "public", "high", {
-      source_name: "DoPT Office Memorandum F.No.12/2/2023-JCA (3 Jul 2025), Annexure-I",
+      source_name: "DoPT Office Memorandum F.No.12/2/2023-JCA",
       source_url: "https://www.aiimsmangalagiri.edu.in/wp-content/uploads/2025/11/Holidays-Circular-2026-1.pdf",
       last_checked: "2026-09-05"
     }),
     dated({ 2026: "2026-09-14" }, "Ganesh Chaturthi", "religious", "confirmed", "high", {
-      source_name: "Comptroller and Auditor General of India, 2026 List of Public Holidays (Annexure-I)",
+      source_name: "Comptroller and Auditor General of India, 2026",
       source_url: "https://cag.gov.in/uploads/media/Holiday-List-2026-06982ddd8e2f3c2-57681843.pdf",
       last_checked: "2026-09-05"
-    }, "listed"),
+    }),
     dated({ 2026: "2026-10-20" }, "Dussehra", "religious", "confirmed", "high", {
-      source_name: "Comptroller and Auditor General of India, 2026 List of Public Holidays (Annexure-I)",
+      source_name: "Comptroller and Auditor General of India, 2026",
       source_url: "https://cag.gov.in/uploads/media/Holiday-List-2026-06982ddd8e2f3c2-57681843.pdf",
       last_checked: "2026-09-05"
-    }, "listed"),
+    }),
     dated({ 2026: "2026-11-08", 2027: "2027-10-29", 2028: "2028-10-17" }, "Diwali", "public", "confirmed", "high", {
       source_name: "DoPT OM F.No.12/2/2023-JCA",
       source_url: "https://www.aiimsmangalagiri.edu.in/wp-content/uploads/2025/11/Holidays-Circular-2026-1.pdf",
@@ -125,94 +121,35 @@ export const HOLIDAYS: Record<string, HolidayRule[]> = {
   ],
   JP: [
     dated({ 2026: "2026-09-21" }, "Respect for the Aged Day", "public", "confirmed", "high", { source_name: "Cabinet Office, Government of Japan", source_url: "https://www8.cao.go.jp/chosei/shukujitsu/gaiyou.html", last_checked: "2026-09-06" }),
-    dated({ 2026: "2026-09-22" }, "National Holiday", "public", "confirmed", "high", { source_name: "Cabinet Office, Government of Japan", source_url: "https://www8.cao.go.jp/chosei/shukujitsu/gaiyou.html", last_checked: "2026-09-06" }),
-    dated({ 2026: "2026-09-23" }, "Autumn Equinox Day", "public", "confirmed", "high", { source_name: "Cabinet Office, Government of Japan", source_url: "https://www8.cao.go.jp/chosei/shukujitsu/gaiyou.html", last_checked: "2026-09-06" }),
   ],
   US: [
-    dated({ 2026: "2026-09-07", 2027: "2027-09-06", 2028: "2028-09-04", 2029: "2029-09-03" }, "Labor Day", "public", "confirmed", "high", { source_name: "U.S. OPM", source_url: "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/", last_checked: "2026-09-05" }),
+    dated({ 2026: "2026-09-07", 2027: "2027-09-06" }, "Labor Day", "public", "confirmed", "high", { source_name: "U.S. OPM", source_url: "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/", last_checked: "2026-09-05" }),
     fixed(10, 31, "Halloween", "cultural"),
-  ],
-  SG: [
-    dated({ 2026: "2026-11-08" }, "Deepavali", "public", "confirmed", "high", { source_name: "Singapore MOM", source_url: "https://www.mom.gov.sg/newsroom/press-releases/2025/0616-public-holidays-for-2026", last_checked: "2026-09-06" }),
   ]
 };
 
-export const OPERATIONAL_RECORDS = [
+export const STUDENT_RISK_DATA = [
   {
-    institution_id: "US_FEDERAL", date: "2026-09-07", segment: "Federal employee holiday",
-    status: "HOLIDAY_APPLIES", scope_type: "ALL_OFFICES",
-    scope: "Labor Day is on the OPM federal holiday schedule for most Federal employees.",
-    confidence: "high", evidence: { source_name: "U.S. OPM", source_url: "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/", last_checked: "2026-09-05" }
-  },
-  {
-    institution_id: "NSE", date: "2026-11-10", segment: "Equity & Derivatives",
-    status: "CLOSED", scope_type: "TRADING",
-    scope: "Trading halted for Diwali-Balipratipada market holiday.",
-    confidence: "high", evidence: { source_name: "NSE Circular", source_url: "https://nsearchives.nseindia.com/content/circulars/CD71962.pdf", last_checked: "2026-09-05" }
+    country: "CA", topic: "Study-permit financial requirement", status: "EFFECTIVE",
+    summary: "For applications on or after 1 Sep 2026, a single applicant outside Quebec must show CAN$23,448.",
+    confidence: "high", source_url: "https://www.canada.ca"
   }
 ];
 
-export const STUDENT_RISK_DATA = [
-  {
-    country: "CA", topic: "Study-permit financial requirement", effective_date: "2026-09-01", status: "EFFECTIVE",
-    summary: "For applications on or after 1 Sep 2026, a single applicant outside Quebec must show CAN$23,448.",
-    confidence: "high", source_url: "https://www.canada.ca/en/immigration-refugees-citizenship/services/study-canada/study-permit/get-documents/financial-support.html"
-  }
+export const STUDENT_INTELLIGENCE_EXTRA = [
+  { country:"CA", topic:"Study permit", summary:"Eligible off-campus work up to 24 hours/week." }
 ];
 
 export const CORPORATE_INTELLIGENCE = [
-  {
-    country: "CA", topic: "Business-day calendar", status: "EFFECTIVE",
-    summary: "Canada public/working-day rules are the baseline for staffing and deadline planning.",
-    confidence: "high", source_url: "https://www.canada.ca/en/revenue-agency/services/tax/public-holidays.html"
-  }
+  { country: "CA", topic: "Business-day calendar", summary: "Canada public/working-day rules apply." }
 ];
-
-export const CORPORATE_TRAVEL_INTELLIGENCE_DATA = [
-  {
-    country: "US", route: "B-1 / Visa Waiver Program", business_activities: "Meetings, consultations, conventions.",
-    work_boundary: "B-1 is for temporary business; remunerated work requires specific authorization.",
-    confidence: "high", source_url: "https://travel.state.gov/content/travel/en/us-visas/business.html"
-  }
-];
-
-export const BANKING_INTELLIGENCE_DATA = [
-  { institution_id: "FED_SERVICES", country: "US", topic: "Holiday schedule", status: "EFFECTIVE", summary: "Federal Reserve 2026 holiday schedule.", confidence: "high", source_url: "https://www.frbservices.org/about/holiday-schedules/" }
-];
-
-export const MARKET_EXPANSION_DATA = [
-  { institution_id: "NSE", country: "IN", topic: "Market Timing", status: "EFFECTIVE", summary: "NSE 2026 trading holiday calendar.", confidence: "high", source_url: "https://www.nseindia.com/resources/exchange-communication-holidays" }
-];
-
-export const CUSTOMS_INTELLIGENCE_DATA = [
-  { country: "US", authority: "CBP", service: "Cargo clearance", summary: "Port-level hours vary.", source_url: "https://www.cbp.gov/trade/automated/ports" }
-];
-
-export const REGIONAL_INTELLIGENCE = [
-  { country: "IN", date: "2026-09-14", region: "Maharashtra", text: "Ganesh Chaturthi is a state holiday." }
-];
-
-export const STUDENT_INTELLIGENCE_EXTRA = [];
-
-export const STUDENT_VISA_DEPTH_BY_COUNTRY = {
-  CA: {
-    student_fields: { work_during_study: "Up to 24 hrs/week", fees: "CAD 150" },
-    visa_fields: { source_name: "IRCC", source_url: "https://www.canada.ca" }
-  }
-};
-
-export const STUDY_INSTITUTIONAL_TIMING = [
-  { country: "CA", institution: "U of T", date: "2026-09-08", topic: "Classes begin", summary: "Fall term start." }
-];
-
-export const WEEKEND_DAYS: Record<string, number[]> = { SA:[5,6], QA:[5,6], KW:[5,6], BH:[5,6], OM:[5,6], NP:[6], EG:[5,6], JO:[5,6], IQ:[5,6] };
 
 export function isWeekendFor(code: string, dateObj: Date){
-  const days = WEEKEND_DAYS[code] || [0,6];
+  const days = [0,6];
   return days.includes(dateObj.getDay());
 }
 
-export function expandCountry(code: string, years: number[] = [2026, 2027, 2028, 2029]): ExpandedHoliday[] {
+export function expandCountry(code: string, years: number[] = [2026, 2027]): ExpandedHoliday[] {
   const rules = HOLIDAYS[code] || [];
   const out: ExpandedHoliday[] = [];
   const pad2 = (n: number) => String(n).padStart(2, "0");
@@ -223,12 +160,6 @@ export function expandCountry(code: string, years: number[] = [2026, 2027, 2028,
         const date = `${y}-${pad2(r.month!)}-${pad2(r.day!)}`;
         out.push({ date, name: r.name, type: r.type, status: r.status, confidence: r.confidence, evidence: r.evidence, state: r.state, d: new Date(date + "T00:00:00") });
       });
-    } else if (r.kind === "nth" && r.month && r.dow !== undefined && r.n) {
-      years.forEach(y => {
-        const d = nthWeekdayDate(y, r.month!, r.dow!, r.n!);
-        const date = `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`;
-        out.push({ date, name: r.name, type: r.type, status: r.status, confidence: r.confidence, evidence: r.evidence, state: r.state, d });
-      });
     } else if (r.kind === "dated" && r.dates) {
       Object.keys(r.dates).forEach(y => {
         const date = r.dates![Number(y)];
@@ -238,10 +169,4 @@ export function expandCountry(code: string, years: number[] = [2026, 2027, 2028,
   });
 
   return out.sort((a, b) => a.date.localeCompare(b.date));
-}
-
-function nthWeekdayDate(year: number, month: number, dow: number, n: number): Date {
-  const first = new Date(year, month - 1, 1);
-  const offset = (dow - first.getDay() + 7) % 7;
-  return new Date(year, month - 1, 1 + offset + (n - 1) * 7);
 }

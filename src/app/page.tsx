@@ -7,18 +7,9 @@ import {
   HOLIDAYS, 
   expandCountry, 
   isWeekendFor, 
-  TYPE_LABELS, 
-  OPERATIONAL_RECORDS,
   STUDENT_RISK_DATA,
   STUDENT_INTELLIGENCE_EXTRA,
-  CORPORATE_INTELLIGENCE,
-  CORPORATE_TRAVEL_INTELLIGENCE_DATA,
-  BANKING_INTELLIGENCE_DATA,
-  MARKET_EXPANSION_DATA,
-  CUSTOMS_INTELLIGENCE_DATA,
-  REGIONAL_INTELLIGENCE,
-  STUDENT_VISA_DEPTH_BY_COUNTRY,
-  STUDY_INSTITUTIONAL_TIMING
+  CORPORATE_INTELLIGENCE
 } from '@/lib/calendar-intelligence';
 
 export default function HomePage() {
@@ -45,7 +36,9 @@ export default function HomePage() {
     const pad2 = (n: number) => String(n).padStart(2, "0");
     const localDateStr = (d: Date) => `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`;
     setStartDate(localDateStr(TODAY));
-    setEndDate(localDateStr(new Date(TODAY.getTime() + 30*86400000)));
+    const future = new Date(TODAY);
+    future.setDate(future.getDate() + 30);
+    setEndDate(localDateStr(future));
 
     const handleHashChange = () => {
       const hash = window.location.hash.replace('#', '');
@@ -124,10 +117,11 @@ export default function HomePage() {
         byCountry.get(e.code).push(e.name); 
       });
       Array.from(byCountry.entries()).forEach(([code, names]) => {
-        const dLabel = new Date(date + 'T00:00:00').toLocaleDateString('en-GB', { day: '2-digit', month: 'short' });
+        const dLabel = new Date(date + 'T00:00:00').toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).replace(',', '');
         items.push(`<span class="chip"><b>${COUNTRY_LABELS[code] || code}</b> — ${names.join(", ")} · ${dLabel}</span>`);
       });
     });
+    // Doubled loop for seamless CSS animation
     const looped = items.slice(0, 14).concat(items.slice(0, 14));
     return looped.length > 0 ? looped : [];
   }, [forwardIndex, TODAY]);
@@ -220,7 +214,7 @@ export default function HomePage() {
                 <div className="hero-tracker-head">
                   <div>
                     <span className="hero-tracker-kicker">NEXT HOLIDAY UP</span>
-                    <strong>{TODAY.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}</strong>
+                    <strong>{TODAY.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }).replace(',', '')}</strong>
                   </div>
                   <span className="hero-tracker-live"><i></i> Live calendar view</span>
                 </div>
@@ -257,7 +251,7 @@ export default function HomePage() {
               </div>
             </div>
 
-            <div className="checker">
+            <div className="checker" id="date-intelligence">
               <div className="checker-top">
                 <h3>Trip impact checker</h3>
               </div>
@@ -316,7 +310,6 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Specialized Intelligence Strip */}
         <section id="world-today" className="wrap">
            <div className="section-head">
               <span className="kicker">WORLD TODAY</span>
@@ -324,14 +317,14 @@ export default function HomePage() {
               <p>Around the world, a date can mean a public holiday, a regional observance, an institutional closure, a working-day difference or something entirely specific to your trip.</p>
            </div>
            <div className="grid md:grid-cols-2 gap-8">
-              <div className="checker p-8 bg-panel-2">
+              <div className="checker p-8 bg-[#1E2650]">
                  <h3 className="text-xl font-bold mb-4">Understanding today's calendar</h3>
                  <p className="text-sm text-muted mb-6">See the dates and places that may matter today across our global index.</p>
                  <a href="#specialized-intelligence" className="navcta inline-block">Explore today</a>
               </div>
               <div className="checker p-8 border-line">
                  <h3 className="text-xl font-bold mb-4">Coming up next</h3>
-                 <p className="text-sm text-muted mb-6">{globalNext?.name} · {globalNext ? new Date(globalNext.date + 'T00:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'long' }) : '—'} · {globalNext?.countryCount} countries</p>
+                 <p className="text-sm text-muted mb-6">{globalNext?.name} · {globalNext ? new Date(globalNext.date + 'T00:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'long' }).replace(',', '') : '—'} · {globalNext?.countryCount} countries</p>
                  <a href="#specialized-intelligence" className="text-sm font-bold text-gold-soft hover:underline">Check the date →</a>
               </div>
            </div>
@@ -375,7 +368,7 @@ export default function HomePage() {
                    { n: "03", t: "Markets & banking", s: "Trading, settlement, payments and working days" },
                    { n: "04", t: "Trade & logistics", s: "Customs, ports and documented operational timing" }
                  ].map(item => (
-                   <div key={item.n} className="bg-panel p-8 space-y-2">
+                   <div key={item.n} className="bg-[#171D3A] p-8 space-y-2">
                      <span className="text-[10px] font-bold text-muted-dim">{item.n}</span>
                      <h4 className="font-bold text-lg">{item.t}</h4>
                      <p className="text-xs text-muted">{item.s}</p>
@@ -401,7 +394,7 @@ export default function HomePage() {
                 { t: "Business & Finance", s: "Choosing when to schedule", d: "Don't get caught out by market closures or banking holidays. Compare origin and destination calendars before scheduling market-sensitive deadlines." },
                 { t: "Study Abroad", s: "Choosing when to arrive", d: "Put institutional calendars and arrival timing around your dates. Align visa interviews and orientation sessions with verified host-country info." }
               ].map((item, i) => (
-                <div key={i} className="checker p-8 bg-panel-2">
+                <div key={i} className="checker p-8 bg-[#1E2650]">
                    <span className="text-[9px] font-bold uppercase tracking-widest text-gold-soft">{item.s}</span>
                    <h3 className="text-2xl font-headline font-medium mt-1 mb-4">{item.t}</h3>
                    <p className="text-sm text-muted leading-relaxed">{item.d}</p>
@@ -425,12 +418,12 @@ export default function HomePage() {
                  <p className="text-muted">Build calendars, scheduling tools, travel experiences and operational systems on structured holiday intelligence.</p>
                  <div className="flex gap-4">
                     <a href="#api" className="navcta">Join API Preview</a>
-                    <a href="mailto:api@utsavs.com" className="text-sm font-bold text-paper border border-line-strong px-5 py-2.5 rounded-full">Contact Support</a>
+                    <a href="mailto:api@utsavs.com" className="text-sm font-bold text-[#F4F1E8] border border-line-strong px-5 py-2.5 rounded-full">Contact Support</a>
                  </div>
               </div>
-              <div className="bg-ink p-8 rounded-2xl border border-line-strong font-mono text-xs">
-                 <p className="text-teal mb-2">GET /v1/holidays?country=IN&year=2026</p>
-                 <pre className="text-muted-dim leading-relaxed">
+              <div className="bg-[#0F1428] p-8 rounded-2xl border border-line-strong font-mono text-xs">
+                 <p className="text-[#4FD1C5] mb-2">GET /v1/holidays?country=IN&year=2026</p>
+                 <pre className="text-[#6E7495] leading-relaxed">
 {`{
   "name": "Diwali",
   "date": "2026-11-08",
@@ -455,20 +448,20 @@ export default function HomePage() {
         </section>
         <section id="insurance-grid" className="wrap">
             <div className="grid md:grid-cols-2 gap-px bg-line-strong border border-line-strong rounded-2xl overflow-hidden">
-               <div className="bg-panel p-10 space-y-6">
+               <div className="bg-[#171D3A] p-10 space-y-6">
                   <span className="text-[10px] font-bold uppercase tracking-widest text-gold-soft">FOR USERS</span>
                   <h3 className="text-2xl font-headline font-medium">Personal Protection</h3>
                   <p className="text-sm text-muted leading-relaxed">Whether you are a student, a business traveller or exploring for leisure, insurance provides a safety net for covered medical emergencies and travel disruptions.</p>
                </div>
-               <div className="bg-panel p-10 space-y-6 border-l border-line-strong">
+               <div className="bg-[#171D3A] p-10 space-y-6 border-l border-line-strong">
                   <span className="text-[10px] font-bold uppercase tracking-widest text-gold-soft">PARTNERSHIPS</span>
                   <h3 className="text-2xl font-headline font-medium">Partner with Utsavs</h3>
-                  <p className="text-sm text-muted leading-relaxed">Interested in bringing travel protection into your own customer or employee journey? We work with providers and institutions on context-aware protection.</p>
+                  <p className="text-sm text-muted-foreground leading-relaxed">Interested in bringing travel protection into your own customer or employee journey? We work with providers and institutions on context-aware protection.</p>
                </div>
             </div>
         </section>
         <section id="insurance-disclosure" className="wrap">
-           <div className="p-10 rounded-3xl border-2 border-dashed border-line-strong bg-panel-2/30">
+           <div className="p-10 rounded-3xl border-2 border-dashed border-line-strong bg-[#1E2650]/30">
               <h2 className="font-headline text-2xl font-medium mb-6">Important Disclosure</h2>
               <p className="text-sm text-muted leading-relaxed">Insurance is the subject matter of solicitation. Coverage, eligibility, benefits, exclusions and terms are determined by the applicable policy and insurer. Please review the policy wording and applicable requirements before purchase.</p>
            </div>
