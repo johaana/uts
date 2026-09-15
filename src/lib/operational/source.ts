@@ -1,8 +1,8 @@
 /**
  * @fileOverview Authoritative Source Aggregator
  * 
- * Dynamically aggregates 17 operational data chunks and provides 
- * access to the continuous raw source for the parsing engine.
+ * Aggregates 17 authoritative source chunks and provides access 
+ * to the continuous raw source for the parsing engine.
  */
 
 import { DateIntelligenceRecord } from './types';
@@ -42,10 +42,10 @@ export interface OperationalSource {
 
 class AuthoritativeSource implements OperationalSource {
   private rawSource: string | null = null;
+  private parsedRecords: DateIntelligenceRecord[] | null = null;
 
   getRawSource(): string {
     if (!this.rawSource) {
-      // Byte-for-byte concatenation of the 17 authoritative chunks
       this.rawSource = [
         CHUNK_001, CHUNK_002, CHUNK_003, CHUNK_004, CHUNK_005,
         CHUNK_006, CHUNK_007, CHUNK_008, CHUNK_009, CHUNK_010,
@@ -57,9 +57,11 @@ class AuthoritativeSource implements OperationalSource {
   }
 
   async getRecords(): Promise<DateIntelligenceRecord[]> {
-    const source = this.getRawSource();
-    // Parse the actual authoritative structures from the source text
-    return extractDatasets(source);
+    if (!this.parsedRecords) {
+      const source = this.getRawSource();
+      this.parsedRecords = extractDatasets(source);
+    }
+    return this.parsedRecords;
   }
 
   async getStatus(): Promise<SourceStatus> {
@@ -67,7 +69,7 @@ class AuthoritativeSource implements OperationalSource {
       available: true,
       sourceId: 'utsavs-authoritative-primary',
       sourceName: 'Utsavs Authoritative Operational Dataset',
-      version: '1.0.0-final-transfer',
+      version: '1.0.0-final',
       chunkCount: 17
     };
   }
