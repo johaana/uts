@@ -23,6 +23,7 @@ import { COUNTRY_LABELS } from '@/lib/calendar-intelligence';
 
 export default function HomePage() {
   const [isMounted, setIsMounted] = useState(false);
+  const [todayString, setTodayString] = useState('Today');
   const [query, setQuery] = useState<OperationalQuery>({
     destination: 'IN',
     startDate: new Date().toISOString().split('T')[0],
@@ -41,6 +42,7 @@ export default function HomePage() {
 
   useEffect(() => {
     setIsMounted(true);
+    setTodayString(new Date().toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }));
   }, []);
 
   useEffect(() => {
@@ -90,7 +92,7 @@ export default function HomePage() {
   if (!isMounted) return null;
 
   return (
-    <div className="bg-[#0F1428] text-[#F4F1E8] min-h-screen font-sans selection:bg-[#E8A33D] selection:text-[#0F1428]">
+    <div className="bg-[#0F1428] text-[#F4F1E8] min-h-screen font-sans">
       <Header />
       
       <main>
@@ -105,7 +107,7 @@ export default function HomePage() {
                 <div className="hero-tracker-head">
                   <div>
                     <span className="hero-tracker-kicker">NEXT HOLIDAY UP</span>
-                    <strong id="hero-tracker-date">{new Date().toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}</strong>
+                    <strong id="hero-tracker-date">{todayString}</strong>
                   </div>
                   <span className="hero-tracker-live"><i></i> Live calendar view</span>
                 </div>
@@ -121,12 +123,15 @@ export default function HomePage() {
                     <span className="next-card-date">08 Nov · Coming up</span>
                   </div>
                 </div>
-                <div className="marquee">
-                  <div className="marquee-track">
-                     <span className="chip"><b>India</b> — Republic Day · 26 Jan</span>
-                     <span className="chip"><b>Japan</b> — Foundation Day · 11 Feb</span>
-                     <span className="chip"><b>USA</b> — Labor Day · 07 Sep</span>
-                     <span className="chip"><b>India</b> — Republic Day · 26 Jan</span>
+                <div className="hero-tracker-feed">
+                  <div className="marquee">
+                    <div className="marquee-track">
+                       <span className="chip"><b>India</b> — Republic Day · 26 Jan</span>
+                       <span className="chip"><b>Japan</b> — Foundation Day · 11 Feb</span>
+                       <span className="chip"><b>USA</b> — Labor Day · 07 Sep</span>
+                       <span className="chip"><b>India</b> — Republic Day · 26 Jan</span>
+                       <span className="chip"><b>Japan</b> — Foundation Day · 11 Feb</span>
+                    </div>
                   </div>
                 </div>
                 <Link className="hero-tracker-link" href="#date-intelligence">See what this date means <span>→</span></Link>
@@ -143,16 +148,22 @@ export default function HomePage() {
 
             <div className="checker">
               <div className="checker-top">
-                <h3>{query.purpose === 'travel' ? 'Trip impact checker' : 'Intelligence checker'}</h3>
+                <h3>{compareOpen ? 'Compare countries' : CHECKER_TITLES[query.purpose]}</h3>
                 <button type="button" className="compare-launch" onClick={() => setCompareOpen(!compareOpen)}>
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M8 3 4 7l4 4M4 7h13M16 21l4-4-4-4M20 17H7"/></svg>
                   <span>{compareOpen ? 'Back to lens' : 'Compare countries'}</span>
                 </button>
               </div>
               <div className="mode-toggle">
-                <button type="button" className={cn(query.purpose === 'travel' && "active")} onClick={() => setQuery({...query, purpose: 'travel'})}>Travel</button>
-                <button type="button" className={cn(query.purpose === 'study' && "active")} onClick={() => setQuery({...query, purpose: 'study'})}>Study abroad</button>
-                <button type="button" className={cn(query.purpose === 'workforce' && "active")} onClick={() => setQuery({...query, purpose: 'workforce'})}>Business travel</button>
+                {['travel', 'study', 'workforce'].map((p) => (
+                  <button 
+                    key={p} 
+                    className={cn(query.purpose === p && "active")} 
+                    onClick={() => setQuery({...query, purpose: p as any})}
+                  >
+                    {p === 'travel' ? 'Travel' : p === 'study' ? 'Study abroad' : 'Business travel'}
+                  </button>
+                ))}
               </div>
               
               {!compareOpen ? (
@@ -207,12 +218,12 @@ export default function HomePage() {
               {!compareOpen ? (
                 <div id="single-view">
                   <div className="checker-summary">
-                    <div><b>{stats.count}</b><span>dates to keep in mind</span></div>
-                    <div><b>{stats.longest}</b><span>days in longest run</span></div>
+                    <div><b>{stats.count}</b><span>{stats.count === 1 ? 'date to keep in mind' : 'dates to keep in mind'}</span></div>
+                    <div><b>{stats.longest}</b><span>{stats.longest === 1 ? 'day in longest run' : 'days in longest run'}</span></div>
                     <div><b>{stats.next}</b><span>days to next one</span></div>
                   </div>
                   <div className="checker-brief">
-                     <span className="font-bold text-white mr-2 uppercase text-[10px] tracking-widest text-[#F0C888]">IN SHORT</span>{briefText}
+                     <span className="brief-label">IN SHORT</span>{briefText}
                   </div>
                   <div className="checker-list">
                     {isSearching ? <div className="flex justify-center py-8"><Loader2 className="animate-spin text-primary" /></div> : 
@@ -220,7 +231,7 @@ export default function HomePage() {
                       <div key={r.id} className="impact-row">
                         <span className="impact-date">{new Date(r.date + 'T00:00:00').toLocaleDateString('en-GB', { day: '2-digit', month: 'short' })}</span>
                         <span className="impact-name">{r.name}</span>
-                        <span className={cn("status-pill", r.confidence === 'high' ? "high" : "")}>{r.confidence === 'high' ? 'High' : 'Listed'}</span>
+                        <span className={cn("status-pill", r.confidence === 'high' ? "high" : "listed")}>{r.confidence === 'high' ? 'High' : 'Listed'}</span>
                       </div>
                     ))}
                   </div>
@@ -228,7 +239,7 @@ export default function HomePage() {
               ) : (
                 <div id="compare-view">
                   <div className="checker-summary">
-                    <div><b>{stats.count}</b><span>flagged dates</span></div>
+                    <div><b>{stats.count}</b><span>dates flagged</span></div>
                     <div><b>2</b><span>mismatches</span></div>
                     <div><b>4</b><span>days to next</span></div>
                   </div>
@@ -241,7 +252,7 @@ export default function HomePage() {
                       <thead>
                         <tr>
                           <th>Date</th>
-                          <th>{COUNTRY_LABELS[query.destination] || 'A'}</th>
+                          <th>{COUNTRY_LABELS[query.destination]}</th>
                           <th>Japan</th>
                           <th>Signal</th>
                         </tr>
@@ -249,10 +260,10 @@ export default function HomePage() {
                       <tbody>
                          {result?.records.slice(0,5).map((r, i) => (
                            <tr key={i}>
-                             <td>{new Date(r.date + 'T00:00:00').toLocaleDateString('en-GB', { day: '2-digit', month: 'short' })}</td>
+                             <td className="cmp-date">{new Date(r.date + 'T00:00:00').toLocaleDateString('en-GB', { day: '2-digit', month: 'short' })}</td>
                              <td>{r.name}</td>
                              <td>—</td>
-                             <td><span className="text-[#E8A33D] font-bold uppercase text-[9px]">MISMATCH</span></td>
+                             <td><span className="cmp-signal mismatch">MISMATCH</span></td>
                            </tr>
                          ))}
                       </tbody>
@@ -264,7 +275,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* DATE INTELLIGENCE SECTION */}
+        {/* DATE INTELLIGENCE */}
         <section id="date-intelligence" className="date-intel-featured">
           <div className="wrap">
             <div className="section-head">
@@ -297,33 +308,28 @@ export default function HomePage() {
               <div className="di-lenses">
                 {['all', 'government', 'banking', 'markets', 'embassy', 'trade', 'travel'].map(l => (
                   <button key={l} className={cn("di-lens", diLens === l && "active")} onClick={() => setDiLens(l)}>
-                    {l === 'all' ? 'All intelligence' : l}
+                    {l === 'all' ? 'All intelligence' : l.charAt(0).toUpperCase() + l.slice(1)}
                   </button>
                 ))}
               </div>
 
               <div className="di-body">
                 <div className="di-panel">
-                   <div className="space-y-4">
-                      <p className="text-[10px] font-mono text-[#4FD1C5] uppercase tracking-widest">Calendar context</p>
-                      <h3 className="text-2xl font-headline font-bold">{new Date(diDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</h3>
-                      <p className="text-sm text-muted">Standard working day. No national holiday recorded.</p>
-                   </div>
+                   <div className="di-panel-kicker">Date context</div>
+                   <h3 className="di-date-title">{new Date(diDate + 'T00:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</h3>
+                   <p className="di-location">{COUNTRY_LABELS[diCountry]} · Weekday</p>
+                   <div className="di-empty">No holiday or observance is currently recorded for this place and date in Utsavs.</div>
                 </div>
                 <div className="di-panel">
-                   <div className="space-y-6">
-                      <p className="text-[10px] font-mono text-[#4FD1C5] uppercase tracking-widest">Operational signals</p>
-                      <div className="space-y-6">
-                         {['Government', 'Banking', 'Markets', 'Travel'].map(s => (
-                           <div key={s} className="flex justify-between items-start">
-                              <div>
-                                <p className="text-[11px] font-mono text-[#6E7495] uppercase">{s}</p>
-                                <p className="text-sm font-medium text-muted">No specific closure record.</p>
-                              </div>
-                              <span className="text-[9px] font-mono text-[#6E7495] border border-white/10 px-2 py-0.5 rounded-full">NONE</span>
-                           </div>
-                         ))}
-                      </div>
+                   <div className="di-panel-kicker">Operational signals</div>
+                   <div className="space-y-4">
+                      {['Government', 'Banking', 'Markets', 'Travel'].map(s => (
+                        <div key={s} className="di-signal">
+                           <div className="di-signal-name">{s}</div>
+                           <div className="di-signal-main"><b>No closure record</b><div className="di-signal-note">No specific information found in verified dataset.</div></div>
+                           <span className="di-status none">NONE</span>
+                        </div>
+                      ))}
                    </div>
                 </div>
               </div>
@@ -335,7 +341,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* SPECIALIZED INTELLIGENCE */}
+        {/* SPECIALIZED LENSES */}
         <section id="specialized-calendars" style={{ paddingTop: 0 }}>
           <div className="wrap">
             <div className="section-head">
@@ -360,7 +366,7 @@ export default function HomePage() {
                   <div className="special-tags">
                     {item.s.map(tag => <span key={tag} className="special-tag">{tag}</span>)}
                   </div>
-                  <span className="special-open">Open lens <ArrowRight className="w-3 h-3 ml-2" /></span>
+                  <span className="special-open">Open this lens <ArrowRight className="w-3 h-3 ml-2" /></span>
                 </div>
               ))}
             </div>
@@ -371,9 +377,29 @@ export default function HomePage() {
             </div>
           </div>
         </section>
+
+        {/* CLOSING FLOW */}
+        <section className="flow" id="closing-flow">
+          <div className="wrap">
+            <h2 className="flow-line">Check the date first. If it turns out to matter to you, the story's one click away.</h2>
+            <div className="flow-steps">
+              <span className="flow-step active">Intelligence & API</span>
+              <span className="flow-arrow">—</span>
+              <span className="flow-step">Cultural stories</span>
+              <span className="flow-arrow">—</span>
+              <span className="flow-step">Recipes & travel</span>
+            </div>
+          </div>
+        </section>
       </main>
 
       <Footer />
     </div>
   );
 }
+
+const CHECKER_TITLES: Record<string, string> = {
+  travel: "Trip impact checker",
+  study: "Study abroad impact checker",
+  workforce: "Business travel impact checker",
+};

@@ -1,42 +1,32 @@
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
-import { Playfair_Display, Manrope, IBM_Plex_Mono, Newsreader } from 'next/font/google';
+import { Fraunces, Inter, IBM_Plex_Mono } from 'next/font/google';
 import { ThemeProvider } from '@/components/ThemeProvider';
 
-const playfair = Playfair_Display({
+const fraunces = Fraunces({
   subsets: ['latin'],
   variable: '--font-headline',
 });
 
-const manrope = Manrope({
+const inter = Inter({
   subsets: ['latin'],
   variable: '--font-sans',
 });
 
 const plexMono = IBM_Plex_Mono({
   subsets: ['latin'],
-  weight: ['400', '700'],
+  weight: ['400', '500'],
   variable: '--font-mono',
 });
 
-const newsreader = Newsreader({
-  subsets: ['latin'],
-  style: ['italic', 'normal'],
-  variable: '--font-display',
-});
-
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
   title: "Utsavs: Global Holiday Intelligence",
   description: "Understand the world's calendar. Structured, verified intelligence for holidays, festivals and observances.",
-  other: {
-    "google-adsense-account": "ca-pub-6080650236579757",
-  },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#17151A",
+  themeColor: "#0F1428",
 };
 
 export default function RootLayout({
@@ -46,10 +36,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${playfair.variable} ${manrope.variable} ${plexMono.variable} ${newsreader.variable} font-sans antialiased selection:bg-coral/20`}>
+      <body className={`${fraunces.variable} ${inter.variable} ${plexMono.variable} font-sans antialiased`}>
         <ThemeProvider
             attribute="class"
-            defaultTheme="light"
+            defaultTheme="dark"
             enableSystem={false}
             disableTransitionOnChange
           >

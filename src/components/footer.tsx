@@ -5,34 +5,17 @@ import React from "react";
 
 export function Footer() {
   return (
-    <footer className="site-footer">
-      <div className="wrap footer-grid">
+    <footer>
+      <div className="wrap foot-row">
+        <div>Utsavs · global calendar intelligence · 2026 · <span style={{ color: 'var(--muted-dim)' }}>Curated data last reviewed 8 Sept 2026</span></div>
         <div>
-          <Link href="/" className="footer-brand font-headline text-2xl font-bold">
-            Utsavs
-          </Link>
-          <p className="text-sm text-muted-dim max-w-xs mt-2">
-            Date intelligence for a world that does not run on one calendar.
-          </p>
-        </div>
-
-        <div className="footer-links flex flex-col gap-3">
-          <Link href="/date-intelligence" className="hover:text-white transition-colors">Date Intelligence</Link>
-          <Link href="/built-for" className="hover:text-white transition-colors">Built For</Link>
-          <Link href="/api" className="hover:text-white transition-colors">API</Link>
-          <Link href="/travel-insurance" className="hover:text-white transition-colors">Travel Insurance</Link>
-          <a href="https://utsavs.com" target="_blank" rel="noopener" className="hover:text-white transition-colors">
-            Stories ↗
-          </a>
+          <a href="https://utsavs.com" target="_blank" rel="noopener">Explore Utsavs.com</a>
+          <Link href="/date-intelligence">Full calendar</Link>
+          <Link href="/api">Join API preview</Link>
         </div>
       </div>
-
-      <div className="wrap footer-bottom mt-16 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between gap-4 text-[11px] text-muted-dim">
-        <span>Utsavs · 2026</span>
-        <span className="max-w-xl text-right md:text-left">
-          Date states and named sources are shown where available.
-          Institutional information is kept separate from calendar events.
-        </span>
+      <div className="wrap foot-disclaimer">
+        Each record carries a date state and, where available, a named source. Institutional closures are sourced separately from calendar events. Lunar, Hijri and government-declared dates can change; Utsavs keeps the source and last-checked date visible so users can verify the underlying authority.
       </div>
     </footer>
   );
