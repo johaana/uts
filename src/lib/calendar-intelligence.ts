@@ -125,17 +125,17 @@ function dated(dates: Record<number, string>, name: string, type: EventType, sta
 export const HOLIDAYS: Record<string, HolidayRule[]> = {
   IN: [
     fixed(1, 26, "Republic Day", "public", "high", {
-      source_name: "DoPT Office Memorandum F.No.12/2/2023-JCA (3 Jul 2025)",
+      source_name: "DoPT Office Memorandum F.No.12/2/2023-JCA (3 Jul 2025), “Holidays to be Observed in Central Government Offices During the Year 2026,” Annexure-I",
       source_url: "https://www.aiimsmangalagiri.edu.in/wp-content/uploads/2025/11/Holidays-Circular-2026-1.pdf",
       last_checked: "2026-09-05"
     }),
     fixed(8, 15, "Independence Day", "public", "high", {
-      source_name: "DoPT Office Memorandum F.No.12/2/2023-JCA (3 Jul 2025)",
+      source_name: "DoPT Office Memorandum F.No.12/2/2023-JCA (3 Jul 2025), Annexure-I — one of India's three National Holidays, compulsory for every establishment, public or private",
       source_url: "https://www.aiimsmangalagiri.edu.in/wp-content/uploads/2025/11/Holidays-Circular-2026-1.pdf",
       last_checked: "2026-09-05"
     }),
     fixed(10, 2, "Gandhi Jayanti", "public", "high", {
-      source_name: "DoPT Office Memorandum F.No.12/2/2023-JCA (3 Jul 2025)",
+      source_name: "DoPT Office Memorandum F.No.12/2/2023-JCA (3 Jul 2025), Annexure-I",
       source_url: "https://www.aiimsmangalagiri.edu.in/wp-content/uploads/2025/11/Holidays-Circular-2026-1.pdf",
       last_checked: "2026-09-05"
     }),
@@ -274,4 +274,3 @@ function nthWeekdayDate(year: number, month: number, dow: number, n: number): Da
   const offset = (dow - first.getDay() + 7) % 7;
   return new Date(year, month - 1, 1 + offset + (n - 1) * 7);
 }
-
