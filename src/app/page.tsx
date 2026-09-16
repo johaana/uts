@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
+import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { 
   COUNTRY_LABELS, 
@@ -248,7 +249,7 @@ export default function HomePage() {
     <div className="bg-[#0F1428] text-[#F4F1E8] min-h-screen font-sans">
       <header>
         <nav className="wrap">
-          <div className="logo">Utsavs <span>from occasion to impact</span></div>
+          <Link href="/" className="logo">Utsavs <span>from occasion to impact</span></Link>
           <div className="navlinks">
             <a href="#home" className={cn(page === 'home' && "active")} onClick={(e) => { e.preventDefault(); window.location.hash = '#home'; }}>Date Intelligence</a>
             <a href="#built" className={cn(page === 'built' && "active")} onClick={(e) => { e.preventDefault(); window.location.hash = '#built'; }}>Built For</a>
