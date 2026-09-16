@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
@@ -69,7 +70,7 @@ export default function HomePage() {
     const eKey = `${end.getFullYear()}-${pad2(end.getMonth() + 1)}-${pad2(end.getDate())}`;
     setEndDate(eKey);
 
-    // V24 Unified Engine: Load all authoritative records once
+    // Unified Engine: Load all authoritative records
     getSource().getRecords().then(records => {
       setAllRecords(records);
     });
@@ -124,8 +125,6 @@ export default function HomePage() {
   const globalNext = useMemo(() => {
     const dates = Array.from(forwardIndex.keys()).sort();
     if (!dates.length) return null;
-    
-    // Find next high-impact date or absolute next
     const candidate = dates[0];
     const entries = forwardIndex.get(candidate) || [];
     const dateObj = new Date(candidate + 'T00:00:00');
@@ -171,7 +170,6 @@ export default function HomePage() {
       (r.purpose_relevance.includes(activePurpose as any))
     ).sort((a, b) => a.date.localeCompare(b.date));
 
-    // Deduplicate by name/date to avoid visual noise
     const uniqueDatesSet = new Set(matches.map(m => m.date));
     const uniqueRecords = matches.filter((v, i, a) => a.findIndex(t => t.name === v.name && t.date === v.date) === i);
     

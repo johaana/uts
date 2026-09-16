@@ -1,3 +1,4 @@
+
 /**
  * @fileOverview Data Normalization & Extraction Layer
  * 
@@ -43,14 +44,8 @@ export function extractDatasets(source: string): DateIntelligenceRecord[] {
     }
   }
 
-  // 3. V24 Baseline Coverage: Ensure key countries have primary national records if missing
-  const activeCountries = new Set(records.map(r => r.jurisdiction.country_code));
-  if (!activeCountries.has('PH')) {
-    records.push(createEventRecord('PH', '2026-06-12', 'Independence Day', 'public', 'high'));
-  }
-  if (!activeCountries.has('ID')) {
-    records.push(createEventRecord('ID', '2026-08-17', 'Independence Day', 'public', 'high'));
-  }
+  // 3. Institutional logic (mapping institutions to dates)
+  // [Logic would go here if chunks contained mapping objects]
 
   return records.filter(r => validateRecord(r).valid);
 }
@@ -137,7 +132,7 @@ function classifyTopic(topic: string): OperationalCategory {
   if (t.includes('bank') || t.includes('payment')) return 'banking';
   if (t.includes('market') || t.includes('settlement') || t.includes('exchange')) return 'market';
   if (t.includes('academic') || t.includes('institutional') || t.includes('university') || t.includes('semester')) return 'institutional';
-  if (t.includes('study') || t.includes('permit') || t.includes('visa') || t.includes('residence')) return 'student_risk';
+  if (t.includes('study') || t.includes('permit') || t.includes('visa') || t.includes('residence') || t.includes('entry')) return 'student_risk';
   if (t.includes('business-day') || t.includes('closure') || t.includes('government')) return 'business_travel';
   if (t.includes('port') || t.includes('terminal') || t.includes('customs') || t.includes('logistics')) return 'customs';
   return 'holiday';

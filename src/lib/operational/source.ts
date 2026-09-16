@@ -1,3 +1,4 @@
+
 /**
  * @fileOverview Authoritative Source Aggregator
  * 
@@ -63,22 +64,10 @@ class AuthoritativeSource implements OperationalSource {
       const source = this.getRawSource();
       const chunkRecords = extractDatasets(source);
       
-      // V24 Unification: Merge Discovery Data (festival-data.ts) into the Operational pool
-      const discoveryRecords: DateIntelligenceRecord[] = [...allEvents, ...internationalEvents].map(e => {
-        const dateStr = e.date.split(' - ')[0];
-        const parsed = parse(dateStr, 'MMM dd, yyyy', new Date());
-        const isoDate = isValid(parsed) ? format(parsed, 'yyyy-MM-dd') : '2026-01-01';
-        
-        return createEventRecord(
-          e.country === 'India' ? 'IN' : 'Global', 
-          isoDate, 
-          e.name, 
-          e.type === 'Holiday' ? 'public' : 'cultural',
-          'listed'
-        );
-      });
-
-      this.parsedRecords = [...chunkRecords, ...discoveryRecords];
+      // Filter out discovery data from the operational record index to preserve source semantics
+      // We only merge discovery festivals into the return result if the UI explicitly requires it.
+      // For this pass, we keep the operational index authoritative.
+      this.parsedRecords = chunkRecords;
     }
     return this.parsedRecords;
   }
