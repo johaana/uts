@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
@@ -12,6 +11,7 @@ import {
   HOLIDAYS
 } from '@/lib/calendar-intelligence';
 import { format, addDays, startOfDay, differenceInDays } from 'date-fns';
+import { OperationalResultCard } from '@/components/operational/OperationalResultCard';
 
 export default function HomePage() {
   const [isMounted, setIsMounted] = useState(false);
@@ -24,8 +24,8 @@ export default function HomePage() {
   // Comparison States
   const [isComparing, setIsComparing] = useState(false);
   const [compA, setCompA] = useState('IN');
-  const [compB, setCompB] = useState('US');
-  const [compC, setCompC] = useState('CA');
+  const [compB, setCompB] = useState('JP');
+  const [compC, setCompC] = useState('US');
   const [showCountryC, setShowCountryC] = useState(false);
   const [compareFilter, setCompareFilter] = useState<'all' | 'mismatch' | 'overlap'>('all');
 
@@ -40,9 +40,6 @@ export default function HomePage() {
     now.setHours(0, 0, 0, 0);
     setTodayState(now);
 
-    const pad2 = (n: number) => String(n).padStart(2, "0");
-    const localDateStr = (d: Date) => `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`;
-    
     // Default range for 2026 prototype data
     setStartDate("2026-09-04");
     setDiDate("2026-09-04");
@@ -73,6 +70,7 @@ export default function HomePage() {
   const globalNext = useMemo(() => {
     const dates = Array.from(forwardIndex.keys()).sort();
     if (!dates.length) return null;
+    // V24 Logic: Global breadth threshold (e.g. 5 countries)
     const candidate = dates.find(d => (forwardIndex.get(d) || []).length >= 5) || dates[0];
     const entries = forwardIndex.get(candidate) || [];
     const dateObj = new Date(candidate + 'T00:00:00');
@@ -125,6 +123,7 @@ export default function HomePage() {
     <div className="bg-ink text-paper min-h-screen font-sans">
       <Header />
       <main>
+        {/* HERO SECTION - V24 Structure */}
         <section className="hero" id="explore">
           <div className="wrap hero-grid">
             <div className="hero-copy">
@@ -135,7 +134,7 @@ export default function HomePage() {
                 <div className="hero-tracker-head">
                   <div>
                     <span className="hero-tracker-kicker">NEXT HOLIDAY UP</span>
-                    <strong id="hero-tracker-date" className="font-headline">Saturday, 12 September 2026</strong>
+                    <strong id="hero-tracker-date">{globalNext?.dateStr || "Today"}</strong>
                   </div>
                   <span className="hero-tracker-live"><i></i> Live calendar view</span>
                 </div>
@@ -194,16 +193,50 @@ export default function HomePage() {
                 <button type="button" className={cn(mode === 'corporate' && "active")} onClick={() => setMode('corporate')}>Business travel</button>
               </div>
 
-              <div className="checker-row" id="single-country-row">
-                <div className="checker-field">
-                  <label htmlFor="country-select">Destination / jurisdiction</label>
-                  <select id="country-select" value={country} onChange={e => setCountry(e.target.value)}>
-                    {Object.entries(COUNTRY_LABELS).map(([code, name]) => (
-                      <option key={code} value={code}>{name}</option>
-                    ))}
-                  </select>
+              {!isComparing ? (
+                <div className="checker-row" id="single-country-row">
+                  <div className="checker-field">
+                    <label htmlFor="country-select">Destination / jurisdiction</label>
+                    <select id="country-select" value={country} onChange={e => setCountry(e.target.value)}>
+                      {Object.entries(COUNTRY_LABELS).map(([code, name]) => (
+                        <option key={code} value={code}>{name}</option>
+                      ))}
+                    </select>
+                  </div>
                 </div>
-              </div>
+              ) : (
+                <div className="checker-row" id="compare-country-row">
+                  <div className="checker-field">
+                    <label htmlFor="compare-a">Origin</label>
+                    <select id="compare-a" value={compA} onChange={e => setCompA(e.target.value)}>
+                      {Object.entries(COUNTRY_LABELS).map(([code, name]) => (
+                        <option key={code} value={code}>{name}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="checker-field">
+                    <label htmlFor="compare-b">Destination</label>
+                    <select id="compare-b" value={compB} onChange={e => setCompB(e.target.value)}>
+                      {Object.entries(COUNTRY_LABELS).map(([code, name]) => (
+                        <option key={code} value={code}>{name}</option>
+                      ))}
+                    </select>
+                  </div>
+                  {showCountryC && (
+                    <div className="checker-field">
+                      <label htmlFor="compare-c">Country C</label>
+                      <select id="compare-c" value={compC} onChange={e => setCompC(e.target.value)}>
+                        {Object.entries(COUNTRY_LABELS).map(([code, name]) => (
+                          <option key={code} value={code}>{name}</option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
+                  {!showCountryC && (
+                    <button type="button" className="add-country-btn p-2 text-teal text-[10px] font-bold uppercase tracking-widest" onClick={() => setShowCountryC(true)}>+ Add a third country</button>
+                  )}
+                </div>
+              )}
 
               <div className="checker-row">
                 <div className="checker-field">
@@ -226,45 +259,67 @@ export default function HomePage() {
                 ))}
               </div>
 
-              <div id="single-view">
-                <div className="checker-summary">
-                  <div><b id="stat-count">{checkerData.count}</b><span>dates to keep in mind</span></div>
-                  <div><b id="stat-longest">{checkerData.longest}</b><span>days in longest flagged run</span></div>
-                  <div><b id="stat-next">{checkerData.nextDays}</b><span>days to next one</span></div>
-                </div>
-                <div className="checker-brief">
-                  <p><strong>IN SHORT:</strong> {checkerData.count} dates in your selected period are worth keeping in mind. Standard operational rules apply otherwise.</p>
-                </div>
-                <div className="checker-list">
-                  {checkerData.records.map((r, i) => (
-                    <div key={i} className="impact-row flex-col items-start gap-2 p-6 bg-panel-2 rounded-xl mb-3">
-                      <div className="flex justify-between w-full border-b border-white/5 pb-2">
-                         <span className="font-headline text-lg font-semibold">{r.name}</span>
-                         <span className="font-mono text-xs text-muted">{format(new Date(r.date + 'T00:00:00'), 'd MMM')}</span>
+              {!isComparing ? (
+                <div id="single-view">
+                  <div className="checker-summary">
+                    <div><b id="stat-count" className="font-headline">{checkerData.count}</b><span>dates to keep in mind</span></div>
+                    <div><b id="stat-longest" className="font-headline">{checkerData.longest}</b><span>days in longest flagged run</span></div>
+                    <div><b id="stat-next" className="font-headline">{checkerData.nextDays}</b><span>days to next one</span></div>
+                  </div>
+                  <div className="checker-brief">
+                    <p><strong>IN SHORT:</strong> {checkerData.count} dates in your selected period are worth keeping in mind. Standard operational rules apply otherwise.</p>
+                  </div>
+                  <div className="checker-list">
+                    {checkerData.records.map((r, i) => (
+                      <div key={i} className="impact-row flex flex-col gap-2 p-6 bg-panel-2 rounded-xl mb-3 border border-white/5">
+                        <div className="flex justify-between w-full border-b border-white/5 pb-2">
+                           <span className="font-headline text-lg font-semibold">{r.name}</span>
+                           <span className="font-mono text-xs text-muted">{format(new Date(r.date + 'T00:00:00'), 'd MMM')}</span>
+                        </div>
+                        <p className="text-sm text-muted leading-relaxed">
+                          Listed national holiday; institutional and market-level treatment depends on the specific jurisdiction and sector rules.
+                        </p>
+                        <div className="flex gap-2 mt-2">
+                           <span className="text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 bg-white/5 rounded">High</span>
+                           <span className="text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 bg-white/5 rounded">Source</span>
+                        </div>
                       </div>
-                      <p className="text-sm text-muted leading-relaxed">
-                        Listed national holiday; institutional and market-level treatment depends on the specific jurisdiction and sector rules.
-                      </p>
-                    </div>
-                  ))}
+                    ))}
+                    {checkerData.records.length === 0 && (
+                      <div className="p-12 text-center border-2 border-dashed border-white/5 rounded-xl text-muted italic">
+                        No flagged holidays in this range.
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
+              ) : (
+                <div id="compare-view">
+                   {/* V24 Comparison View Placeholder */}
+                   <p className="text-sm text-muted italic p-8 text-center border border-dashed border-white/5 rounded-xl">
+                     Restoring V24 high-density comparison matrix...
+                   </p>
+                </div>
+              )}
             </div>
           </div>
         </section>
 
+        {/* DATE INTELLIGENCE SECTION - V24 depth */}
         <section id="date-intelligence" className="wrap">
           <div className="section-head">
             <div className="kicker">★ Date intelligence</div>
             <h2 className="section-title">What happens on this date?</h2>
             <p>One place for the calendar fact, travel signal and institution-specific evidence around a date — with the scope and source kept visible.</p>
+            <p className="mt-2 text-[12.5px] text-muted-dim">
+              Different tool than the checker above: the checker scans a date range for one country; this scans everything known about one specific date across institutions.
+            </p>
           </div>
 
           <div className="date-intel-shell">
             <div className="date-intel-controls">
               <div className="di-field">
-                <label>{diDate === "2026-09-04" ? "Date · live today" : "Selected date"}</label>
-                <input type="date" value={diDate} onChange={e => setDiDate(e.target.value)} />
+                <label>{diDate === todayKey ? "Date · live today" : "Selected date"}</label>
+                <input id="di-date" type="date" value={diDate} onChange={e => setDiDate(e.target.value)} />
               </div>
               <div className="di-field">
                 <label>Place</label>
@@ -275,7 +330,7 @@ export default function HomePage() {
                 </select>
               </div>
               <div className="di-nav">
-                <button type="button" onClick={() => setDiDate("2026-09-04")}>Today</button>
+                <button type="button" aria-label="Return to today" onClick={() => setDiDate(todayKey)}>Today</button>
                 <button type="button">←</button>
                 <button type="button">→</button>
               </div>
@@ -292,11 +347,11 @@ export default function HomePage() {
             <div className="di-body">
               <div className="di-panel">
                 <h4 className="font-bold text-xs uppercase tracking-widest text-primary mb-4">Calendar Context</h4>
-                <p className="text-sm text-muted italic">Sourcing regional and religious dated records...</p>
+                <p className="text-sm text-muted italic">Sourcing regional and religious dated records for {format(new Date(diDate + 'T00:00:00'), 'd MMM yyyy')}...</p>
               </div>
               <div className="di-panel">
                 <h4 className="font-bold text-xs uppercase tracking-widest text-primary mb-4">Authoritative Signals</h4>
-                <p className="text-sm text-muted italic">Analyzing institutional evidence...</p>
+                <p className="text-sm text-muted italic">Analyzing institutional evidence for {COUNTRY_LABELS[diCountry]}...</p>
               </div>
             </div>
             <div className="di-foot">
@@ -305,19 +360,21 @@ export default function HomePage() {
           </div>
         </section>
 
+        {/* SPECIALIZED INTELLIGENCE - V24 6-card grid */}
         <section id="specialized-calendars" className="wrap">
           <div className="section-head">
             <div className="kicker">Specialized intelligence</div>
             <h2 className="section-title">One calendar underneath. Deeper calendars when the job demands it.</h2>
+            <p>The core calendar stays unified. Specialized views can go deeper into the systems that care about a date differently.</p>
           </div>
           <div className="special-grid">
             {[
-              { idx: "01", t: "Markets", d: "Trading, early closes, clearing and settlement.", tags: ["Trading", "Settlement"] },
-              { idx: "02", t: "Banking", d: "Branch calendars and payment systems.", tags: ["Branches", "Payments"] },
-              { idx: "03", t: "Embassies", d: "Mission, consular and visa calendars.", tags: ["Consular", "Visa"] },
-              { idx: "04", t: "Customs & ports", d: "Terminal schedules and closure windows.", tags: ["Customs", "Logistics"] },
-              { idx: "05", t: "Travel intelligence", d: "Travel advisories and entry information.", tags: ["Entry", "Safety"] },
-              { idx: "06", t: "Impact", d: "Combine the evidence-backed layers for planning.", tags: ["Synthesis", "Logic"] }
+              { idx: "01", t: "Markets", d: "Trading, early closes, clearing and settlement.", tags: ["Trading", "Clearing", "Settlement"] },
+              { idx: "02", t: "Banking", d: "Branch calendars and payment systems.", tags: ["Branches", "Payments", "Settlement"] },
+              { idx: "03", t: "Embassies", d: "Mission, consular and visa calendars.", tags: ["Mission", "Consular", "Visa"] },
+              { idx: "04", t: "Customs & ports", d: "Terminal schedules and documented closure windows.", tags: ["Customs", "Ports", "Terminals"] },
+              { idx: "05", t: "Travel intelligence", d: "Travel advisories, entry, and border information.", tags: ["Advisories", "Entry", "Visa"] },
+              { idx: "06", t: "Impact", d: "Combine the evidence-backed layers for planning.", tags: ["Date", "Place", "Impact"] }
             ].map(item => (
               <div key={item.t} className="special-card">
                 <div className="special-index">{item.idx} · {item.t.toUpperCase()}</div>
@@ -326,27 +383,52 @@ export default function HomePage() {
                 <div className="special-tags">
                   {item.tags.map(tag => <span key={tag} className="special-tag">{tag}</span>)}
                 </div>
-                <span className="special-open">Open lens →</span>
+                <span className="special-open font-bold text-[10px] text-paper mt-auto pt-4">Open lens →</span>
               </div>
             ))}
           </div>
-          <div className="mt-8 text-center text-muted-foreground text-xs font-mono">
-            /v1/markets · /v1/banking · /v1/embassies · /v1/trade · /v1/travel
+          <div className="mt-12 text-center text-muted-dim text-[11px] font-mono border-t border-white/5 pt-8">
+            /v1/markets · /v1/banking · /v1/embassies · /v1/trade · /v1/travel · /v1/impact
           </div>
         </section>
 
-        <section className="wrap border-t">
+        {/* BUILT FOR - Restored content depth */}
+        <section id="built-for" className="wrap border-t border-white/5">
+           <div className="section-head">
+              <div className="kicker">Infrastructure</div>
+              <h2 className="section-title">Built for systems that need to understand the calendar.</h2>
+           </div>
+           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {[
+                { t: "Travel", d: "Choose when to go. Flag festival dates before booking and plan around crowds." },
+                { t: "Business & Finance", d: "Choose when to schedule. Track settlement cycles and market closures." },
+                { t: "Study Abroad", d: "Choose when to arrive. Align visa interviews and orientation sessions." },
+                { t: "HR & Workforce", d: "Choose when to operate. Build region-aware global leave calendars." },
+                { t: "Logistics", d: "Choose when to move. Anticipate staffing at customs and ports." },
+                { t: "Operations", d: "One world, many jurisdictions. Handle local municipal rules with precision." }
+              ].map(item => (
+                <div key={item.t} className="p-8 border border-white/5 rounded-2xl bg-panel-2/30">
+                  <h4 className="font-headline text-2xl font-bold mb-3">{item.t}</h4>
+                  <p className="text-muted leading-relaxed">{item.d}</p>
+                </div>
+              ))}
+           </div>
+        </section>
+
+        {/* TRAVEL INSURANCE - Approved persistent version */}
+        <section id="insurance" className="wrap border-t border-white/5">
           <div className="flex flex-col md:flex-row items-center justify-between gap-12">
             <div className="max-w-xl space-y-4">
               <div className="kicker">TRAVEL PROTECTION</div>
               <h2 className="section-title">Plan for what you can predict. Protect against what you can't.</h2>
               <p className="text-muted">Utsavs provides date intelligence context. For covered unexpected events, we work with partners on context-aware protection.</p>
             </div>
-            <div className="flex gap-4">
+            <div className="flex flex-col gap-3">
               <button className="navcta h-14 px-10 font-bold">Get in touch with us</button>
+              <span className="text-[10px] text-muted-dim text-center uppercase tracking-widest">B2B · B2B2C · Partnerships</span>
             </div>
           </div>
-          <div className="mt-12 p-6 bg-white/5 rounded-xl border border-dashed text-[11px] text-muted-dim leading-relaxed">
+          <div className="mt-12 p-6 bg-white/5 rounded-xl border border-dashed border-white/10 text-[11px] text-muted-dim leading-relaxed">
             Insurance is the subject matter of solicitation. Coverage, eligibility, benefits, exclusions and terms are determined by the applicable policy and insurer. Please review the policy wording and applicable requirements before purchase.
           </div>
         </section>
