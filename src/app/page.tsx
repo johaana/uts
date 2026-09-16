@@ -156,7 +156,7 @@ export default function HomePage() {
     };
     const activePurposes = purposeMap[mode] || ['travel'];
 
-    const holidays = expandCountry(country).map(h => ({ 
+    const holidays = (expandCountry(country) || []).map(h => ({ 
       ...h, 
       d: new Date(h.date + "T00:00:00"), 
       source_label: 'Public', 
