@@ -201,7 +201,6 @@ section.wrap{padding:56px 0;}
 h2.section-title{font-family:var(--font-headline); font-weight:500; font-size:clamp(28px, 3.4vw, 38px); line-height:1.16; color:var(--paper); margin-bottom:14px;}
 .section-head p{color:var(--muted); font-size:16px; max-width:52ch;}
 
-/* Internal Router Display Logic */
 main > section { display: none; }
 body[data-page="home"] main > #explore,
 body[data-page="home"] main > #world-today { display: block; }

@@ -6,10 +6,8 @@ import {
   COUNTRY_LABELS, 
   HOLIDAYS, 
   expandCountry, 
-  isWeekendFor,
   REGIONAL_INTELLIGENCE,
-  STUDENT_INTELLIGENCE_EXTRA,
-  CORPORATE_INTELLIGENCE
+  STUDENT_INTELLIGENCE_EXTRA
 } from '@/lib/calendar-intelligence';
 
 export default function HomePage() {
@@ -132,12 +130,13 @@ export default function HomePage() {
     
     weekDates.forEach(date => {
       const byCountry = new Map();
-      (forwardIndex.get(date) || []).forEach((e: any) => { 
+      const entries = forwardIndex.get(date) || [];
+      entries.forEach((e: any) => { 
         if (!byCountry.has(e.code)) byCountry.set(e.code, []); 
         byCountry.get(e.code).push(e.name); 
       });
       Array.from(byCountry.entries()).forEach(([code, names]) => {
-        const dLabel = new Date(date + 'T00:00:00').toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+        const dLabel = new Intl.DateTimeFormat('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).format(new Date(date + 'T00:00:00'));
         items.push(`<span class="chip"><b>${COUNTRY_LABELS[code] || code}</b> — ${names.join(", ")} · ${dLabel}</span>`);
       });
     });
@@ -168,7 +167,7 @@ export default function HomePage() {
       .map(r => ({
         date: r.date,
         name: r.name,
-        source_label: r.source_name || 'Regional',
+        source_label: r.source_name || 'Regional Source',
         d: r.date ? new Date(r.date + "T00:00:00") : null,
         purposes: ['travel', 'business', 'workforce']
       }));
@@ -178,7 +177,7 @@ export default function HomePage() {
       .map(x => ({
         date: x.effective_date || x.date || '2026-01-01',
         name: x.topic || x.name,
-        source_label: x.source_name || 'Official',
+        source_label: x.source_name || 'Official Authority',
         d: (x.effective_date || x.date) ? new Date((x.effective_date || x.date) + "T00:00:00") : new Date("2026-01-01T00:00:00"),
         purposes: (x.topic || "").toLowerCase().includes('study') ? ['study'] : ['business', 'workforce', 'travel']
       }));
@@ -231,7 +230,7 @@ export default function HomePage() {
     
     let text = "";
     if (uniqueDates.length === 1) {
-      const d = new Date(uniqueDates[0] + "T00:00:00").toLocaleDateString('en-GB', { day: '2-digit', month: 'short' });
+      const d = new Intl.DateTimeFormat('en-GB', { day: '2-digit', month: 'short' }).format(new Date(uniqueDates[0] + "T00:00:00"));
       text = `${d} is the only recorded date to keep in mind in your selected period. The details below explain what is happening and any related local or institutional information.`;
     } else if (uniqueDates.length > 1) {
       text = `${uniqueDates.length} dates in your selected period are worth keeping in mind. The details below show what is happening on each date and any related local or institutional information.`;
