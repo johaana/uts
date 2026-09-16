@@ -232,7 +232,7 @@ export default function HomePage() {
     let text = "";
     if (uniqueDates.length === 1) {
       const d = new Intl.DateTimeFormat('en-GB', { day: '2-digit', month: 'short' }).format(new Date(uniqueDates[0] + "T00:00:00"));
-      text = `${d} is the only recorded date to keep in mind in your selected period. The details below explain what is happening and any related local or institutional information.`;
+      text = `${d} is the only recorded date to keep in mind in your selected period. The details below show what is happening on each date and any related local or institutional information.`;
     } else if (uniqueDates.length > 1) {
       text = `${uniqueDates.length} dates in your selected period are worth keeping in mind. The details below show what is happening on each date and any related local or institutional information.`;
     }
