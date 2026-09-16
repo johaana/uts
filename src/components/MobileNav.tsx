@@ -20,7 +20,8 @@ export function MobileNav({ setOpen }: { setOpen: (open: boolean) => void }) {
     <div className="flex flex-col h-full bg-background">
       <div className="p-6 border-b">
         <Link href="/" className="logo" onClick={() => setOpen(false)}>
-            Utsavs <span>from occasion to impact</span>
+            Utsavs
+            <span>from occasion to impact</span>
         </Link>
       </div>
       <nav className="flex flex-col p-6 space-y-6">

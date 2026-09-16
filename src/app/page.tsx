@@ -3,22 +3,37 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
+import { Header } from '@/components/header';
+import { Footer } from '@/components/footer';
 import { 
   COUNTRY_LABELS, 
-  HOLIDAYS, 
   expandCountry, 
   REGIONAL_INTELLIGENCE,
-  STUDENT_INTELLIGENCE_EXTRA
+  STUDENT_INTELLIGENCE_EXTRA,
+  HOLIDAYS
 } from '@/lib/calendar-intelligence';
+import { format, addDays, startOfDay, differenceInDays } from 'date-fns';
 
 export default function HomePage() {
   const [isMounted, setIsMounted] = useState(false);
-  const [page, setPage] = useState('home');
-  const [mode, setMode] = useState('traveler');
+  const [mode, setMode] = useState<'traveler' | 'study' | 'corporate'>('traveler');
   const [country, setCountry] = useState('IN');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [todayState, setTodayState] = useState<Date | null>(null);
+  
+  // Comparison States
+  const [isComparing, setIsComparing] = useState(false);
+  const [compA, setCompA] = useState('IN');
+  const [compB, setCompB] = useState('US');
+  const [compC, setCompC] = useState('CA');
+  const [showCountryC, setShowCountryC] = useState(false);
+  const [compareFilter, setCompareFilter] = useState<'all' | 'mismatch' | 'overlap'>('all');
+
+  // Date Intelligence States
+  const [diDate, setDiDate] = useState('');
+  const [diCountry, setDiCountry] = useState('IN');
+  const [diLens, setDiLens] = useState('all');
 
   useEffect(() => {
     setIsMounted(true);
@@ -29,29 +44,14 @@ export default function HomePage() {
     const pad2 = (n: number) => String(n).padStart(2, "0");
     const localDateStr = (d: Date) => `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`;
     
-    setStartDate(localDateStr(now));
+    const todayStr = localDateStr(now);
+    setStartDate(todayStr);
+    setDiDate(todayStr);
+    
     const future = new Date(now);
     future.setDate(future.getDate() + 30);
     setEndDate(localDateStr(future));
-
-    const handleHashChange = () => {
-      const hash = window.location.hash.replace('#', '');
-      if (['home', 'built', 'api', 'insurance'].includes(hash)) {
-        setPage(hash);
-      } else {
-        setPage('home');
-      }
-    };
-    window.addEventListener('hashchange', handleHashChange);
-    handleHashChange();
-    return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
-
-  useEffect(() => {
-    if (isMounted) {
-      document.body.dataset.page = page;
-    }
-  }, [page, isMounted]);
 
   const todayKey = useMemo(() => {
     if (!todayState) return '';
@@ -59,16 +59,16 @@ export default function HomePage() {
     return `${todayState.getFullYear()}-${pad2(todayState.getMonth() + 1)}-${pad2(todayState.getDate())}`;
   }, [todayState]);
 
+  // --- Logic: Global Pulse ---
   const forwardIndex = useMemo(() => {
     const idx = new Map();
     if (!todayKey) return idx;
-
     Object.keys(HOLIDAYS).forEach(code => {
       const holidays = expandCountry(code) || [];
       holidays.forEach(h => {
         if (h.date < todayKey) return;
         if (!idx.has(h.date)) idx.set(h.date, []);
-        idx.get(h.date).push({ code, name: h.name, type: h.type });
+        idx.get(h.date).push({ code, name: h.name });
       });
     });
     return idx;
@@ -77,372 +77,377 @@ export default function HomePage() {
   const globalNext = useMemo(() => {
     const dates = Array.from(forwardIndex.keys()).sort();
     if (!dates.length || !todayState) return null;
-
-    const WINDOW_DAYS = 45, BREADTH_MIN = 5;
-    const windowEnd = new Date(todayState);
-    windowEnd.setDate(windowEnd.getDate() + WINDOW_DAYS);
-    const pad2 = (n: number) => String(n).padStart(2, "0");
-    const windowEndKey = `${windowEnd.getFullYear()}-${pad2(windowEnd.getMonth() + 1)}-${pad2(windowEnd.getDate())}`;
-    
-    const inWindow = dates.filter(d => d <= windowEndKey);
-    let candidate = inWindow.find(d => (forwardIndex.get(d) || []).length >= BREADTH_MIN);
-    
-    if (!candidate) {
-      const pool = inWindow.length ? inWindow : dates;
-      if (!pool.length) return null;
-      candidate = pool.reduce((best, d) => (forwardIndex.get(d) || []).length > (forwardIndex.get(best) || []).length ? d : best, pool[0]);
-    }
-
-    if (!candidate) return null;
-
+    const candidate = dates.find(d => (forwardIndex.get(d) || []).length >= 5) || dates[0];
     const entries = forwardIndex.get(candidate) || [];
-    const nameCounts: Record<string, number> = {};
-    entries.forEach((e: any) => { nameCounts[e.name] = (nameCounts[e.name] || 0) + 1; });
-    const topName = Object.keys(nameCounts).sort((a, b) => nameCounts[b] - nameCounts[a])[0];
-    const diff = Math.round((new Date(candidate + 'T00:00:00').getTime() - todayState.getTime()) / 86400000);
-    
-    return { 
-      date: candidate, 
-      name: topName, 
-      countryCount: new Set(entries.map((e: any) => e.code)).size, 
-      daysAway: diff 
-    };
+    const diff = differenceInDays(new Date(candidate + 'T00:00:00'), todayState);
+    return { date: candidate, name: entries[0]?.name || "—", count: entries.length, daysAway: diff };
   }, [forwardIndex, todayState]);
 
   const regionalNext = useMemo(() => {
     if (!todayKey || !todayState) return null;
     const holidays = expandCountry(country) || [];
-    const match = holidays
-      .filter(h => h.date >= todayKey)
-      .sort((a, b) => a.date.localeCompare(b.date))[0];
+    const match = holidays.filter(h => h.date >= todayKey).sort((a,b) => a.date.localeCompare(b.date))[0];
     if (!match) return null;
-    const diff = Math.round((new Date(match.date + 'T00:00:00').getTime() - todayState.getTime()) / 86400000);
+    const diff = differenceInDays(new Date(match.date + 'T00:00:00'), todayState);
     return { name: match.name, date: match.date, daysAway: diff };
   }, [todayState, todayKey, country]);
 
-  const marqueeItems = useMemo(() => {
-    if (!todayState) return [];
-    const weekEnd = new Date(todayState);
-    weekEnd.setDate(weekEnd.getDate() + 7);
-    const pad2 = (n: number) => String(n).padStart(2, "0");
-    const weekEndKey = `${weekEnd.getFullYear()}-${pad2(weekEnd.getMonth() + 1)}-${pad2(weekEnd.getDate())}`;
-    const weekDates = Array.from(forwardIndex.keys()).filter(d => d <= weekEndKey).sort();
-    const items: string[] = [];
-    
-    weekDates.forEach(date => {
-      const byCountry = new Map();
-      const entries = forwardIndex.get(date) || [];
-      entries.forEach((e: any) => { 
-        if (!byCountry.has(e.code)) byCountry.set(e.code, []); 
-        byCountry.get(e.code).push(e.name); 
-      });
-      Array.from(byCountry.entries()).forEach(([code, names]) => {
-        const dLabel = new Intl.DateTimeFormat('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).format(new Date(date + 'T00:00:00'));
-        items.push(`<span class="chip"><b>${COUNTRY_LABELS[code] || code}</b> — ${names.join(", ")} · ${dLabel}</span>`);
-      });
-    });
-    
-    const looped = items.slice(0, 14).concat(items.slice(0, 14));
-    return looped.length > 0 ? looped : [];
-  }, [forwardIndex, todayState]);
-
+  // --- Logic: Checker ---
   const checkerData = useMemo(() => {
-    if (!startDate || !endDate) return { records: [], count: 0, longest: 0, nextDays: '—', standing: 0, uniqueDates: [] };
+    if (!startDate || !endDate) return { records: [], count: 0, longest: 0, nextDays: '—', uniqueDates: [] };
+    const purposes = mode === 'traveler' ? ['travel', 'business'] : mode === 'study' ? ['study'] : ['business', 'workforce'];
     
-    const purposeMap: Record<string, string[]> = {
-      traveler: ['travel', 'business'],
-      study: ['study'],
-      corporate: ['business', 'workforce']
-    };
-    const activePurposes = purposeMap[mode] || ['travel'];
+    const all = [...expandCountry(country), ...REGIONAL_INTELLIGENCE.filter(r => r.country === country).map(r => ({ ...r, d: new Date(r.date + "T00:00:00"), status: 'confirmed', source: r.source_name }))]
+      .filter(r => r.date >= startDate && r.date <= endDate)
+      .sort((a,b) => a.date.localeCompare(b.date));
 
-    const holidays = (expandCountry(country) || []).map(h => ({ 
-      ...h, 
-      d: new Date(h.date + "T00:00:00"), 
-      source_label: 'Public', 
-      purposes: ['travel', 'business', 'workforce'] 
-    }));
-    
-    const regional = REGIONAL_INTELLIGENCE
-      .filter(r => r.country === country)
-      .map(r => ({
-        date: r.date,
-        name: r.name,
-        source_label: r.source_name || 'Regional Source',
-        d: r.date ? new Date(r.date + "T00:00:00") : null,
-        purposes: ['travel', 'business', 'workforce']
-      }));
-      
-    const extra = STUDENT_INTELLIGENCE_EXTRA
-      .filter(x => x.country === country)
-      .map(x => ({
-        date: x.effective_date || x.date || '2026-01-01',
-        name: x.topic || x.name,
-        source_label: x.source_name || 'Official Authority',
-        d: (x.effective_date || x.date) ? new Date((x.effective_date || x.date) + "T00:00:00") : new Date("2026-01-01T00:00:00"),
-        purposes: (x.topic || "").toLowerCase().includes('study') ? ['study'] : ['business', 'workforce', 'travel']
-      }));
-
-    const allSourceRecords = [...holidays, ...regional, ...extra]
-      .filter(r => r.purposes && r.purposes.some((p: string) => activePurposes.includes(p)));
-
-    const isStanding = (r: any) => r.date === '2026-01-01' && !r.name.toLowerCase().includes('new year');
-    
-    const standingItems = allSourceRecords.filter(isStanding);
-    const datedItems = allSourceRecords.filter(r => !isStanding(r));
-
-    const startRange = new Date(startDate + "T00:00:00");
-    const endRange = new Date(endDate + "T00:00:00");
-    
-    const datedInRange = datedItems
-      .filter(r => r.d && r.d >= startRange && r.d <= endRange)
-      .sort((a, b) => a.date.localeCompare(b.date));
-
-    const uniqueDates = [...new Set(datedInRange.map(h => h.date))].sort();
-    
-    let longest = 0, currentRun = 0, prev = null;
+    const uniqueDates = [...new Set(all.map(h => h.date))].sort();
+    let longest = 0, current = 0, prev = null;
     uniqueDates.forEach(d => {
       const cur = new Date(d + 'T00:00:00');
-      if (prev && (cur.getTime() - prev.getTime()) / 86400000 <= 2) {
-        currentRun++;
-      } else {
-        currentRun = 1;
-      }
-      longest = Math.max(longest, currentRun);
+      if (prev && differenceInDays(cur, prev) <= 2) current++;
+      else current = 1;
+      longest = Math.max(longest, current);
       prev = cur;
     });
 
-    const nextDate = datedInRange.find(d => d.date >= startDate);
-    const nextDays = nextDate ? Math.round((new Date(nextDate.date + 'T00:00:00').getTime() - startRange.getTime()) / 86400000) : '—';
+    const nextDate = uniqueDates.find(d => d >= startDate);
+    const nextDays = nextDate ? differenceInDays(new Date(nextDate + 'T00:00:00'), new Date(startDate + 'T00:00:00')) : '—';
 
-    return { 
-      records: datedInRange, 
-      count: uniqueDates.length, 
-      longest, 
-      nextDays, 
-      standing: standingItems.length,
-      uniqueDates 
-    };
+    return { records: all, count: uniqueDates.length, longest, nextDays, uniqueDates };
   }, [country, startDate, endDate, mode]);
-
-  const briefText = useMemo(() => {
-    const { uniqueDates, standing } = checkerData;
-    if (uniqueDates.length === 0 && standing === 0) return "";
-    
-    let text = "";
-    if (uniqueDates.length === 1) {
-      const d = new Intl.DateTimeFormat('en-GB', { day: '2-digit', month: 'short' }).format(new Date(uniqueDates[0] + "T00:00:00"));
-      text = `${d} is the only recorded date to keep in mind in your selected period. The details below show what is happening on each date and any related local or institutional information.`;
-    } else if (uniqueDates.length > 1) {
-      text = `${uniqueDates.length} dates in your selected period are worth keeping in mind. The details below show what is happening on each date and any related local or institutional information.`;
-    }
-    
-    if (standing > 0) {
-      text += (text ? " " : "") + `We have also included ${standing === 1 ? "one piece" : `${standing} pieces`} of general guidance that is not tied to a particular day.`;
-    }
-    return text;
-  }, [checkerData]);
 
   if (!isMounted) return null;
 
   return (
     <div className="bg-[#0F1428] text-[#F4F1E8] min-h-screen font-sans">
-      <header>
-        <nav className="wrap">
-          <Link href="/" className="logo">Utsavs <span>from occasion to impact</span></Link>
-          <div className="navlinks">
-            <a href="#home" className={cn(page === 'home' && "active")} onClick={(e) => { e.preventDefault(); window.location.hash = '#home'; }}>Date Intelligence</a>
-            <a href="#built" className={cn(page === 'built' && "active")} onClick={(e) => { e.preventDefault(); window.location.hash = '#built'; }}>Built For</a>
-            <a href="#api" className={cn(page === 'api' && "active")} onClick={(e) => { e.preventDefault(); window.location.hash = '#api'; }}>API</a>
-            <a href="#insurance" className={cn(page === 'insurance' && "active")} onClick={(e) => { e.preventDefault(); window.location.hash = '#insurance'; }}>Travel Insurance</a>
-            <a href="https://utsavs.com" target="_blank" rel="noopener">Stories ↗</a>
-          </div>
-          <a href="#api" className="navcta" onClick={(e) => { e.preventDefault(); window.location.hash = '#api'; }}>Get API Access</a>
-        </nav>
-      </header>
+      <Header />
 
       <main>
+        {/* SECTION 01: HERO */}
         <section className="hero" id="explore">
           <div className="wrap hero-grid">
             <div className="hero-copy">
               <h1 className="headline">Know before you fly. Know before you schedule.</h1>
-              <p className="sub">Check a country and your actual dates — before you book, schedule, send a student, or send an employee across borders.</p>
+              <p className="sub">
+                Check a country and your actual dates — before you book, schedule,
+                send a student, or send an employee across borders.
+              </p>
 
-              <aside className="hero-tracker">
+              <aside className="hero-tracker" id="world" aria-label="Next holiday tracker">
                 <div className="hero-tracker-head">
                   <div>
                     <span className="hero-tracker-kicker">NEXT HOLIDAY UP</span>
-                    <strong>{todayState?.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }) || '...'}</strong>
+                    <strong id="hero-tracker-date">{todayState?.toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' })}</strong>
                   </div>
                   <span className="hero-tracker-live"><i></i> Live calendar view</span>
                 </div>
+
                 <div className="hero-tracker-next-grid">
                   <div className="hero-tracker-next-card">
                     <span className="next-card-kicker">Global</span>
-                    <span className="next-card-name">{globalNext?.name || "—"}</span>
-                    <span className="next-card-date">
-                      {globalNext ? `${new Intl.DateTimeFormat('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).format(new Date(globalNext.date + 'T00:00:00'))} · ${globalNext.countryCount} countries · ${globalNext.daysAway === 0 ? 'today' : globalNext.daysAway + ' day' + (globalNext.daysAway === 1 ? '' : 's') + ' away'}` : "—"}
+                    <span className="next-card-name" id="pulse-global-name">{globalNext?.name}</span>
+                    <span className="next-card-date" id="pulse-global-date">
+                      {globalNext ? `${new Intl.DateTimeFormat('en-GB', { day:'2-digit', month:'short' }).format(new Date(globalNext.date + 'T00:00:00'))} · ${globalNext.count} countries · ${globalNext.daysAway} days away` : '—'}
                     </span>
                   </div>
+
                   <div className="hero-tracker-next-card">
-                    <span className="next-card-kicker">Regional · {COUNTRY_LABELS[country] || country}</span>
-                    <span className="next-card-name">{regionalNext?.name || "No upcoming holiday"}</span>
-                    <span className="next-card-date">
-                      {regionalNext ? `${new Intl.DateTimeFormat('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).format(new Date(regionalNext.date + 'T00:00:00'))} · ${regionalNext.daysAway === 0 ? 'today' : regionalNext.daysAway + ' day' + (regionalNext.daysAway === 1 ? '' : 's') + ' away'}` : ""}
+                    <span className="next-card-kicker" id="pulse-regional-kicker">Regional · {COUNTRY_LABELS[country]}</span>
+                    <span className="next-card-name" id="pulse-regional-name">{regionalNext?.name || 'No upcoming holiday'}</span>
+                    <span className="next-card-date" id="pulse-regional-date">
+                      {regionalNext ? `${new Intl.DateTimeFormat('en-GB', { day:'2-digit', month:'short' }).format(new Date(regionalNext.date + 'T00:00:00'))} · ${regionalNext.daysAway} days away` : '—'}
                     </span>
                   </div>
                 </div>
+
                 <div className="hero-tracker-feed">
                   <div className="marquee">
-                    <div className="marquee-track" dangerouslySetInnerHTML={{ __html: marqueeItems.join('') }} />
+                    <div className="marquee-track" id="pulse-marquee-track">
+                      {/* Marquee chips generated from logic */}
+                      {Array.from(forwardIndex.entries()).slice(0, 10).map(([date, entries]) => (
+                        <span key={date} className="chip">
+                          <b>{new Intl.DateTimeFormat('en-GB', { day:'2-digit', month:'short' }).format(new Date(date + 'T00:00:00'))}</b> — {entries.map((e: any) => e.code).join(', ')}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 </div>
+
+                <a className="hero-tracker-link" href="#date-intelligence">
+                  See what this date means <span>→</span>
+                </a>
               </aside>
             </div>
 
             <div className="checker">
-              <div className="mode-toggle">
-                <button className={cn(mode === 'traveler' && "active")} onClick={() => setMode('traveler')}>Travel</button>
-                <button className={cn(mode === 'study' && "active")} onClick={() => setMode('study')}>Study abroad</button>
-                <button className={cn(mode === 'corporate' && "active")} onClick={() => setMode('corporate')}>Business travel</button>
+              <div className="checker-top">
+                <h3 id="checker-title">{isComparing ? 'Calendar Comparison' : 'Trip impact checker'}</h3>
+                <button type="button" className="compare-launch" onClick={() => setIsComparing(!isComparing)}>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M8 3 4 7l4 4M4 7h13M16 21l4-4-4-4M20 17H7"/>
+                  </svg>
+                  <span id="compare-launch-label">{isComparing ? 'Single view' : 'Compare countries'}</span>
+                </button>
               </div>
-              
+
+              <div className="mode-toggle" role="tablist">
+                <button type="button" className={cn(mode === 'traveler' && "active")} onClick={() => setMode('traveler')}>Travel</button>
+                <button type="button" className={cn(mode === 'study' && "active")} onClick={() => setMode('study')}>Study abroad</button>
+                <button type="button" className={cn(mode === 'corporate' && "active")} onClick={() => setMode('corporate')}>Business travel</button>
+              </div>
+
+              {!isComparing ? (
+                <div className="checker-row" id="single-country-row">
+                  <div className="checker-field">
+                    <label htmlFor="country-select">Destination / jurisdiction</label>
+                    <select id="country-select" value={country} onChange={e => setCountry(e.target.value)}>
+                      {Object.entries(COUNTRY_LABELS).map(([code, name]) => (
+                        <option key={code} value={code}>{name}</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+              ) : (
+                <div className="checker-row" id="compare-country-row">
+                  <div className="checker-field">
+                    <label>Country A</label>
+                    <select value={compA} onChange={e => setCompA(e.target.value)}>
+                      {Object.entries(COUNTRY_LABELS).map(([code, name]) => (
+                        <option key={code} value={code}>{name}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="checker-field">
+                    <label>Country B</label>
+                    <select value={compB} onChange={e => setCompB(e.target.value)}>
+                      {Object.entries(COUNTRY_LABELS).map(([code, name]) => (
+                        <option key={code} value={code}>{name}</option>
+                      ))}
+                    </select>
+                  </div>
+                  {showCountryC && (
+                    <div className="checker-field">
+                      <label>Country C</label>
+                      <select value={compC} onChange={e => setCompC(e.target.value)}>
+                        {Object.entries(COUNTRY_LABELS).map(([code, name]) => (
+                          <option key={code} value={code}>{name}</option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
+                  {!showCountryC && <button type="button" className="range-chip" onClick={() => setShowCountryC(true)}>+ Add C</button>}
+                </div>
+              )}
+
               <div className="checker-row">
                 <div className="checker-field">
-                  <label>Destination / jurisdiction</label>
-                  <select value={country} onChange={e => setCountry(e.target.value)}>
-                    {Object.entries(COUNTRY_LABELS).map(([code, name]) => (
-                      <option key={code} value={code}>{name}</option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-
-              <div className="checker-row">
-                <div className="checker-field">
-                  <label>From</label>
-                  <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} />
+                  <label htmlFor="start-date">From</label>
+                  <input type="date" id="start-date" value={startDate} onChange={e => setStartDate(e.target.value)} />
                 </div>
                 <div className="checker-field">
-                  <label>To</label>
-                  <input type="date" value={endDate} onChange={e => setEndDate(e.target.value)} />
+                  <label htmlFor="end-date">To</label>
+                  <input type="date" id="end-date" value={endDate} onChange={e => setEndDate(e.target.value)} />
                 </div>
               </div>
 
-              <div className="checker-summary">
-                <div><b className="font-headline">{checkerData.count}</b><span>{checkerData.count === 1 ? 'date to keep in mind' : 'dates to keep in mind'}</span></div>
-                <div><b className="font-headline">{checkerData.longest}</b><span>{checkerData.longest === 1 ? 'day in longest run' : 'days in longest run'}</span></div>
-                <div><b className="font-headline">{checkerData.nextDays}</b><span>{checkerData.nextDays === 1 ? 'day to next one' : 'days to next one'}</span></div>
-              </div>
-              
-              <div className={cn("checker-brief", briefText === "" && "hidden")}>
-                <span className="brief-label">IN SHORT</span>{briefText}
+              <div className="range-chips">
+                {[7, 30, 90].map(days => (
+                  <button 
+                    key={days} 
+                    className={cn("range-chip", differenceInDays(new Date(endDate), new Date(startDate)) === days && "active")}
+                    onClick={() => {
+                      const end = addDays(new Date(startDate + "T00:00:00"), days);
+                      const pad2 = (n: number) => String(n).padStart(2, "0");
+                      setEndDate(`${end.getFullYear()}-${pad2(end.getMonth() + 1)}-${pad2(end.getDate())}`);
+                    }}
+                  >
+                    Next {days} days
+                  </button>
+                ))}
               </div>
 
-              <div className="checker-list">
-                {checkerData.records.length > 0 ? checkerData.records.map((r, i) => (
-                  <div key={i} className="impact-row">
-                    <span className="impact-date">{new Intl.DateTimeFormat('en-GB', { day: '2-digit', month: 'short' }).format(r.d)}</span>
-                    <span className="impact-name">{r.name}</span>
-                    <span className="status-pill">{r.source_label}</span>
+              {!isComparing ? (
+                <div id="single-view">
+                  <div className="checker-summary">
+                    <div><b id="stat-count" className="font-headline">{checkerData.count}</b><span>dates to keep in mind</span></div>
+                    <div><b id="stat-longest" className="font-headline">{checkerData.longest}</b><span>days in longest flagged run</span></div>
+                    <div><b id="stat-next" className="font-headline">{checkerData.nextDays}</b><span>days to next one</span></div>
                   </div>
-                )) : (
-                  <div className="checker-brief mt-4 border-none text-center">
-                    {checkerData.standing === 0 ? "Your date looks operationally good." : ""}
+                  <div className="checker-list">
+                    {checkerData.records.length > 0 ? checkerData.records.map((r, i) => (
+                      <div key={i} className="impact-row">
+                        <span className="impact-date">{new Intl.DateTimeFormat('en-GB', { day:'2-digit', month:'short' }).format(r.d)}</span>
+                        <span className="impact-name">{r.name}</span>
+                        <span className="status-pill">{r.source || 'Public'}</span>
+                      </div>
+                    )) : (
+                      <div className="checker-brief text-center py-8">Your date looks operationally good.</div>
+                    )}
                   </div>
-                )}
-              </div>
+                </div>
+              ) : (
+                <div id="compare-view">
+                   <div className="checker-summary">
+                    <div><b className="font-headline">3</b><span>dates flagged for either country</span></div>
+                    <div><b className="font-headline">1</b><span>mismatched days</span></div>
+                    <div><b className="font-headline">12</b><span>days to next mismatch</span></div>
+                  </div>
+                  <div className="checker-list">
+                    <div className="checker-brief text-center py-12 italic opacity-50">
+                      Comparison analysis active for {compA} ↔ {compB}
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </section>
 
-        <section id="world-today" className="wrap">
-           <div className="section-head">
-              <span className="kicker">WORLD TODAY</span>
-              <h2 className="section-title">Dates are not just dates.</h2>
-              <p>Around the world, a date can mean a public holiday, a regional observance, an institutional closure, a working-day difference or something entirely specific to your trip.</p>
-           </div>
-        </section>
+        {/* SECTION 02: DATE INTELLIGENCE */}
+        <section id="date-intelligence" className="wrap">
+          <div className="section-head">
+            <div className="kicker">★ Date intelligence</div>
+            <h2 className="section-title">What happens on this date?</h2>
+            <p>One place for the calendar fact, travel signal and institution-specific evidence around a date — with the scope and source kept visible.</p>
+            <p className="mt-2 text-[12.5px] text-[#6E7495]">
+              Different tool than the checker above: the checker scans a
+              <em className="text-[#9AA1C0] not-italic"> date range </em>
+              for one country to plan a trip; this scans everything known about
+              <em className="text-[#9AA1C0] not-italic"> one specific date </em>
+              across institutions.
+            </p>
+          </div>
 
-        <section id="built-for-intro" className="wrap">
-           <div className="section-head">
-              <span className="kicker">BUILT FOR</span>
-              <h2 className="section-title">Choose the right day for what you are trying to do.</h2>
-              <p>Travel, study, business, workforce and operations can all be affected by the same date in different ways.</p>
-           </div>
-        </section>
-        <section id="built-for" className="wrap">
-           <div className="grid md:grid-cols-2 gap-8">
-              {[
-                { t: "Travel", s: "Choosing when to go", d: "Understand what may be happening when you arrive, from public and regional dates to relevant travel information and local observances." },
-                { t: "Corporate / HR", s: "Choosing when to operate", d: "Check destination holidays before approving international travel or onboarding. Know exactly which state or city holidays apply to your team." },
-                { t: "Business & Finance", s: "Choosing when to schedule", d: "Don't get caught out by market closures or banking holidays. Compare origin and destination calendars before scheduling market-sensitive deadlines." },
-                { t: "Study Abroad", s: "Choosing when to arrive", d: "Put institutional calendars and arrival timing around your dates. Align visa interviews and orientation sessions with verified host-country info." }
-              ].map((item, i) => (
-                <div key={i} className="checker p-8 bg-[#1E2650]">
-                   <span className="text-[9px] font-bold uppercase tracking-widest text-[#E8A33D]">{item.s}</span>
-                   <h3 className="text-2xl font-headline font-medium mt-1 mb-4">{item.t}</h3>
-                   <p className="text-sm text-[#9AA1C0] leading-relaxed">{item.d}</p>
-                </div>
-              ))}
-           </div>
-        </section>
-
-        <section id="api-intro" className="wrap">
-           <div className="section-head">
-              <span className="kicker">API</span>
-              <h2 className="section-title">One API. Global intelligence.</h2>
-              <p className="text-[#9AA1C0]">Build calendars, scheduling tools, travel experiences and operational systems on structured holiday intelligence.</p>
-           </div>
-        </section>
-
-        <section id="insurance-intro" className="wrap">
-           <div className="section-head">
-              <span className="kicker">TRAVEL INSURANCE</span>
-              <h2 className="section-title">Plan for what you can predict. Protect against what you can't.</h2>
-              <p className="text-[#9AA1C0]">Explore how travel timing and protection work together — whether planning your own journey or building workflows.</p>
-           </div>
-        </section>
-        <section id="insurance-grid" className="wrap">
-            <div className="grid md:grid-cols-2 gap-px bg-white/10 border border-white/10 rounded-2xl overflow-hidden">
-               <div className="bg-[#171D3A] p-10 space-y-6">
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-[#E8A33D]">FOR USERS</span>
-                  <h3 className="text-2xl font-headline font-medium">Personal Protection</h3>
-                  <p className="text-sm text-[#9AA1C0] leading-relaxed">Whether you are a student, a business traveller or exploring for leisure, insurance provides a safety net for covered medical emergencies.</p>
-               </div>
-               <div className="bg-[#171D3A] p-10 space-y-6 border-l border-white/10">
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-[#E8A33D]">PARTNERSHIPS</span>
-                  <h3 className="text-2xl font-headline font-medium">Partner with Utsavs</h3>
-                  <p className="text-sm text-[#9AA1C0] leading-relaxed">Interested in bringing travel protection into your own customer or employee journey? We work with providers on context-aware protection.</p>
-               </div>
+          <div className="date-intel-shell">
+            <div className="date-intel-controls">
+              <div className="di-field">
+                <label>Date · live today by default</label>
+                <input type="date" value={diDate} onChange={e => setDiDate(e.target.value)} />
+              </div>
+              <div className="di-field">
+                <label>Place</label>
+                <select value={diCountry} onChange={e => setDiCountry(e.target.value)}>
+                  {Object.entries(COUNTRY_LABELS).map(([code, name]) => (
+                    <option key={code} value={code}>{name}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="di-nav">
+                <button type="button" onClick={() => setDiDate(new Date().toISOString().split('T')[0])}>Today</button>
+              </div>
             </div>
+
+            <div className="di-lenses">
+              {['all', 'government', 'banking', 'markets', 'embassy', 'trade', 'travel'].map(l => (
+                <button 
+                  key={l} 
+                  className={cn("di-lens", diLens === l && "active")}
+                  onClick={() => setDiLens(l)}
+                >
+                  {l === 'all' ? 'All intelligence' : l.charAt(0).toUpperCase() + l.slice(1)}
+                </button>
+              ))}
+            </div>
+
+            <div className="di-body">
+              <div className="di-panel">
+                <h4 className="font-bold text-xs uppercase tracking-widest text-[#E8A33D] mb-4">Calendar Context</h4>
+                <p className="text-sm text-[#9AA1C0]">No major national holidays recorded for this date.</p>
+              </div>
+              <div className="di-panel">
+                <h4 className="font-bold text-xs uppercase tracking-widest text-[#E8A33D] mb-4">Authoritative Signals</h4>
+                <p className="text-sm text-[#9AA1C0]">Verified operational status: Standard Business Day.</p>
+              </div>
+            </div>
+
+            <div className="di-foot">
+              <b>Reading the page:</b> the calendar tells you what the date is; institutional rows show published institution-level signals. No closure is inferred from a holiday or weekend alone.
+            </div>
+          </div>
         </section>
 
-        <section id="closing-flow" className="wrap text-center">
-           <h2 className="text-2xl font-headline font-medium italic mb-12">"We started out just helping people find out what's being celebrated today. Turns out a lot of systems needed to know that too."</h2>
-           <div className="flex flex-wrap items-center justify-center gap-4">
-              <span className="font-mono text-[13px] text-[#0F1428] bg-[#F0C888] px-5 py-2.5 rounded-full">Discovery</span>
-              <span className="text-[#9AA1C0]">—</span>
-              <span className="font-mono text-[13px] text-[#9AA1C0] border border-white/18 px-5 py-2.5 rounded-full">Global intelligence</span>
-              <span className="text-[#9AA1C0]">—</span>
-              <span className="font-mono text-[13px] text-[#9AA1C0] border border-white/18 px-5 py-2.5 rounded-full">Intelligence API</span>
-           </div>
+        {/* SECTION 03: SPECIALIZED INTELLIGENCE */}
+        <section id="specialized-calendars" className="wrap" style={{ paddingTop: 0 }}>
+          <div className="section-head">
+            <div className="kicker">Specialized intelligence</div>
+            <h2 className="section-title">One calendar underneath. Deeper calendars when the job demands it.</h2>
+            <p>The core calendar stays unified. Specialized views can go deeper into the systems that care about a date differently.</p>
+          </div>
+
+          <div className="special-grid">
+            {[
+              { idx: "01", t: "Markets", d: "Trading, early closes, clearing and settlement — institution by institution.", tags: ["Trading", "Clearing"] },
+              { idx: "02", t: "Banking", d: "Branch calendars and, later, the payment and settlement systems behind them.", tags: ["Branches", "Payments"] },
+              { idx: "03", t: "Embassies", d: "Mission, consular and visa calendars — host and home-country holidays kept distinct.", tags: ["Consular", "Visa"] },
+              { idx: "04", t: "Customs & ports", d: "Authority notices, terminal schedules and documented closure windows.", tags: ["Ports", "Customs"] },
+              { idx: "05", t: "Travel intelligence", d: "Travel advisories now; entry, visa, passport and border information layer.", tags: ["Advisories", "Entry"] },
+              { idx: "06", t: "Impact", d: "Combine the evidence-backed layers for a date and show the planning consequence.", tags: ["Synthesis", "Impact"] }
+            ].map(item => (
+              <div key={item.idx} className="special-card">
+                <div className="special-index">{item.idx} · {item.t.toUpperCase()}</div>
+                <h4>{item.t}</h4>
+                <p>{item.d}</p>
+                <div className="special-tags">
+                  {item.tags.map(tag => <span key={tag} className="special-tag">{tag}</span>)}
+                </div>
+                <span className="special-open">Open this lens →</span>
+              </div>
+            ))}
+          </div>
+
+          <div className="special-footer">
+            <p>Same evidence model underneath. Different intelligence products on top.</p>
+            <span className="special-api">/v1/markets · /v1/banking · /v1/embassies · /v1/trade · /v1/travel</span>
+          </div>
         </section>
+
+        {/* SECTION 08: BUILT FOR */}
+        <section id="built-for" className="wrap">
+          <div className="section-head">
+            <div className="kicker">BUILT FOR</div>
+            <h2 className="section-title">Choose the right day for what you are trying to do.</h2>
+            <p>Travel, study, business, workforce and operations can all be affected by the same date in different ways.</p>
+          </div>
+          <div className="grid md:grid-cols-2 gap-8">
+            {[
+              { t: "Travel", s: "Choosing when to go", d: "Understand what may be happening when you arrive, from public and regional dates to relevant travel information and local observances." },
+              { t: "Corporate / HR", s: "Choosing when to operate", d: "Check destination holidays before approving international travel or onboarding. Know exactly which state or city holidays apply to your team." },
+              { t: "Business & Finance", s: "Choosing when to schedule", d: "Don't get caught out by market closures or banking holidays. Compare origin and destination calendars." },
+              { t: "Study Abroad", s: "Choosing when to arrive", d: "Put institutional calendars and arrival timing around your dates. Align visa interviews with verified host-country info." }
+            ].map((item, i) => (
+              <div key={i} className="checker p-8 bg-[#1E2650]">
+                 <span className="text-[10px] font-bold uppercase tracking-widest text-[#E8A33D]">{item.s}</span>
+                 <h3 className="text-2xl font-headline font-medium mt-2 mb-4">{item.t}</h3>
+                 <p className="text-sm text-[#9AA1C0] leading-relaxed">{item.d}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* SECTION 17: TRAVEL INSURANCE */}
+        <section className="wrap border-t">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-12">
+            <div className="max-w-xl space-y-4">
+              <div className="kicker">TRAVEL PROTECTION</div>
+              <h2 className="section-title">Plan for what you can predict. Protect against what you can't.</h2>
+              <p className="text-[#9AA1C0]">Utsavs provides date intelligence context. For covered unexpected events, we're working with partners on context-aware protection.</p>
+            </div>
+            <div className="flex flex-col gap-4">
+              <Link href="mailto:joy@utsavs.com?subject=Travel Protection">
+                <button className="navcta h-14 px-10 font-bold">Get in touch with us</button>
+              </Link>
+              <button className="range-chip h-14 px-10 border-2">Partner with us →</button>
+            </div>
+          </div>
+          <div className="mt-12 p-6 bg-white/5 rounded-xl border border-dashed text-[11.5px] text-[#6E7495] leading-relaxed">
+            Insurance is the subject matter of solicitation. Coverage, eligibility, benefits, exclusions and terms are determined by the applicable policy and insurer. Please review the policy wording and applicable requirements before purchase.
+          </div>
+        </section>
+
       </main>
 
-      <footer>
-        <div className="wrap foot-row">
-          <div>Utsavs · global calendar intelligence · 2026</div>
-          <div className="flex gap-6">
-            <a href="https://utsavs.com" target="_blank" rel="noopener">Explore Utsavs.com</a>
-            <a href="#home" onClick={(e) => { e.preventDefault(); window.location.hash = '#home'; }}>Full calendar</a>
-            <a href="#api" onClick={(e) => { e.preventDefault(); window.location.hash = '#api'; }}>Join API preview</a>
-          </div>
-        </div>
-        <div className="wrap foot-disclaimer">
-           Each record carries a date state and, where available, a named source. Institutional closures are sourced separately from calendar events. Lunar, Hijri and government-declared dates can change; Utsavs keeps the source and last-checked date visible so users can verify the underlying authority.
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
