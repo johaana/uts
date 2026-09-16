@@ -19,9 +19,8 @@ export function MobileNav({ setOpen }: { setOpen: (open: boolean) => void }) {
   return (
     <div className="flex flex-col h-full bg-background">
       <div className="p-6 border-b">
-        <Link href="/" className="flex flex-col items-start" onClick={() => setOpen(false)}>
-            <span className="font-headline text-3xl font-bold text-primary">Utsavs</span>
-            <span className="font-headline italic text-xs lowercase tracking-normal font-normal text-muted-foreground mt-0.5">from occasion to impact</span>
+        <Link href="/" className="logo" onClick={() => setOpen(false)}>
+            Utsavs <span>from occasion to impact</span>
         </Link>
       </div>
       <nav className="flex flex-col p-6 space-y-6">

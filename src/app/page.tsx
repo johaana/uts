@@ -280,14 +280,14 @@ export default function HomePage() {
                     <span className="next-card-kicker">Global</span>
                     <span className="next-card-name">{globalNext?.name || "—"}</span>
                     <span className="next-card-date">
-                      {globalNext ? `${new Intl.DateTimeFormat('en-GB', { day: '2-digit', month: 'short' }).format(new Date(globalNext.date + 'T00:00:00'))} · ${globalNext.countryCount} countries · ${globalNext.daysAway === 0 ? 'today' : globalNext.daysAway + ' day' + (globalNext.daysAway === 1 ? '' : 's') + ' away'}` : "—"}
+                      {globalNext ? `${new Intl.DateTimeFormat('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).format(new Date(globalNext.date + 'T00:00:00'))} · ${globalNext.countryCount} countries · ${globalNext.daysAway === 0 ? 'today' : globalNext.daysAway + ' day' + (globalNext.daysAway === 1 ? '' : 's') + ' away'}` : "—"}
                     </span>
                   </div>
                   <div className="hero-tracker-next-card">
                     <span className="next-card-kicker">Regional · {COUNTRY_LABELS[country] || country}</span>
                     <span className="next-card-name">{regionalNext?.name || "No upcoming holiday"}</span>
                     <span className="next-card-date">
-                      {regionalNext ? `${new Intl.DateTimeFormat('en-GB', { day: '2-digit', month: 'short' }).format(new Date(regionalNext.date + 'T00:00:00'))} · ${regionalNext.daysAway === 0 ? 'today' : regionalNext.daysAway + ' day' + (regionalNext.daysAway === 1 ? '' : 's') + ' away'}` : ""}
+                      {regionalNext ? `${new Intl.DateTimeFormat('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).format(new Date(regionalNext.date + 'T00:00:00'))} · ${regionalNext.daysAway === 0 ? 'today' : regionalNext.daysAway + ' day' + (regionalNext.daysAway === 1 ? '' : 's') + ' away'}` : ""}
                     </span>
                   </div>
                 </div>
