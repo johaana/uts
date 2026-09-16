@@ -10,6 +10,8 @@ import {
   REGIONAL_INTELLIGENCE,
   HOLIDAYS
 } from '@/lib/calendar-intelligence';
+import { getOperationalImpact } from '@/lib/operational/adapter';
+import { OperationalResult } from '@/lib/operational/types';
 import { format, addDays, startOfDay, differenceInDays } from 'date-fns';
 import { OperationalResultCard } from '@/components/operational/OperationalResultCard';
 
@@ -33,6 +35,8 @@ export default function HomePage() {
   const [diDate, setDiDate] = useState('');
   const [diCountry, setDiCountry] = useState('IN');
   const [diLens, setDiLens] = useState('all');
+  const [diResults, setDiResults] = useState<OperationalResult | null>(null);
+  const [diLoading, setDiLoading] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
@@ -51,6 +55,32 @@ export default function HomePage() {
     const pad2 = (n: number) => String(n).padStart(2, "0");
     return `${todayState.getFullYear()}-${pad2(todayState.getMonth() + 1)}-${pad2(todayState.getDate())}`;
   }, [todayState]);
+
+  // --- Logic: Date Intelligence Fetch ---
+  useEffect(() => {
+    if (!isMounted || !diDate || !diCountry) return;
+    
+    setDiLoading(true);
+    getOperationalImpact({
+      destination: diCountry,
+      startDate: diDate,
+      endDate: diDate,
+      purpose: 'travel'
+    }).then(res => {
+      setDiResults(res);
+      setDiLoading(false);
+    }).catch(err => {
+      console.error('Date Intelligence Fetch Error:', err);
+      setDiLoading(false);
+    });
+  }, [isMounted, diDate, diCountry]);
+
+  const adjustDiDate = (days: number) => {
+    const d = new Date(diDate + 'T00:00:00');
+    d.setDate(d.getDate() + days);
+    const pad2 = (n: number) => String(n).padStart(2, "0");
+    setDiDate(`${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`);
+  };
 
   // --- Logic: Tracker Calculations ---
   const forwardIndex = useMemo(() => {
@@ -350,19 +380,41 @@ export default function HomePage() {
               </div>
               <div className="di-nav">
                 <button type="button" aria-label="Return to today" onClick={() => setDiDate(todayKey)}>Today</button>
-                <button type="button">←</button>
-                <button type="button">→</button>
+                <button type="button" onClick={() => adjustDiDate(-1)}>←</button>
+                <button type="button" onClick={() => adjustDiDate(1)}>→</button>
               </div>
             </div>
 
             <div className="di-body">
-              <div className="di-panel">
+              <div className="di-panel" id="di-events">
                 <h4 className="font-bold text-xs uppercase tracking-widest text-primary mb-4">Calendar Context</h4>
-                <p className="text-sm text-muted italic">Sourcing regional and religious dated records for {diDate}...</p>
+                {diLoading ? (
+                  <p className="text-sm text-muted italic">Sourcing regional and religious dated records for {diDate}...</p>
+                ) : diResults && diResults.records.filter(r => r.category === 'holiday' || r.category === 'regional').length > 0 ? (
+                  <div className="space-y-4">
+                    {diResults.records
+                      .filter(r => r.category === 'holiday' || r.category === 'regional')
+                      .map(r => <OperationalResultCard key={r.id} record={r} />)
+                    }
+                  </div>
+                ) : (
+                  <p className="text-sm text-muted italic">Your date looks operationally good. No calendar events recorded.</p>
+                )}
               </div>
-              <div className="di-panel">
+              <div className="di-panel" id="di-signals">
                 <h4 className="font-bold text-xs uppercase tracking-widest text-primary mb-4">Authoritative Signals</h4>
-                <p className="text-sm text-muted italic">Analyzing institutional evidence for {COUNTRY_LABELS[diCountry]}...</p>
+                {diLoading ? (
+                  <p className="text-sm text-muted italic">Analyzing institutional evidence for {COUNTRY_LABELS[diCountry]}...</p>
+                ) : diResults && diResults.records.filter(r => r.category !== 'holiday' && r.category !== 'regional').length > 0 ? (
+                  <div className="space-y-4">
+                    {diResults.records
+                      .filter(r => r.category !== 'holiday' && r.category !== 'regional')
+                      .map(r => <OperationalResultCard key={r.id} record={r} />)
+                    }
+                  </div>
+                ) : (
+                  <p className="text-sm text-muted italic">No specific operational signals found for this place and date.</p>
+                )}
               </div>
             </div>
             <div className="di-foot">

@@ -130,8 +130,23 @@ nav.wrap {
 
 @media (max-width: 760px) {
   .hero-grid { grid-template-columns: minmax(0, 1fr); gap: 32px; }
-  .hero-copy { order: 1; }
+  
+  .hero-copy {
+    order: 1;
+    display: flex;
+    flex-direction: column;
+  }
   .checker { order: 2; }
+
+  /* SURGICAL FIX: Place tracker at the top of hero on mobile */
+  .hero-tracker {
+    order: -1;
+    margin-top: 0;
+    margin-bottom: 32px;
+  }
+  h1.headline { order: 0; }
+  .sub { order: 1; }
+  .hero-trust { order: 2; }
 }
 
 h1.headline {
