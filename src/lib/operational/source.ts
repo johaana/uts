@@ -1,116 +1,34 @@
-
 /**
- * @fileOverview Authoritative Source Aggregator
- * 
- * Aggregates 17 authoritative source chunks and provides access 
- * to the continuous raw source for the parsing engine.
+ * @fileOverview Authoritative Source Aggregator for Structured Data.
  */
-
 import { DateIntelligenceRecord } from './types';
-import { extractDatasets, createEventRecord } from './normalize';
-import { allEvents, internationalEvents } from '../festival-data';
-import { parse, format, isValid } from 'date-fns';
+import { getCanonicalRecords } from './normalize';
+import { validateCanonicalIndex } from './validator';
 
-import { CHUNK_001 } from './data/raw/chunk_001';
-import { CHUNK_002 } from './data/raw/chunk_002';
-import { CHUNK_003 } from './data/raw/chunk_003';
-import { CHUNK_004 } from './data/raw/chunk_004';
-import { CHUNK_005 } from './data/raw/chunk_005';
-import { CHUNK_006 } from './data/raw/chunk_006';
-import { CHUNK_007 } from './data/raw/chunk_007';
-import { CHUNK_008 } from './data/raw/chunk_008';
-import { CHUNK_009 } from './data/raw/chunk_009';
-import { CHUNK_010 } from './data/raw/chunk_010';
-import { CHUNK_011 } from './data/raw/chunk_011';
-import { CHUNK_012 } from './data/raw/chunk_012';
-import { CHUNK_013 } from './data/raw/chunk_013';
-import { CHUNK_014 } from './data/raw/chunk_014';
-import { CHUNK_015 } from './data/raw/chunk_015';
-import { CHUNK_016 } from './data/raw/chunk_016';
-import { CHUNK_017 } from './data/raw/chunk_017';
-
-export interface SourceStatus {
-  available: boolean;
-  sourceId?: string;
-  sourceName?: string;
-  version?: string;
-  chunkCount: number;
-}
-
-export interface OperationalSource {
-  getRecords(): Promise<DateIntelligenceRecord[]>;
-  getStatus(): Promise<SourceStatus>;
-  getRawSource(): string;
-}
-
-class AuthoritativeSource implements OperationalSource {
-  private rawSource: string | null = null;
-  private parsedRecords: DateIntelligenceRecord[] | null = null;
-
-  getRawSource(): string {
-    if (!this.rawSource) {
-      this.rawSource = [
-        CHUNK_001, CHUNK_002, CHUNK_003, CHUNK_004, CHUNK_005,
-        CHUNK_006, CHUNK_007, CHUNK_008, CHUNK_009, CHUNK_010,
-        CHUNK_011, CHUNK_012, CHUNK_013, CHUNK_014, CHUNK_015,
-        CHUNK_016, CHUNK_017
-      ].join('');
-    }
-    return this.rawSource;
-  }
+class AuthoritativeEngine {
+  private records: DateIntelligenceRecord[] | null = null;
 
   async getRecords(): Promise<DateIntelligenceRecord[]> {
-    if (!this.parsedRecords) {
-      const source = this.getRawSource();
-      const chunkRecords = extractDatasets(source);
+    if (!this.records) {
+      const normalized = getCanonicalRecords();
+      const validation = validateCanonicalIndex(normalized);
       
-      // Integration: Connect discovery festivals to the common index 
-      // only where they represent a verified calendar signal.
-      // We deduplicate to avoid "Diwali" appearing from both sources.
-      const discoveryRecords: DateIntelligenceRecord[] = [...allEvents, ...internationalEvents]
-        .filter(e => e.date && e.name && e.country)
-        .map(e => {
-            const dateStr = e.date.split(' - ')[0];
-            const parsedDate = parse(dateStr, 'MMM dd, yyyy', new Date());
-            const isoDate = isValid(parsedDate) ? format(parsedDate, 'yyyy-MM-dd') : '2026-01-01';
-            
-            return createEventRecord(
-                e.country || 'IN', 
-                isoDate, 
-                e.name, 
-                (e.type?.toLowerCase() as any) || 'cultural',
-                'listed',
-                '',
-                'confirmed'
-            );
-        });
-
-      // Unified Index: Chunks are primary. Discovery festivals are secondary.
-      // We deduplicate by Date + Country + Name.
-      const unified = [...chunkRecords];
-      discoveryRecords.forEach(dr => {
-          const exists = unified.find(ur => ur.date === dr.date && ur.jurisdiction.country_code === dr.jurisdiction.country_code && ur.name === dr.name);
-          if (!exists) unified.push(dr);
-      });
-
-      this.parsedRecords = unified.sort((a, b) => a.date.localeCompare(b.date));
+      if (!validation.valid) {
+        console.error("CRITICAL: Operational Data Integrity Failure", validation.errors);
+      }
+      
+      this.records = normalized;
     }
-    return this.parsedRecords;
+    return this.records;
   }
 
-  async getStatus(): Promise<SourceStatus> {
-    return {
-      available: true,
-      sourceId: 'utsavs-authoritative-primary',
-      sourceName: 'Utsavs Authoritative Operational Dataset',
-      version: '1.0.0-final',
-      chunkCount: 17
-    };
+  async getStatus() {
+    return { available: true, version: "2.0.0-structured" };
   }
 }
 
-const source = new AuthoritativeSource();
+const engine = new AuthoritativeEngine();
 
-export function getSource(): OperationalSource {
-  return source;
+export function getSource() {
+  return engine;
 }

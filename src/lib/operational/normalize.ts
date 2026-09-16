@@ -1,227 +1,79 @@
-
 /**
- * @fileOverview Data Normalization & Extraction Layer
- * 
- * Extracts JS structures (objects/arrays) from the 17-chunk authoritative source.
- * Maps them to canonical DateIntelligenceRecord types while preserving subject classification and provenance.
+ * @fileOverview Normalization Layer for Structured Authoritative Data.
  */
-
-import { DateIntelligenceRecord, UserPurpose, ConfidenceTier, DateState, OperationalCategory } from './types';
-import { validateRecord } from './validator';
+import { DateIntelligenceRecord, UserPurpose, HolidayRule } from './types';
+import { DATA_REGISTRY } from './data/registry';
+import { evaluateRule } from './engine';
 import { COUNTRY_LABELS } from '../calendar-intelligence';
 
-/**
- * Extracts and normalizes all records from the aggregated authoritative source.
- */
-export function extractDatasets(source: string): DateIntelligenceRecord[] {
+export function getCanonicalRecords(): DateIntelligenceRecord[] {
   const records: DateIntelligenceRecord[] = [];
+  const years = [2026, 2027, 2028];
 
-  // 1. Primary: HOLIDAYS (Rules Engine)
-  const holidaySection = source.match(/const\s+HOLIDAYS\s*=\s*\{([\s\S]*?)\};/);
-  if (holidaySection) {
-    const content = holidaySection[1];
-    const countryMatches = content.matchAll(/([A-Z]{2}):\s*\[([\s\S]*?)\]/g);
-    for (const match of countryMatches) {
-      const countryCode = match[1];
-      const rulesBlock = match[2];
-      records.push(...parseHolidayRules(countryCode, rulesBlock));
-    }
-  }
-
-  // 2. Operational Arrays
-  const arrayVariables = [
-    'REGIONAL_INTELLIGENCE',
-    'STUDENT_INTELLIGENCE_EXTRA',
-    'STUDENT_RISK_DATA',
-    'CORPORATE_INTELLIGENCE'
-  ];
-
-  for (const varName of arrayVariables) {
-    const regex = new RegExp(`const\\s+${varName}\\s*=\\s*\\[([\\s\\S]*?)\\];`);
-    const match = source.match(regex);
-    if (match) {
-      records.push(...parseObjectArray(match[1]));
-    }
-  }
-
-  return records.filter(r => validateRecord(r).valid);
-}
-
-function parseHolidayRules(countryCode: string, block: string): DateIntelligenceRecord[] {
-  const localRecords: DateIntelligenceRecord[] = [];
-  const ruleRegex = /(fixed|nthWeekday|dated)\(([\s\S]*?)\)/g;
-  const matches = block.matchAll(ruleRegex);
-
-  for (const match of matches) {
-    const kind = match[1];
-    const rawArgs = match[2];
-    const args = splitArgs(rawArgs);
-    
-    if (kind === 'fixed') {
-      const [m, d, name, type, conf, evidence, state] = args;
-      if (!m || !d) continue;
-      [2026, 2027].forEach(y => {
-        const date = `${y}-${m.padStart(2, '0')}-${d.padStart(2, '0')}`;
-        localRecords.push(createEventRecord(countryCode, date, clean(name), type, conf, evidence, state));
+  // 1. Process Holidays
+  Object.entries(DATA_REGISTRY.HOLIDAYS).forEach(([cc, rules]) => {
+    rules.forEach(rule => {
+      years.forEach(year => {
+        const date = evaluateRule(rule, year);
+        if (date) {
+          records.push(mapRuleToRecord(cc, date, rule));
+        }
       });
-    } else if (kind === 'dated') {
-      const [datesObj, name, type, status, conf, evidence, state] = args;
-      const dates = parseDatedObject(datesObj);
-      Object.values(dates).forEach(date => {
-        localRecords.push(createEventRecord(countryCode, date, clean(name), type, conf, evidence, state, status));
-      });
-    }
-  }
-  return localRecords;
-}
+    });
+  });
 
-function parseObjectArray(block: string): DateIntelligenceRecord[] {
-  const records: DateIntelligenceRecord[] = [];
-  const objRegex = /\{([\s\S]*?)\}/g;
-  const matches = block.matchAll(objRegex);
+  // 2. Process Policy/Risk Data
+  DATA_REGISTRY.STUDENT_RISK.forEach(item => {
+    records.push({
+      id: `POL_${item.country}_${item.effective_date}`,
+      date: item.effective_date,
+      name: item.topic,
+      category: 'student_risk',
+      jurisdiction: {
+        country_code: item.country,
+        country_name: COUNTRY_LABELS[item.country] || item.country,
+        scope: 'national'
+      },
+      purpose_relevance: ['study'],
+      state: item.status.toLowerCase() as any,
+      confidence: item.confidence as any,
+      evidence: {
+        source_name: item.source_name,
+        source_url: item.source_url,
+        last_checked: item.last_checked
+      },
+      consequences: {
+        implication: item.summary,
+        affected_operations: ['visa'],
+        severity: 'high'
+      },
+      source_label: 'Policy'
+    });
+  });
 
-  for (const match of matches) {
-    const obj: any = {};
-    const pairs = match[1].matchAll(/(\w+):\s*(?:"([^"]*)"|'([^']*)'|(\d+))/g);
-    for (const p of pairs) { obj[p[1]] = p[2] || p[3] || p[4]; }
-
-    if (obj.country) {
-      const date = obj.effective_date || obj.date || '2026-01-01';
-      const topic = obj.topic || obj.name || 'unnamed';
-      const category = classifyTopic(topic);
-      
-      records.push({
-        id: `REC_${obj.country}_${date}_${topic.replace(/[^a-zA-Z0-9]/g, '_')}`,
-        date: date,
-        name: topic,
-        category: category,
-        jurisdiction: { 
-          country_code: obj.country, 
-          country_name: COUNTRY_LABELS[obj.country] || obj.country, 
-          scope: (obj.scope || (category === 'regional' ? 'regional' : 'national')) as any
-        },
-        purpose_relevance: determinePurposes(topic, category),
-        state: (obj.status?.toLowerCase() as any) || 'confirmed',
-        confidence: (obj.confidence?.toLowerCase() as ConfidenceTier) || 'high',
-        evidence: {
-          source_id: 'utsavs-authoritative-primary',
-          source_name: obj.source_name || 'Official Authority',
-          source_url: obj.source_url,
-          source_type: 'government',
-          last_checked: obj.last_checked || '2026-09-08',
-          verification_status: 'verified'
-        },
-        consequences: {
-          implication: obj.summary || obj.detail || 'Contextual operational detail.',
-          affected_operations: [category],
-          severity: 'medium'
-        },
-        source_label: obj.source_name || (category === 'regional' ? 'Regional Source' : 'Official Authority')
-      });
-    }
-  }
   return records;
 }
 
-function classifyTopic(topic: string): OperationalCategory {
-  const t = topic.toLowerCase();
-  // V24 Semantic Mapping
-  if (t.includes('maharashtra') || t.includes('regional') || t.includes('state')) return 'regional';
-  if (t.includes('bank') || t.includes('payment') || t.includes('rtgs') || t.includes('settlement')) return 'banking';
-  if (t.includes('market') || t.includes('exchange') || t.includes('trading') || t.includes('stock')) return 'market';
-  if (t.includes('academic') || t.includes('institutional') || t.includes('university') || t.includes('semester') || t.includes('exam') || t.includes('orientation')) return 'institutional';
-  if (t.includes('study') || t.includes('permit') || t.includes('visa') || t.includes('residence') || t.includes('entry') || t.includes('insurance') || t.includes('financial')) return 'student_risk';
-  if (t.includes('business-day') || t.includes('closure') || t.includes('government') || t.includes('advisory')) return 'business_travel';
-  if (t.includes('port') || t.includes('terminal') || t.includes('customs') || t.includes('logistics') || t.includes('cargo') || t.includes('carrier')) return 'customs';
-  return 'holiday';
-}
-
-function determinePurposes(topic: string, category: OperationalCategory): UserPurpose[] {
-  const purposes: UserPurpose[] = [];
-  // Study Lens
-  if (category === 'student_risk' || category === 'institutional') purposes.push('study');
-  // Business Lens
-  if (category === 'banking' || category === 'market' || category === 'customs' || category === 'business_travel') purposes.push('business', 'workforce', 'logistics');
-  // Travel Lens (Base)
-  if (category === 'holiday' || category === 'regional' || category === 'business_travel') purposes.push('travel');
-  
-  // Cross-pollination
-  if (purposes.length === 0) purposes.push('travel', 'business');
-  return Array.from(new Set(purposes));
-}
-
-export function createEventRecord(cc: string, date: string, name: string, type: string = 'public', conf: string = 'listed', evidenceStr: string = '', state: string = 'listed', dateState: string = 'confirmed'): DateIntelligenceRecord {
-  const evidence = parseEvidence(evidenceStr);
-  const safeType = (type || 'public').replace(/['"]/g, '').trim().toLowerCase();
-  const safeConf = (conf || 'listed').replace(/['"]/g, '').trim().toLowerCase();
-  const safeDateState = (dateState || 'confirmed').replace(/['"]/g, '').trim().toLowerCase();
-
+function mapRuleToRecord(cc: string, date: string, rule: HolidayRule): DateIntelligenceRecord {
   return {
-    id: `EVT_${cc}_${date}_${name.replace(/[^a-zA-Z0-9]/g, '_')}`,
+    id: `EVT_${cc}_${date}_${rule.name.replace(/\s/g, '_')}`,
     date,
-    name,
-    category: (safeType === 'public' || safeType === 'holiday') ? 'holiday' : 'regional',
-    jurisdiction: { 
-      country_code: cc, 
-      country_name: COUNTRY_LABELS[cc] || cc, 
-      scope: (safeType === 'public' || safeType === 'holiday') ? 'national' : 'regional' 
+    name: rule.name,
+    category: rule.type,
+    jurisdiction: {
+      country_code: cc,
+      country_name: COUNTRY_LABELS[cc] || cc,
+      scope: 'national'
     },
     purpose_relevance: ['travel', 'business', 'workforce', 'logistics', 'study'],
-    state: (safeDateState as DateState),
-    confidence: (safeConf as ConfidenceTier) || 'reference',
-    evidence: {
-      source_id: 'utsavs-authoritative-primary',
-      source_name: evidence.source_name || 'Official Publication',
-      source_url: evidence.source_url,
-      source_type: 'government',
-      last_checked: '2026-09-08',
-      verification_status: 'verified',
-      link_label: evidence.link_label
-    },
+    state: rule.status as any,
+    confidence: rule.confidence || 'listed',
+    evidence: rule.evidence || { source_name: "Listed Calendar", source_url: "" },
     consequences: {
-      implication: 'Listed national holiday; commercial impact expected.',
+      implication: "Public holiday; commercial closures likely.",
       affected_operations: ['government', 'banking'],
       severity: 'medium'
     },
     source_label: 'Public'
   };
-}
-
-function clean(s: any) { 
-  if (s === undefined || s === null) return '';
-  return String(s).trim().replace(/^["']|["']$/g, ''); 
-}
-
-function splitArgs(s: string): string[] {
-  const args = [];
-  let current = "";
-  let depth = 0;
-  for (let i = 0; i < s.length; i++) {
-    const c = s[i];
-    if (c === '{' || c === '[') depth++;
-    if (c === '}' || c === ']') depth--;
-    if (c === ',' && depth === 0) {
-      args.push(current.trim());
-      current = "";
-    } else {
-      current += c;
-    }
-  }
-  args.push(current.trim());
-  return args;
-}
-
-function parseDatedObject(s: string): Record<number, string> {
-  const out: Record<number, string> = {};
-  const matches = s.matchAll(/(\d{4}):\s*["']([^"']+)["']/g);
-  for (const m of matches) { out[parseInt(m[1])] = m[2]; }
-  return out;
-}
-
-function parseEvidence(s: string): any {
-  if (!s || s === 'undefined' || s === '') return {};
-  const obj: any = {};
-  const pairs = s.matchAll(/(\w+):\s*["']([^"']+)["']/g);
-  for (const p of pairs) { obj[p[1]] = p[2]; }
-  return obj;
 }

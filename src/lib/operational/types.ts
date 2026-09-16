@@ -1,97 +1,68 @@
 /**
- * @fileOverview Data interfaces for the Utsavs Operational Intelligence layer.
- * These types define the canonical schema for the authoritative source integration.
+ * @fileOverview Canonical Data Types for Utsavs Operational Intelligence.
  */
 
 export type ConfidenceTier = 'high' | 'medium' | 'provisional' | 'estimated' | 'listed' | 'reference';
 export type DateState = 'confirmed' | 'declared' | 'provisional' | 'estimated';
-export type OperationalStatus = 'OPEN' | 'CLOSED' | 'EARLY_CLOSE' | 'LIMITED' | 'HOLIDAY_APPLIES' | 'UNKNOWN';
-export type EvidenceType = 'government' | 'institutional' | 'regulatory' | 'algorithmic' | 'manual_verification';
-
+export type OperationalCategory = 'holiday' | 'regional' | 'institutional' | 'business_travel' | 'banking' | 'market' | 'customs' | 'student_risk' | 'global_expansion';
 export type UserPurpose = 'travel' | 'business' | 'study' | 'workforce' | 'logistics';
 
-export type OperationalCategory = 
-  | 'holiday' 
-  | 'regional' 
-  | 'institutional' 
-  | 'business_travel' 
-  | 'banking' 
-  | 'market' 
-  | 'customs' 
-  | 'student_risk' 
-  | 'global_expansion';
-
 export interface SourceEvidence {
-  source_id: string;
   source_name: string;
-  source_url?: string;
-  source_type: EvidenceType;
-  last_checked: string; // ISO Date
-  verification_status: 'verified' | 'provisional' | 'stale';
+  source_url: string;
   link_label?: string;
+  last_checked?: string;
 }
 
-export interface Jurisdiction {
-  country_code: string; // ISO 3116-1 alpha-2
-  country_name: string;
-  region?: string; // state/province/ISO 3166-2
-  local?: string;  // city/municipality
-  scope: 'national' | 'regional' | 'local' | 'institutional';
+export interface HolidayRule {
+  kind: "fixed" | "nth" | "dated";
+  name: string;
+  type: OperationalCategory;
+  status: DateState;
+  confidence?: ConfidenceTier;
+  evidence?: SourceEvidence;
+  month?: number;
+  day?: number;
+  dow?: number;
+  n?: number;
+  dates?: Record<number, string>;
+  jurisdiction?: {
+    country_code: string;
+    region?: string;
+    scope: 'national' | 'regional';
+  };
 }
 
 export interface Institution {
   id: string;
   name: string;
-  type: 'bank' | 'market' | 'customs' | 'port' | 'university' | 'embassy' | 'transport';
-  applicability: string; // describing how/who it affects
-}
-
-export interface PracticalConsequence {
-  implication: string;   // e.g., "Total market closure", "Reduced transport"
-  action_suggested?: string;
-  affected_operations: string[];
-  severity: 'low' | 'medium' | 'high';
+  country: string;
+  type: string;
+  regular_hours?: string;
+  hours_source?: string;
+  applies_to?: string[];
 }
 
 export interface DateIntelligenceRecord {
   id: string;
   date: string; // YYYY-MM-DD
-  date_end?: string;
   name: string;
   category: OperationalCategory;
-  jurisdiction: Jurisdiction;
+  jurisdiction: {
+    country_code: string;
+    country_name: string;
+    region?: string;
+    scope: 'national' | 'regional' | 'local' | 'institutional';
+  };
   institution?: Institution;
   purpose_relevance: UserPurpose[];
   state: DateState;
   confidence: ConfidenceTier;
   evidence: SourceEvidence;
-  consequences: PracticalConsequence;
-  source_label: string; // V24 UI Requirement
-  raw_source_ref?: any; // Preserve original record for audit
-}
-
-export interface OperationalQuery {
-  origin?: string;
-  destination: string;
-  startDate: string;
-  endDate: string;
-  purpose: UserPurpose;
-}
-
-export type OperationalResultStatus = 
-  | 'results_found' 
-  | 'no_matching_records' 
-  | 'source_unavailable' 
-  | 'invalid_query' 
-  | 'error';
-
-export interface OperationalResult {
-  status: OperationalResultStatus;
-  records: DateIntelligenceRecord[];
-  query_context: OperationalQuery;
-  metadata: {
-    timestamp: string;
-    source_connected: boolean;
-    version?: string;
+  consequences: {
+    implication: string;
+    affected_operations: string[];
+    severity: 'low' | 'medium' | 'high';
   };
+  source_label: string;
 }
