@@ -44,7 +44,7 @@
   .wrap { padding: 0 20px; }
 }
 
-/* --- Header & Brand (Option B Locked) --- */
+/* --- Header & Brand (Option B) --- */
 header {
   position: sticky;
   top: 0;
@@ -548,6 +548,27 @@ section.wrap { padding: 80px 0; }
   font-size: 11.5px;
   color: var(--muted-dim);
   line-height: 1.5;
+}
+
+/* --- Mobile Specific Refinements --- */
+@media (max-width: 720px) {
+  .date-intel-controls {
+    grid-template-columns: 1fr;
+  }
+  .di-nav {
+    padding: 16px 24px;
+    justify-content: flex-start;
+  }
+  .checker-summary {
+    flex-direction: column;
+    gap: 24px;
+  }
+}
+
+@media (max-width: 500px) {
+  .checker-row {
+    flex-direction: column;
+  }
 }
 
 /* --- Specialized Grid --- */
