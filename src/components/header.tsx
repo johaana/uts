@@ -19,7 +19,7 @@ export function Header() {
   return (
     <header>
       <nav className="wrap">
-        <Link href="/" className="logo">Utsavs <span>GLOBAL CALENDAR INTELLIGENCE</span></Link>
+        <Link href="/" className="logo">Utsavs <span>from occasion to impact</span></Link>
         <div className="navlinks">
           {navLinks.map((link) => (
             <Link

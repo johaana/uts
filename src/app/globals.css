@@ -48,8 +48,8 @@ nav.wrap{
   display:flex; align-items:baseline; gap:8px;
 }
 .logo span{
-  font-family: var(--font-mono), monospace; font-size:10px; color:var(--gold);
-  letter-spacing:0.14em; font-weight:500;
+  font-family: var(--font-headline), serif; font-style: italic; font-size:12px; color:var(--gold);
+  letter-spacing:-0.01em; font-weight:400;
 }
 .navlinks{display:flex; gap:36px; font-size:14.5px; color:var(--muted);}
 .navlinks a{transition:color .15s ease; cursor:pointer;}

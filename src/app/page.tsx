@@ -248,7 +248,7 @@ export default function HomePage() {
     <div className="bg-[#0F1428] text-[#F4F1E8] min-h-screen font-sans">
       <header>
         <nav className="wrap">
-          <div className="logo">Utsavs <span>GLOBAL CALENDAR INTELLIGENCE</span></div>
+          <div className="logo">Utsavs <span>from occasion to impact</span></div>
           <div className="navlinks">
             <a href="#home" className={cn(page === 'home' && "active")} onClick={(e) => { e.preventDefault(); window.location.hash = '#home'; }}>Date Intelligence</a>
             <a href="#built" className={cn(page === 'built' && "active")} onClick={(e) => { e.preventDefault(); window.location.hash = '#built'; }}>Built For</a>

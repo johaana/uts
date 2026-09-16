@@ -1,9 +1,9 @@
-
 "use client";
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
+import { Button } from './ui/button';
 
 const navLinks = [
   { href: "/date-intelligence", label: "Date Intelligence" },
@@ -21,7 +21,7 @@ export function MobileNav({ setOpen }: { setOpen: (open: boolean) => void }) {
       <div className="p-6 border-b">
         <Link href="/" className="flex flex-col items-start" onClick={() => setOpen(false)}>
             <span className="font-headline text-3xl font-bold text-primary">Utsavs</span>
-            <span className="text-[10px] text-muted-foreground font-mono font-bold uppercase tracking-widest mt-0.5">Global Calendar Intelligence</span>
+            <span className="font-headline italic text-xs lowercase tracking-normal font-normal text-muted-foreground mt-0.5">from occasion to impact</span>
         </Link>
       </div>
       <nav className="flex flex-col p-6 space-y-6">
