@@ -389,6 +389,16 @@ h1.headline {
   outline: none;
 }
 
+/* Fix option contrast for native selects in dark theme */
+select option {
+  color: #000;
+  background: #fff;
+}
+
+input[type="date"] {
+  cursor: pointer;
+}
+
 .range-chips {
   display: flex;
   gap: 8px;

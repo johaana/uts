@@ -94,14 +94,27 @@ export default function HomePage() {
 
   // --- Logic: Checker ---
   const checkerData = useMemo(() => {
-    if (!startDate || !endDate) return { records: [], count: 0, longest: 0, nextDays: '—', uniqueDates: [] };
-    const purposes = mode === 'traveler' ? ['travel', 'business'] : mode === 'study' ? ['study'] : ['business', 'workforce'];
+    if (!startDate || !endDate) return { records: [], count: 0, longest: 0, nextDays: '—', uniqueDates: [], standingCount: 0 };
     
-    const all = [...expandCountry(country), ...REGIONAL_INTELLIGENCE.filter(r => r.country === country).map(r => ({ ...r, d: new Date(r.date + "T00:00:00"), status: 'confirmed', source: r.source_name }))]
+    // Standing Guidance Fix: Categorize records correctly
+    const rawRecords = [
+      ...expandCountry(country), 
+      ...REGIONAL_INTELLIGENCE.filter(r => r.country === country).map(r => ({ ...r, d: new Date(r.date + "T00:00:00"), status: 'confirmed' as const, source: r.source_name })),
+      ...STUDENT_INTELLIGENCE_EXTRA.filter(r => r.country === country && mode === 'study').map(r => ({ ...r, d: new Date((r.effective_date || '2026-01-01') + "T00:00:00"), status: 'confirmed' as const, source: r.source_name }))
+    ];
+
+    const all = rawRecords
       .filter(r => r.date >= startDate && r.date <= endDate)
       .sort((a,b) => a.date.localeCompare(b.date));
 
-    const uniqueDates = [...new Set(all.map(h => h.date))].sort();
+    // Dated Timeline Fix: Filter out non-dated guidance from the chronological list
+    // Identification rule: Date is the 2026-01-01 placeholder AND the name does not include "New Year"
+    const timelineRecords = all.filter(r => {
+      const isStanding = r.date === '2026-01-01' && !(r.name || '').toLowerCase().includes('new year');
+      return !isStanding;
+    });
+
+    const uniqueDates = [...new Set(timelineRecords.map(h => h.date))].sort();
     let longest = 0, current = 0, prev = null;
     uniqueDates.forEach(d => {
       const cur = new Date(d + 'T00:00:00');
@@ -113,8 +126,16 @@ export default function HomePage() {
 
     const nextDate = uniqueDates.find(d => d >= startDate);
     const nextDays = nextDate ? differenceInDays(new Date(nextDate + 'T00:00:00'), new Date(startDate + 'T00:00:00')) : '—';
+    const standingCount = all.length - timelineRecords.length;
 
-    return { records: all, count: uniqueDates.length, longest, nextDays, uniqueDates };
+    return { 
+      records: timelineRecords, 
+      count: uniqueDates.length, 
+      longest, 
+      nextDays, 
+      uniqueDates,
+      standingCount 
+    };
   }, [country, startDate, endDate, mode]);
 
   if (!isMounted) return null;
@@ -138,7 +159,7 @@ export default function HomePage() {
                 <div className="hero-tracker-head">
                   <div>
                     <span className="hero-tracker-kicker">NEXT HOLIDAY UP</span>
-                    <strong id="hero-tracker-date">{todayState?.toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' })}</strong>
+                    <strong id="hero-tracker-date" className="font-headline">{todayState?.toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' })}</strong>
                   </div>
                   <span className="hero-tracker-live"><i></i> Live calendar view</span>
                 </div>
@@ -164,7 +185,6 @@ export default function HomePage() {
                 <div className="hero-tracker-feed">
                   <div className="marquee">
                     <div className="marquee-track" id="pulse-marquee-track">
-                      {/* Marquee chips generated from logic */}
                       {Array.from(forwardIndex.entries()).slice(0, 10).map(([date, entries]) => (
                         <span key={date} className="chip">
                           <b>{new Intl.DateTimeFormat('en-GB', { day:'2-digit', month:'short' }).format(new Date(date + 'T00:00:00'))}</b> — {entries.map((e: any) => e.code).join(', ')}
@@ -182,7 +202,7 @@ export default function HomePage() {
 
             <div className="checker">
               <div className="checker-top">
-                <h3 id="checker-title">{isComparing ? 'Calendar Comparison' : 'Trip impact checker'}</h3>
+                <h3 id="checker-title">Trip impact checker</h3>
                 <button type="button" className="compare-launch" onClick={() => setIsComparing(!isComparing)}>
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M8 3 4 7l4 4M4 7h13M16 21l4-4-4-4M20 17H7"/>
@@ -255,7 +275,7 @@ export default function HomePage() {
                 {[7, 30, 90].map(days => (
                   <button 
                     key={days} 
-                    className={cn("range-chip", differenceInDays(new Date(endDate), new Date(startDate)) === days && "active")}
+                    className={cn("range-chip", differenceInDays(new Date(endDate + "T00:00:00"), new Date(startDate + "T00:00:00")) === days && "active")}
                     onClick={() => {
                       const end = addDays(new Date(startDate + "T00:00:00"), days);
                       const pad2 = (n: number) => String(n).padStart(2, "0");
@@ -274,16 +294,26 @@ export default function HomePage() {
                     <div><b id="stat-longest" className="font-headline">{checkerData.longest}</b><span>days in longest flagged run</span></div>
                     <div><b id="stat-next" className="font-headline">{checkerData.nextDays}</b><span>days to next one</span></div>
                   </div>
+                  <div className="checker-brief">
+                    {checkerData.records.length === 0 && checkerData.standingCount === 0 ? (
+                      <p>Your date looks operationally good.</p>
+                    ) : (
+                      <div className="space-y-2">
+                        <p>
+                          <strong>IN SHORT:</strong> Found {checkerData.count} flagged dates. 
+                          {checkerData.standingCount > 0 && ` We have also included ${checkerData.standingCount} pieces of general guidance related to your ${mode} purpose.`}
+                        </p>
+                      </div>
+                    )}
+                  </div>
                   <div className="checker-list">
-                    {checkerData.records.length > 0 ? checkerData.records.map((r, i) => (
+                    {checkerData.records.map((r, i) => (
                       <div key={i} className="impact-row">
                         <span className="impact-date">{new Intl.DateTimeFormat('en-GB', { day:'2-digit', month:'short' }).format(r.d)}</span>
                         <span className="impact-name">{r.name}</span>
                         <span className="status-pill">{r.source || 'Public'}</span>
                       </div>
-                    )) : (
-                      <div className="checker-brief text-center py-8">Your date looks operationally good.</div>
-                    )}
+                    ))}
                   </div>
                 </div>
               ) : (
@@ -322,7 +352,7 @@ export default function HomePage() {
           <div className="date-intel-shell">
             <div className="date-intel-controls">
               <div className="di-field">
-                <label>Date · live today by default</label>
+                <label>{diDate === todayKey ? "Date · live today" : "Selected date"}</label>
                 <input type="date" value={diDate} onChange={e => setDiDate(e.target.value)} />
               </div>
               <div className="di-field">
@@ -334,7 +364,7 @@ export default function HomePage() {
                 </select>
               </div>
               <div className="di-nav">
-                <button type="button" onClick={() => setDiDate(new Date().toISOString().split('T')[0])}>Today</button>
+                <button type="button" onClick={() => setDiDate(todayKey)} aria-label="Return to today">Today</button>
               </div>
             </div>
 
