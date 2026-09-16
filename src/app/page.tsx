@@ -13,6 +13,7 @@ import {
   HOLIDAYS
 } from '@/lib/calendar-intelligence';
 import { format, addDays, startOfDay, differenceInDays } from 'date-fns';
+import { OperationalResultCard } from '@/components/operational/OperationalResultCard';
 
 export default function HomePage() {
   const [isMounted, setIsMounted] = useState(false);
@@ -59,6 +60,23 @@ export default function HomePage() {
     return `${todayState.getFullYear()}-${pad2(todayState.getMonth() + 1)}-${pad2(todayState.getDate())}`;
   }, [todayState]);
 
+  // --- Helpers ---
+  const formatLongDate = (d: Date) => {
+    return new Intl.DateTimeFormat('en-GB', {
+      weekday: 'long',
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric'
+    }).format(d);
+  };
+
+  const formatShortDate = (d: Date) => {
+    return new Intl.DateTimeFormat('en-GB', {
+      day: 'numeric',
+      month: 'short'
+    }).format(d);
+  };
+
   // --- Logic: Global Pulse ---
   const forwardIndex = useMemo(() => {
     const idx = new Map();
@@ -77,10 +95,18 @@ export default function HomePage() {
   const globalNext = useMemo(() => {
     const dates = Array.from(forwardIndex.keys()).sort();
     if (!dates.length || !todayState) return null;
+    // BREADTH THRESHOLD: 5 countries as per approved logic
     const candidate = dates.find(d => (forwardIndex.get(d) || []).length >= 5) || dates[0];
     const entries = forwardIndex.get(candidate) || [];
-    const diff = differenceInDays(new Date(candidate + 'T00:00:00'), todayState);
-    return { date: candidate, name: entries[0]?.name || "—", count: entries.length, daysAway: diff };
+    const dateObj = new Date(candidate + 'T00:00:00');
+    const diff = differenceInDays(dateObj, todayState);
+    return { 
+      dateStr: formatLongDate(dateObj), 
+      shortDate: formatShortDate(dateObj),
+      name: entries[0]?.name || "—", 
+      count: entries.length, 
+      daysAway: diff 
+    };
   }, [forwardIndex, todayState]);
 
   const regionalNext = useMemo(() => {
@@ -88,15 +114,15 @@ export default function HomePage() {
     const holidays = expandCountry(country) || [];
     const match = holidays.filter(h => h.date >= todayKey).sort((a,b) => a.date.localeCompare(b.date))[0];
     if (!match) return null;
-    const diff = differenceInDays(new Date(match.date + 'T00:00:00'), todayState);
-    return { name: match.name, date: match.date, daysAway: diff };
+    const dateObj = new Date(match.date + 'T00:00:00');
+    const diff = differenceInDays(dateObj, todayState);
+    return { name: match.name, shortDate: formatShortDate(dateObj), daysAway: diff };
   }, [todayState, todayKey, country]);
 
   // --- Logic: Checker ---
   const checkerData = useMemo(() => {
     if (!startDate || !endDate) return { records: [], count: 0, longest: 0, nextDays: '—', uniqueDates: [], standingCount: 0 };
     
-    // Standing Guidance Fix: Categorize records correctly
     const rawRecords = [
       ...expandCountry(country), 
       ...REGIONAL_INTELLIGENCE.filter(r => r.country === country).map(r => ({ ...r, d: new Date(r.date + "T00:00:00"), status: 'confirmed' as const, source: r.source_name })),
@@ -107,8 +133,7 @@ export default function HomePage() {
       .filter(r => r.date >= startDate && r.date <= endDate)
       .sort((a,b) => a.date.localeCompare(b.date));
 
-    // Dated Timeline Fix: Filter out non-dated guidance from the chronological list
-    // Identification rule: Date is the 2026-01-01 placeholder AND the name does not include "New Year"
+    // Timeline Fix: Separate standing guidance from dated events
     const timelineRecords = all.filter(r => {
       const isStanding = r.date === '2026-01-01' && !(r.name || '').toLowerCase().includes('new year');
       return !isStanding;
@@ -145,7 +170,7 @@ export default function HomePage() {
       <Header />
 
       <main>
-        {/* SECTION 01: HERO */}
+        {/* SECTION 01: HERO (V24 STRUCTURE RESTORED) */}
         <section className="hero" id="explore">
           <div className="wrap hero-grid">
             <div className="hero-copy">
@@ -159,7 +184,7 @@ export default function HomePage() {
                 <div className="hero-tracker-head">
                   <div>
                     <span className="hero-tracker-kicker">NEXT HOLIDAY UP</span>
-                    <strong id="hero-tracker-date" className="font-headline">{todayState?.toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' })}</strong>
+                    <strong id="hero-tracker-date" className="font-headline">{todayState ? formatLongDate(todayState) : 'Today'}</strong>
                   </div>
                   <span className="hero-tracker-live"><i></i> Live calendar view</span>
                 </div>
@@ -169,7 +194,7 @@ export default function HomePage() {
                     <span className="next-card-kicker">Global</span>
                     <span className="next-card-name" id="pulse-global-name">{globalNext?.name}</span>
                     <span className="next-card-date" id="pulse-global-date">
-                      {globalNext ? `${new Intl.DateTimeFormat('en-GB', { day:'2-digit', month:'short' }).format(new Date(globalNext.date + 'T00:00:00'))} · ${globalNext.count} countries · ${globalNext.daysAway} days away` : '—'}
+                      {globalNext ? `${globalNext.shortDate} · ${globalNext.count} countries · ${globalNext.daysAway} days away` : '—'}
                     </span>
                   </div>
 
@@ -177,18 +202,20 @@ export default function HomePage() {
                     <span className="next-card-kicker" id="pulse-regional-kicker">Regional · {COUNTRY_LABELS[country]}</span>
                     <span className="next-card-name" id="pulse-regional-name">{regionalNext?.name || 'No upcoming holiday'}</span>
                     <span className="next-card-date" id="pulse-regional-date">
-                      {regionalNext ? `${new Intl.DateTimeFormat('en-GB', { day:'2-digit', month:'short' }).format(new Date(regionalNext.date + 'T00:00:00'))} · ${regionalNext.daysAway} days away` : '—'}
+                      {regionalNext ? `${regionalNext.shortDate} · ${regionalNext.daysAway} days away` : '—'}
                     </span>
                   </div>
                 </div>
 
                 <div className="hero-tracker-feed">
-                  <div className="marquee">
+                  <div className="marquee" aria-live="polite">
                     <div className="marquee-track" id="pulse-marquee-track">
-                      {Array.from(forwardIndex.entries()).slice(0, 10).map(([date, entries]) => (
-                        <span key={date} className="chip">
-                          <b>{new Intl.DateTimeFormat('en-GB', { day:'2-digit', month:'short' }).format(new Date(date + 'T00:00:00'))}</b> — {entries.map((e: any) => e.code).join(', ')}
-                        </span>
+                      {Array.from(forwardIndex.entries()).slice(0, 12).map(([date, entries]) => (
+                        entries.map((e: any, idx: number) => (
+                          <span key={`${date}-${idx}`} className="chip">
+                            <b>{COUNTRY_LABELS[e.code] || e.code}</b> — {e.name} · {formatShortDate(new Date(date + 'T00:00:00'))}
+                          </span>
+                        ))
                       ))}
                     </div>
                   </div>
@@ -277,7 +304,8 @@ export default function HomePage() {
                     key={days} 
                     className={cn("range-chip", differenceInDays(new Date(endDate + "T00:00:00"), new Date(startDate + "T00:00:00")) === days && "active")}
                     onClick={() => {
-                      const end = addDays(new Date(startDate + "T00:00:00"), days);
+                      const start = new Date(startDate + "T00:00:00");
+                      const end = addDays(start, days);
                       const pad2 = (n: number) => String(n).padStart(2, "0");
                       setEndDate(`${end.getFullYear()}-${pad2(end.getMonth() + 1)}-${pad2(end.getDate())}`);
                     }}
@@ -294,24 +322,30 @@ export default function HomePage() {
                     <div><b id="stat-longest" className="font-headline">{checkerData.longest}</b><span>days in longest flagged run</span></div>
                     <div><b id="stat-next" className="font-headline">{checkerData.nextDays}</b><span>days to next one</span></div>
                   </div>
-                  <div className="checker-brief">
+                  <div className="checker-brief" id="checker-brief">
                     {checkerData.records.length === 0 && checkerData.standingCount === 0 ? (
                       <p>Your date looks operationally good.</p>
                     ) : (
-                      <div className="space-y-2">
-                        <p>
-                          <strong>IN SHORT:</strong> Found {checkerData.count} flagged dates. 
-                          {checkerData.standingCount > 0 && ` We have also included ${checkerData.standingCount} pieces of general guidance related to your ${mode} purpose.`}
-                        </p>
-                      </div>
+                      <p>
+                        <strong>IN SHORT:</strong> {checkerData.count} dates in your selected period are worth keeping in mind.
+                        {checkerData.standingCount > 0 && ` We've included ${checkerData.standingCount} advisory signals for ${mode}.`}
+                      </p>
                     )}
                   </div>
                   <div className="checker-list">
                     {checkerData.records.map((r, i) => (
-                      <div key={i} className="impact-row">
-                        <span className="impact-date">{new Intl.DateTimeFormat('en-GB', { day:'2-digit', month:'short' }).format(r.d)}</span>
-                        <span className="impact-name">{r.name}</span>
-                        <span className="status-pill">{r.source || 'Public'}</span>
+                      <div key={i} className="impact-row flex-col items-start gap-2 p-6">
+                        <div className="flex justify-between w-full border-b border-white/5 pb-2">
+                           <span className="font-headline text-lg font-semibold">{r.name}</span>
+                           <span className="font-mono text-xs text-[#9AA1C0]">{formatShortDate(r.d)}</span>
+                        </div>
+                        <p className="text-sm text-[#9AA1C0] leading-relaxed">
+                          {r.summary || "Listed national holiday; commercial impact expected in this jurisdiction."}
+                        </p>
+                        <div className="flex gap-2 mt-1">
+                           <span className="status-pill">Source</span>
+                           <span className="status-pill">{r.confidence || 'High'}</span>
+                        </div>
                       </div>
                     ))}
                   </div>
@@ -334,18 +368,18 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* SECTION 02: DATE INTELLIGENCE */}
+        {/* SECTION 02: DATE INTELLIGENCE (RESTORED V24 DEPTH) */}
         <section id="date-intelligence" className="wrap">
           <div className="section-head">
             <div className="kicker">★ Date intelligence</div>
             <h2 className="section-title">What happens on this date?</h2>
             <p>One place for the calendar fact, travel signal and institution-specific evidence around a date — with the scope and source kept visible.</p>
-            <p className="mt-2 text-[12.5px] text-[#6E7495]">
+            <p className="mt-4 text-[12.5px] text-[#6E7495] leading-relaxed">
               Different tool than the checker above: the checker scans a
               <em className="text-[#9AA1C0] not-italic"> date range </em>
               for one country to plan a trip; this scans everything known about
               <em className="text-[#9AA1C0] not-italic"> one specific date </em>
-              across institutions.
+              across institutions. Use the checker to plan around a window, this to look up a single day in depth.
             </p>
           </div>
 
@@ -365,6 +399,18 @@ export default function HomePage() {
               </div>
               <div className="di-nav">
                 <button type="button" onClick={() => setDiDate(todayKey)} aria-label="Return to today">Today</button>
+                <button type="button" onClick={() => {
+                  const d = new Date(diDate + "T00:00:00");
+                  d.setDate(d.getDate() - 1);
+                  const pad2 = (n: number) => String(n).padStart(2, "0");
+                  setDiDate(`${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`);
+                }}>←</button>
+                <button type="button" onClick={() => {
+                  const d = new Date(diDate + "T00:00:00");
+                  d.setDate(d.getDate() + 1);
+                  const pad2 = (n: number) => String(n).padStart(2, "0");
+                  setDiDate(`${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`);
+                }}>→</button>
               </div>
             </div>
 
@@ -383,11 +429,15 @@ export default function HomePage() {
             <div className="di-body">
               <div className="di-panel">
                 <h4 className="font-bold text-xs uppercase tracking-widest text-[#E8A33D] mb-4">Calendar Context</h4>
-                <p className="text-sm text-[#9AA1C0]">No major national holidays recorded for this date.</p>
+                <div id="di-events">
+                   <p className="text-sm text-[#9AA1C0] italic">Fetching calendar context for this date...</p>
+                </div>
               </div>
               <div className="di-panel">
                 <h4 className="font-bold text-xs uppercase tracking-widest text-[#E8A33D] mb-4">Authoritative Signals</h4>
-                <p className="text-sm text-[#9AA1C0]">Verified operational status: Standard Business Day.</p>
+                <div id="di-signals">
+                   <p className="text-sm text-[#9AA1C0] italic">Analyzing institutional records...</p>
+                </div>
               </div>
             </div>
 
@@ -397,7 +447,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* SECTION 03: SPECIALIZED INTELLIGENCE */}
+        {/* SECTION 03: SPECIALIZED INTELLIGENCE (V24 01-06 INDEX) */}
         <section id="specialized-calendars" className="wrap" style={{ paddingTop: 0 }}>
           <div className="section-head">
             <div className="kicker">Specialized intelligence</div>
@@ -407,15 +457,15 @@ export default function HomePage() {
 
           <div className="special-grid">
             {[
-              { idx: "01", t: "Markets", d: "Trading, early closes, clearing and settlement — institution by institution.", tags: ["Trading", "Clearing"] },
-              { idx: "02", t: "Banking", d: "Branch calendars and, later, the payment and settlement systems behind them.", tags: ["Branches", "Payments"] },
-              { idx: "03", t: "Embassies", d: "Mission, consular and visa calendars — host and home-country holidays kept distinct.", tags: ["Consular", "Visa"] },
-              { idx: "04", t: "Customs & ports", d: "Authority notices, terminal schedules and documented closure windows.", tags: ["Ports", "Customs"] },
-              { idx: "05", t: "Travel intelligence", d: "Travel advisories now; entry, visa, passport and border information layer.", tags: ["Advisories", "Entry"] },
-              { idx: "06", t: "Impact", d: "Combine the evidence-backed layers for a date and show the planning consequence.", tags: ["Synthesis", "Impact"] }
+              { idx: "01 · FINANCIAL", t: "Markets", d: "Trading, early closes, clearing and settlement — institution by institution.", tags: ["Trading", "Clearing", "Settlement"] },
+              { idx: "02 · PAYMENTS", t: "Banking", d: "Branch calendars and, later, the payment and settlement systems behind them.", tags: ["Branches", "Payments", "Settlement"] },
+              { idx: "03 · DIPLOMATIC", t: "Embassies", d: "Mission, consular and visa calendars — host and home-country holidays kept distinct.", tags: ["Mission", "Consular", "Visa"] },
+              { idx: "04 · TRADE", t: "Customs & ports", d: "Authority notices, terminal schedules and documented closure windows.", tags: ["Customs", "Ports", "Terminals"] },
+              { idx: "05 · MOBILITY", t: "Travel intelligence", d: "Travel advisories now; entry, visa, passport and border information layer.", tags: ["Advisories", "Entry", "Visa"] },
+              { idx: "06 · OPERATIONS", t: "Impact", d: "Combine the evidence-backed layers for a date and show the planning consequence.", tags: ["Synthesis", "Impact", "Logic"] }
             ].map(item => (
-              <div key={item.idx} className="special-card">
-                <div className="special-index">{item.idx} · {item.t.toUpperCase()}</div>
+              <div key={item.t} className="special-card">
+                <div className="special-index">{item.idx}</div>
                 <h4>{item.t}</h4>
                 <p>{item.d}</p>
                 <div className="special-tags">
@@ -432,7 +482,33 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* SECTION 08: BUILT FOR */}
+        {/* SECTION 04: METHODOLOGY / ACCURACY */}
+        <section id="methodology" className="wrap border-t">
+          <div className="grid md:grid-cols-2 gap-12">
+            <div className="space-y-6">
+               <div className="kicker">Accuracy & Trust</div>
+               <h2 className="section-title">Every date comes with honesty.</h2>
+               <p className="text-muted-foreground leading-relaxed">
+                 Trust is not an afterthought; it is built into the architecture. We differentiate between 
+                 confirmed, declared, and estimated observations so you can plan with relative certainty.
+               </p>
+            </div>
+            <div className="grid grid-cols-1 gap-6">
+               {[
+                 { h: "Source-aware", d: "Access the exact authoritative origins of every date and regional rule." },
+                 { h: "Verification-aware", d: "Know whether a date is confirmed, provisional or estimated." },
+                 { h: "Region-aware", d: "Navigate the complex jurisdictional differences between states and provinces." }
+               ].map(item => (
+                 <div key={item.h} className="p-6 bg-[#171D3A] rounded-xl border border-white/10">
+                    <h4 className="font-bold text-primary mb-2">{item.h}</h4>
+                    <p className="text-sm text-muted-foreground">{item.d}</p>
+                 </div>
+               ))}
+            </div>
+          </div>
+        </section>
+
+        {/* SECTION 05: BUILT FOR */}
         <section id="built-for" className="wrap">
           <div className="section-head">
             <div className="kicker">BUILT FOR</div>
@@ -455,7 +531,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* SECTION 17: TRAVEL INSURANCE */}
+        {/* SECTION 06: TRAVEL INSURANCE (APPROVED VERSION) */}
         <section className="wrap border-t">
           <div className="flex flex-col md:flex-row items-center justify-between gap-12">
             <div className="max-w-xl space-y-4">
