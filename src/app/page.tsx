@@ -6,13 +6,11 @@ import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { 
   COUNTRY_LABELS, 
-  expandCountry, 
-  REGIONAL_INTELLIGENCE,
-  HOLIDAYS
 } from '@/lib/calendar-intelligence';
 import { getOperationalImpact } from '@/lib/operational/adapter';
-import { OperationalResult } from '@/lib/operational/types';
-import { format, addDays, startOfDay, differenceInDays, isValid, parse } from 'date-fns';
+import { getSource } from '@/lib/operational/source';
+import { OperationalResult, DateIntelligenceRecord } from '@/lib/operational/types';
+import { format, addDays, startOfDay, differenceInDays, isValid, isSameDay } from 'date-fns';
 
 const LENS_LABELS: Record<string, string> = {
   all: "All intelligence",
@@ -35,6 +33,7 @@ const DOMAIN_GUIDANCE: Record<string, string> = {
 
 export default function HomePage() {
   const [isMounted, setIsMounted] = useState(false);
+  const [allRecords, setAllRecords] = useState<DateIntelligenceRecord[]>([]);
   const [mode, setMode] = useState<'traveler' | 'study' | 'corporate'>('traveler');
   const [country, setCountry] = useState('IN');
   const [startDate, setStartDate] = useState('');
@@ -45,9 +44,6 @@ export default function HomePage() {
   const [isComparing, setIsComparing] = useState(false);
   const [compA, setCompA] = useState('IN');
   const [compB, setCompB] = useState('JP');
-  const [compC, setCompC] = useState('US');
-  const [showCountryC, setShowCountryC] = useState(false);
-  const [compareFilter, setCompareFilter] = useState<'all' | 'mismatch' | 'overlap'>('all');
 
   // Date Intelligence States
   const [diDate, setDiDate] = useState('');
@@ -72,6 +68,11 @@ export default function HomePage() {
     end.setDate(end.getDate() + 30);
     const eKey = `${end.getFullYear()}-${pad2(end.getMonth() + 1)}-${pad2(end.getDate())}`;
     setEndDate(eKey);
+
+    // Fetch authoritative records once
+    getSource().getRecords().then(records => {
+      setAllRecords(records);
+    });
   }, []);
 
   const todayKey = useMemo(() => {
@@ -107,25 +108,25 @@ export default function HomePage() {
     setDiDate(`${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`);
   };
 
-  // --- Logic: Tracker Calculations ---
+  // --- Logic: Tracker & Marquee (Unified Data) ---
   const forwardIndex = useMemo(() => {
     const idx = new Map();
-    if (!isMounted || !todayKey) return idx;
-    Object.keys(HOLIDAYS).forEach(code => {
-      const holidays = expandCountry(code) || [];
-      holidays.forEach(h => {
-        if (h.date < todayKey) return; 
-        if (!idx.has(h.date)) idx.set(h.date, []);
-        idx.get(h.date).push({ code, name: h.name });
-      });
+    if (!isMounted || !todayKey || allRecords.length === 0) return idx;
+    
+    allRecords.forEach(r => {
+      if (r.date < todayKey) return;
+      if (!idx.has(r.date)) idx.set(r.date, []);
+      idx.get(r.date).push({ code: r.jurisdiction.country_code, name: r.name });
     });
     return idx;
-  }, [isMounted, todayKey]);
+  }, [isMounted, todayKey, allRecords]);
 
   const globalNext = useMemo(() => {
     const dates = Array.from(forwardIndex.keys()).sort();
     if (!dates.length) return null;
-    const candidate = dates.find(d => (forwardIndex.get(d) || []).length >= 5) || dates[0];
+    
+    // Find first date with high impact or just the very next date
+    const candidate = dates.find(d => (forwardIndex.get(d) || []).length >= 3) || dates[0];
     const entries = forwardIndex.get(candidate) || [];
     const dateObj = new Date(candidate + 'T00:00:00');
     return { 
@@ -138,9 +139,11 @@ export default function HomePage() {
   }, [forwardIndex]);
 
   const regionalNext = useMemo(() => {
-    if (!isMounted || !todayKey) return null;
-    const holidays = expandCountry(country) || [];
-    const match = holidays.filter(h => h.date >= todayKey).sort((a,b) => a.date.localeCompare(b.date))[0];
+    if (!isMounted || !todayKey || allRecords.length === 0) return null;
+    const match = allRecords
+      .filter(r => r.jurisdiction.country_code === country && r.date >= todayKey)
+      .sort((a, b) => a.date.localeCompare(b.date))[0];
+    
     if (!match) return null;
     const dateObj = new Date(match.date + 'T00:00:00');
     return { 
@@ -148,22 +151,27 @@ export default function HomePage() {
       shortDate: format(dateObj, 'd MMM'), 
       daysAway: differenceInDays(dateObj, startOfDay(new Date())) 
     };
-  }, [isMounted, country, todayKey]);
+  }, [isMounted, country, todayKey, allRecords]);
 
-  // --- Logic: Checker Binding ---
+  // --- Logic: Checker Binding (Unified Data + Purpose Lens) ---
   const checkerData = useMemo(() => {
-    if (!startDate || !endDate) return { records: [], count: 0, longest: 0, nextDays: '—', publicCount: 0, regionalCount: 0 };
+    if (!startDate || !endDate || allRecords.length === 0) return { records: [], count: 0, longest: 0, nextDays: '—', publicCount: 0, regionalCount: 0 };
     
-    const regionalMatches = REGIONAL_INTELLIGENCE.filter(r => 
-      r.country === country && r.date >= startDate && r.date <= endDate
-    );
-    
-    const all = [
-      ...expandCountry(country).filter(r => r.date >= startDate && r.date <= endDate),
-      ...regionalMatches
-    ].sort((a, b) => a.date.localeCompare(b.date));
+    const purposeMap = {
+      traveler: 'travel',
+      study: 'study',
+      corporate: 'business'
+    };
+    const activePurpose = purposeMap[mode];
 
-    const uniqueDates = [...new Set(all.map(h => h.date))].sort();
+    const matches = allRecords.filter(r => 
+      r.jurisdiction.country_code === country && 
+      r.date >= startDate && 
+      r.date <= endDate &&
+      (r.purpose_relevance.includes(activePurpose as any))
+    ).sort((a, b) => a.date.localeCompare(b.date));
+
+    const uniqueDates = [...new Set(matches.map(h => h.date))].sort();
     
     let longest = 0, current = 0, prev = null;
     uniqueDates.forEach(d => {
@@ -177,11 +185,11 @@ export default function HomePage() {
     const nextDate = uniqueDates.find(d => d >= startDate);
     const nextDays = nextDate ? differenceInDays(new Date(nextDate + 'T00:00:00'), new Date(startDate + 'T00:00:00')) : '—';
 
-    const pCount = all.filter(r => r.type === 'public' || r.type === 'holiday').length;
-    const rCount = all.filter(r => r.type === 'regional').length;
+    const pCount = matches.filter(r => r.category === 'holiday').length;
+    const rCount = matches.filter(r => r.category === 'regional').length;
 
-    return { records: all, count: uniqueDates.length, longest, nextDays, publicCount: pCount, regionalCount: rCount };
-  }, [country, startDate, endDate]);
+    return { records: matches, count: uniqueDates.length, longest, nextDays, publicCount: pCount, regionalCount: rCount };
+  }, [country, startDate, endDate, allRecords, mode]);
 
   if (!isMounted) return null;
 
@@ -296,7 +304,7 @@ export default function HomePage() {
                       const dateStr = format(dateObj, 'EEE dd MMM');
                       const metaParts = [];
                       if (r.confidence) metaParts.push(r.confidence.charAt(0).toUpperCase() + r.confidence.slice(1));
-                      if (r.type === 'regional') metaParts.push("Regional");
+                      if (r.jurisdiction.scope === 'regional') metaParts.push("Regional");
                       if (r.evidence?.source_name) metaParts.push("Source");
 
                       return (
@@ -360,7 +368,7 @@ export default function HomePage() {
                     </div>
                     <div className="checker-field">
                       <label htmlFor="comp-end-date">To</label>
-                      <input type="date" id="comp-end-date" value={endDate} onChange={e => setEndDate(e.target.value)} />
+                      <input type="date" id="end-date" value={endDate} onChange={e => setEndDate(e.target.value)} />
                     </div>
                   </div>
                    <p className="text-sm text-muted italic p-8 text-center border border-dashed border-white/5 rounded-xl">
@@ -441,19 +449,19 @@ export default function HomePage() {
                   <div className="di-summary-item">
                     <span className="label">Calendar</span>
                     <span className="value">
-                      {diLoading ? '...' : (diResults?.records.filter(r => r.category === 'holiday' || r.category === 'regional').length === 0 ? "No holiday or observance listed" : diResults?.records.filter(r => r.category === 'holiday' || r.category === 'regional').length + ' events')}
+                      {diLoading ? '...' : (diResults?.records.filter(r => r.category === 'holiday' || r.category === 'regional').length === 0 ? "0 events" : diResults?.records.filter(r => r.category === 'holiday' || r.category === 'regional').length + ' events')}
                     </span>
                   </div>
                   <div className="di-summary-item">
                     <span className="label">Institutional Impact</span>
                     <span className="value">
-                      {diLoading ? '...' : (diResults?.records.filter(r => r.category !== 'holiday' && r.category !== 'regional').length === 0 ? "No closure record in Utsavs" : diResults?.records.filter(r => r.category !== 'holiday' && r.category !== 'regional').length + ' signals')}
+                      {diLoading ? '...' : (diResults?.records.filter(r => r.category !== 'holiday' && r.category !== 'regional').length === 0 ? "0 signals" : diResults?.records.filter(r => r.category !== 'holiday' && r.category !== 'regional').length + ' signals')}
                     </span>
                   </div>
                   <div className="di-summary-item">
                     <span className="label">Planning Context</span>
                     <span className="value">
-                      {diResults?.records.length ? 'Modified' : 'Regular weekday context'}
+                      {diResults?.records.length ? 'Modified' : 'Regular'}
                     </span>
                   </div>
                 </div>
