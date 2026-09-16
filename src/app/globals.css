@@ -16,6 +16,12 @@
   --terracotta-soft:#E38F5C;
   --line: rgba(244, 241, 232, 0.10);
   --line-strong: rgba(244, 241, 232, 0.18);
+  --background: var(--ink);
+  --foreground: var(--paper);
+  --primary: var(--gold);
+  --secondary: var(--panel);
+  --accent: var(--teal);
+  --border: var(--line);
 }
 
 @layer base {
@@ -49,7 +55,7 @@ nav.wrap{
   line-height: 1;
 }
 .logo span{
-  font-family: var(--font-headline), serif; font-style: italic; font-size:12px; color:var(--paper);
+  font-family: var(--font-headline), serif; font-style: italic; font-size:12px; color:var(--gold);
   letter-spacing:normal; font-weight:400;
   margin-top: 2px;
   text-transform: none;
@@ -209,7 +215,6 @@ section.wrap{padding:56px 0;}
 h2.section-title{font-family:var(--font-headline); font-weight:500; font-size:clamp(28px, 3.4vw, 38px); line-height:1.16; color:var(--paper); margin-bottom:14px;}
 .section-head p{color:var(--muted); font-size:16px; max-width:52ch;}
 
-main > section { display: none; }
 body[data-page="home"] main > #explore,
 body[data-page="home"] main > #world-today { display: block; }
 body[data-page="built"] main > #built-for-intro,
@@ -218,6 +223,7 @@ body[data-page="api"] main > #api-intro,
 body[data-page="api"] main > #intelligence-api { display: block; }
 body[data-page="insurance"] main > #insurance-intro,
 body[data-page="insurance"] main > #insurance-grid { display: block; }
+main > section { display: none; }
 
 footer{border-top:1px solid var(--line); padding:36px 0;}
 .foot-row{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; font-size:13px; color:var(--muted-dim);}
