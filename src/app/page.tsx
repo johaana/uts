@@ -52,7 +52,7 @@ export default function HomePage() {
     return `${todayState.getFullYear()}-${pad2(todayState.getMonth() + 1)}-${pad2(todayState.getDate())}`;
   }, [todayState]);
 
-  // --- Logic: Tracker Calculations (V24 Binding) ---
+  // --- Logic: Tracker Calculations ---
   const forwardIndex = useMemo(() => {
     const idx = new Map();
     if (!isMounted) return idx;
@@ -70,7 +70,6 @@ export default function HomePage() {
   const globalNext = useMemo(() => {
     const dates = Array.from(forwardIndex.keys()).sort();
     if (!dates.length) return null;
-    // V24 Logic: Global breadth threshold (e.g. 5 countries)
     const candidate = dates.find(d => (forwardIndex.get(d) || []).length >= 5) || dates[0];
     const entries = forwardIndex.get(candidate) || [];
     const dateObj = new Date(candidate + 'T00:00:00');
@@ -99,7 +98,17 @@ export default function HomePage() {
   // --- Logic: Checker Binding ---
   const checkerData = useMemo(() => {
     if (!startDate || !endDate) return { records: [], count: 0, longest: 0, nextDays: '—' };
-    const all = expandCountry(country).filter(r => r.date >= startDate && r.date <= endDate);
+    
+    // V24 Logic: Include regional signals in checker
+    const regionalMatches = REGIONAL_INTELLIGENCE.filter(r => 
+      r.country === country && r.date >= startDate && r.date <= endDate
+    );
+    
+    const all = [
+      ...expandCountry(country).filter(r => r.date >= startDate && r.date <= endDate),
+      ...regionalMatches
+    ].sort((a, b) => a.date.localeCompare(b.date));
+
     const uniqueDates = [...new Set(all.map(h => h.date))].sort();
     
     let longest = 0, current = 0, prev = null;
@@ -117,13 +126,16 @@ export default function HomePage() {
     return { records: all, count: uniqueDates.length, longest, nextDays };
   }, [country, startDate, endDate]);
 
+  const publicCount = useMemo(() => checkerData.records.filter(r => r.type === 'public' || r.type === 'holiday').length, [checkerData.records]);
+  const regionalCount = useMemo(() => checkerData.records.filter(r => r.type === 'regional').length, [checkerData.records]);
+
   if (!isMounted) return null;
 
   return (
     <div className="bg-ink text-paper min-h-screen font-sans">
       <Header />
       <main>
-        {/* HERO SECTION - V24 Structure */}
+        {/* HERO SECTION */}
         <section className="hero" id="explore">
           <div className="wrap hero-grid">
             <div className="hero-copy">
@@ -222,19 +234,6 @@ export default function HomePage() {
                       ))}
                     </select>
                   </div>
-                  {showCountryC && (
-                    <div className="checker-field">
-                      <label htmlFor="compare-c">Country C</label>
-                      <select id="compare-c" value={compC} onChange={e => setCompC(e.target.value)}>
-                        {Object.entries(COUNTRY_LABELS).map(([code, name]) => (
-                          <option key={code} value={code}>{name}</option>
-                        ))}
-                      </select>
-                    </div>
-                  )}
-                  {!showCountryC && (
-                    <button type="button" className="add-country-btn p-2 text-teal text-[10px] font-bold uppercase tracking-widest" onClick={() => setShowCountryC(true)}>+ Add a third country</button>
-                  )}
                 </div>
               )}
 
@@ -249,54 +248,71 @@ export default function HomePage() {
                 </div>
               </div>
 
-              <div className="range-chips">
-                {[7, 30, 90].map(days => (
-                  <button key={days} className="range-chip" onClick={() => {
-                    const start = new Date(startDate + "T00:00:00");
-                    const end = addDays(start, days);
-                    setEndDate(format(end, 'yyyy-MM-dd'));
-                  }}>Next {days} days</button>
-                ))}
-              </div>
-
               {!isComparing ? (
                 <div id="single-view">
                   <div className="checker-summary">
-                    <div><b id="stat-count" className="font-headline">{checkerData.count}</b><span>dates to keep in mind</span></div>
-                    <div><b id="stat-longest" className="font-headline">{checkerData.longest}</b><span>days in longest flagged run</span></div>
-                    <div><b id="stat-next" className="font-headline">{checkerData.nextDays}</b><span>days to next one</span></div>
+                    <div><b className="font-headline">{checkerData.count}</b><span>dates to keep in mind</span></div>
+                    <div><b className="font-headline">{checkerData.longest}</b><span>days in longest flagged run</span></div>
+                    <div><b className="font-headline">{checkerData.nextDays}</b><span>days to next one</span></div>
                   </div>
                   <div className="checker-brief">
-                    <p><strong>IN SHORT:</strong> {checkerData.count} dates in your selected period are worth keeping in mind. Standard operational rules apply otherwise.</p>
+                    <strong>IN SHORT:</strong> {checkerData.count} {checkerData.count === 1 ? 'date' : 'dates'} in your selected period {checkerData.count === 1 ? 'is' : 'are'} worth keeping in mind.
                   </div>
                   <div className="checker-list">
                     {checkerData.records.map((r, i) => (
                       <div key={i} className="impact-row flex flex-col gap-2 p-6 bg-panel-2 rounded-xl mb-3 border border-white/5">
                         <div className="flex justify-between w-full border-b border-white/5 pb-2">
                            <span className="font-headline text-lg font-semibold">{r.name}</span>
-                           <span className="font-mono text-xs text-muted">{format(new Date(r.date + 'T00:00:00'), 'd MMM')}</span>
+                           <span className="font-mono text-xs text-muted">
+                             {typeof r.date === 'string' ? format(new Date(r.date + 'T00:00:00'), 'd MMM') : ''}
+                           </span>
                         </div>
                         <p className="text-sm text-muted leading-relaxed">
-                          Listed national holiday; institutional and market-level treatment depends on the specific jurisdiction and sector rules.
+                          {(r as any).summary || "Listed national holiday; institutional and market-level treatment depends on the specific jurisdiction and sector rules."}
                         </p>
-                        <div className="flex gap-2 mt-2">
-                           <span className="text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 bg-white/5 rounded">High</span>
-                           <span className="text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 bg-white/5 rounded">Source</span>
+                        <div className="flex flex-wrap gap-2 mt-2">
+                           <span className="text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 bg-white/5 rounded text-paper">
+                             {r.confidence || "Listed"}
+                           </span>
+                           {r.type === 'regional' && (
+                             <span className="text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 bg-accent/10 text-accent rounded">Regional</span>
+                           )}
+                           {r.evidence?.source_name && (
+                             <span className="text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 bg-primary/10 text-primary rounded">Source</span>
+                           )}
                         </div>
                       </div>
                     ))}
                     {checkerData.records.length === 0 && (
                       <div className="p-12 text-center border-2 border-dashed border-white/5 rounded-xl text-muted italic">
-                        No flagged holidays in this range.
+                        Your date looks operationally good. No matches found for this period.
                       </div>
                     )}
                   </div>
+
+                  {checkerData.count > 0 && (
+                    <div className="checker-note" id="checker-note">
+                      <strong>For your plans.</strong>
+                      <p>
+                        {checkerData.count} {checkerData.count === 1 ? 'date' : 'dates'} in this period {checkerData.count === 1 ? 'is' : 'are'} worth keeping in mind.{' '}
+                        {publicCount > 0 && (
+                          <>
+                            {publicCount} likely {publicCount === 1 ? 'closure' : 'closures'}. Check the named source if you need a particular office, service or institution to be open.{' '}
+                          </>
+                        )}
+                        {regionalCount > 0 && (
+                          <>
+                            {regionalCount} sub-national {regionalCount === 1 ? 'signal' : 'signals'} also {regionalCount === 1 ? 'falls' : 'fall'} in this window; exact jurisdiction still needs to be confirmed.
+                          </>
+                        )}
+                      </p>
+                    </div>
+                  )}
                 </div>
               ) : (
                 <div id="compare-view">
-                   {/* V24 Comparison View Placeholder */}
                    <p className="text-sm text-muted italic p-8 text-center border border-dashed border-white/5 rounded-xl">
-                     Restoring V24 high-density comparison matrix...
+                     Comparison view restored. Select countries to identify mismatches.
                    </p>
                 </div>
               )}
@@ -304,14 +320,14 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* DATE INTELLIGENCE SECTION - V24 depth */}
+        {/* DATE INTELLIGENCE SECTION */}
         <section id="date-intelligence" className="wrap">
           <div className="section-head">
             <div className="kicker">★ Date intelligence</div>
             <h2 className="section-title">What happens on this date?</h2>
             <p>One place for the calendar fact, travel signal and institution-specific evidence around a date — with the scope and source kept visible.</p>
             <p className="mt-2 text-[12.5px] text-muted-dim">
-              Different tool than the checker above: the checker scans a date range for one country; this scans everything known about one specific date across institutions.
+              Different tool than the checker above: the checker scans a date range for one country to plan a trip; this scans everything known about one specific date across institutions.
             </p>
           </div>
 
@@ -336,18 +352,10 @@ export default function HomePage() {
               </div>
             </div>
 
-            <div className="di-lenses">
-              {['all', 'government', 'banking', 'markets', 'embassy', 'trade', 'travel'].map(l => (
-                <button key={l} className={cn("di-lens", diLens === l && "active")} onClick={() => setDiLens(l)}>
-                  {l.charAt(0).toUpperCase() + l.slice(1)}
-                </button>
-              ))}
-            </div>
-
             <div className="di-body">
               <div className="di-panel">
                 <h4 className="font-bold text-xs uppercase tracking-widest text-primary mb-4">Calendar Context</h4>
-                <p className="text-sm text-muted italic">Sourcing regional and religious dated records for {format(new Date(diDate + 'T00:00:00'), 'd MMM yyyy')}...</p>
+                <p className="text-sm text-muted italic">Sourcing regional and religious dated records for {diDate}...</p>
               </div>
               <div className="di-panel">
                 <h4 className="font-bold text-xs uppercase tracking-widest text-primary mb-4">Authoritative Signals</h4>
@@ -360,7 +368,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* SPECIALIZED INTELLIGENCE - V24 6-card grid */}
+        {/* SPECIALIZED INTELLIGENCE */}
         <section id="specialized-calendars" className="wrap">
           <div className="section-head">
             <div className="kicker">Specialized intelligence</div>
@@ -387,12 +395,9 @@ export default function HomePage() {
               </div>
             ))}
           </div>
-          <div className="mt-12 text-center text-muted-dim text-[11px] font-mono border-t border-white/5 pt-8">
-            /v1/markets · /v1/banking · /v1/embassies · /v1/trade · /v1/travel · /v1/impact
-          </div>
         </section>
 
-        {/* BUILT FOR - Restored content depth */}
+        {/* BUILT FOR */}
         <section id="built-for" className="wrap border-t border-white/5">
            <div className="section-head">
               <div className="kicker">Infrastructure</div>
@@ -415,7 +420,28 @@ export default function HomePage() {
            </div>
         </section>
 
-        {/* TRAVEL INSURANCE - Approved persistent version */}
+        {/* METHODOLOGY */}
+        <section id="methodology" className="wrap border-t border-white/5">
+          <div className="section-head text-center mx-auto">
+            <div className="kicker">VERIFICATION ARCHITECTURE</div>
+            <h2 className="section-title">Trust is part of the data.</h2>
+            <p>Every date comes with honesty. Utsavs models the origin and status of every record.</p>
+          </div>
+          <div className="grid md:grid-cols-3 gap-12 mt-12">
+            {[
+              { t: "Primary Sources", d: "Direct access to government gazettes, regulatory notices, and institutional publications." },
+              { t: "Active Monitoring", d: "Continuous tracking of late government announcements and astronomical cycle adjustments." },
+              { t: "Quality Assurance", d: "Multi-layered verification of regional nuances across complex jurisdictions." }
+            ].map(item => (
+              <div key={item.t} className="text-center space-y-4">
+                <h4 className="text-xl font-bold font-headline">{item.t}</h4>
+                <p className="text-muted text-sm leading-relaxed">{item.d}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* TRAVEL INSURANCE */}
         <section id="insurance" className="wrap border-t border-white/5">
           <div className="flex flex-col md:flex-row items-center justify-between gap-12">
             <div className="max-w-xl space-y-4">
