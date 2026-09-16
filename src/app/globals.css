@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -389,12 +390,12 @@ h1.headline {
   outline: none;
 }
 
-input[type="date"] { cursor: pointer; }
-
 .checker-field select option {
   color: #000;
   background: #fff;
 }
+
+input[type="date"] { cursor: pointer; }
 
 .range-chips {
   display: flex;
@@ -461,15 +462,6 @@ input[type="date"] { cursor: pointer; }
   gap: 8px;
 }
 
-.impact-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 12px;
-  background: var(--panel-2);
-  border-radius: 9px;
-}
-
 /* --- Section Formatting --- */
 section.wrap { padding: 80px 0; }
 
@@ -514,6 +506,11 @@ section.wrap { padding: 80px 0; }
 .di-field { background: var(--panel-2); padding: 18px 24px; }
 .di-field label { display: block; font-family: var(--font-mono); font-size: 10px; color: var(--muted-dim); text-transform: uppercase; margin-bottom: 8px; }
 .di-field input, .di-field select { width: 100%; background: none; border: none; color: var(--paper); font-size: 16px; outline: none; }
+
+.di-field select option {
+  color: #000;
+  background: #fff;
+}
 
 .di-nav { background: var(--panel-2); display: flex; align-items: center; justify-content: center; gap: 12px; }
 .di-nav button { background: none; border: 1px solid var(--line); color: var(--muted); padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 12px; }
@@ -589,9 +586,6 @@ section.wrap { padding: 80px 0; }
 .special-tag { font-family: var(--font-mono); font-size: 9px; padding: 4px 10px; border: 1px solid var(--line); border-radius: 100px; text-transform: uppercase; color: var(--muted-dim); }
 
 .special-open { font-size: 12px; font-weight: 700; color: var(--paper); text-transform: uppercase; letter-spacing: 0.05em; }
-
-.special-footer { margin-top: 48px; text-align: center; color: var(--muted-dim); font-size: 13px; }
-.special-api { display: block; font-family: var(--font-mono); font-size: 11px; color: var(--teal); margin-top: 12px; }
 
 /* --- Footer --- */
 footer { border-top: 1px solid var(--line); padding: 36px 0; }
