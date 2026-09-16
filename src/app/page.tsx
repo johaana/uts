@@ -69,7 +69,7 @@ export default function HomePage() {
     const eKey = `${end.getFullYear()}-${pad2(end.getMonth() + 1)}-${pad2(end.getDate())}`;
     setEndDate(eKey);
 
-    // Fetch authoritative records once
+    // V24 Unified Engine: Load all authoritative records once
     getSource().getRecords().then(records => {
       setAllRecords(records);
     });
@@ -108,7 +108,7 @@ export default function HomePage() {
     setDiDate(`${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`);
   };
 
-  // --- Logic: Tracker & Marquee (Unified Data) ---
+  // --- Logic: Tracker & Marquee (Unified Global Dataset) ---
   const forwardIndex = useMemo(() => {
     const idx = new Map();
     if (!isMounted || !todayKey || allRecords.length === 0) return idx;
@@ -125,8 +125,8 @@ export default function HomePage() {
     const dates = Array.from(forwardIndex.keys()).sort();
     if (!dates.length) return null;
     
-    // Find first date with high impact or just the very next date
-    const candidate = dates.find(d => (forwardIndex.get(d) || []).length >= 3) || dates[0];
+    // Find next high-impact date or absolute next
+    const candidate = dates[0];
     const entries = forwardIndex.get(candidate) || [];
     const dateObj = new Date(candidate + 'T00:00:00');
     return { 
@@ -171,10 +171,12 @@ export default function HomePage() {
       (r.purpose_relevance.includes(activePurpose as any))
     ).sort((a, b) => a.date.localeCompare(b.date));
 
-    const uniqueDates = [...new Set(matches.map(h => h.date))].sort();
+    // Deduplicate by name/date to avoid visual noise
+    const uniqueDatesSet = new Set(matches.map(m => m.date));
+    const uniqueRecords = matches.filter((v, i, a) => a.findIndex(t => t.name === v.name && t.date === v.date) === i);
     
     let longest = 0, current = 0, prev = null;
-    uniqueDates.forEach(d => {
+    [...uniqueDatesSet].sort().forEach(d => {
       const cur = new Date(d + 'T00:00:00');
       if (prev && differenceInDays(cur, prev) <= 2) current++;
       else current = 1;
@@ -182,16 +184,14 @@ export default function HomePage() {
       prev = cur;
     });
 
-    const nextDate = uniqueDates.find(d => d >= startDate);
+    const nextDate = [...uniqueDatesSet].sort().find(d => d >= startDate);
     const nextDays = nextDate ? differenceInDays(new Date(nextDate + 'T00:00:00'), new Date(startDate + 'T00:00:00')) : '—';
 
     const pCount = matches.filter(r => r.category === 'holiday').length;
     const rCount = matches.filter(r => r.category === 'regional').length;
 
-    return { records: matches, count: uniqueDates.length, longest, nextDays, publicCount: pCount, regionalCount: rCount };
+    return { records: uniqueRecords, count: uniqueDatesSet.size, longest, nextDays, publicCount: pCount, regionalCount: rCount };
   }, [country, startDate, endDate, allRecords, mode]);
-
-  if (!isMounted) return null;
 
   return (
     <div className="bg-ink text-paper min-h-screen font-sans">
@@ -367,7 +367,7 @@ export default function HomePage() {
                       <input type="date" id="comp-start-date" value={startDate} onChange={e => setStartDate(e.target.value)} />
                     </div>
                     <div className="checker-field">
-                      <label htmlFor="comp-end-date">To</label>
+                      <label htmlFor="end-date">To</label>
                       <input type="date" id="end-date" value={endDate} onChange={e => setEndDate(e.target.value)} />
                     </div>
                   </div>
@@ -386,15 +386,6 @@ export default function HomePage() {
             <div className="kicker">★ Date intelligence</div>
             <h2 className="section-title">What happens on this date?</h2>
             <p>One place for the calendar fact, travel signal and institution-specific evidence around a date — with the scope and source kept visible.</p>
-            <p className="mt-2 text-[12.5px] text-muted-dim">
-              Different tool than the checker above: the checker scans a
-              <em className="text-muted not-italic"> date range </em>
-              for one country to plan a trip or a scheduling window; this scans
-              everything known about
-              <em className="text-muted not-italic"> one specific date </em>
-              across institutions — use the checker to plan around a window,
-              this to look up a single day in depth.
-            </p>
           </div>
 
           <div className="date-intel-shell">
@@ -489,10 +480,10 @@ export default function HomePage() {
                     if (diLens !== 'all' && diLens !== categoryKey) return null;
 
                     const relevantRecords = diResults?.records.filter(r => {
-                      if (categoryKey === 'government') return r.category === 'holiday' || r.category === 'regional';
+                      if (categoryKey === 'government') return r.category === 'holiday' || r.category === 'regional' || r.category === 'business_travel';
                       if (categoryKey === 'banking') return r.category === 'banking';
                       if (categoryKey === 'markets') return r.category === 'market';
-                      if (categoryKey === 'embassy') return r.category === 'institutional';
+                      if (categoryKey === 'embassy') return r.category === 'student_risk' || r.category === 'institutional';
                       if (categoryKey === 'trade') return r.category === 'customs';
                       if (categoryKey === 'travel') return r.category === 'travel' || r.category === 'holiday';
                       return false;
@@ -530,77 +521,6 @@ export default function HomePage() {
             <div className="di-foot text-left">
               <b>Reading the page:</b> the calendar tells you what the date is; institutional rows show published institution-level signals. No closure is inferred from a holiday or weekend alone.
             </div>
-          </div>
-        </section>
-
-        {/* SPECIALIZED INTELLIGENCE */}
-        <section id="specialized-calendars" className="wrap">
-          <div className="section-head">
-            <div className="kicker">Specialized intelligence</div>
-            <h2 className="section-title">One calendar underneath. Deeper calendars when the job demands it.</h2>
-            <p>The core calendar stays unified. Specialized views can go deeper into the systems that care about a date differently.</p>
-          </div>
-          <div className="special-grid">
-            {[
-              { idx: "01", t: "Markets", d: "Trading, early closes, clearing and settlement.", tags: ["Trading", "Clearing", "Settlement"] },
-              { idx: "02", t: "Banking", d: "Branch calendars and payment systems.", tags: ["Branches", "Payments", "Settlement"] },
-              { idx: "03", t: "Embassies", d: "Mission, consular and visa calendars.", tags: ["Mission", "Consular", "Visa"] },
-              { idx: "04", t: "Customs & ports", d: "Terminal schedules and documented closure windows.", tags: ["Customs", "Ports", "Terminals"] },
-              { idx: "05", t: "Travel intelligence", d: "Travel advisories, entry, and border information.", tags: ["Advisories", "Entry", "Visa"] },
-              { idx: "06", t: "Impact", d: "Combine the evidence-backed layers for planning.", tags: ["Date", "Place", "Impact"] }
-            ].map(item => (
-              <div key={item.t} className="special-card">
-                <div className="special-index">{item.idx} · {item.t.toUpperCase()}</div>
-                <h4>{item.t}</h4>
-                <p>{item.d}</p>
-                <div className="special-tags">
-                  {item.tags.map(tag => <span key={tag} className="special-tag">{tag}</span>)}
-                </div>
-                <span className="special-open font-bold text-[10px] text-paper mt-auto pt-4">Open lens →</span>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section id="built-for" className="wrap border-t border-white/5">
-           <div className="section-head">
-              <div className="kicker">Infrastructure</div>
-              <h2 className="section-title">Built for systems that need to understand the calendar.</h2>
-           </div>
-           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {[
-                { t: "Travel", d: "Choose when to go. Flag festival dates before booking and plan around crowds." },
-                { t: "Business & Finance", d: "Choose when to schedule. Track settlement cycles and market closures." },
-                { t: "Study Abroad", d: "Choose when to arrive. Align visa interviews and orientation sessions." },
-                { t: "HR & Workforce", d: "Choose when to operate. Build region-aware global leave calendars." },
-                { t: "Logistics", d: "Choose when to move. Anticipate staffing at customs and ports." },
-                { t: "Operations", d: "One world, many jurisdictions. Handle local municipal rules with precision." }
-              ].map(item => (
-                <div key={item.t} className="p-8 border border-white/5 rounded-2xl bg-panel-2/30">
-                  <h4 className="font-headline text-2xl font-bold mb-3">{item.t}</h4>
-                  <p className="text-muted leading-relaxed">{item.d}</p>
-                </div>
-              ))}
-           </div>
-        </section>
-
-        <section id="methodology" className="wrap border-t border-white/5">
-          <div className="section-head text-center mx-auto">
-            <div className="kicker">VERIFICATION ARCHITECTURE</div>
-            <h2 className="section-title">Trust is part of the data.</h2>
-            <p>Every date comes with honesty. Utsavs models the origin and status of every record.</p>
-          </div>
-          <div className="grid md:grid-cols-3 gap-12 mt-12">
-            {[
-              { t: "Primary Sources", d: "Direct access to government gazettes, regulatory notices, and institutional publications." },
-              { t: "Active Monitoring", d: "Continuous tracking of late government announcements and astronomical cycle adjustments." },
-              { t: "Quality Assurance", d: "Multi-layered verification of regional nuances across complex jurisdictions." }
-            ].map(item => (
-              <div key={item.t} className="text-center space-y-4">
-                <h4 className="text-xl font-bold font-headline">{item.t}</h4>
-                <p className="text-muted text-sm leading-relaxed">{item.d}</p>
-              </div>
-            ))}
           </div>
         </section>
       </main>

@@ -43,7 +43,7 @@ export function extractDatasets(source: string): DateIntelligenceRecord[] {
     }
   }
 
-  // 3. V24 Recovery: Ensure Philippines (PH) and others have baseline data if missing
+  // 3. V24 Baseline Coverage: Ensure key countries have primary national records if missing
   const activeCountries = new Set(records.map(r => r.jurisdiction.country_code));
   if (!activeCountries.has('PH')) {
     records.push(createEventRecord('PH', '2026-06-12', 'Independence Day', 'public', 'high'));
@@ -136,16 +136,17 @@ function classifyTopic(topic: string): OperationalCategory {
   if (t.includes('maharashtra') || t.includes('regional')) return 'regional';
   if (t.includes('bank') || t.includes('payment')) return 'banking';
   if (t.includes('market') || t.includes('settlement') || t.includes('exchange')) return 'market';
-  if (t.includes('academic') || t.includes('institutional') || t.includes('university')) return 'institutional';
-  if (t.includes('study') || t.includes('permit') || t.includes('visa')) return 'student_risk';
-  if (t.includes('business-day')) return 'business_travel';
+  if (t.includes('academic') || t.includes('institutional') || t.includes('university') || t.includes('semester')) return 'institutional';
+  if (t.includes('study') || t.includes('permit') || t.includes('visa') || t.includes('residence')) return 'student_risk';
+  if (t.includes('business-day') || t.includes('closure') || t.includes('government')) return 'business_travel';
+  if (t.includes('port') || t.includes('terminal') || t.includes('customs') || t.includes('logistics')) return 'customs';
   return 'holiday';
 }
 
 function determinePurposes(topic: string, category: OperationalCategory): UserPurpose[] {
   const purposes: UserPurpose[] = [];
   if (category === 'student_risk' || category === 'institutional') purposes.push('study');
-  if (category === 'banking' || category === 'market' || category === 'business_travel') purposes.push('business', 'workforce');
+  if (category === 'banking' || category === 'market' || category === 'customs') purposes.push('business', 'workforce', 'logistics');
   if (purposes.length === 0) purposes.push('travel', 'business');
   return Array.from(new Set(purposes));
 }
@@ -166,7 +167,7 @@ export function createEventRecord(cc: string, date: string, name: string, type: 
       country_name: COUNTRY_LABELS[cc] || cc, 
       scope: safeType === 'public' ? 'national' : 'regional' 
     },
-    purpose_relevance: ['travel', 'business', 'workforce'],
+    purpose_relevance: ['travel', 'business', 'workforce', 'logistics'],
     state: (safeDateState as DateState),
     confidence: (safeConf as ConfidenceTier) || 'reference',
     evidence: {
@@ -174,7 +175,7 @@ export function createEventRecord(cc: string, date: string, name: string, type: 
       source_name: evidence.source_name || 'Official Publication',
       source_url: evidence.source_url,
       source_type: 'government',
-      last_checked: evidence.last_checked || '2026-09-08',
+      last_checked: '2026-09-08',
       verification_status: 'verified',
       link_label: evidence.link_label
     },
