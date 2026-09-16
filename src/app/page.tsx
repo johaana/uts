@@ -255,34 +255,31 @@ export default function HomePage() {
                     <div><b className="font-headline">{checkerData.longest}</b><span>days in longest flagged run</span></div>
                     <div><b className="font-headline">{checkerData.nextDays}</b><span>days to next one</span></div>
                   </div>
-                  <div className="checker-brief">
-                    <strong>IN SHORT:</strong> {checkerData.count} {checkerData.count === 1 ? 'date' : 'dates'} in your selected period {checkerData.count === 1 ? 'is' : 'are'} worth keeping in mind.
+                  <div className="checker-brief" id="checker-brief">
+                    <strong>IN SHORT:</strong> {checkerData.count} {checkerData.count === 1 ? 'date' : 'dates'} in your selected period {checkerData.count === 1 ? 'is' : 'are'} worth keeping in mind. The details below show what is happening on each date and any related local or institutional information.
                   </div>
-                  <div className="checker-list">
-                    {checkerData.records.map((r, i) => (
-                      <div key={i} className="impact-row flex flex-col gap-2 p-6 bg-panel-2 rounded-xl mb-3 border border-white/5">
-                        <div className="flex justify-between w-full border-b border-white/5 pb-2">
-                           <span className="font-headline text-lg font-semibold">{r.name}</span>
-                           <span className="font-mono text-xs text-muted">
-                             {typeof r.date === 'string' ? format(new Date(r.date + 'T00:00:00'), 'd MMM') : ''}
-                           </span>
+                  <div className="checker-list" id="checker-list">
+                    {checkerData.records.map((r, i) => {
+                      const metaParts = [];
+                      if (r.confidence) metaParts.push(r.confidence.charAt(0).toUpperCase() + r.confidence.slice(1));
+                      if (r.type === 'regional') metaParts.push("Regional");
+                      if (r.evidence?.source_name) metaParts.push("Source");
+                      const metaString = metaParts.join(' / ');
+
+                      return (
+                        <div key={i} className="impact-row">
+                          <div className="impact-date">
+                            {typeof r.date === 'string' ? format(new Date(r.date + 'T00:00:00'), 'EEE dd MMM') : ''}
+                          </div>
+                          <div className="impact-name">
+                            {r.name}
+                          </div>
+                          <div className="impact-meta">
+                            {metaString}
+                          </div>
                         </div>
-                        <p className="text-sm text-muted leading-relaxed">
-                          {(r as any).summary || "Listed national holiday; institutional and market-level treatment depends on the specific jurisdiction and sector rules."}
-                        </p>
-                        <div className="flex flex-wrap gap-2 mt-2">
-                           <span className="text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 bg-white/5 rounded text-paper">
-                             {r.confidence || "Listed"}
-                           </span>
-                           {r.type === 'regional' && (
-                             <span className="text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 bg-accent/10 text-accent rounded">Regional</span>
-                           )}
-                           {r.evidence?.source_name && (
-                             <span className="text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 bg-primary/10 text-primary rounded">Source</span>
-                           )}
-                        </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                     {checkerData.records.length === 0 && (
                       <div className="p-12 text-center border-2 border-dashed border-white/5 rounded-xl text-muted italic">
                         Your date looks operationally good. No matches found for this period.
@@ -292,7 +289,7 @@ export default function HomePage() {
 
                   {checkerData.count > 0 && (
                     <div className="checker-note" id="checker-note">
-                      <strong>For your plans.</strong>
+                      <strong>FOR YOUR PLANS.</strong>
                       <p>
                         {checkerData.count} {checkerData.count === 1 ? 'date' : 'dates'} in this period {checkerData.count === 1 ? 'is' : 'are'} worth keeping in mind.{' '}
                         {publicCount > 0 && (
@@ -327,7 +324,13 @@ export default function HomePage() {
             <h2 className="section-title">What happens on this date?</h2>
             <p>One place for the calendar fact, travel signal and institution-specific evidence around a date — with the scope and source kept visible.</p>
             <p className="mt-2 text-[12.5px] text-muted-dim">
-              Different tool than the checker above: the checker scans a date range for one country to plan a trip; this scans everything known about one specific date across institutions.
+              Different tool than the checker above: the checker scans a
+              <em className="text-muted not-italic"> date range </em>
+              for one country to plan a trip or a scheduling window; this scans
+              everything known about
+              <em className="text-muted not-italic"> one specific date </em>
+              across institutions — use the checker to plan around a window,
+              this to look up a single day in depth.
             </p>
           </div>
 
