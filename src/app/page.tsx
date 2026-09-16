@@ -12,8 +12,18 @@ import {
 } from '@/lib/calendar-intelligence';
 import { getOperationalImpact } from '@/lib/operational/adapter';
 import { OperationalResult } from '@/lib/operational/types';
-import { format, addDays, startOfDay, differenceInDays } from 'date-fns';
+import { format, addDays, startOfDay, differenceInDays, isValid, parse } from 'date-fns';
 import { OperationalResultCard } from '@/components/operational/OperationalResultCard';
+
+const LENS_LABELS: Record<string, string> = {
+  all: "All intelligence",
+  government: "Government",
+  banking: "Banking",
+  markets: "Markets",
+  embassy: "Embassy",
+  trade: "Trade & logistics",
+  travel: "Travel"
+};
 
 export default function HomePage() {
   const [isMounted, setIsMounted] = useState(false);
@@ -77,6 +87,7 @@ export default function HomePage() {
 
   const adjustDiDate = (days: number) => {
     const d = new Date(diDate + 'T00:00:00');
+    if (!isValid(d)) return;
     d.setDate(d.getDate() + days);
     const pad2 = (n: number) => String(n).padStart(2, "0");
     setDiDate(`${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`);
@@ -127,9 +138,8 @@ export default function HomePage() {
 
   // --- Logic: Checker Binding ---
   const checkerData = useMemo(() => {
-    if (!startDate || !endDate) return { records: [], count: 0, longest: 0, nextDays: '—' };
+    if (!startDate || !endDate) return { records: [], count: 0, longest: 0, nextDays: '—', publicCount: 0, regionalCount: 0 };
     
-    // V24 Logic: Include regional signals in checker
     const regionalMatches = REGIONAL_INTELLIGENCE.filter(r => 
       r.country === country && r.date >= startDate && r.date <= endDate
     );
@@ -153,11 +163,11 @@ export default function HomePage() {
     const nextDate = uniqueDates.find(d => d >= startDate);
     const nextDays = nextDate ? differenceInDays(new Date(nextDate + 'T00:00:00'), new Date(startDate + 'T00:00:00')) : '—';
 
-    return { records: all, count: uniqueDates.length, longest, nextDays };
-  }, [country, startDate, endDate]);
+    const pCount = all.filter(r => r.type === 'public' || r.type === 'holiday').length;
+    const rCount = all.filter(r => r.type === 'regional').length;
 
-  const publicCount = useMemo(() => checkerData.records.filter(r => r.type === 'public' || r.type === 'holiday').length, [checkerData.records]);
-  const regionalCount = useMemo(() => checkerData.records.filter(r => r.type === 'regional').length, [checkerData.records]);
+    return { records: all, count: uniqueDates.length, longest, nextDays, publicCount: pCount, regionalCount: rCount };
+  }, [country, startDate, endDate]);
 
   if (!isMounted) return null;
 
@@ -201,7 +211,7 @@ export default function HomePage() {
                 <div className="hero-tracker-feed">
                   <div className="marquee" aria-live="polite">
                     <div className="marquee-track" id="pulse-marquee-track">
-                      {Array.from(forwardIndex.entries()).slice(0, 8).map(([date, entries]) => (
+                      {Array.from(forwardIndex.entries()).slice(0, 12).map(([date, entries]) => (
                         entries.map((e: any, idx: number) => (
                           <span key={`${date}-${idx}`} className="chip">
                             <b>{COUNTRY_LABELS[e.code] || e.code}</b> — {e.name} · {format(new Date(date + 'T00:00:00'), 'd MMM')}
@@ -290,23 +300,18 @@ export default function HomePage() {
                   </div>
                   <div className="checker-list" id="checker-list">
                     {checkerData.records.map((r, i) => {
+                      const dateObj = new Date(r.date + 'T00:00:00');
+                      const dateStr = format(dateObj, 'EEE dd MMM');
                       const metaParts = [];
                       if (r.confidence) metaParts.push(r.confidence.charAt(0).toUpperCase() + r.confidence.slice(1));
                       if (r.type === 'regional') metaParts.push("Regional");
                       if (r.evidence?.source_name) metaParts.push("Source");
-                      const metaString = metaParts.join(' / ');
 
                       return (
                         <div key={i} className="impact-row">
-                          <div className="impact-date">
-                            {typeof r.date === 'string' ? format(new Date(r.date + 'T00:00:00'), 'EEE dd MMM') : ''}
-                          </div>
-                          <div className="impact-name">
-                            {r.name}
-                          </div>
-                          <div className="impact-meta">
-                            {metaString}
-                          </div>
+                          <div className="impact-date">{dateStr}</div>
+                          <div className="impact-name">{r.name}</div>
+                          <div className="impact-meta">{metaParts.join(' / ')}</div>
                         </div>
                       );
                     })}
@@ -322,14 +327,14 @@ export default function HomePage() {
                       <strong>FOR YOUR PLANS.</strong>
                       <p>
                         {checkerData.count} {checkerData.count === 1 ? 'date' : 'dates'} in this period {checkerData.count === 1 ? 'is' : 'are'} worth keeping in mind.{' '}
-                        {publicCount > 0 && (
+                        {checkerData.publicCount > 0 && (
                           <>
-                            {publicCount} likely {publicCount === 1 ? 'closure' : 'closures'}. Check the named source if you need a particular office, service or institution to be open.{' '}
+                            {checkerData.publicCount} likely {checkerData.publicCount === 1 ? 'closure' : 'closures'}. Check the named source if you need a particular office, service or institution to be open.{' '}
                           </>
                         )}
-                        {regionalCount > 0 && (
+                        {checkerData.regionalCount > 0 && (
                           <>
-                            {regionalCount} sub-national {regionalCount === 1 ? 'signal' : 'signals'} also {regionalCount === 1 ? 'falls' : 'fall'} in this window; exact jurisdiction still needs to be confirmed.
+                            {checkerData.regionalCount} sub-national {checkerData.regionalCount === 1 ? 'signal' : 'signals'} also {checkerData.regionalCount === 1 ? 'falls' : 'fall'} in this window; exact jurisdiction still needs to be confirmed.
                           </>
                         )}
                       </p>
@@ -385,36 +390,108 @@ export default function HomePage() {
               </div>
             </div>
 
+            <div className="di-lenses">
+              {Object.entries(LENS_LABELS).map(([key, label]) => (
+                <button
+                  key={key}
+                  type="button"
+                  onClick={() => setDiLens(key)}
+                  className={cn("di-lens", diLens === key && "active")}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+
             <div className="di-body">
-              <div className="di-panel" id="di-events">
-                <h4 className="font-bold text-xs uppercase tracking-widest text-primary mb-4">Calendar Context</h4>
-                {diLoading ? (
-                  <p className="text-sm text-muted italic">Sourcing regional and religious dated records for {diDate}...</p>
-                ) : diResults && diResults.records.filter(r => r.category === 'holiday' || r.category === 'regional').length > 0 ? (
-                  <div className="space-y-4">
-                    {diResults.records
-                      .filter(r => r.category === 'holiday' || r.category === 'regional')
-                      .map(r => <OperationalResultCard key={r.id} record={r} />)
-                    }
+              {/* LEFT: Date Context */}
+              <div className="di-panel di-context-panel">
+                <div className="space-y-1 mb-8">
+                  <p className="text-[10.5px] font-mono text-[#4FD1C5] uppercase tracking-widest">Date context</p>
+                  <h2 className="text-3xl font-headline font-medium text-[#F4F1E8]">
+                    {isValid(new Date(diDate + 'T00:00:00')) ? format(new Date(diDate + 'T00:00:00'), 'EEEE, d MMMM yyyy') : 'Invalid Date'}
+                  </h2>
+                  <p className="text-[13px] text-[#9AA1C0]">
+                    {COUNTRY_LABELS[diCountry]} · {isValid(new Date(diDate + 'T00:00:00')) ? format(new Date(diDate + 'T00:00:00'), 'EEEE') : 'Weekday'}
+                  </p>
+                </div>
+
+                <div className="di-summary-grid">
+                  <div className="di-summary-item">
+                    <span className="label">Calendar</span>
+                    <span className="value">
+                      {diLoading ? '...' : (diResults?.records.filter(r => r.category === 'holiday' || r.category === 'regional').length || 0) + ' events'}
+                    </span>
                   </div>
-                ) : (
-                  <p className="text-sm text-muted italic">Your date looks operationally good. No calendar events recorded.</p>
-                )}
+                  <div className="di-summary-item">
+                    <span className="label">Institutional Impact</span>
+                    <span className="value">
+                      {diLoading ? '...' : (diResults?.records.filter(r => r.category !== 'holiday' && r.category !== 'regional').length || 0) + ' signals'}
+                    </span>
+                  </div>
+                  <div className="di-summary-item">
+                    <span className="label">Planning Context</span>
+                    <span className="value">
+                      {diLoading ? '...' : (diResults?.records.length ? 'Modified' : 'Regular')}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="mt-8 text-sm text-muted leading-relaxed">
+                  {diLoading ? (
+                    <p className="italic">Updating intelligence for {diDate}...</p>
+                  ) : diResults?.records.length ? (
+                    <p>Found {diResults.records.length} curated record(s) for this date and location.</p>
+                  ) : (
+                    <p>No holiday, observance, or institutional closure is currently recorded for {COUNTRY_LABELS[diCountry]} on this date.</p>
+                  )}
+                </div>
               </div>
-              <div className="di-panel" id="di-signals">
-                <h4 className="font-bold text-xs uppercase tracking-widest text-primary mb-4">Authoritative Signals</h4>
-                {diLoading ? (
-                  <p className="text-sm text-muted italic">Analyzing institutional evidence for {COUNTRY_LABELS[diCountry]}...</p>
-                ) : diResults && diResults.records.filter(r => r.category !== 'holiday' && r.category !== 'regional').length > 0 ? (
-                  <div className="space-y-4">
-                    {diResults.records
-                      .filter(r => r.category !== 'holiday' && r.category !== 'regional')
-                      .map(r => <OperationalResultCard key={r.id} record={r} />)
-                    }
-                  </div>
-                ) : (
-                  <p className="text-sm text-muted italic">No specific operational signals found for this place and date.</p>
-                )}
+
+              {/* RIGHT: What Affects This Date? */}
+              <div className="di-panel di-impact-panel">
+                <h4 className="font-bold text-xs uppercase tracking-widest text-primary mb-6">What affects this date?</h4>
+                
+                <div className="space-y-8">
+                  {Object.keys(LENS_LABELS).filter(k => k !== 'all').map(categoryKey => {
+                    // Simple logic to show categories based on lens selection
+                    if (diLens !== 'all' && diLens !== categoryKey) return null;
+
+                    const relevantRecords = diResults?.records.filter(r => {
+                      if (categoryKey === 'government') return r.category === 'holiday' || r.category === 'regional';
+                      if (categoryKey === 'banking') return r.category === 'banking';
+                      if (categoryKey === 'markets') return r.category === 'market';
+                      if (categoryKey === 'embassy') return r.category === 'institutional';
+                      if (categoryKey === 'trade') return r.category === 'customs';
+                      if (categoryKey === 'travel') return r.category === 'travel' || r.category === 'holiday';
+                      return false;
+                    }) || [];
+
+                    return (
+                      <div key={categoryKey} className="di-impact-group">
+                        <div className="flex justify-between items-start mb-2">
+                           <h5 className="text-[11px] font-mono text-[#6E7495] uppercase tracking-wider">{LENS_LABELS[categoryKey]}</h5>
+                           <span className={cn("di-status-badge", relevantRecords.length > 0 ? "active" : "none")}>
+                             {relevantRecords.length > 0 ? "SIGNAL" : "NONE"}
+                           </span>
+                        </div>
+                        
+                        {relevantRecords.length > 0 ? (
+                          <div className="space-y-4">
+                            {relevantRecords.map(r => (
+                              <div key={r.id} className="text-sm font-medium">
+                                <p className="text-paper">{r.name}</p>
+                                <p className="text-xs text-muted mt-1 leading-relaxed">{r.consequences.implication}</p>
+                              </div>
+                            ))}
+                          </div>
+                        ) : (
+                          <p className="text-sm text-muted italic">No specific signal recorded in Utsavs.</p>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             </div>
             <div className="di-foot">
