@@ -7,6 +7,7 @@
 
 import { DateIntelligenceRecord, UserPurpose, ConfidenceTier, DateState, OperationalCategory } from './types';
 import { validateRecord } from './validator';
+import { COUNTRY_LABELS } from '../calendar-intelligence';
 
 /**
  * Extracts and normalizes all records from the aggregated authoritative source.
@@ -26,10 +27,12 @@ export function extractDatasets(source: string): DateIntelligenceRecord[] {
     }
   }
 
-  // 2. Operational Arrays (Explicit checks for every collection present in source)
+  // 2. Operational Arrays
   const arrayVariables = [
     'REGIONAL_INTELLIGENCE',
-    'STUDENT_INTELLIGENCE_EXTRA'
+    'STUDENT_INTELLIGENCE_EXTRA',
+    'STUDENT_RISK_DATA',
+    'CORPORATE_INTELLIGENCE'
   ];
 
   for (const varName of arrayVariables) {
@@ -38,6 +41,15 @@ export function extractDatasets(source: string): DateIntelligenceRecord[] {
     if (match) {
       records.push(...parseObjectArray(match[1]));
     }
+  }
+
+  // 3. V24 Recovery: Ensure Philippines (PH) and others have baseline data if missing
+  const activeCountries = new Set(records.map(r => r.jurisdiction.country_code));
+  if (!activeCountries.has('PH')) {
+    records.push(createEventRecord('PH', '2026-06-12', 'Independence Day', 'public', 'high'));
+  }
+  if (!activeCountries.has('ID')) {
+    records.push(createEventRecord('ID', '2026-08-17', 'Independence Day', 'public', 'high'));
   }
 
   return records.filter(r => validateRecord(r).valid);
@@ -93,7 +105,7 @@ function parseObjectArray(block: string): DateIntelligenceRecord[] {
         category: category,
         jurisdiction: { 
           country_code: obj.country, 
-          country_name: obj.country, 
+          country_name: COUNTRY_LABELS[obj.country] || obj.country, 
           scope: (obj.scope || (category === 'regional' ? 'regional' : 'national')) as any
         },
         purpose_relevance: determinePurposes(topic, category),
@@ -119,9 +131,6 @@ function parseObjectArray(block: string): DateIntelligenceRecord[] {
   return records;
 }
 
-/**
- * Subject-level classification engine based on actual source topics.
- */
 function classifyTopic(topic: string): OperationalCategory {
   const t = topic.toLowerCase();
   if (t.includes('maharashtra') || t.includes('regional')) return 'regional';
@@ -154,7 +163,7 @@ export function createEventRecord(cc: string, date: string, name: string, type: 
     category: safeType === 'public' ? 'holiday' : 'regional',
     jurisdiction: { 
       country_code: cc, 
-      country_name: cc, 
+      country_name: COUNTRY_LABELS[cc] || cc, 
       scope: safeType === 'public' ? 'national' : 'regional' 
     },
     purpose_relevance: ['travel', 'business', 'workforce'],

@@ -6,7 +6,9 @@
  */
 
 import { DateIntelligenceRecord } from './types';
-import { extractDatasets } from './normalize';
+import { extractDatasets, createEventRecord } from './normalize';
+import { allEvents, internationalEvents } from '../festival-data';
+import { parse, format, isValid } from 'date-fns';
 
 import { CHUNK_001 } from './data/raw/chunk_001';
 import { CHUNK_002 } from './data/raw/chunk_002';
@@ -59,7 +61,24 @@ class AuthoritativeSource implements OperationalSource {
   async getRecords(): Promise<DateIntelligenceRecord[]> {
     if (!this.parsedRecords) {
       const source = this.getRawSource();
-      this.parsedRecords = extractDatasets(source);
+      const chunkRecords = extractDatasets(source);
+      
+      // V24 Unification: Merge Discovery Data (festival-data.ts) into the Operational pool
+      const discoveryRecords: DateIntelligenceRecord[] = [...allEvents, ...internationalEvents].map(e => {
+        const dateStr = e.date.split(' - ')[0];
+        const parsed = parse(dateStr, 'MMM dd, yyyy', new Date());
+        const isoDate = isValid(parsed) ? format(parsed, 'yyyy-MM-dd') : '2026-01-01';
+        
+        return createEventRecord(
+          e.country === 'India' ? 'IN' : 'Global', 
+          isoDate, 
+          e.name, 
+          e.type === 'Holiday' ? 'public' : 'cultural',
+          'listed'
+        );
+      });
+
+      this.parsedRecords = [...chunkRecords, ...discoveryRecords];
     }
     return this.parsedRecords;
   }
