@@ -55,11 +55,18 @@ nav.wrap{
   line-height: 1;
 }
 .logo span{
-  font-family: var(--font-headline), serif; font-style: italic; font-size:12px; color:var(--paper);
+  font-family: var(--font-headline), serif; font-style: italic; font-size:12px; 
+  color:var(--muted);
   letter-spacing:normal; font-weight:400;
   margin-top: 3px;
   text-transform: none;
 }
+
+/* Lab Helpers */
+.logo-v-monochrome span { color: var(--paper) !important; }
+.logo-v-muted span { color: var(--muted) !important; }
+.logo-v-gold span { color: var(--gold) !important; }
+
 .navlinks{display:flex; gap:36px; font-size:14.5px; color:var(--muted);}
 .navlinks a{transition:color .15s ease; cursor:pointer;}
 .navlinks a:hover, .navlinks a.active{color:var(--paper);}
