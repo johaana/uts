@@ -1,3 +1,4 @@
+
 /**
  * @fileOverview Data Normalization & Extraction Layer
  * 
@@ -124,20 +125,27 @@ function parseObjectArray(block: string): DateIntelligenceRecord[] {
 
 function classifyTopic(topic: string): OperationalCategory {
   const t = topic.toLowerCase();
-  if (t.includes('maharashtra') || t.includes('regional')) return 'regional';
-  if (t.includes('bank') || t.includes('payment')) return 'banking';
-  if (t.includes('market') || t.includes('settlement') || t.includes('exchange')) return 'market';
-  if (t.includes('academic') || t.includes('institutional') || t.includes('university') || t.includes('semester')) return 'institutional';
-  if (t.includes('study') || t.includes('permit') || t.includes('visa') || t.includes('residence') || t.includes('entry') || t.includes('insurance')) return 'student_risk';
-  if (t.includes('business-day') || t.includes('closure') || t.includes('government')) return 'business_travel';
-  if (t.includes('port') || t.includes('terminal') || t.includes('customs') || t.includes('logistics')) return 'customs';
+  // V24 Semantic Mapping
+  if (t.includes('maharashtra') || t.includes('regional') || t.includes('state')) return 'regional';
+  if (t.includes('bank') || t.includes('payment') || t.includes('rtgs') || t.includes('settlement')) return 'banking';
+  if (t.includes('market') || t.includes('exchange') || t.includes('trading') || t.includes('stock')) return 'market';
+  if (t.includes('academic') || t.includes('institutional') || t.includes('university') || t.includes('semester') || t.includes('exam') || t.includes('orientation')) return 'institutional';
+  if (t.includes('study') || t.includes('permit') || t.includes('visa') || t.includes('residence') || t.includes('entry') || t.includes('insurance') || t.includes('financial')) return 'student_risk';
+  if (t.includes('business-day') || t.includes('closure') || t.includes('government') || t.includes('advisory')) return 'business_travel';
+  if (t.includes('port') || t.includes('terminal') || t.includes('customs') || t.includes('logistics') || t.includes('cargo') || t.includes('carrier')) return 'customs';
   return 'holiday';
 }
 
 function determinePurposes(topic: string, category: OperationalCategory): UserPurpose[] {
   const purposes: UserPurpose[] = [];
+  // Study Lens
   if (category === 'student_risk' || category === 'institutional') purposes.push('study');
-  if (category === 'banking' || category === 'market' || category === 'customs') purposes.push('business', 'workforce', 'logistics');
+  // Business Lens
+  if (category === 'banking' || category === 'market' || category === 'customs' || category === 'business_travel') purposes.push('business', 'workforce', 'logistics');
+  // Travel Lens (Base)
+  if (category === 'holiday' || category === 'regional' || category === 'business_travel') purposes.push('travel');
+  
+  // Cross-pollination
   if (purposes.length === 0) purposes.push('travel', 'business');
   return Array.from(new Set(purposes));
 }
@@ -152,13 +160,13 @@ export function createEventRecord(cc: string, date: string, name: string, type: 
     id: `EVT_${cc}_${date}_${name.replace(/[^a-zA-Z0-9]/g, '_')}`,
     date,
     name,
-    category: safeType === 'public' ? 'holiday' : 'regional',
+    category: (safeType === 'public' || safeType === 'holiday') ? 'holiday' : 'regional',
     jurisdiction: { 
       country_code: cc, 
       country_name: COUNTRY_LABELS[cc] || cc, 
-      scope: safeType === 'public' ? 'national' : 'regional' 
+      scope: (safeType === 'public' || safeType === 'holiday') ? 'national' : 'regional' 
     },
-    purpose_relevance: ['travel', 'business', 'workforce', 'logistics'],
+    purpose_relevance: ['travel', 'business', 'workforce', 'logistics', 'study'],
     state: (safeDateState as DateState),
     confidence: (safeConf as ConfidenceTier) || 'reference',
     evidence: {

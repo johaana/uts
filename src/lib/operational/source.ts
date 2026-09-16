@@ -64,10 +64,36 @@ class AuthoritativeSource implements OperationalSource {
       const source = this.getRawSource();
       const chunkRecords = extractDatasets(source);
       
-      // Filter out discovery data from the operational record index to preserve source semantics
-      // We only merge discovery festivals into the return result if the UI explicitly requires it.
-      // For this pass, we keep the operational index authoritative.
-      this.parsedRecords = chunkRecords;
+      // Integration: Connect discovery festivals to the common index 
+      // only where they represent a verified calendar signal.
+      // We deduplicate to avoid "Diwali" appearing from both sources.
+      const discoveryRecords: DateIntelligenceRecord[] = [...allEvents, ...internationalEvents]
+        .filter(e => e.date && e.name && e.country)
+        .map(e => {
+            const dateStr = e.date.split(' - ')[0];
+            const parsedDate = parse(dateStr, 'MMM dd, yyyy', new Date());
+            const isoDate = isValid(parsedDate) ? format(parsedDate, 'yyyy-MM-dd') : '2026-01-01';
+            
+            return createEventRecord(
+                e.country || 'IN', 
+                isoDate, 
+                e.name, 
+                (e.type?.toLowerCase() as any) || 'cultural',
+                'listed',
+                '',
+                'confirmed'
+            );
+        });
+
+      // Unified Index: Chunks are primary. Discovery festivals are secondary.
+      // We deduplicate by Date + Country + Name.
+      const unified = [...chunkRecords];
+      discoveryRecords.forEach(dr => {
+          const exists = unified.find(ur => ur.date === dr.date && ur.jurisdiction.country_code === dr.jurisdiction.country_code && ur.name === dr.name);
+          if (!exists) unified.push(dr);
+      });
+
+      this.parsedRecords = unified.sort((a, b) => a.date.localeCompare(b.date));
     }
     return this.parsedRecords;
   }

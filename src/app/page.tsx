@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
@@ -61,11 +62,11 @@ export default function HomePage() {
     const pad2 = (n: number) => String(n).padStart(2, "0");
     const tKey = `${now.getFullYear()}-${pad2(now.getMonth() + 1)}-${pad2(now.getDate())}`;
 
+    // V24 Standard: Initialize with actual Today
     setStartDate(tKey);
     setDiDate(tKey);
     
-    const end = new Date();
-    end.setDate(end.getDate() + 30);
+    const end = addDays(now, 30);
     const eKey = `${end.getFullYear()}-${pad2(end.getMonth() + 1)}-${pad2(end.getDate())}`;
     setEndDate(eKey);
 
@@ -114,6 +115,7 @@ export default function HomePage() {
     if (!isMounted || !todayKey || allRecords.length === 0) return idx;
     
     allRecords.forEach(r => {
+      // V24 Requirement: Next event must satisfy date >= todayKey
       if (r.date < todayKey) return;
       if (!idx.has(r.date)) idx.set(r.date, []);
       idx.get(r.date).push({ code: r.jurisdiction.country_code, name: r.name });
@@ -124,7 +126,9 @@ export default function HomePage() {
   const globalNext = useMemo(() => {
     const dates = Array.from(forwardIndex.keys()).sort();
     if (!dates.length) return null;
-    const candidate = dates[0];
+    
+    // Find the first date strictly > todayKey, or todayKey if it has events
+    const candidate = dates.find(d => d >= todayKey) || dates[0];
     const entries = forwardIndex.get(candidate) || [];
     const dateObj = new Date(candidate + 'T00:00:00');
     return { 
@@ -134,7 +138,7 @@ export default function HomePage() {
       count: entries.length, 
       daysAway: differenceInDays(dateObj, startOfDay(new Date())) 
     };
-  }, [forwardIndex]);
+  }, [forwardIndex, todayKey]);
 
   const regionalNext = useMemo(() => {
     if (!isMounted || !todayKey || allRecords.length === 0) return null;
@@ -169,6 +173,7 @@ export default function HomePage() {
       (r.purpose_relevance.includes(activePurpose as any))
     ).sort((a, b) => a.date.localeCompare(b.date));
 
+    // Deduplicate for summary
     const uniqueDatesSet = new Set(matches.map(m => m.date));
     const uniqueRecords = matches.filter((v, i, a) => a.findIndex(t => t.name === v.name && t.date === v.date) === i);
     
@@ -205,7 +210,7 @@ export default function HomePage() {
                 <div className="hero-tracker-head">
                   <div>
                     <span className="hero-tracker-kicker">NEXT HOLIDAY UP</span>
-                    <strong id="hero-tracker-date">{globalNext?.dateStr || "Today"}</strong>
+                    <strong id="hero-tracker-date">{globalNext?.dateStr || "Determining next..."}</strong>
                   </div>
                   <span className="hero-tracker-live"><i></i> Live calendar view</span>
                 </div>
@@ -213,16 +218,16 @@ export default function HomePage() {
                 <div className="hero-tracker-next-grid">
                   <div className="hero-tracker-next-card">
                     <span className="next-card-kicker">Global</span>
-                    <span className="next-card-name" id="pulse-global-name">{globalNext?.name}</span>
+                    <span className="next-card-name" id="pulse-global-name">{globalNext?.name || "No upcoming national record"}</span>
                     <span className="next-card-date" id="pulse-global-date">
                       {globalNext ? `${globalNext.shortDate} · ${globalNext.count} countries · ${globalNext.daysAway} days away` : '—'}
                     </span>
                   </div>
                   <div className="hero-tracker-next-card">
                     <span className="next-card-kicker" id="pulse-regional-kicker">Regional · {COUNTRY_LABELS[country]}</span>
-                    <span className="next-card-name" id="pulse-regional-name">{regionalNext?.name}</span>
+                    <span className="next-card-name" id="pulse-regional-name">{regionalNext?.name || "Clear window"}</span>
                     <span className="next-card-date" id="pulse-regional-date">
-                      {regionalNext ? `${regionalNext.shortDate} · ${regionalNext.daysAway} days away` : '—'}
+                      {regionalNext ? `${regionalNext.shortDate} · ${regionalNext.daysAway} days away` : 'Normal operational status'}
                     </span>
                   </div>
                 </div>
