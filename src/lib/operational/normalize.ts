@@ -1,4 +1,3 @@
-
 /**
  * @fileOverview Data Normalization & Extraction Layer
  * 
@@ -43,9 +42,6 @@ export function extractDatasets(source: string): DateIntelligenceRecord[] {
       records.push(...parseObjectArray(match[1]));
     }
   }
-
-  // 3. Institutional logic (mapping institutions to dates)
-  // [Logic would go here if chunks contained mapping objects]
 
   return records.filter(r => validateRecord(r).valid);
 }
@@ -132,7 +128,7 @@ function classifyTopic(topic: string): OperationalCategory {
   if (t.includes('bank') || t.includes('payment')) return 'banking';
   if (t.includes('market') || t.includes('settlement') || t.includes('exchange')) return 'market';
   if (t.includes('academic') || t.includes('institutional') || t.includes('university') || t.includes('semester')) return 'institutional';
-  if (t.includes('study') || t.includes('permit') || t.includes('visa') || t.includes('residence') || t.includes('entry')) return 'student_risk';
+  if (t.includes('study') || t.includes('permit') || t.includes('visa') || t.includes('residence') || t.includes('entry') || t.includes('insurance')) return 'student_risk';
   if (t.includes('business-day') || t.includes('closure') || t.includes('government')) return 'business_travel';
   if (t.includes('port') || t.includes('terminal') || t.includes('customs') || t.includes('logistics')) return 'customs';
   return 'holiday';

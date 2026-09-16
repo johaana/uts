@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
@@ -91,7 +90,7 @@ export default function HomePage() {
       destination: diCountry,
       startDate: diDate,
       endDate: diDate,
-      purpose: 'travel'
+      purpose: mode === 'traveler' ? 'travel' : mode === 'study' ? 'study' : 'business'
     }).then(res => {
       setDiResults(res);
       setDiLoading(false);
@@ -99,7 +98,7 @@ export default function HomePage() {
       console.error('Date Intelligence Fetch Error:', err);
       setDiLoading(false);
     });
-  }, [isMounted, diDate, diCountry]);
+  }, [isMounted, diDate, diCountry, mode]);
 
   const adjustDiDate = (days: number) => {
     const d = new Date(diDate + 'T00:00:00');
