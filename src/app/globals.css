@@ -679,6 +679,7 @@ section.wrap { padding: 80px 0; }
 .di-status-badge.none {
   border: 1px solid var(--line);
   color: var(--muted-dim);
+  opacity: 0.6;
 }
 
 .di-status-badge.active {

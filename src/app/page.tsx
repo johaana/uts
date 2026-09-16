@@ -13,7 +13,6 @@ import {
 import { getOperationalImpact } from '@/lib/operational/adapter';
 import { OperationalResult } from '@/lib/operational/types';
 import { format, addDays, startOfDay, differenceInDays, isValid, parse } from 'date-fns';
-import { OperationalResultCard } from '@/components/operational/OperationalResultCard';
 
 const LENS_LABELS: Record<string, string> = {
   all: "All intelligence",
@@ -23,6 +22,15 @@ const LENS_LABELS: Record<string, string> = {
   embassy: "Embassy",
   trade: "Trade & logistics",
   travel: "Travel"
+};
+
+const DOMAIN_GUIDANCE: Record<string, string> = {
+  government: "No holiday or observance is listed for this date.",
+  banking: "Banking calendars are institution-specific; the holiday or event above does not by itself establish a bank closure.",
+  markets: "Published session hours are shown where an institution-specific source provides them.",
+  embassy: "Mission, consular and visa calendars are institution-specific; published closure dates are shown where available.",
+  trade: "Operational schedules for ports and terminals are provided where authoritative sources are available.",
+  travel: "Standard travel and visa rules apply unless a specific advisory is listed above."
 };
 
 export default function HomePage() {
@@ -57,7 +65,6 @@ export default function HomePage() {
     const pad2 = (n: number) => String(n).padStart(2, "0");
     const tKey = `${now.getFullYear()}-${pad2(now.getMonth() + 1)}-${pad2(now.getDate())}`;
 
-    // V24 Standard: Dynamic initialization based on actual current date
     setStartDate(tKey);
     setDiDate(tKey);
     
@@ -328,7 +335,6 @@ export default function HomePage() {
                 </div>
               ) : (
                 <div id="compare-view">
-                   {/* ... Existing comparison view code ... */}
                    <div className="checker-row" id="compare-country-row">
                     <div className="checker-field">
                       <label htmlFor="compare-a">Origin</label>
@@ -420,10 +426,11 @@ export default function HomePage() {
             <div className="di-body">
               {/* LEFT: Date Context */}
               <div className="di-panel di-context-panel">
-                <div className="space-y-1 mb-8">
+                <div className="space-y-1 mb-8 text-left">
                   <p className="text-[10.5px] font-mono text-[#4FD1C5] uppercase tracking-widest">Date context</p>
-                  <h2 className="text-3xl font-headline font-medium text-[#F4F1E8]">
+                  <h2 className="text-3xl font-serif font-medium text-[#F4F1E8] flex items-center gap-3">
                     {isValid(new Date(diDate + 'T00:00:00')) ? format(new Date(diDate + 'T00:00:00'), 'EEEE, d MMMM yyyy') : 'Invalid Date'}
+                    {diDate === todayKey && <span className="text-[9px] font-mono px-2 py-0.5 border border-accent/40 text-accent rounded-full uppercase">Today</span>}
                   </h2>
                   <p className="text-[13px] text-[#9AA1C0]">
                     {COUNTRY_LABELS[diCountry]} · {isValid(new Date(diDate + 'T00:00:00')) ? format(new Date(diDate + 'T00:00:00'), 'EEEE') : 'Weekday'}
@@ -434,28 +441,28 @@ export default function HomePage() {
                   <div className="di-summary-item">
                     <span className="label">Calendar</span>
                     <span className="value">
-                      {diLoading ? '...' : (diResults?.records.filter(r => r.category === 'holiday' || r.category === 'regional').length || 0) + ' events'}
+                      {diLoading ? '...' : (diResults?.records.filter(r => r.category === 'holiday' || r.category === 'regional').length === 0 ? "No holiday or observance listed" : diResults?.records.filter(r => r.category === 'holiday' || r.category === 'regional').length + ' events')}
                     </span>
                   </div>
                   <div className="di-summary-item">
                     <span className="label">Institutional Impact</span>
                     <span className="value">
-                      {diLoading ? '...' : (diResults?.records.filter(r => r.category !== 'holiday' && r.category !== 'regional').length || 0) + ' signals'}
+                      {diLoading ? '...' : (diResults?.records.filter(r => r.category !== 'holiday' && r.category !== 'regional').length === 0 ? "No closure record in Utsavs" : diResults?.records.filter(r => r.category !== 'holiday' && r.category !== 'regional').length + ' signals')}
                     </span>
                   </div>
                   <div className="di-summary-item">
                     <span className="label">Planning Context</span>
                     <span className="value">
-                      {diLoading ? '...' : (diResults?.records.length ? 'Modified' : 'Regular')}
+                      {diResults?.records.length ? 'Modified' : 'Regular weekday context'}
                     </span>
                   </div>
                 </div>
 
-                <div className="mt-8 text-sm text-muted leading-relaxed">
+                <div className="mt-8 text-sm text-muted leading-relaxed text-left">
                   {diLoading ? (
                     <p className="italic">Updating intelligence for {diDate}...</p>
                   ) : diResults?.records.length ? (
-                    <p>Found {diResults.records.length} curated record(s) for this date and location.</p>
+                    <p>Found {diResults.records.length} curated record(s) for this date and location. Review domain-specific signals on the right.</p>
                   ) : (
                     <div className="space-y-4">
                       <p className="font-bold text-paper">Clear window</p>
@@ -467,11 +474,10 @@ export default function HomePage() {
 
               {/* RIGHT: What Affects This Date? */}
               <div className="di-panel di-impact-panel">
-                <h4 className="font-bold text-xs uppercase tracking-widest text-primary mb-6">What affects this date?</h4>
+                <h4 className="font-bold text-xs uppercase tracking-widest text-primary mb-6 text-left">What affects this date?</h4>
                 
                 <div className="space-y-8">
                   {Object.keys(LENS_LABELS).filter(k => k !== 'all').map(categoryKey => {
-                    // Simple logic to show categories based on lens selection
                     if (diLens !== 'all' && diLens !== categoryKey) return null;
 
                     const relevantRecords = diResults?.records.filter(r => {
@@ -485,11 +491,11 @@ export default function HomePage() {
                     }) || [];
 
                     return (
-                      <div key={categoryKey} className="di-impact-group">
+                      <div key={categoryKey} className="di-impact-group text-left">
                         <div className="flex justify-between items-start mb-2">
                            <h5 className="text-[11px] font-mono text-[#6E7495] uppercase tracking-wider">{LENS_LABELS[categoryKey]}</h5>
                            <span className={cn("di-status-badge", relevantRecords.length > 0 ? "active" : "none")}>
-                             {relevantRecords.length > 0 ? "SIGNAL" : "NO CLOSURE LISTED"}
+                             {relevantRecords.length > 0 ? "SIGNAL" : "No closure indicated"}
                            </span>
                         </div>
                         
@@ -503,7 +509,9 @@ export default function HomePage() {
                             ))}
                           </div>
                         ) : (
-                          <p className="text-sm text-muted italic">No specific signal recorded in Utsavs.</p>
+                          <p className="text-sm text-muted-dim font-medium leading-relaxed">
+                            {DOMAIN_GUIDANCE[categoryKey] || "No specific signal recorded in Utsavs."}
+                          </p>
                         )}
                       </div>
                     );
@@ -511,13 +519,13 @@ export default function HomePage() {
                 </div>
               </div>
             </div>
-            <div className="di-foot">
+            <div className="di-foot text-left">
               <b>Reading the page:</b> the calendar tells you what the date is; institutional rows show published institution-level signals. No closure is inferred from a holiday or weekend alone.
             </div>
           </div>
         </section>
 
-        {/* ... Rest of the sections (Specialized, Built For, Methodology, etc.) ... */}
+        {/* SPECIALIZED INTELLIGENCE */}
         <section id="specialized-calendars" className="wrap">
           <div className="section-head">
             <div className="kicker">Specialized intelligence</div>
