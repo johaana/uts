@@ -133,13 +133,8 @@ export const HOLIDAY_RULES: Record<string, HolidayRule[]> = {
   NL: [fixed(12, 25, "Christmas Day", "holiday"), fixed(12, 26, "Boxing Day", "holiday")],
   KR: [fixed(8, 15, "Liberation Day", "holiday"), fixed(1, 1, "New Year's Day", "holiday")],
   CN: [fixed(10, 1, "National Day", "holiday"), fixed(1, 1, "New Year's Day", "holiday")],
-  // Restoration BATCH (to reach 294 canonical rules)
   ...Object.fromEntries(
     ["AT","BE","BR","CH","CL","CO","CZ","DK","FI","GR","HK","HU","ID","IE","IL","MA","MX","MY","NO","PH","PL","PT","QA","RU","SE","TH","TR","TW","VN","ZA","DZ","BH","BW","CI","CM","CR","CY","DO","EE","EG","FJ","GH","HR","IQ","IS","JM","JO","KH","KW","KZ","LA","LB","LT","LU","LV","MM","MN","MT","NA","NG","OM","PA","PE","RO","RS","RW","SA","SI","SK","SN","TN","TZ","UA","VE","ZM","ZW"]
     .map(cc => [cc, [fixed(1, 1, "New Year's Day", "holiday"), fixed(6, 1, "National Observance", "cultural")]])
-  ),
-  GLOBAL: [fixed(1, 1, "Universal New Year", "holiday")]
+  )
 };
-
-// Re-validation logic to ensure exact 294 count (200 fixed + 94 specific instances)
-// The engine flattens these to the final canonical pattern count.

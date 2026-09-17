@@ -24,7 +24,7 @@ export function getCanonicalRules(): CanonicalRule[] {
         confidence: rule.confidence || 'medium',
         evidence: rule.evidence || { source_name: null, source_url: "" },
         rule_definition: rule,
-        consequences: { implication: `${rule.name} is a ${rule.type}. Check local closures.`, affected_operations: ['government'], severity: 'medium' },
+        consequences: { implication: `${rule.name} is a ${rule.type}. Check local requirements.`, affected_operations: ['government'], severity: 'medium' },
         source_dataset: 'HOLIDAYS'
       });
     });
@@ -114,7 +114,7 @@ export function getCanonicalRules(): CanonicalRule[] {
     });
   });
 
-  // 7. Map Other Intelligence Layers (Banking, Markets, Customs)
+  // 7. Map Other Operational Rules (Banking, Markets, Customs)
   const otherDatasets = [
     { data: DATA_REGISTRY.BANKING_INTELLIGENCE_DATA, dataset: 'BANKING' },
     { data: DATA_REGISTRY.CORPORATE_MARKET_DEPTH_ADDITIONS, dataset: 'MARKETS' },
@@ -135,7 +135,7 @@ export function getCanonicalRules(): CanonicalRule[] {
         state: 'confirmed',
         confidence: 'high',
         evidence: obj.evidence || { source_name: "Official", source_url: "" },
-        consequences: { implication: obj.summary || 'Verified operational fact in force.', affected_operations: [dataset.toLowerCase()], severity: 'low' },
+        consequences: { implication: obj.summary || 'Verified operational rule in force.', affected_operations: [dataset.toLowerCase()], severity: 'low' },
         source_dataset: dataset as any
       });
     });

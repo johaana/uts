@@ -15,7 +15,7 @@ export const BUSINESS_POLICIES: Partial<DateIntelligenceRecord>[] = [
     state: "confirmed",
     confidence: "high",
     evidence: { source_name: "CRA", source_url: "https://www.canada.ca/en/revenue-agency/services/tax/public-holidays.html" },
-    consequences: { implication: "Canada public/working-day rules are the baseline for staffing and deadline planning.", affected_operations: ["admin"], severity: "low" }
+    consequences: { implication: "Canada working-day rules are the baseline for staffing and deadline planning.", affected_operations: ["admin"], severity: "low" }
   },
   {
     id: "BIZ_GB_CALENDAR",
@@ -27,7 +27,7 @@ export const BUSINESS_POLICIES: Partial<DateIntelligenceRecord>[] = [
     state: "confirmed",
     confidence: "high",
     evidence: { source_name: "GOV.UK", source_url: "https://www.gov.uk/bank-holidays" },
-    consequences: { implication: "United Kingdom public/working-day rules are the baseline for scheduling.", affected_operations: ["admin"], severity: "low" }
+    consequences: { implication: "United Kingdom working-day rules are the baseline for scheduling.", affected_operations: ["admin"], severity: "low" }
   },
   {
     id: "BIZ_US_CALENDAR",
@@ -39,7 +39,7 @@ export const BUSINESS_POLICIES: Partial<DateIntelligenceRecord>[] = [
     state: "confirmed",
     confidence: "high",
     evidence: { source_name: "OPM", source_url: "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/" },
-    consequences: { implication: "U.S. Federal public/working-day rules are the baseline.", affected_operations: ["admin"], severity: "low" }
+    consequences: { implication: "U.S. Federal working-day rules are the baseline.", affected_operations: ["admin"], severity: "low" }
   },
   {
     id: "BIZ_IN_BANKS",
