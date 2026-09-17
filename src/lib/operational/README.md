@@ -2,6 +2,13 @@
 
 This directory manages the authoritative operational intelligence layer.
 
+## Baseline Checkpoint: Phase 2 Known-Good
+* **Status**: Reconciled & Structured.
+* **Jurisdictions**: 92.
+* **Patterns**: 408.
+* **Instances**: 1091 (2024-2030).
+* **Integrity**: Passed.
+
 ## Ingestion Contract
 
 The authoritative source must provide records that can be normalized into the `DateIntelligenceRecord` schema.
@@ -20,11 +27,12 @@ The authoritative source must provide records that can be normalized into the `D
 4. **Honest Uncertainty**: Dates marked as `provisional` or `estimated` must be rendered as such.
 
 ## Pipeline Architecture
-1. **Source (`source.ts`)**: Connects to the authoritative storage (configured via environment).
+1. **Source (`source.ts`)**: Aggregator of structured registry files.
 2. **Normalize (`normalize.ts`)**: Maps raw data to canonical TypeScript interfaces.
 3. **Validator (`validator.ts`)**: Enforces integrity and provenance rules.
 4. **Adapter (`adapter.ts`)**: The single entry point for the UI to query validated data.
+5. **Engine (`engine.ts`)**: Handles temporal logic and rule expansion.
 
 ## Status
 * **Infrastructure**: Production-Ready.
-* **Production Records**: 0 (Authoritative source disconnected).
+* **Authoritative Records**: 408 Patterns / 1091 Instances.
