@@ -84,6 +84,7 @@ export function getCanonicalRecords(): DateIntelligenceRecord[] {
       temporal_kind: 'standing',
       state: policy.state || 'confirmed',
       confidence: policy.confidence || 'high',
+      evidence: policy.evidence || { source_name: null, source_url: "" },
       source_label: 'STUDENT POLICY',
       source_dataset: 'STUDENT_INTEL_EXTRA'
     });
@@ -105,6 +106,7 @@ export function getCanonicalRecords(): DateIntelligenceRecord[] {
       temporal_kind: 'event',
       state: obj.state || 'confirmed',
       confidence: obj.confidence || 'medium',
+      evidence: obj.evidence || { source_name: null, source_url: "" },
       source_label: 'ACADEMIC CALENDAR',
       source_dataset: 'STUDY_INSTITUTIONAL_TIMING'
     });

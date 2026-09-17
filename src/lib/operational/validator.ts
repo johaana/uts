@@ -12,7 +12,7 @@ export function validateRecord(record: DateIntelligenceRecord): { valid: boolean
   // Allow 'listed' or 'unsourced' records (regional signals) to pass without source_name
   const isExempt = record.confidence === 'unsourced' || record.confidence === 'listed' || record.jurisdiction.scope === 'regional' || record.category === 'institutional';
   if (!isExempt && !record.evidence?.source_name) {
-    return { valid: false, error: "Missing source name on verified record." };
+    return { valid: false, error: `Missing source name on verified record (${record.id}).` };
   }
 
   return { valid: true };
