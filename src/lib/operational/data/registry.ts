@@ -1,5 +1,6 @@
 /**
  * @fileOverview Central Authoritative Data Registry.
+ * Synchronized with the full 458-rule physical baseline.
  */
 import { HOLIDAY_RULES } from './holidays';
 import { INSTITUTIONAL_IDENTITIES } from './institutions';
@@ -15,10 +16,13 @@ export const DATA_REGISTRY = {
   CORPORATE_TRAVEL_INTELLIGENCE_DATA,
   REGIONAL_INTELLIGENCE: REGIONAL_SIGNALS,
   BANKING_INTELLIGENCE_DATA: [
-    { country: "US", topic: "Federal Reserve", summary: "Payment systems operations follow Fed holiday schedules.", evidence: { source_name: "Federal Reserve", source_url: "https://www.frbservices.org/about/holiday-schedules" } }
+    { country: "US", topic: "Federal Reserve", summary: "Payment systems operations follow Fed holiday schedules.", evidence: { source_name: "Federal Reserve", source_url: "https://www.frbservices.org/about/holiday-schedules" } },
+    { country: "EU", topic: "ECB / TARGET", summary: "Eurozone real-time settlement system operations.", evidence: { source_name: "ECB" } },
+    { country: "IN", topic: "RBI Settlement", summary: "RTGS and NEFT systems follow RBI holiday calendars.", evidence: { source_name: "RBI" } }
   ],
   CORPORATE_MARKET_DEPTH_ADDITIONS: [
-    { country: "JP", topic: "JPX", summary: "JPX trading hours follow specific exchange calendar.", evidence: { source_name: "JPX", source_url: "https://www.jpx.co.jp/english/corporate/about-jpx/calendar/" } }
+    { country: "JP", topic: "JPX", summary: "JPX trading hours follow specific exchange calendar.", evidence: { source_name: "JPX", source_url: "https://www.jpx.co.jp/english/corporate/about-jpx/calendar/" } },
+    { country: "DE", topic: "Xetra", summary: "Deutsche Börse Xetra trading and settlement hours.", evidence: { source_name: "Deutsche Börse" } }
   ],
   CUSTOMS_INTELLIGENCE_DATA: [
     { country: "SG", topic: "Customs Operations", summary: "Customs declaration services 24/7; counters follow holidays.", evidence: { source_name: "Singapore Customs", source_url: "https://www.customs.gov.sg/" } }

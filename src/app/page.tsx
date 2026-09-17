@@ -441,7 +441,7 @@ export default function HomePage() {
           <div className="section-head">
             <div className="kicker">★ Date intelligence</div>
             <h2 className="section-title">What happens on this date?</h2>
-            <p>One place for the calendar fact, travel signal and institution-specific evidence around a date — with the scope and source kept visible.</p>
+            <p>One place for the calendar fact, travel information and institution-specific evidence around a date — with the scope and source kept visible.</p>
           </div>
 
           <div className="date-intel-shell">

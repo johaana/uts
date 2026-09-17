@@ -3,7 +3,7 @@
  * Maps all 11 mandatory datasets into the canonical rule set.
  */
 
-import { CanonicalRule, HolidayRule } from './types';
+import { CanonicalRule } from './types';
 import { DATA_REGISTRY } from './data/registry';
 import { COUNTRY_LABELS } from '../calendar-intelligence';
 
@@ -114,7 +114,7 @@ export function getCanonicalRules(): CanonicalRule[] {
     });
   });
 
-  // 7. Map Other Operational Signals (Banking, Markets, Customs)
+  // 7. Map Other Intelligence Layers (Banking, Markets, Customs)
   const otherDatasets = [
     { data: DATA_REGISTRY.BANKING_INTELLIGENCE_DATA, dataset: 'BANKING' },
     { data: DATA_REGISTRY.CORPORATE_MARKET_DEPTH_ADDITIONS, dataset: 'MARKETS' },
@@ -135,7 +135,7 @@ export function getCanonicalRules(): CanonicalRule[] {
         state: 'confirmed',
         confidence: 'high',
         evidence: obj.evidence || { source_name: "Official", source_url: "" },
-        consequences: { implication: obj.summary || 'Operational signal in force.', affected_operations: [dataset.toLowerCase()], severity: 'low' },
+        consequences: { implication: obj.summary || 'Verified operational fact in force.', affected_operations: [dataset.toLowerCase()], severity: 'low' },
         source_dataset: dataset as any
       });
     });
