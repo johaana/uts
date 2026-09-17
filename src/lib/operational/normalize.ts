@@ -1,4 +1,3 @@
-
 /**
  * @fileOverview Normalization Layer for Structured Authoritative Data.
  * 
@@ -15,6 +14,13 @@ export function getCanonicalRules(): CanonicalRule[] {
   // 1. Map Holiday Rules (HOLIDAYS)
   Object.entries(DATA_REGISTRY.HOLIDAYS).forEach(([cc, holidayRules]) => {
     holidayRules.forEach(rule => {
+      let defaultImplication = `${rule.name} is a ${rule.type === 'holiday' ? 'public holiday' : 'scheduled observance'}. Expect related operational shifts.`;
+      
+      // Content Precision: Targeted implications for Canada holidays
+      if (cc === 'CA' && rule.type === 'holiday') {
+        defaultImplication = `A Canadian public holiday. Government offices and some institutions may be closed or operate differently. Check the named organization if your meeting or service depends on it.`;
+      }
+
       rules.push({
         id: `RULE_${cc}_${rule.name.replace(/\s/g, '_')}`,
         name: rule.name,
@@ -31,7 +37,7 @@ export function getCanonicalRules(): CanonicalRule[] {
         evidence: rule.evidence || { source_name: null, source_url: "" },
         rule_definition: rule,
         consequences: {
-          implication: `${rule.name} is a ${rule.type === 'holiday' ? 'public holiday' : 'scheduled observance'}. Expect related operational shifts.`,
+          implication: defaultImplication,
           affected_operations: ['government', 'banking'],
           severity: 'medium'
         },
