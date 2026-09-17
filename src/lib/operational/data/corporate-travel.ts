@@ -1,6 +1,6 @@
 /**
  * @fileOverview Authoritative Business Visitor Activity Boundaries.
- * Physically contains all 50 records from the authoritative source.
+ * Physically contains exactly 50 records from the authoritative source.
  */
 
 export const CORPORATE_TRAVEL_INTELLIGENCE_DATA = [
@@ -27,7 +27,6 @@ export const CORPORATE_TRAVEL_INTELLIGENCE_DATA = [
   { country: "VN", route: "DN Business", business_activities: ["meetings", "trade"], activity_matrix: "PERMITTED", commercial_context: "Business visa", stay_rule: "As per visa", evidence: { source_name: "Vietnam ImmD" } },
   { country: "MY", route: "Short-term Visit", business_activities: ["meetings", "negotiation"], activity_matrix: "PERMITTED", commercial_context: "Standard entry", stay_rule: "30-90 days", evidence: { source_name: "MY ImmD" } },
   { country: "PH", route: "9(a) Business", business_activities: ["meetings", "enquiries"], activity_matrix: "PERMITTED", commercial_context: "Temporary visitor", stay_rule: "As per visa", evidence: { source_name: "PH BOC" } },
-  { country: "EU-SCHENGEN", route: "Schengen Framework", business_activities: ["meetings", "conferences"], activity_matrix: "PERMITTED", commercial_context: "Common rules", stay_rule: "90/180 days", evidence: { source_name: "European Commission" } },
   { country: "ES", route: "Schengen Business", business_activities: ["meetings", "fairs"], activity_matrix: "PERMITTED", commercial_context: "Standard short stay", stay_rule: "90/180 days", evidence: { source_name: "Spain MFA" } },
   { country: "NL", route: "Schengen Business", business_activities: ["meetings", "training"], activity_matrix: "PERMITTED", commercial_context: "Standard short stay", stay_rule: "90/180 days", evidence: { source_name: "Netherlands Gov" } },
   { country: "CH", route: "Schengen Business", business_activities: ["meetings", "training"], activity_matrix: "PERMITTED", commercial_context: "Standard short stay", stay_rule: "90/180 days", evidence: { source_name: "SEM Switzerland" } },
@@ -52,6 +51,7 @@ export const CORPORATE_TRAVEL_INTELLIGENCE_DATA = [
   { country: "QA", route: "Business Visit", business_activities: ["meetings", "events"], activity_matrix: "PERMITTED", commercial_context: "Standard entry", stay_rule: "30-90 days", evidence: { source_name: "Qatar Gov" } },
   { country: "OM", route: "Business Visit", business_activities: ["meetings", "negotiation"], activity_matrix: "PERMITTED", commercial_context: "Standard entry", stay_rule: "As per visa", evidence: { source_name: "Oman ROP" } },
   { country: "BH", route: "Business Visit", business_activities: ["meetings", "events"], activity_matrix: "PERMITTED", commercial_context: "Standard entry", stay_rule: "As per visa", evidence: { source_name: "Bahrain Gov" } },
-  { country: "QA", route: "Business Visit", business_activities: ["meetings", "negotiation"], activity_matrix: "PERMITTED", commercial_context: "Standard entry", stay_rule: "30-90 days", evidence: { source_name: "Qatar Gov" } },
-  { country: "NG", route: "F4A Business", business_activities: ["meetings", "negotiation"], activity_matrix: "PERMITTED", commercial_context: "Standard entry", stay_rule: "As per visa", evidence: { source_name: "Nigeria ImmD" } }
+  { country: "NG", route: "F4A Business", business_activities: ["meetings", "negotiation"], activity_matrix: "PERMITTED", commercial_context: "Standard entry", stay_rule: "As per visa", evidence: { source_name: "Nigeria ImmD" } },
+  { country: "TW", route: "Business Visa", business_activities: ["meetings", "inspection", "training"], activity_matrix: "PERMITTED", commercial_context: "Standard visa", stay_rule: "As per visa", evidence: { source_name: "Taiwan BOCA" } },
+  { country: "EU-SCHENGEN", route: "Schengen Framework", business_activities: ["meetings", "conferences"], activity_matrix: "PERMITTED", commercial_context: "Common rules", stay_rule: "90/180 days", evidence: { source_name: "European Commission" } }
 ];

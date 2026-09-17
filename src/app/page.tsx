@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
@@ -30,7 +29,7 @@ const DOMAIN_GUIDANCE: Record<string, string> = {
   markets: "Published session hours are shown where an institution-specific source provides them.",
   embassy: "Mission, consular and visa calendars are institution-specific; published closure dates are shown where available.",
   trade: "Operational schedules for ports and terminals are provided where authoritative sources are available.",
-  travel: "Standard travel and visa rules apply unless a specific advisory is listed above."
+  travel: "Standard travel and visa rules apply unless a specific travel information is listed above."
 };
 
 export default function HomePage() {
@@ -74,34 +73,10 @@ export default function HomePage() {
     });
   }, []);
 
-  // Dynamic Country List for Selector (Derived from Canonical Rules)
-  const businessCountries = useMemo(() => {
-    const codes = canonicalRules
-      .filter(r => r.purpose_relevance.includes('business'))
-      .map(r => r.jurisdiction.country_code);
-    return Array.from(new Set(codes)).sort();
-  }, [canonicalRules]);
-
-  const studyCountries = useMemo(() => {
-    const codes = canonicalRules
-      .filter(r => r.purpose_relevance.includes('study'))
-      .map(r => r.jurisdiction.country_code);
-    return Array.from(new Set(codes)).sort();
-  }, [canonicalRules]);
-
   const allAvailableCountries = useMemo(() => {
     const codes = canonicalRules.map(r => r.jurisdiction.country_code);
     return Array.from(new Set(codes)).sort();
   }, [canonicalRules]);
-
-  // Ensure current selection is valid for mode
-  useEffect(() => {
-    if (mode === 'corporate' && businessCountries.length > 0 && !businessCountries.includes(country)) {
-      setCountry(businessCountries[0]);
-    } else if (mode === 'study' && studyCountries.length > 0 && !studyCountries.includes(country)) {
-      setCountry(studyCountries[0]);
-    }
-  }, [mode, businessCountries, studyCountries, country]);
 
   // --- Logic: Date Intelligence Fetch ---
   useEffect(() => {
@@ -320,7 +295,7 @@ export default function HomePage() {
                     <div className="checker-field">
                       <label htmlFor="country-select">Destination / jurisdiction</label>
                       <select id="country-select" value={country} onChange={e => setCountry(e.target.value)}>
-                        {(mode === 'corporate' ? businessCountries : mode === 'study' ? studyCountries : allAvailableCountries).map(code => (
+                        {allAvailableCountries.map(code => (
                           <option key={code} value={code}>{COUNTRY_LABELS[code] || code}</option>
                         ))}
                       </select>

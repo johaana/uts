@@ -135,7 +135,7 @@ export function getCanonicalRules(): CanonicalRule[] {
         state: 'confirmed',
         confidence: 'high',
         evidence: obj.evidence || { source_name: "Official", source_url: "" },
-        consequences: { implication: obj.summary || 'Verified operational rule in force.', affected_operations: [dataset.toLowerCase()], severity: 'low' },
+        consequences: { implication: obj.summary || 'Operational rule in force.', affected_operations: [dataset.toLowerCase()], severity: 'low' },
         source_dataset: dataset as any
       });
     });
