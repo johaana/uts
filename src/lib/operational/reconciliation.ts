@@ -26,7 +26,7 @@ export function runReconciliation(): ReconciliationReport {
   
   // Acceptence Targets for Phase 4 Integrated Baseline
   const TARGETS = {
-    CANONICAL_TOTAL: 457,
+    CANONICAL_TOTAL: 458,
     HOLIDAYS: 294,
     STUDENTS: 56,
     REGIONAL: 35,
@@ -47,14 +47,14 @@ export function runReconciliation(): ReconciliationReport {
   };
 
   // 1. Verify exact counts
-  if (counts.canonical_rules < TARGETS.CANONICAL_TOTAL) {
-    errors.push(`CANONICAL_TOTAL mismatch: Found ${counts.canonical_rules}, Expected >= ${TARGETS.CANONICAL_TOTAL}`);
+  if (counts.canonical_rules !== TARGETS.CANONICAL_TOTAL) {
+    errors.push(`CANONICAL_TOTAL mismatch: Found ${counts.canonical_rules}, Expected ${TARGETS.CANONICAL_TOTAL}`);
   }
   
-  // 2. Enforce Zero-Generation Policy: Search for synthetic ID markers
-  const synthetic = rules.filter(r => r.id.includes('POLICY_') && r.jurisdiction.country_code === 'GLOBAL');
-  if (synthetic.length > 0) {
-    errors.push(`Zero-Generation failure: Found ${synthetic.length} synthetic placeholder records.`);
+  // 2. Enforce Zero-Generation Policy: Search for synthetic generation patterns
+  const syntheticID = rules.find(r => r.id.includes('POLICY_') && r.jurisdiction.country_code === 'GLOBAL');
+  if (syntheticID) {
+    errors.push(`Zero-Generation failure: Found synthetic placeholder record (${syntheticID.id}).`);
   }
 
   // 3. Verify IDs are unique

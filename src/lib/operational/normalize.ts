@@ -114,7 +114,7 @@ export function getCanonicalRules(): CanonicalRule[] {
     });
   });
 
-  // 7. Map Other Operational Rules (Banking, Markets, Customs)
+  // 7. Map Operational Context (Banking, Markets, Customs)
   const otherDatasets = [
     { data: DATA_REGISTRY.BANKING_INTELLIGENCE_DATA, dataset: 'BANKING' },
     { data: DATA_REGISTRY.CORPORATE_MARKET_DEPTH_ADDITIONS, dataset: 'MARKETS' },
