@@ -1,4 +1,3 @@
-
 /**
  * @fileOverview Normalization Layer for Structured Authoritative Data.
  */
@@ -46,7 +45,7 @@ export function getCanonicalRecords(): DateIntelligenceRecord[] {
 
   // 2. Map Regional Intelligence (REGIONAL)
   DATA_REGISTRY.REGIONAL.forEach((obj: any) => {
-    // Bug 1: Extract actual event name from prose if possible
+    // Extract actual event name from prose if possible
     let displayName = `Regional Signal: ${obj.region}`;
     if (obj.text) {
       const subjectMatch = obj.text.match(/^(.+?)\s+(?:is|occurs|can be|falls|marks)/i);
@@ -57,8 +56,7 @@ export function getCanonicalRecords(): DateIntelligenceRecord[] {
       }
     }
 
-    // Bug 2: Correct confidence and evidence derivation
-    // Fix: If a URL exists, move to 'medium' tier. Use 'listed' strictly for unsourced.
+    // Determine confidence: if no URL exists, it is 'listed' and exempt from source_name in validator
     const hasUrl = !!obj.source_url;
     const confidence = hasUrl ? 'medium' : 'listed';
     
@@ -103,7 +101,7 @@ export function getCanonicalRecords(): DateIntelligenceRecord[] {
     });
   });
 
-  // 3. Map Student Policies (STUDENTS)
+  // 3. Map Student Policies (STUDY_POLICIES)
   DATA_REGISTRY.STUDY_POLICIES.forEach(policy => {
     records.push({
       ...policy,

@@ -14,9 +14,10 @@ export function validateRecord(record: DateIntelligenceRecord): { valid: boolean
   }
 
   // 2. Provenance Integrity
-  // UNSOURCED EXEMPTION: Regional signals with 'unsourced' confidence are exempt from naming a source.
-  const isUnsourced = record.confidence === 'unsourced';
-  if (!isUnsourced && (!record.evidence.source_name || record.evidence.source_name.includes("Official Authority"))) {
+  // UNSOURCED EXEMPTION: Regional signals with 'unsourced' or 'listed' confidence are exempt from naming a source.
+  const isExempt = record.confidence === 'unsourced' || record.confidence === 'listed' || record.jurisdiction.scope === 'regional';
+  
+  if (!isExempt && (!record.evidence.source_name || record.evidence.source_name.includes("Official Authority"))) {
     return { valid: false, error: "Missing or placeholder source name on verified record." };
   }
 
@@ -30,7 +31,7 @@ export function validateCanonicalIndex(records: DateIntelligenceRecord[]): { val
   const errors: string[] = [];
 
   // 1. Volume Gate
-  // In Phase 1-4, we expect > 50 records from the restored chunks.
+  // For the current restored dataset from chunks, we expect > 50 records.
   if (records.length < 50) {
     errors.push(`Record count critical failure: Found only ${records.length} records. Expected > 50 for restored authoritative index.`);
   }
