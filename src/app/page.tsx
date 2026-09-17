@@ -10,7 +10,7 @@ import {
 } from '@/lib/calendar-intelligence';
 import { getOperationalImpact } from '@/lib/operational/adapter';
 import { getSource } from '@/lib/operational/source';
-import { evaluateQuery } from '@/lib/operational/engine';
+import { evaluateQuery, resolveNow } from '@/lib/operational/engine';
 import { OperationalResult, DateIntelligenceRecord, CanonicalRule } from '@/lib/operational/types';
 import { format, addDays, startOfDay, differenceInDays, isValid, startOfToday } from 'date-fns';
 
@@ -74,10 +74,10 @@ export default function HomePage() {
     });
   }, []);
 
-  // Dynamic Country Lists based on canonical data
+  // Dynamic Country List for Selector (Derived from Canonical Rules)
   const businessCountries = useMemo(() => {
     const codes = canonicalRules
-      .filter(r => r.category === 'business_travel')
+      .filter(r => r.purpose_relevance.includes('business'))
       .map(r => r.jurisdiction.country_code);
     return Array.from(new Set(codes)).sort();
   }, [canonicalRules]);
@@ -198,7 +198,7 @@ export default function HomePage() {
       startDate,
       endDate,
       purpose: activePurpose
-    }, new Date());
+    }, resolveNow());
 
     const uniqueDatesSet = new Set(matches.map(m => m.date));
     const uniqueRecords = matches.filter((v, i, a) => a.findIndex(t => t.name === v.name && t.date === v.date) === i);
@@ -226,7 +226,15 @@ export default function HomePage() {
     const pCount = matches.filter(r => r.category === 'holiday').length;
     const rCount = matches.filter(r => r.category === 'regional').length;
 
-    return { records: uniqueRecords, count: uniqueDatesSet.size, longest, nextDays: nextDaysLabel, nextDaysVal: nextDaysNum, publicCount: pCount, regionalCount: rCount };
+    return { 
+      records: uniqueRecords, 
+      count: uniqueDatesSet.size, 
+      longest, 
+      nextDays: nextDaysLabel, 
+      nextDaysVal: nextDaysNum, 
+      publicCount: pCount, 
+      regionalCount: rCount 
+    };
   }, [country, startDate, endDate, canonicalRules, mode]);
 
   return (
@@ -373,7 +381,7 @@ export default function HomePage() {
                     <div className="checker-note" id="checker-note">
                       <strong>FOR YOUR PLANS.</strong>
                       <p>
-                        {checkerData.count} {checkerData.count === 1 ? 'date' : 'dates'} may affect your plans during this period.{' '}
+                        {checkerData.count} {checkerData.count === 1 ? 'date may affect' : 'dates may affect'} your plans during this period.{' '}
                         {checkerData.publicCount > 0 && (
                           <>
                             {checkerData.publicCount === 1 ? 'One is a public holiday' : `${checkerData.publicCount} are public holidays`}, which may affect government offices, banks or other services.{' '}
@@ -567,7 +575,7 @@ export default function HomePage() {
               </div>
             </div>
             <div className="di-foot text-left">
-              <b>Reading the page:</b> the calendar tells you what the date is; institutional rows show published institution-level signals. No closure is inferred from a holiday or weekend alone.
+              <b>Reading the page:</b> the calendar tells you what the date is; institutional rows show published institution-level planning considerations. No closure is inferred from a holiday or weekend alone.
             </div>
           </div>
         </section>

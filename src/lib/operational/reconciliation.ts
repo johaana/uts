@@ -1,3 +1,4 @@
+
 /**
  * @fileOverview Authoritative Reconciliation Engine.
  * Verifies the exact physical rule counts at runtime.
@@ -24,7 +25,7 @@ export function runReconciliation(): ReconciliationReport {
   const errors: string[] = [];
   const rules = getCanonicalRules();
   
-  // Acceptence Targets
+  // Acceptence Targets for Phase 4 Integrated Baseline
   const TARGETS = {
     CANONICAL_TOTAL: 458,
     HOLIDAYS: 294,

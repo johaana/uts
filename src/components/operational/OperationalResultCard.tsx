@@ -4,7 +4,7 @@
 import React from 'react';
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Info, Calendar, MapPin, ShieldCheck, ExternalLink, Landmark, Activity } from "lucide-react";
+import { Info, Calendar, MapPin, ShieldCheck, ExternalLink, Landmark } from "lucide-react";
 import { DateIntelligenceRecord } from '@/lib/operational/types';
 import { cn } from '@/lib/utils';
 
