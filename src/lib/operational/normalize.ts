@@ -1,3 +1,4 @@
+'use client';
 /**
  * @fileOverview Normalization Layer for Structured Authoritative Data.
  */
@@ -43,8 +44,8 @@ export function getCanonicalRecords(): DateIntelligenceRecord[] {
     });
   });
 
-  // 2. Map Regional Intelligence (REGIONAL)
-  DATA_REGISTRY.REGIONAL.forEach((obj: any) => {
+  // 2. Map Regional Intelligence (REGIONAL_INTELLIGENCE)
+  DATA_REGISTRY.REGIONAL_INTELLIGENCE.forEach((obj: any) => {
     // Extract actual event name from prose if possible
     let displayName = `Regional Signal: ${obj.region}`;
     if (obj.text) {
@@ -93,15 +94,15 @@ export function getCanonicalRecords(): DateIntelligenceRecord[] {
         severity: 'low'
       },
       source_label: 'REGIONAL SIGNAL',
-      source_dataset: 'REGIONAL'
+      source_dataset: 'REGIONAL_INTELLIGENCE'
     });
   });
 
-  // 3. Map Student Policies (STUDY_POLICIES)
-  DATA_REGISTRY.STUDY_POLICIES.forEach(policy => {
+  // 3. Map Student Policies (STUDENT_INTELLIGENCE_EXTRA)
+  DATA_REGISTRY.STUDENT_INTELLIGENCE_EXTRA.forEach(policy => {
     records.push({
       ...policy,
-      source_dataset: 'STUDY_POLICIES'
+      source_dataset: 'STUDENT_INTELLIGENCE_EXTRA'
     } as DateIntelligenceRecord);
   });
 
