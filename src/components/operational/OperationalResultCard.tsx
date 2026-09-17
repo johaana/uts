@@ -1,3 +1,4 @@
+
 'use client';
 
 import React from 'react';
@@ -53,6 +54,9 @@ export function OperationalResultCard({ record }: OperationalResultCardProps) {
             isHighConfidence ? "bg-green-500/10 text-green-600 border-green-200" : "bg-yellow-500/10 text-yellow-600 border-yellow-200"
           )}>
             <ShieldCheck className="w-3 h-3" /> {record.confidence}
+          </div>
+          <div className="flex items-center gap-1 px-2 py-0.5 rounded border border-primary/20 bg-primary/5 text-[9px] font-bold uppercase tracking-wider text-primary">
+            PLANNING FACT
           </div>
         </div>
       </CardHeader>

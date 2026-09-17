@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useMemo, useEffect } from 'react';
@@ -58,7 +59,7 @@ const HOLIDAYS_REGISTRY: Record<string, any[]> = {
     { date: "2026-10-03", name: "German Unity Day", type: "public" },
   ],
   CA: [
-    { date: "2026-09-07", name: "Labour Day", type: "public" },
+    { date: "2026-09-04", name: "Labour Day", type: "public" },
     { date: "2026-10-12", name: "Thanksgiving", type: "public" },
   ],
   AU: [
@@ -181,20 +182,6 @@ export default function GlobalHolidayIntelligencePage() {
   return (
     <div className="min-h-screen bg-[#0F1428] text-[#F4F1E8] font-sans selection:bg-[#E8A33D] selection:text-[#0F1428]">
       
-      {/* ---------- STYLE INJECTS ---------- */}
-      <style jsx global>{`
-        :root {
-          --serif: var(--font-headline), 'Fraunces', serif;
-          --sans: var(--font-sans), 'Inter', sans-serif;
-          --mono: var(--font-mono), 'IBM Plex Mono', monospace;
-        }
-        .marquee-track { animation: scroll 32s linear infinite; }
-        @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-        .mask-marquee { mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent); }
-        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(244,241,232,0.12); border-radius: 10px; }
-      `}</style>
-
       {/* ---------- HEADER ---------- */}
       <header className="sticky top-0 z-50 bg-[#0F1428]/86 backdrop-blur-md border-b border-white/10">
         <nav className="max-w-[1180px] mx-auto px-6 h-[76px] flex items-center justify-between">
@@ -311,7 +298,7 @@ export default function GlobalHolidayIntelligencePage() {
                   <div className="grid grid-cols-3 gap-3 p-4 bg-[#1E2650] rounded-xl text-center">
                     <div>
                       <b className="font-headline text-2xl text-[#F0C888]">{impactData.inRange.length}</b>
-                      <span className="text-[10px] text-[#6E7495] block">flagged days</span>
+                      <span className="text-[10px] text-[#6E7495] block">flagged dates</span>
                     </div>
                     <div>
                       <b className="font-headline text-2xl text-[#F0C888]">{impactData.longest}</b>
@@ -341,7 +328,7 @@ export default function GlobalHolidayIntelligencePage() {
                     <h4 className="text-[11px] font-mono uppercase tracking-widest text-[#F0C888]">Why this matters</h4>
                     <p className="text-[12.5px] text-[#9AA1C0] leading-relaxed">
                       {impactData.publicCount > 0 
-                        ? `Found ${impactData.publicCount} public holiday signal(s). Expect government-facing closures and reduced operational capacity in the target jurisdiction.`
+                        ? `Found ${impactData.publicCount} public holiday events. Expect government-facing closures and reduced operational capacity in the target jurisdiction.`
                         : "No major public closures flagged. Normal operational status expected for the selected range."}
                     </p>
                   </div>
@@ -360,7 +347,7 @@ export default function GlobalHolidayIntelligencePage() {
                         <tr>
                           <th className="p-3 font-mono text-[#6E7495]">Date</th>
                           {compareData.selectedCountries.map(c => <th key={c} className="p-3 font-mono text-[#6E7495]">{c}</th>)}
-                          <th className="p-3 font-mono text-[#6E7495]">Signal</th>
+                          <th className="p-3 font-mono text-[#6E7495]">Status</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -371,7 +358,7 @@ export default function GlobalHolidayIntelligencePage() {
                               <td key={c} className="p-3">{r.data[c] ? r.data[c].name : '—'}</td>
                             ))}
                             <td className="p-3">
-                              <span className={cn("font-bold uppercase text-[9px]", r.kind === 'mismatch' ? "text-[#E8A33D]" : "text-[#9AA1C0]")}>{r.kind}</span>
+                              <span className={cn("font-bold uppercase text-[9px]", r.kind === 'mismatch' ? "text-[#E8A33D]" : "text-[#9AA1C0]")}>{r.kind === 'mismatch' ? 'MISMATCH' : 'OVERLAP'}</span>
                             </td>
                           </tr>
                         ))}

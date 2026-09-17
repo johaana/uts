@@ -48,7 +48,7 @@ function TripAdvisory({ result }: { result: OperationalResult }) {
         <p className="text-muted-foreground text-sm max-w-2xl leading-relaxed">
           {!hasImpacts 
             ? "No specific date impacts were found for this journey in our verified dataset. Standard cross-border rules apply."
-            : `We found ${result.records.length} signal(s) that may affect your ${result.query_context.purpose} plan. Review the details below.`
+            : `We found ${result.records.length} ${result.records.length === 1 ? 'event' : 'events'} that may affect your ${result.query_context.purpose} plan. Review the details below.`
           }
         </p>
       </div>
@@ -92,7 +92,7 @@ export default function V1Page() {
                 <h1 className="font-headline text-4xl md:text-6xl font-bold leading-[1.1] tracking-tight">
                   Know before you fly.<br/>Know before you schedule.
                 </h1>
-                <p className="text-xl text-muted-foreground leading-relaxed max-w-lg">
+                <p className="text-xl text-muted-foreground leading-relaxed max-w-lg font-medium">
                   Check a country and your actual dates — before you book,
                   schedule, send a student, or send an employee across borders.
                 </p>

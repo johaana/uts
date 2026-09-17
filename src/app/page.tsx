@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
@@ -372,17 +373,18 @@ export default function HomePage() {
                     <div className="checker-note" id="checker-note">
                       <strong>FOR YOUR PLANS.</strong>
                       <p>
-                        {checkerData.count} {checkerData.count === 1 ? 'date' : 'dates'} in this period {checkerData.count === 1 ? 'is' : 'are'} worth keeping in mind.{' '}
+                        {checkerData.count} {checkerData.count === 1 ? 'date' : 'dates'} may affect your plans during this period.{' '}
                         {checkerData.publicCount > 0 && (
                           <>
-                            {checkerData.publicCount} public holiday {checkerData.publicCount === 1 ? 'signal' : 'signals'}. Check the named source if you need a particular office, service or institution to be open.{' '}
+                            {checkerData.publicCount === 1 ? 'One is a public holiday' : `${checkerData.publicCount} are public holidays`}, which may affect government offices, banks or other services.{' '}
                           </>
                         )}
                         {checkerData.regionalCount > 0 && (
                           <>
-                            {checkerData.regionalCount} sub-national {checkerData.regionalCount === 1 ? 'signal' : 'signals'} also {checkerData.regionalCount === 1 ? 'falls' : 'fall'} in this window; exact jurisdiction still needs to be confirmed.
+                            {checkerData.regionalCount === 1 ? 'A regional holiday' : `${checkerData.regionalCount} regional holidays`} also {checkerData.regionalCount === 1 ? 'falls' : 'fall'} within your selected dates.{' '}
                           </>
                         )}
+                        Check the relevant organization if your plans depend on a particular office or service being open.
                       </p>
                     </div>
                   )}
@@ -492,7 +494,7 @@ export default function HomePage() {
                   <div className="di-summary-item">
                     <span className="label">Institutional Impact</span>
                     <span className="value">
-                      {diLoading ? '...' : (diResults?.records.filter(r => r.category !== 'holiday' && r.category !== 'regional').length === 0 ? "0 signals" : diResults?.records.filter(r => r.category !== 'holiday' && r.category !== 'regional').length + ' signals')}
+                      {diLoading ? '...' : (diResults?.records.filter(r => r.category !== 'holiday' && r.category !== 'regional').length === 0 ? "0 considerations" : diResults?.records.filter(r => r.category !== 'holiday' && r.category !== 'regional').length + ' considerations')}
                     </span>
                   </div>
                   <div className="di-summary-item">
@@ -507,7 +509,7 @@ export default function HomePage() {
                   {diLoading ? (
                     <p className="italic">Updating intelligence for {diDate}...</p>
                   ) : diResults?.records.length ? (
-                    <p>Found {diResults.records.length} curated record(s) for this date and location. Review domain-specific signals on the right.</p>
+                    <p>Found {diResults.records.length} curated record(s) for this date and location. Review domain-specific impacts on the right.</p>
                   ) : (
                     <div className="space-y-4">
                       <p className="font-bold text-paper">Clear window</p>
@@ -540,7 +542,7 @@ export default function HomePage() {
                         <div className="flex justify-between items-start mb-2">
                            <h5 className="text-[11px] font-mono text-[#6E7495] uppercase tracking-wider">{LENS_LABELS[categoryKey]}</h5>
                            <span className={cn("di-status-badge", relevantRecords.length > 0 ? "active" : "none")}>
-                             {relevantRecords.length > 0 ? "SIGNAL" : "No closure indicated"}
+                             {relevantRecords.length > 0 ? "PLANNING FACT" : "No impact indicated"}
                            </span>
                         </div>
                         
@@ -555,7 +557,7 @@ export default function HomePage() {
                           </div>
                         ) : (
                           <p className="text-sm text-muted-dim font-medium leading-relaxed">
-                            {DOMAIN_GUIDANCE[categoryKey] || "No specific signal recorded in Utsavs."}
+                            {DOMAIN_GUIDANCE[categoryKey] || "No specific planning consideration recorded in Utsavs."}
                           </p>
                         )}
                       </div>

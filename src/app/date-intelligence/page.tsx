@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
@@ -98,7 +99,7 @@ export default function DateIntelligencePage() {
               <div className="text-[12.5px] font-mono text-[#F0C888] tracking-widest uppercase">★ Date intelligence</div>
               <h1 className="text-3xl md:text-5xl font-headline font-medium leading-tight">What happens on this date?</h1>
               <p className="text-[#9AA1C0] leading-relaxed max-w-2xl font-medium">
-                One place for the calendar fact, travel signal and institution-specific evidence around a date — with the scope and source kept visible.
+                One place for the calendar fact, travel signals and institution-specific evidence around a date — with the scope and source kept visible.
               </p>
             </div>
 
@@ -145,7 +146,7 @@ export default function DateIntelligencePage() {
                       "px-4 py-2 text-[11.5px] font-bold uppercase tracking-wider rounded-full transition-all border",
                       activeLens === key 
                         ? "bg-[#E8A33D] text-[#0F1428] border-[#E8A33D]" 
-                        : "bg-transparent text-[#9AA1C0] border-white/10 hover:border-white/30"
+                        : "bg-transparent text-[#9AA1C0] border-white/10 border-white/30"
                     )}
                   >
                     {label}
@@ -166,7 +167,7 @@ export default function DateIntelligencePage() {
                         )}
                       </h2>
                       <p className="text-[13px] text-[#9AA1C0]">
-                        {query.destination} · Weekday
+                        {COUNTRY_LABELS[query.destination] || query.destination} · Weekday
                       </p>
                    </div>
 
@@ -178,9 +179,9 @@ export default function DateIntelligencePage() {
                         </p>
                       </div>
                       <div className="bg-[#1E2650] p-4 space-y-1">
-                        <span className="text-[10px] font-mono text-[#6E7495] uppercase">Signals</span>
+                        <span className="text-[10px] font-mono text-[#6E7495] uppercase">Planning</span>
                         <p className="text-sm font-headline font-medium">
-                          {result?.records.filter(r => r.category !== 'holiday' && r.category !== 'regional').length || 0} signals
+                          {result?.records.filter(r => r.category !== 'holiday' && r.category !== 'regional').length || 0} items
                         </p>
                       </div>
                       <div className="bg-[#1E2650] p-4 space-y-1">
@@ -193,7 +194,7 @@ export default function DateIntelligencePage() {
                       {isSearching ? (
                         <div className="flex items-center gap-3 text-[#9AA1C0] py-4">
                            <Loader2 className="w-5 h-5 animate-spin" />
-                           <span className="text-sm font-medium italic">Analyzing authoritative records...</span>
+                           <span className="text-sm font-medium italic">Evaluating planning implications...</span>
                         </div>
                       ) : result && result.records.length > 0 ? (
                         <div className="p-6 border border-primary/20 bg-primary/5 rounded-xl">
@@ -234,7 +235,7 @@ export default function DateIntelligencePage() {
                              <div key={cat} className="flex justify-between items-start gap-4 group">
                                 <div className="space-y-1 text-left">
                                    <p className="text-[11px] font-mono text-[#6E7495] uppercase tracking-wider">{cat}</p>
-                                   <p className="text-sm font-medium text-[#9AA1C0]">No specific closure record in Utsavs.</p>
+                                   <p className="text-sm font-medium text-[#9AA1C0]">No specific operational impact recorded.</p>
                                 </div>
                                 <span className="text-[10px] font-mono text-[#6E7495] px-2 py-0.5 border border-dashed border-white/10 rounded-full">NONE</span>
                              </div>
@@ -247,7 +248,7 @@ export default function DateIntelligencePage() {
 
               {/* Foot */}
               <div className="p-4 md:px-6 bg-[#1E2650] border-t border-white/10 text-[11.5px] text-[#6E7495] leading-relaxed text-left">
-                <b>Reading the page:</b> the calendar tells you what the date is; institutional rows show published institution-level signals; 
+                <b>Reading the page:</b> the calendar tells you what the date is; institutional rows show published institution-level planning considerations; 
                 the travel row adds a live public advisory when available. No closure is inferred from a holiday or weekend alone.
               </div>
             </div>
