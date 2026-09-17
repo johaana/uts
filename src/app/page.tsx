@@ -124,7 +124,6 @@ export default function HomePage() {
     const entries = forwardIndex.get(candidate) || [];
     const dateObj = new Date(candidate + 'T00:00:00');
     
-    // Attribution Fix: Prepend country if it's a global aggregation
     const entry = entries[0];
     const countryName = entry ? (COUNTRY_LABELS[entry.code] || entry.code) : "";
     const eventName = entry?.name || "—";
@@ -142,7 +141,7 @@ export default function HomePage() {
     if (!isMounted || !todayKey || allRecords.length === 0) return null;
     const match = allRecords
       .filter(r => r.jurisdiction.country_code === country && r.date > todayKey)
-      .sort((a, b) => a.date.compare(b.date))[0];
+      .sort((a, b) => a.date.localeCompare(b.date))[0];
     
     if (!match) return null;
     const dateObj = new Date(match.date + 'T00:00:00');
@@ -157,7 +156,7 @@ export default function HomePage() {
   const checkerData = useMemo(() => {
     if (!startDate || !endDate || canonicalRules.length === 0) return { records: [], count: 0, longest: 0, nextDays: '—', publicCount: 0, regionalCount: 0 };
     
-    const purposeMap: Record<string, 'travel' | 'study' | 'business'> = {
+    const purposeMap: Record<string, 'travel' | 'study' | 'workforce' | 'business' | 'logistics'> = {
       traveler: 'travel',
       study: 'study',
       corporate: 'business'
@@ -184,7 +183,6 @@ export default function HomePage() {
       prev = cur;
     });
 
-    // Semantic Fix: Exclude 'standing' records from the 'next one' distance calculation
     const nextEventDate = [...uniqueDatesSet]
       .filter(d => {
         const rec = matches.find(m => m.date === d);
