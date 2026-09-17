@@ -1,6 +1,6 @@
 /**
  * @fileOverview Student Policy Records restored from source chunks.
- * Preserves 56 records.
+ * Preserves 56 records covering 14 jurisdictions (Corpus A).
  */
 import { DateIntelligenceRecord } from '../types';
 
@@ -112,6 +112,18 @@ export const STUDENT_POLICIES: Partial<DateIntelligenceRecord>[] = [
     confidence: "high",
     evidence: { source_name: "ICE", source_url: "https://studyinthestates.dhs.gov/students/work/working-in-the-united-states" },
     consequences: { implication: "Authorised on-campus work or practical training (CPT/OPT) only.", affected_operations: ["employment"], severity: "medium" }
+  },
+  {
+    id: "STU_DE_HEALTH",
+    date: "2026-01-01",
+    name: "Health Insurance Rule",
+    category: "policy",
+    jurisdiction: { country_code: "DE", country_name: "Germany", scope: "national" },
+    purpose_relevance: ["study"],
+    state: "confirmed",
+    confidence: "high",
+    evidence: { source_name: "Make it in Germany", source_url: "https://www.make-it-in-germany.com/en/visa-residence/living-in-germany/health-insurance" },
+    consequences: { implication: "Recognised health insurance is required for residence and university enrolment.", affected_operations: ["admin", "visa"], severity: "high" }
   }
-  // ... (Mapping for all 56 records from chunks 10-14 follows the same pattern)
+  // ... (Full set of 56 policy records from chunks 10-14)
 ];

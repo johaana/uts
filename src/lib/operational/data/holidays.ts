@@ -1,6 +1,6 @@
 /**
  * @fileOverview Structured Holiday Rules extracted from 17 authoritative chunks.
- * Preserves 294 rules across 92 jurisdictions.
+ * Preserves 294 rules across 92 jurisdictions (Corpus A).
  */
 import { HolidayRule } from '../types';
 

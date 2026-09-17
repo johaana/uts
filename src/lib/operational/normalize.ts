@@ -3,6 +3,7 @@
  * @fileOverview Normalization Layer for Structured Authoritative Data.
  * 
  * Ensuring robust handling of both flat and nested source data shapes.
+ * Differentiates between rule expansion and static policy ingestion.
  */
 import { DateIntelligenceRecord } from './types';
 import { DATA_REGISTRY } from './data/registry';
@@ -84,8 +85,8 @@ export function getCanonicalRecords(): DateIntelligenceRecord[] {
     });
   });
 
-  // 3. Map Student Policies (STUDENT_INTEL_EXTRA)
-  DATA_REGISTRY.STUDENT_INTEL_EXTRA.forEach((policy: any) => {
+  // 3. Map Student Policies (STUDENT_INTELLIGENCE_EXTRA)
+  DATA_REGISTRY.STUDENT_INTELLIGENCE_EXTRA.forEach((policy: any) => {
     const countryCode = policy.jurisdiction?.country_code || policy.country;
     if (!countryCode) return;
 
