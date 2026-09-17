@@ -1,32 +1,26 @@
-
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { 
-  Search, 
   Loader2, 
   ArrowRight, 
-  Globe, 
-  ShieldCheck, 
-  Landmark, 
-  Briefcase, 
-  Plane,
-  Clock,
-  Info
 } from "lucide-react";
 import { getOperationalImpact } from '@/lib/operational/adapter';
-import { OperationalQuery, OperationalResult } from '@/lib/operational/types';
+import { getSource } from '@/lib/operational/source';
+import { OperationalQuery, OperationalResult, CanonicalRule } from '@/lib/operational/types';
 import { cn } from '@/lib/utils';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { OperationalResultCard } from '@/components/operational/OperationalResultCard';
+import { COUNTRY_LABELS } from '@/lib/calendar-intelligence';
 
 export default function V2Page() {
+  const [canonicalRules, setCanonicalRules] = useState<CanonicalRule[]>([]);
   const [query, setQuery] = useState<OperationalQuery>({
     destination: 'IN',
     startDate: '2026-11-01',
@@ -35,6 +29,31 @@ export default function V2Page() {
   });
   const [result, setResult] = useState<OperationalResult | null>(null);
   const [isSearching, setIsSearching] = useState(false);
+
+  useEffect(() => {
+    getSource().getCanonicalRules().then(rules => {
+      setCanonicalRules(rules);
+    });
+  }, []);
+
+  const businessCountries = useMemo(() => {
+    const codes = canonicalRules
+      .filter(r => r.category === 'business_travel')
+      .map(r => r.jurisdiction.country_code);
+    return Array.from(new Set(codes)).sort();
+  }, [canonicalRules]);
+
+  const studyCountries = useMemo(() => {
+    const codes = canonicalRules
+      .filter(r => r.purpose_relevance.includes('study'))
+      .map(r => r.jurisdiction.country_code);
+    return Array.from(new Set(codes)).sort();
+  }, [canonicalRules]);
+
+  const allAvailableCountries = useMemo(() => {
+    const codes = canonicalRules.map(r => r.jurisdiction.country_code);
+    return Array.from(new Set(codes)).sort();
+  }, [canonicalRules]);
 
   const handleCheckImpact = async () => {
     setIsSearching(true);
@@ -61,7 +80,7 @@ export default function V2Page() {
             <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 items-center">
               
               {/* LEFT: Hero Copy */}
-              <div className="space-y-6">
+              <div className="space-y-6 text-left">
                 <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary">DATE INTELLIGENCE</div>
                 <h1 className="font-headline text-4xl md:text-6xl font-bold leading-[1.1] tracking-tight">
                   Know before you fly.<br/>Know before you schedule.
@@ -85,7 +104,7 @@ export default function V2Page() {
                 <Card className="border shadow-2xl overflow-hidden bg-card rounded-2xl">
                   <div className="p-6 md:p-8 space-y-6">
                     <div className="flex items-center justify-between border-b pb-4">
-                       <div>
+                       <div className="text-left">
                           <p className="text-[9px] font-bold uppercase tracking-widest text-primary mb-1">DATE INTELLIGENCE</p>
                           <h2 className="text-2xl font-headline font-bold">Check your dates</h2>
                        </div>
@@ -111,24 +130,23 @@ export default function V2Page() {
                     </div>
 
                     <div className="space-y-4">
-                       <div className="space-y-1.5">
+                       <div className="space-y-1.5 text-left">
                           <label className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Destination / Jurisdiction</label>
                           <Select value={query.destination} onValueChange={(v) => setQuery({...query, destination: v})}>
                             <SelectTrigger className="bg-background h-12"><SelectValue /></SelectTrigger>
                             <SelectContent>
-                              <SelectItem value="IN">India</SelectItem>
-                              <SelectItem value="JP">Japan</SelectItem>
-                              <SelectItem value="US">United States</SelectItem>
-                              <SelectItem value="CA">Canada</SelectItem>
+                              {(query.purpose === 'workforce' ? businessCountries : query.purpose === 'study' ? studyCountries : allAvailableCountries).map(code => (
+                                <SelectItem key={code} value={code}>{COUNTRY_LABELS[code] || code}</SelectItem>
+                              ))}
                             </SelectContent>
                           </Select>
                        </div>
                        <div className="grid grid-cols-2 gap-4">
-                          <div className="space-y-1.5">
+                          <div className="space-y-1.5 text-left">
                             <label className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">From</label>
                             <Input type="date" value={query.startDate} onChange={(e) => setQuery({...query, startDate: e.target.value})} className="h-12" />
                           </div>
-                          <div className="space-y-1.5">
+                          <div className="space-y-1.5 text-left">
                             <label className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">To</label>
                             <Input type="date" value={query.endDate} onChange={(e) => setQuery({...query, endDate: e.target.value})} className="h-12" />
                           </div>
@@ -167,7 +185,7 @@ export default function V2Page() {
         {/* WORLD TODAY */}
         <section className="py-24" id="world-today">
           <div className="container mx-auto px-4">
-            <div className="max-w-3xl mb-16 space-y-4">
+            <div className="max-w-3xl mb-16 space-y-4 text-left">
                <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary">WORLD TODAY</div>
                <h2 className="text-3xl md:text-5xl font-headline font-bold">Dates are not just dates.</h2>
                <p className="text-lg text-muted-foreground leading-relaxed font-medium">
@@ -176,8 +194,8 @@ export default function V2Page() {
                </p>
             </div>
             <div className="grid md:grid-cols-2 gap-8">
-               <Card className="bg-primary/5 border-primary/20 p-8 md:p-10 flex flex-col justify-between">
-                  <div className="space-y-4">
+               <Card className="bg-primary/5 border-primary/20 p-8 md:p-10 flex flex-col justify-between items-start">
+                  <div className="space-y-4 text-left">
                     <span className="text-[10px] font-bold uppercase tracking-widest text-primary">TODAY</span>
                     <h3 className="text-2xl font-headline font-bold">Understanding today's calendar</h3>
                     <p className="text-muted-foreground text-sm font-medium">See the dates and places that may matter today across our global index.</p>
@@ -186,8 +204,8 @@ export default function V2Page() {
                      <Button variant="outline" className="font-bold">Explore today <ArrowRight className="ml-2 w-4 h-4" /></Button>
                   </Link>
                </Card>
-               <Card className="p-8 md:p-10 flex flex-col justify-between">
-                  <div className="space-y-4">
+               <Card className="p-8 md:p-10 flex flex-col justify-between items-start">
+                  <div className="space-y-4 text-left">
                     <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">COMING UP</span>
                     <h3 className="text-2xl font-headline font-bold" id="next-event-name">Diwali 2026</h3>
                     <p className="text-muted-foreground text-sm font-medium" id="next-event-meta">8 November 2026 · India · National</p>
@@ -203,7 +221,7 @@ export default function V2Page() {
         {/* HOW IT WORKS */}
         <section className="py-24 bg-muted/5 border-t" id="how-it-works">
            <div className="container mx-auto px-4">
-              <div className="max-w-3xl mb-16 space-y-4">
+              <div className="max-w-3xl mb-16 space-y-4 text-left">
                 <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary">HOW IT WORKS</div>
                 <h2 className="text-3xl md:text-5xl font-headline font-bold">See what your dates may mean.</h2>
                 <p className="text-lg text-muted-foreground font-medium">Utsavs brings relevant calendars and institutional information together around the date you actually care about.</p>
@@ -215,7 +233,7 @@ export default function V2Page() {
                    { n: "03", t: "Study", d: "Put institutional calendars and arrival timing around your target dates.", a: "Choosing when to arrive" },
                    { n: "04", t: "Operations", d: "Go deeper when the job requires it — markets, banking, and logistics.", a: "Choosing when to operate" }
                  ].map(item => (
-                   <div key={item.n} className="space-y-6 group">
+                   <div key={item.n} className="space-y-6 group text-left">
                       <span className="text-3xl font-headline font-bold text-primary/30 group-hover:text-primary transition-colors">{item.n}</span>
                       <h3 className="text-xl font-bold">{item.t}</h3>
                       <p className="text-sm text-muted-foreground leading-relaxed font-medium">{item.d}</p>
@@ -230,7 +248,7 @@ export default function V2Page() {
         <section className="py-24 border-t">
            <div className="container mx-auto px-4">
               <div className="grid lg:grid-cols-[1fr_1.5fr] gap-16 items-center">
-                 <div className="space-y-6">
+                 <div className="space-y-6 text-left">
                     <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary">SPECIALIZED INTELLIGENCE</div>
                     <h2 className="text-3xl md:text-5xl font-headline font-bold">One calendar underneath. <br/>Deeper calendars when required.</h2>
                     <p className="text-lg text-muted-foreground leading-relaxed font-medium">
@@ -247,46 +265,13 @@ export default function V2Page() {
                       { n: "03", t: "Markets & banking", s: "Trading, settlement, payments and working days" },
                       { n: "04", t: "Trade & logistics", s: "Customs, ports and documented operational timing" }
                     ].map(item => (
-                      <div key={item.n} className="bg-card p-8 space-y-2 hover:bg-muted/10 transition-colors">
+                      <div key={item.n} className="bg-card p-8 space-y-2 hover:bg-muted/10 transition-colors text-left">
                         <span className="text-[10px] font-bold text-primary/50">{item.n}</span>
                         <h4 className="font-bold text-lg">{item.t}</h4>
                         <p className="text-xs text-muted-foreground font-medium">{item.s}</p>
                       </div>
                     ))}
                  </div>
-              </div>
-           </div>
-        </section>
-
-        {/* API */}
-        <section className="py-24 bg-primary/5 border-y">
-           <div className="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-12">
-              <div className="max-w-xl space-y-4">
-                <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary">FOR SYSTEMS</div>
-                <h2 className="text-3xl md:text-4xl font-headline font-bold">Need to work with the intelligence continuously?</h2>
-                <p className="text-muted-foreground font-medium">Use Utsavs through the API for applications, workflows and systems that need calendar intelligence at scale.</p>
-              </div>
-              <Link href="/api">
-                <Button size="lg" className="px-10 font-bold h-14">Explore the API <ArrowRight className="ml-2 w-4 h-4" /></Button>
-              </Link>
-           </div>
-        </section>
-
-        {/* TRAVEL INSURANCE */}
-        <section className="py-24 border-b">
-           <div className="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-12">
-              <div className="max-w-xl space-y-4">
-                <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary">TRAVEL INSURANCE</div>
-                <h2 className="text-3xl md:text-4xl font-headline font-bold">Plan for what you can predict. Protect against what you can't.</h2>
-                <p className="text-muted-foreground font-medium">Explore how travel timing and protection work together — whether planning your own journey or building workflows.</p>
-              </div>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Link href="/travel-insurance">
-                  <Button size="lg" className="px-10 font-bold h-14">Get in touch <ArrowRight className="ml-2 w-4 h-4" /></Button>
-                </Link>
-                <Link href="/travel-insurance#partner">
-                   <Button variant="outline" size="lg" className="px-10 font-bold h-14">Partner with us →</Button>
-                </Link>
               </div>
            </div>
         </section>

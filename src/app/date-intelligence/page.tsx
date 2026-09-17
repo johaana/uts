@@ -1,29 +1,22 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Card, CardContent } from "@/components/ui/card";
 import { 
-  Search, 
   Loader2, 
-  ArrowRight, 
-  Globe, 
-  ShieldCheck, 
-  Calendar,
-  MapPin,
-  Tag,
   ChevronLeft,
-  ChevronRight,
-  Info
+  ChevronRight
 } from "lucide-react";
 import { getOperationalImpact } from '@/lib/operational/adapter';
-import { OperationalQuery, OperationalResult } from '@/lib/operational/types';
+import { getSource } from '@/lib/operational/source';
+import { OperationalQuery, OperationalResult, CanonicalRule } from '@/lib/operational/types';
 import { cn } from '@/lib/utils';
 import { OperationalResultCard } from '@/components/operational/OperationalResultCard';
+import { COUNTRY_LABELS } from '@/lib/calendar-intelligence';
 
 const LENS_LABELS = {
   all: "All intelligence",
@@ -36,6 +29,7 @@ const LENS_LABELS = {
 };
 
 export default function DateIntelligencePage() {
+  const [canonicalRules, setCanonicalRules] = useState<CanonicalRule[]>([]);
   const [query, setQuery] = useState<OperationalQuery>({
     destination: 'IN',
     startDate: new Date().toISOString().split('T')[0],
@@ -45,6 +39,17 @@ export default function DateIntelligencePage() {
   const [result, setResult] = useState<OperationalResult | null>(null);
   const [isSearching, setIsSearching] = useState(false);
   const [activeLens, setActiveLens] = useState('all');
+
+  useEffect(() => {
+    getSource().getCanonicalRules().then(rules => {
+      setCanonicalRules(rules);
+    });
+  }, []);
+
+  const allAvailableCountries = useMemo(() => {
+    const codes = canonicalRules.map(r => r.jurisdiction.country_code);
+    return Array.from(new Set(codes)).sort();
+  }, [canonicalRules]);
 
   const handleSearch = async (overrideQuery?: any) => {
     const q = overrideQuery || query;
@@ -117,13 +122,9 @@ export default function DateIntelligencePage() {
                   <Select value={query.destination} onValueChange={(v) => setQuery({...query, destination: v})}>
                     <SelectTrigger className="bg-[#0F1428] border-white/10 h-11"><SelectValue /></SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="IN">India</SelectItem>
-                      <SelectItem value="JP">Japan</SelectItem>
-                      <SelectItem value="US">United States</SelectItem>
-                      <SelectItem value="CA">Canada</SelectItem>
-                      <SelectItem value="GB">United Kingdom</SelectItem>
-                      <SelectItem value="AU">Australia</SelectItem>
-                      <SelectItem value="SG">Singapore</SelectItem>
+                      {allAvailableCountries.map(code => (
+                        <SelectItem key={code} value={code}>{COUNTRY_LABELS[code] || code}</SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                 </div>
@@ -172,11 +173,15 @@ export default function DateIntelligencePage() {
                    <div className="grid grid-cols-3 gap-px bg-white/10 border border-white/10 rounded-xl overflow-hidden">
                       <div className="bg-[#1E2650] p-4 space-y-1">
                         <span className="text-[10px] font-mono text-[#6E7495] uppercase">Calendar</span>
-                        <p className="text-sm font-headline font-medium">0 events</p>
+                        <p className="text-sm font-headline font-medium">
+                          {result?.records.filter(r => r.category === 'holiday' || r.category === 'regional').length || 0} events
+                        </p>
                       </div>
                       <div className="bg-[#1E2650] p-4 space-y-1">
                         <span className="text-[10px] font-mono text-[#6E7495] uppercase">Signals</span>
-                        <p className="text-sm font-headline font-medium">0 signals</p>
+                        <p className="text-sm font-headline font-medium">
+                          {result?.records.filter(r => r.category !== 'holiday' && r.category !== 'regional').length || 0} signals
+                        </p>
                       </div>
                       <div className="bg-[#1E2650] p-4 space-y-1">
                         <span className="text-[10px] font-mono text-[#6E7495] uppercase">Confidence</span>
@@ -191,8 +196,10 @@ export default function DateIntelligencePage() {
                            <span className="text-sm font-medium italic">Analyzing authoritative records...</span>
                         </div>
                       ) : result && result.records.length > 0 ? (
-                        <div className="space-y-4">
-                           <TripAdvisory result={result} />
+                        <div className="p-6 border border-primary/20 bg-primary/5 rounded-xl">
+                          <p className="text-sm font-medium leading-relaxed">
+                            We found {result.records.length} record(s) that may affect your planning for this date and location.
+                          </p>
                         </div>
                       ) : (
                         <div className="p-6 text-center border border-dashed border-white/10 rounded-xl">
@@ -225,7 +232,7 @@ export default function DateIntelligencePage() {
                         <div className="space-y-8 pt-4">
                            {['Government', 'Banking', 'Markets', 'Travel'].map(cat => (
                              <div key={cat} className="flex justify-between items-start gap-4 group">
-                                <div className="space-y-1">
+                                <div className="space-y-1 text-left">
                                    <p className="text-[11px] font-mono text-[#6E7495] uppercase tracking-wider">{cat}</p>
                                    <p className="text-sm font-medium text-[#9AA1C0]">No specific closure record in Utsavs.</p>
                                 </div>
@@ -239,7 +246,7 @@ export default function DateIntelligencePage() {
               </div>
 
               {/* Foot */}
-              <div className="p-4 md:px-6 bg-[#1E2650] border-t border-white/10 text-[11.5px] text-[#6E7495] leading-relaxed">
+              <div className="p-4 md:px-6 bg-[#1E2650] border-t border-white/10 text-[11.5px] text-[#6E7495] leading-relaxed text-left">
                 <b>Reading the page:</b> the calendar tells you what the date is; institutional rows show published institution-level signals; 
                 the travel row adds a live public advisory when available. No closure is inferred from a holiday or weekend alone.
               </div>
