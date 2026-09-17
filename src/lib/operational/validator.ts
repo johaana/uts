@@ -9,7 +9,7 @@ export function validateRecord(record: DateIntelligenceRecord): { valid: boolean
     return { valid: false, error: "Missing core identity fields (id, date, country_code)." };
   }
 
-  // Exempt genuinely unsourced regional signals, but require citation for verified institutional records
+  // Allow 'listed' or 'unsourced' records (regional signals) to pass without source_name
   const isExempt = record.confidence === 'unsourced' || record.confidence === 'listed' || record.jurisdiction.scope === 'regional';
   if (!isExempt && !record.evidence.source_name) {
     return { valid: false, error: "Missing source name on verified record." };
@@ -21,14 +21,15 @@ export function validateRecord(record: DateIntelligenceRecord): { valid: boolean
 export function validateCanonicalIndex(records: DateIntelligenceRecord[]): { valid: boolean; errors: string[] } {
   const errors: string[] = [];
 
-  // RESTORED STRICT THRESHOLDS (Satisfied by Full Extraction)
-  if (records.length < 200) {
-    errors.push(`Record count critical failure: Found only ${records.length} records. Expected > 200 for structured index.`);
+  // STRICT RECONCILIATION THRESHOLDS (Corpus A Baseline)
+  // These represent the minimum number ofdate instances expected after expanding the 408 canonical records.
+  if (records.length < 900) {
+    errors.push(`Record count critical failure: Found only ${records.length} records. Expected > 900 date instances for Corpus A.`);
   }
 
   const countries = new Set(records.map(r => r.jurisdiction.country_code));
-  if (countries.size < 50) {
-    errors.push(`Jurisdiction critical failure: Found only ${countries.size} countries. Dataset appears truncated.`);
+  if (countries.size < 92) {
+    errors.push(`Jurisdiction critical failure: Found only ${countries.size} countries. Expected 92 from Corpus A.`);
   }
 
   records.forEach(r => {
