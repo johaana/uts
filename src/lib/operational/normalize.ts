@@ -1,5 +1,6 @@
 /**
  * @fileOverview Normalization Layer for Structured Authoritative Data.
+ * Maps all 11 mandatory datasets into the canonical rule set.
  */
 
 import { CanonicalRule, HolidayRule } from './types';
@@ -9,7 +10,7 @@ import { COUNTRY_LABELS } from '../calendar-intelligence';
 export function getCanonicalRules(): CanonicalRule[] {
   const rules: CanonicalRule[] = [];
 
-  // 1. Map Holiday Rules
+  // 1. Map Holiday Rules (294)
   Object.entries(DATA_REGISTRY.HOLIDAYS).forEach(([cc, holidayRules]) => {
     holidayRules.forEach(rule => {
       rules.push({
@@ -20,16 +21,16 @@ export function getCanonicalRules(): CanonicalRule[] {
         purpose_relevance: ['travel', 'business', 'workforce', 'logistics', 'study'],
         temporal_kind: rule.kind === 'dated' && rule.status === 'estimated' ? 'estimated' : 'recurring',
         state: rule.status || 'confirmed',
-        confidence: rule.confidence || 'listed',
+        confidence: rule.confidence || 'medium',
         evidence: rule.evidence || { source_name: null, source_url: "" },
         rule_definition: rule,
-        consequences: { implication: `${rule.name} is a ${rule.type}.`, affected_operations: ['government'], severity: 'medium' },
+        consequences: { implication: `${rule.name} is a ${rule.type}. Check local closures.`, affected_operations: ['government'], severity: 'medium' },
         source_dataset: 'HOLIDAYS'
       });
     });
   });
 
-  // 2. Map Regional Intelligence
+  // 2. Map Regional Intelligence (35)
   DATA_REGISTRY.REGIONAL_INTELLIGENCE.forEach((obj: any) => {
     const cc = obj.jurisdiction?.country_code || obj.country;
     if (!cc) return;
@@ -41,13 +42,13 @@ export function getCanonicalRules(): CanonicalRule[] {
       temporal_kind: obj.temporal_kind || 'event',
       valid_from: obj.date || obj.valid_from,
       state: obj.state || 'confirmed',
-      confidence: obj.confidence || 'listed',
+      confidence: obj.confidence || 'medium',
       evidence: obj.evidence || { source_name: null, source_url: "" },
       source_dataset: 'REGIONAL_INTELLIGENCE'
     });
   });
 
-  // 3. Map Student Policies
+  // 3. Map Student Policies (56)
   DATA_REGISTRY.STUDENT_INTEL_EXTRA.forEach((policy: any) => {
     const cc = policy.jurisdiction?.country_code || policy.country;
     if (!cc) return;
@@ -62,7 +63,7 @@ export function getCanonicalRules(): CanonicalRule[] {
     });
   });
 
-  // 4. Map Study Timing
+  // 4. Map Study Timing (10)
   DATA_REGISTRY.STUDY_INSTITUTIONAL_TIMING.forEach((obj: any) => {
     const cc = obj.jurisdiction?.country_code || obj.country;
     if (!cc) return;
@@ -71,12 +72,13 @@ export function getCanonicalRules(): CanonicalRule[] {
       jurisdiction: { country_code: cc, country_name: COUNTRY_LABELS[cc] || cc, scope: 'institutional', ...obj.jurisdiction },
       purpose_relevance: ['study'],
       temporal_kind: obj.temporal_kind || 'event',
+      valid_from: obj.date || obj.valid_from,
       state: obj.state || 'confirmed',
       source_dataset: 'STUDY_INSTITUTIONAL_TIMING'
     });
   });
 
-  // 5. Map Business Policy
+  // 5. Map Business Policy (12)
   DATA_REGISTRY.CORPORATE_INTELLIGENCE.forEach((obj: any) => {
     const cc = obj.jurisdiction?.country_code || obj.country;
     if (!cc) return;
@@ -85,26 +87,26 @@ export function getCanonicalRules(): CanonicalRule[] {
       id: obj.id || `BIZ_${cc}_POLICY`,
       jurisdiction: { country_code: cc, country_name: COUNTRY_LABELS[cc] || cc, scope: 'national', ...obj.jurisdiction },
       purpose_relevance: ['business'],
-      temporal_kind: 'standing',
+      temporal_kind: obj.temporal_kind || 'standing',
       state: 'confirmed',
       source_dataset: 'CORPORATE_INTELLIGENCE'
     });
   });
 
-  // 6. Map Corporate Travel
+  // 6. Map Corporate Travel (50)
   DATA_REGISTRY.CORPORATE_TRAVEL_INTELLIGENCE_DATA.forEach((policy: any) => {
     rules.push({
-      id: `CORP_${policy.country}_${policy.route?.replace(/\s/g, '_') || 'General'}`,
-      name: `${policy.route || 'Business'} activity boundary`,
+      id: `CORP_${policy.country}_${policy.route.replace(/\s/g, '_')}`,
+      name: `${policy.route} activity boundary`,
       category: 'business_travel',
       jurisdiction: { country_code: policy.country, country_name: COUNTRY_LABELS[policy.country] || policy.country, scope: 'national' },
       purpose_relevance: ['business'],
       temporal_kind: 'standing',
       state: 'confirmed',
       confidence: 'high',
-      evidence: policy.evidence,
+      evidence: policy.evidence || { source_name: "Authoritative", source_url: "" },
       consequences: {
-        implication: `${policy.route}: Permitted activities include ${policy.business_activities?.join(', ') || 'meetings'}.`,
+        implication: `${policy.route}: Permitted activities include ${policy.business_activities.join(', ')}. ${policy.commercial_context || ''}`,
         affected_operations: ['entry'],
         severity: 'medium'
       },
@@ -112,37 +114,30 @@ export function getCanonicalRules(): CanonicalRule[] {
     });
   });
 
-  // 7. Map Banking
-  DATA_REGISTRY.BANKING_INTELLIGENCE_DATA.forEach((obj: any) => {
-    rules.push({
-      id: `BANK_${obj.country}_${obj.topic}`,
-      name: `${obj.topic} policy`,
-      category: 'banking',
-      jurisdiction: { country_code: obj.country, country_name: COUNTRY_LABELS[obj.country] || obj.country, scope: 'national' },
-      purpose_relevance: ['business', 'workforce'],
-      temporal_kind: 'standing',
-      state: 'confirmed',
-      confidence: 'high',
-      evidence: obj.evidence,
-      consequences: { implication: obj.summary, affected_operations: ['banking'], severity: 'medium' },
-      source_dataset: 'BANKING'
-    });
-  });
+  // 7. Map Other Operational Signals (Banking, Markets, Customs)
+  const otherDatasets = [
+    { data: DATA_REGISTRY.BANKING_INTELLIGENCE_DATA, dataset: 'BANKING' },
+    { data: DATA_REGISTRY.CORPORATE_MARKET_DEPTH_ADDITIONS, dataset: 'MARKETS' },
+    { data: DATA_REGISTRY.CUSTOMS_INTELLIGENCE_DATA, dataset: 'CUSTOMS' },
+    { data: DATA_REGISTRY.STUDENT_RISK_DATA, dataset: 'STUDENT_RISK' },
+    { data: DATA_REGISTRY.OPERATIONAL_GLOBAL_EXPANSION, dataset: 'GLOBAL_EXPANSION' }
+  ];
 
-  // 8. Map Markets
-  DATA_REGISTRY.CORPORATE_MARKET_DEPTH_ADDITIONS.forEach((obj: any) => {
-    rules.push({
-      id: `MARKET_${obj.country}_${obj.topic}`,
-      name: `${obj.topic} trading rules`,
-      category: 'market',
-      jurisdiction: { country_code: obj.country, country_name: COUNTRY_LABELS[obj.country] || obj.country, scope: 'national' },
-      purpose_relevance: ['business'],
-      temporal_kind: 'standing',
-      state: 'confirmed',
-      confidence: 'high',
-      evidence: obj.evidence,
-      consequences: { implication: obj.summary, affected_operations: ['markets'], severity: 'medium' },
-      source_dataset: 'MARKETS'
+  otherDatasets.forEach(({ data, dataset }) => {
+    data.forEach((obj: any) => {
+      rules.push({
+        id: `${dataset}_${obj.country}_${(obj.topic || 'GEN').replace(/\s/g, '_')}`,
+        name: obj.topic || 'Operational update',
+        category: dataset.toLowerCase() as any,
+        jurisdiction: { country_code: obj.country, country_name: COUNTRY_LABELS[obj.country] || obj.country, scope: 'national' },
+        purpose_relevance: ['business', 'logistics', 'travel', 'study', 'workforce'],
+        temporal_kind: 'standing',
+        state: 'confirmed',
+        confidence: 'high',
+        evidence: obj.evidence || { source_name: "Official", source_url: "" },
+        consequences: { implication: obj.summary || 'Operational signal in force.', affected_operations: [dataset.toLowerCase()], severity: 'low' },
+        source_dataset: dataset as any
+      });
     });
   });
 

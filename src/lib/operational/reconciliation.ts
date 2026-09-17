@@ -1,6 +1,6 @@
 /**
  * @fileOverview Authoritative Reconciliation Engine.
- * Verifies the 458-rule canonical invariant.
+ * Verifies the exact physical rule counts at runtime.
  */
 import { getCanonicalRules } from './normalize';
 
@@ -16,8 +16,6 @@ export interface ReconciliationReport {
     corporate_travel: number;
     regional: number;
     study_timing: number;
-    banking: number;
-    markets: number;
   };
   errors: string[];
 }
@@ -26,16 +24,15 @@ export function runReconciliation(): ReconciliationReport {
   const errors: string[] = [];
   const rules = getCanonicalRules();
   
-  const EXPECTED = {
-    CANONICAL_RULES: 458,
-    JURISDICTIONS: 92,
+  // Acceptence Targets
+  const TARGETS = {
+    CANONICAL_TOTAL: 458,
     HOLIDAYS: 294,
     STUDENTS: 56,
     REGIONAL: 35,
     STUDY_TIMING: 10,
-    CORP_TRAVEL: 50,
-    BIZ_POLICY: 12,
-    BANKING: 1
+    BUSINESS_POLICY: 12,
+    CORPORATE_TRAVEL: 50
   };
 
   const counts = {
@@ -46,17 +43,30 @@ export function runReconciliation(): ReconciliationReport {
     business_policy: rules.filter(r => r.source_dataset === 'CORPORATE_INTELLIGENCE').length,
     corporate_travel: rules.filter(r => r.source_dataset === 'CORPORATE_TRAVEL_INTEL').length,
     regional: rules.filter(r => r.source_dataset === 'REGIONAL_INTELLIGENCE').length,
-    study_timing: rules.filter(r => r.source_dataset === 'STUDY_INSTITUTIONAL_TIMING').length,
-    banking: rules.filter(r => r.source_dataset === 'BANKING').length,
-    markets: rules.filter(r => r.source_dataset === 'MARKETS').length
+    study_timing: rules.filter(r => r.source_dataset === 'STUDY_INSTITUTIONAL_TIMING').length
   };
 
-  if (counts.canonical_rules !== EXPECTED.CANONICAL_RULES) errors.push(`CANONICAL mismatch: Found ${counts.canonical_rules}, Expected ${EXPECTED.CANONICAL_RULES}`);
-  if (counts.holidays !== EXPECTED.HOLIDAYS) errors.push(`HOLIDAYS mismatch: Found ${counts.holidays}, Expected ${EXPECTED.HOLIDAYS}`);
-  if (counts.students !== EXPECTED.STUDENTS) errors.push(`STUDENTS mismatch: Found ${counts.students}, Expected ${EXPECTED.STUDENTS}`);
-  if (counts.corporate_travel !== EXPECTED.CORP_TRAVEL) errors.push(`CORP_TRAVEL mismatch: Found ${counts.corporate_travel}, Expected ${EXPECTED.CORP_TRAVEL}`);
-  if (counts.regional !== EXPECTED.REGIONAL) errors.push(`REGIONAL mismatch: Found ${counts.regional}, Expected ${EXPECTED.REGIONAL}`);
-  if (counts.study_timing !== EXPECTED.STUDY_TIMING) errors.push(`STUDY_TIMING mismatch: Found ${counts.study_timing}, Expected ${EXPECTED.STUDY_TIMING}`);
+  if (counts.canonical_rules !== TARGETS.CANONICAL_TOTAL) {
+    errors.push(`CANONICAL_TOTAL mismatch: Found ${counts.canonical_rules}, Expected ${TARGETS.CANONICAL_TOTAL}`);
+  }
+  if (counts.holidays !== TARGETS.HOLIDAYS) {
+    errors.push(`HOLIDAYS count mismatch: Found ${counts.holidays}, Expected ${TARGETS.HOLIDAYS}`);
+  }
+  if (counts.students !== TARGETS.STUDENTS) {
+    errors.push(`STUDENTS count mismatch: Found ${counts.students}, Expected ${TARGETS.STUDENTS}`);
+  }
+  if (counts.regional !== TARGETS.REGIONAL) {
+    errors.push(`REGIONAL count mismatch: Found ${counts.regional}, Expected ${TARGETS.REGIONAL}`);
+  }
+  if (counts.study_timing !== TARGETS.STUDY_TIMING) {
+    errors.push(`STUDY_TIMING count mismatch: Found ${counts.study_timing}, Expected ${TARGETS.STUDY_TIMING}`);
+  }
+  if (counts.business_policy !== TARGETS.BUSINESS_POLICY) {
+    errors.push(`BUSINESS_POLICY count mismatch: Found ${counts.business_policy}, Expected ${TARGETS.BUSINESS_POLICY}`);
+  }
+  if (counts.corporate_travel !== TARGETS.CORPORATE_TRAVEL) {
+    errors.push(`CORPORATE_TRAVEL count mismatch: Found ${counts.corporate_travel}, Expected ${TARGETS.CORPORATE_TRAVEL}`);
+  }
 
   return {
     valid: errors.length === 0,
