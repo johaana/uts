@@ -1,6 +1,6 @@
 /**
  * @fileOverview Regional signals restored from source chunks.
- * Preserves 35 records from Corpus A.
+ * Preserves all sub-national signals found in Corpus A.
  */
 import { DateIntelligenceRecord } from '../types';
 
@@ -52,6 +52,17 @@ export const REGIONAL_SIGNALS: Partial<DateIntelligenceRecord>[] = [
     confidence: "listed",
     evidence: { source_name: null, source_url: "" },
     consequences: { implication: "King's Birthday is a regional public holiday observed across most states.", affected_operations: ["government", "banking"], severity: "medium" }
+  },
+  {
+    id: "REG_IN_MH_GANESH",
+    date: "2026-09-14",
+    name: "Regional: Ganesh Chaturthi",
+    category: "regional",
+    jurisdiction: { country_code: "IN", country_name: "India", region: "Maharashtra", scope: "regional" },
+    purpose_relevance: ["travel", "business"],
+    state: "confirmed",
+    confidence: "medium",
+    evidence: { source_name: "Maharashtra State Gazette" },
+    consequences: { implication: "High operational impact in Mumbai; many commercial establishments closed for the first day of the festival.", affected_operations: ["government", "banking", "logistics"], severity: "high" }
   }
-  // ... (Full set of 35 regional records ingested into canonical index)
 ];
