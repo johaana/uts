@@ -1,6 +1,6 @@
 /**
  * @fileOverview Institutional Identity Registry.
- * Restored from authoritative source chunks.
+ * Restored from authoritative source chunks 7-8.
  */
 import { Institution } from '../types';
 
@@ -11,14 +11,14 @@ export const INSTITUTIONAL_IDENTITIES: Record<string, Institution> = {
   PSX: { id: "PSX", name: "PSX (Pakistan Stock Exchange)", country: "PK", type: "EXCHANGE" },
   NSE: { id: "NSE", name: "NSE (National Stock Exchange of India)", country: "IN", type: "EXCHANGE" },
   BSE: { id: "BSE", name: "BSE (Bombay Stock Exchange)", country: "IN", type: "EXCHANGE" },
-  JPX: { id: "JPX", name: "JPX (Tokyo Stock Exchange)", country: "JP", type: "EXCHANGE" },
-  NASDAQ_US: { id: "NASDAQ_US", name: "Nasdaq U.S. Equity Markets", country: "US", type: "EXCHANGE" },
+  JPX: { id: "JPX", name: "JPX (Tokyo Stock Exchange / Osaka Exchange derivatives)", country: "JP", type: "EXCHANGE" },
+  NASDAQ_US: { id: "NASDAQ_US", name: "Nasdaq U.S. Equity & Options Markets", country: "US", type: "EXCHANGE" },
   NYSE_US: { id: "NYSE_US", name: "New York Stock Exchange", country: "US", type: "EXCHANGE" },
-  TMX: { id: "TMX", name: "TMX Group (TSX/Montréal)", country: "CA", type: "EXCHANGE" },
-  ASX: { id: "ASX", name: "ASX (Australian Securities Exchange)", country: "AU", type: "EXCHANGE" },
+  TMX: { id: "TMX", name: "TMX Group — TSX / TSXV / Montréal Exchange", country: "CA", type: "EXCHANGE" },
+  ASX: { id: "ASX", name: "ASX — Australian Securities Exchange", country: "AU", type: "EXCHANGE" },
   HKEX: { id: "HKEX", name: "Hong Kong Exchanges and Clearing", country: "HK", type: "EXCHANGE" },
   LSE: { id: "LSE", name: "London Stock Exchange", country: "GB", type: "EXCHANGE" },
-  SGX: { id: "SGX", name: "Singapore Exchange", country: "SG", type: "EXCHANGE" },
+  SGX: { id: "SGX", name: "SGX (Singapore Exchange)", country: "SG", type: "EXCHANGE" },
   CBOE_US: { id: "CBOE_US", name: "Cboe Global Markets — U.S. Equities", country: "US", type: "EXCHANGE" },
   ICE_MARKETS: { id: "ICE_MARKETS", name: "Intercontinental Exchange (ICE)", country: "US", type: "EXCHANGE" },
   CME_GROUP: { id: "CME_GROUP", name: "CME Group — Trading & Clearing", country: "US", type: "EXCHANGE" },
@@ -32,7 +32,7 @@ export const INSTITUTIONAL_IDENTITIES: Record<string, Institution> = {
   US_FEDERAL: { id: "US_FEDERAL", name: "U.S. Federal Government", country: "US", type: "GOVERNMENT" },
   SIX: { id: "SIX", name: "SIX Swiss Exchange", country: "CH", type: "EXCHANGE" },
   ECB: { id: "ECB", name: "European Central Bank", country: "EU", type: "CENTRAL_BANK" },
-  EURONEXT: { id: "EURONEXT", name: "Euronext Cash & Derivatives", country: "EU", type: "EXCHANGE" },
+  EURONEXT: { id: "EURONEXT", name: "Euronext Cash & Derivatives Markets", country: "EU", type: "EXCHANGE" },
   XETRA: { id: "XETRA", name: "Deutsche Börse Xetra", country: "DE", type: "EXCHANGE" },
   BURSA_MALAYSIA: { id: "BURSA_MALAYSIA", name: "Bursa Malaysia", country: "MY", type: "EXCHANGE" },
   IDX: { id: "IDX", name: "Indonesia Stock Exchange", country: "ID", type: "EXCHANGE" },
@@ -68,5 +68,6 @@ export const INSTITUTIONAL_IDENTITIES: Record<string, Institution> = {
   HKMA: { id: "HKMA", name: "Hong Kong Monetary Authority", country: "HK", type: "CENTRAL_BANK" },
   SARB: { id: "SARB", name: "South African Reserve Bank", country: "ZA", type: "CENTRAL_BANK" },
   CBUAE: { id: "CBUAE", name: "Central Bank of the UAE", country: "AE", type: "CENTRAL_BANK" },
-  BI: { id: "BI", name: "Bank Indonesia", country: "ID", type: "CENTRAL_BANK" }
+  BI: { id: "BI", name: "Bank Indonesia", country: "ID", type: "CENTRAL_BANK" },
+  RST: { id: "RST", name: "Rotterdam Shortsea Terminals", country: "NL", type: "TERMINAL_OPERATOR" }
 };

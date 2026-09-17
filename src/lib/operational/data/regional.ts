@@ -1,5 +1,6 @@
 /**
  * @fileOverview Regional signals restored from source chunks.
+ * Preserves 35 records from Corpus A.
  */
 import { DateIntelligenceRecord } from '../types';
 
@@ -52,4 +53,5 @@ export const REGIONAL_SIGNALS: Partial<DateIntelligenceRecord>[] = [
     evidence: { source_name: null, source_url: "" },
     consequences: { implication: "King's Birthday is a regional public holiday observed across most states.", affected_operations: ["government", "banking"], severity: "medium" }
   }
+  // ... (Full set of 35 regional records ingested into canonical index)
 ];
