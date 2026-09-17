@@ -1,6 +1,6 @@
 /**
  * @fileOverview Authoritative Student Policy Records.
- * Physically contains 56 records extracted from the 17 source chunks.
+ * Physically contains all 56 records extracted from the 17 source chunks.
  */
 import { DateIntelligenceRecord } from '../types';
 

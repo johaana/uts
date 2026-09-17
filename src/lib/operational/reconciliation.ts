@@ -24,7 +24,7 @@ export function runReconciliation(): ReconciliationReport {
   const errors: string[] = [];
   const rules = getCanonicalRules();
   
-  // Acceptence Targets for Phase 4 Integrated Baseline
+  // Acceptance Targets for Phase 4 Integrated Baseline
   const TARGETS = {
     CANONICAL_TOTAL: 458,
     HOLIDAYS: 294,
@@ -46,12 +46,12 @@ export function runReconciliation(): ReconciliationReport {
     study_timing: rules.filter(r => r.source_dataset === 'STUDY_INSTITUTIONAL_TIMING').length
   };
 
-  // 1. Verify exact counts
+  // 1. Verify exact counts derived from runtime array
   if (counts.canonical_rules !== TARGETS.CANONICAL_TOTAL) {
     errors.push(`CANONICAL_TOTAL mismatch: Found ${counts.canonical_rules}, Expected ${TARGETS.CANONICAL_TOTAL}`);
   }
   
-  // 2. Enforce Zero-Generation Policy: Search for synthetic generation patterns
+  // 2. Enforce Zero-Generation Policy
   const syntheticID = rules.find(r => r.id.includes('POLICY_') && r.jurisdiction.country_code === 'GLOBAL');
   if (syntheticID) {
     errors.push(`Zero-Generation failure: Found synthetic placeholder record (${syntheticID.id}).`);
