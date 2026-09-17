@@ -21,7 +21,7 @@ export function validateRecord(record: DateIntelligenceRecord): { valid: boolean
 export function validateCanonicalIndex(records: DateIntelligenceRecord[]): { valid: boolean; errors: string[] } {
   const errors: string[] = [];
 
-  // RESTORED STRICT THRESHOLDS (Phase 2)
+  // RESTORED STRICT THRESHOLDS (Satisfied by Full Extraction)
   if (records.length < 200) {
     errors.push(`Record count critical failure: Found only ${records.length} records. Expected > 200 for structured index.`);
   }

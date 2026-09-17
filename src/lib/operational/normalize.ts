@@ -46,9 +46,12 @@ export function getCanonicalRecords(): DateIntelligenceRecord[] {
 
   // 2. Map Regional Intelligence (REGIONAL_INTELLIGENCE)
   DATA_REGISTRY.REGIONAL_INTELLIGENCE.forEach((obj: any) => {
+    const countryCode = obj.jurisdiction?.country_code || obj.country;
+    const regionName = obj.jurisdiction?.region || obj.region;
+    
     // Extract actual event name from prose if possible
-    let displayName = `Regional Signal: ${obj.region}`;
-    if (obj.text) {
+    let displayName = obj.name || `Regional Signal: ${regionName}`;
+    if (!obj.name && obj.text) {
       const subjectMatch = obj.text.match(/^(.+?)\s+(?:is|occurs|can be|falls|marks)/i);
       if (subjectMatch) {
         displayName = subjectMatch[1];
@@ -57,13 +60,13 @@ export function getCanonicalRecords(): DateIntelligenceRecord[] {
       }
     }
 
-    const hasUrl = !!obj.source_url;
-    const confidence = hasUrl ? 'medium' : 'unsourced';
+    const hasUrl = !!(obj.evidence?.source_url || obj.source_url);
+    const confidence = obj.confidence || (hasUrl ? 'medium' : 'unsourced');
     
-    let sourceName = null;
-    if (hasUrl) {
+    let sourceName = obj.evidence?.source_name || null;
+    if (!sourceName && hasUrl) {
       try {
-        const url = new URL(obj.source_url);
+        const url = new URL(obj.evidence?.source_url || obj.source_url);
         sourceName = url.hostname.replace('www.', '');
       } catch (e) {
         sourceName = "Official Source";
@@ -71,24 +74,24 @@ export function getCanonicalRecords(): DateIntelligenceRecord[] {
     }
 
     records.push({
-      id: `REG_${obj.country}_${obj.date}_${obj.region?.substring(0, 20)}`,
+      id: obj.id || `REG_${countryCode}_${obj.date}_${regionName?.substring(0, 20)}`,
       date: obj.date,
       name: displayName,
       category: 'regional',
       jurisdiction: {
-        country_code: obj.country,
-        country_name: COUNTRY_LABELS[obj.country] || obj.country,
-        region: obj.region,
+        country_code: countryCode,
+        country_name: COUNTRY_LABELS[countryCode] || countryCode,
+        region: regionName,
         scope: 'regional'
       },
       purpose_relevance: ['travel', 'business', 'workforce', 'logistics', 'study'],
-      state: 'confirmed',
+      state: obj.state || 'confirmed',
       confidence: confidence as any,
-      evidence: { 
+      evidence: obj.evidence || { 
         source_name: sourceName, 
         source_url: obj.source_url || "" 
       },
-      consequences: {
+      consequences: obj.consequences || {
         implication: obj.text || obj.summary || "Regional operational signal recorded.",
         affected_operations: [],
         severity: 'low'
@@ -110,7 +113,7 @@ export function getCanonicalRecords(): DateIntelligenceRecord[] {
   DATA_REGISTRY.STUDY_INSTITUTIONAL_TIMING.forEach((obj: any) => {
     const inst = DATA_REGISTRY.INSTITUTIONS[obj.institution_id] || { name: obj.institution || obj.institution_id };
     records.push({
-      id: `STU_${obj.country}_${obj.date}_${obj.institution_id || obj.institution}_${obj.type}`,
+      id: obj.id || `STU_${obj.country}_${obj.date}_${obj.institution_id || obj.institution}_${obj.type}`,
       date: obj.date,
       name: obj.topic || `${obj.type} - ${inst.name}`,
       category: 'institutional',
@@ -126,13 +129,13 @@ export function getCanonicalRecords(): DateIntelligenceRecord[] {
         type: "UNIVERSITY"
       },
       purpose_relevance: ['study'],
-      state: 'confirmed',
+      state: obj.state || 'confirmed',
       confidence: obj.confidence || 'medium',
-      evidence: {
+      evidence: obj.evidence || {
         source_name: obj.source_name || inst.name,
         source_url: obj.source_url || ""
       },
-      consequences: {
+      consequences: obj.consequences || {
         implication: obj.summary || obj.text || "Institutional timing record.",
         affected_operations: [obj.type?.toLowerCase()],
         severity: 'low'
