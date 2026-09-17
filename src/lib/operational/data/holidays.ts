@@ -79,6 +79,16 @@ export const HOLIDAY_RULES: Record<string, HolidayRule[]> = {
     { kind: "fixed", month: 12, day: 25, name: "Christmas Day", type: "holiday", status: "confirmed" },
     { kind: "fixed", month: 12, day: 26, name: "Boxing Day", type: "holiday", status: "confirmed" }
   ],
+  NZ: [
+    { kind: "fixed", month: 1, day: 1, name: "New Year's Day", type: "holiday", status: "confirmed" },
+    { kind: "fixed", month: 1, day: 2, name: "Day after New Year's Day", type: "holiday", status: "confirmed" },
+    { kind: "fixed", month: 2, day: 6, name: "Waitangi Day", type: "holiday", status: "confirmed" },
+    { kind: "dated", dates: { 2026: "2026-04-03" }, name: "Good Friday", type: "holiday", status: "confirmed" },
+    { kind: "dated", dates: { 2026: "2026-04-06" }, name: "Easter Monday", type: "holiday", status: "confirmed" },
+    { kind: "fixed", month: 4, day: 25, name: "Anzac Day", type: "holiday", status: "confirmed" },
+    { kind: "fixed", month: 12, day: 25, name: "Christmas Day", type: "holiday", status: "confirmed" },
+    { kind: "fixed", month: 12, day: 26, name: "Boxing Day", type: "holiday", status: "confirmed" }
+  ],
   CA: [
     { kind: "fixed", month: 1, day: 1, name: "New Year's Day", type: "holiday", status: "confirmed" },
     { kind: "dated", dates: { 2026: "2026-04-03" }, name: "Good Friday", type: "holiday", status: "confirmed" },
@@ -89,6 +99,13 @@ export const HOLIDAY_RULES: Record<string, HolidayRule[]> = {
     { kind: "fixed", month: 11, day: 11, name: "Remembrance Day", type: "holiday", status: "confirmed" },
     { kind: "fixed", month: 12, day: 25, name: "Christmas Day", type: "holiday", status: "confirmed" }
   ],
+  DE: [
+    { kind: "fixed", month: 1, day: 1, name: "Neujahr", type: "holiday", status: "confirmed" },
+    { kind: "fixed", month: 5, day: 1, name: "Tag der Arbeit", type: "holiday", status: "confirmed" },
+    { kind: "fixed", month: 10, day: 3, name: "Tag der Deutschen Einheit", type: "holiday", status: "confirmed" },
+    { kind: "fixed", month: 12, day: 25, name: "1. Weihnachtsfeiertag", type: "holiday", status: "confirmed" },
+    { kind: "fixed", month: 12, day: 26, name: "2. Weihnachtsfeiertag", type: "holiday", status: "confirmed" }
+  ],
   FR: [
     { kind: "fixed", month: 1, day: 1, name: "Jour de l'An", type: "holiday", status: "confirmed" },
     { kind: "fixed", month: 5, day: 1, name: "Fête du Travail", type: "holiday", status: "confirmed" },
@@ -98,13 +115,6 @@ export const HOLIDAY_RULES: Record<string, HolidayRule[]> = {
     { kind: "fixed", month: 11, day: 1, name: "Toussaint", type: "holiday", status: "confirmed" },
     { kind: "fixed", month: 11, day: 11, name: "Armistice", type: "holiday", status: "confirmed" },
     { kind: "fixed", month: 12, day: 25, name: "Noël", type: "holiday", status: "confirmed" }
-  ],
-  DE: [
-    { kind: "fixed", month: 1, day: 1, name: "Neujahr", type: "holiday", status: "confirmed" },
-    { kind: "fixed", month: 5, day: 1, name: "Tag der Arbeit", type: "holiday", status: "confirmed" },
-    { kind: "fixed", month: 10, day: 3, name: "Tag der Deutschen Einheit", type: "holiday", status: "confirmed" },
-    { kind: "fixed", month: 12, day: 25, name: "1. Weihnachtsfeiertag", type: "holiday", status: "confirmed" },
-    { kind: "fixed", month: 12, day: 26, name: "2. Weihnachtsfeiertag", type: "holiday", status: "confirmed" }
   ],
   AE: [
     { kind: "fixed", month: 1, day: 1, name: "New Year's Day", type: "holiday", status: "confirmed" },
@@ -130,10 +140,21 @@ export const HOLIDAY_RULES: Record<string, HolidayRule[]> = {
     { kind: "fixed", month: 4, day: 27, name: "Freedom Day", type: "holiday", status: "confirmed" },
     { kind: "fixed", month: 12, day: 16, name: "Reconciliation Day", type: "holiday", status: "confirmed" }
   ],
-  KE: [ { kind: "fixed", month: 12, day: 12, name: "Jamhuri Day", type: "holiday", status: "confirmed" } ],
+  KE: [ 
+    { kind: "fixed", month: 1, day: 1, name: "New Year's Day", type: "holiday", status: "confirmed", confidence: "high", evidence: { source_name: "Kenya Law", source_url: "https://new.kenyalaw.org/akn/ke/act/1912/21" } },
+    { kind: "dated", dates: { 2026: "2026-03-20" }, name: "Eid-ul-Fitr", type: "religious", status: "confirmed" },
+    { kind: "fixed", month: 5, day: 1, name: "Labour Day", type: "holiday", status: "confirmed" },
+    { kind: "fixed", month: 6, day: 1, name: "Madaraka Day", type: "holiday", status: "confirmed" },
+    { kind: "fixed", month: 10, day: 20, name: "Mashujaa Day", type: "holiday", status: "confirmed" },
+    { kind: "fixed", month: 12, day: 12, name: "Jamhuri Day", type: "holiday", status: "confirmed" }
+  ],
+  VN: [ { kind: "fixed", month: 9, day: 2, name: "National Day", type: "holiday", status: "confirmed" } ],
   LK: [ { kind: "fixed", month: 2, day: 4, name: "Independence Day", type: "holiday", status: "confirmed" } ],
   BD: [ { kind: "fixed", month: 3, day: 26, name: "Independence Day", type: "holiday", status: "confirmed" } ],
-  NP: [ { kind: "fixed", month: 9, day: 19, name: "Constitution Day", type: "holiday", status: "confirmed" } ],
+  NP: [ 
+    { kind: "fixed", month: 5, day: 29, name: "Republic Day", type: "holiday", status: "confirmed" },
+    { kind: "fixed", month: 9, day: 19, name: "Constitution Day", type: "holiday", status: "confirmed" }
+  ],
   TW: [ { kind: "fixed", month: 10, day: 10, name: "Double Ten Day", type: "holiday", status: "confirmed" } ],
   PL: [ { kind: "fixed", month: 11, day: 11, name: "Independence Day", type: "holiday", status: "confirmed" } ],
   SE: [ { kind: "fixed", month: 6, day: 6, name: "National Day", type: "holiday", status: "confirmed" } ],

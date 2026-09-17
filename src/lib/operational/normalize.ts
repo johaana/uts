@@ -52,7 +52,6 @@ export function getCanonicalRecords(): DateIntelligenceRecord[] {
     
     if (!countryCode) return;
 
-    // Extract actual event name from prose if possible
     let displayName = obj.name;
     if (!displayName && obj.consequences?.implication) {
       const text = obj.consequences.implication;
@@ -104,21 +103,27 @@ export function getCanonicalRecords(): DateIntelligenceRecord[] {
 
   // 4. Map Study Institutional Timing
   DATA_REGISTRY.STUDY_INSTITUTIONAL_TIMING.forEach((obj: any) => {
-    const inst = DATA_REGISTRY.INSTITUTIONS[obj.institution_id] || { name: obj.institution || obj.institution_id };
+    const countryCode = obj.country || obj.jurisdiction?.country_code;
+    const institutionId = obj.institution_id || obj.institution?.id;
+    
+    if (!countryCode) return;
+
+    const inst = DATA_REGISTRY.INSTITUTIONS[institutionId] || { name: obj.institution?.name || obj.institution || institutionId };
+    
     records.push({
-      id: obj.id || `STU_${obj.country}_${obj.date}_${obj.institution_id || obj.institution}_${obj.type}`,
+      id: obj.id || `STU_${countryCode}_${obj.date}_${institutionId}_${obj.type}`,
       date: obj.date,
       name: obj.topic || `${obj.type} - ${inst.name}`,
       category: 'institutional',
       jurisdiction: {
-        country_code: obj.country,
-        country_name: COUNTRY_LABELS[obj.country] || obj.country,
+        country_code: countryCode,
+        country_name: COUNTRY_LABELS[countryCode] || countryCode,
         scope: 'institutional'
       },
       institution: {
-        id: obj.institution_id || "UNKNOWN",
+        id: institutionId || "UNKNOWN",
         name: inst.name,
-        country: obj.country,
+        country: countryCode,
         type: "UNIVERSITY"
       },
       purpose_relevance: ['study'],
