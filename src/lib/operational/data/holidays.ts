@@ -244,8 +244,8 @@ export const HOLIDAY_RULES: Record<string, HolidayRule[]> = {
     dated({ 2026: "2026-05-27", 2027: "2027-05-16" }, "Eid al-Adha", "religious", "estimated", "listed")
   ],
   NP: [
-    fixed(5, 29, "Republic Day", "holiday", "listed"),
-    fixed(9, 19, "Constitution Day", "holiday", "listed")
+    fixed(5, 29, "Republic Day", "holiday", "medium"),
+    fixed(9, 19, "Constitution Day", "holiday", "medium")
   ],
   TW: [
     fixed(10, 10, "National Day (Double Ten)", "holiday", "listed"),

@@ -1,8 +1,5 @@
 /**
  * @fileOverview Normalization Layer for Structured Authoritative Data.
- * 
- * Ensures robust handling of both flat and nested source data shapes.
- * Differentiates between rule expansion and static policy ingestion.
  */
 import { OperationalRecord, DateIntelligenceRecord } from './types';
 import { DATA_REGISTRY } from './data/registry';
@@ -47,102 +44,68 @@ export function getCanonicalRecords(): DateIntelligenceRecord[] {
     });
   });
 
-  // 2. Map Regional Intelligence (REGIONAL_INTELLIGENCE)
+  // 2. Map Regional Intelligence
   DATA_REGISTRY.REGIONAL_INTELLIGENCE.forEach((obj: any) => {
     const countryCode = obj.jurisdiction?.country_code || obj.country;
-    const regionName = obj.jurisdiction?.region || obj.region;
-    
     if (!countryCode) return;
-
-    let displayName = obj.name;
-    if (!displayName && obj.consequences?.implication) {
-      const text = obj.consequences.implication;
-      const subjectMatch = text.match(/^(.+?)\s+(?:is|occurs|can be|falls|marks)/i);
-      displayName = subjectMatch ? subjectMatch[1] : `Regional Signal: ${regionName}`;
-    }
-
     records.push({
       ...obj,
-      id: obj.id || `REG_${countryCode}_${obj.date}_${(regionName || "UNKN").substring(0, 10)}`,
-      date: obj.date || "2026-01-01",
-      name: displayName || obj.topic || "Regional Signal",
-      category: obj.category || 'regional',
+      id: obj.id || `REG_${countryCode}_${obj.date}`,
       jurisdiction: {
         country_code: countryCode,
         country_name: COUNTRY_LABELS[countryCode] || countryCode,
-        region: regionName,
-        scope: obj.jurisdiction?.scope || 'regional'
+        scope: 'regional',
+        ...obj.jurisdiction
       },
-      purpose_relevance: obj.purpose_relevance || ['travel', 'business', 'workforce', 'logistics', 'study'],
+      purpose_relevance: obj.purpose_relevance || ['travel'],
+      temporal_kind: 'event',
       state: obj.state || 'confirmed',
       confidence: obj.confidence || 'listed',
       evidence: obj.evidence || { source_name: null, source_url: "" },
-      consequences: obj.consequences || { implication: "Regional operational signal.", affected_operations: [], severity: 'low' },
-      source_label: 'REGIONAL SIGNAL',
-      source_dataset: 'REGIONAL_INTELLIGENCE',
-      temporal_kind: 'event'
+      source_label: 'REGIONAL',
+      source_dataset: 'REGIONAL_INTELLIGENCE'
     });
   });
 
-  // 3. Map Student Policies (STUDENT_INTELLIGENCE_EXTRA)
+  // 3. Map Student Policies
   DATA_REGISTRY.STUDENT_INTELLIGENCE_EXTRA.forEach((policy: any) => {
     const countryCode = policy.jurisdiction?.country_code || policy.country;
     if (!countryCode) return;
-
     records.push({
       ...policy,
-      id: policy.id || `STU_POL_${countryCode}_${(policy.name || policy.topic || "unkn").replace(/\s/g, '_')}`,
-      date: policy.date || policy.effective_date || "2026-01-01",
-      name: policy.name || policy.topic,
-      category: policy.category || 'policy',
       jurisdiction: {
         country_code: countryCode,
         country_name: COUNTRY_LABELS[countryCode] || countryCode,
-        scope: policy.jurisdiction?.scope || 'national'
+        scope: 'national',
+        ...policy.jurisdiction
       },
-      purpose_relevance: policy.purpose_relevance || ['study'],
+      purpose_relevance: ['study'],
+      temporal_kind: 'standing',
       state: policy.state || 'confirmed',
       confidence: policy.confidence || 'high',
-      evidence: policy.evidence || { source_name: "Official Authority", source_url: "" },
-      consequences: policy.consequences || { 
-        implication: policy.summary || "Standing study policy.", 
-        affected_operations: ['visa', 'admin'], 
-        severity: 'medium' 
-      },
       source_label: 'STUDENT POLICY',
-      source_dataset: 'STUDENT_INTEL_EXTRA',
-      temporal_kind: 'standing'
+      source_dataset: 'STUDENT_INTEL_EXTRA'
     });
   });
 
-  // 4. Map Study Institutional Timing (STUDY_INSTITUTIONAL_TIMING)
+  // 4. Map Institutional Timing
   DATA_REGISTRY.STUDY_INSTITUTIONAL_TIMING.forEach((obj: any) => {
     const countryCode = obj.jurisdiction?.country_code || obj.country;
     if (!countryCode) return;
-
     records.push({
       ...obj,
-      id: obj.id || `STU_INST_${countryCode}_${obj.date}`,
-      date: obj.date || "2026-01-01",
-      name: obj.name || obj.topic,
-      category: obj.category || 'institutional',
       jurisdiction: {
         country_code: countryCode,
         country_name: COUNTRY_LABELS[countryCode] || countryCode,
-        scope: obj.jurisdiction?.scope || 'institutional'
+        scope: 'institutional',
+        ...obj.jurisdiction
       },
-      purpose_relevance: obj.purpose_relevance || ['study'],
+      purpose_relevance: ['study'],
+      temporal_kind: 'event',
       state: obj.state || 'confirmed',
       confidence: obj.confidence || 'medium',
-      evidence: obj.evidence || { source_name: "Institutional Source", source_url: "" },
-      consequences: obj.consequences || { 
-        implication: "Institutional timing record.", 
-        affected_operations: ['admin'], 
-        severity: 'low' 
-      },
       source_label: 'ACADEMIC CALENDAR',
-      source_dataset: 'STUDY_INSTITUTIONAL_TIMING',
-      temporal_kind: 'event'
+      source_dataset: 'STUDY_INSTITUTIONAL_TIMING'
     });
   });
 

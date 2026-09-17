@@ -41,5 +41,4 @@ export const BUSINESS_POLICIES: Partial<DateIntelligenceRecord>[] = [
     evidence: { source_name: "RBI", source_url: "https://www.rbi.org.in/Scripts/HolidayMatrixDisplay.aspx" },
     consequences: { implication: "State-specific holiday lists issued by RBI govern bank closures.", affected_operations: ["banking"], severity: "medium" }
   }
-  // ... (Full set of 12 business records ingested into canonical index)
 ];

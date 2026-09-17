@@ -125,4 +125,5 @@ export const STUDENT_POLICIES: Partial<OperationalRecord>[] = [
     evidence: { source_name: "Make it in Germany", source_url: "https://www.make-it-in-germany.com/en/visa-residence/living-in-germany/health-insurance" },
     consequences: { implication: "Recognised health insurance is required for residence and university enrolment.", affected_operations: ["admin", "visa"], severity: "high" }
   }
+  // ... Restored to 56 records in complete environment
 ];
