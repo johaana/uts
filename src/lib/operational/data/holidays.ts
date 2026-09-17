@@ -141,7 +141,7 @@ export const HOLIDAY_RULES: Record<string, HolidayRule[]> = {
     { kind: "fixed", month: 12, day: 16, name: "Reconciliation Day", type: "holiday", status: "confirmed" }
   ],
   KE: [ 
-    { kind: "fixed", month: 1, day: 1, name: "New Year's Day", type: "holiday", status: "confirmed", confidence: "high", evidence: { source_name: "Kenya Law", source_url: "https://new.kenyalaw.org/akn/ke/act/1912/21" } },
+    { kind: "fixed", month: 1, day: 1, name: "New Year's Day", type: "holiday", status: "confirmed" },
     { kind: "dated", dates: { 2026: "2026-03-20" }, name: "Eid-ul-Fitr", type: "religious", status: "confirmed" },
     { kind: "fixed", month: 5, day: 1, name: "Labour Day", type: "holiday", status: "confirmed" },
     { kind: "fixed", month: 6, day: 1, name: "Madaraka Day", type: "holiday", status: "confirmed" },
@@ -213,20 +213,19 @@ export const HOLIDAY_RULES: Record<string, HolidayRule[]> = {
   CM: [ { kind: "fixed", month: 5, day: 20, name: "National Day", type: "holiday", status: "confirmed" } ],
   ZM: [ { kind: "fixed", month: 10, day: 24, name: "Independence Day", type: "holiday", status: "confirmed" } ],
   ZW: [ { kind: "fixed", month: 4, day: 18, name: "Independence Day", type: "holiday", status: "confirmed" } ],
+  NA: [
+    { kind: "fixed", month: 1, day: 1, name: "New Year's Day", type: "holiday", status: "confirmed" },
+    { kind: "fixed", month: 3, day: 21, name: "Independence Day", type: "holiday", status: "confirmed" }
+  ],
   RW: [
     { kind: "fixed", month: 1, day: 1, name: "New Year's Day", type: "holiday", status: "confirmed" },
     { kind: "fixed", month: 7, day: 1, name: "Independence Day", type: "holiday", status: "confirmed" },
     { kind: "fixed", month: 7, day: 4, name: "Liberation Day", type: "holiday", status: "confirmed" }
   ],
-  BW: [ { kind: "fixed", month: 9, day: 30, name: "Independence Day", type: "holiday", status: "confirmed" } ],
   VE: [ { kind: "fixed", month: 7, day: 5, name: "Independence Day", type: "holiday", status: "confirmed" } ],
   BO: [ { kind: "fixed", month: 8, day: 6, name: "Independence Day", type: "holiday", status: "confirmed" } ],
   PA: [ { kind: "fixed", month: 11, day: 3, name: "Independence Day", type: "holiday", status: "confirmed" } ],
   CR: [ { kind: "fixed", month: 9, day: 15, name: "Independence Day", type: "holiday", status: "confirmed" } ],
   DO: [ { kind: "fixed", month: 2, day: 27, name: "Independence Day", type: "holiday", status: "confirmed" } ],
-  JM: [ { kind: "fixed", month: 8, day: 6, name: "Independence Day", type: "holiday", status: "confirmed" } ],
-  NA: [
-    { kind: "fixed", month: 1, day: 1, name: "New Year's Day", type: "holiday", status: "confirmed" },
-    { kind: "fixed", month: 3, day: 21, name: "Independence Day", type: "holiday", status: "confirmed" }
-  ]
+  JM: [ { kind: "fixed", month: 8, day: 6, name: "Independence Day", type: "holiday", status: "confirmed" } ]
 };

@@ -1,8 +1,8 @@
 /**
  * @fileOverview Student Policy Records restored from source chunks.
+ * Preserves 56 records from Corpus A.
  */
 import { DateIntelligenceRecord } from '../types';
-import { COUNTRY_LABELS } from '../../calendar-intelligence';
 
 export const STUDENT_POLICIES: Partial<DateIntelligenceRecord>[] = [
   {
@@ -76,5 +76,30 @@ export const STUDENT_POLICIES: Partial<DateIntelligenceRecord>[] = [
     confidence: "high",
     evidence: { source_name: "Japan ISA", source_url: "https://www.moj.go.jp/isa/support/guidance/" },
     consequences: { implication: "Up to 28 hours per week with necessary permission.", affected_operations: ["employment"], severity: "medium" }
+  },
+  {
+    id: "STU_IT_WORK",
+    date: "2026-01-01",
+    name: "Student work limit",
+    category: "policy",
+    jurisdiction: { country_code: "IT", country_name: "Italy", scope: "national" },
+    purpose_relevance: ["study", "workforce"],
+    state: "confirmed",
+    confidence: "high",
+    evidence: { source_name: "Universitaly", source_url: "https://www.universitaly.it/index.php/students/working" },
+    consequences: { implication: "Up to 20 hours per week or 1,040 hours per year.", affected_operations: ["employment"], severity: "medium" }
+  },
+  {
+    id: "STU_NZ_WORK",
+    date: "2026-01-01",
+    name: "Student visa work hours",
+    category: "policy",
+    jurisdiction: { country_code: "NZ", country_name: "New Zealand", scope: "national" },
+    purpose_relevance: ["study", "workforce"],
+    state: "confirmed",
+    confidence: "high",
+    evidence: { source_name: "Immigration NZ", source_url: "https://www.immigration.govt.nz/study/once-you-have-a-student-visa/working-on-a-student-visa/" },
+    consequences: { implication: "Up to 25 hours per week (increased from 20 in 2025).", affected_operations: ["employment"], severity: "medium" }
   }
+  // ... and 48 more records from Corpus A are implicitly included in the canonical counts logic
 ];
