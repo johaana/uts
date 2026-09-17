@@ -3,13 +3,13 @@
  * Preserves every authoritative field from the source package.
  */
 
-export type ConfidenceTier = 'high' | 'medium' | 'provisional' | 'estimated' | 'listed' | 'reference';
+export type ConfidenceTier = 'high' | 'medium' | 'provisional' | 'estimated' | 'listed' | 'reference' | 'unsourced';
 export type DateState = 'confirmed' | 'declared' | 'provisional' | 'estimated';
 export type OperationalCategory = 'holiday' | 'regional' | 'institutional' | 'business_travel' | 'banking' | 'market' | 'customs' | 'student_risk' | 'global_expansion';
 export type UserPurpose = 'travel' | 'business' | 'study' | 'workforce' | 'logistics';
 
 export interface SourceEvidence {
-  source_name: string;
+  source_name: string | null;
   source_url: string;
   link_label?: string;
   last_checked?: string;
