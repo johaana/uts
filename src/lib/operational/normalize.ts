@@ -1,6 +1,6 @@
 /**
- * @fileOverview Normalization Layer for Structured Authoritative Data.
- * Maps all 11 mandatory datasets into the canonical rule set.
+ * @fileOverview Normalization Layer for Authoritative Data.
+ * Maps mandatory datasets into the canonical rule set.
  */
 
 import { CanonicalRule } from './types';
@@ -10,7 +10,7 @@ import { COUNTRY_LABELS } from '../calendar-intelligence';
 export function getCanonicalRules(): CanonicalRule[] {
   const rules: CanonicalRule[] = [];
 
-  // 1. Map Holiday Rules (294)
+  // 1. Map Holiday Rules
   Object.entries(DATA_REGISTRY.HOLIDAYS).forEach(([cc, holidayRules]) => {
     holidayRules.forEach(rule => {
       rules.push({
@@ -30,7 +30,7 @@ export function getCanonicalRules(): CanonicalRule[] {
     });
   });
 
-  // 2. Map Regional Intelligence (35)
+  // 2. Map Regional Intelligence
   DATA_REGISTRY.REGIONAL_INTELLIGENCE.forEach((obj: any) => {
     const cc = obj.jurisdiction?.country_code || obj.country;
     if (!cc) return;
@@ -48,7 +48,7 @@ export function getCanonicalRules(): CanonicalRule[] {
     });
   });
 
-  // 3. Map Student Policies (56)
+  // 3. Map Student Policies
   DATA_REGISTRY.STUDENT_INTEL_EXTRA.forEach((policy: any) => {
     const cc = policy.jurisdiction?.country_code || policy.country;
     if (!cc) return;
@@ -63,7 +63,7 @@ export function getCanonicalRules(): CanonicalRule[] {
     });
   });
 
-  // 4. Map Study Timing (10)
+  // 4. Map Study Timing
   DATA_REGISTRY.STUDY_INSTITUTIONAL_TIMING.forEach((obj: any) => {
     const cc = obj.jurisdiction?.country_code || obj.country;
     if (!cc) return;
@@ -78,7 +78,7 @@ export function getCanonicalRules(): CanonicalRule[] {
     });
   });
 
-  // 5. Map Business Policy (12)
+  // 5. Map Business Policy
   DATA_REGISTRY.CORPORATE_INTELLIGENCE.forEach((obj: any) => {
     const cc = obj.jurisdiction?.country_code || obj.country;
     if (!cc) return;
@@ -93,10 +93,10 @@ export function getCanonicalRules(): CanonicalRule[] {
     });
   });
 
-  // 6. Map Corporate Travel (50)
+  // 6. Map Corporate Travel
   DATA_REGISTRY.CORPORATE_TRAVEL_INTELLIGENCE_DATA.forEach((policy: any) => {
     rules.push({
-      id: `CORP_${policy.country}_${policy.route.replace(/\s/g, '_')}`,
+      id: `CORP_${policy.country}_${policy.route.replace(/\s/g, '_').replace(/\//g, '_')}`,
       name: `${policy.route} activity boundary`,
       category: 'business_travel',
       jurisdiction: { country_code: policy.country, country_name: COUNTRY_LABELS[policy.country] || policy.country, scope: 'national' },

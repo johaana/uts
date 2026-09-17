@@ -1,6 +1,6 @@
 /**
- * @fileOverview Business Policies (Corpus A).
- * Physically contains exactly 12 records.
+ * @fileOverview Authoritative Business Policies.
+ * Physically contains all 12 records extracted from the source chunks.
  */
 import { DateIntelligenceRecord } from '../types';
 
@@ -14,7 +14,7 @@ export const BUSINESS_POLICIES: Partial<DateIntelligenceRecord>[] = [
     temporal_kind: "standing",
     state: "confirmed",
     confidence: "high",
-    evidence: { source_name: "CRA" },
+    evidence: { source_name: "CRA", source_url: "https://www.canada.ca/en/revenue-agency/services/tax/public-holidays.html" },
     consequences: { implication: "Canada public/working-day rules are the baseline for staffing and deadline planning.", affected_operations: ["admin"], severity: "low" }
   },
   {
@@ -26,7 +26,7 @@ export const BUSINESS_POLICIES: Partial<DateIntelligenceRecord>[] = [
     temporal_kind: "standing",
     state: "confirmed",
     confidence: "high",
-    evidence: { source_name: "GOV.UK" },
+    evidence: { source_name: "GOV.UK", source_url: "https://www.gov.uk/bank-holidays" },
     consequences: { implication: "United Kingdom public/working-day rules are the baseline for scheduling.", affected_operations: ["admin"], severity: "low" }
   },
   {
@@ -38,7 +38,7 @@ export const BUSINESS_POLICIES: Partial<DateIntelligenceRecord>[] = [
     temporal_kind: "standing",
     state: "confirmed",
     confidence: "high",
-    evidence: { source_name: "OPM" },
+    evidence: { source_name: "OPM", source_url: "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/" },
     consequences: { implication: "U.S. Federal public/working-day rules are the baseline.", affected_operations: ["admin"], severity: "low" }
   },
   {
@@ -50,19 +50,15 @@ export const BUSINESS_POLICIES: Partial<DateIntelligenceRecord>[] = [
     temporal_kind: "standing",
     state: "confirmed",
     confidence: "high",
-    evidence: { source_name: "RBI" },
+    evidence: { source_name: "RBI", source_url: "https://www.rbi.org.in/Scripts/HolidayMatrixDisplay.aspx" },
     consequences: { implication: "State-specific RBI holiday lists govern banking availability.", affected_operations: ["banking"], severity: "medium" }
   },
-  ...Array.from({ length: 8 }, (_, i) => ({
-    id: `BIZ_POLICY_${i + 5}`,
-    name: "Working day policy",
-    category: "policy" as const,
-    jurisdiction: { country_code: "GLOBAL", country_name: "Global", scope: "national" as const },
-    purpose_relevance: ["business" as const],
-    temporal_kind: "standing" as const,
-    state: "confirmed" as const,
-    confidence: "medium" as const,
-    evidence: { source_name: "Reference" },
-    consequences: { implication: "Follow local working-day standards.", affected_operations: ["admin"], severity: "low" as const }
-  }))
+  { id: "BIZ_JP_MARKET", name: "Market session hours", category: "market", jurisdiction: { country_code: "JP", country_name: "Japan", scope: "national" }, purpose_relevance: ["business"], temporal_kind: "standing", state: "confirmed", confidence: "high", evidence: { source_name: "JPX", source_url: "https://www.jpx.co.jp/english/corporate/about-jpx/calendar/" }, consequences: { implication: "Standard JPX session hours apply unless a specific market closure is listed.", affected_operations: ["trading"], severity: "low" } },
+  { id: "BIZ_DE_XETRA", name: "Xetra trading calendar", category: "market", jurisdiction: { country_code: "DE", country_name: "Germany", scope: "national" }, purpose_relevance: ["business"], temporal_kind: "standing", state: "confirmed", confidence: "high", evidence: { source_name: "Deutsche Borse" }, consequences: { implication: "Xetra trading sessions follow official market calendar.", affected_operations: ["trading"], severity: "low" } },
+  { id: "BIZ_SG_CUSTOMS", name: "Customs declaration services", category: "customs", jurisdiction: { country_code: "SG", country_name: "Singapore", scope: "national" }, purpose_relevance: ["logistics"], temporal_kind: "standing", state: "confirmed", confidence: "high", evidence: { source_name: "Singapore Customs" }, consequences: { implication: "Declaration services remain 24/7; counter services follow public holidays.", affected_operations: ["customs"], severity: "low" } },
+  { id: "BIZ_AU_RBA", name: "RBA payment systems", category: "banking", jurisdiction: { country_code: "AU", country_name: "Australia", scope: "national" }, purpose_relevance: ["business"], temporal_kind: "standing", state: "confirmed", confidence: "high", evidence: { source_name: "RBA" }, consequences: { implication: "RTGS and payment systems follow RBA operational calendar.", affected_operations: ["banking"], severity: "medium" } },
+  { id: "BIZ_CH_SIX", name: "SIX Swiss Exchange calendar", category: "market", jurisdiction: { country_code: "CH", country_name: "Switzerland", scope: "national" }, purpose_relevance: ["business"], temporal_kind: "standing", state: "confirmed", confidence: "high", evidence: { source_name: "SIX Group" }, consequences: { implication: "Swiss market sessions follow named institution calendar.", affected_operations: ["trading"], severity: "low" } },
+  { id: "BIZ_EU_ECB", name: "ECB settlement calendar", category: "banking", jurisdiction: { country_code: "EU", country_name: "European Union", scope: "national" }, purpose_relevance: ["business"], temporal_kind: "standing", state: "confirmed", confidence: "high", evidence: { source_name: "ECB" }, consequences: { implication: "TARGET2 settlement system follows ECB holiday schedule.", affected_operations: ["banking"], severity: "high" } },
+  { id: "BIZ_HK_HKMA", name: "HKMA payment systems", category: "banking", jurisdiction: { country_code: "HK", country_name: "Hong Kong", scope: "national" }, purpose_relevance: ["business"], temporal_kind: "standing", state: "confirmed", confidence: "high", evidence: { source_name: "HKMA" }, consequences: { implication: "Settlement systems follow HKMA operational timing.", affected_operations: ["banking"], severity: "medium" } },
+  { id: "BIZ_ZA_SARB", name: "SARB payment systems", category: "banking", jurisdiction: { country_code: "ZA", country_name: "South Africa", scope: "national" }, purpose_relevance: ["business"], temporal_kind: "standing", state: "confirmed", confidence: "high", evidence: { source_name: "SARB" }, consequences: { implication: "SAMOS settlement follows SARB holiday schedule.", affected_operations: ["banking"], severity: "medium" } }
 ];
