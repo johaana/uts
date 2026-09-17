@@ -1,4 +1,3 @@
-
 'use client';
 
 import React from 'react';
@@ -71,7 +70,7 @@ export function OperationalResultCard({ record }: OperationalResultCardProps) {
           <div className="space-y-0.5">
             <p className="font-bold uppercase tracking-widest text-muted-foreground/60">Source Evidence</p>
             <div className="flex items-center gap-1.5">
-              <span>{record.evidence.source_name}</span>
+              <span>{record.evidence.source_name || 'Authoritative Source'}</span>
               {record.evidence.source_url && (
                 <a href={record.evidence.source_url} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline flex items-center gap-0.5">
                   View <ExternalLink className="w-2.5 h-2.5" />
