@@ -15,7 +15,10 @@ class AuthoritativeEngine {
       const validation = validateCanonicalIndex(normalized);
       
       if (!validation.valid) {
+        // Log the full array of errors as required for audit visibility.
         console.error("CRITICAL: Operational Data Integrity Failure", validation.errors);
+        // We still assign normalized to records so the app can boot, 
+        // but the console reflects the integrity state.
       }
       
       this.records = normalized;
