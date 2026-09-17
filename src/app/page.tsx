@@ -105,7 +105,11 @@ export default function HomePage() {
       if (!idx.has(r.date)) idx.set(r.date, []);
       idx.get(r.date).push({ code: r.jurisdiction.country_code, name: r.name });
     });
-    return idx;
+    
+    // Fix Bug 3: Ensure the index is sorted chronologically so future-year events 
+    // don't appear before current-year events in the marquee.
+    const sortedEntries = Array.from(idx.entries()).sort((a, b) => a[0].localeCompare(b[0]));
+    return new Map(sortedEntries);
   }, [isMounted, todayKey, allRecords]);
 
   const globalNext = useMemo(() => {
@@ -207,7 +211,7 @@ export default function HomePage() {
                     <span className="next-card-kicker">Global</span>
                     <span className="next-card-name" id="pulse-global-name">{globalNext?.name || "No upcoming national record"}</span>
                     <span className="next-card-date" id="pulse-global-date">
-                      {globalNext ? `${globalNext.shortDate} · ${globalNext.count} countries · ${globalNext.daysAway} days away` : '—'}
+                      {globalNext ? `${globalNext.shortDate} · ${globalNext.count} ${globalNext.count === 1 ? 'country' : 'countries'} · ${globalNext.daysAway} days away` : '—'}
                     </span>
                   </div>
                   <div className="hero-tracker-next-card">

@@ -1,3 +1,4 @@
+
 /**
  * @fileOverview Normalization Layer for Structured Authoritative Data.
  */
@@ -57,8 +58,9 @@ export function getCanonicalRecords(): DateIntelligenceRecord[] {
     }
 
     // Bug 2: Correct confidence and evidence derivation
+    // Fix: If a URL exists, move to 'medium' tier. Use 'listed' strictly for unsourced.
     const hasUrl = !!obj.source_url;
-    const confidence = hasUrl ? 'listed' : 'unsourced';
+    const confidence = hasUrl ? 'medium' : 'listed';
     
     let sourceName = null;
     if (hasUrl) {
