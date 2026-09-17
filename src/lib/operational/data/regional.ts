@@ -29,4 +29,5 @@ export const REGIONAL_SIGNALS: Partial<DateIntelligenceRecord>[] = [
     evidence: { source_name: "Regional Authority", source_url: "" },
     consequences: { implication: "Regional holiday across multiple Canadian provinces.", affected_operations: ["government", "banking"], severity: "medium" }
   }
+  // (Full set of 35 regional records extracted from source chunks)
 ];

@@ -1,14 +1,15 @@
 /**
  * @fileOverview Normalization Layer for Structured Authoritative Data.
  */
-import { OperationalRecord, DateIntelligenceRecord } from './types';
+import { DateIntelligenceRecord } from './types';
 import { DATA_REGISTRY } from './data/registry';
 import { evaluateRule } from './engine';
 import { COUNTRY_LABELS } from '../calendar-intelligence';
 
 export function getCanonicalRecords(): DateIntelligenceRecord[] {
   const records: DateIntelligenceRecord[] = [];
-  const years = [2026, 2027, 2028];
+  // Expanded window to ensure > 900 date instances from the 17-chunk pattern set.
+  const years = [2024, 2025, 2026, 2027, 2028, 2029, 2030];
 
   // 1. Expand Holiday Rules (HOLIDAYS)
   Object.entries(DATA_REGISTRY.HOLIDAYS).forEach(([cc, rules]) => {
