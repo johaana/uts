@@ -1,0 +1,28 @@
+
+{
+  "checkpoint": "phase-2-known-good",
+  "commit": "ebd984f",
+  "timestamp": "2026-09-08T16:45:00Z",
+  "status": "FROZEN_BASELINE",
+  "integrity_gate": {
+    "boot_status": "SUCCESS",
+    "critical_errors": 0,
+    "jurisdiction_count": 92,
+    "canonical_pattern_count": 408,
+    "source_dataset": "Corpus A (17 Chunks)"
+  },
+  "dataset_counts": {
+    "holidays": 294,
+    "institutions": 65,
+    "students": 56,
+    "business": 12,
+    "regional": 35,
+    "study_timing": 10,
+    "student_risk": 1
+  },
+  "build_status": {
+    "tsc": "PASS",
+    "lint": "PASS",
+    "next_build": "PASS"
+  }
+}

@@ -1,16 +1,18 @@
+
 /**
  * @fileOverview Operational Data Adapter
  * 
- * The single application entry point for authoritative operational intelligence.
- * Connects the UI to the complete, verified, 17-chunk dataset.
+ * PHASE 3: Connects UI to the Temporal Engine.
  */
 
 import { getSource } from './source';
-import { validateRecord } from './validator';
+import { evaluateQuery, resolveNow } from './engine';
 import { OperationalQuery, OperationalResult, DateIntelligenceRecord } from './types';
+import { format } from 'date-fns';
 
 export async function getOperationalImpact(query: OperationalQuery): Promise<OperationalResult> {
-  const timestamp = new Date().toISOString();
+  const now = resolveNow();
+  const timestamp = now.toISOString();
   const source = getSource();
   const status = await source.getStatus();
 
@@ -19,29 +21,16 @@ export async function getOperationalImpact(query: OperationalQuery): Promise<Ope
       status: 'source_unavailable',
       records: [],
       query_context: query,
-      metadata: { timestamp, source_connected: false }
+      metadata: { timestamp, source_connected: false, now_resolved: timestamp }
     };
   }
 
   try {
-    // Pipeline: Extract records from the complete 17-chunk authoritative source
-    const allRecords = await source.getRecords();
+    // 1. Get the Invariant 408 Canonical Rules
+    const canonicalRules = await source.getCanonicalRules();
 
-    // Query Filtering Logic
-    const matches = allRecords.filter(record => {
-      // 1. Filter by Destination (Country Code)
-      if (query.destination && record.jurisdiction.country_code !== query.destination) return false;
-
-      // 2. Filter by Purpose (Traveler Lens)
-      if (query.purpose && !record.purpose_relevance.includes(query.purpose)) return false;
-
-      // 3. Filter by Date Range
-      const recordDate = new Date(record.date).getTime();
-      const start = new Date(query.startDate).getTime();
-      const end = new Date(query.endDate).getTime();
-      
-      return recordDate >= start && recordDate <= end;
-    });
+    // 2. Evaluate against the Temporal Engine
+    const matches = evaluateQuery(canonicalRules, query, now);
 
     return {
       status: matches.length > 0 ? 'results_found' : 'no_matching_records',
@@ -50,7 +39,8 @@ export async function getOperationalImpact(query: OperationalQuery): Promise<Ope
       metadata: { 
         timestamp, 
         source_connected: true,
-        version: status.version 
+        version: status.version,
+        now_resolved: timestamp
       }
     };
 
@@ -60,7 +50,7 @@ export async function getOperationalImpact(query: OperationalQuery): Promise<Ope
       status: 'error',
       records: [],
       query_context: query,
-      metadata: { timestamp, source_connected: true }
+      metadata: { timestamp, source_connected: true, now_resolved: timestamp }
     };
   }
 }

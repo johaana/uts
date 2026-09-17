@@ -1,7 +1,8 @@
+
 /**
- * @fileOverview Deterministic Validation Suite for Date Intelligence
+ * @fileOverview Phase 3 Temporal Engine Validation Suite.
  * 
- * Executing 10 scenarios against the Authoritative Data Layer (frozen at 39b8833).
+ * 17 scenarios to verify Event/Period/Standing/Recurring logic.
  */
 
 import { getOperationalImpact } from './adapter';
@@ -15,104 +16,89 @@ export interface ValidationScenario {
 
 export const VALIDATION_SCENARIOS: ValidationScenario[] = [
   {
-    id: "SCEN-001",
-    name: "Traveller + Festival Period (India Diwali)",
-    query: {
-      destination: "IN",
-      startDate: "2026-11-05",
-      endDate: "2026-11-12",
-      purpose: "travel"
-    }
+    id: "T-001",
+    name: "Exact Event Match (Republic Day)",
+    query: { destination: "IN", startDate: "2026-01-26", endDate: "2026-01-26", purpose: "travel" }
   },
   {
-    id: "SCEN-002",
-    name: "Traveller + Bank/Working Day (Japan Silver Week)",
-    query: {
-      destination: "JP",
-      startDate: "2026-09-20",
-      endDate: "2026-09-24",
-      purpose: "travel"
-    }
+    id: "T-002",
+    name: "Event Outside Window",
+    query: { destination: "IN", startDate: "2026-01-01", endDate: "2026-01-10", purpose: "travel" }
   },
   {
-    id: "SCEN-003",
-    name: "Business Travel + Public Holiday (US Labor Day)",
-    query: {
-      destination: "US",
-      startDate: "2026-09-01",
-      endDate: "2026-09-10",
-      purpose: "business"
-    }
+    id: "T-003",
+    name: "Period Overlap (Beginning)",
+    query: { destination: "CN", startDate: "2026-02-17", endDate: "2026-02-18", purpose: "travel" }
   },
   {
-    id: "SCEN-004",
-    name: "Business Travel + Permitted Activity (Canada Policy)",
-    query: {
-      destination: "CA",
-      startDate: "2026-01-01",
-      endDate: "2026-01-10",
-      purpose: "business"
-    }
+    id: "T-004",
+    name: "Period Overlap (End)",
+    query: { destination: "CN", startDate: "2026-02-10", endDate: "2026-02-17", purpose: "travel" }
   },
   {
-    id: "SCEN-005",
-    name: "Student + Institutional Timing (Canada Arrival)",
-    query: {
-      destination: "CA",
-      startDate: "2026-08-20",
-      endDate: "2026-09-10",
-      purpose: "study"
-    }
+    id: "T-005",
+    name: "Standing Policy Active",
+    query: { destination: "CA", startDate: "2026-11-01", endDate: "2026-11-01", purpose: "study" }
   },
   {
-    id: "SCEN-006",
-    name: "Student + Policy Information (Australia Work Rights)",
-    query: {
-      destination: "AU",
-      startDate: "2026-01-01",
-      endDate: "2026-01-10",
-      purpose: "study"
-    }
+    id: "T-006",
+    name: "Standing Outside Interval (Future Policy)",
+    query: { destination: "CA", startDate: "2025-01-01", endDate: "2025-01-01", purpose: "study" }
   },
   {
-    id: "SCEN-007",
-    name: "Regional Specific Event (India Ganesh Chaturthi)",
-    query: {
-      destination: "IN",
-      startDate: "2026-09-10",
-      endDate: "2026-09-20",
-      purpose: "business"
-    }
+    id: "T-007",
+    name: "Recurring Fixed (US New Year)",
+    query: { destination: "US", startDate: "2027-01-01", endDate: "2027-01-01", purpose: "business" }
   },
   {
-    id: "SCEN-008",
-    name: "Multiple Simultaneous Records (India November Cluster)",
-    query: {
-      destination: "IN",
-      startDate: "2026-11-07",
-      endDate: "2026-11-12",
-      purpose: "travel"
-    }
+    id: "T-008",
+    name: "Recurring nth-weekday (US Labor Day)",
+    query: { destination: "US", startDate: "2026-09-01", endDate: "2026-09-10", purpose: "business" }
   },
   {
-    id: "SCEN-009",
-    name: "No Matching Records",
-    query: {
-      destination: "IN",
-      startDate: "2026-06-01",
-      endDate: "2026-06-05",
-      purpose: "travel"
-    }
+    id: "T-009",
+    name: "Estimated State Preservation (AE Eid)",
+    query: { destination: "AE", startDate: "2026-03-20", endDate: "2026-03-20", purpose: "travel" }
   },
   {
-    id: "SCEN-010",
-    name: "Uncertain Evidence (UAE Eid al-Fitr Estimated)",
-    query: {
-      destination: "AE",
-      startDate: "2026-03-15",
-      endDate: "2026-03-25",
-      purpose: "travel"
-    }
+    id: "T-010",
+    name: "Historical Lookup (2024 Event)",
+    query: { destination: "IN", startDate: "2024-08-15", endDate: "2024-08-15", purpose: "travel" }
+  },
+  {
+    id: "T-011",
+    name: "Hero Exclusion (Past Dates)",
+    query: { destination: "IN", startDate: "2020-01-01", endDate: "2020-01-01", purpose: "travel" }
+  },
+  {
+    id: "T-012",
+    name: "Hero Selection (Next Future)",
+    query: { destination: "IN", startDate: "2026-11-01", endDate: "2026-11-15", purpose: "travel" }
+  },
+  {
+    id: "T-013",
+    name: "Marquee Today Priority",
+    query: { destination: "IN", startDate: "2026-01-26", endDate: "2026-01-26", purpose: "travel" }
+  },
+  {
+    id: "T-014",
+    name: "Marquee Fall Forward",
+    query: { destination: "IN", startDate: "2026-06-01", endDate: "2026-06-30", purpose: "travel" }
+  },
+  {
+    id: "T-015",
+    name: "Purpose Differentiation (Study vs Business)",
+    query: { destination: "CA", startDate: "2026-09-01", endDate: "2026-09-01", purpose: "study" }
+  },
+  {
+    id: "T-016",
+    name: "Standing Records Survival",
+    query: { destination: "GB", startDate: "2026-01-01", endDate: "2026-01-01", purpose: "business" }
+  },
+  {
+    id: "T-017",
+    name: "Single-Now Midnight Check",
+    query: { destination: "IN", startDate: "2026-10-02", endDate: "2026-10-02", purpose: "travel" }
   }
 ];
 

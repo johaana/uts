@@ -1,14 +1,15 @@
+
 /**
  * @fileOverview Canonical Data Types for Utsavs Operational Intelligence.
- * Supports 11 datasets, 5 study dimensions, and 5 temporal types.
+ * Supports 11 datasets and 5 explicit temporal types.
  */
 
 export type TemporalKind =
-  | "event"      // Single date
-  | "period"     // Date range
-  | "standing"   // Always valid policy
-  | "recurring"  // Rules like "fixed" or "nthWeekday"
-  | "estimated"; // Lunar/Hijri dates
+  | "event"      // Single date occurrence
+  | "period"     // Interval with start and end
+  | "standing"   // Policy/condition in force over time
+  | "recurring"  // Rules expanded at query time (fixed/nthWeekday)
+  | "estimated"; // Lunar/Hijri dates requiring observation
 
 export type RuleKind = "fixed" | "nth" | "dated";
 
@@ -51,7 +52,6 @@ export interface Institution {
   type: string;
   regular_hours?: string;
   hours_source?: string;
-  applies_to?: string[];
 }
 
 export interface HolidayRule {
@@ -66,16 +66,13 @@ export interface HolidayRule {
   dow?: number;
   n?: number;
   dates?: Record<number, string>;
-  jurisdiction?: {
-    country_code: string;
-    region?: string;
-    scope: "national" | "regional";
-  };
 }
 
-export interface OperationalRecord {
+/**
+ * The Canonical Rule represents the static source pattern (the 408 patterns).
+ */
+export interface CanonicalRule {
   id: string;
-  date: string; // YYYY-MM-DD for instances
   name: string;
   category: OperationalCategory;
   jurisdiction: {
@@ -90,12 +87,46 @@ export interface OperationalRecord {
   state: DateState;
   confidence: ConfidenceTier;
   evidence: SourceEvidence;
+  // Specific data for the temporal engine
+  valid_from?: string; // YYYY-MM-DD
+  valid_to?: string;   // YYYY-MM-DD
+  rule_definition?: HolidayRule;
   consequences: {
     implication: string;
     affected_operations: string[];
     severity: "low" | "medium" | "high";
   };
-  source_label: string;
-  source_dataset: string;
-  metadata?: Record<string, unknown>;
+}
+
+/**
+ * A Date Intelligence Record represents a concrete temporal instance 
+ * resulting from rule evaluation.
+ */
+export interface DateIntelligenceRecord extends CanonicalRule {
+  date: string; // The specific evaluated date (YYYY-MM-DD)
+  end_date?: string; // For periods
+}
+
+export interface OperationalQuery {
+  destination: string;
+  startDate: string; // YYYY-MM-DD
+  endDate: string;   // YYYY-MM-DD
+  purpose: UserPurpose;
+  activity?: string;
+  include?: {
+    events?: boolean;
+    standing?: boolean;
+  };
+}
+
+export interface OperationalResult {
+  status: 'results_found' | 'no_matching_records' | 'source_unavailable' | 'error';
+  records: DateIntelligenceRecord[];
+  query_context: OperationalQuery;
+  metadata: {
+    timestamp: string;
+    source_connected: boolean;
+    version?: string;
+    now_resolved: string;
+  };
 }

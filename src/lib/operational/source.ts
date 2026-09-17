@@ -1,33 +1,37 @@
+
 /**
- * @fileOverview Authoritative Source Aggregator for Structured Data.
- * Singleton instance providing the application's temporal index.
+ * @fileOverview Authoritative Source Aggregator.
  */
-import { DateIntelligenceRecord } from './types';
-import { getCanonicalRecords } from './normalize';
+import { CanonicalRule } from './types';
+import { getCanonicalRules } from './normalize';
 import { validateCanonicalIndex } from './validator';
 
 class AuthoritativeEngine {
-  private records: DateIntelligenceRecord[] | null = null;
+  private rules: CanonicalRule[] | null = null;
 
-  async getRecords(): Promise<DateIntelligenceRecord[]> {
-    if (!this.records) {
-      const normalized = getCanonicalRecords();
-      const validation = validateCanonicalIndex(normalized);
+  async getCanonicalRules(): Promise<CanonicalRule[]> {
+    if (!this.rules) {
+      const normalized = getCanonicalRules();
       
-      if (!validation.valid) {
-        // Log the full array of errors as required for audit visibility.
-        console.error("CRITICAL: Operational Data Integrity Failure", validation.errors);
-        // We still assign normalized to records so the app can boot, 
-        // but the console reflects the integrity state.
+      // Validation Check (Sanity only, real gate is reconciliation)
+      const countries = new Set(normalized.map(r => r.jurisdiction.country_code));
+      if (countries.size < 92 || normalized.length < 408) {
+         console.warn(`INTEGRITY WARNING: Rules count (${normalized.length}) or Countries (${countries.size}) below Phase 2 baseline.`);
       }
       
-      this.records = normalized;
+      this.rules = normalized;
     }
-    return this.records;
+    return this.rules;
+  }
+
+  async getRecords() {
+    // Legacy support for older components during Phase 3 transition
+    const rules = await this.getCanonicalRules();
+    return rules as any[];
   }
 
   async getStatus() {
-    return { available: true, version: "2.0.0-structured" };
+    return { available: true, version: "3.0.0-temporal" };
   }
 }
 

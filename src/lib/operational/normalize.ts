@@ -1,46 +1,42 @@
+
 /**
  * @fileOverview Normalization Layer for Structured Authoritative Data.
+ * 
+ * PHASE 3: Produces the 408 Canonical Rules Invariant.
  */
-import { DateIntelligenceRecord } from './types';
+
+import { CanonicalRule, HolidayRule } from './types';
 import { DATA_REGISTRY } from './data/registry';
-import { evaluateRule } from './engine';
 import { COUNTRY_LABELS } from '../calendar-intelligence';
 
-export function getCanonicalRecords(): DateIntelligenceRecord[] {
-  const records: DateIntelligenceRecord[] = [];
-  // Expanded window to ensure > 900 date instances from the 17-chunk pattern set.
-  const years = [2024, 2025, 2026, 2027, 2028, 2029, 2030];
+export function getCanonicalRules(): CanonicalRule[] {
+  const rules: CanonicalRule[] = [];
 
-  // 1. Expand Holiday Rules (HOLIDAYS)
-  Object.entries(DATA_REGISTRY.HOLIDAYS).forEach(([cc, rules]) => {
-    rules.forEach(rule => {
-      years.forEach(year => {
-        const date = evaluateRule(rule, year);
-        if (date) {
-          records.push({
-            id: `EVT_${cc}_${date}_${rule.name.replace(/\s/g, '_')}`,
-            date,
-            name: rule.name,
-            category: rule.type || 'holiday',
-            jurisdiction: {
-              country_code: cc,
-              country_name: COUNTRY_LABELS[cc] || cc,
-              scope: 'national'
-            },
-            purpose_relevance: ['travel', 'business', 'workforce', 'logistics', 'study'],
-            state: rule.status || 'confirmed',
-            confidence: rule.confidence || 'listed',
-            evidence: rule.evidence || { source_name: null, source_url: "" },
-            consequences: {
-              implication: `${rule.name} is a ${rule.type === 'holiday' ? 'public holiday' : 'scheduled observance'}. Expect related operational shifts.`,
-              affected_operations: ['government', 'banking'],
-              severity: 'medium'
-            },
-            source_label: (rule.type || 'holiday').toUpperCase(),
-            source_dataset: 'HOLIDAYS',
-            temporal_kind: rule.status === 'estimated' ? 'estimated' : 'recurring'
-          });
-        }
+  // 1. Map Holiday Rules (HOLIDAYS)
+  Object.entries(DATA_REGISTRY.HOLIDAYS).forEach(([cc, holidayRules]) => {
+    holidayRules.forEach(rule => {
+      rules.push({
+        id: `RULE_${cc}_${rule.name.replace(/\s/g, '_')}`,
+        name: rule.name,
+        category: rule.type || 'holiday',
+        jurisdiction: {
+          country_code: cc,
+          country_name: COUNTRY_LABELS[cc] || cc,
+          scope: 'national'
+        },
+        purpose_relevance: ['travel', 'business', 'workforce', 'logistics', 'study'],
+        temporal_kind: rule.kind === 'dated' && rule.status === 'estimated' ? 'estimated' : 'recurring',
+        state: rule.status || 'confirmed',
+        confidence: rule.confidence || 'listed',
+        evidence: rule.evidence || { source_name: null, source_url: "" },
+        rule_definition: rule,
+        consequences: {
+          implication: `${rule.name} is a ${rule.type === 'holiday' ? 'public holiday' : 'scheduled observance'}. Expect related operational shifts.`,
+          affected_operations: ['government', 'banking'],
+          severity: 'medium'
+        },
+        source_label: (rule.type || 'holiday').toUpperCase(),
+        source_dataset: 'HOLIDAYS'
       });
     });
   });
@@ -49,7 +45,7 @@ export function getCanonicalRecords(): DateIntelligenceRecord[] {
   DATA_REGISTRY.REGIONAL_INTELLIGENCE.forEach((obj: any) => {
     const countryCode = obj.jurisdiction?.country_code || obj.country;
     if (!countryCode) return;
-    records.push({
+    rules.push({
       ...obj,
       id: obj.id || `REG_${countryCode}_${obj.date}`,
       jurisdiction: {
@@ -59,7 +55,8 @@ export function getCanonicalRecords(): DateIntelligenceRecord[] {
         ...obj.jurisdiction
       },
       purpose_relevance: obj.purpose_relevance || ['travel'],
-      temporal_kind: 'event',
+      temporal_kind: obj.valid_to ? 'period' : 'event',
+      valid_from: obj.date || obj.valid_from,
       state: obj.state || 'confirmed',
       confidence: obj.confidence || 'listed',
       evidence: obj.evidence || { source_name: null, source_url: "" },
@@ -72,7 +69,7 @@ export function getCanonicalRecords(): DateIntelligenceRecord[] {
   DATA_REGISTRY.STUDENT_INTELLIGENCE_EXTRA.forEach((policy: any) => {
     const countryCode = policy.jurisdiction?.country_code || policy.country;
     if (!countryCode) return;
-    records.push({
+    rules.push({
       ...policy,
       jurisdiction: {
         country_code: countryCode,
@@ -94,7 +91,7 @@ export function getCanonicalRecords(): DateIntelligenceRecord[] {
   DATA_REGISTRY.STUDY_INSTITUTIONAL_TIMING.forEach((obj: any) => {
     const countryCode = obj.jurisdiction?.country_code || obj.country;
     if (!countryCode) return;
-    records.push({
+    rules.push({
       ...obj,
       jurisdiction: {
         country_code: countryCode,
@@ -103,7 +100,8 @@ export function getCanonicalRecords(): DateIntelligenceRecord[] {
         ...obj.jurisdiction
       },
       purpose_relevance: ['study'],
-      temporal_kind: 'event',
+      temporal_kind: obj.valid_to ? 'period' : 'event',
+      valid_from: obj.date || obj.valid_from,
       state: obj.state || 'confirmed',
       confidence: obj.confidence || 'medium',
       evidence: obj.evidence || { source_name: null, source_url: "" },
@@ -112,5 +110,25 @@ export function getCanonicalRecords(): DateIntelligenceRecord[] {
     });
   });
 
-  return records;
+  // 5. Map Business Policies
+  DATA_REGISTRY.CORPORATE_INTELLIGENCE.forEach((obj: any) => {
+    const cc = obj.jurisdiction?.country_code || obj.country;
+    if (!cc) return;
+    rules.push({
+        ...obj,
+        jurisdiction: {
+            country_code: cc,
+            country_name: COUNTRY_LABELS[cc] || cc,
+            scope: 'national',
+            ...obj.jurisdiction
+        },
+        temporal_kind: 'standing',
+        state: 'confirmed',
+        confidence: 'high',
+        source_label: 'BUSINESS POLICY',
+        source_dataset: 'CORPORATE_INTELLIGENCE'
+    });
+  });
+
+  return rules;
 }
