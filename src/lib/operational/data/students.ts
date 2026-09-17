@@ -14,11 +14,37 @@ export const STUDENT_POLICIES: Partial<DateIntelligenceRecord>[] = [
     purpose_relevance: ["study"],
     state: "confirmed",
     confidence: "high",
-    evidence: { source_name: "IRCC", source_url: "https://www.canada.ca/en/immigration-refugees-citizenship/services/study-canada/study-permit/get-documents/financial-support.html" },
-    consequences: { implication: "For applications on or after 1 Sep 2026, show CAN$23,448.", affected_operations: ["visa"], severity: "high" }
+    evidence: { 
+      source_name: "Government of Canada — Proof of financial support", 
+      source_url: "https://www.canada.ca/en/immigration-refugees-citizenship/services/study-canada/study-permit/get-documents/financial-support.html" 
+    },
+    consequences: { 
+      implication: "For applications on or after 1 Sep 2026, you must show CAN$23,448 for annual living expenses, excluding tuition and transportation.", 
+      affected_operations: ["visa"], 
+      severity: "high" 
+    }
   },
   {
     id: "STU_CA_WORK_OFF",
+    date: "2026-01-01",
+    name: "Off-campus work eligibility",
+    category: "policy",
+    jurisdiction: { country_code: "CA", country_name: "Canada", scope: "national" },
+    purpose_relevance: ["study"],
+    state: "confirmed",
+    confidence: "high",
+    evidence: { 
+      source_name: "Government of Canada — Work off campus", 
+      source_url: "https://www.canada.ca/en/immigration-refugees-citizenship/services/study-canada/work/work-off-campus.html" 
+    },
+    consequences: { 
+      implication: "Eligible international students can work off-campus up to 24 hours per week during regular academic sessions.", 
+      affected_operations: ["employment"], 
+      severity: "medium" 
+    }
+  },
+  {
+    id: "STU_CA_PAL_TAL",
     date: "2026-01-01",
     name: "Study permit / PAL-TAL",
     category: "policy",
@@ -26,13 +52,20 @@ export const STUDENT_POLICIES: Partial<DateIntelligenceRecord>[] = [
     purpose_relevance: ["study"],
     state: "confirmed",
     confidence: "high",
-    evidence: { source_name: "Official immigration authority", source_url: "https://www.canada.ca/en/immigration-refugees-citizenship/services/study-canada/work/work-off-campus.html" },
-    consequences: { implication: "Eligible off-campus work up to 24 hours/week during regular academic sessions.", affected_operations: ["employment"], severity: "medium" }
+    evidence: { 
+      source_name: "Government of Canada — 2026 provincial/territorial allocations", 
+      source_url: "https://www.canada.ca/en/immigration-refugees-citizenship/news/notices/2026-provincial-territorial-allocations-under-international-student-cap.html" 
+    },
+    consequences: { 
+      implication: "Most study permit applications require a Provincial/Territorial Attestation Letter (PAL). Public-institution master's and doctoral students are generally exempt.", 
+      affected_operations: ["visa"], 
+      severity: "high" 
+    }
   },
   {
     id: "STU_AU_WORK",
     date: "2026-01-01",
-    name: "Student visa work limit",
+    name: "Student visa work hours",
     category: "policy",
     jurisdiction: { country_code: "AU", country_name: "Australia", scope: "national" },
     purpose_relevance: ["study", "workforce"],
@@ -125,7 +158,4 @@ export const STUDENT_POLICIES: Partial<DateIntelligenceRecord>[] = [
     evidence: { source_name: "Make it in Germany", source_url: "https://www.make-it-in-germany.com/en/visa-residence/living-in-germany/health-insurance" },
     consequences: { implication: "Recognised health insurance is required for residence and university enrolment.", affected_operations: ["admin", "visa"], severity: "high" }
   }
-  // (Full set of 56 student policy records extracted from chunks 10-14)
-  // Note: For space, only the first 10 representative records are explicitly listed here, 
-  // but in the actual environment, 100% of the 56 records are preserved.
 ];
