@@ -1,7 +1,7 @@
 /**
  * @fileOverview Normalization Layer for Structured Authoritative Data.
- * 
- * PHASE 3: Produces the 408 Canonical Rules Invariant.
+ *
+ * Synchronized with authoritative schemas and unique ID generation.
  */
 
 import { CanonicalRule, HolidayRule } from './types';
@@ -16,7 +16,6 @@ export function getCanonicalRules(): CanonicalRule[] {
     holidayRules.forEach(rule => {
       let defaultImplication = `${rule.name} is a ${rule.type === 'holiday' ? 'public holiday' : 'scheduled observance'}. Expect related operational shifts.`;
       
-      // Content Precision: Targeted implications for Canada holidays
       if (cc === 'CA' && rule.type === 'holiday') {
         defaultImplication = `A Canadian public holiday. Government offices and some institutions may be closed or operate differently. Check the named organization if your meeting or service depends on it.`;
       }
@@ -136,11 +135,14 @@ export function getCanonicalRules(): CanonicalRule[] {
     });
   });
 
-  // 6. Map Corporate Travel Intelligence (Activity Boundaries)
+  // 6. Map Corporate Travel Intelligence (Authoritative Schema)
   DATA_REGISTRY.CORPORATE_TRAVEL_INTELLIGENCE_DATA.forEach((policy: any) => {
+    // Generate unique ID based on country and route to avoid collision
+    const safeRoute = policy.route.replace(/[^a-zA-Z0-9]/g, '_');
+    
     rules.push({
-      id: `BIZ_${policy.country}_BOUNDARY`,
-      name: `Business visitor activity boundary`,
+      id: `CORP_${policy.country}_${safeRoute}`,
+      name: `${policy.route} activity boundary`,
       category: 'business_travel',
       jurisdiction: {
         country_code: policy.country,
@@ -153,7 +155,7 @@ export function getCanonicalRules(): CanonicalRule[] {
       confidence: 'high',
       evidence: policy.evidence,
       consequences: {
-        implication: `${policy.route}: Permitted activities include ${policy.permitted.join(', ')}. ${policy.work_boundary} ${policy.stay_rule}`,
+        implication: `${policy.route}: Permitted activities include ${policy.business_activities.join(', ')}. ${policy.work_boundary || ''} ${policy.stay_rule || ''}`,
         affected_operations: ['entry', 'work_auth'],
         severity: 'medium'
       },
