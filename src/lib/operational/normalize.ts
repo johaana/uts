@@ -1,6 +1,5 @@
 /**
  * @fileOverview Normalization Layer for Structured Authoritative Data.
- * Replaces the fragile regex-based chunk parser.
  */
 import { DateIntelligenceRecord, HolidayRule } from './types';
 import { DATA_REGISTRY } from './data/registry';
@@ -32,11 +31,11 @@ export function getCanonicalRecords(): DateIntelligenceRecord[] {
             confidence: rule.confidence || 'listed',
             evidence: rule.evidence || { source_name: "Authoritative List", source_url: "" },
             consequences: {
-              implication: "Public holiday; commercial and institutional closures likely.",
+              implication: `${rule.name} is a ${rule.type === 'holiday' ? 'public holiday' : 'scheduled observance'}. Expect related operational shifts.`,
               affected_operations: ['government', 'banking'],
               severity: 'medium'
             },
-            source_label: rule.type === 'holiday' ? 'Public' : 'Religious',
+            source_label: rule.type.toUpperCase(),
             source_dataset: 'HOLIDAYS'
           });
         }

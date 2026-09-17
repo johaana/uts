@@ -1,8 +1,7 @@
 /**
- * @fileOverview Structured Student Policy Registry extracted from chunks.
+ * @fileOverview Structured Student Policy Registry extracted from Authoritative Chunks.
  */
 import { DateIntelligenceRecord } from '../types';
-import { COUNTRY_LABELS } from '../../calendar-intelligence';
 
 export const STUDENT_POLICIES: Partial<DateIntelligenceRecord>[] = [
   {
@@ -30,5 +29,18 @@ export const STUDENT_POLICIES: Partial<DateIntelligenceRecord>[] = [
     evidence: { source_name: "Department of Home Affairs", source_url: "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/student-500", last_checked: "2026-09-08" },
     consequences: { implication: "Student visa holders can generally work up to 48 hours per fortnight while their course is in session.", affected_operations: ["work_rights"], severity: "medium" },
     source_label: "Policy"
+  },
+  {
+    id: "POL_GB_STUDY_ARRIVE_2026",
+    date: "2026-01-01",
+    name: "UK Arrival Window",
+    category: "institutional",
+    jurisdiction: { country_code: "GB", country_name: "United Kingdom", scope: "national" },
+    purpose_relevance: ["study"],
+    state: "confirmed",
+    confidence: "high",
+    evidence: { source_name: "Official UK Gov", source_url: "https://www.gov.uk/student-visa", last_checked: "2026-09-08" },
+    consequences: { implication: "For courses longer than 6 months, arrival is normally permitted up to 1 month before course start.", affected_operations: ["travel"], severity: "low" },
+    source_label: "Guidance"
   }
 ];
