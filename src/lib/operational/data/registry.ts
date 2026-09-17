@@ -8,6 +8,7 @@ import { STUDENT_POLICIES } from './students';
 import { BUSINESS_POLICIES } from './business';
 import { REGIONAL_SIGNALS } from './regional';
 import { STUDY_INSTITUTIONAL_TIMING } from './study';
+import { CORPORATE_TRAVEL_INTELLIGENCE_DATA } from './corporate-travel';
 
 export const DATA_REGISTRY = {
   // 1. Core Calendars
@@ -17,7 +18,7 @@ export const DATA_REGISTRY = {
   STUDY_INSTITUTIONAL_TIMING: STUDY_INSTITUTIONAL_TIMING,
   
   // 3. Travel Policies
-  CORPORATE_TRAVEL_INTELLIGENCE_DATA: [],
+  CORPORATE_TRAVEL_INTELLIGENCE_DATA: CORPORATE_TRAVEL_INTELLIGENCE_DATA,
   
   // 4. Regional Signals
   REGIONAL_INTELLIGENCE: REGIONAL_SIGNALS,

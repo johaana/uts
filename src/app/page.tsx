@@ -73,6 +73,35 @@ export default function HomePage() {
     });
   }, []);
 
+  // Dynamic Country Lists based on canonical data
+  const businessCountries = useMemo(() => {
+    const codes = canonicalRules
+      .filter(r => r.category === 'business_travel')
+      .map(r => r.jurisdiction.country_code);
+    return Array.from(new Set(codes)).sort();
+  }, [canonicalRules]);
+
+  const studyCountries = useMemo(() => {
+    const codes = canonicalRules
+      .filter(r => r.purpose_relevance.includes('study'))
+      .map(r => r.jurisdiction.country_code);
+    return Array.from(new Set(codes)).sort();
+  }, [canonicalRules]);
+
+  const allAvailableCountries = useMemo(() => {
+    const codes = canonicalRules.map(r => r.jurisdiction.country_code);
+    return Array.from(new Set(codes)).sort();
+  }, [canonicalRules]);
+
+  // Ensure current selection is valid for mode
+  useEffect(() => {
+    if (mode === 'corporate' && businessCountries.length > 0 && !businessCountries.includes(country)) {
+      setCountry(businessCountries[0]);
+    } else if (mode === 'study' && studyCountries.length > 0 && !studyCountries.includes(country)) {
+      setCountry(studyCountries[0]);
+    }
+  }, [mode, businessCountries, studyCountries, country]);
+
   // --- Logic: Date Intelligence Fetch ---
   useEffect(() => {
     if (!isMounted || !diDate || !diCountry) return;
@@ -130,7 +159,6 @@ export default function HomePage() {
     return { 
       dateStr: format(dateObj, 'EEEE, d MMMM yyyy'),
       shortDate: format(dateObj, 'd MMM'),
-      // Fix: Prepend country name to event name for attribution
       name: entry ? `${countryName} — ${eventName}` : "—", 
       count: entries.length, 
       daysAway: differenceInDays(dateObj, new Date(todayKey + 'T00:00:00')) 
@@ -183,7 +211,6 @@ export default function HomePage() {
       prev = cur;
     });
 
-    // Fix: Filter out standing records from "distance to next" calculation
     const nextEventDate = [...uniqueDatesSet]
       .filter(d => {
         const rec = matches.find(m => m.date === d);
@@ -226,7 +253,6 @@ export default function HomePage() {
                     <span className="next-card-kicker">Global</span>
                     <span className="next-card-name" id="pulse-global-name">{globalNext?.name || "No upcoming national record"}</span>
                     <span className="next-card-date" id="pulse-global-date">
-                      {/* Fix: Pluralization logic for countries and days */}
                       {globalNext ? `${globalNext.shortDate} · ${globalNext.count} ${globalNext.count === 1 ? 'country' : 'countries'} · ${globalNext.daysAway} ${globalNext.daysAway === 1 ? 'day' : 'days'} away` : '—'}
                     </span>
                   </div>
@@ -234,7 +260,6 @@ export default function HomePage() {
                     <span className="next-card-kicker" id="pulse-regional-kicker">Regional · {COUNTRY_LABELS[country] || country}</span>
                     <span className="next-card-name" id="pulse-regional-name">{regionalNext?.name || "Clear window"}</span>
                     <span className="next-card-date" id="pulse-regional-date">
-                      {/* Fix: Pluralization logic for days */}
                       {regionalNext ? `${regionalNext.shortDate} · ${regionalNext.daysAway} ${regionalNext.daysAway === 1 ? 'day' : 'days'} away` : 'Normal operational status'}
                     </span>
                   </div>
@@ -249,7 +274,6 @@ export default function HomePage() {
                         .map(([date, entries]) => (
                         entries.map((e: any, idx: number) => (
                           <span key={`${date}-${idx}`} className="chip">
-                            {/* Fix: Explicit country attribution in marquee */}
                             <b>{COUNTRY_LABELS[e.code] || e.code}</b> — {e.name} · {format(new Date(date + 'T00:00:00'), 'd MMM')}
                           </span>
                         ))
@@ -287,8 +311,8 @@ export default function HomePage() {
                     <div className="checker-field">
                       <label htmlFor="country-select">Destination / jurisdiction</label>
                       <select id="country-select" value={country} onChange={e => setCountry(e.target.value)}>
-                        {Object.entries(COUNTRY_LABELS).map(([code, name]) => (
-                          <option key={code} value={code}>{name}</option>
+                        {(mode === 'corporate' ? businessCountries : mode === 'study' ? studyCountries : allAvailableCountries).map(code => (
+                          <option key={code} value={code}>{COUNTRY_LABELS[code] || code}</option>
                         ))}
                       </select>
                     </div>
@@ -305,7 +329,6 @@ export default function HomePage() {
                   </div>
 
                   <div className="checker-summary">
-                    {/* Fix: Pluralization for dates and days */}
                     <div><b className="font-headline">{checkerData.count}</b><span>{checkerData.count === 1 ? 'date' : 'dates'} to keep in mind</span></div>
                     <div><b className="font-headline">{checkerData.longest}</b><span>{checkerData.longest === 1 ? 'day' : 'days'} in longest flagged run</span></div>
                     <div><b className="font-headline">{checkerData.nextDays}</b><span>{checkerData.nextDaysVal === 1 ? 'day' : 'days'} to next one</span></div>
@@ -319,7 +342,7 @@ export default function HomePage() {
                       const dateStr = format(dateObj, 'EEE dd MMM');
                       const metaParts = [];
                       if (r.confidence) metaParts.push(r.confidence.charAt(0).toUpperCase() + r.confidence.slice(1));
-                      if (r.temporal_kind === 'standing') metaParts.push("STANDING POLICY");
+                      if (r.temporal_kind === 'standing') metaParts.push("ONGOING");
                       else if (r.jurisdiction.scope === 'regional') metaParts.push("Regional");
                       if (r.evidence?.source_name) metaParts.push("Source");
 
@@ -332,7 +355,6 @@ export default function HomePage() {
                              </div>
                              <div className="impact-meta">{metaParts.join(' / ')}</div>
                           </div>
-                          {/* Fix: Substantive requirement visibility for all records in the list */}
                           <div className="text-[13px] text-muted-foreground mt-1 leading-relaxed pl-[91px]">
                             {r.consequences.implication}
                           </div>
@@ -353,7 +375,6 @@ export default function HomePage() {
                         {checkerData.count} {checkerData.count === 1 ? 'date' : 'dates'} in this period {checkerData.count === 1 ? 'is' : 'are'} worth keeping in mind.{' '}
                         {checkerData.publicCount > 0 && (
                           <>
-                            {/* Fix: Change "likely closure" to "public holiday signal" for precision */}
                             {checkerData.publicCount} public holiday {checkerData.publicCount === 1 ? 'signal' : 'signals'}. Check the named source if you need a particular office, service or institution to be open.{' '}
                           </>
                         )}
@@ -372,16 +393,16 @@ export default function HomePage() {
                     <div className="checker-field">
                       <label htmlFor="compare-a">Origin</label>
                       <select id="compare-a" value={compA} onChange={e => setCompA(e.target.value)}>
-                        {Object.entries(COUNTRY_LABELS).map(([code, name]) => (
-                          <option key={code} value={code}>{name}</option>
+                        {allAvailableCountries.map(code => (
+                          <option key={code} value={code}>{COUNTRY_LABELS[code] || code}</option>
                         ))}
                       </select>
                     </div>
                     <div className="checker-field">
                       <label htmlFor="compare-b">Destination</label>
                       <select id="compare-b" value={compB} onChange={e => setCompB(e.target.value)}>
-                        {Object.entries(COUNTRY_LABELS).map(([code, name]) => (
-                          <option key={code} value={code}>{name}</option>
+                        {allAvailableCountries.map(code => (
+                          <option key={code} value={code}>{COUNTRY_LABELS[code] || code}</option>
                         ))}
                       </select>
                     </div>
@@ -422,8 +443,8 @@ export default function HomePage() {
               <div className="di-field">
                 <label>Place</label>
                 <select value={diCountry} onChange={e => setDiCountry(e.target.value)}>
-                  {Object.entries(COUNTRY_LABELS).map(([code, name]) => (
-                    <option key={code} value={code}>{name}</option>
+                  {allAvailableCountries.map(code => (
+                    <option key={code} value={code}>{COUNTRY_LABELS[code] || code}</option>
                   ))}
                 </select>
               </div>

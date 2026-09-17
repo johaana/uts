@@ -116,7 +116,7 @@ export function getCanonicalRules(): CanonicalRule[] {
     });
   });
 
-  // 5. Map Business Policies
+  // 5. Map Business Policies (Corporate Intelligence)
   DATA_REGISTRY.CORPORATE_INTELLIGENCE.forEach((obj: any) => {
     const cc = obj.jurisdiction?.country_code || obj.country;
     if (!cc) return;
@@ -133,6 +133,32 @@ export function getCanonicalRules(): CanonicalRule[] {
         confidence: 'high',
         source_label: 'BUSINESS POLICY',
         source_dataset: 'CORPORATE_INTELLIGENCE'
+    });
+  });
+
+  // 6. Map Corporate Travel Intelligence (Activity Boundaries)
+  DATA_REGISTRY.CORPORATE_TRAVEL_INTELLIGENCE_DATA.forEach((policy: any) => {
+    rules.push({
+      id: `BIZ_${policy.country}_BOUNDARY`,
+      name: `Business visitor activity boundary`,
+      category: 'business_travel',
+      jurisdiction: {
+        country_code: policy.country,
+        country_name: COUNTRY_LABELS[policy.country] || policy.country,
+        scope: 'national'
+      },
+      purpose_relevance: ['business'],
+      temporal_kind: 'standing',
+      state: 'confirmed',
+      confidence: 'high',
+      evidence: policy.evidence,
+      consequences: {
+        implication: `${policy.route}: Permitted activities include ${policy.permitted.join(', ')}. ${policy.work_boundary} ${policy.stay_rule}`,
+        affected_operations: ['entry', 'work_auth'],
+        severity: 'medium'
+      },
+      source_label: 'BUSINESS POLICY',
+      source_dataset: 'CORPORATE_TRAVEL_INTEL'
     });
   });
 
