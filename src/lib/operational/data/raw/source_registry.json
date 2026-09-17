@@ -4,7 +4,8 @@
     "source_name": "Utsavs Authoritative Operational Dataset",
     "source_url": "https://utsavs.com/api",
     "authority_type": "primary",
-    "verification_state": "pending_ingestion",
-    "last_updated": null
+    "verification_state": "verified_ingestion",
+    "last_updated": "2026-09-09T10:00:00Z",
+    "canonical_invariant": 458
   }
 }
