@@ -1,5 +1,6 @@
 /**
  * @fileOverview Canonical Data Types for Utsavs Operational Intelligence.
+ * Preserves every authoritative field from the source package.
  */
 
 export type ConfidenceTier = 'high' | 'medium' | 'provisional' | 'estimated' | 'listed' | 'reference';
@@ -65,4 +66,5 @@ export interface DateIntelligenceRecord {
     severity: 'low' | 'medium' | 'high';
   };
   source_label: string;
+  source_dataset: string;
 }

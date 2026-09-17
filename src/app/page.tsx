@@ -11,7 +11,7 @@ import {
 import { getOperationalImpact } from '@/lib/operational/adapter';
 import { getSource } from '@/lib/operational/source';
 import { OperationalResult, DateIntelligenceRecord } from '@/lib/operational/types';
-import { format, addDays, startOfDay, differenceInDays, isValid, isSameDay } from 'date-fns';
+import { format, addDays, startOfDay, differenceInDays, isValid, isSameDay, startOfToday } from 'date-fns';
 
 const LENS_LABELS: Record<string, string> = {
   all: "All intelligence",
@@ -39,7 +39,7 @@ export default function HomePage() {
   const [country, setCountry] = useState('IN');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
-  const [todayState, setTodayState] = useState<Date | null>(null);
+  const [todayKey, setTodayKey] = useState('');
   
   // Comparison States
   const [isComparing, setIsComparing] = useState(false);
@@ -55,32 +55,20 @@ export default function HomePage() {
 
   useEffect(() => {
     setIsMounted(true);
-    const now = new Date();
-    now.setHours(0, 0, 0, 0);
-    setTodayState(now);
-
-    const pad2 = (n: number) => String(n).padStart(2, "0");
-    const tKey = `${now.getFullYear()}-${pad2(now.getMonth() + 1)}-${pad2(now.getDate())}`;
-
-    // V24 Standard: Initialize with actual Today
+    const today = startOfToday();
+    const tKey = format(today, 'yyyy-MM-dd');
+    setTodayKey(tKey);
     setStartDate(tKey);
     setDiDate(tKey);
     
-    const end = addDays(now, 30);
-    const eKey = `${end.getFullYear()}-${pad2(end.getMonth() + 1)}-${pad2(end.getDate())}`;
-    setEndDate(eKey);
+    const end = addDays(today, 30);
+    setEndDate(format(end, 'yyyy-MM-dd'));
 
     // Unified Engine: Load all authoritative records
     getSource().getRecords().then(records => {
       setAllRecords(records);
     });
   }, []);
-
-  const todayKey = useMemo(() => {
-    if (!todayState) return '';
-    const pad2 = (n: number) => String(n).padStart(2, "0");
-    return `${todayState.getFullYear()}-${pad2(todayState.getMonth() + 1)}-${pad2(todayState.getDate())}`;
-  }, [todayState]);
 
   // --- Logic: Date Intelligence Fetch ---
   useEffect(() => {
@@ -105,8 +93,7 @@ export default function HomePage() {
     const d = new Date(diDate + 'T00:00:00');
     if (!isValid(d)) return;
     d.setDate(d.getDate() + days);
-    const pad2 = (n: number) => String(n).padStart(2, "0");
-    setDiDate(`${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`);
+    setDiDate(format(d, 'yyyy-MM-dd'));
   };
 
   // --- Logic: Tracker & Marquee (Unified Global Dataset) ---
@@ -115,8 +102,6 @@ export default function HomePage() {
     if (!isMounted || !todayKey || allRecords.length === 0) return idx;
     
     allRecords.forEach(r => {
-      // V24 Requirement: Next event must satisfy date >= todayKey
-      if (r.date < todayKey) return;
       if (!idx.has(r.date)) idx.set(r.date, []);
       idx.get(r.date).push({ code: r.jurisdiction.country_code, name: r.name });
     });
@@ -127,8 +112,10 @@ export default function HomePage() {
     const dates = Array.from(forwardIndex.keys()).sort();
     if (!dates.length) return null;
     
-    // Find the first date strictly > todayKey, or todayKey if it has events
-    const candidate = dates.find(d => d >= todayKey) || dates[0];
+    // STRICT FUTURE FILTER: Find first date >= today
+    const candidate = dates.find(d => d >= todayKey);
+    if (!candidate) return null;
+
     const entries = forwardIndex.get(candidate) || [];
     const dateObj = new Date(candidate + 'T00:00:00');
     return { 
@@ -136,7 +123,7 @@ export default function HomePage() {
       shortDate: format(dateObj, 'd MMM'),
       name: entries[0]?.name || "—", 
       count: entries.length, 
-      daysAway: differenceInDays(dateObj, startOfDay(new Date())) 
+      daysAway: differenceInDays(dateObj, new Date(todayKey + 'T00:00:00')) 
     };
   }, [forwardIndex, todayKey]);
 
@@ -151,11 +138,11 @@ export default function HomePage() {
     return { 
       name: match.name, 
       shortDate: format(dateObj, 'd MMM'), 
-      daysAway: differenceInDays(dateObj, startOfDay(new Date())) 
+      daysAway: differenceInDays(dateObj, new Date(todayKey + 'T00:00:00')) 
     };
   }, [isMounted, country, todayKey, allRecords]);
 
-  // --- Logic: Checker Binding (Unified Data + Purpose Lens) ---
+  // --- Logic: Checker Binding ---
   const checkerData = useMemo(() => {
     if (!startDate || !endDate || allRecords.length === 0) return { records: [], count: 0, longest: 0, nextDays: '—', publicCount: 0, regionalCount: 0 };
     
@@ -206,7 +193,7 @@ export default function HomePage() {
               <h1 className="headline">Know before you fly. Know before you schedule.</h1>
               <p className="sub">Check a country and your actual dates — before you book, schedule, send a student, or send an employee across borders.</p>
 
-              <aside className="hero-tracker" id="world" aria-label="Next holiday tracker">
+              <aside className="hero-tracker md:order-last" id="world" aria-label="Next holiday tracker" style={{ order: isComparing ? 2 : 3 }}>
                 <div className="hero-tracker-head">
                   <div>
                     <span className="hero-tracker-kicker">NEXT HOLIDAY UP</span>
@@ -235,7 +222,7 @@ export default function HomePage() {
                 <div className="hero-tracker-feed">
                   <div className="marquee" aria-live="polite">
                     <div className="marquee-track" id="pulse-marquee-track">
-                      {Array.from(forwardIndex.entries()).slice(0, 12).map(([date, entries]) => (
+                      {Array.from(forwardIndex.entries()).filter(([d]) => d >= todayKey).slice(0, 12).map(([date, entries]) => (
                         entries.map((e: any, idx: number) => (
                           <span key={`${date}-${idx}`} className="chip">
                             <b>{COUNTRY_LABELS[e.code] || e.code}</b> — {e.name} · {format(new Date(date + 'T00:00:00'), 'd MMM')}
@@ -252,7 +239,7 @@ export default function HomePage() {
               </aside>
             </div>
 
-            <div className="checker">
+            <div className="checker" style={{ order: 1 }}>
               <div className="checker-top">
                 <h3 id="checker-title">Trip impact checker</h3>
                 <button type="button" className="compare-launch" onClick={() => setIsComparing(!isComparing)}>

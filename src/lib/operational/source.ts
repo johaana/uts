@@ -1,5 +1,6 @@
 /**
  * @fileOverview Authoritative Source Aggregator for Structured Data.
+ * Singleton instance providing the application's temporal index.
  */
 import { DateIntelligenceRecord } from './types';
 import { getCanonicalRecords } from './normalize';
