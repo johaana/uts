@@ -44,12 +44,39 @@ export function getCanonicalRecords(): DateIntelligenceRecord[] {
   });
 
   // 2. Map Regional Intelligence (REGIONAL)
-  // Handles non-standard { region, text } shape
   DATA_REGISTRY.REGIONAL.forEach((obj: any) => {
+    // Bug 1: Extract actual event name from prose if possible
+    let displayName = `Regional Signal: ${obj.region}`;
+    if (obj.text) {
+      const subjectMatch = obj.text.match(/^(.+?)\s+(?:is|occurs|can be|falls|marks)/i);
+      if (subjectMatch) {
+        displayName = subjectMatch[1];
+      } else if (obj.text.length < 60) {
+        displayName = obj.text;
+      }
+    }
+
+    // Bug 2: Correct confidence and evidence derivation
+    const hasUrl = !!obj.source_url;
+    const confidence = hasUrl ? 'listed' : 'unsourced';
+    
+    let sourceName = null;
+    if (hasUrl) {
+      try {
+        const url = new URL(obj.source_url);
+        sourceName = url.hostname.replace('www.', '');
+        if (sourceName === 'india.gov.in') {
+          sourceName = `India.gov.in — ${obj.region} state calendar`;
+        }
+      } catch (e) {
+        sourceName = "Official Source";
+      }
+    }
+
     records.push({
       id: `REG_${obj.country}_${obj.date}_${obj.region?.substring(0, 20)}`,
       date: obj.date,
-      name: `Regional Signal: ${obj.region}`,
+      name: displayName,
       category: 'regional',
       jurisdiction: {
         country_code: obj.country,
@@ -59,8 +86,11 @@ export function getCanonicalRecords(): DateIntelligenceRecord[] {
       },
       purpose_relevance: ['travel', 'business', 'workforce', 'logistics', 'study'],
       state: 'confirmed',
-      confidence: 'unsourced',
-      evidence: { source_name: null, source_url: "" },
+      confidence: confidence as any,
+      evidence: { 
+        source_name: sourceName, 
+        source_url: obj.source_url || "" 
+      },
       consequences: {
         implication: obj.text || obj.summary || "Regional operational signal recorded.",
         affected_operations: [],

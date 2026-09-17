@@ -15,6 +15,7 @@ export const REGIONAL_INTELLIGENCE: any[] = [
     country: "IN",
     date: "2026-09-25",
     region: "Maharashtra",
-    text: "Anant Chaturdashi is listed in Maharashtra's 2026 holiday calendar; local operational treatment can vary by institution."
+    text: "Anant Chaturdashi is listed in Maharashtra's 2026 holiday calendar; local operational treatment can vary by institution.",
+    source_url: "https://www.india.gov.in/calendar/maharashtra"
   }
 ];

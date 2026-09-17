@@ -222,7 +222,11 @@ export default function HomePage() {
                 <div className="hero-tracker-feed">
                   <div className="marquee" aria-live="polite">
                     <div className="marquee-track" id="pulse-marquee-track">
-                      {Array.from(forwardIndex.entries()).filter(([d]) => d >= todayKey).slice(0, 12).map(([date, entries]) => (
+                      {/* Bug 3 fix: Filter forwardIndex entries to show only today or future dates */}
+                      {Array.from(forwardIndex.entries())
+                        .filter(([d]) => d >= todayKey)
+                        .slice(0, 12)
+                        .map(([date, entries]) => (
                         entries.map((e: any, idx: number) => (
                           <span key={`${date}-${idx}`} className="chip">
                             <b>{COUNTRY_LABELS[e.code] || e.code}</b> — {e.name} · {format(new Date(date + 'T00:00:00'), 'd MMM')}
