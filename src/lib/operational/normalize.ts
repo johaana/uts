@@ -1,12 +1,10 @@
-
 'use client';
 /**
  * @fileOverview Normalization Layer for Structured Authoritative Data.
  * 
- * Ensures all records from the registry are converted into a canonical 
- * DateIntelligenceRecord shape for the application index.
+ * Ensuring robust handling of both flat and nested source data shapes.
  */
-import { DateIntelligenceRecord, UserPurpose } from './types';
+import { DateIntelligenceRecord } from './types';
 import { DATA_REGISTRY } from './data/registry';
 import { evaluateRule } from './engine';
 import { COUNTRY_LABELS } from '../calendar-intelligence';
@@ -86,8 +84,8 @@ export function getCanonicalRecords(): DateIntelligenceRecord[] {
     });
   });
 
-  // 3. Map Student Policies (STUDENT_INTELLIGENCE_EXTRA)
-  DATA_REGISTRY.STUDENT_INTELLIGENCE_EXTRA.forEach((policy: any) => {
+  // 3. Map Student Policies (STUDENT_INTEL_EXTRA)
+  DATA_REGISTRY.STUDENT_INTEL_EXTRA.forEach((policy: any) => {
     const countryCode = policy.jurisdiction?.country_code || policy.country;
     if (!countryCode) return;
 
@@ -112,43 +110,33 @@ export function getCanonicalRecords(): DateIntelligenceRecord[] {
         severity: 'medium' 
       },
       source_label: 'STUDENT POLICY',
-      source_dataset: 'STUDENT_INTELLIGENCE_EXTRA',
+      source_dataset: 'STUDENT_INTEL_EXTRA',
       temporal_kind: 'standing'
     });
   });
 
-  // 4. Map Study Institutional Timing
+  // 4. Map Study Institutional Timing (STUDY_INSTITUTIONAL_TIMING)
   DATA_REGISTRY.STUDY_INSTITUTIONAL_TIMING.forEach((obj: any) => {
     const countryCode = obj.jurisdiction?.country_code || obj.country;
-    const institutionId = obj.institution?.id || obj.institution_id;
-    
     if (!countryCode) return;
 
-    const inst = DATA_REGISTRY.INSTITUTIONS[institutionId] || { name: obj.institution?.name || institutionId };
-    
     records.push({
       ...obj,
-      id: obj.id || `STU_INST_${countryCode}_${obj.date}_${institutionId}`,
+      id: obj.id || `STU_INST_${countryCode}_${obj.date}`,
       date: obj.date || "2026-01-01",
-      name: obj.name || obj.topic || `Academic Calendar - ${inst.name}`,
+      name: obj.name || obj.topic,
       category: obj.category || 'institutional',
       jurisdiction: {
         country_code: countryCode,
         country_name: COUNTRY_LABELS[countryCode] || countryCode,
         scope: obj.jurisdiction?.scope || 'institutional'
       },
-      institution: {
-        id: institutionId || "UNKNOWN",
-        name: inst.name,
-        country: countryCode,
-        type: inst.type || "UNIVERSITY"
-      },
       purpose_relevance: obj.purpose_relevance || ['study'],
       state: obj.state || 'confirmed',
       confidence: obj.confidence || 'medium',
-      evidence: obj.evidence || { source_name: inst.name, source_url: "" },
+      evidence: obj.evidence || { source_name: "Institutional Source", source_url: "" },
       consequences: obj.consequences || { 
-        implication: obj.summary || "Institutional timing record.", 
+        implication: "Institutional timing record.", 
         affected_operations: ['admin'], 
         severity: 'low' 
       },
