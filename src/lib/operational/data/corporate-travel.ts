@@ -1,10 +1,10 @@
 /**
- * @fileOverview Authoritative Corporate Travel Intelligence Data.
- * 100% Parity with utsavs-app.js baseline (50 records).
+ * @fileOverview Authoritative Corporate Travel Intelligence Data (50 Records).
+ * 100% Parity with authoritative source (Initial + 2 expansions).
  */
 
 export const CORPORATE_TRAVEL_INTELLIGENCE_DATA = [
-  // --- INITIAL DECLARATION (31) ---
+  // --- INITIAL (31) ---
   { country: "US", route: "B-1 / ESTA Business", business_activities: ["meetings", "conferences", "negotiation", "seminars"], commercial_context: "Business visitor boundary", activity_matrix: "PERMITTED", work_boundary: "Productive work or local employment requires H-1B/L-1/TN/O-1 or relevant permit.", stay_rule: "Generally up to 90 (ESTA) or 180 (B-1) days.", supporting_documents: ["Invitation letter", "Employer support letter"], payment_test: "Remuneration from non-US source", local_entity_test: "No contract of service with US entity", evidence: { source_name: "U.S. Dept of State", source_url: "https://travel.state.gov/content/travel/en/us-visas/business.html" } },
   { country: "CA", route: "Business Visitor", business_activities: ["meetings", "conferences", "trade fairs", "training as participant"], commercial_context: "Business visitor boundary", activity_matrix: "PERMITTED", work_boundary: "Entering Canadian labour market or performing work requires a work permit.", stay_rule: "Up to 6 months.", supporting_documents: ["Invitation", "Letter of support"], evidence: { source_name: "IRCC Canada", source_url: "https://www.canada.ca/en/immigration-refugees-citizenship/services/visit-canada/business.html" } },
   { country: "GB", route: "Standard Visitor (Business)", business_activities: ["meetings", "conferences", "negotiation", "site visits", "training"], commercial_context: "Standard Visitor permitted activities", activity_matrix: "PERMITTED", work_boundary: "Ordinary employment or providing services to a UK company requires a work visa.", stay_rule: "Up to 6 months.", evidence: { source_name: "UK Home Office", source_url: "https://www.gov.uk/standard-visitor/visit-on-business" } },
@@ -37,7 +37,7 @@ export const CORPORATE_TRAVEL_INTELLIGENCE_DATA = [
   { country: "PL", route: "Short-stay Business", business_activities: ["meetings", "negotiation", "conferences", "trade fairs"], activity_matrix: "PERMITTED", evidence: { source_name: "Gov.pl Poland", source_url: "https://www.gov.pl/web/diplomacy/visas" } },
   { country: "EU-SCHENGEN", route: "Schengen Framework", business_activities: ["meetings", "conferences", "negotiation", "internal training"], activity_matrix: "PERMITTED", stay_rule: "90 days within any 180-day period.", evidence: { source_name: "European Commission", source_url: "https://home-affairs.ec.europa.eu/policies/schengen/visa-policy/short-stay-visa_en" } },
 
-  // --- FIRST EXPANSION (7) ---
+  // --- EXPANSION 1 (7) ---
   { country: "DE", route: "Short-stay Business", business_activities: ["meetings", "conferences", "negotiation", "trade fairs", "training"], activity_matrix: "PERMITTED", evidence: { source_name: "Federal Foreign Office Germany", source_url: "https://www.auswaertiges-amt.de/en/visa-service/-/215870" } },
   { country: "DK", route: "Short-stay Business", business_activities: ["meetings", "negotiation", "conferences", "training"], activity_matrix: "PERMITTED", evidence: { source_name: "New to Denmark", source_url: "https://www.nyidanmark.dk/en-GB/You-want-to-apply/Short-stay-visa/Business-visit" } },
   { country: "BE", route: "Short-stay Business", business_activities: ["meetings", "conferences", "negotiation", "trade fairs"], activity_matrix: "PERMITTED", evidence: { source_name: "Foreign Affairs Belgium", source_url: "https://diplomatie.belgium.be/en/travel-belgium/visa-belgium" } },
@@ -46,7 +46,7 @@ export const CORPORATE_TRAVEL_INTELLIGENCE_DATA = [
   { country: "AR", route: "Business Visa", business_activities: ["meetings", "contracts", "commercial activity"], activity_matrix: "PERMITTED", stay_rule: "Up to 60 days.", evidence: { source_name: "Cancillería Argentina", source_url: "https://www.cancilleria.gob.ar/en/service/visas/business-visa" } },
   { country: "PT", route: "Short-stay Business", business_activities: ["meetings", "negotiation", "conferences", "trade fairs"], activity_matrix: "PERMITTED", evidence: { source_name: "VFS Global Portugal", source_url: "https://visa.vfsglobal.com/ind/en/prt/apply-visa" } },
 
-  // --- SECOND EXPANSION (12) ---
+  // --- EXPANSION 2 (12) ---
   { country: "SE", route: "Short-stay Business", business_activities: ["meetings", "conferences", "negotiation", "trade fairs"], activity_matrix: "PERMITTED", evidence: { source_name: "Swedish Migration Agency", source_url: "https://www.migrationsverket.se/en/private-individuals/visiting-sweden/business-visits.html" } },
   { country: "AT", route: "Short-stay Business", business_activities: ["meetings", "negotiation", "conferences", "trade fairs"], activity_matrix: "PERMITTED", evidence: { source_name: "Migration.gv.at", source_url: "https://www.migration.gv.at/en/types-of-immigration/fixed-term-stay/business-trips/" } },
   { country: "CZ", route: "Short-stay Business", business_activities: ["meetings", "negotiation", "conferences", "trade fairs"], activity_matrix: "PERMITTED", evidence: { source_name: "MFA Czech Republic", source_url: "https://www.mzv.cz/jnp/en/information_for_aliens/index.html" } },

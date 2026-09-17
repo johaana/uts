@@ -50,6 +50,8 @@ export function runReconciliation(): ReconciliationReport {
   if (counts.holidays !== EXPECTED.HOLIDAYS) errors.push(`HOLIDAYS mismatch: Expected ${EXPECTED.HOLIDAYS}, found ${counts.holidays}`);
   if (counts.students !== EXPECTED.STUDENTS) errors.push(`STUDENTS mismatch: Expected ${EXPECTED.STUDENTS}, found ${counts.students}`);
   if (counts.corporate_travel !== EXPECTED.CORPORATE_TRAVEL) errors.push(`CORPORATE_TRAVEL mismatch: Expected ${EXPECTED.CORPORATE_TRAVEL}, found ${counts.corporate_travel}`);
+  if (counts.regional !== EXPECTED.REGIONAL) errors.push(`REGIONAL mismatch: Expected ${EXPECTED.REGIONAL}, found ${counts.regional}`);
+  if (counts.study_timing !== EXPECTED.STUDY_TIMING) errors.push(`STUDY_TIMING mismatch: Expected ${EXPECTED.STUDY_TIMING}, found ${counts.study_timing}`);
 
   return {
     valid: errors.length === 0,

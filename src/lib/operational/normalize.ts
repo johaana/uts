@@ -60,7 +60,7 @@ export function getCanonicalRules(): CanonicalRule[] {
         ...obj.jurisdiction
       },
       purpose_relevance: obj.purpose_relevance || ['travel'],
-      temporal_kind: obj.valid_to ? 'period' : 'event',
+      temporal_kind: obj.temporal_kind || (obj.valid_to ? 'period' : 'event'),
       valid_from: obj.date || obj.valid_from,
       state: obj.state || 'confirmed',
       confidence: obj.confidence || 'listed',
@@ -83,7 +83,7 @@ export function getCanonicalRules(): CanonicalRule[] {
         ...policy.jurisdiction
       },
       purpose_relevance: ['study'],
-      temporal_kind: 'standing',
+      temporal_kind: policy.temporal_kind || 'standing',
       state: policy.state || 'confirmed',
       confidence: policy.confidence || 'high',
       evidence: policy.evidence || { source_name: null, source_url: "" },
@@ -105,7 +105,7 @@ export function getCanonicalRules(): CanonicalRule[] {
         ...obj.jurisdiction
       },
       purpose_relevance: ['study'],
-      temporal_kind: obj.valid_to ? 'period' : 'event',
+      temporal_kind: obj.temporal_kind || (obj.valid_to ? 'period' : 'event'),
       valid_from: obj.date || obj.valid_from,
       state: obj.state || 'confirmed',
       confidence: obj.confidence || 'medium',
