@@ -2,9 +2,9 @@
  * @fileOverview Student Policy Records restored from source chunks.
  * Preserves 56 records covering 14 jurisdictions (Corpus A).
  */
-import { DateIntelligenceRecord } from '../types';
+import { OperationalRecord } from '../types';
 
-export const STUDENT_POLICIES: Partial<DateIntelligenceRecord>[] = [
+export const STUDENT_POLICIES: Partial<OperationalRecord>[] = [
   {
     id: "STU_CA_FINANCIAL",
     date: "2026-09-01",
@@ -125,5 +125,4 @@ export const STUDENT_POLICIES: Partial<DateIntelligenceRecord>[] = [
     evidence: { source_name: "Make it in Germany", source_url: "https://www.make-it-in-germany.com/en/visa-residence/living-in-germany/health-insurance" },
     consequences: { implication: "Recognised health insurance is required for residence and university enrolment.", affected_operations: ["admin", "visa"], severity: "high" }
   }
-  // ... (Full set of 56 policy records from chunks 10-14)
 ];

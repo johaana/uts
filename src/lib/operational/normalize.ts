@@ -1,11 +1,10 @@
-'use client';
 /**
  * @fileOverview Normalization Layer for Structured Authoritative Data.
  * 
- * Ensuring robust handling of both flat and nested source data shapes.
+ * Ensures robust handling of both flat and nested source data shapes.
  * Differentiates between rule expansion and static policy ingestion.
  */
-import { DateIntelligenceRecord } from './types';
+import { OperationalRecord, DateIntelligenceRecord } from './types';
 import { DATA_REGISTRY } from './data/registry';
 import { evaluateRule } from './engine';
 import { COUNTRY_LABELS } from '../calendar-intelligence';
@@ -64,7 +63,7 @@ export function getCanonicalRecords(): DateIntelligenceRecord[] {
 
     records.push({
       ...obj,
-      id: obj.id || `REG_${countryCode}_${obj.date}_${regionName?.substring(0, 10)}`,
+      id: obj.id || `REG_${countryCode}_${obj.date}_${(regionName || "UNKN").substring(0, 10)}`,
       date: obj.date || "2026-01-01",
       name: displayName || obj.topic || "Regional Signal",
       category: obj.category || 'regional',
@@ -92,7 +91,7 @@ export function getCanonicalRecords(): DateIntelligenceRecord[] {
 
     records.push({
       ...policy,
-      id: policy.id || `STU_POL_${countryCode}_${(policy.name || policy.topic || "").replace(/\s/g, '_')}`,
+      id: policy.id || `STU_POL_${countryCode}_${(policy.name || policy.topic || "unkn").replace(/\s/g, '_')}`,
       date: policy.date || policy.effective_date || "2026-01-01",
       name: policy.name || policy.topic,
       category: policy.category || 'policy',
