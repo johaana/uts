@@ -7,13 +7,14 @@ import { INSTITUTIONAL_IDENTITIES } from './institutions';
 import { STUDENT_POLICIES } from './students';
 import { BUSINESS_POLICIES } from './business';
 import { REGIONAL_SIGNALS } from './regional';
+import { STUDY_INSTITUTIONAL_TIMING } from './study';
 
 export const DATA_REGISTRY = {
   // 1. Core Calendars
   HOLIDAYS: HOLIDAY_RULES,
   
   // 2. Institutional Timing
-  STUDY_INSTITUTIONAL_TIMING: [],
+  STUDY_INSTITUTIONAL_TIMING: STUDY_INSTITUTIONAL_TIMING,
   
   // 3. Travel Policies
   CORPORATE_TRAVEL_INTELLIGENCE_DATA: [],

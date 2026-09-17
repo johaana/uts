@@ -1,8 +1,6 @@
 /**
- * @fileOverview Corporate and Business Travel Policies (Phase 1 Skeleton).
+ * @fileOverview Business Policies.
  */
-import { OperationalRecord } from '../types';
+import { DateIntelligenceRecord } from '../types';
 
-export const BUSINESS_POLICIES: Partial<OperationalRecord>[] = [
-  // Skeleton ready for Phase 2 Extraction
-];
+export const BUSINESS_POLICIES: Partial<DateIntelligenceRecord>[] = [];

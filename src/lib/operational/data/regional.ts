@@ -1,6 +1,5 @@
 /**
- * @fileOverview Regional and Sub-national Signals (Restored from Chunks 15-17).
- * Preserves 35 records from the authoritative source.
+ * @fileOverview Regional signals restored from source chunks.
  */
 import { DateIntelligenceRecord } from '../types';
 
@@ -15,7 +14,7 @@ export const REGIONAL_SIGNALS: Partial<DateIntelligenceRecord>[] = [
     state: "confirmed",
     confidence: "medium",
     evidence: { source_name: "India.gov.in — Maharashtra state calendar", source_url: "https://www.india.gov.in/calendar/maharashtra" },
-    consequences: { implication: "Local operational treatment can vary by institution; public processions common.", affected_operations: ["public_services", "transport"], severity: "medium" }
+    consequences: { implication: "Anant Chaturdashi is listed in Maharashtra's 2026 holiday calendar; local operational treatment can vary by institution.", affected_operations: ["public_services", "transport"], severity: "medium" }
   },
   {
     id: "REG_CA_FAM",
@@ -27,7 +26,7 @@ export const REGIONAL_SIGNALS: Partial<DateIntelligenceRecord>[] = [
     state: "confirmed",
     confidence: "listed",
     evidence: { source_name: null, source_url: "" },
-    consequences: { implication: "Provincial holiday signals across several provinces; statutory treatment varies.", affected_operations: ["government", "banking"], severity: "medium" }
+    consequences: { implication: "Family Day is a regional holiday across multiple Canadian provinces.", affected_operations: ["government", "banking"], severity: "medium" }
   },
   {
     id: "REG_AU_LABOUR",
@@ -39,7 +38,7 @@ export const REGIONAL_SIGNALS: Partial<DateIntelligenceRecord>[] = [
     state: "confirmed",
     confidence: "listed",
     evidence: { source_name: null, source_url: "" },
-    consequences: { implication: "State-specific public holiday signal.", affected_operations: ["government"], severity: "medium" }
+    consequences: { implication: "Labour Day is observed in multiple Australian states.", affected_operations: ["government"], severity: "medium" }
   },
   {
     id: "REG_AU_KINGS",
@@ -51,6 +50,6 @@ export const REGIONAL_SIGNALS: Partial<DateIntelligenceRecord>[] = [
     state: "confirmed",
     confidence: "listed",
     evidence: { source_name: null, source_url: "" },
-    consequences: { implication: "Regional public holiday observed across most states.", affected_operations: ["government", "banking"], severity: "medium" }
+    consequences: { implication: "King's Birthday is a regional public holiday observed across most states.", affected_operations: ["government", "banking"], severity: "medium" }
   }
 ];

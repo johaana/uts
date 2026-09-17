@@ -1,6 +1,6 @@
 /**
  * @fileOverview Institutional Identity Registry.
- * Restored 100% (65 IDs) from authoritative source chunks.
+ * Restored from authoritative source chunks.
  */
 import { Institution } from '../types';
 

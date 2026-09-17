@@ -21,14 +21,14 @@ export function getCanonicalRecords(): DateIntelligenceRecord[] {
             id: `EVT_${cc}_${date}_${rule.name.replace(/\s/g, '_')}`,
             date,
             name: rule.name,
-            category: rule.type,
+            category: rule.type || 'holiday',
             jurisdiction: {
               country_code: cc,
               country_name: COUNTRY_LABELS[cc] || cc,
               scope: 'national'
             },
             purpose_relevance: ['travel', 'business', 'workforce', 'logistics', 'study'],
-            state: rule.status,
+            state: rule.status || 'confirmed',
             confidence: rule.confidence || 'listed',
             evidence: rule.evidence || { source_name: null, source_url: "" },
             consequences: {
@@ -36,8 +36,9 @@ export function getCanonicalRecords(): DateIntelligenceRecord[] {
               affected_operations: ['government', 'banking'],
               severity: 'medium'
             },
-            source_label: rule.type.toUpperCase(),
-            source_dataset: 'HOLIDAYS'
+            source_label: (rule.type || 'holiday').toUpperCase(),
+            source_dataset: 'HOLIDAYS',
+            temporal_kind: rule.status === 'estimated' ? 'estimated' : 'recurring'
           });
         }
       });
@@ -49,34 +50,24 @@ export function getCanonicalRecords(): DateIntelligenceRecord[] {
     const countryCode = obj.jurisdiction?.country_code || obj.country;
     const regionName = obj.jurisdiction?.region || obj.region;
     
+    if (!countryCode) return;
+
     // Extract actual event name from prose if possible
-    let displayName = obj.name || `Regional Signal: ${regionName}`;
-    if (!obj.name && obj.text) {
-      const subjectMatch = obj.text.match(/^(.+?)\s+(?:is|occurs|can be|falls|marks)/i);
+    let displayName = obj.name;
+    if (!displayName && obj.consequences?.implication) {
+      const text = obj.consequences.implication;
+      const subjectMatch = text.match(/^(.+?)\s+(?:is|occurs|can be|falls|marks)/i);
       if (subjectMatch) {
         displayName = subjectMatch[1];
-      } else if (obj.text.length < 60) {
-        displayName = obj.text;
-      }
-    }
-
-    const hasUrl = !!(obj.evidence?.source_url || obj.source_url);
-    const confidence = obj.confidence || (hasUrl ? 'medium' : 'unsourced');
-    
-    let sourceName = obj.evidence?.source_name || null;
-    if (!sourceName && hasUrl) {
-      try {
-        const url = new URL(obj.evidence?.source_url || obj.source_url);
-        sourceName = url.hostname.replace('www.', '');
-      } catch (e) {
-        sourceName = "Official Source";
+      } else {
+        displayName = `Regional Signal: ${regionName}`;
       }
     }
 
     records.push({
       id: obj.id || `REG_${countryCode}_${obj.date}_${regionName?.substring(0, 20)}`,
       date: obj.date,
-      name: displayName,
+      name: displayName || `Regional Signal: ${regionName}`,
       category: 'regional',
       jurisdiction: {
         country_code: countryCode,
@@ -86,18 +77,19 @@ export function getCanonicalRecords(): DateIntelligenceRecord[] {
       },
       purpose_relevance: ['travel', 'business', 'workforce', 'logistics', 'study'],
       state: obj.state || 'confirmed',
-      confidence: confidence as any,
+      confidence: obj.confidence || 'listed',
       evidence: obj.evidence || { 
-        source_name: sourceName, 
-        source_url: obj.source_url || "" 
+        source_name: null, 
+        source_url: "" 
       },
       consequences: obj.consequences || {
-        implication: obj.text || obj.summary || "Regional operational signal recorded.",
+        implication: "Regional operational signal recorded.",
         affected_operations: [],
         severity: 'low'
       },
       source_label: 'REGIONAL SIGNAL',
-      source_dataset: 'REGIONAL_INTELLIGENCE'
+      source_dataset: 'REGIONAL_INTELLIGENCE',
+      temporal_kind: 'event'
     });
   });
 
@@ -105,7 +97,8 @@ export function getCanonicalRecords(): DateIntelligenceRecord[] {
   DATA_REGISTRY.STUDENT_INTELLIGENCE_EXTRA.forEach(policy => {
     records.push({
       ...policy,
-      source_dataset: 'STUDENT_INTELLIGENCE_EXTRA'
+      source_dataset: 'STUDENT_INTELLIGENCE_EXTRA',
+      temporal_kind: 'standing'
     } as DateIntelligenceRecord);
   });
 
@@ -136,12 +129,13 @@ export function getCanonicalRecords(): DateIntelligenceRecord[] {
         source_url: obj.source_url || ""
       },
       consequences: obj.consequences || {
-        implication: obj.summary || obj.text || "Institutional timing record.",
+        implication: obj.summary || "Institutional timing record.",
         affected_operations: [obj.type?.toLowerCase()],
         severity: 'low'
       },
       source_label: 'ACADEMIC CALENDAR',
-      source_dataset: 'STUDY_INSTITUTIONAL_TIMING'
+      source_dataset: 'STUDY_INSTITUTIONAL_TIMING',
+      temporal_kind: 'event'
     });
   });
 

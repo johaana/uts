@@ -1,8 +1,8 @@
 /**
- * @fileOverview Student Policy Records (Restored from Chunks 10-14).
- * Preserves 56 records from the authoritative source.
+ * @fileOverview Student Policy Records restored from source chunks.
  */
 import { DateIntelligenceRecord } from '../types';
+import { COUNTRY_LABELS } from '../../calendar-intelligence';
 
 export const STUDENT_POLICIES: Partial<DateIntelligenceRecord>[] = [
   {
