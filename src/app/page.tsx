@@ -10,8 +10,9 @@ import {
 } from '@/lib/calendar-intelligence';
 import { getOperationalImpact } from '@/lib/operational/adapter';
 import { getSource } from '@/lib/operational/source';
-import { OperationalResult, DateIntelligenceRecord } from '@/lib/operational/types';
-import { format, addDays, startOfDay, differenceInDays, isValid, isSameDay, startOfToday } from 'date-fns';
+import { evaluateQuery } from '@/lib/operational/engine';
+import { OperationalResult, DateIntelligenceRecord, CanonicalRule } from '@/lib/operational/types';
+import { format, addDays, startOfDay, differenceInDays, isValid, startOfToday } from 'date-fns';
 
 const LENS_LABELS: Record<string, string> = {
   all: "All intelligence",
@@ -35,6 +36,7 @@ const DOMAIN_GUIDANCE: Record<string, string> = {
 export default function HomePage() {
   const [isMounted, setIsMounted] = useState(false);
   const [allRecords, setAllRecords] = useState<DateIntelligenceRecord[]>([]);
+  const [canonicalRules, setCanonicalRules] = useState<CanonicalRule[]>([]);
   const [mode, setMode] = useState<'traveler' | 'study' | 'corporate'>('traveler');
   const [country, setCountry] = useState('IN');
   const [startDate, setStartDate] = useState('');
@@ -64,9 +66,12 @@ export default function HomePage() {
     const end = addDays(today, 30);
     setEndDate(format(end, 'yyyy-MM-dd'));
 
-    // Unified Engine: Load all authoritative records
+    // PHASE 4: Load both materialised instances for Tracker and Canonical Rules for the Engine
     getSource().getRecords().then(records => {
       setAllRecords(records);
+    });
+    getSource().getCanonicalRules().then(rules => {
+      setCanonicalRules(rules);
     });
   }, []);
 
@@ -106,8 +111,6 @@ export default function HomePage() {
       idx.get(r.date).push({ code: r.jurisdiction.country_code, name: r.name });
     });
     
-    // Fix Bug 3: Ensure the index is sorted chronologically so future-year events 
-    // don't appear before current-year events in the marquee.
     const sortedEntries = Array.from(idx.entries()).sort((a, b) => a[0].localeCompare(b[0]));
     return new Map(sortedEntries);
   }, [isMounted, todayKey, allRecords]);
@@ -116,8 +119,8 @@ export default function HomePage() {
     const dates = Array.from(forwardIndex.keys()).sort();
     if (!dates.length) return null;
     
-    // STRICT FUTURE FILTER: Find first date >= today
-    const candidate = dates.find(d => d >= todayKey);
+    // HERO SEMANTICS (Phase 4): Prefer next valid date STRICTLY after today
+    const candidate = dates.find(d => d > todayKey);
     if (!candidate) return null;
 
     const entries = forwardIndex.get(candidate) || [];
@@ -133,8 +136,9 @@ export default function HomePage() {
 
   const regionalNext = useMemo(() => {
     if (!isMounted || !todayKey || allRecords.length === 0) return null;
+    // HERO SEMANTICS (Phase 4): Strictly next future event
     const match = allRecords
-      .filter(r => r.jurisdiction.country_code === country && r.date >= todayKey)
+      .filter(r => r.jurisdiction.country_code === country && r.date > todayKey)
       .sort((a, b) => a.date.localeCompare(b.date))[0];
     
     if (!match) return null;
@@ -146,25 +150,26 @@ export default function HomePage() {
     };
   }, [isMounted, country, todayKey, allRecords]);
 
-  // --- Logic: Checker Binding ---
+  // --- Logic: Checker Evaluation (PHASE 4 ENGINE INTEGRATION) ---
   const checkerData = useMemo(() => {
-    if (!startDate || !endDate || allRecords.length === 0) return { records: [], count: 0, longest: 0, nextDays: '—', publicCount: 0, regionalCount: 0 };
+    if (!startDate || !endDate || canonicalRules.length === 0) return { records: [], count: 0, longest: 0, nextDays: '—', publicCount: 0, regionalCount: 0 };
     
-    const purposeMap = {
+    const purposeMap: Record<string, 'travel' | 'study' | 'business'> = {
       traveler: 'travel',
       study: 'study',
       corporate: 'business'
     };
+    
     const activePurpose = purposeMap[mode];
+    
+    // Wire the synchronous evaluation engine
+    const matches = evaluateQuery(canonicalRules, {
+      destination: country,
+      startDate,
+      endDate,
+      purpose: activePurpose
+    }, new Date());
 
-    const matches = allRecords.filter(r => 
-      r.jurisdiction.country_code === country && 
-      r.date >= startDate && 
-      r.date <= endDate &&
-      (r.purpose_relevance.includes(activePurpose as any))
-    ).sort((a, b) => a.date.localeCompare(b.date));
-
-    // Deduplicate for summary
     const uniqueDatesSet = new Set(matches.map(m => m.date));
     const uniqueRecords = matches.filter((v, i, a) => a.findIndex(t => t.name === v.name && t.date === v.date) === i);
     
@@ -184,7 +189,7 @@ export default function HomePage() {
     const rCount = matches.filter(r => r.category === 'regional').length;
 
     return { records: uniqueRecords, count: uniqueDatesSet.size, longest, nextDays, publicCount: pCount, regionalCount: rCount };
-  }, [country, startDate, endDate, allRecords, mode]);
+  }, [country, startDate, endDate, canonicalRules, mode]);
 
   return (
     <div className="bg-ink text-paper min-h-screen font-sans">
@@ -215,7 +220,7 @@ export default function HomePage() {
                     </span>
                   </div>
                   <div className="hero-tracker-next-card">
-                    <span className="next-card-kicker" id="pulse-regional-kicker">Regional · {COUNTRY_LABELS[country]}</span>
+                    <span className="next-card-kicker" id="pulse-regional-kicker">Regional · {COUNTRY_LABELS[country] || country}</span>
                     <span className="next-card-name" id="pulse-regional-name">{regionalNext?.name || "Clear window"}</span>
                     <span className="next-card-date" id="pulse-regional-date">
                       {regionalNext ? `${regionalNext.shortDate} · ${regionalNext.daysAway} days away` : 'Normal operational status'}
@@ -226,7 +231,7 @@ export default function HomePage() {
                 <div className="hero-tracker-feed">
                   <div className="marquee" aria-live="polite">
                     <div className="marquee-track" id="pulse-marquee-track">
-                      {/* Bug 3 fix: Filter forwardIndex entries to show only today or future dates */}
+                      {/* MARQUEE SEMANTICS (Phase 4): Prioritize Today, then show strictly future */}
                       {Array.from(forwardIndex.entries())
                         .filter(([d]) => d >= todayKey)
                         .slice(0, 12)
@@ -369,7 +374,7 @@ export default function HomePage() {
                     </div>
                   </div>
                    <p className="text-sm text-muted italic p-8 text-center border border-dashed border-white/5 rounded-xl">
-                     Comparison view restored. Select countries to identify mismatches.
+                     Comparison view enabled. Identified mismatches between selected jurisdictions will appear in the intelligence feed.
                    </p>
                 </div>
               )}
@@ -429,7 +434,7 @@ export default function HomePage() {
                     {diDate === todayKey && <span className="text-[9px] font-mono px-2 py-0.5 border border-accent/40 text-accent rounded-full uppercase">Today</span>}
                   </h2>
                   <p className="text-[13px] text-[#9AA1C0]">
-                    {COUNTRY_LABELS[diCountry]} · {isValid(new Date(diDate + 'T00:00:00')) ? format(new Date(diDate + 'T00:00:00'), 'EEEE') : 'Weekday'}
+                    {COUNTRY_LABELS[diCountry] || diCountry} · {isValid(new Date(diDate + 'T00:00:00')) ? format(new Date(diDate + 'T00:00:00'), 'EEEE') : 'Weekday'}
                   </p>
                 </div>
 
