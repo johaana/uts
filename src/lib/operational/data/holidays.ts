@@ -42,5 +42,41 @@ export const HOLIDAY_RULES: Record<string, HolidayRule[]> = {
     { kind: "fixed", month: 12, day: 25, name: "Christmas Day", type: "holiday", status: "confirmed", confidence: "high", evidence: { source_name: "Fair Work Ombudsman", source_url: "https://www.fairwork.gov.au/employment-conditions/public-holidays", last_checked: "2026-09-06" } },
     { kind: "fixed", month: 12, day: 26, name: "Boxing Day", type: "holiday", status: "confirmed", confidence: "high", evidence: { source_name: "Fair Work Ombudsman", source_url: "https://www.fairwork.gov.au/employment-conditions/public-holidays", last_checked: "2026-09-06" } },
     { kind: "dated", dates: { 2026: "2026-12-28", 2027: "2027-12-27" }, name: "Additional public holiday for Boxing Day", type: "holiday", status: "confirmed", confidence: "high", evidence: { source_name: "Fair Work Ombudsman", source_url: "https://www.fairwork.gov.au/employment-conditions/public-holidays", last_checked: "2026-09-06" } }
+  ],
+  DE: [
+    { kind: "fixed", month: 10, day: 3, name: "German Unity Day", type: "holiday", status: "confirmed" },
+    { kind: "fixed", month: 12, day: 25, name: "Christmas Day", type: "holiday", status: "confirmed" }
+  ],
+  FR: [
+    { kind: "fixed", month: 7, day: 14, name: "Bastille Day", type: "holiday", status: "confirmed" },
+    { kind: "fixed", month: 12, day: 25, name: "Noël", type: "holiday", status: "confirmed" }
+  ],
+  IT: [
+    { kind: "fixed", month: 6, day: 2, name: "Festa della Repubblica", type: "holiday", status: "confirmed" },
+    { kind: "fixed", month: 11, day: 1, name: "All Saints' Day", type: "holiday", status: "confirmed" },
+    { kind: "fixed", month: 12, day: 8, name: "Immaculate Conception", type: "holiday", status: "confirmed" }
+  ],
+  ES: [
+    { kind: "fixed", month: 10, day: 12, name: "Fiesta Nacional de España", type: "holiday", status: "confirmed" },
+    { kind: "fixed", month: 11, day: 1, name: "All Saints' Day", type: "holiday", status: "confirmed" },
+    { kind: "fixed", month: 12, day: 6, name: "Constitution Day", type: "holiday", status: "confirmed" },
+    { kind: "fixed", month: 12, day: 8, name: "Immaculate Conception", type: "holiday", status: "confirmed" }
+  ],
+  CH: [
+    { kind: "fixed", month: 8, day: 1, name: "Swiss National Day", type: "holiday", status: "confirmed" },
+    { kind: "fixed", month: 12, day: 25, name: "Christmas Day", type: "holiday", status: "confirmed" }
+  ],
+  AE: [
+    { kind: "fixed", month: 12, day: 2, name: "National Day (Eid Al Etihad)", type: "holiday", status: "confirmed" },
+    { kind: "fixed", month: 12, day: 3, name: "National Day (Eid Al Etihad)", type: "holiday", status: "confirmed" },
+    { kind: "fixed", month: 1, day: 1, name: "New Year's Day", type: "holiday", status: "confirmed" }
+  ],
+  NZ: [
+    { kind: "fixed", month: 2, day: 6, name: "Waitangi Day", type: "holiday", status: "confirmed" },
+    { kind: "fixed", month: 4, day: 25, name: "Anzac Day", type: "holiday", status: "confirmed" }
+  ],
+  KR: [
+    { kind: "fixed", month: 8, day: 15, name: "Liberation Day", type: "holiday", status: "confirmed" },
+    { kind: "fixed", month: 10, day: 3, name: "National Foundation Day", type: "holiday", status: "confirmed" }
   ]
 };
