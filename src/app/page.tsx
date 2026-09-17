@@ -66,7 +66,6 @@ export default function HomePage() {
     const end = addDays(today, 30);
     setEndDate(format(end, 'yyyy-MM-dd'));
 
-    // PHASE 4: Load both materialised instances for Tracker and Canonical Rules for the Engine
     getSource().getRecords().then(records => {
       setAllRecords(records);
     });
@@ -119,16 +118,21 @@ export default function HomePage() {
     const dates = Array.from(forwardIndex.keys()).sort();
     if (!dates.length) return null;
     
-    // HERO SEMANTICS (Phase 4): Prefer next valid date STRICTLY after today
     const candidate = dates.find(d => d > todayKey);
     if (!candidate) return null;
 
     const entries = forwardIndex.get(candidate) || [];
     const dateObj = new Date(candidate + 'T00:00:00');
+    
+    // Attribution Fix: Prepend country if it's a global aggregation
+    const entry = entries[0];
+    const countryName = entry ? (COUNTRY_LABELS[entry.code] || entry.code) : "";
+    const eventName = entry?.name || "—";
+
     return { 
       dateStr: format(dateObj, 'EEEE, d MMMM yyyy'),
       shortDate: format(dateObj, 'd MMM'),
-      name: entries[0]?.name || "—", 
+      name: entry ? `${countryName} — ${eventName}` : "—", 
       count: entries.length, 
       daysAway: differenceInDays(dateObj, new Date(todayKey + 'T00:00:00')) 
     };
@@ -136,10 +140,9 @@ export default function HomePage() {
 
   const regionalNext = useMemo(() => {
     if (!isMounted || !todayKey || allRecords.length === 0) return null;
-    // HERO SEMANTICS (Phase 4): Strictly next future event
     const match = allRecords
       .filter(r => r.jurisdiction.country_code === country && r.date > todayKey)
-      .sort((a, b) => a.date.localeCompare(b.date))[0];
+      .sort((a, b) => a.date.compare(b.date))[0];
     
     if (!match) return null;
     const dateObj = new Date(match.date + 'T00:00:00');
@@ -150,7 +153,7 @@ export default function HomePage() {
     };
   }, [isMounted, country, todayKey, allRecords]);
 
-  // --- Logic: Checker Evaluation (PHASE 4 ENGINE INTEGRATION) ---
+  // --- Logic: Checker Evaluation ---
   const checkerData = useMemo(() => {
     if (!startDate || !endDate || canonicalRules.length === 0) return { records: [], count: 0, longest: 0, nextDays: '—', publicCount: 0, regionalCount: 0 };
     
@@ -162,7 +165,6 @@ export default function HomePage() {
     
     const activePurpose = purposeMap[mode];
     
-    // Wire the synchronous evaluation engine
     const matches = evaluateQuery(canonicalRules, {
       destination: country,
       startDate,
@@ -182,13 +184,22 @@ export default function HomePage() {
       prev = cur;
     });
 
-    const nextDate = [...uniqueDatesSet].sort().find(d => d >= startDate);
-    const nextDays = nextDate ? differenceInDays(new Date(nextDate + 'T00:00:00'), new Date(startDate + 'T00:00:00')) : '—';
+    // Semantic Fix: Exclude 'standing' records from the 'next one' distance calculation
+    const nextEventDate = [...uniqueDatesSet]
+      .filter(d => {
+        const rec = matches.find(m => m.date === d);
+        return rec && rec.temporal_kind !== 'standing';
+      })
+      .sort()
+      .find(d => d >= startDate);
+      
+    const nextDaysNum = nextEventDate ? differenceInDays(new Date(nextEventDate + 'T00:00:00'), new Date(startDate + 'T00:00:00')) : null;
+    const nextDaysLabel = nextDaysNum !== null ? nextDaysNum.toString() : '—';
 
     const pCount = matches.filter(r => r.category === 'holiday').length;
     const rCount = matches.filter(r => r.category === 'regional').length;
 
-    return { records: uniqueRecords, count: uniqueDatesSet.size, longest, nextDays, publicCount: pCount, regionalCount: rCount };
+    return { records: uniqueRecords, count: uniqueDatesSet.size, longest, nextDays: nextDaysLabel, nextDaysVal: nextDaysNum, publicCount: pCount, regionalCount: rCount };
   }, [country, startDate, endDate, canonicalRules, mode]);
 
   return (
@@ -216,14 +227,14 @@ export default function HomePage() {
                     <span className="next-card-kicker">Global</span>
                     <span className="next-card-name" id="pulse-global-name">{globalNext?.name || "No upcoming national record"}</span>
                     <span className="next-card-date" id="pulse-global-date">
-                      {globalNext ? `${globalNext.shortDate} · ${globalNext.count} ${globalNext.count === 1 ? 'country' : 'countries'} · ${globalNext.daysAway} days away` : '—'}
+                      {globalNext ? `${globalNext.shortDate} · ${globalNext.count} ${globalNext.count === 1 ? 'country' : 'countries'} · ${globalNext.daysAway} ${globalNext.daysAway === 1 ? 'day' : 'days'} away` : '—'}
                     </span>
                   </div>
                   <div className="hero-tracker-next-card">
                     <span className="next-card-kicker" id="pulse-regional-kicker">Regional · {COUNTRY_LABELS[country] || country}</span>
                     <span className="next-card-name" id="pulse-regional-name">{regionalNext?.name || "Clear window"}</span>
                     <span className="next-card-date" id="pulse-regional-date">
-                      {regionalNext ? `${regionalNext.shortDate} · ${regionalNext.daysAway} days away` : 'Normal operational status'}
+                      {regionalNext ? `${regionalNext.shortDate} · ${regionalNext.daysAway} ${regionalNext.daysAway === 1 ? 'day' : 'days'} away` : 'Normal operational status'}
                     </span>
                   </div>
                 </div>
@@ -231,7 +242,6 @@ export default function HomePage() {
                 <div className="hero-tracker-feed">
                   <div className="marquee" aria-live="polite">
                     <div className="marquee-track" id="pulse-marquee-track">
-                      {/* MARQUEE SEMANTICS (Phase 4): Prioritize Today, then show strictly future */}
                       {Array.from(forwardIndex.entries())
                         .filter(([d]) => d >= todayKey)
                         .slice(0, 12)
@@ -293,9 +303,9 @@ export default function HomePage() {
                   </div>
 
                   <div className="checker-summary">
-                    <div><b className="font-headline">{checkerData.count}</b><span>dates to keep in mind</span></div>
-                    <div><b className="font-headline">{checkerData.longest}</b><span>days in longest flagged run</span></div>
-                    <div><b className="font-headline">{checkerData.nextDays}</b><span>days to next one</span></div>
+                    <div><b className="font-headline">{checkerData.count}</b><span>{checkerData.count === 1 ? 'date' : 'dates'} to keep in mind</span></div>
+                    <div><b className="font-headline">{checkerData.longest}</b><span>{checkerData.longest === 1 ? 'day' : 'days'} in longest flagged run</span></div>
+                    <div><b className="font-headline">{checkerData.nextDays}</b><span>{checkerData.nextDaysVal === 1 ? 'day' : 'days'} to next one</span></div>
                   </div>
                   <div className="checker-brief" id="checker-brief">
                     <strong>IN SHORT:</strong> {checkerData.count} {checkerData.count === 1 ? 'date' : 'dates'} in your selected period {checkerData.count === 1 ? 'is' : 'are'} worth keeping in mind. The details below show what is happening on each date and any related local or institutional information.
@@ -331,7 +341,7 @@ export default function HomePage() {
                         {checkerData.count} {checkerData.count === 1 ? 'date' : 'dates'} in this period {checkerData.count === 1 ? 'is' : 'are'} worth keeping in mind.{' '}
                         {checkerData.publicCount > 0 && (
                           <>
-                            {checkerData.publicCount} likely {checkerData.publicCount === 1 ? 'closure' : 'closures'}. Check the named source if you need a particular office, service or institution to be open.{' '}
+                            {checkerData.publicCount} public holiday {checkerData.publicCount === 1 ? 'signal' : 'signals'}. Check the named source if you need a particular office, service or institution to be open.{' '}
                           </>
                         )}
                         {checkerData.regionalCount > 0 && (

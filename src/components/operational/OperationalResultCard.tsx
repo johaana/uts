@@ -4,7 +4,7 @@
 import React from 'react';
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Info, Calendar, MapPin, ShieldCheck, ExternalLink, Landmark } from "lucide-react";
+import { Info, Calendar, MapPin, ShieldCheck, ExternalLink, Landmark, Activity } from "lucide-react";
 import { DateIntelligenceRecord } from '@/lib/operational/types';
 import { cn } from '@/lib/utils';
 
@@ -19,15 +19,28 @@ export function OperationalResultCard({ record }: OperationalResultCardProps) {
     <Card className="mb-4 border-l-4 border-l-primary overflow-hidden shadow-sm hover:shadow-md transition-shadow">
       <CardHeader className="bg-muted/5 py-4 px-6 flex flex-col sm:flex-row items-start justify-between gap-4">
         <div className="space-y-1">
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <h3 className="font-bold text-lg leading-tight">{record.name}</h3>
-            <Badge variant={record.state === 'confirmed' ? 'default' : 'secondary'} className="text-[9px] h-4 font-mono px-1">
-              {record.state.toUpperCase()}
-            </Badge>
+            <div className="flex gap-1">
+              <Badge variant={record.state === 'confirmed' ? 'default' : 'secondary'} className="text-[9px] h-4 font-mono px-1">
+                {record.state.toUpperCase()}
+              </Badge>
+              {record.temporal_kind === 'standing' && (
+                <Badge variant="outline" className="text-[9px] h-4 font-mono px-1 border-accent text-accent">
+                  STANDING POLICY
+                </Badge>
+              )}
+            </div>
           </div>
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] text-muted-foreground font-medium">
-            <span className="flex items-center gap-1"><Calendar className="w-3 h-3 text-primary/60" /> {record.date}</span>
-            <span className="flex items-center gap-1"><MapPin className="w-3 h-3 text-primary/60" /> {record.jurisdiction.country_name}{record.jurisdiction.region ? ` · ${record.jurisdiction.region}` : ''}</span>
+            <span className="flex items-center gap-1">
+              <Calendar className="w-3 h-3 text-primary/60" /> 
+              {record.temporal_kind === 'standing' ? 'Ongoing Policy' : record.date}
+            </span>
+            <span className="flex items-center gap-1">
+              <MapPin className="w-3 h-3 text-primary/60" /> 
+              {record.jurisdiction.country_name}{record.jurisdiction.region ? ` · ${record.jurisdiction.region}` : ''}
+            </span>
             {record.institution && (
               <span className="flex items-center gap-1 text-primary/80">
                 <Landmark className="w-3 h-3" /> {record.institution.name}
@@ -47,7 +60,7 @@ export function OperationalResultCard({ record }: OperationalResultCardProps) {
       <CardContent className="p-6 pt-2 space-y-4">
         <div className="p-4 bg-primary/5 rounded-lg border border-primary/10">
           <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary mb-2 flex items-center gap-2">
-            <Info className="w-3 h-3" /> Why it matters
+            <Info className="w-3 h-3" /> {record.temporal_kind === 'standing' ? 'Policy implication' : 'Why it matters'}
           </h4>
           <p className="text-sm font-medium leading-relaxed text-foreground/90">
             {record.consequences.implication}
@@ -68,7 +81,7 @@ export function OperationalResultCard({ record }: OperationalResultCardProps) {
           </div>
           <div className="md:text-right">
              <p className="font-bold uppercase tracking-widest text-muted-foreground/60">Last Checked</p>
-             <p className="font-mono">{record.evidence.last_checked}</p>
+             <p className="font-mono">{record.evidence.last_checked || '—'}</p>
           </div>
         </div>
       </CardContent>
