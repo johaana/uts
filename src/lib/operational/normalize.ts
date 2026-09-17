@@ -24,7 +24,7 @@ export function getCanonicalRecords(): DateIntelligenceRecord[] {
             jurisdiction: {
               country_code: cc,
               country_name: COUNTRY_LABELS[cc] || cc,
-              scope: rule.jurisdiction?.scope || 'national'
+              scope: 'national'
             },
             purpose_relevance: ['travel', 'business', 'workforce', 'logistics', 'study'],
             state: rule.status,
@@ -56,18 +56,14 @@ export function getCanonicalRecords(): DateIntelligenceRecord[] {
       }
     }
 
-    // Determine confidence: if no URL exists, it is 'listed' and exempt from source_name in validator
     const hasUrl = !!obj.source_url;
-    const confidence = hasUrl ? 'medium' : 'listed';
+    const confidence = hasUrl ? 'medium' : 'unsourced';
     
     let sourceName = null;
     if (hasUrl) {
       try {
         const url = new URL(obj.source_url);
         sourceName = url.hostname.replace('www.', '');
-        if (sourceName === 'india.gov.in') {
-          sourceName = `India.gov.in — ${obj.region} state calendar`;
-        }
       } catch (e) {
         sourceName = "Official Source";
       }
@@ -107,6 +103,42 @@ export function getCanonicalRecords(): DateIntelligenceRecord[] {
       ...policy,
       source_dataset: 'STUDY_POLICIES'
     } as DateIntelligenceRecord);
+  });
+
+  // 4. Map Study Institutional Timing
+  DATA_REGISTRY.STUDY_INSTITUTIONAL_TIMING.forEach((obj: any) => {
+    const inst = DATA_REGISTRY.INSTITUTIONS[obj.institution_id] || { name: obj.institution || obj.institution_id };
+    records.push({
+      id: `STU_${obj.country}_${obj.date}_${obj.institution_id || obj.institution}_${obj.type}`,
+      date: obj.date,
+      name: obj.topic || `${obj.type} - ${inst.name}`,
+      category: 'institutional',
+      jurisdiction: {
+        country_code: obj.country,
+        country_name: COUNTRY_LABELS[obj.country] || obj.country,
+        scope: 'institutional'
+      },
+      institution: {
+        id: obj.institution_id || "UNKNOWN",
+        name: inst.name,
+        country: obj.country,
+        type: "UNIVERSITY"
+      },
+      purpose_relevance: ['study'],
+      state: 'confirmed',
+      confidence: obj.confidence || 'medium',
+      evidence: {
+        source_name: obj.source_name || inst.name,
+        source_url: obj.source_url || ""
+      },
+      consequences: {
+        implication: obj.summary || obj.text || "Institutional timing record.",
+        affected_operations: [obj.type?.toLowerCase()],
+        severity: 'low'
+      },
+      source_label: 'ACADEMIC CALENDAR',
+      source_dataset: 'STUDY_INSTITUTIONAL_TIMING'
+    });
   });
 
   return records;
