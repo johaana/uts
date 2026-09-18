@@ -156,6 +156,22 @@ export default function HomePage() {
     return new Map(sortedEntries);
   }, [isMounted, todayKey, allRecords]);
 
+  // Mobile Specific Filtered Index (Excludes Regional)
+  const mobileForwardIndex = useMemo(() => {
+    const idx = new Map();
+    if (!isMounted || !todayKey || allRecords.length === 0) return idx;
+    
+    allRecords
+      .filter(r => r.category !== 'regional' && r.jurisdiction.scope !== 'regional')
+      .forEach(r => {
+        if (!idx.has(r.date)) idx.set(r.date, []);
+        idx.get(r.date).push({ code: r.jurisdiction.country_code, name: r.name });
+      });
+    
+    const sortedEntries = Array.from(idx.entries()).sort((a, b) => a[0].localeCompare(b[0]));
+    return new Map(sortedEntries);
+  }, [isMounted, todayKey, allRecords]);
+
   const globalNext = useMemo(() => {
     const dates = Array.from(forwardIndex.keys()).sort();
     if (!dates.length) return null;
@@ -178,6 +194,30 @@ export default function HomePage() {
       daysAway: differenceInDays(dateObj, new Date(todayKey + 'T00:00:00')) 
     };
   }, [forwardIndex, todayKey]);
+
+  // Mobile Specific Next Global
+  const mobileGlobalNext = useMemo(() => {
+    const dates = Array.from(mobileForwardIndex.keys()).sort();
+    if (!dates.length) return null;
+    
+    const candidate = dates.find(d => d > todayKey);
+    if (!candidate) return null;
+
+    const entries = mobileForwardIndex.get(candidate) || [];
+    const dateObj = new Date(candidate + 'T00:00:00');
+    
+    const entry = entries[0];
+    const countryName = entry ? (COUNTRY_LABELS[entry.code] || entry.code) : "";
+    const eventName = entry?.name || "—";
+
+    return { 
+      dateStr: format(dateObj, 'EEEE, d MMMM yyyy'),
+      shortDate: format(dateObj, 'd MMM'),
+      name: entry ? `${countryName} — ${eventName}` : "—", 
+      count: entries.length, 
+      daysAway: differenceInDays(dateObj, new Date(todayKey + 'T00:00:00')) 
+    };
+  }, [mobileForwardIndex, todayKey]);
 
   const regionalNext = useMemo(() => {
     if (!isMounted || !todayKey || allRecords.length === 0) return null;
@@ -258,48 +298,67 @@ export default function HomePage() {
         <section className="hero" id="explore">
           <div className="wrap hero-grid">
             <div className="hero-copy">
-              <h1 className="headline">Know before you fly. Know before you schedule.</h1>
-              <p className="sub">Check a country and your actual dates — before you book, schedule, send a student, or send an employee across borders.</p>
+              <h1 className="headline md:max-w-none max-w-[320px]">
+                Know before you fly. <br className="md:hidden" />
+                Know before you schedule.
+              </h1>
+              <p className="sub hidden md:block">Check a country and your actual dates — before you book, schedule, send a student, or send an employee across borders.</p>
 
               <aside className="hero-tracker md:order-last" id="world" aria-label="Next holiday tracker" style={{ order: isComparing ? 2 : 3 }}>
-                <div className="hero-tracker-head">
-                  <div>
+                {/* Mobile Specific Tracker View */}
+                <div className="md:hidden p-5 space-y-4 text-left">
+                  <div className="space-y-1">
                     <span className="hero-tracker-kicker">NEXT HOLIDAY UP</span>
-                    <strong id="hero-tracker-date">{globalNext?.dateStr || "Determining next..."}</strong>
-                  </div>
-                  <span className="hero-tracker-live"><i></i> Live calendar view</span>
-                </div>
-
-                <div className="hero-tracker-next-grid">
-                  <div className="hero-tracker-next-card">
-                    <span className="next-card-kicker">Global</span>
-                    <span className="next-card-name" id="pulse-global-name">{globalNext?.name || "No upcoming national record"}</span>
-                    <span className="next-card-date" id="pulse-global-date">
-                      {globalNext ? `${globalNext.shortDate} · ${globalNext.count} ${globalNext.count === 1 ? 'country' : 'countries'} · ${globalNext.daysAway} ${globalNext.daysAway === 1 ? 'day' : 'days'} away` : '—'}
-                    </span>
-                  </div>
-                  <div className="hero-tracker-next-card">
-                    <span className="next-card-kicker" id="pulse-regional-kicker">Regional · {COUNTRY_LABELS[country] || country}</span>
-                    <span className="next-card-name" id="pulse-regional-name">{regionalNext?.name || "Clear window"}</span>
-                    <span className="next-card-date" id="pulse-regional-date">
-                      {regionalNext ? `${regionalNext.shortDate} · ${regionalNext.daysAway} ${regionalNext.daysAway === 1 ? 'day' : 'days'} away` : 'Normal operational status'}
+                    <strong className="block text-lg font-headline leading-tight text-paper">
+                      {mobileGlobalNext?.name || "Determining next..."}
+                    </strong>
+                    <span className="text-[11px] text-muted-foreground block">
+                      {mobileGlobalNext ? `${mobileGlobalNext.shortDate} · ${mobileGlobalNext.count} ${mobileGlobalNext.count === 1 ? 'country' : 'countries'} · ${mobileGlobalNext.daysAway} ${mobileGlobalNext.daysAway === 1 ? 'day' : 'days'} away` : '—'}
                     </span>
                   </div>
                 </div>
 
-                <div className="hero-tracker-feed">
-                  <div className="marquee" aria-live="polite">
-                    <div className="marquee-track" id="pulse-marquee-track">
-                      {Array.from(forwardIndex.entries())
-                        .filter(([d]) => d >= todayKey)
-                        .slice(0, 12)
-                        .map(([date, entries]) => (
-                        entries.map((e: any, idx: number) => (
-                          <span key={`${date}-${idx}`} className="chip">
-                            <b>{COUNTRY_LABELS[e.code] || e.code}</b> — {e.name} · {format(new Date(date + 'T00:00:00'), 'd MMM')}
-                          </span>
-                        ))
-                      ))}
+                {/* Desktop Tracker View (Frozen) */}
+                <div className="hidden md:block">
+                  <div className="hero-tracker-head">
+                    <div>
+                      <span className="hero-tracker-kicker">NEXT HOLIDAY UP</span>
+                      <strong id="hero-tracker-date">{globalNext?.dateStr || "Determining next..."}</strong>
+                    </div>
+                    <span className="hero-tracker-live"><i></i> Live calendar view</span>
+                  </div>
+
+                  <div className="hero-tracker-next-grid">
+                    <div className="hero-tracker-next-card">
+                      <span className="next-card-kicker">Global</span>
+                      <span className="next-card-name" id="pulse-global-name">{globalNext?.name || "No upcoming national record"}</span>
+                      <span className="next-card-date" id="pulse-global-date">
+                        {globalNext ? `${globalNext.shortDate} · ${globalNext.count} ${globalNext.count === 1 ? 'country' : 'countries'} · ${globalNext.daysAway} ${globalNext.daysAway === 1 ? 'day' : 'days'} away` : '—'}
+                      </span>
+                    </div>
+                    <div className="hero-tracker-next-card">
+                      <span className="next-card-kicker" id="pulse-regional-kicker">Regional · {COUNTRY_LABELS[country] || country}</span>
+                      <span className="next-card-name" id="pulse-regional-name">{regionalNext?.name || "Clear window"}</span>
+                      <span className="next-card-date" id="pulse-regional-date">
+                        {regionalNext ? `${regionalNext.shortDate} · ${regionalNext.daysAway} ${regionalNext.daysAway === 1 ? 'day' : 'days'} away` : 'Normal operational status'}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="hero-tracker-feed">
+                    <div className="marquee" aria-live="polite">
+                      <div className="marquee-track" id="pulse-marquee-track">
+                        {Array.from(forwardIndex.entries())
+                          .filter(([d]) => d >= todayKey)
+                          .slice(0, 12)
+                          .map(([date, entries]) => (
+                          entries.map((e: any, idx: number) => (
+                            <span key={`${date}-${idx}`} className="chip">
+                              <b>{COUNTRY_LABELS[e.code] || e.code}</b> — {e.name} · {format(new Date(date + 'T00:00:00'), 'd MMM')}
+                            </span>
+                          ))
+                        ))}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -466,7 +525,7 @@ export default function HomePage() {
               <div className="di-field">
                 <label>Place</label>
                 <select value={diCountry} onChange={e => setDiCountry(e.target.value)}>
-                  {filteredCountries.map(code => (
+                  {allAvailableCountries.map(code => (
                     <option key={code} value={code}>{COUNTRY_LABELS[code] || code}</option>
                   ))}
                 </select>
