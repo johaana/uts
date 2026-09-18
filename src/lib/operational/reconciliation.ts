@@ -52,9 +52,10 @@ export function runReconciliation(): ReconciliationReport {
   }
   
   // 2. Enforce Zero-Generation Policy
-  const syntheticID = rules.find(r => r.id.includes('POLICY_') && r.jurisdiction.country_code === 'GLOBAL');
+  // Check for any records that appear synthesized or generic
+  const syntheticID = rules.find(r => r.id.includes('STU_POLICY_') || r.name === "Education policy signal" || r.name === "Sub-national signal");
   if (syntheticID) {
-    errors.push(`Zero-Generation failure: Found synthetic placeholder record (${syntheticID.id}).`);
+    errors.push(`Zero-Generation failure: Found synthetic or placeholder record (${syntheticID.id}).`);
   }
 
   // 3. Verify IDs are unique

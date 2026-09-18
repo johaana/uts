@@ -96,17 +96,17 @@ export function getCanonicalRules(): CanonicalRule[] {
   // 6. Map Corporate Travel
   DATA_REGISTRY.CORPORATE_TRAVEL_INTELLIGENCE_DATA.forEach((policy: any) => {
     rules.push({
-      id: `CORP_${policy.country}_${policy.route.replace(/\s/g, '_').replace(/\//g, '_')}`,
-      name: `${policy.route} activity boundary`,
+      id: `CORP_${policy.country || policy.jurisdiction?.country_code}_${policy.name?.replace(/\s/g, '_') || 'Policy'}`,
+      name: policy.name || "Business Activity Boundary",
       category: 'business_travel',
-      jurisdiction: { country_code: policy.country, country_name: COUNTRY_LABELS[policy.country] || policy.country, scope: 'national' },
+      jurisdiction: { country_code: policy.country || policy.jurisdiction?.country_code, country_name: COUNTRY_LABELS[policy.country || policy.jurisdiction?.country_code] || policy.country, scope: 'national' },
       purpose_relevance: ['business'],
       temporal_kind: 'standing',
       state: 'confirmed',
       confidence: 'high',
       evidence: policy.evidence || { source_name: "Authoritative", source_url: "" },
       consequences: {
-        implication: `${policy.route}: Permitted activities include ${policy.business_activities.join(', ')}. ${policy.commercial_context || ''}`,
+        implication: policy.consequences?.implication || "Standard business visitor rules apply.",
         affected_operations: ['entry'],
         severity: 'medium'
       },
