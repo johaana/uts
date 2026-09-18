@@ -115,7 +115,7 @@ nav.wrap {
 }
 
 .hero {
-  padding: 24px 0 32px;
+  padding: 16px 0 24px;
   position: relative;
 }
 
@@ -128,7 +128,7 @@ nav.wrap {
 .hero-grid {
   display: grid;
   grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
-  gap: 24px;
+  gap: 16px;
   align-items: start;
 }
 
@@ -142,7 +142,7 @@ nav.wrap {
   .hero-grid { 
     display: flex;
     flex-direction: column;
-    gap: 24px; 
+    gap: 16px; 
   }
   
   .hero-copy {
@@ -177,7 +177,7 @@ h1.headline {
   font-size: 16px;
   color: var(--muted);
   max-width: 46ch;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
 }
 
 .hero-tracker {
@@ -407,7 +407,7 @@ h1.headline {
 }
 
 @media (max-width: 600px) {
-  .checker-row {
+  .checker-row:not(#single-country-row):not(#compare-country-row) {
     flex-direction: column;
     gap: 12px;
   }

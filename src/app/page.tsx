@@ -156,7 +156,7 @@ export default function HomePage() {
     return new Map(sortedEntries);
   }, [isMounted, todayKey, allRecords]);
 
-  // Mobile Specific Filtered Index (Excludes Regional)
+  // Mobile Specific Filtered Index (Excludes Regional for Global Pulse)
   const mobileForwardIndex = useMemo(() => {
     const idx = new Map();
     if (!isMounted || !todayKey || allRecords.length === 0) return idx;
@@ -176,7 +176,7 @@ export default function HomePage() {
     const dates = Array.from(forwardIndex.keys()).sort();
     if (!dates.length) return null;
     
-    const candidate = dates.find(d => d > todayKey);
+    const candidate = dates.find(d => d >= todayKey);
     if (!candidate) return null;
 
     const entries = forwardIndex.get(candidate) || [];
@@ -200,7 +200,7 @@ export default function HomePage() {
     const dates = Array.from(mobileForwardIndex.keys()).sort();
     if (!dates.length) return null;
     
-    const candidate = dates.find(d => d > todayKey);
+    const candidate = dates.find(d => d >= todayKey);
     if (!candidate) return null;
 
     const entries = mobileForwardIndex.get(candidate) || [];
@@ -222,7 +222,7 @@ export default function HomePage() {
   const regionalNext = useMemo(() => {
     if (!isMounted || !todayKey || allRecords.length === 0) return null;
     const match = allRecords
-      .filter(r => r.jurisdiction.country_code === country && r.date > todayKey)
+      .filter(r => r.jurisdiction.country_code === country && r.date >= todayKey)
       .sort((a, b) => a.date.localeCompare(b.date))[0];
     
     if (!match) return null;
@@ -305,17 +305,20 @@ export default function HomePage() {
               <p className="sub hidden md:block">Check a country and your actual dates — before you book, schedule, send a student, or send an employee across borders.</p>
 
               <aside className="hero-tracker md:order-last" id="world" aria-label="Next holiday tracker" style={{ order: isComparing ? 2 : 3 }}>
-                {/* Mobile Specific Tracker View */}
-                <div className="md:hidden p-5 space-y-4 text-left">
+                {/* Mobile Specific Tracker View (Compact) */}
+                <div className="md:hidden p-5 space-y-3 text-left">
                   <div className="space-y-1">
-                    <span className="hero-tracker-kicker">NEXT HOLIDAY UP</span>
-                    <strong className="block text-lg font-headline leading-tight text-paper">
+                    <span className="hero-tracker-kicker">NEXT UP</span>
+                    <strong className="block text-base md:text-lg font-headline leading-tight text-paper">
                       {mobileGlobalNext?.name || "Determining next..."}
                     </strong>
-                    <span className="text-[11px] text-muted-foreground block">
-                      {mobileGlobalNext ? `${mobileGlobalNext.shortDate} · ${mobileGlobalNext.count} ${mobileGlobalNext.count === 1 ? 'country' : 'countries'} · ${mobileGlobalNext.daysAway} ${mobileGlobalNext.daysAway === 1 ? 'day' : 'days'} away` : '—'}
+                    <span className="text-[12px] text-muted-foreground block font-medium">
+                      {mobileGlobalNext ? `${mobileGlobalNext.shortDate} · ${mobileGlobalNext.daysAway} ${mobileGlobalNext.daysAway === 1 ? 'day' : 'days'} away` : '—'}
                     </span>
                   </div>
+                  <a className="inline-block text-[12px] font-bold text-gold-soft hover:text-gold transition-colors pt-1" href="#date-intelligence">
+                    See what this date means →
+                  </a>
                 </div>
 
                 {/* Desktop Tracker View (Frozen) */}
@@ -363,7 +366,7 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                <a className="hero-tracker-link" href="#date-intelligence">
+                <a className="hero-tracker-link hidden md:block" href="#date-intelligence">
                   See what this date means <span>→</span>
                 </a>
               </aside>
@@ -398,14 +401,28 @@ export default function HomePage() {
                       </select>
                     </div>
                   </div>
-                  <div className="checker-row">
+                  
+                  {/* Date Selection Grid - Side by Side on Mobile */}
+                  <div className="grid grid-cols-2 gap-3 mb-4">
                     <div className="checker-field">
                       <label htmlFor="start-date">From</label>
-                      <input type="date" id="start-date" className="max-w-full" value={startDate} onChange={e => setStartDate(e.target.value)} />
+                      <input 
+                        type="date" 
+                        id="start-date" 
+                        className="w-full text-[13px] md:text-sm px-2 py-2.5" 
+                        value={startDate} 
+                        onChange={e => setStartDate(e.target.value)} 
+                      />
                     </div>
                     <div className="checker-field">
                       <label htmlFor="end-date">To</label>
-                      <input type="date" id="end-date" className="max-w-full" value={endDate} onChange={e => setEndDate(e.target.value)} />
+                      <input 
+                        type="date" 
+                        id="end-date" 
+                        className="w-full text-[13px] md:text-sm px-2 py-2.5" 
+                        value={endDate} 
+                        onChange={e => setEndDate(e.target.value)} 
+                      />
                     </div>
                   </div>
 
@@ -489,14 +506,28 @@ export default function HomePage() {
                       </select>
                     </div>
                   </div>
-                  <div className="checker-row">
+                  
+                  {/* Compare Dates Grid */}
+                  <div className="grid grid-cols-2 gap-3 mb-4">
                     <div className="checker-field">
                       <label htmlFor="comp-start-date">From</label>
-                      <input type="date" id="comp-start-date" className="max-w-full" value={startDate} onChange={e => setStartDate(e.target.value)} />
+                      <input 
+                        type="date" 
+                        id="comp-start-date" 
+                        className="w-full text-[13px] md:text-sm px-2 py-2.5" 
+                        value={startDate} 
+                        onChange={e => setStartDate(e.target.value)} 
+                      />
                     </div>
                     <div className="checker-field">
-                      <label htmlFor="end-date">To</label>
-                      <input type="date" id="end-date" className="max-w-full" value={endDate} onChange={e => setEndDate(e.target.value)} />
+                      <label htmlFor="comp-end-date">To</label>
+                      <input 
+                        type="date" 
+                        id="comp-end-date" 
+                        className="w-full text-[13px] md:text-sm px-2 py-2.5" 
+                        value={endDate} 
+                        onChange={e => setEndDate(e.target.value)} 
+                      />
                     </div>
                   </div>
                    <p className="text-sm text-muted italic p-8 text-center border border-dashed border-white/5 rounded-xl">
