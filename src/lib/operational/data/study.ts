@@ -1,6 +1,6 @@
 /**
  * @fileOverview Authoritative Study Records.
- * Physically contains exactly 10 records from the source chunks.
+ * Physically contains all 10 records extracted from the source chunks.
  */
 import { DateIntelligenceRecord } from '../types';
 

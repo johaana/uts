@@ -1,6 +1,6 @@
 /**
  * @fileOverview Authoritative Business Visitor Activity Boundaries.
- * Physically contains exactly 50 records from the authoritative source.
+ * Physically contains all 50 records from the authoritative source.
  */
 
 export const CORPORATE_TRAVEL_INTELLIGENCE_DATA = [
@@ -13,7 +13,7 @@ export const CORPORATE_TRAVEL_INTELLIGENCE_DATA = [
   { country: "FR", route: "Schengen Business", business_activities: ["meetings", "negotiation"], activity_matrix: "PERMITTED", commercial_context: "Schengen Framework", stay_rule: "90/180 days", evidence: { source_name: "France Diplomacy" } },
   { country: "IT", route: "Schengen Business", business_activities: ["meetings", "conferences"], activity_matrix: "PERMITTED", commercial_context: "Schengen Framework", stay_rule: "90/180 days", evidence: { source_name: "Italy MAECI" } },
   { country: "IN", route: "e-Business Visa", business_activities: ["meetings", "sales", "recruitment"], activity_matrix: "PERMITTED", commercial_context: "e-Visa route", stay_rule: "Up to 180 days", evidence: { source_name: "India MHA" } },
-  { country: "JP", route: "Short-term Business", business_activities: ["meetings", "market research"], activity_matrix: "PERMITTED", commercial_context: "Temporary Visitor", stay_rule: "Up to 90 days", evidence: { source_name: "Japan MOFA" } },
+  { country: "JP", route: "Short-term Business", business_activities: ["meetings", "market research"], activity_matrix: "PERMITTED", commercial_context: "Temporary visitor", stay_rule: "Up to 90 days", evidence: { source_name: "Japan MOFA" } },
   { country: "HK", route: "Short-term Visitor", business_activities: ["meetings", "trade fairs", "signing contracts"], activity_matrix: "PERMITTED", commercial_context: "Visitor status", stay_rule: "Depends on route", evidence: { source_name: "HK ImmD" } },
   { country: "CN", route: "M Business Visa", business_activities: ["meetings", "negotiation", "trade"], activity_matrix: "PERMITTED", commercial_context: "Business visa", stay_rule: "As per visa", evidence: { source_name: "China MOFA" } },
   { country: "AE", route: "Short-term Business", business_activities: ["meetings", "events"], activity_matrix: "PERMITTED", commercial_context: "Standard entry", stay_rule: "90 days", evidence: { source_name: "UAE ICP" } },
