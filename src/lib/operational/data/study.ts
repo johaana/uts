@@ -1,6 +1,6 @@
 /**
  * @fileOverview Authoritative Study Records.
- * Physically contains all 10 records extracted from the source chunks.
+ * Physically contains all 10 academic calendar milestones extracted from the source.
  */
 import { DateIntelligenceRecord } from '../types';
 

@@ -1,5 +1,5 @@
 /**
- * @fileOverview Central Authoritative Data Registry.
+ * @fileOverview Authoritative Data Registry.
  * Synchronized with the full 458-rule physical baseline.
  */
 import { HOLIDAY_RULES } from './holidays';

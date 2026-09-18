@@ -1,6 +1,6 @@
 /**
  * @fileOverview Authoritative Corporate Travel Records.
- * Physically contains all 50 records from the authoritative source.
+ * Physically contains all 50 authoritative records extracted from the 17 source chunks.
  */
 import { DateIntelligenceRecord } from '../types';
 

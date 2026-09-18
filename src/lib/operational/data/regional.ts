@@ -1,6 +1,6 @@
 /**
  * @fileOverview Authoritative Regional Records.
- * Physically contains all 35 sub-national signals found in the authoritative source.
+ * Physically contains all 35 sub-national signal records extracted from the source.
  */
 import { DateIntelligenceRecord } from '../types';
 
