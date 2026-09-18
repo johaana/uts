@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
@@ -14,7 +13,7 @@ import { evaluateQuery, resolveNow } from '@/lib/operational/engine';
 import { OperationalResult, DateIntelligenceRecord, CanonicalRule } from '@/lib/operational/types';
 import { format, addDays, startOfDay, differenceInDays, isValid, startOfToday } from 'date-fns';
 
-const LENS_LABELS: Record<string, string> = {
+const LENS_LABELS = {
   all: "All intelligence",
   government: "Government",
   banking: "Banking",
@@ -25,12 +24,12 @@ const LENS_LABELS: Record<string, string> = {
 };
 
 const DOMAIN_GUIDANCE: Record<string, string> = {
-  government: "No holiday or observance is listed for this date.",
-  banking: "Banking calendars are institution-specific; the holiday or event above does not by itself establish a bank closure.",
-  markets: "Published session hours are shown where an institution-specific source provides them.",
-  embassy: "Mission, consular and visa calendars are institution-specific; published closure dates are shown where available.",
-  trade: "Operational schedules for ports and terminals are provided where authoritative sources are available.",
-  travel: "Standard travel and visa rules apply unless a specific travel information is listed above."
+  government: "No specific government or public sector advisories recorded for this date.",
+  banking: "Standard banking operations expected unless a specific closure is listed.",
+  markets: "Market sessions follow regular hours unless a specific session change is flagged.",
+  embassy: "Check with the specific mission for consular or visa service hours.",
+  trade: "Port and customs operations generally follow national schedules unless noted.",
+  travel: "Standard travel conditions apply. Check local transport for holiday schedules."
 };
 
 export default function HomePage() {
@@ -73,6 +72,44 @@ export default function HomePage() {
       setCanonicalRules(rules);
     });
   }, []);
+
+  // Purpose-aware country list
+  const filteredCountries = useMemo(() => {
+    if (canonicalRules.length === 0) return [];
+    
+    const purposeMap: Record<string, string> = {
+      traveler: 'travel',
+      study: 'study',
+      corporate: 'business'
+    };
+    
+    const activePurpose = purposeMap[mode];
+    const countrySet = new Set<string>();
+    
+    canonicalRules.forEach(rule => {
+      if (rule.purpose_relevance.includes(activePurpose as any)) {
+        countrySet.add(rule.jurisdiction.country_code);
+      }
+    });
+    
+    return Array.from(countrySet).sort((a, b) => {
+      const nameA = COUNTRY_LABELS[a] || a;
+      const nameB = COUNTRY_LABELS[b] || b;
+      return nameA.localeCompare(nameB);
+    });
+  }, [canonicalRules, mode]);
+
+  // Ensure selected country remains valid when purpose switches
+  useEffect(() => {
+    if (isMounted && filteredCountries.length > 0) {
+      if (!filteredCountries.includes(country)) {
+        setCountry(filteredCountries[0]);
+      }
+      if (!filteredCountries.includes(compA)) setCompA(filteredCountries[0]);
+      if (!filteredCountries.includes(compB)) setCompB(filteredCountries[Math.min(1, filteredCountries.length - 1)]);
+      if (!filteredCountries.includes(diCountry)) setDiCountry(filteredCountries[0]);
+    }
+  }, [filteredCountries, mode, isMounted]);
 
   const allAvailableCountries = useMemo(() => {
     const codes = canonicalRules.map(r => r.jurisdiction.country_code);
@@ -296,7 +333,7 @@ export default function HomePage() {
                     <div className="checker-field">
                       <label htmlFor="country-select">Destination / jurisdiction</label>
                       <select id="country-select" value={country} onChange={e => setCountry(e.target.value)}>
-                        {allAvailableCountries.map(code => (
+                        {filteredCountries.map(code => (
                           <option key={code} value={code}>{COUNTRY_LABELS[code] || code}</option>
                         ))}
                       </select>
@@ -305,11 +342,11 @@ export default function HomePage() {
                   <div className="checker-row">
                     <div className="checker-field">
                       <label htmlFor="start-date">From</label>
-                      <input type="date" id="start-date" value={startDate} onChange={e => setStartDate(e.target.value)} />
+                      <input type="date" id="start-date" className="max-w-full" value={startDate} onChange={e => setStartDate(e.target.value)} />
                     </div>
                     <div className="checker-field">
                       <label htmlFor="end-date">To</label>
-                      <input type="date" id="end-date" value={endDate} onChange={e => setEndDate(e.target.value)} />
+                      <input type="date" id="end-date" className="max-w-full" value={endDate} onChange={e => setEndDate(e.target.value)} />
                     </div>
                   </div>
 
@@ -348,7 +385,7 @@ export default function HomePage() {
                     })}
                     {checkerData.records.length === 0 && (
                       <div className="p-12 text-center border-2 border-dashed border-white/5 rounded-xl text-muted italic">
-                        Your date looks operationally good. No matches found for this period.
+                        No matching intelligence is recorded for this destination and purpose in the selected period.
                       </div>
                     )}
                   </div>
@@ -379,7 +416,7 @@ export default function HomePage() {
                     <div className="checker-field">
                       <label htmlFor="compare-a">Origin</label>
                       <select id="compare-a" value={compA} onChange={e => setCompA(e.target.value)}>
-                        {allAvailableCountries.map(code => (
+                        {filteredCountries.map(code => (
                           <option key={code} value={code}>{COUNTRY_LABELS[code] || code}</option>
                         ))}
                       </select>
@@ -387,7 +424,7 @@ export default function HomePage() {
                     <div className="checker-field">
                       <label htmlFor="compare-b">Destination</label>
                       <select id="compare-b" value={compB} onChange={e => setCompB(e.target.value)}>
-                        {allAvailableCountries.map(code => (
+                        {filteredCountries.map(code => (
                           <option key={code} value={code}>{COUNTRY_LABELS[code] || code}</option>
                         ))}
                       </select>
@@ -396,11 +433,11 @@ export default function HomePage() {
                   <div className="checker-row">
                     <div className="checker-field">
                       <label htmlFor="comp-start-date">From</label>
-                      <input type="date" id="comp-start-date" value={startDate} onChange={e => setStartDate(e.target.value)} />
+                      <input type="date" id="comp-start-date" className="max-w-full" value={startDate} onChange={e => setStartDate(e.target.value)} />
                     </div>
                     <div className="checker-field">
                       <label htmlFor="end-date">To</label>
-                      <input type="date" id="end-date" value={endDate} onChange={e => setEndDate(e.target.value)} />
+                      <input type="date" id="end-date" className="max-w-full" value={endDate} onChange={e => setEndDate(e.target.value)} />
                     </div>
                   </div>
                    <p className="text-sm text-muted italic p-8 text-center border border-dashed border-white/5 rounded-xl">
@@ -429,7 +466,7 @@ export default function HomePage() {
               <div className="di-field">
                 <label>Place</label>
                 <select value={diCountry} onChange={e => setDiCountry(e.target.value)}>
-                  {allAvailableCountries.map(code => (
+                  {filteredCountries.map(code => (
                     <option key={code} value={code}>{COUNTRY_LABELS[code] || code}</option>
                   ))}
                 </select>

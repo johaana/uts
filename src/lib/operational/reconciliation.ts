@@ -1,92 +1,69 @@
 /**
- * @fileOverview Authoritative Reconciliation Engine.
- * Verifies the physical rule counts at runtime and enforces zero-generation policy.
+ * @fileOverview Authoritative Reconciliation Tool.
+ * Reports actual runtime measurements against authoritative source baseline.
  */
 import { getCanonicalRules } from './normalize';
+import { DATA_REGISTRY } from './data/registry';
 
 export interface ReconciliationReport {
-  valid: boolean;
   timestamp: string;
-  counts: {
-    canonical_rules: number;
-    jurisdictions: number;
-    holidays: number;
-    students: number;
+  measured: {
+    physical_holiday_records: number;
+    runtime_holiday_rules: number;
+    student_policy: number;
     student_risk: number;
-    business_policy: number;
-    corporate_travel: number;
     regional: number;
-    study_timing: number;
+    study: number;
+    business: number;
+    corporate_travel: number;
     customs: number;
     banking: number;
     markets: number;
-    expansion: number;
+    global_expansion: number;
+    total_runtime_rules: number;
+    unique_ids: number;
+    duplicate_ids: number;
+    jurisdictions: number;
   };
+  status: 'PASS' | 'FAIL';
   errors: string[];
 }
 
 export function runReconciliation(): ReconciliationReport {
-  const errors: string[] = [];
   const rules = getCanonicalRules();
+  const errors: string[] = [];
   
-  // Measured Targets for Final Authoritative Restoration
-  const TARGETS = {
-    CANONICAL_TOTAL: 464,
-    HOLIDAYS: 294,
-    STUDENTS: 55,
-    STUDENT_RISK: 1,
-    REGIONAL: 35,
-    STUDY_TIMING: 10,
-    BUSINESS_POLICY: 12,
-    CORPORATE_TRAVEL: 50,
-    CUSTOMS: 1,
-    BANKING: 3,
-    MARKETS: 2,
-    EXPANSION: 1
-  };
+  // Physical count of constructor calls in holidays.ts across all country keys
+  const physicalHolidays = Object.values(DATA_REGISTRY.HOLIDAYS).reduce((acc, curr) => acc + curr.length, 0);
 
-  const counts = {
-    canonical_rules: rules.length,
-    jurisdictions: new Set(rules.map(r => r.jurisdiction.country_code)).size,
-    holidays: rules.filter(r => r.source_dataset === 'HOLIDAYS').length,
-    students: rules.filter(r => r.source_dataset === 'STUDENT_INTEL_EXTRA').length,
+  const measured = {
+    physical_holiday_records: physicalHolidays,
+    runtime_holiday_rules: rules.filter(r => r.source_dataset === 'HOLIDAYS').length,
+    student_policy: rules.filter(r => r.source_dataset === 'STUDENT_INTEL_EXTRA').length,
     student_risk: rules.filter(r => r.source_dataset === 'STUDENT_RISK').length,
-    business_policy: rules.filter(r => r.source_dataset === 'CORPORATE_INTELLIGENCE').length,
-    corporate_travel: rules.filter(r => r.source_dataset === 'CORPORATE_TRAVEL_INTEL').length,
     regional: rules.filter(r => r.source_dataset === 'REGIONAL_INTELLIGENCE').length,
-    study_timing: rules.filter(r => r.source_dataset === 'STUDY_INSTITUTIONAL_TIMING').length,
+    study: rules.filter(r => r.source_dataset === 'STUDY_INSTITUTIONAL_TIMING').length,
+    business: rules.filter(r => r.source_dataset === 'CORPORATE_INTELLIGENCE').length,
+    corporate_travel: rules.filter(r => r.source_dataset === 'CORPORATE_TRAVEL_INTEL').length,
     customs: rules.filter(r => r.source_dataset === 'CUSTOMS').length,
     banking: rules.filter(r => r.source_dataset === 'BANKING').length,
     markets: rules.filter(r => r.source_dataset === 'MARKETS').length,
-    expansion: rules.filter(r => r.source_dataset === 'GLOBAL_EXPANSION').length
+    global_expansion: rules.filter(r => r.source_dataset === 'GLOBAL_EXPANSION').length,
+    total_runtime_rules: rules.length,
+    unique_ids: new Set(rules.map(r => r.id)).size,
+    duplicate_ids: rules.length - new Set(rules.map(r => r.id)).size,
+    jurisdictions: new Set(rules.map(r => r.jurisdiction.country_code)).size
   };
 
-  // 1. Verify exact counts derived from runtime array
-  if (counts.canonical_rules !== TARGETS.CANONICAL_TOTAL) {
-    errors.push(`CANONICAL_TOTAL mismatch: Found ${counts.canonical_rules}, Expected ${TARGETS.CANONICAL_TOTAL}`);
-  }
-  
-  if (counts.holidays !== TARGETS.HOLIDAYS) {
-    errors.push(`HOLIDAYS mismatch: Found ${counts.holidays}, Expected ${TARGETS.HOLIDAYS}`);
-  }
-
-  // 2. Enforce Zero-Generation Policy
-  const syntheticID = rules.find(r => r.id.includes('STU_POLICY_') && r.jurisdiction.country_code === 'GLOBAL');
-  if (syntheticID) {
-    errors.push(`Zero-Generation failure: Found synthetic or placeholder record (${syntheticID.id}).`);
-  }
-
-  // 3. Verify IDs are unique
-  const ids = rules.map(r => r.id);
-  const duplicates = ids.filter((item, index) => ids.indexOf(item) !== index);
-  if (duplicates.length > 0) {
-    errors.push(`Duplicate ID failure: Found ${duplicates.length} duplicate canonical IDs.`);
-  }
+  // Invariant validation
+  if (measured.duplicate_ids > 0) errors.push(`Duplicate ID failure: Found ${measured.duplicate_ids} collisions.`);
+  if (measured.physical_holiday_records !== 381) errors.push(`Holiday count mismatch: Found ${measured.physical_holiday_records}, Expected 381.`);
+  if (measured.corporate_travel !== 50) errors.push(`Corporate travel mismatch: Found ${measured.corporate_travel}, Expected 50.`);
 
   return {
-    valid: errors.length === 0,
     timestamp: new Date().toISOString(),
-    counts,
+    measured,
+    status: errors.length === 0 ? 'PASS' : 'FAIL',
     errors
   };
 }

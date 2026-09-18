@@ -1,9 +1,9 @@
 /**
  * @fileOverview Normalization Layer for Authoritative Data.
- * Maps mandatory datasets into the canonical rule set.
+ * Maps all 11 mandatory datasets into the canonical rule set.
  */
 
-import { CanonicalRule } from './types';
+import { CanonicalRule, HolidayRule } from './types';
 import { DATA_REGISTRY } from './data/registry';
 import { COUNTRY_LABELS } from '../calendar-intelligence';
 
@@ -19,12 +19,17 @@ export function getCanonicalRules(): CanonicalRule[] {
         category: rule.type || 'holiday',
         jurisdiction: { country_code: cc, country_name: COUNTRY_LABELS[cc] || cc, scope: 'national' },
         purpose_relevance: ['travel', 'business', 'workforce', 'logistics', 'study'],
-        temporal_kind: rule.kind === 'dated' && rule.status === 'estimated' ? 'estimated' : 'recurring',
+        temporal_kind: rule.kind === 'dated' && rule.status === 'estimated' ? 'estimated' : 
+                      rule.kind === 'nth' ? 'recurring' : 'recurring',
         state: rule.status || 'confirmed',
         confidence: rule.confidence || 'medium',
         evidence: rule.evidence || { source_name: null, source_url: "" },
         rule_definition: rule,
-        consequences: { implication: `${rule.name} is a ${rule.type}. Check local requirements.`, affected_operations: ['government'], severity: 'medium' },
+        consequences: { 
+          implication: `${rule.name} is a ${rule.type}. Check local requirements.`, 
+          affected_operations: ['government'], 
+          severity: 'medium' 
+        },
         source_dataset: 'HOLIDAYS'
       });
     });
@@ -115,7 +120,7 @@ export function getCanonicalRules(): CanonicalRule[] {
     });
   });
 
-  // 7. Map Operational Context (Banking, Markets, Customs, Global Expansion)
+  // 7. Map Operational Context (Banking, Markets, Customs, Student Risk, Global Expansion)
   const otherDatasets = [
     { data: DATA_REGISTRY.BANKING_INTELLIGENCE_DATA, dataset: 'BANKING' },
     { data: DATA_REGISTRY.CORPORATE_MARKET_DEPTH_ADDITIONS, dataset: 'MARKETS' },
