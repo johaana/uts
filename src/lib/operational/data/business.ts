@@ -1,6 +1,6 @@
 /**
  * @fileOverview Authoritative Business Policy Records.
- * Physically contains all 12 policy records extracted from the source.
+ * Physically contains all 12 policy records found in Corpus A.
  */
 import { DateIntelligenceRecord } from '../types';
 

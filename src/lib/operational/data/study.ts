@@ -1,6 +1,6 @@
 /**
  * @fileOverview Authoritative Study Records.
- * Physically contains all 10 academic calendar milestones extracted from the source.
+ * Physically contains exactly 10 academic calendar milestones found in Corpus A.
  */
 import { DateIntelligenceRecord } from '../types';
 

@@ -95,11 +95,12 @@ export function getCanonicalRules(): CanonicalRule[] {
 
   // 6. Map Corporate Travel
   DATA_REGISTRY.CORPORATE_TRAVEL_INTELLIGENCE_DATA.forEach((policy: any) => {
+    const cc = policy.country || policy.jurisdiction?.country_code;
     rules.push({
-      id: `CORP_${policy.country || policy.jurisdiction?.country_code}_${policy.name?.replace(/\s/g, '_') || 'Policy'}`,
+      id: policy.id || `CORP_${cc}_${policy.name?.replace(/\s/g, '_') || 'Policy'}`,
       name: policy.name || "Business Activity Boundary",
       category: 'business_travel',
-      jurisdiction: { country_code: policy.country || policy.jurisdiction?.country_code, country_name: COUNTRY_LABELS[policy.country || policy.jurisdiction?.country_code] || policy.country, scope: 'national' },
+      jurisdiction: { country_code: cc, country_name: COUNTRY_LABELS[cc] || cc, scope: 'national' },
       purpose_relevance: ['business'],
       temporal_kind: 'standing',
       state: 'confirmed',
@@ -114,7 +115,7 @@ export function getCanonicalRules(): CanonicalRule[] {
     });
   });
 
-  // 7. Map Operational Context (Banking, Markets, Customs)
+  // 7. Map Operational Context (Banking, Markets, Customs, Global Expansion)
   const otherDatasets = [
     { data: DATA_REGISTRY.BANKING_INTELLIGENCE_DATA, dataset: 'BANKING' },
     { data: DATA_REGISTRY.CORPORATE_MARKET_DEPTH_ADDITIONS, dataset: 'MARKETS' },

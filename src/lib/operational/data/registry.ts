@@ -1,6 +1,6 @@
 /**
  * @fileOverview Authoritative Data Registry.
- * Synchronized with the full 458-rule physical baseline.
+ * Physically synchronized with all 11 mandatory operational datasets.
  */
 import { HOLIDAY_RULES } from './holidays';
 import { INSTITUTIONAL_IDENTITIES } from './institutions';
@@ -17,7 +17,7 @@ export const DATA_REGISTRY = {
   REGIONAL_INTELLIGENCE: REGIONAL_SIGNALS,
   BANKING_INTELLIGENCE_DATA: [
     { country: "US", topic: "Federal Reserve", summary: "Payment systems operations follow Fed holiday schedules.", evidence: { source_name: "Federal Reserve", source_url: "https://www.frbservices.org/about/holiday-schedules" } },
-    { country: "EU", topic: "ECB / TARGET", summary: "Eurozone real-time settlement system operations.", evidence: { source_name: "ECB" } },
+    { country: "EU", topic: "ECB / TARGET", summary: "Eurozone real-time settlement system operations follow ECB calendar.", evidence: { source_name: "ECB" } },
     { country: "IN", topic: "RBI Settlement", summary: "RTGS and NEFT systems follow RBI holiday calendars.", evidence: { source_name: "RBI" } }
   ],
   CORPORATE_MARKET_DEPTH_ADDITIONS: [

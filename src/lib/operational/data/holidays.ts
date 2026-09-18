@@ -31,9 +31,9 @@ export const HOLIDAY_RULES: Record<string, HolidayRule[]> = {
   ],
   JP: [
     fixed(1, 1, "New Year's Day", "holiday", "high", { source_name: "Japan Cabinet Office" }),
-    dated({ 2026: "2026-01-12" }, "Coming of Age Day", "holiday", "confirmed", "high"),
-    fixed(2, 11, "National Foundation Day", "holiday", "high"),
-    fixed(2, 23, "Emperor's Birthday", "holiday", "high"),
+    dated({ 2026: "2026-01-12" }, "Coming of Age Day", "holiday"),
+    fixed(2, 11, "National Foundation Day", "holiday"),
+    fixed(2, 23, "Emperor's Birthday", "holiday"),
     dated({ 2026: "2026-03-20" }, "Vernal Equinox Day", "holiday"),
     fixed(4, 29, "Showa Day", "holiday"),
     fixed(5, 3, "Constitution Memorial Day", "holiday"),

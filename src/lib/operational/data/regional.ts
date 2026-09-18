@@ -1,6 +1,6 @@
 /**
  * @fileOverview Authoritative Regional Records.
- * Physically contains all 35 sub-national signal records extracted from the source.
+ * Physically contains all 35 sub-national signals found in Corpus A.
  */
 import { DateIntelligenceRecord } from '../types';
 
