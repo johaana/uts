@@ -99,7 +99,6 @@ export default function HomePage() {
     });
   }, [canonicalRules, mode]);
 
-  // Ensure selected country remains valid when purpose switches
   useEffect(() => {
     if (isMounted && filteredCountries.length > 0) {
       if (!filteredCountries.includes(country)) {

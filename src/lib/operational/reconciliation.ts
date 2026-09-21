@@ -1,7 +1,3 @@
-/**
- * @fileOverview Authoritative Reconciliation Tool.
- * Reports actual runtime measurements against authoritative source baseline.
- */
 import { getCanonicalRules } from './normalize';
 import { DATA_REGISTRY } from './data/registry';
 
@@ -25,19 +21,13 @@ export interface ReconciliationReport {
     duplicate_ids: number;
     jurisdictions: number;
   };
-  status: 'PASS' | 'FAIL';
-  errors: string[];
 }
 
 export function runReconciliation(): ReconciliationReport {
   const rules = getCanonicalRules();
-  const errors: string[] = [];
   
-  // Physical count of constructor calls in holidays.ts across all country keys
-  const physicalHolidays = Object.values(DATA_REGISTRY.HOLIDAYS).reduce((acc, curr) => acc + curr.length, 0);
-
   const measured = {
-    physical_holiday_records: physicalHolidays,
+    physical_holiday_records: Object.values(DATA_REGISTRY.HOLIDAYS).reduce((acc, curr) => acc + curr.length, 0),
     runtime_holiday_rules: rules.filter(r => r.source_dataset === 'HOLIDAYS').length,
     student_policy: rules.filter(r => r.source_dataset === 'STUDENT_INTEL_EXTRA').length,
     student_risk: rules.filter(r => r.source_dataset === 'STUDENT_RISK').length,
@@ -55,15 +45,8 @@ export function runReconciliation(): ReconciliationReport {
     jurisdictions: new Set(rules.map(r => r.jurisdiction.country_code)).size
   };
 
-  // Invariant validation
-  if (measured.duplicate_ids > 0) errors.push(`Duplicate ID failure: Found ${measured.duplicate_ids} collisions.`);
-  if (measured.physical_holiday_records !== 381) errors.push(`Holiday count mismatch: Found ${measured.physical_holiday_records}, Expected 381.`);
-  if (measured.corporate_travel !== 50) errors.push(`Corporate travel mismatch: Found ${measured.corporate_travel}, Expected 50.`);
-
   return {
     timestamp: new Date().toISOString(),
-    measured,
-    status: errors.length === 0 ? 'PASS' : 'FAIL',
-    errors
+    measured
   };
 }

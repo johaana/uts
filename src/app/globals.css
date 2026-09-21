@@ -407,7 +407,7 @@ h1.headline {
 }
 
 @media (max-width: 600px) {
-  .checker-row:not(#single-country-row):not(#compare-country-row) {
+  .checker-row:not(#single-country-row):not(#compare-country-row):not(.date-row) {
     flex-direction: column;
     gap: 12px;
   }
