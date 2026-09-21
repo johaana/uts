@@ -456,8 +456,17 @@ input[type="date"] { cursor: pointer; }
 
 @media (max-width: 767px) {
   .checker-summary {
-    flex-direction: column;
-    gap: 20px;
+    /* Maintained horizontal row on mobile */
+    gap: 8px;
+    text-align: center;
+  }
+  .checker-summary b {
+    font-size: 24px;
+  }
+  .checker-summary span {
+    font-size: 10px;
+    display: block;
+    line-height: 1.25;
   }
 }
 

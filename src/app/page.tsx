@@ -305,7 +305,7 @@ export default function HomePage() {
               <p className="sub hidden md:block">Check a country and your actual dates — before you book, schedule, send a student, or send an employee across borders.</p>
 
               <aside className="hero-tracker md:order-last" id="world" aria-label="Next holiday tracker" style={{ order: isComparing ? 2 : 3 }}>
-                {/* Mobile Specific Tracker View (Compact) */}
+                {/* Mobile Specific Tracker View (Compact Pulse) */}
                 <div className="md:hidden p-5 space-y-3 text-left">
                   <div className="space-y-1">
                     <span className="hero-tracker-kicker">NEXT UP</span>
@@ -313,7 +313,7 @@ export default function HomePage() {
                       {mobileGlobalNext?.name || "Determining next..."}
                     </strong>
                     <span className="text-[12px] text-muted-foreground block font-medium">
-                      {mobileGlobalNext ? `${mobileGlobalNext.shortDate} · ${mobileGlobalNext.daysAway} ${mobileGlobalNext.daysAway === 1 ? 'day' : 'days'} away` : '—'}
+                      {mobileGlobalNext ? `${mobileGlobalNext.shortDate} · ${mobileGlobalNext.count} ${mobileGlobalNext.count === 1 ? 'country' : 'countries'} · ${mobileGlobalNext.daysAway} ${mobileGlobalNext.daysAway === 1 ? 'day' : 'days'} away` : '—'}
                     </span>
                   </div>
                   <a className="inline-block text-[12px] font-bold text-gold-soft hover:text-gold transition-colors pt-1" href="#date-intelligence">
