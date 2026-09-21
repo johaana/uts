@@ -136,12 +136,16 @@ export function getCanonicalRules(): CanonicalRule[] {
         name: obj.topic || 'Operational update',
         category: dataset.toLowerCase() as any,
         jurisdiction: { country_code: obj.country, country_name: COUNTRY_LABELS[obj.country] || obj.country, scope: 'national' },
-        purpose_relevance: ['business', 'logistics', 'travel', 'study', 'workforce'],
+        purpose_relevance: obj.purpose_relevance || ['business'],
         temporal_kind: 'standing',
         state: 'confirmed',
         confidence: 'high',
         evidence: obj.evidence || { source_name: "Official", source_url: "" },
-        consequences: { implication: obj.summary || 'Operational rule in force.', affected_operations: [dataset.toLowerCase()], severity: 'low' },
+        consequences: { 
+          implication: obj.summary || 'Operational rule in force.', 
+          affected_operations: [dataset.toLowerCase()], 
+          severity: obj.severity || 'low' 
+        },
         source_dataset: dataset as any
       });
     });
