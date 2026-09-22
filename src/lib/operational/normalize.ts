@@ -45,7 +45,7 @@ export function getCanonicalRules(): CanonicalRule[] {
           rule_definition: rule,
           date,
           consequences: { 
-            implication: `${rule.name} is a ${rule.type}.`, 
+            implication: `${rule.name} is a ${rule.type === 'public' ? 'public holiday' : rule.type}.`, 
             affected_operations: ['government'], 
             severity: 'medium' 
           }
