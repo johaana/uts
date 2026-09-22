@@ -88,7 +88,8 @@ export default function HomePage() {
     
     canonicalRules.forEach(rule => {
       if (rule.purpose_relevance.includes(activePurpose as any)) {
-        countrySet.add(rule.jurisdiction.country_code);
+        const cc = rule.jurisdiction?.country_code;
+        if (cc) countrySet.add(cc);
       }
     });
     
@@ -111,8 +112,8 @@ export default function HomePage() {
   }, [filteredCountries, mode, isMounted]);
 
   const allAvailableCountries = useMemo(() => {
-    const codes = canonicalRules.map(r => r.jurisdiction.country_code);
-    return Array.from(new Set(codes)).sort();
+    const codes = canonicalRules.map(r => r.jurisdiction?.country_code).filter(Boolean);
+    return Array.from(new Set(codes as string[])).sort();
   }, [canonicalRules]);
 
   // --- Logic: Date Intelligence Fetch ---
@@ -148,7 +149,7 @@ export default function HomePage() {
     
     allRecords.forEach(r => {
       if (!idx.has(r.date)) idx.set(r.date, []);
-      idx.get(r.date).push({ code: r.jurisdiction.country_code, name: r.name });
+      idx.get(r.date).push({ code: r.jurisdiction?.country_code, name: r.name });
     });
     
     const sortedEntries = Array.from(idx.entries()).sort((a, b) => a[0].localeCompare(b[0]));
@@ -161,10 +162,10 @@ export default function HomePage() {
     if (!isMounted || !todayKey || allRecords.length === 0) return idx;
     
     allRecords
-      .filter(r => r.category !== 'regional' && r.jurisdiction.scope !== 'regional')
+      .filter(r => r.category !== 'regional' && r.jurisdiction?.scope !== 'regional')
       .forEach(r => {
         if (!idx.has(r.date)) idx.set(r.date, []);
-        idx.get(r.date).push({ code: r.jurisdiction.country_code, name: r.name });
+        idx.get(r.date).push({ code: r.jurisdiction?.country_code, name: r.name });
       });
     
     const sortedEntries = Array.from(idx.entries()).sort((a, b) => a[0].localeCompare(b[0]));
@@ -221,7 +222,7 @@ export default function HomePage() {
   const regionalNext = useMemo(() => {
     if (!isMounted || !todayKey || allRecords.length === 0) return null;
     const match = allRecords
-      .filter(r => r.jurisdiction.country_code === country && r.date >= todayKey)
+      .filter(r => r.jurisdiction?.country_code === country && r.date >= todayKey)
       .sort((a, b) => a.date.localeCompare(b.date))[0];
     
     if (!match) return null;
@@ -440,7 +441,7 @@ export default function HomePage() {
                       const metaParts = [];
                       if (r.confidence) metaParts.push(r.confidence.charAt(0).toUpperCase() + r.confidence.slice(1));
                       if (r.temporal_kind === 'standing') metaParts.push("ONGOING");
-                      else if (r.jurisdiction.scope === 'regional') metaParts.push("Regional");
+                      else if (r.jurisdiction?.scope === 'regional') metaParts.push("Regional");
                       if (r.evidence?.source_name) metaParts.push("Source");
 
                       return (

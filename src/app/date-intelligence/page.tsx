@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
@@ -48,8 +47,8 @@ export default function DateIntelligencePage() {
   }, []);
 
   const allAvailableCountries = useMemo(() => {
-    const codes = canonicalRules.map(r => r.jurisdiction.country_code);
-    return Array.from(new Set(codes)).sort();
+    const codes = canonicalRules.map(r => r.jurisdiction?.country_code).filter(Boolean);
+    return Array.from(new Set(codes as string[])).sort();
   }, [canonicalRules]);
 
   const handleSearch = async (overrideQuery?: any) => {

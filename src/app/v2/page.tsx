@@ -39,20 +39,22 @@ export default function V2Page() {
   const businessCountries = useMemo(() => {
     const codes = canonicalRules
       .filter(r => r.category === 'business_travel')
-      .map(r => r.jurisdiction.country_code);
-    return Array.from(new Set(codes)).sort();
+      .map(r => r.jurisdiction?.country_code)
+      .filter(Boolean);
+    return Array.from(new Set(codes as string[])).sort();
   }, [canonicalRules]);
 
   const studyCountries = useMemo(() => {
     const codes = canonicalRules
       .filter(r => r.purpose_relevance.includes('study'))
-      .map(r => r.jurisdiction.country_code);
-    return Array.from(new Set(codes)).sort();
+      .map(r => r.jurisdiction?.country_code)
+      .filter(Boolean);
+    return Array.from(new Set(codes as string[])).sort();
   }, [canonicalRules]);
 
   const allAvailableCountries = useMemo(() => {
-    const codes = canonicalRules.map(r => r.jurisdiction.country_code);
-    return Array.from(new Set(codes)).sort();
+    const codes = canonicalRules.map(r => r.jurisdiction?.country_code).filter(Boolean);
+    return Array.from(new Set(codes as string[])).sort();
   }, [canonicalRules]);
 
   const handleCheckImpact = async () => {

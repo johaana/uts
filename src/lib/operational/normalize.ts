@@ -69,7 +69,17 @@ export function getCanonicalRules(): CanonicalRule[] {
   ];
 
   datasets.forEach(set => {
+    if (!set.data) return;
     set.data.forEach((obj: any) => {
+      // Normalization Bridge: Map flat records using 'country' to canonical jurisdiction structure
+      if (obj && !obj.jurisdiction && obj.country) {
+        obj.jurisdiction = {
+          country_code: obj.country,
+          country_name: COUNTRY_LABELS[obj.country] || obj.country,
+          scope: 'national'
+        };
+      }
+
       if (!obj.purpose_relevance) {
         throw new Error(`CRITICAL: Record ${obj.id || obj.name} in ${set.name} missing purpose_relevance.`);
       }
