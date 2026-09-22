@@ -1,6 +1,6 @@
 /**
  * @fileOverview Authoritative Business Policy Records.
- * Physically contains all 12 policy records found in Corpus A.
+ * Contains 12 core policy records.
  */
 import { DateIntelligenceRecord } from '../types';
 
@@ -14,7 +14,7 @@ export const BUSINESS_POLICIES: Partial<DateIntelligenceRecord>[] = [
     temporal_kind: "standing",
     state: "confirmed",
     confidence: "high",
-    evidence: { source_name: "CRA", source_url: "https://www.canada.ca/en/revenue-agency/services/tax/public-holidays.html" },
+    evidence: { source_name: "CRA Canada", source_url: "https://www.canada.ca/en/revenue-agency/services/tax/public-holidays.html", last_checked: "2026-09-08" },
     consequences: { implication: "Canada working-day rules are the baseline for staffing and deadline planning.", affected_operations: ["admin"], severity: "low" }
   },
   {
@@ -26,7 +26,7 @@ export const BUSINESS_POLICIES: Partial<DateIntelligenceRecord>[] = [
     temporal_kind: "standing",
     state: "confirmed",
     confidence: "high",
-    evidence: { source_name: "GOV.UK", source_url: "https://www.gov.uk/bank-holidays" },
+    evidence: { source_name: "GOV.UK", source_url: "https://www.gov.uk/bank-holidays", last_checked: "2026-09-08" },
     consequences: { implication: "United Kingdom working-day rules are the baseline for scheduling.", affected_operations: ["admin"], severity: "low" }
   },
   {
@@ -38,7 +38,7 @@ export const BUSINESS_POLICIES: Partial<DateIntelligenceRecord>[] = [
     temporal_kind: "standing",
     state: "confirmed",
     confidence: "high",
-    evidence: { source_name: "OPM", source_url: "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/" },
+    evidence: { source_name: "OPM USA", source_url: "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/", last_checked: "2026-09-08" },
     consequences: { implication: "U.S. Federal working-day rules are the baseline.", affected_operations: ["admin"], severity: "low" }
   },
   {
@@ -50,7 +50,7 @@ export const BUSINESS_POLICIES: Partial<DateIntelligenceRecord>[] = [
     temporal_kind: "standing",
     state: "confirmed",
     confidence: "high",
-    evidence: { source_name: "RBI", source_url: "https://www.rbi.org.in/Scripts/HolidayMatrixDisplay.aspx" },
+    evidence: { source_name: "Reserve Bank of India (RBI)", source_url: "https://www.rbi.org.in/Scripts/HolidayMatrixDisplay.aspx", last_checked: "2026-09-08" },
     consequences: { implication: "State-specific RBI holiday lists govern banking availability.", affected_operations: ["banking"], severity: "medium" }
   },
   {
@@ -62,7 +62,7 @@ export const BUSINESS_POLICIES: Partial<DateIntelligenceRecord>[] = [
     temporal_kind: "standing",
     state: "confirmed",
     confidence: "high",
-    evidence: { source_name: "JPX", source_url: "https://www.jpx.co.jp/english/corporate/about-jpx/calendar/" },
+    evidence: { source_name: "Japan Exchange Group (JPX)", source_url: "https://www.jpx.co.jp/english/corporate/about-jpx/calendar/", last_checked: "2026-09-08" },
     consequences: { implication: "Standard JPX session hours apply unless a specific market closure is listed.", affected_operations: ["trading"], severity: "low" }
   },
   {
@@ -74,7 +74,7 @@ export const BUSINESS_POLICIES: Partial<DateIntelligenceRecord>[] = [
     temporal_kind: "standing",
     state: "confirmed",
     confidence: "high",
-    evidence: { source_name: "Deutsche Borse" },
+    evidence: { source_name: "Deutsche Börse Group", source_url: "https://www.xetra.com/xetra-en/trading/trading-calendar", last_checked: "2026-09-08" },
     consequences: { implication: "Xetra trading sessions follow official market calendar.", affected_operations: ["trading"], severity: "low" }
   },
   {
@@ -86,7 +86,7 @@ export const BUSINESS_POLICIES: Partial<DateIntelligenceRecord>[] = [
     temporal_kind: "standing",
     state: "confirmed",
     confidence: "high",
-    evidence: { source_name: "Singapore Customs" },
+    evidence: { source_name: "Singapore Customs", source_url: "https://www.customs.gov.sg/", last_checked: "2026-09-08" },
     consequences: { implication: "Declaration services remain 24/7; counter services follow public holidays.", affected_operations: ["customs"], severity: "low" }
   },
   {
@@ -98,7 +98,7 @@ export const BUSINESS_POLICIES: Partial<DateIntelligenceRecord>[] = [
     temporal_kind: "standing",
     state: "confirmed",
     confidence: "high",
-    evidence: { source_name: "RBA" },
+    evidence: { source_name: "Reserve Bank of Australia (RBA)", source_url: "https://www.rba.gov.au/payments-and-infrastructure/", last_checked: "2026-09-08" },
     consequences: { implication: "RTGS and payment systems follow RBA operational calendar.", affected_operations: ["banking"], severity: "medium" }
   },
   {
@@ -110,7 +110,7 @@ export const BUSINESS_POLICIES: Partial<DateIntelligenceRecord>[] = [
     temporal_kind: "standing",
     state: "confirmed",
     confidence: "high",
-    evidence: { source_name: "SIX Group" },
+    evidence: { source_name: "SIX Group", source_url: "https://www.six-group.com/en/products-services/the-swiss-stock-exchange/trading/trading-calendar.html", last_checked: "2026-09-08" },
     consequences: { implication: "Swiss market sessions follow named institution calendar.", affected_operations: ["trading"], severity: "low" }
   },
   {
@@ -122,7 +122,7 @@ export const BUSINESS_POLICIES: Partial<DateIntelligenceRecord>[] = [
     temporal_kind: "standing",
     state: "confirmed",
     confidence: "high",
-    evidence: { source_name: "ECB" },
+    evidence: { source_name: "European Central Bank (ECB)", source_url: "https://www.ecb.europa.eu/press/calendars/target2/html/index.en.html", last_checked: "2026-09-08" },
     consequences: { implication: "TARGET2 settlement system follows ECB holiday schedule.", affected_operations: ["banking"], severity: "high" }
   },
   {
@@ -134,7 +134,7 @@ export const BUSINESS_POLICIES: Partial<DateIntelligenceRecord>[] = [
     temporal_kind: "standing",
     state: "confirmed",
     confidence: "high",
-    evidence: { source_name: "HKMA" },
+    evidence: { source_name: "Hong Kong Monetary Authority (HKMA)", source_url: "https://www.hkma.gov.hk/eng/key-functions/international-financial-centre/infrastructure/payment-systems/", last_checked: "2026-09-08" },
     consequences: { implication: "Settlement systems follow HKMA operational timing.", affected_operations: ["banking"], severity: "medium" }
   },
   {
@@ -146,7 +146,7 @@ export const BUSINESS_POLICIES: Partial<DateIntelligenceRecord>[] = [
     temporal_kind: "standing",
     state: "confirmed",
     confidence: "high",
-    evidence: { source_name: "SARB" },
+    evidence: { source_name: "South African Reserve Bank (SARB)", source_url: "https://www.resbank.co.za/en/home/what-we-do/payments-and-settlements", last_checked: "2026-09-08" },
     consequences: { implication: "SAMOS settlement follows SARB holiday schedule.", affected_operations: ["banking"], severity: "medium" }
   }
 ];
