@@ -80,6 +80,10 @@ export function getCanonicalRules(): CanonicalRule[] {
         };
       }
 
+      if (!obj.jurisdiction) {
+        throw new Error(`CRITICAL: Record ${obj.id || obj.name} in ${set.name} missing jurisdiction.`);
+      }
+
       if (!obj.purpose_relevance) {
         throw new Error(`CRITICAL: Record ${obj.id || obj.name} in ${set.name} missing purpose_relevance.`);
       }
