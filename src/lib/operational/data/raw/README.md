@@ -1,8 +1,10 @@
-# Authoritative Source Chunks
+# Authoritative Source Fragments
 
-This directory contains the authoritative Utsavs operational source, provided in sequential chunks to accommodate system output limits.
+This directory contains fragments of the legacy operational source.
 
-## Ingestion Rules
-1. **Preserve Raw Content**: Chunks are stored exactly as provided.
-2. **Aggregator Pattern**: `src/lib/operational/source.ts` imports and merges these chunks.
-3. **No Modification**: Records are never edited in these files; normalization happens in `normalize.ts`.
+## Ingestion Warning
+These chunks are NOT automatically merged or imported by the application. They serve as a static reference only.
+
+## Status
+- CHUNK_001 to CHUNK_017 total ~202 KB.
+- Known syntax errors present in CHUNK_004 (AU Labour Day) and CHUNK_008 (INSTITUTIONS splice).
