@@ -230,7 +230,8 @@ export default function HomePage() {
     return { 
       name: match.name, 
       shortDate: format(dateObj, 'd MMM'), 
-      daysAway: differenceInDays(dateObj, new Date(todayKey + 'T00:00:00')) 
+      daysAway: differenceInDays(dateObj, new Date(todayKey + 'T00:00:00')),
+      scope: match.jurisdiction?.scope
     };
   }, [isMounted, country, todayKey, allRecords]);
 
@@ -340,7 +341,9 @@ export default function HomePage() {
                       </span>
                     </div>
                     <div className="hero-tracker-next-card">
-                      <span className="next-card-kicker" id="pulse-regional-kicker">Regional · {COUNTRY_LABELS[country] || country}</span>
+                      <span className="next-card-kicker" id="pulse-regional-kicker">
+                        {regionalNext?.scope ? (regionalNext.scope.charAt(0).toUpperCase() + regionalNext.scope.slice(1)) : 'Regional'} · {COUNTRY_LABELS[country] || country}
+                      </span>
                       <span className="next-card-name" id="pulse-regional-name">{regionalNext?.name || "Clear window"}</span>
                       <span className="next-card-date" id="pulse-regional-date">
                         {regionalNext ? `${regionalNext.shortDate} · ${regionalNext.daysAway} ${regionalNext.daysAway === 1 ? 'day' : 'days'} away` : 'Normal operational status'}

@@ -7,7 +7,7 @@ import { DateIntelligenceRecord } from '../types';
 export const STUDY_INSTITUTIONAL_TIMING: Partial<DateIntelligenceRecord>[] = [
   { 
     id: "STU_AU_UMELB_EXAMS", 
-    date: "2026-11-02", 
+    valid_from: "2026-11-02", 
     name: "Semester 2 exams start", 
     category: "institutional", 
     jurisdiction: { country_code: "AU", country_name: "Australia", scope: "institutional" }, 
@@ -21,7 +21,7 @@ export const STUDY_INSTITUTIONAL_TIMING: Partial<DateIntelligenceRecord>[] = [
   },
   { 
     id: "STU_GB_UCL_TERM", 
-    date: "2026-09-28", 
+    valid_from: "2026-09-28", 
     name: "Autumn Term begins", 
     category: "institutional", 
     jurisdiction: { country_code: "GB", country_name: "United Kingdom", scope: "institutional" }, 
@@ -35,7 +35,7 @@ export const STUDY_INSTITUTIONAL_TIMING: Partial<DateIntelligenceRecord>[] = [
   },
   { 
     id: "STU_CA_UT_TERM", 
-    date: "2026-09-08", 
+    valid_from: "2026-09-08", 
     name: "Fall classes begin", 
     category: "institutional", 
     jurisdiction: { country_code: "CA", country_name: "Canada", scope: "institutional" }, 
@@ -49,7 +49,7 @@ export const STUDY_INSTITUTIONAL_TIMING: Partial<DateIntelligenceRecord>[] = [
   },
   { 
     id: "STU_US_HARVARD_MOVE", 
-    date: "2026-08-26", 
+    valid_from: "2026-08-26", 
     name: "Freshman move-in", 
     category: "institutional", 
     jurisdiction: { country_code: "US", country_name: "United States", scope: "institutional" }, 
@@ -63,7 +63,7 @@ export const STUDY_INSTITUTIONAL_TIMING: Partial<DateIntelligenceRecord>[] = [
   },
   { 
     id: "STU_JP_UT_SEM_S", 
-    date: "2026-10-01", 
+    valid_from: "2026-10-01", 
     name: "Autumn Semester begins", 
     category: "institutional", 
     jurisdiction: { country_code: "JP", country_name: "Japan", scope: "institutional" }, 
@@ -77,7 +77,7 @@ export const STUDY_INSTITUTIONAL_TIMING: Partial<DateIntelligenceRecord>[] = [
   },
   { 
     id: "STU_SG_NUS_EXAM_S", 
-    date: "2026-11-23", 
+    valid_from: "2026-11-23", 
     name: "Semester 1 exams begin", 
     category: "institutional", 
     jurisdiction: { country_code: "SG", country_name: "Singapore", scope: "institutional" }, 
@@ -91,7 +91,7 @@ export const STUDY_INSTITUTIONAL_TIMING: Partial<DateIntelligenceRecord>[] = [
   },
   { 
     id: "STU_IN_IIT_REG_S", 
-    date: "2026-07-20", 
+    valid_from: "2026-07-20", 
     name: "Autumn Semester registration", 
     category: "institutional", 
     jurisdiction: { country_code: "IN", country_name: "India", scope: "institutional" }, 
@@ -105,7 +105,7 @@ export const STUDY_INSTITUTIONAL_TIMING: Partial<DateIntelligenceRecord>[] = [
   },
   { 
     id: "STU_AE_NYU_TERM_S", 
-    date: "2026-08-30", 
+    valid_from: "2026-08-30", 
     name: "Fall classes begin", 
     category: "institutional", 
     jurisdiction: { country_code: "AE", country_name: "United Arab Emirates", scope: "institutional" }, 
@@ -119,7 +119,7 @@ export const STUDY_INSTITUTIONAL_TIMING: Partial<DateIntelligenceRecord>[] = [
   },
   { 
     id: "STU_DE_HU_SEM_S", 
-    date: "2026-10-12", 
+    valid_from: "2026-10-12", 
     name: "Winter Semester lectures begin", 
     category: "institutional", 
     jurisdiction: { country_code: "DE", country_name: "Germany", scope: "institutional" }, 
@@ -133,7 +133,7 @@ export const STUDY_INSTITUTIONAL_TIMING: Partial<DateIntelligenceRecord>[] = [
   },
   { 
     id: "STU_FR_SORB_REG_S", 
-    date: "2026-09-01", 
+    valid_from: "2026-09-01", 
     name: "Administrative registration window", 
     category: "institutional", 
     jurisdiction: { country_code: "FR", country_name: "France", scope: "institutional" }, 
