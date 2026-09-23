@@ -32,6 +32,17 @@ const DOMAIN_GUIDANCE: Record<string, string> = {
   travel: "Standard travel conditions apply. Check local transport for holiday schedules."
 };
 
+const getDisplayCategory = (cat: string) => {
+  const map: Record<string, string> = {
+    public: "National Holiday",
+    religious: "Religious Observance",
+    cultural: "Cultural Event",
+    harvest: "Harvest Festival",
+    holiday: "Public Holiday"
+  };
+  return map[cat.toLowerCase()] || cat.charAt(0).toUpperCase() + cat.slice(1).replace('_', ' ');
+};
+
 export default function HomePage() {
   const [isMounted, setIsMounted] = useState(false);
   const [allRecords, setAllRecords] = useState<DateIntelligenceRecord[]>([]);
@@ -169,7 +180,11 @@ export default function HomePage() {
       .filter(r => r.category !== 'regional' && r.jurisdiction?.scope !== 'regional')
       .forEach(r => {
         if (!idx.has(r.date)) idx.set(r.date, []);
-        idx.get(r.date).push({ code: r.jurisdiction?.country_code, name: r.name });
+        idx.get(r.date).push({ 
+          code: r.jurisdiction?.country_code, 
+          name: r.name,
+          category: r.category
+        });
       });
     
     const sortedEntries = Array.from(idx.entries()).sort((a, b) => a[0].localeCompare(b[0]));
@@ -214,7 +229,8 @@ export default function HomePage() {
       primary: entries[0] ? `${COUNTRY_LABELS[entries[0].code] || entries[0].code} — ${entries[0].name}` : "—", 
       others: entries.slice(1).map((e: any) => `${COUNTRY_LABELS[e.code] || e.code} — ${e.name}`),
       count: entries.length, 
-      daysAway: differenceInDays(dateObj, new Date(todayKey + 'T00:00:00')) 
+      daysAway: differenceInDays(dateObj, new Date(todayKey + 'T00:00:00')),
+      category: entries[0]?.category || 'Holiday'
     };
   }, [mobileForwardIndex, todayKey, isMounted]);
 
@@ -317,6 +333,11 @@ export default function HomePage() {
                         + {other}
                       </span>
                     ))}
+                    {mobileGlobalNext && (
+                      <span className="next-card-date block mt-1">
+                        {mobileGlobalNext.shortDate} · {mobileGlobalNext.count} {mobileGlobalNext.count === 1 ? 'country' : 'countries'} · {getDisplayCategory(mobileGlobalNext.category)} · {mobileGlobalNext.daysAway === 0 ? 'TODAY' : `${mobileGlobalNext.daysAway}d away`}
+                      </span>
+                    )}
                   </div>
                   <a className="inline-block text-[12px] font-bold text-gold-soft hover:text-gold transition-colors pt-1" href="#date-intelligence">
                     See what this date means →
@@ -345,7 +366,7 @@ export default function HomePage() {
                       <span className="next-card-date" id="pulse-global-date">
                         {globalNext ? (
                           <>
-                            {globalNext.shortDate} · {globalNext.count} {globalNext.count === 1 ? 'country' : 'countries'} · {globalNext.category.charAt(0).toUpperCase() + globalNext.category.slice(1).replace('_', ' ')} · {globalNext.daysAway === 0 ? 'TODAY' : `${globalNext.daysAway} ${globalNext.daysAway === 1 ? 'day' : 'days'} away`}
+                            {globalNext.shortDate} · {globalNext.count} {globalNext.count === 1 ? 'country' : 'countries'} · {getDisplayCategory(globalNext.category)} · {globalNext.daysAway === 0 ? 'TODAY' : `${globalNext.daysAway} ${globalNext.daysAway === 1 ? 'day' : 'days'} away`}
                           </>
                         ) : (
                           'Normal operational status'
@@ -358,7 +379,13 @@ export default function HomePage() {
                       </span>
                       <span className="next-card-name" id="pulse-regional-name">{regionalNext?.name || "Clear window"}</span>
                       <span className="next-card-date" id="pulse-regional-date">
-                        {regionalNext ? `${regionalNext.shortDate} · ${regionalNext.daysAway} ${regionalNext.daysAway === 1 ? 'day' : 'days'} away` : 'Normal operational status'}
+                        {regionalNext ? (
+                          <>
+                            {regionalNext.shortDate} · {regionalNext.daysAway === 0 ? 'TODAY' : `${regionalNext.daysAway} ${regionalNext.daysAway === 1 ? 'day' : 'days'} away`}
+                          </>
+                        ) : (
+                          'Normal operational status'
+                        )}
                       </span>
                     </div>
                   </div>
