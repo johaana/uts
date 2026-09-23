@@ -1,14 +1,26 @@
 /**
  * @fileOverview Holidays Data.
  * Reconciled for provenance and explicit purpose relevance.
- * Contains 439 rules across 144 country keys.
+ * Contains expanded authoritative rules restored from legacy source fragments.
  */
 
 function fixed(month: number, day: number, name: string, type: any, purposes: any, confidence?: any, evidence?: any) {
   return { kind: "fixed", month, day, name, type, purpose_relevance: purposes, status: "confirmed", confidence: confidence || "unsourced", evidence: evidence || null };
 }
-function dated(dates: any, name: string, type: any, purposes: any, status?: any, confidence?: any, evidence?: any) {
-  return { kind: "dated", dates, name, type, purpose_relevance: purposes, status: status || "confirmed", confidence: confidence || "unsourced", evidence: evidence || null };
+function dated(dates: any, name: string, type: any, status?: any, confidence?: any, evidence?: any, purposes?: any) {
+  return { 
+    kind: "dated", 
+    dates, 
+    name, 
+    type, 
+    purpose_relevance: purposes || ["travel", "business"], 
+    status: status || "confirmed", 
+    confidence: confidence || "unsourced", 
+    evidence: evidence || null 
+  };
+}
+function nthWeekday(month: number, dow: number, n: number, name: string, type: any, purposes: any, confidence?: any, evidence?: any) {
+  return { kind: "nth", month, dow, n, name, type, purpose_relevance: purposes, status: "confirmed", confidence: confidence || "unsourced", evidence: evidence || null };
 }
 
 export const HOLIDAY_RULES: Record<string, any[]> = {
@@ -16,23 +28,27 @@ export const HOLIDAY_RULES: Record<string, any[]> = {
     fixed(1, 26, "Republic Day", "public", ["travel", "business"], "high", { source_name: "DoPT Circular 2026", source_url: "https://www.mha.gov.in/en/common-holidays-2026" }),
     fixed(8, 15, "Independence Day", "public", ["travel", "business"], "high", { source_name: "DoPT Circular 2026", source_url: "https://www.mha.gov.in/en/common-holidays-2026" }),
     fixed(10, 2, "Gandhi Jayanti", "public", ["travel", "business"], "high", { source_name: "DoPT Circular 2026", source_url: "https://www.mha.gov.in/en/common-holidays-2026" }),
-    dated({ 2026: "2026-11-08", 2027: "2027-10-29", 2028: "2028-10-17" }, "Diwali", "public", ["travel", "business"], "confirmed", "high", {
+    dated({ 2026: "2026-09-14" }, "Ganesh Chaturthi", "religious", "confirmed", "high", { source_name: "CAG 2026", source_url: "https://cag.gov.in/uploads/media/Holiday-List-2026-06982ddd8e2f3c2-57681843.pdf" }),
+    dated({ 2026: "2026-10-20" }, "Dussehra", "religious", "confirmed", "high", { source_name: "CAG 2026", source_url: "https://cag.gov.in/uploads/media/Holiday-List-2026-06982ddd8e2f3c2-57681843.pdf" }),
+    dated({ 2026: "2026-11-08", 2027: "2027-10-29", 2028: "2028-10-17" }, "Diwali", "public", "confirmed", "high", {
         source_name: "DoPT OM F.No.12/2/2023-JCA (Delhi Date).",
         source_url: "https://www.aiimsmangalagiri.edu.in/wp-content/uploads/2025/11/Holidays-Circular-2026-1.pdf",
         last_checked: "2026-09-05"
-      })
+      }),
+    dated({ 2026: "2026-11-09" }, "Govardhan Puja", "cultural", "confirmed", "high", { source_name: "CAG 2026", source_url: "https://cag.gov.in/uploads/media/Holiday-List-2026-069521fe6f358d0-89936988.pdf" }),
+    dated({ 2026: "2026-11-11" }, "Bhai Dooj", "cultural", "confirmed", "high", { source_name: "CAG 2026", source_url: "https://cag.gov.in/uploads/media/Holiday-List-2026-069521fe6f358d0-89936988.pdf" })
   ],
   SG: [
     fixed(1, 1, "New Year's Day", "public", ["travel", "business"], "high", { source_name: "MOM Singapore", source_url: "https://www.mom.gov.sg/employment-practices/public-holidays" }),
     fixed(5, 1, "Labour Day", "public", ["travel", "business"], "high", { source_name: "MOM Singapore", source_url: "https://www.mom.gov.sg/employment-practices/public-holidays" }),
     fixed(8, 9, "National Day", "public", ["travel", "business"], "high", { source_name: "MOM Singapore", source_url: "https://www.mom.gov.sg/employment-practices/public-holidays" }),
     fixed(12, 25, "Christmas Day", "public", ["travel", "business"], "high", { source_name: "MOM Singapore", source_url: "https://www.mom.gov.sg/employment-practices/public-holidays" }),
-    dated({ 2026: "2026-02-17", 2027: "2027-02-07" }, "Chinese New Year", "public", ["travel", "business"], "confirmed", "high", { source_name: "MOM Singapore", source_url: "https://www.mom.gov.sg/employment-practices/public-holidays" }),
-    dated({ 2026: "2026-04-03", 2027: "2027-03-26" }, "Good Friday", "public", ["travel", "business"], "confirmed", "high", { source_name: "MOM Singapore", source_url: "https://www.mom.gov.sg/employment-practices/public-holidays" }),
-    dated({ 2026: "2026-03-20", 2027: "2027-03-10" }, "Hari Raya Puasa", "public", ["travel", "business"], "estimated", "high", { source_name: "MOM Singapore", source_url: "https://www.mom.gov.sg/employment-practices/public-holidays" }),
-    dated({ 2026: "2026-05-27", 2027: "2027-05-16" }, "Hari Raya Haji", "public", ["travel", "business"], "estimated", "high", { source_name: "MOM Singapore", source_url: "https://www.mom.gov.sg/employment-practices/public-holidays" }),
-    dated({ 2026: "2026-05-31", 2027: "2027-05-13" }, "Vesak Day", "public", ["travel", "business"], "confirmed", "high", { source_name: "MOM Singapore", source_url: "https://www.mom.gov.sg/employment-practices/public-holidays" }),
-    dated({ 2026: "2026-11-08", 2027: "2027-10-29" }, "Deepavali", "public", ["travel", "business"], "confirmed", "high", { source_name: "MOM Singapore", source_url: "https://www.mom.gov.sg/employment-practices/public-holidays" })
+    dated({ 2026: "2026-02-17", 2027: "2027-02-07" }, "Chinese New Year", "public", "confirmed", "high", { source_name: "MOM Singapore", source_url: "https://www.mom.gov.sg/employment-practices/public-holidays" }),
+    dated({ 2026: "2026-04-03", 2027: "2027-03-26" }, "Good Friday", "public", "confirmed", "high", { source_name: "MOM Singapore", source_url: "https://www.mom.gov.sg/employment-practices/public-holidays" }),
+    dated({ 2026: "2026-03-20", 2027: "2027-03-10" }, "Hari Raya Puasa", "public", "estimated", "high", { source_name: "MOM Singapore", source_url: "https://www.mom.gov.sg/employment-practices/public-holidays" }),
+    dated({ 2026: "2026-05-27", 2027: "2027-05-16" }, "Hari Raya Haji", "public", "estimated", "high", { source_name: "MOM Singapore", source_url: "https://www.mom.gov.sg/employment-practices/public-holidays" }),
+    dated({ 2026: "2026-05-31", 2027: "2027-05-13" }, "Vesak Day", "public", "confirmed", "high", { source_name: "MOM Singapore", source_url: "https://www.mom.gov.sg/employment-practices/public-holidays" }),
+    dated({ 2026: "2026-11-08", 2027: "2027-10-29" }, "Deepavali", "public", "confirmed", "high", { source_name: "MOM Singapore", source_url: "https://www.mom.gov.sg/employment-practices/public-holidays" })
   ],
   US: [
     fixed(1, 1, "New Year's Day", "public", ["travel", "business"], "high", { source_name: "OPM", source_url: "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/" }),
@@ -40,22 +56,113 @@ export const HOLIDAY_RULES: Record<string, any[]> = {
     fixed(7, 4, "Independence Day", "public", ["travel", "business"], "high", { source_name: "OPM", source_url: "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/" }),
     fixed(11, 11, "Veterans Day", "public", ["travel", "business"], "high", { source_name: "OPM", source_url: "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/" }),
     fixed(12, 25, "Christmas Day", "public", ["travel", "business"], "high", { source_name: "OPM", source_url: "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/" }),
-    dated({ 2026: "2026-01-19", 2027: "2027-01-18" }, "Martin Luther King, Jr. Day", "public", ["travel", "business"], "confirmed", "high", { source_name: "OPM", source_url: "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/" }),
-    dated({ 2026: "2026-02-16", 2027: "2027-02-15" }, "Washington's Birthday", "public", ["travel", "business"], "confirmed", "high", { source_name: "OPM", source_url: "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/" }),
-    dated({ 2026: "2026-05-25", 2027: "2027-05-31" }, "Memorial Day", "public", ["travel", "business"], "confirmed", "high", { source_name: "OPM", source_url: "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/" }),
-    dated({ 2026: "2026-09-07", 2027: "2027-09-06" }, "Labor Day", "public", ["travel", "business"], "confirmed", "high", { source_name: "OPM", source_url: "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/" }),
-    dated({ 2026: "2026-10-12", 2027: "2027-10-11" }, "Columbus Day", "public", ["travel", "business"], "confirmed", "high", { source_name: "OPM", source_url: "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/" }),
-    dated({ 2026: "2026-11-26", 2027: "2027-11-25" }, "Thanksgiving Day", "public", ["travel", "business"], "confirmed", "high", { source_name: "OPM", source_url: "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/" })
+    dated({ 2026: "2026-01-19", 2027: "2027-01-18" }, "Martin Luther King, Jr. Day", "public", "confirmed", "high", { source_name: "OPM", source_url: "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/" }),
+    dated({ 2026: "2026-02-16", 2027: "2027-02-15" }, "Washington's Birthday", "public", "confirmed", "high", { source_name: "OPM", source_url: "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/" }),
+    dated({ 2026: "2026-05-25", 2027: "2027-05-31" }, "Memorial Day", "public", "confirmed", "high", { source_name: "OPM", source_url: "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/" }),
+    dated({ 2026: "2026-09-07", 2027: "2027-09-06" }, "Labor Day", "public", "confirmed", "high", { source_name: "OPM", source_url: "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/" }),
+    dated({ 2026: "2026-10-12", 2027: "2027-10-11" }, "Columbus Day", "public", "confirmed", "high", { source_name: "OPM", source_url: "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/" }),
+    dated({ 2026: "2026-11-26", 2027: "2027-11-25" }, "Thanksgiving Day", "public", "confirmed", "high", { source_name: "OPM", source_url: "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/" })
   ],
   GB: [
     fixed(1, 1, "New Year's Day", "public", ["travel", "business"], "high", { source_name: "GOV.UK", source_url: "https://www.gov.uk/bank-holidays" }),
     fixed(12, 25, "Christmas Day", "public", ["travel", "business"], "high", { source_name: "GOV.UK", source_url: "https://www.gov.uk/bank-holidays" }),
     fixed(12, 26, "Boxing Day", "public", ["travel", "business"], "high", { source_name: "GOV.UK", source_url: "https://www.gov.uk/bank-holidays" }),
-    dated({ 2026: "2026-04-03", 2027: "2027-03-26" }, "Good Friday", "public", ["travel", "business"], "confirmed", "high", { source_name: "GOV.UK", source_url: "https://www.gov.uk/bank-holidays" }),
-    dated({ 2026: "2026-04-06", 2027: "2027-03-29" }, "Easter Monday", "public", ["travel", "business"], "confirmed", "high", { source_name: "GOV.UK", source_url: "https://www.gov.uk/bank-holidays" }),
-    dated({ 2026: "2026-05-04", 2027: "2027-05-03" }, "Early May Bank Holiday", "public", ["travel", "business"], "confirmed", "high", { source_name: "GOV.UK", source_url: "https://www.gov.uk/bank-holidays" }),
-    dated({ 2026: "2026-05-25", 2027: "2027-05-31" }, "Spring Bank Holiday", "public", ["travel", "business"], "confirmed", "high", { source_name: "GOV.UK", source_url: "https://www.gov.uk/bank-holidays" }),
-    dated({ 2026: "2026-08-31", 2027: "2027-08-30" }, "Summer Bank Holiday", "public", ["travel", "business"], "confirmed", "high", { source_name: "GOV.UK", source_url: "https://www.gov.uk/bank-holidays" })
+    dated({ 2026: "2026-04-03", 2027: "2027-03-26" }, "Good Friday", "public", "confirmed", "high", { source_name: "GOV.UK", source_url: "https://www.gov.uk/bank-holidays" }),
+    dated({ 2026: "2026-04-06", 2027: "2027-03-29" }, "Easter Monday", "public", "confirmed", "high", { source_name: "GOV.UK", source_url: "https://www.gov.uk/bank-holidays" }),
+    dated({ 2026: "2026-05-04", 2027: "2027-05-03" }, "Early May Bank Holiday", "public", "confirmed", "high", { source_name: "GOV.UK", source_url: "https://www.gov.uk/bank-holidays" }),
+    dated({ 2026: "2026-05-25", 2027: "2027-05-31" }, "Spring Bank Holiday", "public", "confirmed", "high", { source_name: "GOV.UK", source_url: "https://www.gov.uk/bank-holidays" }),
+    dated({ 2026: "2026-08-31", 2027: "2027-08-30" }, "Summer Bank Holiday", "public", "confirmed", "high", { source_name: "GOV.UK", source_url: "https://www.gov.uk/bank-holidays" })
+  ],
+  AU: [
+    fixed(1, 1, "New Year's Day", "public", ["travel", "business"], "high", { source_name: "Fair Work Ombudsman", source_url: "https://www.fairwork.gov.au/employment-conditions/public-holidays" }),
+    fixed(1, 26, "Australia Day", "public", ["travel", "business"], "high", { source_name: "Fair Work Ombudsman", source_url: "https://www.fairwork.gov.au/employment-conditions/public-holidays" }),
+    fixed(4, 25, "Anzac Day", "public", ["travel", "business"], "high", { source_name: "Fair Work Ombudsman", source_url: "https://www.fairwork.gov.au/employment-conditions/public-holidays" }),
+    fixed(12, 25, "Christmas Day", "public", ["travel", "business"], "high", { source_name: "Fair Work Ombudsman", source_url: "https://www.fairwork.gov.au/employment-conditions/public-holidays" }),
+    fixed(12, 26, "Boxing Day", "public", ["travel", "business"], "high", { source_name: "Fair Work Ombudsman", source_url: "https://www.fairwork.gov.au/employment-conditions/public-holidays" }),
+    dated({ 2026: "2026-04-03" }, "Good Friday", "public", "confirmed", "high", { source_name: "Fair Work Ombudsman", source_url: "https://www.fairwork.gov.au/employment-conditions/public-holidays" }),
+    dated({ 2026: "2026-04-06" }, "Easter Monday", "public", "confirmed", "high", { source_name: "Fair Work Ombudsman", source_url: "https://www.fairwork.gov.au/employment-conditions/public-holidays" }),
+    dated({ 2026: "2026-06-08" }, "King's Birthday", "public", "confirmed", "high", { source_name: "Fair Work Ombudsman", source_url: "https://www.fairwork.gov.au/employment-conditions/public-holidays", last_checked: "2026-09-06" }),
+    dated({ 2026: "2026-10-05" }, "Labour Day", "public", "confirmed", "high", { source_name: "Fair Work Ombudsman", source_url: "https://www.fairwork.gov.au/employment-conditions/public-holidays", last_checked: "2026-09-06" }),
+    dated({ 2026: "2026-12-28" }, "Additional Day (Boxing Day)", "public", "confirmed", "high", { source_name: "Fair Work Ombudsman", source_url: "https://www.fairwork.gov.au/employment-conditions/public-holidays" })
+  ],
+  NZ: [
+    fixed(1, 1, "New Year's Day", "public", ["travel", "business"], "high", { source_name: "NZ Government", source_url: "https://www.govt.nz/browse/work/public-holidays-and-work/" }),
+    fixed(1, 2, "Day after New Year's Day", "public", ["travel", "business"], "high", { source_name: "NZ Government", source_url: "https://www.govt.nz/browse/work/public-holidays-and-work/" }),
+    fixed(2, 6, "Waitangi Day", "public", ["travel", "business"], "high", { source_name: "NZ Government", source_url: "https://www.govt.nz/browse/work/public-holidays-and-work/" }),
+    fixed(4, 25, "Anzac Day", "public", ["travel", "business"], "high", { source_name: "NZ Government", source_url: "https://www.govt.nz/browse/work/public-holidays-and-work/" }),
+    fixed(12, 25, "Christmas Day", "public", ["travel", "business"], "high", { source_name: "NZ Government", source_url: "https://www.govt.nz/browse/work/public-holidays-and-work/" }),
+    fixed(12, 26, "Boxing Day", "public", ["travel", "business"], "high", { source_name: "NZ Government", source_url: "https://www.govt.nz/browse/work/public-holidays-and-work/" }),
+    dated({ 2026: "2026-04-03" }, "Good Friday", "public", "confirmed", "high", { source_name: "NZ Government", source_url: "https://www.govt.nz/browse/work/public-holidays-and-work/" }),
+    dated({ 2026: "2026-04-06" }, "Easter Monday", "public", "confirmed", "high", { source_name: "NZ Government", source_url: "https://www.govt.nz/browse/work/public-holidays-and-work/" }),
+    dated({ 2026: "2026-06-01" }, "King's Birthday", "public", "confirmed", "high", { source_name: "NZ Government", source_url: "https://www.govt.nz/browse/work/public-holidays-and-work/" }),
+    dated({ 2026: "2026-06-26" }, "Matariki", "public", "confirmed", "high", { source_name: "NZ Government", source_url: "https://www.govt.nz/browse/work/public-holidays-and-work/" }),
+    dated({ 2026: "2026-10-26" }, "Labour Day", "public", "confirmed", "high", { source_name: "NZ Government", source_url: "https://www.govt.nz/browse/work/public-holidays-and-work/" })
+  ],
+  ZA: [
+    fixed(1, 1, "New Year's Day", "public", ["travel", "business"], "high", { source_name: "South African Government", source_url: "https://www.gov.za/about-sa/public-holidays" }),
+    fixed(3, 21, "Human Rights Day", "public", ["travel", "business"], "high", { source_name: "South African Government", source_url: "https://www.gov.za/about-sa/public-holidays" }),
+    fixed(4, 27, "Freedom Day", "public", ["travel", "business"], "high", { source_name: "South African Government", source_url: "https://www.gov.za/about-sa/public-holidays" }),
+    fixed(5, 1, "Workers' Day", "public", ["travel", "business"], "high", { source_name: "South African Government", source_url: "https://www.gov.za/about-sa/public-holidays" }),
+    fixed(6, 16, "Youth Day", "public", ["travel", "business"], "high", { source_name: "South African Government", source_url: "https://www.gov.za/about-sa/public-holidays" }),
+    fixed(8, 9, "National Women's Day", "public", ["travel", "business"], "high", { source_name: "South African Government", source_url: "https://www.gov.za/about-sa/public-holidays" }),
+    fixed(9, 24, "Heritage Day", "public", ["travel", "business"], "high", { source_name: "South African Government", source_url: "https://www.gov.za/about-sa/public-holidays" }),
+    fixed(12, 16, "Day of Reconciliation", "public", ["travel", "business"], "high", { source_name: "South African Government", source_url: "https://www.gov.za/about-sa/public-holidays" }),
+    fixed(12, 25, "Christmas Day", "public", ["travel", "business"], "high", { source_name: "South African Government", source_url: "https://www.gov.za/about-sa/public-holidays" }),
+    fixed(12, 26, "Day of Goodwill", "public", ["travel", "business"], "high", { source_name: "South African Government", source_url: "https://www.gov.za/about-sa/public-holidays" }),
+    dated({ 2026: "2026-04-03" }, "Good Friday", "public", "confirmed", "high", { source_name: "South African Government", source_url: "https://www.gov.za/about-sa/public-holidays" }),
+    dated({ 2026: "2026-04-06" }, "Family Day", "public", "confirmed", "high", { source_name: "South African Government", source_url: "https://www.gov.za/about-sa/public-holidays" }),
+    dated({ 2026: "2026-08-10" }, "National Women's Day (Observed)", "public", "confirmed", "high", { source_name: "South African Government", source_url: "https://www.gov.za/about-sa/public-holidays" })
+  ],
+  KE: [
+    fixed(1, 1, "New Year's Day", "public", ["travel", "business"], "high", { source_name: "Kenya Law", source_url: "https://new.kenyalaw.org/akn/ke/act/1912/21" }),
+    fixed(5, 1, "Labour Day", "public", ["travel", "business"], "high", { source_name: "Kenya Law", source_url: "https://new.kenyalaw.org/akn/ke/act/1912/21" }),
+    fixed(6, 1, "Madaraka Day", "public", ["travel", "business"], "high", { source_name: "Kenya Law", source_url: "https://new.kenyalaw.org/akn/ke/act/1912/21" }),
+    fixed(10, 10, "Mazingira Day", "public", ["travel", "business"], "high", { source_name: "Kenya Law", source_url: "https://new.kenyalaw.org/akn/ke/act/1912/21" }),
+    fixed(10, 20, "Mashujaa Day", "public", ["travel", "business"], "high", { source_name: "Kenya Law", source_url: "https://new.kenyalaw.org/akn/ke/act/1912/21" }),
+    fixed(12, 12, "Jamhuri Day", "public", ["travel", "business"], "high", { source_name: "Kenya Law", source_url: "https://new.kenyalaw.org/akn/ke/act/1912/21" }),
+    fixed(12, 25, "Christmas Day", "public", ["travel", "business"], "high", { source_name: "Kenya Law", source_url: "https://new.kenyalaw.org/akn/ke/act/1912/21" }),
+    fixed(12, 26, "Boxing Day", "public", ["travel", "business"], "high", { source_name: "Kenya Law", source_url: "https://new.kenyalaw.org/akn/ke/act/1912/21" }),
+    dated({ 2026: "2026-03-20" }, "Eid-ul-Fitr", "religious", "confirmed", "high", { source_name: "Kenya Gazette", source_url: "https://new.kenyalaw.org/akn/ke/officialGazette/2026-03-18/50/eng@2026-03-18/source.pdf" }),
+    dated({ 2026: "2026-04-03" }, "Good Friday", "public", "confirmed", "high", { source_name: "Kenya Law", source_url: "https://new.kenyalaw.org/akn/ke/act/1912/21" }),
+    dated({ 2026: "2026-04-06" }, "Easter Monday", "public", "confirmed", "high", { source_name: "Kenya Law", source_url: "https://new.kenyalaw.org/akn/ke/act/1912/21" })
+  ],
+  LK: [
+    fixed(2, 4, "Independence Day", "public", ["travel", "business"], "high", { source_name: "Sri Lanka Government", source_url: "https://documents.gov.lk/view/calander/2026/2026_E.pdf" }),
+    fixed(12, 25, "Christmas Day", "public", ["travel", "business"], "high", { source_name: "Sri Lanka Government", source_url: "https://documents.gov.lk/view/calander/2026/2026_E.pdf" }),
+    dated({ 2026: "2026-01-03" }, "Duruthu Poya", "public", "confirmed", "high", { source_name: "Sri Lanka Government", source_url: "https://documents.gov.lk/view/calander/2026/2026_E.pdf" }),
+    dated({ 2026: "2026-01-15" }, "Thai Pongal", "public", "confirmed", "high", { source_name: "Sri Lanka Government", source_url: "https://documents.gov.lk/view/calander/2026/2026_E.pdf" }),
+    dated({ 2026: "2026-02-01" }, "Nawam Poya", "public", "confirmed", "high", { source_name: "Sri Lanka Government", source_url: "https://documents.gov.lk/view/calander/2026/2026_E.pdf" }),
+    dated({ 2026: "2026-02-15" }, "Maha Sivaratri", "public", "confirmed", "high", { source_name: "Sri Lanka Government", source_url: "https://documents.gov.lk/view/calander/2026/2026_E.pdf" }),
+    dated({ 2026: "2026-03-21" }, "Id-Ul-Fitr", "public", "confirmed", "high", { source_name: "Sri Lanka Government", source_url: "https://documents.gov.lk/view/calander/2026/2026_E.pdf" }),
+    dated({ 2026: "2026-04-14" }, "Sinhala and Tamil New Year", "public", "confirmed", "high", { source_name: "Sri Lanka Government", source_url: "https://documents.gov.lk/view/calander/2026/2026_E.pdf" }),
+    dated({ 2026: "2026-05-01" }, "Vesak Poya", "public", "confirmed", "high", { source_name: "Sri Lanka Government", source_url: "https://documents.gov.lk/view/calander/2026/2026_E.pdf" }),
+    dated({ 2026: "2026-11-08" }, "Deepavali", "public", "confirmed", "high", { source_name: "Sri Lanka Government", source_url: "https://documents.gov.lk/view/calander/2026/2026_E.pdf" })
+  ],
+  RW: [
+    fixed(1, 1, "New Year's Day", "public", ["travel", "business"], "high", { source_name: "Republic of Rwanda", source_url: "https://www.rwandainuk.gov.rw/holidays" }),
+    fixed(2, 2, "National Heroes Day", "public", ["travel", "business"], "high", { source_name: "Republic of Rwanda", source_url: "https://www.rwandainuk.gov.rw/holidays" }),
+    fixed(4, 7, "Genocide Memorial Day", "public", ["travel", "business"], "high", { source_name: "Republic of Rwanda", source_url: "https://www.rwandainuk.gov.rw/holidays" }),
+    fixed(5, 1, "Labor Day", "public", ["travel", "business"], "high", { source_name: "Republic of Rwanda", source_url: "https://www.rwandainuk.gov.rw/holidays" }),
+    fixed(7, 1, "Independence Day", "public", ["travel", "business"], "high", { source_name: "Republic of Rwanda", source_url: "https://www.rwandainuk.gov.rw/holidays" }),
+    fixed(7, 4, "Liberation Day", "public", ["travel", "business"], "high", { source_name: "Republic of Rwanda", source_url: "https://www.rwandainuk.gov.rw/holidays" }),
+    fixed(8, 15, "Assumption Day", "public", ["travel", "business"], "high", { source_name: "Republic of Rwanda", source_url: "https://www.rwandainuk.gov.rw/holidays" }),
+    fixed(12, 25, "Christmas Day", "public", ["travel", "business"], "high", { source_name: "Republic of Rwanda", source_url: "https://www.rwandainuk.gov.rw/holidays" }),
+    fixed(12, 26, "Boxing Day", "public", ["travel", "business"], "high", { source_name: "Republic of Rwanda", source_url: "https://www.rwandainuk.gov.rw/holidays" }),
+    dated({ 2026: "2026-05-13" }, "Eid al-Fitr", "religious", "confirmed", "high", { source_name: "Republic of Rwanda", source_url: "https://www.rwandainuk.gov.rw/holidays" }),
+    dated({ 2026: "2026-07-20" }, "Eid al-Adha", "religious", "confirmed", "high", { source_name: "Republic of Rwanda", source_url: "https://www.rwandainuk.gov.rw/holidays" }),
+    dated({ 2026: "2026-08-06" }, "Umuganura Day", "cultural", "confirmed", "high", { source_name: "Republic of Rwanda", source_url: "https://www.rwandainuk.gov.rw/holidays" })
+  ],
+  NA: [
+    fixed(1, 1, "New Year's Day", "public", ["travel", "business"], "high", { source_name: "Namibia MICT", source_url: "https://mict.gov.na/public-holidays" }),
+    fixed(3, 21, "Independence Day", "public", ["travel", "business"], "high", { source_name: "Namibia MICT", source_url: "https://mict.gov.na/public-holidays" }),
+    fixed(5, 1, "Workers' Day", "public", ["travel", "business"], "high", { source_name: "Namibia MICT", source_url: "https://mict.gov.na/public-holidays" }),
+    fixed(5, 4, "Cassinga Day", "public", ["travel", "business"], "high", { source_name: "Namibia MICT", source_url: "https://mict.gov.na/public-holidays" }),
+    fixed(5, 25, "Africa Day", "public", ["travel", "business"], "high", { source_name: "Namibia MICT", source_url: "https://mict.gov.na/public-holidays" }),
+    fixed(8, 26, "Heroes Day", "public", ["travel", "business"], "high", { source_name: "Namibia MICT", source_url: "https://mict.gov.na/public-holidays" }),
+    fixed(12, 10, "International Human Rights Day", "public", ["travel", "business"], "high", { source_name: "Namibia MICT", source_url: "https://mict.gov.na/public-holidays" }),
+    fixed(12, 25, "Christmas Day", "public", ["travel", "business"], "high", { source_name: "Namibia MICT", source_url: "https://mict.gov.na/public-holidays" }),
+    fixed(12, 26, "Family Day", "public", ["travel", "business"], "high", { source_name: "Namibia MICT", source_url: "https://mict.gov.na/public-holidays" }),
+    dated({ 2026: "2026-05-14" }, "Ascension Day", "public", "confirmed", "high", { source_name: "Namibia MICT", source_url: "https://mict.gov.na/public-holidays" })
   ],
   JP: [
     fixed(1, 1, "New Year's Day", "public", ["travel", "business"], "high", { source_name: "Cabinet Office", source_url: "https://www8.cao.go.jp/chosei/shukujitsu/gaiyou.html" }),
@@ -68,22 +175,22 @@ export const HOLIDAY_RULES: Record<string, any[]> = {
     fixed(8, 11, "Mountain Day", "public", ["travel", "business"], "high", { source_name: "Cabinet Office", source_url: "https://www8.cao.go.jp/chosei/shukujitsu/gaiyou.html" }),
     fixed(11, 3, "Culture Day", "public", ["travel", "business"], "high", { source_name: "Cabinet Office", source_url: "https://www8.cao.go.jp/chosei/shukujitsu/gaiyou.html" }),
     fixed(11, 23, "Labor Thanksgiving Day", "public", ["travel", "business"], "high", { source_name: "Cabinet Office", source_url: "https://www8.cao.go.jp/chosei/shukujitsu/gaiyou.html" }),
-    dated({ 2026: "2026-01-12", 2027: "2027-01-11" }, "Coming of Age Day", "public", ["travel", "business"], "confirmed", "high", { source_name: "Cabinet Office", source_url: "https://www8.cao.go.jp/chosei/shukujitsu/gaiyou.html" }),
-    dated({ 2026: "2026-03-20", 2027: "2027-03-21" }, "Vernal Equinox Day", "public", ["travel", "business"], "confirmed", "high", { source_name: "Cabinet Office", source_url: "https://www8.cao.go.jp/chosei/shukujitsu/gaiyou.html" }),
-    dated({ 2026: "2026-07-20", 2027: "2027-07-19" }, "Marine Day", "public", ["travel", "business"], "confirmed", "high", { source_name: "Cabinet Office", source_url: "https://www8.cao.go.jp/chosei/shukujitsu/gaiyou.html" }),
-    dated({ 2026: "2026-09-21", 2027: "2027-09-20" }, "Respect for the Aged Day", "public", ["travel", "business"], "confirmed", "high", { source_name: "Cabinet Office", source_url: "https://www8.cao.go.jp/chosei/shukujitsu/gaiyou.html" }),
-    dated({ 2026: "2026-09-23", 2027: "2027-09-23" }, "Autumnal Equinox Day", "public", ["travel", "business"], "confirmed", "high", { source_name: "Cabinet Office", source_url: "https://www8.cao.go.jp/chosei/shukujitsu/gaiyou.html" }),
-    dated({ 2026: "2026-10-12", 2027: "2027-10-11" }, "Sports Day", "public", ["travel", "business"], "confirmed", "high", { source_name: "Cabinet Office", source_url: "https://www8.cao.go.jp/chosei/shukujitsu/gaiyou.html" })
+    dated({ 2026: "2026-01-12", 2027: "2027-01-11" }, "Coming of Age Day", "public", "confirmed", "high", { source_name: "Cabinet Office", source_url: "https://www8.cao.go.jp/chosei/shukujitsu/gaiyou.html" }),
+    dated({ 2026: "2026-03-20", 2027: "2027-03-21" }, "Vernal Equinox Day", "public", "confirmed", "high", { source_name: "Cabinet Office", source_url: "https://www8.cao.go.jp/chosei/shukujitsu/gaiyou.html" }),
+    dated({ 2026: "2026-07-20", 2027: "2027-07-19" }, "Marine Day", "public", "confirmed", "high", { source_name: "Cabinet Office", source_url: "https://www8.cao.go.jp/chosei/shukujitsu/gaiyou.html" }),
+    dated({ 2026: "2026-09-21", 2027: "2027-09-20" }, "Respect for the Aged Day", "public", "confirmed", "high", { source_name: "Cabinet Office", source_url: "https://www8.cao.go.jp/chosei/shukujitsu/gaiyou.html" }),
+    dated({ 2026: "2026-09-23", 2027: "2027-09-23" }, "Autumnal Equinox Day", "public", "confirmed", "high", { source_name: "Cabinet Office", source_url: "https://www8.cao.go.jp/chosei/shukujitsu/gaiyou.html" }),
+    dated({ 2026: "2026-10-12", 2027: "2027-10-11" }, "Sports Day", "public", "confirmed", "high", { source_name: "Cabinet Office", source_url: "https://www8.cao.go.jp/chosei/shukujitsu/gaiyou.html" })
   ],
   CN: [
     fixed(1, 1, "New Year's Day", "public", ["travel", "business"], "high", { source_name: "State Council", source_url: "https://www.gov.cn/zhengce/content/2025-11/04/content_7047685.htm" }),
     fixed(5, 1, "Labour Day", "public", ["travel", "business"], "high", { source_name: "State Council", source_url: "https://www.gov.cn/zhengce/content/2025-11/04/content_7047685.htm" }),
     fixed(10, 1, "National Day", "public", ["travel", "business"], "high", { source_name: "State Council", source_url: "https://www.gov.cn/zhengce/content/2025-11/04/content_7047685.htm" }),
-    dated({ 2026: "2026-02-17" }, "Spring Festival", "public", ["travel", "business"], "confirmed", "high", { source_name: "State Council", source_url: "https://www.gov.cn/zhengce/content/2025-11/04/content_7047685.htm" }),
-    dated({ 2026: "2026-04-05" }, "Qingming Festival", "public", ["travel", "business"], "confirmed", "high", { source_name: "State Council", source_url: "https://www.gov.cn/zhengce/content/2025-11/04/content_7047685.htm" }),
-    dated({ 2026: "2026-06-19" }, "Dragon Boat Festival", "public", ["travel", "business"], "confirmed", "high", { source_name: "State Council", source_url: "https://www.gov.cn/zhengce/content/2025-11/04/content_7047685.htm" }),
-    dated({ 2026: "2026-09-25" }, "Mid-Autumn Festival", "public", ["travel", "business"], "confirmed", "high", { source_name: "State Council", source_url: "https://www.gov.cn/zhengce/content/2025-11/04/content_7047685.htm" }),
-    dated({ 2027: "2027-01-01" }, "New Year's Day", "public", ["travel", "business"], "annual_calendar_pending", "medium", { source_name: "State Council", source_url: "https://www.gov.cn/" })
+    dated({ 2026: "2026-02-17" }, "Spring Festival", "public", "confirmed", "high", { source_name: "State Council", source_url: "https://www.gov.cn/zhengce/content/2025-11/04/content_7047685.htm" }),
+    dated({ 2026: "2026-04-05" }, "Qingming Festival", "public", "confirmed", "high", { source_name: "State Council", source_url: "https://www.gov.cn/zhengce/content/2025-11/04/content_7047685.htm" }),
+    dated({ 2026: "2026-06-19" }, "Dragon Boat Festival", "public", "confirmed", "high", { source_name: "State Council", source_url: "https://www.gov.cn/zhengce/content/2025-11/04/content_7047685.htm" }),
+    dated({ 2026: "2026-09-25" }, "Mid-Autumn Festival", "public", "confirmed", "high", { source_name: "State Council", source_url: "https://www.gov.cn/zhengce/content/2025-11/04/content_7047685.htm" }),
+    dated({ 2027: "2027-01-01" }, "New Year's Day", "public", "annual_calendar_pending", "medium", { source_name: "State Council", source_url: "https://www.gov.cn/" })
   ],
   HK: [
     fixed(1, 1, "New Year's Day", "public", ["travel", "business"], "high", { source_name: "HKSAR Gov", source_url: "https://www.info.gov.hk/gia/general/202605/15/P2026051400300.htm" }),
@@ -91,14 +198,14 @@ export const HOLIDAY_RULES: Record<string, any[]> = {
     fixed(7, 1, "SAR Establishment Day", "public", ["travel", "business"], "high", { source_name: "HKSAR Gov", source_url: "https://www.info.gov.hk/gia/general/202605/15/P2026051400300.htm" }),
     fixed(10, 1, "National Day", "public", ["travel", "business"], "high", { source_name: "HKSAR Gov", source_url: "https://www.info.gov.hk/gia/general/202605/15/P2026051400300.htm" }),
     fixed(12, 25, "Christmas Day", "public", ["travel", "business"], "high", { source_name: "HKSAR Gov", source_url: "https://www.info.gov.hk/gia/general/202605/15/P2026051400300.htm" }),
-    dated({ 2026: "2026-02-17", 2027: "2027-02-06" }, "Lunar New Year's Day", "public", ["travel", "business"], "confirmed", "high", { source_name: "HKSAR Gov", source_url: "https://www.info.gov.hk/gia/general/202605/15/P2026051400300.htm" }),
-    dated({ 2026: "2026-04-03", 2027: "2027-03-26" }, "Good Friday", "public", ["travel", "business"], "confirmed", "high", { source_name: "HKSAR Gov", source_url: "https://www.info.gov.hk/gia/general/202605/15/P2026051400300.htm" }),
-    dated({ 2026: "2026-04-06", 2027: "2027-03-29" }, "Easter Monday", "public", ["travel", "business"], "confirmed", "high", { source_name: "HKSAR Gov", source_url: "https://www.info.gov.hk/gia/general/202605/15/P2026051400300.htm" }),
-    dated({ 2026: "2026-04-05", 2027: "2027-04-05" }, "Ching Ming Festival", "public", ["travel", "business"], "confirmed", "high", { source_name: "HKSAR Gov", source_url: "https://www.info.gov.hk/gia/general/202605/15/P2026051400300.htm" }),
-    dated({ 2026: "2026-05-24", 2027: "2027-05-13" }, "Birthday of Buddha", "public", ["travel", "business"], "confirmed", "high", { source_name: "HKSAR Gov", source_url: "https://www.info.gov.hk/gia/general/202605/15/P2026051400300.htm" }),
-    dated({ 2026: "2026-06-19", 2027: "2027-06-09" }, "Tuen Ng Festival", "public", ["travel", "business"], "confirmed", "high", { source_name: "HKSAR Gov", source_url: "https://www.info.gov.hk/gia/general/202605/15/P2026051400300.htm" }),
-    dated({ 2026: "2026-09-26", 2027: "2027-09-16" }, "Day following Mid-Autumn", "public", ["travel", "business"], "confirmed", "high", { source_name: "HKSAR Gov", source_url: "https://www.info.gov.hk/gia/general/202605/15/P2026051400300.htm" }),
-    dated({ 2026: "2026-10-19", 2027: "2027-10-08" }, "Chung Yeung Festival", "public", ["travel", "business"], "confirmed", "high", { source_name: "HKSAR Gov", source_url: "https://www.info.gov.hk/gia/general/202605/15/P2026051400300.htm" })
+    dated({ 2026: "2026-02-17", 2027: "2027-02-06" }, "Lunar New Year's Day", "public", "confirmed", "high", { source_name: "HKSAR Gov", source_url: "https://www.info.gov.hk/gia/general/202605/15/P2026051400300.htm" }),
+    dated({ 2026: "2026-04-03", 2027: "2027-03-26" }, "Good Friday", "public", "confirmed", "high", { source_name: "HKSAR Gov", source_url: "https://www.info.gov.hk/gia/general/202605/15/P2026051400300.htm" }),
+    dated({ 2026: "2026-04-06", 2027: "2027-03-29" }, "Easter Monday", "public", "confirmed", "high", { source_name: "HKSAR Gov", source_url: "https://www.info.gov.hk/gia/general/202605/15/P2026051400300.htm" }),
+    dated({ 2026: "2026-04-05", 2027: "2027-04-05" }, "Ching Ming Festival", "public", "confirmed", "high", { source_name: "HKSAR Gov", source_url: "https://www.info.gov.hk/gia/general/202605/15/P2026051400300.htm" }),
+    dated({ 2026: "2026-05-24", 2027: "2027-05-13" }, "Birthday of Buddha", "public", "confirmed", "high", { source_name: "HKSAR Gov", source_url: "https://www.info.gov.hk/gia/general/202605/15/P2026051400300.htm" }),
+    dated({ 2026: "2026-06-19", 2027: "2027-06-09" }, "Tuen Ng Festival", "public", "confirmed", "high", { source_name: "HKSAR Gov", source_url: "https://www.info.gov.hk/gia/general/202605/15/P2026051400300.htm" }),
+    dated({ 2026: "2026-09-26", 2027: "2027-09-16" }, "Day following Mid-Autumn", "public", "confirmed", "high", { source_name: "HKSAR Gov", source_url: "https://www.info.gov.hk/gia/general/202605/15/P2026051400300.htm" }),
+    dated({ 2026: "2026-10-19", 2027: "2027-10-08" }, "Chung Yeung Festival", "public", "confirmed", "high", { source_name: "HKSAR Gov", source_url: "https://www.info.gov.hk/gia/general/202605/15/P2026051400300.htm" })
   ],
   ID: [
     fixed(1, 1, "New Year's Day", "public", ["travel", "business"], "high", { source_name: "Setneg ID", source_url: "https://setneg.go.id/baca/index/inilah_skb_3_menteri_libur_nasional_dan_cuti_bersama_2027" }),
@@ -106,13 +213,13 @@ export const HOLIDAY_RULES: Record<string, any[]> = {
     fixed(6, 1, "Pancasila Day", "public", ["travel", "business"], "high", { source_name: "Setneg ID", source_url: "https://setneg.go.id/baca/index/inilah_skb_3_menteri_libur_nasional_dan_cuti_bersama_2027" }),
     fixed(8, 17, "Independence Day", "public", ["travel", "business"], "high", { source_name: "Setneg ID", source_url: "https://setneg.go.id/baca/index/inilah_skb_3_menteri_libur_nasional_dan_cuti_bersama_2027" }),
     fixed(12, 25, "Christmas Day", "public", ["travel", "business"], "high", { source_name: "Setneg ID", source_url: "https://setneg.go.id/baca/index/inilah_skb_3_menteri_libur_nasional_dan_cuti_bersama_2027" }),
-    dated({ 2026: "2026-01-16", 2027: "2027-01-05" }, "Isra Mikraj", "public", ["travel", "business"], "confirmed", "high", { source_name: "Setneg ID", source_url: "https://setneg.go.id/baca/index/inilah_skb_3_menteri_libur_nasional_dan_cuti_bersama_2027" }),
-    dated({ 2026: "2026-02-17", 2027: "2027-02-06" }, "Chinese New Year", "public", ["travel", "business"], "confirmed", "high", { source_name: "Setneg ID", source_url: "https://setneg.go.id/baca/index/inilah_skb_3_menteri_libur_nasional_dan_cuti_bersama_2027" }),
-    dated({ 2026: "2026-03-19", 2027: "2027-03-08" }, "Nyepi", "public", ["travel", "business"], "confirmed", "high", { source_name: "Setneg ID", source_url: "https://setneg.go.id/baca/index/inilah_skb_3_menteri_libur_nasional_dan_cuti_bersama_2027" }),
-    dated({ 2026: "2026-03-20", 2027: "2027-03-10" }, "Eid al-Fitr", "public", ["travel", "business"], "estimated", "high", { source_name: "Setneg ID", source_url: "https://setneg.go.id/baca/index/inilah_skb_3_menteri_libur_nasional_dan_cuti_bersama_2027" }),
-    dated({ 2026: "2026-04-03", 2027: "2027-03-26" }, "Good Friday", "public", ["travel", "business"], "confirmed", "high", { source_name: "Setneg ID", source_url: "https://setneg.go.id/baca/index/inilah_skb_3_menteri_libur_nasional_dan_cuti_bersama_2027" }),
-    dated({ 2026: "2026-05-27", 2027: "2027-05-17" }, "Eid al-Adha", "public", ["travel", "business"], "estimated", "high", { source_name: "Setneg ID", source_url: "https://setneg.go.id/baca/index/inilah_skb_3_menteri_libur_nasional_dan_cuti_bersama_2027" }),
-    dated({ 2026: "2026-05-31", 2027: "2027-05-20" }, "Vesak Day", "public", ["travel", "business"], "confirmed", "high", { source_name: "Setneg ID", source_url: "https://setneg.go.id/baca/index/inilah_skb_3_menteri_libur_nasional_dan_cuti_bersama_2027" })
+    dated({ 2026: "2026-01-16", 2027: "2027-01-05" }, "Isra Mikraj", "public", "confirmed", "high", { source_name: "Setneg ID", source_url: "https://setneg.go.id/baca/index/inilah_skb_3_menteri_libur_nasional_dan_cuti_bersama_2027" }),
+    dated({ 2026: "2026-02-17", 2027: "2027-02-06" }, "Chinese New Year", "public", "confirmed", "high", { source_name: "Setneg ID", source_url: "https://setneg.go.id/baca/index/inilah_skb_3_menteri_libur_nasional_dan_cuti_bersama_2027" }),
+    dated({ 2026: "2026-03-19", 2027: "2027-03-08" }, "Nyepi", "public", "confirmed", "high", { source_name: "Setneg ID", source_url: "https://setneg.go.id/baca/index/inilah_skb_3_menteri_libur_nasional_dan_cuti_bersama_2027" }),
+    dated({ 2026: "2026-03-20", 2027: "2027-03-10" }, "Eid al-Fitr", "public", "estimated", "high", { source_name: "Setneg ID", source_url: "https://setneg.go.id/baca/index/inilah_skb_3_menteri_libur_nasional_dan_cuti_bersama_2027" }),
+    dated({ 2026: "2026-04-03", 2027: "2027-03-26" }, "Good Friday", "public", "confirmed", "high", { source_name: "Setneg ID", source_url: "https://setneg.go.id/baca/index/inilah_skb_3_menteri_libur_nasional_dan_cuti_bersama_2027" }),
+    dated({ 2026: "2026-05-27", 2027: "2027-05-17" }, "Eid al-Adha", "public", "estimated", "high", { source_name: "Setneg ID", source_url: "https://setneg.go.id/baca/index/inilah_skb_3_menteri_libur_nasional_dan_cuti_bersama_2027" }),
+    dated({ 2026: "2026-05-31", 2027: "2027-05-20" }, "Vesak Day", "public", "confirmed", "high", { source_name: "Setneg ID", source_url: "https://setneg.go.id/baca/index/inilah_skb_3_menteri_libur_nasional_dan_cuti_bersama_2027" })
   ],
   PH: [
     fixed(1, 1, "New Year's Day", "public", ["travel", "business"], "high", { source_name: "PCO PH", source_url: "https://pco.gov.ph/news_releases/pbbm-declares-2027-regular-and-special-holidays/" }),
@@ -124,9 +231,9 @@ export const HOLIDAY_RULES: Record<string, any[]> = {
     fixed(12, 8, "Immaculate Conception", "public", ["travel", "business"], "high", { source_name: "PCO PH", source_url: "https://pco.gov.ph/news_releases/pbbm-declares-2027-regular-and-special-holidays/" }),
     fixed(12, 25, "Christmas Day", "public", ["travel", "business"], "high", { source_name: "PCO PH", source_url: "https://pco.gov.ph/news_releases/pbbm-declares-2027-regular-and-special-holidays/" }),
     fixed(12, 30, "Rizal Day", "public", ["travel", "business"], "high", { source_name: "PCO PH", source_url: "https://pco.gov.ph/news_releases/pbbm-declares-2027-regular-and-special-holidays/" }),
-    dated({ 2026: "2026-04-02", 2027: "2027-03-25" }, "Maundy Thursday", "public", ["travel", "business"], "confirmed", "high", { source_name: "PCO PH", source_url: "https://pco.gov.ph/news_releases/pbbm-declares-2027-regular-and-special-holidays/" }),
-    dated({ 2026: "2026-04-03", 2027: "2027-03-26" }, "Good Friday", "public", ["travel", "business"], "confirmed", "high", { source_name: "PCO PH", source_url: "https://pco.gov.ph/news_releases/pbbm-declares-2027-regular-and-special-holidays/" }),
-    dated({ 2026: "2026-08-31", 2027: "2027-08-30" }, "National Heroes Day", "public", ["travel", "business"], "confirmed", "high", { source_name: "PCO PH", source_url: "https://pco.gov.ph/news_releases/pbbm-declares-2027-regular-and-special-holidays/" })
+    dated({ 2026: "2026-04-02", 2027: "2027-03-25" }, "Maundy Thursday", "public", "confirmed", "high", { source_name: "PCO PH", source_url: "https://pco.gov.ph/news_releases/pbbm-declares-2027-regular-and-special-holidays/" }),
+    dated({ 2026: "2026-04-03", 2027: "2027-03-26" }, "Good Friday", "public", "confirmed", "high", { source_name: "PCO PH", source_url: "https://pco.gov.ph/news_releases/pbbm-declares-2027-regular-and-special-holidays/" }),
+    dated({ 2026: "2026-08-31", 2027: "2027-08-30" }, "National Heroes Day", "public", "confirmed", "high", { source_name: "PCO PH", source_url: "https://pco.gov.ph/news_releases/pbbm-declares-2027-regular-and-special-holidays/" })
   ],
   DE: [
     fixed(1, 1, "New Year's Day", "public", ["travel", "business"], "high", { source_name: "BMI Germany", source_url: "https://www.bmi.bund.de/EN/topics/constitution/state-symbols/national-holidays/national-holidays-node.html" }),
@@ -134,10 +241,10 @@ export const HOLIDAY_RULES: Record<string, any[]> = {
     fixed(10, 3, "German Unity Day", "public", ["travel", "business"], "high", { source_name: "BMI Germany", source_url: "https://www.bmi.bund.de/EN/topics/constitution/state-symbols/national-holidays/national-holidays-node.html" }),
     fixed(12, 25, "Christmas Day", "public", ["travel", "business"], "high", { source_name: "BMI Germany", source_url: "https://www.bmi.bund.de/EN/topics/constitution/state-symbols/national-holidays/national-holidays-node.html" }),
     fixed(12, 26, "Boxing Day", "public", ["travel", "business"], "high", { source_name: "BMI Germany", source_url: "https://www.bmi.bund.de/EN/topics/constitution/state-symbols/national-holidays/national-holidays-node.html" }),
-    dated({ 2026: "2026-04-03", 2027: "2027-03-26" }, "Good Friday", "public", ["travel", "business"], "confirmed", "high", { source_name: "BMI Germany", source_url: "https://www.bmi.bund.de/EN/topics/constitution/state-symbols/national-holidays/national-holidays-node.html" }),
-    dated({ 2026: "2026-04-06", 2027: "2027-03-29" }, "Easter Monday", "public", ["travel", "business"], "confirmed", "high", { source_name: "BMI Germany", source_url: "https://www.bmi.bund.de/EN/topics/constitution/state-symbols/national-holidays/national-holidays-node.html" }),
-    dated({ 2026: "2026-05-14", 2027: "2027-05-06" }, "Ascension Day", "public", ["travel", "business"], "confirmed", "high", { source_name: "BMI Germany", source_url: "https://www.bmi.bund.de/EN/topics/constitution/state-symbols/national-holidays/national-holidays-node.html" }),
-    dated({ 2026: "2026-05-25", 2027: "2027-05-17" }, "Whit Monday", "public", ["travel", "business"], "confirmed", "high", { source_name: "BMI Germany", source_url: "https://www.bmi.bund.de/EN/topics/constitution/state-symbols/national-holidays/national-holidays-node.html" })
+    dated({ 2026: "2026-04-03", 2027: "2027-03-26" }, "Good Friday", "public", "confirmed", "high", { source_name: "BMI Germany", source_url: "https://www.bmi.bund.de/EN/topics/constitution/state-symbols/national-holidays/national-holidays-node.html" }),
+    dated({ 2026: "2026-04-06", 2027: "2027-03-29" }, "Easter Monday", "public", "confirmed", "high", { source_name: "BMI Germany", source_url: "https://www.bmi.bund.de/EN/topics/constitution/state-symbols/national-holidays/national-holidays-node.html" }),
+    dated({ 2026: "2026-05-14", 2027: "2027-05-06" }, "Ascension Day", "public", "confirmed", "high", { source_name: "BMI Germany", source_url: "https://www.bmi.bund.de/EN/topics/constitution/state-symbols/national-holidays/national-holidays-node.html" }),
+    dated({ 2026: "2026-05-25", 2027: "2027-05-17" }, "Whit Monday", "public", "confirmed", "high", { source_name: "BMI Germany", source_url: "https://www.bmi.bund.de/EN/topics/constitution/state-symbols/national-holidays/national-holidays-node.html" })
   ],
   FR: [
     fixed(1, 1, "New Year's Day", "public", ["travel", "business"], "high", { source_name: "Service-Public", source_url: "https://www.service-public.fr/particuliers/vosdroits/F2405" }),
@@ -148,9 +255,9 @@ export const HOLIDAY_RULES: Record<string, any[]> = {
     fixed(11, 1, "All Saints' Day", "public", ["travel", "business"], "high", { source_name: "Service-Public", source_url: "https://www.service-public.fr/particuliers/vosdroits/F2405" }),
     fixed(11, 11, "Armistice Day", "public", ["travel", "business"], "high", { source_name: "Service-Public", source_url: "https://www.service-public.fr/particuliers/vosdroits/F2405" }),
     fixed(12, 25, "Christmas Day", "public", ["travel", "business"], "high", { source_name: "Service-Public", source_url: "https://www.service-public.fr/particuliers/vosdroits/F2405" }),
-    dated({ 2026: "2026-04-06", 2027: "2027-03-29" }, "Easter Monday", "public", ["travel", "business"], "confirmed", "high", { source_name: "Service-Public", source_url: "https://www.service-public.fr/particuliers/vosdroits/F2405" }),
-    dated({ 2026: "2026-05-14", 2027: "2027-05-06" }, "Ascension Day", "public", ["travel", "business"], "confirmed", "high", { source_name: "Service-Public", source_url: "https://www.service-public.fr/particuliers/vosdroits/F2405" }),
-    dated({ 2026: "2026-05-25", 2027: "2027-05-17" }, "Whit Monday", "public", ["travel", "business"], "confirmed", "high", { source_name: "Service-Public", source_url: "https://www.service-public.fr/particuliers/vosdroits/F2405" })
+    dated({ 2026: "2026-04-06", 2027: "2027-03-29" }, "Easter Monday", "public", "confirmed", "high", { source_name: "Service-Public", source_url: "https://www.service-public.fr/particuliers/vosdroits/F2405" }),
+    dated({ 2026: "2026-05-14", 2027: "2027-05-06" }, "Ascension Day", "public", "confirmed", "high", { source_name: "Service-Public", source_url: "https://www.service-public.fr/particuliers/vosdroits/F2405" }),
+    dated({ 2026: "2026-05-25", 2027: "2027-05-17" }, "Whit Monday", "public", "confirmed", "high", { source_name: "Service-Public", source_url: "https://www.service-public.fr/particuliers/vosdroits/F2405" })
   ],
   NL: [
     fixed(1, 1, "New Year's Day", "public", ["travel", "business"], "high", { source_name: "Gov.nl", source_url: "https://www.government.nl/faq/work/public-holidays-in-the-netherlands" }),
@@ -158,10 +265,10 @@ export const HOLIDAY_RULES: Record<string, any[]> = {
     fixed(5, 5, "Liberation Day", "public", ["travel", "business"], "high", { source_name: "Gov.nl", source_url: "https://www.government.nl/faq/work/public-holidays-in-the-netherlands" }),
     fixed(12, 25, "Christmas Day", "public", ["travel", "business"], "high", { source_name: "Gov.nl", source_url: "https://www.government.nl/faq/work/public-holidays-in-the-netherlands" }),
     fixed(12, 26, "Boxing Day", "public", ["travel", "business"], "high", { source_name: "Gov.nl", source_url: "https://www.government.nl/faq/work/public-holidays-in-the-netherlands" }),
-    dated({ 2026: "2026-04-03", 2027: "2027-03-26" }, "Good Friday", "public", ["travel", "business"], "confirmed", "high", { source_name: "Gov.nl", source_url: "https://www.government.nl/faq/work/public-holidays-in-the-netherlands" }),
-    dated({ 2026: "2026-04-06", 2027: "2027-03-29" }, "Easter Monday", "public", ["travel", "business"], "confirmed", "high", { source_name: "Gov.nl", source_url: "https://www.government.nl/faq/work/public-holidays-in-the-netherlands" }),
-    dated({ 2026: "2026-05-14", 2027: "2027-05-06" }, "Ascension Day", "public", ["travel", "business"], "confirmed", "high", { source_name: "Gov.nl", source_url: "https://www.government.nl/faq/work/public-holidays-in-the-netherlands" }),
-    dated({ 2026: "2026-05-25", 2027: "2027-05-17" }, "Whit Monday", "public", ["travel", "business"], "confirmed", "high", { source_name: "Gov.nl", source_url: "https://www.government.nl/faq/work/public-holidays-in-the-netherlands" })
+    dated({ 2026: "2026-04-03", 2027: "2027-03-26" }, "Good Friday", "public", "confirmed", "high", { source_name: "Gov.nl", source_url: "https://www.government.nl/faq/work/public-holidays-in-the-netherlands" }),
+    dated({ 2026: "2026-04-06", 2027: "2027-03-29" }, "Easter Monday", "public", "confirmed", "high", { source_name: "Gov.nl", source_url: "https://www.government.nl/faq/work/public-holidays-in-the-netherlands" }),
+    dated({ 2026: "2026-05-14", 2027: "2027-05-06" }, "Ascension Day", "public", "confirmed", "high", { source_name: "Gov.nl", source_url: "https://www.government.nl/faq/work/public-holidays-in-the-netherlands" }),
+    dated({ 2026: "2026-05-25", 2027: "2027-05-17" }, "Whit Monday", "public", "confirmed", "high", { source_name: "Gov.nl", source_url: "https://www.government.nl/faq/work/public-holidays-in-the-netherlands" })
   ],
   MA: [
     fixed(1, 1, "New Year's Day", "public", ["travel", "business"], "high", { source_name: "Ministère Morocco", source_url: "https://www.mmsp.gov.ma/fr/nos-metiers/horaires-de-travail-et-jours-f%C3%A9ri%C3%A9s" }),
@@ -174,20 +281,8 @@ export const HOLIDAY_RULES: Record<string, any[]> = {
     fixed(8, 21, "Youth Day", "public", ["travel", "business"], "high", { source_name: "Ministère Morocco", source_url: "https://www.mmsp.gov.ma/fr/nos-metiers/horaires-de-travail-et-jours-f%C3%A9ri%C3%A9s" }),
     fixed(11, 6, "Green March", "public", ["travel", "business"], "high", { source_name: "Ministère Morocco", source_url: "https://www.mmsp.gov.ma/fr/nos-metiers/horaires-de-travail-et-jours-f%C3%A9ri%C3%A9s" }),
     fixed(11, 18, "Independence Day", "public", ["travel", "business"], "high", { source_name: "Ministère Morocco", source_url: "https://www.mmsp.gov.ma/fr/nos-metiers/horaires-de-travail-et-jours-f%C3%A9ri%C3%A9s" }),
-    dated({ 2027: "2027-03-10" }, "Eid al-Fitr", "public", ["travel", "business"], "lunar_estimate", "medium", { source_name: "Ministère Morocco", source_url: "https://www.mmsp.gov.ma/fr/nos-metiers/horaires-de-travail-et-jours-f%C3%A9ri%C3%A9s" }),
-    dated({ 2027: "2027-05-17" }, "Eid al-Adha", "public", ["travel", "business"], "lunar_estimate", "medium", { source_name: "Ministère Morocco", source_url: "https://www.mmsp.gov.ma/fr/nos-metiers/horaires-de-travail-et-jours-f%C3%A9ri%C3%A9s" })
-  ],
-  MU: [
-    fixed(1, 1, "New Year's Day", "public", ["travel", "business"], "high", { source_name: "PMO Mauritius", source_url: "https://pmo.govmu.org/Communique/GN_No._611-Amendment_to_Public_Holidays_2026.pdf" }),
-    fixed(1, 2, "New Year Holiday", "public", ["travel", "business"], "high", { source_name: "PMO Mauritius", source_url: "https://pmo.govmu.org/Communique/GN_No._611-Amendment_to_Public_Holidays_2026.pdf" }),
-    fixed(2, 1, "Abolition of Slavery", "public", ["travel", "business"], "high", { source_name: "PMO Mauritius", source_url: "https://pmo.govmu.org/Communique/GN_No._611-Amendment_to_Public_Holidays_2026.pdf" }),
-    fixed(3, 12, "Independence Day", "public", ["travel", "business"], "high", { source_name: "PMO Mauritius", source_url: "https://pmo.govmu.org/Communique/GN_No._611-Amendment_to_Public_Holidays_2026.pdf" }),
-    fixed(5, 1, "Labour Day", "public", ["travel", "business"], "high", { source_name: "PMO Mauritius", source_url: "https://pmo.govmu.org/Communique/GN_No._611-Amendment_to_Public_Holidays_2026.pdf" }),
-    fixed(11, 2, "Arrival of Indentured Labourers", "public", ["travel", "business"], "high", { source_name: "PMO Mauritius", source_url: "https://pmo.govmu.org/Communique/GN_No._611-Amendment_to_Public_Holidays_2026.pdf" }),
-    fixed(12, 25, "Christmas", "public", ["travel", "business"], "high", { source_name: "PMO Mauritius", source_url: "https://pmo.govmu.org/Communique/GN_No._611-Amendment_to_Public_Holidays_2026.pdf" }),
-    dated({ 2026: "2026-02-17", 2027: "2027-02-06" }, "Chinese Spring Festival", "public", ["travel", "business"], "confirmed", "high", { source_name: "PMO Mauritius", source_url: "https://pmo.govmu.org/Communique/GN_No._611-Amendment_to_Public_Holidays_2026.pdf" }),
-    dated({ 2026: "2026-02-15", 2027: "2027-03-06" }, "Maha Shivaratree", "public", ["travel", "business"], "confirmed", "high", { source_name: "PMO Mauritius", source_url: "https://pmo.govmu.org/Communique/GN_No._611-Amendment_to_Public_Holidays_2026.pdf" }),
-    dated({ 2026: "2026-09-15", 2027: "2027-08-30" }, "Ganesh Chaturthi", "public", ["travel", "business"], "confirmed", "high", { source_name: "PMO Mauritius", source_url: "https://pmo.govmu.org/Communique/GN_No._611-Amendment_to_Public_Holidays_2026.pdf" })
+    dated({ 2027: "2027-03-10" }, "Eid al-Fitr", "public", "lunar_estimate", "medium", { source_name: "Ministère Morocco", source_url: "https://www.mmsp.gov.ma/fr/nos-metiers/horaires-de-travail-et-jours-f%C3%A9ri%C3%A9s" }),
+    dated({ 2027: "2027-05-17" }, "Eid al-Adha", "public", "lunar_estimate", "medium", { source_name: "Ministère Morocco", source_url: "https://www.mmsp.gov.ma/fr/nos-metiers/horaires-de-travail-et-jours-f%C3%A9ri%C3%A9s" })
   ],
   AF: [fixed(8, 19, "Independence Day", "public", ["travel", "business"], "unsourced")],
   AL: [fixed(11, 28, "Independence Day", "public", ["travel", "business"], "unsourced")],
@@ -196,7 +291,6 @@ export const HOLIDAY_RULES: Record<string, any[]> = {
   AO: [fixed(11, 11, "Independence Day", "public", ["travel", "business"], "unsourced")],
   AG: [fixed(11, 1, "Independence Day", "public", ["travel", "business"], "unsourced")],
   AM: [fixed(9, 21, "Independence Day", "public", ["travel", "business"], "unsourced")],
-  AU: [fixed(1, 26, "Australia Day", "public", ["travel", "business"], "high", { source_name: "Fair Work", source_url: "https://www.fairwork.gov.au/employment-conditions/public-holidays" })],
   AT: [fixed(10, 26, "National Day", "public", ["travel", "business"], "high", { source_name: "Gov.at", source_url: "https://www.oesterreich.gv.at/.syndication?pageId=2264bad8-4c5b-48c9-a055-cbbdbf768b11" })],
   AZ: [fixed(10, 18, "Independence Day", "public", ["travel", "business"], "unsourced")],
   BS: [fixed(7, 10, "Independence Day", "public", ["travel", "business"], "unsourced")],
@@ -219,7 +313,6 @@ export const HOLIDAY_RULES: Record<string, any[]> = {
   CV: [fixed(7, 5, "Independence Day", "public", ["travel", "business"], "unsourced")],
   KH: [fixed(11, 9, "Independence Day", "public", ["travel", "business"], "unsourced")],
   CM: [fixed(5, 20, "National Day", "public", ["travel", "business"], "unsourced")],
-  CA: [fixed(7, 1, "Canada Day", "public", ["travel", "business"], "high", { source_name: "Gov Canada", source_url: "https://www.canada.ca/en/revenue-agency/services/tax/public-holidays.html" })],
   CF: [fixed(12, 1, "Republic Day", "public", ["travel", "business"], "unsourced")],
   TD: [fixed(8, 11, "Independence Day", "public", ["travel", "business"], "unsourced")],
   CL: [fixed(9, 18, "Independence Day", "public", ["travel", "business"], "unsourced")],
@@ -248,7 +341,20 @@ export const HOLIDAY_RULES: Record<string, any[]> = {
   GA: [fixed(8, 17, "Independence Day", "public", ["travel", "business"], "unsourced")],
   GM: [fixed(2, 18, "Independence Day", "public", ["travel", "business"], "unsourced")],
   GE: [fixed(5, 26, "Independence Day", "public", ["travel", "business"], "unsourced")],
-  GH: [fixed(3, 6, "Independence Day", "public", ["travel", "business"], "unsourced")],
+  GH: [
+    fixed(1, 1, "New Year's Day", "public", ["travel", "business"], "high", { source_name: "Ghana Interior", source_url: "https://www.mint.gov.gh/statutory-public-holidays/" }),
+    fixed(1, 7, "Constitution Day", "public", ["travel", "business"], "high", { source_name: "Ghana Interior", source_url: "https://www.mint.gov.gh/statutory-public-holidays/" }),
+    fixed(3, 6, "Independence Day", "public", ["travel", "business"], "high", { source_name: "Ghana Interior", source_url: "https://www.mint.gov.gh/statutory-public-holidays/" }),
+    fixed(5, 1, "Labour Day", "public", ["travel", "business"], "high", { source_name: "Ghana Interior", source_url: "https://www.mint.gov.gh/statutory-public-holidays/" }),
+    fixed(9, 21, "Founder's Day", "public", ["travel", "business"], "high", { source_name: "Ghana Interior", source_url: "https://www.mint.gov.gh/statutory-public-holidays/" }),
+    fixed(12, 4, "Farmer's Day", "public", ["travel", "business"], "high", { source_name: "Ghana Interior", source_url: "https://www.mint.gov.gh/statutory-public-holidays/" }),
+    fixed(12, 25, "Christmas Day", "public", ["travel", "business"], "high", { source_name: "Ghana Interior", source_url: "https://www.mint.gov.gh/statutory-public-holidays/" }),
+    dated({ 2026: "2026-04-03" }, "Good Friday", "public", "confirmed", "high", { source_name: "Ghana Interior", source_url: "https://www.mint.gov.gh/statutory-public-holidays/" }),
+    dated({ 2026: "2026-04-06" }, "Easter Monday", "public", "confirmed", "high", { source_name: "Ghana Interior", source_url: "https://www.mint.gov.gh/statutory-public-holidays/" }),
+    dated({ 2026: "2026-05-27" }, "Eid-ul-Adha", "religious", "confirmed", "high", { source_name: "Ghana Interior", source_url: "https://www.mint.gov.gh/statutory-public-holidays/" }),
+    dated({ 2026: "2026-07-03" }, "Republic Day (Observed)", "public", "confirmed", "high", { source_name: "Ghana Interior", source_url: "https://www.mint.gov.gh/statutory-public-holidays/" }),
+    dated({ 2026: "2026-12-28" }, "Boxing Day (Observed)", "public", "confirmed", "high", { source_name: "Ghana Interior", source_url: "https://www.mint.gov.gh/statutory-public-holidays/" })
+  ],
   GR: [fixed(3, 25, "Independence Day", "public", ["travel", "business"], "unsourced")],
   GD: [fixed(2, 7, "Independence Day", "public", ["travel", "business"], "unsourced")],
   GT: [fixed(9, 15, "Independence Day", "public", ["travel", "business"], "unsourced")],
@@ -263,11 +369,10 @@ export const HOLIDAY_RULES: Record<string, any[]> = {
   IQ: [fixed(10, 3, "Independence Day", "public", ["travel", "business"], "unsourced")],
   IE: [fixed(3, 17, "St. Patrick's Day", "public", ["travel", "business"], "unsourced")],
   IL: [fixed(5, 14, "Independence Day", "public", ["travel", "business"], "high", { source_name: "Data.gov.il", source_url: "https://data.gov.il/he/datasets/ministry_of_tourism/holidaysinisrael/" })],
-  IT: [fixed(6, 2, "Republic Day", "public", ["travel", "business"], "high", { source_name: "Governo Italiano", source_url: "https://presidenza.governo.it/ufficio_cerimoniale/cerimoniale/giornate.html" })],
+  IT: [fixed(6, 2, "Republic Day", "public", ["travel", "business"], "high", { source_name: "Governo Italiano", source_url: "https://presidenza.government.it/ufficio_cerimoniale/cerimoniale/giornate.html" })],
   JM: [fixed(8, 6, "Independence Day", "public", ["travel", "business"], "unsourced")],
   JO: [fixed(5, 25, "Independence Day", "public", ["travel", "business"], "unsourced")],
   KZ: [fixed(12, 16, "Independence Day", "public", ["travel", "business"], "unsourced")],
-  KE: [fixed(12, 12, "Jamhuri Day", "public", ["travel", "business"], "unsourced")],
   KI: [fixed(7, 12, "Independence Day", "public", ["travel", "business"], "unsourced")],
   KP: [fixed(9, 9, "Republic Foundation Day", "public", ["travel", "business"], "unsourced")],
   KR: [fixed(8, 15, "Liberation Day", "public", ["travel", "business"], "unsourced")],
@@ -280,9 +385,7 @@ export const HOLIDAY_RULES: Record<string, any[]> = {
   LV: [fixed(11, 18, "Independence Day", "public", ["travel", "business"], "unsourced")],
   MT: [fixed(9, 21, "Independence Day", "public", ["travel", "business"], "unsourced")],
   MN: [fixed(7, 11, "National Day", "public", ["travel", "business"], "unsourced")],
-  NA: [fixed(3, 21, "Independence Day", "public", ["travel", "business"], "unsourced")],
   NP: [fixed(5, 29, "Republic Day", "public", ["travel", "business"], "unsourced")],
-  NZ: [fixed(2, 6, "Waitangi Day", "public", ["travel", "business"], "unsourced")],
   NG: [fixed(10, 1, "Independence Day", "public", ["travel", "business"], "unsourced")],
   NO: [fixed(5, 17, "Constitution Day", "public", ["travel", "business"], "unsourced")],
   OM: [fixed(11, 18, "National Day", "public", ["travel", "business"], "unsourced")],
@@ -294,16 +397,13 @@ export const HOLIDAY_RULES: Record<string, any[]> = {
   QA: [fixed(12, 18, "National Day", "public", ["travel", "business"], "high", { source_name: "MOFA Qatar", source_url: "https://mofa.gov.qa/en/state-of-qatar/Key-Facts-and-Information" })],
   RO: [fixed(12, 1, "Great Union Day", "public", ["travel", "business"], "unsourced")],
   RU: [fixed(6, 12, "Russia Day", "public", ["travel", "business"], "unsourced")],
-  RW: [fixed(7, 1, "Independence Day", "public", ["travel", "business"], "unsourced")],
   SA: [fixed(9, 23, "National Day", "public", ["travel", "business"], "unsourced")],
   SN: [fixed(4, 4, "Independence Day", "public", ["travel", "business"], "unsourced")],
   RS: [fixed(2, 15, "Statehood Day", "public", ["travel", "business"], "unsourced")],
   SC: [fixed(6, 29, "Independence Day", "public", ["travel", "business"], "unsourced")],
   SK: [fixed(9, 1, "Constitution Day", "public", ["travel", "business"], "unsourced")],
   SI: [fixed(6, 25, "Statehood Day", "public", ["travel", "business"], "unsourced")],
-  ZA: [fixed(4, 27, "Freedom Day", "public", ["travel", "business"], "unsourced")],
   ES: [fixed(10, 12, "Fiesta Nacional", "public", ["travel", "business"], "high", { source_name: "BOE Spain", source_url: "https://www.boe.es/buscar/doc.php?id=BOE-A-2025-21667" })],
-  LK: [fixed(2, 4, "Independence Day", "public", ["travel", "business"], "unsourced")],
   SE: [fixed(6, 6, "National Day", "public", ["travel", "business"], "unsourced")],
   CH: [fixed(8, 1, "National Day", "public", ["travel", "business"], "high", { source_name: "Fed Office", source_url: "https://www.epa.admin.ch/fr/conciliation" })],
   TW: [fixed(10, 10, "National Day", "public", ["travel", "business"], "unsourced")],
