@@ -149,7 +149,11 @@ export default function HomePage() {
     
     allRecords.forEach(r => {
       if (!idx.has(r.date)) idx.set(r.date, []);
-      idx.get(r.date).push({ code: r.jurisdiction?.country_code, name: r.name });
+      idx.get(r.date).push({ 
+        code: r.jurisdiction?.country_code, 
+        name: r.name,
+        category: r.category 
+      });
     });
     
     const sortedEntries = Array.from(idx.entries()).sort((a, b) => a[0].localeCompare(b[0]));
@@ -188,7 +192,8 @@ export default function HomePage() {
       primary: entries[0] ? `${COUNTRY_LABELS[entries[0].code] || entries[0].code} — ${entries[0].name}` : "—", 
       others: entries.slice(1).map((e: any) => `${COUNTRY_LABELS[e.code] || e.code} — ${e.name}`),
       count: entries.length, 
-      daysAway: differenceInDays(dateObj, new Date(todayKey + 'T00:00:00')) 
+      daysAway: differenceInDays(dateObj, new Date(todayKey + 'T00:00:00')),
+      category: entries[0]?.category || 'Holiday'
     };
   }, [forwardIndex, todayKey, isMounted]);
 
@@ -337,6 +342,15 @@ export default function HomePage() {
                           + {other}
                         </span>
                       ))}
+                      <span className="next-card-date" id="pulse-global-date">
+                        {globalNext ? (
+                          <>
+                            {globalNext.shortDate} · {globalNext.count} {globalNext.count === 1 ? 'country' : 'countries'} · {globalNext.category.charAt(0).toUpperCase() + globalNext.category.slice(1).replace('_', ' ')} · {globalNext.daysAway === 0 ? 'TODAY' : `${globalNext.daysAway} ${globalNext.daysAway === 1 ? 'day' : 'days'} away`}
+                          </>
+                        ) : (
+                          'Normal operational status'
+                        )}
+                      </span>
                     </div>
                     <div className="hero-tracker-next-card">
                       <span className="next-card-kicker" id="pulse-regional-kicker">
