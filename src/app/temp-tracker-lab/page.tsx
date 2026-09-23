@@ -6,14 +6,13 @@ import { Footer } from '@/components/footer';
 import { Badge } from "@/components/ui/badge";
 import Link from 'next/link';
 import { 
-  Plus, 
   Globe, 
   MapPin,
   Calendar,
-  Search,
   ChevronRight,
-  Info,
-  ShieldCheck
+  ShieldCheck,
+  TrendingUp,
+  Clock
 } from "lucide-react";
 import { format, startOfToday } from 'date-fns';
 import { cn } from '@/lib/utils';
@@ -21,68 +20,71 @@ import { cn } from '@/lib/utils';
 export default function TempTrackerLabPage() {
   const today = startOfToday();
 
-  const getTimingLabel = (days: number) => {
-    if (days === 0) return "Today";
-    if (days === 1) return "Tomorrow";
-    return `In ${days} days`;
-  };
-
-  // Reusable Checker Component (Static for simulation)
-  const StaticChecker = () => (
-    <div className="checker opacity-80 pointer-events-none scale-[0.95] origin-top-right">
+  // Reusable Checker Component (Static for simulation of the new Global-First state)
+  const GlobalFirstChecker = () => (
+    <div className="checker opacity-90 pointer-events-none scale-[0.95] origin-top-right border-white/20">
       <div className="checker-top">
-        <h3>Trip impact checker</h3>
+        <h3 className="font-headline text-paper">Trip impact checker</h3>
         <button type="button" className="compare-launch">
-          <span className="text-[10px] font-bold uppercase tracking-widest text-[#4FD1C5]">Compare Countries</span>
+          <span className="text-[10px] font-bold uppercase tracking-widest text-[#4FD1C5]">Compare</span>
         </button>
       </div>
-      <div className="mode-toggle">
+      <div className="mode-toggle mb-6">
         <button type="button" className="active">Travel</button>
         <button type="button">Study</button>
         <button type="button">Business</button>
       </div>
       <div className="space-y-4">
         <div className="checker-field">
-          <label>Destination</label>
-          <div className="bg-[#1E2650] border border-white/18 p-3 rounded-lg text-sm text-[#9AA1C0]">India</div>
+          <label className="text-[9px] font-bold uppercase tracking-widest text-[#6E7495]">Destination / Jurisdiction</label>
+          <div className="bg-[#1E2650] border border-white/25 p-4 rounded-xl text-sm text-[#F0C888] font-bold flex items-center justify-between">
+            <div className="flex items-center gap-3">
+               <Globe className="w-4 h-4 text-[#4FD1C5]" /> 
+               <span>Global — Select destination</span>
+            </div>
+            <ChevronRight className="w-3 h-3 opacity-40" />
+          </div>
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div className="checker-field"><label>From</label><div className="bg-[#1E2650] border border-white/18 p-3 rounded-lg text-sm text-[#9AA1C0]">2026-09-04</div></div>
           <div className="checker-field"><label>To</label><div className="bg-[#1E2650] border border-white/18 p-3 rounded-lg text-sm text-[#9AA1C0]">2026-10-04</div></div>
         </div>
       </div>
-      <div className="mt-6 py-4 bg-[#E8A33D] text-[#0F1428] rounded-xl text-center font-bold text-sm uppercase tracking-widest">
-        Check Impact
+      <div className="mt-8 py-4 bg-white/5 border border-dashed border-white/10 text-[#9AA1C0] rounded-xl text-center font-bold text-[10px] uppercase tracking-[0.2em] italic">
+        Select a country to calculate impact
       </div>
     </div>
   );
 
-  const HomepageGridSim = ({ children, title, badge }: { children: React.ReactNode, title: string, badge: string }) => (
+  const HomepageGridSim = ({ children, title, badge, description }: { children: React.ReactNode, title: string, badge: string, description: string }) => (
     <section className="py-24 border-b border-white/10 last:border-0 relative">
-      <div className="max-w-[1180px] mx-auto px-6 mb-12">
-        <div className="flex items-center gap-3">
-          <Badge className="bg-[#E8A33D] text-[#0F1428] font-bold px-3 py-1">{badge}</Badge>
-          <h2 className="text-xl font-headline text-paper">{title}</h2>
+      <div className="max-w-[1180px] mx-auto px-6 mb-16">
+        <div className="flex flex-col md:flex-row md:items-center gap-4">
+          <Badge className="bg-[#E8A33D] text-[#0F1428] font-bold px-3 py-1 w-fit">{badge}</Badge>
+          <div className="space-y-1 text-left">
+            <h2 className="text-2xl font-headline text-paper">{title}</h2>
+            <p className="text-sm text-[#9AA1C0] max-w-xl">{description}</p>
+          </div>
         </div>
       </div>
       
       <div className="hero wrap">
         <div className="hero-grid">
           <div className="hero-copy">
-            <h1 className="headline">
+            <h1 className="headline text-left">
               Know before you fly. <br /> Know before you schedule.
             </h1>
-            <p className="sub">
+            <p className="sub text-left">
               Check a country and your actual dates — before you book, schedule, or send a team member across borders.
             </p>
             
-            <div className="w-full mt-4">
+            <div className="w-full mt-8">
               {children}
             </div>
           </div>
           
           <div className="hidden lg:block">
-            <StaticChecker />
+            <GlobalFirstChecker />
           </div>
         </div>
       </div>
@@ -96,174 +98,134 @@ export default function TempTrackerLabPage() {
       <main>
         <div className="bg-[#171D3A]/50 border-b border-white/10 py-16">
           <div className="max-w-[1180px] mx-auto px-6 text-center space-y-4">
-            <div className="text-[12.5px] font-mono text-[#E8A33D] tracking-widest uppercase">UI Lab · Content-Led Review</div>
-            <h1 className="text-4xl md:text-5xl font-headline font-medium">Date Intelligence Agenda</h1>
+            <div className="text-[12.5px] font-mono text-[#4FD1C5] tracking-widest uppercase">Product Model Review · Global-First</div>
+            <h1 className="text-4xl md:text-6xl font-headline font-medium">The Today Agenda</h1>
             <p className="text-lg text-[#9AA1C0] max-w-2xl mx-auto font-medium leading-relaxed">
-              Evaluating descriptive language and high-visibility event grouping. <br />
-              <span className="text-xs uppercase tracking-widest opacity-60">Status: All ReferenceErrors Resolved</span>
+              Transitioning from a "Holiday List" to a "Global Intelligence Board". <br />
+              Focusing on immediate status, natural timing, and data hierarchy.
             </p>
           </div>
         </div>
 
-        {/* OPTION 1: The Agenda Board */}
-        <HomepageGridSim title="The Agenda Board" badge="Option 1">
-          <div className="border border-white/18 rounded-[18px] bg-[#171D3A] overflow-hidden shadow-2xl">
-            <div className="p-5 border-b border-white/10 bg-white/5 flex justify-between items-center">
-              <div className="space-y-0.5">
-                <span className="text-[10px] font-mono text-[#4FD1C5] uppercase tracking-widest">Date Status</span>
-                <strong className="block text-paper text-base">{getTimingLabel(0)} · 3 Records</strong>
-              </div>
-              <div className="flex items-center gap-1.5 px-2 py-1 bg-[#4FD1C5]/10 border border-[#4FD1C5]/20 rounded-full">
+        {/* OPTION 1: The Global Status Agenda */}
+        <HomepageGridSim 
+          title="The Today Status Agenda" 
+          badge="Recommendation"
+          description="Global-First approach. Replaces India default with a worldwide 'Today' status. High density listing of all active records."
+        >
+          <div className="border border-white/20 rounded-3xl bg-[#171D3A] overflow-hidden shadow-2xl flex flex-col group transition-all">
+            <div className="p-4 bg-[#1E2650] border-b border-white/10 flex justify-between items-center">
+              <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#E8A33D] font-mono">Today around the world</span>
+              <div className="flex items-center gap-2 px-2.5 py-1 bg-[#4FD1C5]/10 border border-[#4FD1C5]/20 rounded-full">
                 <div className="w-1.5 h-1.5 rounded-full bg-[#4FD1C5] animate-pulse"></div>
-                <span className="text-[9px] font-bold uppercase tracking-wider text-[#4FD1C5]">Live</span>
-              </div>
-            </div>
-            <div className="p-7 space-y-6 text-left">
-              <div className="space-y-2">
-                <h4 className="text-[10px] font-mono text-[#E8A33D] uppercase tracking-widest">Primary Fact</h4>
-                <p className="text-lg font-headline font-bold leading-tight">Japan — Autumn Equinox Day</p>
-                <div className="flex items-center gap-2 text-xs text-[#9AA1C0]">
-                   <ShieldCheck className="w-3 h-3" /> 
-                   <span>Verified National Holiday</span>
-                </div>
-              </div>
-              
-              <div className="pt-4 border-t border-white/5 space-y-3">
-                 <p className="text-[10px] font-bold uppercase tracking-widest text-[#6E7495]">Also Today</p>
-                 <div className="flex flex-col gap-2">
-                    <div className="flex items-center justify-between text-xs text-[#9AA1C0] group cursor-pointer hover:text-white transition-colors">
-                       <span>Saudi Arabia — National Day</span>
-                       <ChevronRight className="w-3 h-3" />
-                    </div>
-                    <div className="flex items-center justify-between text-xs text-[#9AA1C0] group cursor-pointer hover:text-white transition-colors">
-                       <span>United Arab Emirates — Cultural Fact</span>
-                       <ChevronRight className="w-3 h-3" />
-                    </div>
-                 </div>
-              </div>
-            </div>
-            <Link className="block p-4 bg-white/5 text-[10px] font-bold text-[#F0C888] uppercase tracking-[0.2em] text-center border-t border-white/10 hover:bg-white/10 transition-all" href="/date-intelligence">
-              Open Global Intelligence →
-            </Link>
-          </div>
-        </HomepageGridSim>
-
-        {/* OPTION 2: The Date-Primary Agenda */}
-        <HomepageGridSim title="The Date-Primary Agenda" badge="Option 2">
-          <div className="border border-white/18 rounded-[18px] bg-[#171D3A] overflow-hidden shadow-2xl flex flex-col">
-            <div className="flex border-b border-white/10">
-              <div className="w-24 bg-white/5 border-r border-white/10 flex flex-col items-center justify-center p-4">
-                 <span className="text-[9px] font-mono text-[#9AA1C0] uppercase tracking-widest mb-1">{getTimingLabel(0)}</span>
-                 <span className="text-3xl font-headline font-bold text-[#E8A33D]">{format(today, 'dd')}</span>
-                 <span className="text-[9px] font-mono text-[#9AA1C0] uppercase">{format(today, 'MMM')}</span>
-              </div>
-              <div className="flex-1 p-6 flex flex-col justify-center gap-2 text-left">
-                 <div className="flex items-center gap-2">
-                   <span className="text-[8px] font-bold uppercase tracking-widest text-[#6E7495]">National Event</span>
-                   <Badge variant="outline" className="text-[7px] h-3.5 border-[#4FD1C5]/30 text-[#4FD1C5] uppercase px-1.5 rounded-sm">Verified</Badge>
-                 </div>
-                 <h4 className="text-base font-headline font-medium leading-tight">Japan — Autumn Equinox Day</h4>
-                 <div className="mt-1 space-y-1">
-                   <p className="text-[10px] text-[#9AA1C0]">+ Saudi Arabia: National Day</p>
-                   <p className="text-[10px] text-[#9AA1C0]">+ UAE: Cultural Observation</p>
-                 </div>
-              </div>
-            </div>
-            <Link className="block p-4 bg-[#1E2650] text-[10px] font-bold text-paper uppercase tracking-[0.2em] text-center hover:bg-[#252E60] transition-all" href="/date-intelligence">
-              View Detailed Intelligence →
-            </Link>
-          </div>
-        </HomepageGridSim>
-
-        {/* OPTION 4: The Minimalist Timeline */}
-        <HomepageGridSim title="The Minimalist Timeline" badge="Option 4">
-          <div className="bg-[#171D3A] border border-white/10 rounded-2xl p-7 space-y-6 shadow-2xl text-left relative overflow-hidden">
-             <div className="absolute top-0 right-0 p-4">
-                <div className="w-2 h-2 rounded-full bg-[#4FD1C5] animate-pulse shadow-[0_0_10px_rgba(79,209,197,0.5)]"></div>
-             </div>
-             
-             <div className="space-y-1">
-                <span className="text-[9px] font-mono text-[#6E7495] uppercase tracking-[0.3em]">Calendar Feed</span>
-                <h3 className="text-xl font-headline font-bold text-paper">{getTimingLabel(0)} · 3 Records</h3>
-             </div>
-
-             <div className="space-y-6 relative before:absolute before:left-2 before:top-2 before:bottom-2 before:w-[1px] before:bg-white/10">
-                <div className="relative pl-7 group cursor-pointer">
-                  <div className="absolute left-0 top-1.5 w-4 h-4 rounded-full bg-[#E8A33D] border-4 border-[#171D3A] shadow-[0_0_0_1px_rgba(232,163,61,0.3)]"></div>
-                  <p className="text-[9px] font-mono text-[#E8A33D] uppercase tracking-widest mb-0.5">National Record</p>
-                  <h4 className="text-base font-headline font-medium text-paper group-hover:text-[#F0C888] transition-colors">Japan — Autumn Equinox Day</h4>
-                </div>
-
-                <div className="relative pl-7 group cursor-pointer opacity-70 hover:opacity-100 transition-opacity">
-                  <div className="absolute left-0 top-1.5 w-4 h-4 rounded-full bg-white/20 border-4 border-[#171D3A]"></div>
-                  <p className="text-[9px] font-mono text-[#6E7495] uppercase tracking-widest mb-0.5">National Fact</p>
-                  <h4 className="text-sm font-headline text-paper">Saudi Arabia — National Day</h4>
-                </div>
-
-                <div className="relative pl-7 group cursor-pointer opacity-40 hover:opacity-100 transition-opacity">
-                  <div className="absolute left-0 top-1.5 w-4 h-4 rounded-full bg-white/10 border-4 border-[#171D3A]"></div>
-                  <p className="text-[9px] font-mono text-[#6E7495] uppercase tracking-widest mb-0.5">Cultural Fact</p>
-                  <h4 className="text-xs font-headline text-paper">UAE — Observance</h4>
-                </div>
-             </div>
-
-             <Link className="block" href="/date-intelligence">
-                <button className="w-full py-3 border border-white/10 rounded-xl text-[10px] font-bold text-[#4FD1C5] uppercase tracking-widest hover:bg-white/5 transition-all">
-                  Enter Date Intelligence
-                </button>
-             </Link>
-          </div>
-        </HomepageGridSim>
-
-        {/* OPTION 5: The High-Density Dashboard */}
-        <HomepageGridSim title="The High-Density Board" badge="Option 5">
-          <div className="bg-[#171D3A] border border-white/18 rounded-2xl overflow-hidden shadow-2xl flex flex-col text-left">
-            <div className="grid grid-cols-2 bg-[#1E2650] border-b border-white/10 divide-x divide-white/10 text-center">
-              <div className="p-4">
-                <span className="text-[9px] font-bold uppercase tracking-widest text-[#4FD1C5] block mb-0.5">Global Context</span>
-                <b className="text-lg font-headline text-paper">{getTimingLabel(0)}</b>
-              </div>
-              <div className="p-4">
-                <span className="text-[9px] font-bold uppercase tracking-widest text-[#6E7495] block mb-0.5">Regional Context</span>
-                <b className="text-lg font-headline text-paper">In 4 days</b>
+                <span className="text-[9px] font-bold uppercase tracking-widest text-[#4FD1C5]">Live Feed</span>
               </div>
             </div>
             
-            <div className="p-6 space-y-6">
-              <div className="space-y-3">
-                <div className="flex items-center gap-2">
-                  <Globe className="w-3 h-3 text-[#E8A33D]" />
-                  <span className="text-[9px] font-bold uppercase tracking-widest text-[#E8A33D]">Next National Records</span>
-                </div>
-                <div className="space-y-3">
-                   <div className="p-4 bg-white/5 rounded-xl border border-white/5 relative group cursor-pointer hover:bg-white/10 transition-all">
-                      <h4 className="text-sm font-bold text-paper mb-0.5">Japan — Autumn Equinox</h4>
-                      <p className="text-[10px] text-[#9AA1C0]">{format(today, 'd MMM')} · National Fact</p>
-                      <ChevronRight className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6E7495] opacity-0 group-hover:opacity-100" />
-                   </div>
-                   <div className="flex items-center justify-center gap-2 py-1 text-[9px] font-bold text-[#4FD1C5] uppercase tracking-widest cursor-pointer hover:text-white transition-colors">
-                      <Plus className="w-3 h-3" /> 2 other global records today
-                   </div>
-                </div>
+            <div className="flex flex-col md:flex-row">
+              {/* Date Block */}
+              <div className="w-full md:w-32 bg-white/5 border-b md:border-b-0 md:border-r border-white/10 flex flex-col items-center justify-center p-6 md:p-8">
+                 <span className="text-4xl font-headline font-bold text-[#F0C888] leading-none mb-1">{format(today, 'dd')}</span>
+                 <span className="text-[11px] font-mono text-[#9AA1C0] uppercase tracking-widest font-bold">{format(today, 'MMM')}</span>
               </div>
 
-              <div className="space-y-3">
-                <div className="flex items-center gap-2">
-                  <MapPin className="w-3 h-3 text-[#6E7495]" />
-                  <span className="text-[9px] font-bold uppercase tracking-widest text-[#6E7495]">Next Regional Observation</span>
-                </div>
-                <div className="p-4 bg-white/5 rounded-xl border border-white/5">
-                  <h4 className="text-sm font-bold text-paper mb-0.5">Ganesh Chaturthi</h4>
-                  <p className="text-[10px] text-[#9AA1C0]">Maharashtra, India · In 4 days</p>
+              {/* Intelligence Block */}
+              <div className="flex-1 p-8 space-y-6 text-left">
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <p className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#6E7495]">3 Countries · 3 Records</p>
+                    <div className="flex items-center gap-1.5 text-[8px] font-bold uppercase text-[#4FD1C5]">
+                       <ShieldCheck className="w-3 h-3" /> Verified
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-4">
+                     {/* Primary Event */}
+                     <div className="space-y-1.5">
+                       <h4 className="text-xl font-headline font-bold text-paper leading-tight">Japan — Autumn Equinox Day</h4>
+                       <span className="inline-block px-2 py-0.5 bg-[#4FD1C5]/10 border border-[#4FD1C5]/20 rounded-sm text-[8px] font-bold uppercase text-[#4FD1C5]">National Holiday / Market Closure</span>
+                     </div>
+
+                     {/* Also Today - High Density Visibility */}
+                     <div className="pt-4 border-t border-white/5 space-y-2.5">
+                        <p className="text-[9px] font-bold uppercase tracking-widest text-[#E8A33D]/60">Also today</p>
+                        <div className="space-y-2">
+                           <div className="flex items-center gap-2 text-sm font-medium text-[#9AA1C0]">
+                              <span className="text-[10px] opacity-40">+</span> Saudi Arabia — National Day
+                           </div>
+                           <div className="flex items-center gap-2 text-sm font-medium text-[#9AA1C0]">
+                              <span className="text-[10px] opacity-40">+</span> United Arab Emirates — Cultural Observation
+                           </div>
+                        </div>
+                     </div>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <Link className="block p-4 bg-[#E8A33D] text-[10px] font-bold text-[#0F1428] uppercase tracking-[0.2em] text-center" href="/date-intelligence">
-              Explore All Intelligence →
+            <Link href="/date-intelligence" className="block p-4 bg-white/5 text-[10px] font-bold text-[#F0C888] uppercase tracking-[0.4em] text-center border-t border-white/10 hover:bg-[#1E2650] transition-all">
+              View Today's Intelligence →
             </Link>
           </div>
         </HomepageGridSim>
+
+        {/* COMING UP PREVIEW */}
+        <section className="py-24 bg-[#0F1428] border-t border-white/10">
+          <div className="max-w-[1180px] mx-auto px-6">
+             <div className="max-w-2xl mb-12 text-left">
+                <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#4FD1C5] mb-3">Timeline</p>
+                <h2 className="text-3xl font-headline font-bold mb-4">Coming up globally.</h2>
+                <p className="text-[#9AA1C0] font-medium leading-relaxed">The timeline where countdowns matter. From seasonal festivals to operational changes.</p>
+             </div>
+
+             <div className="grid md:grid-cols-3 gap-6">
+                {[
+                  { date: "25 Sep", in: "In 2 days", country: "India", event: "Anant Chaturdashi", meta: "Regional · Maharashtra" },
+                  { date: "01 Oct", in: "In 8 days", country: "China", event: "National Day", meta: "National · Public" },
+                  { date: "02 Oct", in: "In 9 days", country: "India", event: "Gandhi Jayanti", meta: "National · Public" }
+                ].map(item => (
+                  <div key={item.event} className="p-6 border border-white/10 rounded-2xl bg-[#171D3A] space-y-4 group cursor-pointer hover:border-[#F0C888] transition-all">
+                    <div className="flex justify-between items-start">
+                       <div className="space-y-1">
+                          <span className="text-[10px] font-mono text-[#F0C888] font-bold uppercase tracking-widest">{item.in}</span>
+                          <p className="text-xl font-bold font-headline">{item.date}</p>
+                       </div>
+                       <ChevronRight className="w-4 h-4 text-[#6E7495] group-hover:text-white" />
+                    </div>
+                    <div className="space-y-1">
+                       <h4 className="text-base font-bold text-paper">{item.country} — {item.event}</h4>
+                       <p className="text-[10px] font-bold uppercase tracking-widest text-[#6E7495]">{item.meta}</p>
+                    </div>
+                  </div>
+                ))}
+             </div>
+          </div>
+        </section>
+
+        {/* THE "CLEAR WINDOW" CONCEPT */}
+        <section className="py-24 bg-[#171D3A] border-y border-white/10">
+          <div className="max-w-[1180px] mx-auto px-6 flex flex-col lg:flex-row gap-16 items-center">
+             <div className="flex-1 space-y-6 text-left">
+                <Badge className="bg-[#4FD1C5] text-[#0F1428] font-bold">Concept</Badge>
+                <h2 className="text-4xl font-headline font-bold">Operational honesty.</h2>
+                <p className="text-lg text-[#9AA1C0] font-medium leading-relaxed">
+                  When nothing is happening, we say so. A "Clear Operational Window" is as valuable to a business planner as a flagged holiday.
+                </p>
+             </div>
+             <div className="flex-1 w-full max-w-md">
+                <div className="p-10 border border-dashed border-white/20 rounded-3xl bg-white/5 text-center space-y-6">
+                   <div className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto">
+                      <ShieldCheck className="w-8 h-8 text-[#4FD1C5] opacity-50" />
+                   </div>
+                   <div className="space-y-2">
+                      <h3 className="text-2xl font-headline font-bold">Clear Operational Window</h3>
+                      <p className="text-sm text-[#9AA1C0] leading-relaxed">No major national or regional closures flagged for this date in the global index.</p>
+                   </div>
+                   <div className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#6E7495]">Status: Normal</div>
+                </div>
+             </div>
+          </div>
+        </section>
       </main>
 
       <footer className="py-12 border-t border-white/10">
