@@ -182,18 +182,15 @@ export default function HomePage() {
     const entries = forwardIndex.get(candidate) || [];
     const dateObj = new Date(candidate + 'T00:00:00');
     
-    const entry = entries[0];
-    const countryName = entry ? (COUNTRY_LABELS[entry.code] || entry.code) : "";
-    const eventName = entry?.name || "—";
-
     return { 
       dateStr: format(dateObj, 'EEEE, d MMMM yyyy'),
       shortDate: format(dateObj, 'd MMM'),
-      name: entry ? `${countryName} — ${eventName}` : "—", 
+      primary: entries[0] ? `${COUNTRY_LABELS[entries[0].code] || entries[0].code} — ${entries[0].name}` : "—", 
+      others: entries.slice(1).map((e: any) => `${COUNTRY_LABELS[e.code] || e.code} — ${e.name}`),
       count: entries.length, 
       daysAway: differenceInDays(dateObj, new Date(todayKey + 'T00:00:00')) 
     };
-  }, [forwardIndex, todayKey]);
+  }, [forwardIndex, todayKey, isMounted]);
 
   // Mobile Specific Next Global
   const mobileGlobalNext = useMemo(() => {
@@ -206,18 +203,15 @@ export default function HomePage() {
     const entries = mobileForwardIndex.get(candidate) || [];
     const dateObj = new Date(candidate + 'T00:00:00');
     
-    const entry = entries[0];
-    const countryName = entry ? (COUNTRY_LABELS[entry.code] || entry.code) : "";
-    const eventName = entry?.name || "—";
-
     return { 
       dateStr: format(dateObj, 'EEEE, d MMMM yyyy'),
       shortDate: format(dateObj, 'd MMM'),
-      name: entry ? `${countryName} — ${eventName}` : "—", 
+      primary: entries[0] ? `${COUNTRY_LABELS[entries[0].code] || entries[0].code} — ${entries[0].name}` : "—", 
+      others: entries.slice(1).map((e: any) => `${COUNTRY_LABELS[e.code] || e.code} — ${e.name}`),
       count: entries.length, 
       daysAway: differenceInDays(dateObj, new Date(todayKey + 'T00:00:00')) 
     };
-  }, [mobileForwardIndex, todayKey]);
+  }, [mobileForwardIndex, todayKey, isMounted]);
 
   const regionalNext = useMemo(() => {
     if (!isMounted || !todayKey || allRecords.length === 0) return null;
@@ -309,13 +303,15 @@ export default function HomePage() {
                 {/* Mobile Specific Tracker View (Compact Pulse) */}
                 <div className="md:hidden p-5 space-y-3 text-left">
                   <div className="space-y-1">
-                    <span className="hero-tracker-kicker">NEXT UP</span>
+                    <span className="hero-tracker-kicker">TODAY</span>
                     <strong className="block text-base md:text-lg font-headline leading-tight text-paper">
-                      {mobileGlobalNext?.name || "Determining next..."}
+                      {mobileGlobalNext?.primary || "Determining next..."}
                     </strong>
-                    <span className="text-[12px] text-muted-foreground block font-medium">
-                      {mobileGlobalNext ? `${mobileGlobalNext.shortDate} · ${mobileGlobalNext.count} ${mobileGlobalNext.count === 1 ? 'country' : 'countries'} · ${mobileGlobalNext.daysAway} ${mobileGlobalNext.daysAway === 1 ? 'day' : 'days'} away` : '—'}
-                    </span>
+                    {mobileGlobalNext?.others.map((other, i) => (
+                      <span key={i} className="block text-[12px] font-medium text-paper/80">
+                        + {other}
+                      </span>
+                    ))}
                   </div>
                   <a className="inline-block text-[12px] font-bold text-gold-soft hover:text-gold transition-colors pt-1" href="#date-intelligence">
                     See what this date means →
@@ -326,7 +322,7 @@ export default function HomePage() {
                 <div className="hidden md:block">
                   <div className="hero-tracker-head">
                     <div>
-                      <span className="hero-tracker-kicker">NEXT HOLIDAY UP</span>
+                      <span className="hero-tracker-kicker">TODAY AROUND THE WORLD</span>
                       <strong id="hero-tracker-date">{globalNext?.dateStr || "Determining next..."}</strong>
                     </div>
                     <span className="hero-tracker-live"><i></i> Live calendar view</span>
@@ -335,10 +331,12 @@ export default function HomePage() {
                   <div className="hero-tracker-next-grid">
                     <div className="hero-tracker-next-card">
                       <span className="next-card-kicker">Global</span>
-                      <span className="next-card-name" id="pulse-global-name">{globalNext?.name || "No upcoming national record"}</span>
-                      <span className="next-card-date" id="pulse-global-date">
-                        {globalNext ? `${globalNext.shortDate} · ${globalNext.count} ${globalNext.count === 1 ? 'country' : 'countries'} · ${globalNext.daysAway} ${globalNext.daysAway === 1 ? 'day' : 'days'} away` : '—'}
-                      </span>
+                      <span className="next-card-name" id="pulse-global-name">{globalNext?.primary || "No upcoming national record"}</span>
+                      {globalNext?.others.map((other, i) => (
+                        <span key={i} className="block text-[12px] font-medium text-paper/80 mt-1">
+                          + {other}
+                        </span>
+                      ))}
                     </div>
                     <div className="hero-tracker-next-card">
                       <span className="next-card-kicker" id="pulse-regional-kicker">
@@ -370,7 +368,7 @@ export default function HomePage() {
                 </div>
 
                 <a className="hero-tracker-link hidden md:block" href="#date-intelligence">
-                  See what this date means <span>→</span>
+                  VIEW TODAY'S INTELLIGENCE <span>→</span>
                 </a>
               </aside>
             </div>
