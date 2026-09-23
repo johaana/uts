@@ -1,8 +1,7 @@
-
 /**
  * @fileOverview Phase 3 Temporal Engine Validation Suite.
  * 
- * 17 scenarios to verify Event/Period/Standing/Recurring logic.
+ * 18 scenarios to verify Event/Period/Standing/Recurring/Easter logic.
  */
 
 import { getOperationalImpact } from './adapter';
@@ -99,6 +98,11 @@ export const VALIDATION_SCENARIOS: ValidationScenario[] = [
     id: "T-017",
     name: "Single-Now Midnight Check",
     query: { destination: "IN", startDate: "2026-10-02", endDate: "2026-10-02", purpose: "travel" }
+  },
+  {
+    id: "T-018",
+    name: "Easter Relative (Good Friday 2027)",
+    query: { destination: "XX", startDate: "2027-03-26", endDate: "2027-03-26", purpose: "travel" }
   }
 ];
 
