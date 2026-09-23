@@ -4,6 +4,7 @@ import React from 'react';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { Badge } from "@/components/ui/badge";
+import Link from 'next/link';
 import { 
   Plus, 
   Globe, 
@@ -61,7 +62,7 @@ export default function TempTrackerLabPage() {
       <div className="max-w-[1180px] mx-auto px-6 mb-12">
         <div className="flex items-center gap-3">
           <Badge className="bg-[#E8A33D] text-[#0F1428] font-bold px-3 py-1">{badge}</Badge>
-          <h2 className="text-xl font-headline font-bold text-paper">{title}</h2>
+          <h2 className="text-xl font-headline text-paper">{title}</h2>
         </div>
       </div>
       
@@ -75,7 +76,7 @@ export default function TempTrackerLabPage() {
               Check a country and your actual dates — before you book, schedule, or send a team member across borders.
             </p>
             
-            <div className="w-full max-w-[460px]">
+            <div className="w-full mt-4">
               {children}
             </div>
           </div>
@@ -96,9 +97,10 @@ export default function TempTrackerLabPage() {
         <div className="bg-[#171D3A]/50 border-b border-white/10 py-16">
           <div className="max-w-[1180px] mx-auto px-6 text-center space-y-4">
             <div className="text-[12.5px] font-mono text-[#E8A33D] tracking-widest uppercase">UI Lab · Content-Led Review</div>
-            <h1 className="text-4xl md:text-5xl font-headline font-medium">Intelligence Board Options</h1>
-            <p className="text-lg text-[#9AA1C0] max-w-2xl mx-auto font-medium">
-              Evaluating descriptive language and high-visibility event grouping.
+            <h1 className="text-4xl md:text-5xl font-headline font-medium">Date Intelligence Agenda</h1>
+            <p className="text-lg text-[#9AA1C0] max-w-2xl mx-auto font-medium leading-relaxed">
+              Evaluating descriptive language and high-visibility event grouping. <br />
+              <span className="text-xs uppercase tracking-widest opacity-60">Status: All ReferenceErrors Resolved</span>
             </p>
           </div>
         </div>
@@ -108,7 +110,7 @@ export default function TempTrackerLabPage() {
           <div className="border border-white/18 rounded-[18px] bg-[#171D3A] overflow-hidden shadow-2xl">
             <div className="p-5 border-b border-white/10 bg-white/5 flex justify-between items-center">
               <div className="space-y-0.5">
-                <span className="text-[10px] font-mono text-[#4FD1C5] uppercase tracking-widest">Temporal Status</span>
+                <span className="text-[10px] font-mono text-[#4FD1C5] uppercase tracking-widest">Date Status</span>
                 <strong className="block text-paper text-base">{getTimingLabel(0)} · 3 Records</strong>
               </div>
               <div className="flex items-center gap-1.5 px-2 py-1 bg-[#4FD1C5]/10 border border-[#4FD1C5]/20 rounded-full">
@@ -134,15 +136,15 @@ export default function TempTrackerLabPage() {
                        <ChevronRight className="w-3 h-3" />
                     </div>
                     <div className="flex items-center justify-between text-xs text-[#9AA1C0] group cursor-pointer hover:text-white transition-colors">
-                       <span>United Arab Emirates — Cultural Observance</span>
+                       <span>United Arab Emirates — Cultural Fact</span>
                        <ChevronRight className="w-3 h-3" />
                     </div>
                  </div>
               </div>
             </div>
-            <a className="block p-4 bg-white/5 text-[10px] font-bold text-[#F0C888] uppercase tracking-[0.2em] text-center border-t border-white/10 hover:bg-white/10 transition-all" href="#date-intelligence">
+            <Link className="block p-4 bg-white/5 text-[10px] font-bold text-[#F0C888] uppercase tracking-[0.2em] text-center border-t border-white/10 hover:bg-white/10 transition-all" href="/date-intelligence">
               Open Global Intelligence →
-            </a>
+            </Link>
           </div>
         </HomepageGridSim>
 
@@ -163,13 +165,13 @@ export default function TempTrackerLabPage() {
                  <h4 className="text-base font-headline font-medium leading-tight">Japan — Autumn Equinox Day</h4>
                  <div className="mt-1 space-y-1">
                    <p className="text-[10px] text-[#9AA1C0]">+ Saudi Arabia: National Day</p>
-                   <p className="text-[10px] text-[#9AA1C0]">+ UAE: Cultural Observance</p>
+                   <p className="text-[10px] text-[#9AA1C0]">+ UAE: Cultural Observation</p>
                  </div>
               </div>
             </div>
-            <a className="block p-4 bg-[#1E2650] text-[10px] font-bold text-paper uppercase tracking-[0.2em] text-center hover:bg-[#252E60] transition-all" href="#date-intelligence">
+            <Link className="block p-4 bg-[#1E2650] text-[10px] font-bold text-paper uppercase tracking-[0.2em] text-center hover:bg-[#252E60] transition-all" href="/date-intelligence">
               View Detailed Intelligence →
-            </a>
+            </Link>
           </div>
         </HomepageGridSim>
 
@@ -194,7 +196,7 @@ export default function TempTrackerLabPage() {
 
                 <div className="relative pl-7 group cursor-pointer opacity-70 hover:opacity-100 transition-opacity">
                   <div className="absolute left-0 top-1.5 w-4 h-4 rounded-full bg-white/20 border-4 border-[#171D3A]"></div>
-                  <p className="text-[9px] font-mono text-[#6E7495] uppercase tracking-widest mb-0.5">National Record</p>
+                  <p className="text-[9px] font-mono text-[#6E7495] uppercase tracking-widest mb-0.5">National Fact</p>
                   <h4 className="text-sm font-headline text-paper">Saudi Arabia — National Day</h4>
                 </div>
 
@@ -205,9 +207,11 @@ export default function TempTrackerLabPage() {
                 </div>
              </div>
 
-             <button className="w-full py-3 border border-white/10 rounded-xl text-[10px] font-bold text-[#4FD1C5] uppercase tracking-widest hover:bg-white/5 transition-all">
-                Enter Date Intelligence
-             </button>
+             <Link className="block" href="/date-intelligence">
+                <button className="w-full py-3 border border-white/10 rounded-xl text-[10px] font-bold text-[#4FD1C5] uppercase tracking-widest hover:bg-white/5 transition-all">
+                  Enter Date Intelligence
+                </button>
+             </Link>
           </div>
         </HomepageGridSim>
 
@@ -216,11 +220,11 @@ export default function TempTrackerLabPage() {
           <div className="bg-[#171D3A] border border-white/18 rounded-2xl overflow-hidden shadow-2xl flex flex-col text-left">
             <div className="grid grid-cols-2 bg-[#1E2650] border-b border-white/10 divide-x divide-white/10 text-center">
               <div className="p-4">
-                <span className="text-[9px] font-bold uppercase tracking-widest text-[#4FD1C5] block mb-0.5">Global</span>
+                <span className="text-[9px] font-bold uppercase tracking-widest text-[#4FD1C5] block mb-0.5">Global Context</span>
                 <b className="text-lg font-headline text-paper">{getTimingLabel(0)}</b>
               </div>
               <div className="p-4">
-                <span className="text-[9px] font-bold uppercase tracking-widest text-[#6E7495] block mb-0.5">Regional</span>
+                <span className="text-[9px] font-bold uppercase tracking-widest text-[#6E7495] block mb-0.5">Regional Context</span>
                 <b className="text-lg font-headline text-paper">In 4 days</b>
               </div>
             </div>
@@ -229,16 +233,16 @@ export default function TempTrackerLabPage() {
               <div className="space-y-3">
                 <div className="flex items-center gap-2">
                   <Globe className="w-3 h-3 text-[#E8A33D]" />
-                  <span className="text-[9px] font-bold uppercase tracking-widest text-[#E8A33D]">Next National Facts</span>
+                  <span className="text-[9px] font-bold uppercase tracking-widest text-[#E8A33D]">Next National Records</span>
                 </div>
                 <div className="space-y-3">
                    <div className="p-4 bg-white/5 rounded-xl border border-white/5 relative group cursor-pointer hover:bg-white/10 transition-all">
                       <h4 className="text-sm font-bold text-paper mb-0.5">Japan — Autumn Equinox</h4>
-                      <p className="text-[10px] text-[#9AA1C0]">{format(today, 'd MMM')} · National</p>
+                      <p className="text-[10px] text-[#9AA1C0]">{format(today, 'd MMM')} · National Fact</p>
                       <ChevronRight className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6E7495] opacity-0 group-hover:opacity-100" />
                    </div>
                    <div className="flex items-center justify-center gap-2 py-1 text-[9px] font-bold text-[#4FD1C5] uppercase tracking-widest cursor-pointer hover:text-white transition-colors">
-                      <Plus className="w-3 h-3" /> 2 other global events today
+                      <Plus className="w-3 h-3" /> 2 other global records today
                    </div>
                 </div>
               </div>
@@ -246,7 +250,7 @@ export default function TempTrackerLabPage() {
               <div className="space-y-3">
                 <div className="flex items-center gap-2">
                   <MapPin className="w-3 h-3 text-[#6E7495]" />
-                  <span className="text-[9px] font-bold uppercase tracking-widest text-[#6E7495]">Next Local Observation</span>
+                  <span className="text-[9px] font-bold uppercase tracking-widest text-[#6E7495]">Next Regional Observation</span>
                 </div>
                 <div className="p-4 bg-white/5 rounded-xl border border-white/5">
                   <h4 className="text-sm font-bold text-paper mb-0.5">Ganesh Chaturthi</h4>
@@ -255,9 +259,9 @@ export default function TempTrackerLabPage() {
               </div>
             </div>
 
-            <a className="block p-4 bg-[#E8A33D] text-[10px] font-bold text-[#0F1428] uppercase tracking-[0.2em] text-center" href="#date-intelligence">
-              Explore All Records →
-            </a>
+            <Link className="block p-4 bg-[#E8A33D] text-[10px] font-bold text-[#0F1428] uppercase tracking-[0.2em] text-center" href="/date-intelligence">
+              Explore All Intelligence →
+            </Link>
           </div>
         </HomepageGridSim>
       </main>
@@ -268,7 +272,7 @@ export default function TempTrackerLabPage() {
           <div className="flex gap-6">
             <Link href="/" className="text-[#9AA1C0] hover:text-white">Explore Utsavs.com</Link>
             <Link href="/calendar" className="text-[#9AA1C0] hover:text-white">Full calendar</Link>
-            <Link href="#api" className="text-[#9AA1C0] hover:text-white">Join API preview</Link>
+            <Link href="/api" className="text-[#9AA1C0] hover:text-white">Join API preview</Link>
           </div>
         </div>
       </footer>
