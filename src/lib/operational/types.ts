@@ -1,4 +1,3 @@
-
 /**
  * @fileOverview Canonical Data Types for Utsavs Operational Intelligence.
  * Supports 11 datasets and 5 explicit temporal types.
@@ -22,7 +21,15 @@ export type ConfidenceTier =
   | "reference" 
   | "unsourced";
 
-export type DateState = "confirmed" | "declared" | "provisional" | "estimated";
+export type DateState = 
+  | "confirmed" 
+  | "declared" 
+  | "provisional" 
+  | "estimated"
+  | "annual_calendar_pending"
+  | "lunar_estimate"
+  | "proposed"
+  | "awaiting_confirmation";
 
 export type OperationalCategory = 
   | "holiday" 
@@ -69,10 +76,12 @@ export interface HolidayRule {
 }
 
 /**
- * The Canonical Rule represents the static source pattern (the 408 patterns).
+ * The Canonical Rule represents the static source pattern (the 408+ patterns).
  */
 export interface CanonicalRule {
   id: string;
+  rule_id: string; // Stable rule identity
+  source_dataset: string; // Authoritative provenance stamp
   name: string;
   category: OperationalCategory;
   jurisdiction: {

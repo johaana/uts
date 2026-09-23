@@ -1,4 +1,3 @@
-
 /**
  * @fileOverview Phase 3 Temporal Engine.
  * Faithfully implements matching logic for Event, Period, Standing, Recurring, and Estimated types.
@@ -56,13 +55,13 @@ export function evaluateQuery(rules: CanonicalRule[], query: OperationalQuery, n
       case "event":
       case "estimated":
         if (rule.valid_from && rule.valid_from >= queryStart && rule.valid_from <= queryEnd) {
-          results.push({ ...rule, date: rule.valid_from });
+          results.push({ ...rule, id: `${rule.rule_id}__${rule.valid_from}`, date: rule.valid_from });
         }
         break;
 
       case "period":
         if (matchPeriod(rule, queryStart, queryEnd)) {
-          results.push({ ...rule, date: rule.valid_from!, end_date: rule.valid_to });
+          results.push({ ...rule, id: `${rule.rule_id}__${rule.valid_from}`, date: rule.valid_from!, end_date: rule.valid_to });
         }
         break;
 
@@ -74,7 +73,7 @@ export function evaluateQuery(rules: CanonicalRule[], query: OperationalQuery, n
           for (let y = startYear; y <= endYear; y++) {
             const date = expandRecurrence(rule.rule_definition, y);
             if (date && date >= queryStart && date <= queryEnd) {
-              results.push({ ...rule, date });
+              results.push({ ...rule, id: `${rule.rule_id}__${date}`, date });
             }
           }
         }
@@ -111,6 +110,7 @@ function matchPeriod(rule: CanonicalRule, start: string, end: string): boolean {
 function materializeStanding(rule: CanonicalRule, queryStart: string): DateIntelligenceRecord {
   return {
     ...rule,
+    id: `${rule.rule_id}__STANDING`,
     date: rule.valid_from || queryStart
   };
 }

@@ -1,4 +1,3 @@
-
 /**
  * @fileOverview Authoritative Source Aggregator.
  * 
@@ -35,19 +34,31 @@ class AuthoritativeEngine {
           years.forEach(y => {
             const date = expandRecurrence(rule.rule_definition!, y);
             if (date) {
-              instances.push({ ...rule, date });
+              instances.push({ 
+                ...rule, 
+                id: `${rule.rule_id}__${date}`,
+                date 
+              });
             }
           });
         } else if (rule.temporal_kind === 'event' || rule.temporal_kind === 'estimated') {
           if (rule.valid_from) {
-            instances.push({ ...rule, date: rule.valid_from });
+            instances.push({ 
+              ...rule, 
+              id: `${rule.rule_id}__${rule.valid_from}`,
+              date: rule.valid_from 
+            });
           }
         }
         // Standing and period records are handled dynamically by the adapter/engine
         // during specific window queries, but we include them here if they have 
         // a 'valid_from' anchor for the legacy list-based UI logic.
         else if (rule.valid_from) {
-          instances.push({ ...rule, date: rule.valid_from });
+          instances.push({ 
+            ...rule, 
+            id: `${rule.rule_id}__${rule.valid_from}`,
+            date: rule.valid_from 
+          });
         }
       });
 
