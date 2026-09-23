@@ -31,7 +31,23 @@ export const REGIONAL_SIGNALS: Partial<DateIntelligenceRecord>[] = [
     evidence: { source_name: "Business Victoria", source_url: "https://business.vic.gov.au/business-information/public-holidays", last_checked: "2026-09-08" },
     consequences: { implication: "Public holiday in Victoria; major office and bank closures in Melbourne.", affected_operations: ["banking", "admin"], severity: "high" }
   },
-  { id: "REG_DE_BY_EPI", valid_from: "2026-01-06", name: "Epiphany", category: "regional", jurisdiction: { country_code: "DE", country_name: "Germany", region: "Bavaria", scope: "regional" }, purpose_relevance: ["business"], temporal_kind: "event", state: "confirmed", confidence: "high", evidence: { source_name: "Bavaria Ministry" }, consequences: { implication: "Regional public holiday in Bavaria.", affected_operations: ["admin"], severity: "medium" } },
+  { 
+    id: "REG_DE_BY_EPI", 
+    valid_from: "2026-01-06", 
+    name: "Epiphany", 
+    category: "regional", 
+    jurisdiction: { country_code: "DE", country_name: "Germany", region: "Bavaria", scope: "regional" }, 
+    purpose_relevance: ["business"], 
+    temporal_kind: "event", 
+    state: "confirmed", 
+    confidence: "high", 
+    evidence: { 
+      source_name: "Bavaria State Ministry", 
+      source_url: "https://www.stmas.bayern.de/arbeitsschutz/feiertage/index.php",
+      last_checked: "2026-09-08"
+    }, 
+    consequences: { implication: "Regional public holiday in Bavaria.", affected_operations: ["admin"], severity: "medium" } 
+  },
   { id: "REG_ES_CT_NAT", valid_from: "2026-09-11", name: "National Day of Catalonia", category: "regional", jurisdiction: { country_code: "ES", country_name: "Spain", region: "Catalonia", scope: "regional" }, purpose_relevance: ["travel"], temporal_kind: "event", state: "confirmed", confidence: "unsourced", evidence: null, consequences: { implication: "Regional holiday; major demonstrations expected in Barcelona.", affected_operations: ["transport"], severity: "medium" } },
   { id: "REG_UK_SCT_ANDR", valid_from: "2026-11-30", name: "St. Andrew's Day", category: "regional", jurisdiction: { country_code: "GB", country_name: "United Kingdom", region: "Scotland", scope: "regional" }, purpose_relevance: ["business"], temporal_kind: "event", state: "confirmed", confidence: "unsourced", evidence: null, consequences: { implication: "Bank holiday in Scotland.", affected_operations: ["banking"], severity: "medium" } },
   { id: "REG_JP_KYO_GION", valid_from: "2026-07-17", name: "Gion Matsuri", category: "regional", jurisdiction: { country_code: "JP", country_name: "Japan", region: "Kyoto", scope: "local" }, purpose_relevance: ["travel"], temporal_kind: "event", state: "confirmed", confidence: "unsourced", evidence: null, consequences: { implication: "Major festival in Kyoto; severe traffic impact.", affected_operations: ["transport"], severity: "high" } },
