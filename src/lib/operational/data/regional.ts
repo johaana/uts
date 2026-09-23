@@ -1,6 +1,6 @@
 /**
  * @fileOverview Regional Intelligence.
- * Contains 35 sub-national operational signals.
+ * Contains 42 sub-national operational signals.
  */
 import { DateIntelligenceRecord } from '../types';
 

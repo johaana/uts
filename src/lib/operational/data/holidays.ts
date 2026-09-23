@@ -1,7 +1,7 @@
 /**
  * @fileOverview Holidays Data.
  * Reconciled for provenance and explicit purpose relevance.
- * Contains 458 rules across 97 countries.
+ * Contains 439 rules across 144 country keys.
  */
 
 function fixed(month: number, day: number, name: string, type: any, purposes: any, confidence?: any, evidence?: any) {
@@ -17,9 +17,9 @@ export const HOLIDAY_RULES: Record<string, any[]> = {
     fixed(8, 15, "Independence Day", "public", ["travel", "business"], "high", { source_name: "DoPT Circular 2026", source_url: "https://www.mha.gov.in/en/common-holidays-2026" }),
     fixed(10, 2, "Gandhi Jayanti", "public", ["travel", "business"], "high", { source_name: "DoPT Circular 2026", source_url: "https://www.mha.gov.in/en/common-holidays-2026" }),
     dated({ 2026: "2026-11-08", 2027: "2027-10-29", 2028: "2028-10-17" }, "Diwali", "public", ["travel", "business"], "confirmed", "high", {
-        source_name: "DoPT OM F.No.12/2/2023-JCA, Annexure-I (Delhi/New Delhi date). Regional variant: some state offices instead gazette Naraka Chaturdasi, 7 Nov 2026, under the same OM's local-variation provision.",
+        source_name: "DoPT OM F.No.12/2/2023-JCA (Delhi Date).",
         source_url: "https://www.aiimsmangalagiri.edu.in/wp-content/uploads/2025/11/Holidays-Circular-2026-1.pdf",
-        link_label: "Official notice (PDF)", last_checked: "2026-09-05"
+        last_checked: "2026-09-05"
       })
   ],
   SG: [
@@ -313,7 +313,6 @@ export const HOLIDAY_RULES: Record<string, any[]> = {
   TR: [fixed(10, 29, "Republic Day", "public", ["travel", "business"], "unsourced")],
   UA: [fixed(8, 24, "Independence Day", "public", ["travel", "business"], "unsourced")],
   AE: [fixed(12, 2, "National Day", "public", ["travel", "business"], "high", { source_name: "UAE Gov", source_url: "https://uaelegislation.gov.ae/en/legislations/2595" })],
-  US: [fixed(7, 4, "Independence Day", "public", ["travel", "business"], "unsourced")],
   UY: [fixed(8, 25, "Independence Day", "public", ["travel", "business"], "unsourced")],
   VE: [fixed(7, 5, "Independence Day", "public", ["travel", "business"], "unsourced")],
   VN: [fixed(9, 2, "National Day", "public", ["travel", "business"], "unsourced")],
