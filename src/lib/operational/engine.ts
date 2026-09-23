@@ -1,6 +1,6 @@
 /**
- * @fileOverview Phase 3 Temporal Engine.
- * Faithfully implements matching logic for Event, Period, Standing, Recurring, and Estimated types.
+ * @fileOverview Phase 3A Temporal Engine.
+ * Implements Fixed, Nth-Weekday, and Easter-relative logic.
  */
 
 import { 
@@ -16,14 +16,36 @@ import {
   getDay, 
   lastDayOfMonth, 
   parseISO,
-  getYear
+  getYear,
+  startOfToday
 } from 'date-fns';
 
 /**
  * Resolves the "Single Now" instant for a request.
  */
 export function resolveNow(): Date {
-  return new Date();
+  return startOfToday();
+}
+
+/**
+ * Calculates Gregorian Easter Sunday using the Meeus/Jones/Butcher algorithm.
+ */
+export function getEaster(year: number): Date {
+  const a = year % 19;
+  const b = Math.floor(year / 100);
+  const c = year % 100;
+  const d = Math.floor(b / 4);
+  const e = b % 4;
+  const f = Math.floor((b + 8) / 25);
+  const g = Math.floor((b - f + 1) / 3);
+  const h = (19 * a + b - d - g + 15) % 30;
+  const i = Math.floor(c / 4);
+  const k = c % 4;
+  const l = (32 + 2 * e + 2 * i - h - k) % 7;
+  const m = Math.floor((a + 11 * h + 22 * l) / 451);
+  const month = Math.floor((h + l - 7 * m + 114) / 31);
+  const day = ((h + l - 7 * m + 114) % 31) + 1;
+  return new Date(year, month - 1, day);
 }
 
 /**
@@ -118,6 +140,12 @@ export function expandRecurrence(rule: HolidayRule, year: number): string | null
     if (rule.month === undefined || rule.dow === undefined || rule.n === undefined) return null;
     const date = getNthWeekday(year, rule.month, rule.dow, rule.n);
     return date ? format(date, 'yyyy-MM-dd') : null;
+  }
+
+  if (rule.kind === "easter") {
+    const easter = getEaster(year);
+    const date = addDays(easter, rule.offset || 0);
+    return format(date, 'yyyy-MM-dd');
   }
   
   return null;

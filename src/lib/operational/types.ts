@@ -7,10 +7,10 @@ export type TemporalKind =
   | "event"      // Single date occurrence
   | "period"     // Interval with start and end
   | "standing"   // Policy/condition in force over time
-  | "recurring"  // Rules expanded at query time (fixed/nthWeekday)
+  | "recurring"  // Rules expanded at query time (fixed/nthWeekday/easter)
   | "estimated"; // Lunar/Hijri dates requiring observation
 
-export type RuleKind = "fixed" | "nth" | "dated";
+export type RuleKind = "fixed" | "nth" | "dated" | "easter";
 
 export type ConfidenceTier = 
   | "high" 
@@ -66,17 +66,19 @@ export interface HolidayRule {
   name: string;
   type: OperationalCategory;
   status: DateState;
+  purpose_relevance: UserPurpose[];
   confidence?: ConfidenceTier;
   evidence?: SourceEvidence;
   month?: number;
   day?: number;
   dow?: number;
   n?: number;
+  offset?: number; // For Easter-relative rules
   dates?: Record<number, string>;
 }
 
 /**
- * The Canonical Rule represents the static source pattern (the 408+ patterns).
+ * The Canonical Rule represents the static source pattern (the 417+ patterns).
  */
 export interface CanonicalRule {
   id: string;

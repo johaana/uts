@@ -1,6 +1,6 @@
 /**
  * @fileOverview Normalization Layer.
- * Enforces strict honesty: no fallbacks for purpose or provenance.
+ * Hardened deterministic identity and dataset provenance.
  */
 
 import { CanonicalRule, HolidayRule } from './types';
@@ -28,8 +28,9 @@ function generateRuleId(cc: string, rule: HolidayRule): string {
     fingerprint += `_${rule.month}_${rule.day}`;
   } else if (rule.kind === 'nth') {
     fingerprint += `_${rule.month}_${rule.dow}_${rule.n}`;
+  } else if (rule.kind === 'easter') {
+    fingerprint += `_${rule.offset || 0}`;
   } else if (rule.kind === 'dated' && rule.dates) {
-    // For dated rules, we use the first sorted year as a secondary discriminator
     const firstYear = Object.keys(rule.dates).sort()[0] || 'pending';
     fingerprint += `_${firstYear}`;
   }
@@ -45,12 +46,11 @@ export function getCanonicalRules(): CanonicalRule[] {
     holidayRules.forEach((rule) => {
       const rule_id = generateRuleId(cc, rule);
       
-      // Determine canonical date (2026 anchor with fallback for 2027-only rules)
+      // Determination of canonical anchor (Zero-loss preservation for 2027-only rules)
       let date = expandRecurrence(rule, 2026);
       if (!date && rule.kind === 'dated' && rule.dates) {
         const availableDates = Object.values(rule.dates);
         if (availableDates.length > 0) {
-          // Anchor to the first available date if 2026 is missing
           date = availableDates[0];
         }
       }
@@ -63,14 +63,14 @@ export function getCanonicalRules(): CanonicalRule[] {
       validateProvenance(rule);
 
       rules.push({
-        id: `${rule_id}__CANONICAL`, // Internal canonical marker
+        id: `${rule_id}__CANONICAL`, 
         rule_id,
         source_dataset: 'HOLIDAYS',
         name: rule.name,
         category: rule.type || 'holiday',
         jurisdiction: { country_code: cc, country_name: COUNTRY_LABELS[cc] || cc, scope: 'national' },
         purpose_relevance: rule.purpose_relevance,
-        temporal_kind: 'recurring',
+        temporal_kind: rule.kind === 'dated' ? 'event' : 'recurring',
         state: rule.status || 'confirmed',
         confidence: rule.confidence || 'unsourced',
         evidence: rule.evidence || { source_name: null, source_url: "" },
@@ -102,7 +102,6 @@ export function getCanonicalRules(): CanonicalRule[] {
   datasets.forEach(set => {
     if (!set.data) return;
     set.data.forEach((obj: any) => {
-      // Normalization Bridge: Map flat records using 'country' to canonical jurisdiction structure
       if (obj && !obj.jurisdiction && obj.country) {
         obj.jurisdiction = {
           country_code: obj.country,
