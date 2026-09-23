@@ -3,7 +3,7 @@
  * Enforces strict honesty: no fallbacks for purpose or provenance.
  */
 
-import { CanonicalRule, HolidayRule, SourceEvidence } from './types';
+import { CanonicalRule, HolidayRule } from './types';
 import { DATA_REGISTRY } from './data/registry';
 import { COUNTRY_LABELS } from '../calendar-intelligence';
 import { expandRecurrence } from './engine';
@@ -16,23 +16,41 @@ function validateProvenance(rule: any) {
   }
 }
 
+/**
+ * Generates a stable, deterministic ID for a rule based on its core definition.
+ * Decouples identity from array position.
+ */
+function generateRuleId(cc: string, rule: HolidayRule): string {
+  const cleanName = rule.name.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_]/g, '');
+  let fingerprint = rule.kind as string;
+  
+  if (rule.kind === 'fixed') {
+    fingerprint += `_${rule.month}_${rule.day}`;
+  } else if (rule.kind === 'nth') {
+    fingerprint += `_${rule.month}_${rule.dow}_${rule.n}`;
+  } else if (rule.kind === 'dated' && rule.dates) {
+    // For dated rules, we use the first sorted year as a secondary discriminator
+    const firstYear = Object.keys(rule.dates).sort()[0] || 'pending';
+    fingerprint += `_${firstYear}`;
+  }
+
+  return `RULE_${cc}_${cleanName}_${fingerprint}`;
+}
+
 export function getCanonicalRules(): CanonicalRule[] {
   const rules: CanonicalRule[] = [];
-  const years = [2026];
 
   // 1. Holidays
   Object.entries(DATA_REGISTRY.HOLIDAYS).forEach(([cc, holidayRules]) => {
-    holidayRules.forEach((rule, index) => {
-      // 2.1 identity generation
-      const rule_id = `RULE_${cc}_${rule.name.replace(/\s+/g, '_')}_${index}`;
+    holidayRules.forEach((rule) => {
+      const rule_id = generateRuleId(cc, rule);
       
-      // Determine canonical date
+      // Determine canonical date (2026 anchor with fallback for 2027-only rules)
       let date = expandRecurrence(rule, 2026);
-      
-      // Fix 2027-only gap: if no 2026 date exists, check the dates map for any entry
       if (!date && rule.kind === 'dated' && rule.dates) {
         const availableDates = Object.values(rule.dates);
         if (availableDates.length > 0) {
+          // Anchor to the first available date if 2026 is missing
           date = availableDates[0];
         }
       }
@@ -45,7 +63,7 @@ export function getCanonicalRules(): CanonicalRule[] {
       validateProvenance(rule);
 
       rules.push({
-        id: `RULE_${cc}_${rule.name.replace(/\s+/g, '_')}_${date}`,
+        id: `${rule_id}__CANONICAL`, // Internal canonical marker
         rule_id,
         source_dataset: 'HOLIDAYS',
         name: rule.name,
@@ -63,7 +81,7 @@ export function getCanonicalRules(): CanonicalRule[] {
           affected_operations: ['government'], 
           severity: 'medium' 
         }
-      } as any);
+      });
     });
   });
 
@@ -102,11 +120,12 @@ export function getCanonicalRules(): CanonicalRule[] {
       }
       validateProvenance(obj);
       
+      const rule_id = obj.id || obj.name;
       rules.push({
         ...obj,
-        rule_id: obj.id || obj.name,
+        rule_id,
         source_dataset: set.name
-      } as any);
+      });
     });
   });
 

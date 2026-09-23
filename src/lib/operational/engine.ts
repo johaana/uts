@@ -14,10 +14,8 @@ import {
   startOfMonth, 
   addDays, 
   getDay, 
-  isValid, 
   lastDayOfMonth, 
   parseISO,
-  startOfDay,
   getYear
 } from 'date-fns';
 
@@ -38,7 +36,7 @@ export function evaluateQuery(rules: CanonicalRule[], query: OperationalQuery, n
   const results: DateIntelligenceRecord[] = [];
 
   rules.forEach(rule => {
-    // 1. Filter by Purpose Relevance (Invariant Filter)
+    // 1. Filter by Purpose Relevance
     if (!rule.purpose_relevance.includes(query.purpose)) return;
 
     // 2. Filter by Destination
@@ -84,29 +82,17 @@ export function evaluateQuery(rules: CanonicalRule[], query: OperationalQuery, n
   return results.sort((a, b) => a.date.localeCompare(b.date));
 }
 
-/**
- * Standing Rule matching:
- * rule.start <= query.end AND (rule.end is null OR rule.end >= query.start)
- */
 function matchStanding(rule: CanonicalRule, start: string, end: string): boolean {
   const validFrom = rule.valid_from || "1900-01-01";
   const validTo = rule.valid_to || "9999-12-31";
   return validFrom <= end && validTo >= start;
 }
 
-/**
- * Period matching:
- * period.start <= query.end AND period.end >= query.start
- */
 function matchPeriod(rule: CanonicalRule, start: string, end: string): boolean {
   if (!rule.valid_from || !rule.valid_to) return false;
   return rule.valid_from <= end && rule.valid_to >= start;
 }
 
-/**
- * Materializes a standing rule into a record for the UI.
- * Uses the query start date as the placeholder date.
- */
 function materializeStanding(rule: CanonicalRule, queryStart: string): DateIntelligenceRecord {
   return {
     ...rule,
