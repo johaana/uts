@@ -74,7 +74,7 @@ export const DATA_REGISTRY = {
       purpose_relevance: ["study"],
       confidence: "high",
       evidence: { source_name: "Dept of State", source_url: "https://travel.state.gov/content/travel/en/us-visas.html" },
-      summary: "F/M/J applicants subject to vetting." 
+      summary: "F-1/M-1/J-1 applicants subject to vetting." 
     }
   ],
   OPERATIONAL_GLOBAL_EXPANSION: [
