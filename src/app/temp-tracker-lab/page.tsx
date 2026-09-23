@@ -1,52 +1,20 @@
 'use client';
 
-import React, { useMemo } from 'react';
+import React from 'react';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { 
-  Calendar, 
-  MapPin, 
   Info, 
   Plus, 
   ChevronRight,
-  Clock
+  Globe,
+  Zap,
+  Calendar
 } from "lucide-react";
-import { format, addDays, differenceInDays, startOfToday } from 'date-fns';
+import { format, addDays, startOfToday } from 'date-fns';
 import { cn } from '@/lib/utils';
-
-// Helper for the new timing language system
-function getTimingLabel(days: number) {
-  if (days === 0) return "Today";
-  if (days === 1) return "Tomorrow";
-  return `In ${days} days`;
-}
-
-// Mock data for the demonstration
-const mockAgenda = [
-  {
-    date: format(startOfToday(), 'yyyy-MM-dd'),
-    events: [
-      { country: "Japan", name: "Autumn Equinox Day", type: "Public" },
-      { country: "Saudi Arabia", name: "National Day", type: "Public" }
-    ]
-  },
-  {
-    date: format(addDays(startOfToday(), 1), 'yyyy-MM-dd'),
-    events: [
-      { country: "South Africa", name: "Heritage Day", type: "Public" }
-    ]
-  },
-  {
-    date: format(addDays(startOfToday(), 3), 'yyyy-MM-dd'),
-    events: [
-      { country: "India", name: "Regional Observance", type: "Cultural" },
-      { country: "United States", name: "Federal Event", type: "Policy" },
-      { country: "Germany", name: "Bank Holiday", type: "Banking" }
-    ]
-  }
-];
 
 export default function TempTrackerLabPage() {
   const today = startOfToday();
@@ -56,90 +24,152 @@ export default function TempTrackerLabPage() {
       <Header />
       
       <main className="py-12 md:py-24">
-        <div className="container mx-auto px-6 max-w-3xl space-y-16">
+        <div className="container mx-auto px-6 max-w-5xl space-y-20">
           
-          <div className="space-y-4">
-            <div className="text-[12.5px] font-mono text-[#E8A33D] tracking-widest uppercase">UI Lab · Content Design</div>
-            <h1 className="text-4xl md:text-6xl font-headline font-medium leading-tight tracking-tight">The Agenda View</h1>
-            <p className="text-xl text-[#9AA1C0] leading-relaxed font-medium">
-              Prototyping a "Date-Primary" language system. Moving from a holiday countdown to an intelligence agenda.
+          <div className="space-y-4 text-center">
+            <div className="text-[12.5px] font-mono text-[#E8A33D] tracking-widest uppercase">UI Review · Homepage Prototypes</div>
+            <h1 className="text-4xl md:text-6xl font-headline font-medium leading-tight tracking-tight">Tracker Design Options</h1>
+            <p className="text-xl text-[#9AA1C0] leading-relaxed max-w-2xl mx-auto font-medium">
+              Choose how the Hero Tracker should look on the homepage. All options replace "0 days" with natural language and group multiple events.
             </p>
           </div>
 
-          <section className="space-y-8">
-            <h2 className="text-xs font-mono uppercase tracking-[0.2em] text-[#4FD1C5]">Prototype: Hero Tracker</h2>
+          <div className="grid lg:grid-cols-3 gap-12 items-start">
             
-            <div className="grid gap-6">
-              {mockAgenda.map((item, idx) => {
-                const dateObj = new Date(item.date + 'T00:00:00');
-                const daysAway = differenceInDays(dateObj, today);
-                const timingLabel = getTimingLabel(daysAway);
-                const mainEvent = item.events[0];
-                const extraCount = item.events.length - 1;
-
-                return (
-                  <Card key={idx} className="bg-[#171D3A] border-white/10 overflow-hidden shadow-2xl group transition-all hover:border-white/20">
-                    <CardContent className="p-0">
-                      <div className="flex flex-col md:flex-row md:items-center">
-                        
-                        {/* Left: Timing Block */}
-                        <div className="p-6 md:p-8 md:w-48 bg-white/5 flex flex-col justify-center border-b md:border-b-0 md:border-r border-white/5">
-                           <span className={cn(
-                             "text-[10px] font-mono uppercase tracking-widest mb-1",
-                             daysAway === 0 ? "text-[#E8A33D]" : "text-[#9AA1C0]"
-                           )}>
-                             {timingLabel}
-                           </span>
-                           <span className="text-2xl font-headline font-bold">
-                             {format(dateObj, 'dd MMM')}
-                           </span>
-                        </div>
-
-                        {/* Right: Intelligence Block */}
-                        <div className="flex-1 p-6 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6">
-                          <div className="space-y-2">
-                             <div className="flex items-center gap-3">
-                               <span className="text-[10px] font-mono text-[#6E7495] uppercase tracking-wider">National Signal</span>
-                               <Badge variant="outline" className="text-[9px] border-white/10 text-[#9AA1C0] uppercase font-bold">{mainEvent.type}</Badge>
-                             </div>
-                             <h3 className="text-xl font-headline font-medium group-hover:text-[#E8A33D] transition-colors">
-                                {mainEvent.country} — {mainEvent.name}
-                             </h3>
-                             
-                             {/* Clickable Extra Events */}
-                             {extraCount > 0 && (
-                               <button className="flex items-center gap-2 text-xs font-bold text-[#4FD1C5] hover:text-white transition-colors pt-2 group/btn">
-                                 <Plus className="w-3 h-3" /> 
-                                 <span>{extraCount} more {extraCount === 1 ? 'event' : 'events'} on this day</span>
-                                 <ChevronRight className="w-3 h-3 opacity-0 group-hover/btn:opacity-100 group-hover/btn:translate-x-1 transition-all" />
-                               </button>
-                             )}
-                          </div>
-
-                          <button className="h-11 px-6 rounded-full border border-white/10 text-xs font-bold uppercase tracking-widest hover:bg-white/5 transition-all flex items-center gap-2 shrink-0">
-                             Intelligence <Info className="w-4 h-4 text-[#E8A33D]" />
-                          </button>
-                        </div>
-
-                      </div>
-                    </CardContent>
-                  </Card>
-                );
-              })}
+            {/* OPTION 1: The Premium Signal Board */}
+            <div className="space-y-6">
+              <div className="px-2">
+                <Badge className="bg-[#4FD1C5] text-[#0F1428] font-bold">Option 1</Badge>
+                <h3 className="text-lg font-headline font-bold mt-2">The Premium Signal Board</h3>
+                <p className="text-sm text-[#9AA1C0] mt-1 italic">Focuses on urgency and "Signal" status. High contrast.</p>
+              </div>
+              
+              <div className="w-full max-w-[380px] mx-auto border border-white/18 rounded-[18px] bg-[#171D3A] overflow-hidden shadow-2xl">
+                <div className="p-5 border-b border-white/10 bg-white/5 flex justify-between items-center">
+                  <div className="space-y-0.5">
+                    <span className="text-[10px] font-mono text-[#4FD1C5] uppercase tracking-widest">Global Status</span>
+                    <strong className="block text-paper">Today · 3 events</strong>
+                  </div>
+                  <div className="flex items-center gap-1.5 px-2 py-1 bg-[#4FD1C5]/10 border border-[#4FD1C5]/20 rounded-full">
+                    <div className="w-1.5 h-1.5 rounded-full bg-[#4FD1C5] animate-pulse"></div>
+                    <span className="text-[9px] font-bold uppercase tracking-wider text-[#4FD1C5]">Live</span>
+                  </div>
+                </div>
+                <div className="p-6 space-y-4">
+                  <div className="space-y-1">
+                    <h4 className="text-[10px] font-mono text-[#E8A33D] uppercase tracking-widest">Primary Signal</h4>
+                    <p className="text-lg font-headline font-bold">Japan — Autumn Equinox Day</p>
+                  </div>
+                  <button className="flex items-center gap-2 text-xs font-bold text-[#4FD1C5] hover:text-white transition-colors group/btn">
+                    <Plus className="w-3.5 h-3.5" /> 
+                    <span>2 more events on this day</span>
+                  </button>
+                </div>
+                <a className="block p-4 bg-white/5 text-[11px] font-bold text-[#F0C888] uppercase tracking-[0.2em] text-center border-t border-white/10 hover:bg-white/10 transition-all" href="#date-intelligence">
+                  See what this means →
+                </a>
+              </div>
             </div>
-          </section>
 
-          <section className="p-10 rounded-3xl border-2 border-dashed border-white/10 bg-white/5 space-y-6">
-            <h2 className="font-headline text-2xl font-medium tracking-tight">Design Notes</h2>
-            <div className="grid md:grid-cols-2 gap-8 text-[13.5px] text-[#9AA1C0] font-medium leading-relaxed">
-              <div className="space-y-3">
-                <p><b className="text-[#F4F1E8]">Natural Language:</b> Using "Today" and "Tomorrow" anchors the user in their current reality, making the data feel urgent and alive.</p>
-                <p><b className="text-[#F4F1E8]">The clickable +N:</b> This preserves the "One Date" logic. It avoids cluttered UIs when multiple countries celebrate on the same day.</p>
+            {/* OPTION 2: The Date-Primary Agenda */}
+            <div className="space-y-6">
+              <div className="px-2">
+                <Badge className="bg-[#E8A33D] text-[#0F1428] font-bold">Option 2</Badge>
+                <h3 className="text-lg font-headline font-bold mt-2">The Date-Primary Agenda</h3>
+                <p className="text-sm text-[#9AA1C0] mt-1 italic">Focuses on the Calendar as the anchor. Clean and editorial.</p>
               </div>
-              <div className="space-y-3">
-                <p><b className="text-[#F4F1E8]">Identity:</b> Even with 3 events, the Date remains the visual anchor. This prepares the user for the filtered "Date Intelligence" panel below.</p>
-                <p><b className="text-[#F4F1E8]">No more '0 days':</b> September 23rd is "Today", not a countdown at its finish line.</p>
+
+              <div className="w-full max-w-[380px] mx-auto border border-white/18 rounded-[18px] bg-[#171D3A] overflow-hidden shadow-2xl">
+                <div className="flex">
+                  <div className="w-24 bg-white/5 border-r border-white/10 flex flex-col items-center justify-center p-4 py-8">
+                     <span className="text-[10px] font-mono text-[#9AA1C0] uppercase tracking-widest mb-1">Today</span>
+                     <span className="text-2xl font-headline font-bold text-[#E8A33D]">23</span>
+                     <span className="text-[10px] font-mono text-[#9AA1C0] uppercase">Sep</span>
+                  </div>
+                  <div className="flex-1 p-6 flex flex-col justify-center gap-2">
+                     <div className="flex items-center gap-2">
+                       <span className="text-[9px] font-bold uppercase tracking-widest text-[#6E7495]">National Signal</span>
+                       <Badge variant="outline" className="text-[8px] h-4 border-white/10 text-[#9AA1C0] uppercase px-1.5">Public</Badge>
+                     </div>
+                     <h4 className="text-lg font-headline font-medium leading-tight">Japan — Autumn Equinox Day</h4>
+                     <button className="text-[11px] font-bold text-[#4FD1C5] text-left mt-1">+ 2 other global events</button>
+                  </div>
+                </div>
+                <a className="block p-4 bg-[#1E2650] text-[11px] font-bold text-[#F4F1E8] uppercase tracking-[0.2em] text-center border-t border-white/10 hover:bg-[#252E60] transition-all" href="#date-intelligence">
+                  View Intelligence Agenda →
+                </a>
               </div>
+            </div>
+
+            {/* OPTION 3: The Narrative Tracker */}
+            <div className="space-y-6">
+              <div className="px-2">
+                <Badge className="bg-white text-[#0F1428] font-bold">Option 3</Badge>
+                <h3 className="text-lg font-headline font-bold mt-2">The Narrative Tracker</h3>
+                <p className="text-sm text-[#9AA1C0] mt-1 italic">Focuses on the breadth of the data. Conversational.</p>
+              </div>
+
+              <div className="w-full max-w-[380px] mx-auto border border-white/18 rounded-[18px] bg-[#171D3A] overflow-hidden shadow-2xl">
+                <div className="p-8 space-y-6">
+                  <div className="flex items-start justify-between">
+                    <div className="w-12 h-12 rounded-full bg-[#E8A33D]/10 flex items-center justify-center text-[#E8A33D]">
+                      <Globe className="w-6 h-6" />
+                    </div>
+                    <div className="text-right">
+                       <span className="block text-[22px] font-headline font-bold leading-none">Today</span>
+                       <span className="text-[11px] text-[#6E7495] font-mono uppercase tracking-widest">{format(today, 'dd MMMM')}</span>
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-4">
+                    <div className="p-4 bg-white/5 rounded-xl border border-white/5 space-y-1">
+                      <p className="text-[13px] text-[#9AA1C0] leading-relaxed">
+                        Currently tracking <b className="text-white">3 events</b> across <b className="text-white">2 jurisdictions</b>.
+                      </p>
+                    </div>
+                    <div className="space-y-2">
+                       <div className="flex items-center gap-3">
+                         <div className="w-1.5 h-1.5 rounded-full bg-[#E8A33D]" />
+                         <span className="text-sm font-medium">Japan · Autumn Equinox</span>
+                       </div>
+                       <div className="flex items-center gap-3">
+                         <div className="w-1.5 h-1.5 rounded-full bg-[#9AA1C0]" />
+                         <span className="text-sm font-medium text-[#9AA1C0]">Saudi Arabia · National Day</span>
+                       </div>
+                    </div>
+                  </div>
+                </div>
+                <a className="block p-4 bg-[#E8A33D] text-[11px] font-bold text-[#0F1428] uppercase tracking-[0.2em] text-center hover:bg-[#F0C888] transition-all" href="#date-intelligence">
+                  Open Date Intel →
+                </a>
+              </div>
+            </div>
+
+          </div>
+
+          {/* DESIGN SPECS SECTION */}
+          <section className="p-10 rounded-3xl border-2 border-dashed border-white/10 bg-white/5 space-y-8">
+            <div className="grid md:grid-cols-2 gap-12">
+               <div className="space-y-4">
+                  <h2 className="font-headline text-2xl font-medium tracking-tight">The "0 Days" Solution</h2>
+                  <p className="text-[#9AA1C0] text-sm leading-relaxed">
+                    By implementing a <code className="text-paper bg-white/10 px-1 rounded">getTimingLabel(days)</code> helper, we anchor the product in the user's present.
+                  </p>
+                  <ul className="space-y-2 text-[13px] font-mono text-[#4FD1C5]">
+                    <li>0 → "Today"</li>
+                    <li>1 → "Tomorrow"</li>
+                    <li>N → "In N days"</li>
+                  </ul>
+               </div>
+               <div className="space-y-4">
+                  <h2 className="font-headline text-2xl font-medium tracking-tight">One Date, Multiple Signals</h2>
+                  <p className="text-[#9AA1C0] text-sm leading-relaxed">
+                    We no longer duplicate cards for the same day. Instead, we show the <strong>Primary Signal</strong> (National/Public) and use a clickable link to expose the secondary ones.
+                  </p>
+                  <p className="text-[#9AA1C0] text-sm leading-relaxed">
+                    This prevents the homepage from becoming a "scroll of cards" and turns it into a "board of dates."
+                  </p>
+               </div>
             </div>
           </section>
 
