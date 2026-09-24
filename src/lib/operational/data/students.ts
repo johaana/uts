@@ -1,6 +1,6 @@
 /**
  * @fileOverview Authoritative Student Policy Records.
- * Physically contains 55 core policy records.
+ * Physically contains core policy records and expanded global study rules from legacy notes.
  */
 import { DateIntelligenceRecord } from '../types';
 

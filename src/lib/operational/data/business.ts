@@ -1,6 +1,6 @@
 /**
  * @fileOverview Authoritative Business Policy Records.
- * Contains 12 core policy records.
+ * Contains core policy records and expanded Eurozone/Nordic rules from legacy notes.
  */
 import { DateIntelligenceRecord } from '../types';
 
@@ -148,5 +148,174 @@ export const BUSINESS_POLICIES: Partial<DateIntelligenceRecord>[] = [
     confidence: "high",
     evidence: { source_name: "South African Reserve Bank (SARB)", source_url: "https://www.resbank.co.za/en/home/what-we-do/payments-and-settlements", last_checked: "2026-09-08" },
     consequences: { implication: "SAMOS settlement follows SARB holiday schedule.", affected_operations: ["banking"], severity: "medium" }
+  },
+  // --- Restored Eurozone & Nordic Policies ---
+  {
+    id: "BIZ_FR_CALENDAR",
+    name: "Business-day calendar",
+    category: "policy",
+    jurisdiction: { country_code: "FR", country_name: "France", scope: "national" },
+    purpose_relevance: ["business"],
+    temporal_kind: "standing",
+    state: "confirmed",
+    confidence: "high",
+    evidence: { source_name: "Service-Public", source_url: "https://www.service-public.fr/particuliers/vosdroits/F2405", last_checked: "2026-09-08" },
+    consequences: { implication: "France working-day rules govern office and staffing availability.", affected_operations: ["admin"], severity: "low" }
+  },
+  {
+    id: "BIZ_IT_CALENDAR",
+    name: "Business-day calendar",
+    category: "policy",
+    jurisdiction: { country_code: "IT", country_name: "Italy", scope: "national" },
+    purpose_relevance: ["business"],
+    temporal_kind: "standing",
+    state: "confirmed",
+    confidence: "high",
+    evidence: { source_name: "Borsa Italiana", source_url: "https://www.borsaitaliana.it/borsaitaliana/calendario-e-orari-di-negoziazione/calendario-borsa-orari-di-negoziazione.en.htm", last_checked: "2026-09-08" },
+    consequences: { implication: "Italy working-day rules are the baseline for operations.", affected_operations: ["admin"], severity: "low" }
+  },
+  {
+    id: "BIZ_ES_CALENDAR",
+    name: "Business-day calendar",
+    category: "policy",
+    jurisdiction: { country_code: "ES", country_name: "Spain", scope: "national" },
+    purpose_relevance: ["business"],
+    temporal_kind: "standing",
+    state: "confirmed",
+    confidence: "high",
+    evidence: { source_name: "Official government", source_url: "https://administracion.gob.es/pagFront/espanaAdmon/directorioOrganigrama/listadoOficinas.htm", last_checked: "2026-09-08" },
+    consequences: { implication: "Spain public/working-day rules apply to staffing and service planning.", affected_operations: ["admin"], severity: "low" }
+  },
+  {
+    id: "BIZ_NL_CALENDAR",
+    name: "Business-day calendar",
+    category: "policy",
+    jurisdiction: { country_code: "NL", country_name: "Netherlands", scope: "national" },
+    purpose_relevance: ["business"],
+    temporal_kind: "standing",
+    state: "confirmed",
+    confidence: "high",
+    evidence: { source_name: "Gov.nl", source_url: "https://www.government.nl/faq/work/public-holidays-in-the-netherlands", last_checked: "2026-09-08" },
+    consequences: { implication: "Dutch working-day rules apply to business operations.", affected_operations: ["admin"], severity: "low" }
+  },
+  {
+    id: "BIZ_BE_CALENDAR",
+    name: "Business-day calendar",
+    category: "policy",
+    jurisdiction: { country_code: "BE", country_name: "Belgium", scope: "national" },
+    purpose_relevance: ["business"],
+    temporal_kind: "standing",
+    state: "confirmed",
+    confidence: "high",
+    evidence: { source_name: "Official government", source_url: "https://www.belgium.be/en/work/holidays_and_leave/public_holidays", last_checked: "2026-09-08" },
+    consequences: { implication: "Belgium public/working-day rules are the baseline for staffing.", affected_operations: ["admin"], severity: "low" }
+  },
+  {
+    id: "BIZ_PT_CALENDAR",
+    name: "Business-day calendar",
+    category: "policy",
+    jurisdiction: { country_code: "PT", country_name: "Portugal", scope: "national" },
+    purpose_relevance: ["business"],
+    temporal_kind: "standing",
+    state: "confirmed",
+    confidence: "high",
+    evidence: { source_name: "Official government", source_url: "https://eportugal.gov.pt/en/servicos/consultar-os-feriados-nacionais", last_checked: "2026-09-08" },
+    consequences: { implication: "Portugal public/working-day rules are the baseline for scheduling.", affected_operations: ["admin"], severity: "low" }
+  },
+  {
+    id: "BIZ_IE_CALENDAR",
+    name: "Business-day calendar",
+    category: "policy",
+    jurisdiction: { country_code: "IE", country_name: "Ireland", scope: "national" },
+    purpose_relevance: ["business"],
+    temporal_kind: "standing",
+    state: "confirmed",
+    confidence: "high",
+    evidence: { source_name: "WRC Ireland", source_url: "https://www.workplacerelations.ie/en/what_you_should_know/leave/public-holidays/", last_checked: "2026-09-08" },
+    consequences: { implication: "Ireland public/working-day rules apply to staffing and services.", affected_operations: ["admin"], severity: "low" }
+  },
+  {
+    id: "BIZ_DK_CALENDAR",
+    name: "Business-day calendar",
+    category: "policy",
+    jurisdiction: { country_code: "DK", country_name: "Denmark", scope: "national" },
+    purpose_relevance: ["business"],
+    temporal_kind: "standing",
+    state: "confirmed",
+    confidence: "high",
+    evidence: { source_name: "Life in Denmark", source_url: "https://lifeindenmark.borger.dk/working/working-conditions/holidays", last_checked: "2026-09-08" },
+    consequences: { implication: "Denmark working-day rules govern office availability.", affected_operations: ["admin"], severity: "low" }
+  },
+  {
+    id: "BIZ_NO_CALENDAR",
+    name: "Business-day calendar",
+    category: "policy",
+    jurisdiction: { country_code: "NO", country_name: "Norway", scope: "national" },
+    purpose_relevance: ["business"],
+    temporal_kind: "standing",
+    state: "confirmed",
+    confidence: "high",
+    evidence: { source_name: "Regjeringen.no", source_url: "https://www.regjeringen.no/en/topics/labour/working-environment-and-safety/holidays-and-leave/id445422/", last_checked: "2026-09-08" },
+    consequences: { implication: "Norway public/working-day rules are the baseline.", affected_operations: ["admin"], severity: "low" }
+  },
+  {
+    id: "BIZ_FI_CALENDAR",
+    name: "Business-day calendar",
+    category: "policy",
+    jurisdiction: { country_code: "FI", country_name: "Finland", scope: "national" },
+    purpose_relevance: ["business"],
+    temporal_kind: "standing",
+    state: "confirmed",
+    confidence: "high",
+    evidence: { source_name: "Suomi.fi", source_url: "https://www.suomi.fi/citizen/working-life-and-unemployment/annual-holidays-and-leaves/guide/annual-holiday", last_checked: "2026-09-08" },
+    consequences: { implication: "Finland working-day rules govern office and staffing availability.", affected_operations: ["admin"], severity: "low" }
+  },
+  {
+    id: "BIZ_SE_CALENDAR",
+    name: "Business-day calendar",
+    category: "policy",
+    jurisdiction: { country_code: "SE", country_name: "Sweden", scope: "national" },
+    purpose_relevance: ["business"],
+    temporal_kind: "standing",
+    state: "confirmed",
+    confidence: "high",
+    evidence: { source_name: "Government.se", source_url: "https://www.government.se/government-policy/labour-law-and-work-environment/annual-leave/", last_checked: "2026-09-08" },
+    consequences: { implication: "Sweden working-day rules are the baseline for operations.", affected_operations: ["admin"], severity: "low" }
+  },
+  {
+    id: "BIZ_PL_CALENDAR",
+    name: "Business-day calendar",
+    category: "policy",
+    jurisdiction: { country_code: "PL", country_name: "Poland", scope: "national" },
+    purpose_relevance: ["business"],
+    temporal_kind: "standing",
+    state: "confirmed",
+    confidence: "high",
+    evidence: { source_name: "Gov.pl", source_url: "https://www.gov.pl/web/family/public-holidays", last_checked: "2026-09-08" },
+    consequences: { implication: "Poland public/working-day rules apply to staffing and service planning.", affected_operations: ["admin"], severity: "low" }
+  },
+  {
+    id: "BIZ_CZ_CALENDAR",
+    name: "Business-day calendar",
+    category: "policy",
+    jurisdiction: { country_code: "CZ", country_name: "Czechia", scope: "national" },
+    purpose_relevance: ["business"],
+    temporal_kind: "standing",
+    state: "confirmed",
+    confidence: "high",
+    evidence: { source_name: "MPSV Czechia", source_url: "https://www.mpsv.cz/web/en/public-holidays", last_checked: "2026-09-08" },
+    consequences: { implication: "Czech Republic working-day rules govern office availability.", affected_operations: ["admin"], severity: "low" }
+  },
+  {
+    id: "BIZ_HU_CALENDAR",
+    name: "Business-day calendar",
+    category: "policy",
+    jurisdiction: { country_code: "HU", country_name: "Hungary", scope: "national" },
+    purpose_relevance: ["business"],
+    temporal_kind: "standing",
+    state: "confirmed",
+    confidence: "high",
+    evidence: { source_name: "Official government", source_url: "https://kormany.hu/en/ministry-for-national-economy/labour-law", last_checked: "2026-09-08" },
+    consequences: { implication: "Hungary public/working-day rules are the baseline for operations.", affected_operations: ["admin"], severity: "low" }
   }
 ];
