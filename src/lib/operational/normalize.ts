@@ -62,6 +62,10 @@ export function getCanonicalRules(): CanonicalRule[] {
       }
       validateProvenance(rule);
 
+      const displayType = rule.type === 'public' || rule.type === 'holiday' ? 'National Holiday' : 
+                          rule.type === 'religious' ? 'Religious Holiday' : 
+                          rule.type;
+
       rules.push({
         id: `${rule_id}__CANONICAL`, 
         rule_id,
@@ -77,7 +81,7 @@ export function getCanonicalRules(): CanonicalRule[] {
         rule_definition: rule,
         date,
         consequences: { 
-          implication: `${rule.name} is a ${rule.type === 'public' ? 'public holiday' : rule.type}.`, 
+          implication: `${rule.name} is a ${displayType}.`, 
           affected_operations: ['government'], 
           severity: 'medium' 
         }

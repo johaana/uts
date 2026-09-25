@@ -35,10 +35,10 @@ const DOMAIN_GUIDANCE: Record<string, string> = {
 const getDisplayCategory = (cat: string) => {
   const map: Record<string, string> = {
     public: "National Holiday",
-    religious: "Religious Observance",
+    religious: "Religious Holiday",
     cultural: "Cultural Event",
     harvest: "Harvest Festival",
-    holiday: "Public Holiday"
+    holiday: "National Holiday"
   };
   return map[cat.toLowerCase()] || cat.charAt(0).toUpperCase() + cat.slice(1).replace('_', ' ');
 };
