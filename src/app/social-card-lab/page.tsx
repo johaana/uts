@@ -1,4 +1,3 @@
-
 'use client';
 
 import React from 'react';
@@ -7,142 +6,161 @@ import { Footer } from '@/components/footer';
 import { 
   Globe, 
   ShieldCheck, 
-  Search, 
-  Layout, 
-  Share2, 
-  Calendar,
   CheckCircle2,
-  Lock
+  Lock,
+  Zap,
+  Terminal
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 export default function SocialCardLabPage() {
   const options = [
     {
-      id: 'authored',
-      name: 'Option 4: The Authored Style (ACTIVE)',
-      desc: 'Clean, high-impact typography. Focuses purely on the value proposition.',
+      id: 'authored-logo',
+      name: 'Option 1: The Authored Style (with Logo)',
+      desc: 'Clean, high-impact typography with the Utsavs brand lockup at the base. Direct and editorial.',
       render: (
         <div className="w-full aspect-[1200/630] bg-[#0F1428] p-20 flex flex-col justify-center relative overflow-hidden rounded-xl border border-white/10 shadow-2xl text-left">
           <div className="space-y-0 mb-10">
-            <h2 className="text-[72px] font-display font-medium leading-[1.05] tracking-tight text-[#F4F1E8]">
-              Know before you fly.
+            <h2 className="text-[72px] font-serif font-medium leading-[1.05] tracking-tight text-[#F4F1E8]">
+              Know before you plan.
             </h2>
-            <h2 className="text-[72px] font-display font-medium leading-[1.05] tracking-tight text-[#F4F1E8]">
-              Know before you schedule.
+            <h2 className="text-[72px] font-serif font-medium leading-[1.05] tracking-tight text-[#F4F1E8]">
+              Not after.
             </h2>
           </div>
-          <p className="text-[28px] font-sans text-[#9AA1C0] leading-relaxed max-w-[800px]">
-            Check a country and your actual dates — before you book, schedule, send a student, or send an employee across borders.
+          <p className="text-[28px] font-sans text-[#9AA1C0] leading-relaxed max-w-[850px]">
+            A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.
           </p>
-          <div className="absolute bottom-16 left-20 flex items-center gap-3">
-             <div className="w-3 h-3 bg-[#E8A33D] rounded-full"></div>
-             <span className="font-mono text-[14px] font-bold text-[#E8A33D] uppercase tracking-[0.2em]">Utsavs Global Holiday Intelligence</span>
+          
+          <div className="absolute bottom-16 left-20 flex flex-col items-start gap-0.5">
+             <span className="font-serif text-[32px] font-bold text-[#F4F1E8] tracking-tight">Utsavs</span>
+             <span className="font-serif italic text-[14px] text-[#9AA1C0] font-normal">from occasion to impact</span>
+          </div>
+
+          <div className="absolute bottom-16 right-20 flex items-center gap-3">
+             <div className="w-3 h-3 bg-[#E8A33D] rounded-full shadow-[0_0_15px_rgba(232,163,61,0.5)]"></div>
+             <span className="font-mono text-[14px] font-bold text-[#E8A33D] uppercase tracking-[0.2em]">Global Holiday Intelligence</span>
           </div>
         </div>
       )
     },
     {
-      id: 'terminal',
-      name: 'Option 1: The Intelligence Terminal',
-      desc: 'High-contrast, professional, and deterministic. Best for B2B/Enterprise trust.',
+      id: 'terminal-api',
+      name: 'Option 2: The Intelligence Terminal (API Focus)',
+      desc: 'Emphasizes the "Global Holiday Intelligence" product and technical reliability. High trust for B2B/Corporate.',
       render: (
         <div className="w-full aspect-[1200/630] bg-[#0F1428] p-16 flex flex-col justify-between relative overflow-hidden rounded-xl border border-white/10 shadow-2xl text-left">
-          <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#E8A33D]/5 blur-[120px] -mr-32 -mt-32"></div>
-          <div className="relative z-10 space-y-4">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-[#E8A33D] rounded-lg flex items-center justify-center">
-                <Globe className="text-[#0F1428] w-6 h-6" />
-              </div>
-              <span className="font-display text-4xl font-bold tracking-tight">Utsavs</span>
+          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#E8A33D]/5 blur-[140px] -mr-40 -mt-40"></div>
+          
+          <div className="relative z-10 flex items-center gap-4">
+            <div className="w-12 h-12 bg-[#E8A33D] rounded-xl flex items-center justify-center">
+              <Globe className="text-[#0F1428] w-7 h-7" />
             </div>
-            <p className="text-[14px] font-mono text-[#4FD1C5] uppercase tracking-[0.4em] font-bold">Global Holiday Intelligence</p>
+            <div className="flex flex-col">
+                <span className="font-serif text-3xl font-bold tracking-tight text-white">Utsavs</span>
+                <span className="text-[9px] font-mono font-bold uppercase tracking-[0.4em] text-[#4FD1C5]">Global Intelligence</span>
+            </div>
           </div>
 
-          <div className="relative z-10 max-w-2xl">
-            <h2 className="text-5xl md:text-6xl font-display font-medium leading-[1.1] tracking-tight mb-8">
+          <div className="relative z-10 max-w-3xl space-y-8">
+            <h2 className="text-6xl md:text-7xl font-serif font-medium leading-[1.05] tracking-tighter text-[#F4F1E8]">
               Verified calendar fact. <br/>Zero-AI reliability.
             </h2>
-            <div className="flex gap-6">
-               <div className="flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-full">
-                  <ShieldCheck className="w-4 h-4 text-[#4FD1C5]" />
-                  <span className="text-[12px] font-bold uppercase tracking-widest text-[#9AA1C0]">Deterministic Data</span>
+            <div className="flex gap-8">
+               <div className="flex items-center gap-2.5 px-5 py-2.5 bg-white/5 border border-white/10 rounded-full">
+                  <ShieldCheck className="w-5 h-5 text-[#4FD1C5]" />
+                  <span className="text-[14px] font-bold uppercase tracking-widest text-[#9AA1C0]">Deterministic Data</span>
                </div>
-               <div className="flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-full">
-                  <CheckCircle2 className="w-4 h-4 text-[#4FD1C5]" />
-                  <span className="text-[12px] font-bold uppercase tracking-widest text-[#9AA1C0]">Source Aware</span>
+               <div className="flex items-center gap-2.5 px-5 py-2.5 bg-white/5 border border-white/10 rounded-full">
+                  <CheckCircle2 className="w-5 h-5 text-[#4FD1C5]" />
+                  <span className="text-[14px] font-bold uppercase tracking-widest text-[#9AA1C0]">Source Aware</span>
                </div>
             </div>
           </div>
 
-          <div className="absolute bottom-16 right-16 opacity-20">
-             <div className="p-8 border border-white/20 rounded-2xl bg-white/5 space-y-4 w-[320px]">
-                <div className="h-2 w-24 bg-white/20 rounded"></div>
-                <div className="h-4 w-48 bg-white/40 rounded"></div>
-                <div className="h-2 w-32 bg-white/20 rounded"></div>
+          <div className="absolute bottom-16 right-16 opacity-30">
+             <div className="p-8 border border-white/20 rounded-2xl bg-white/5 space-y-4 w-[360px] font-mono">
+                <div className="flex items-center gap-2 mb-2">
+                    <Terminal className="w-3 h-3 text-[#4FD1C5]" />
+                    <span className="text-[10px] text-[#4FD1C5]">GET /v1/intelligence</span>
+                </div>
+                <div className="h-2 w-3/4 bg-white/20 rounded-full"></div>
+                <div className="h-2 w-full bg-white/40 rounded-full"></div>
+                <div className="h-2 w-1/2 bg-white/20 rounded-full"></div>
              </div>
           </div>
         </div>
       )
     },
     {
-      id: 'connection',
-      name: 'Option 2: The Global Connection',
-      desc: 'Clean, minimalist, and authoritative. Focuses on the "Global Meridian" identity.',
+      id: 'atmospheric-fusion',
+      name: 'Option 3: The Context Fusion',
+      desc: 'Blends atmospheric cultural imagery with technical precision. Warm but professional.',
       render: (
-        <div className="w-full aspect-[1200/630] bg-white p-16 flex items-center justify-center relative overflow-hidden rounded-xl border border-gray-200 shadow-2xl">
-          <div className="absolute inset-0 bg-[#F7F4EE]/30"></div>
-          <div className="relative z-10 flex flex-col items-center text-center space-y-10">
-            <div className="space-y-4">
-               <div className="w-24 h-24 bg-[#171D3A] rounded-3xl flex items-center justify-center mx-auto shadow-xl">
-                  <Globe className="text-[#E8A33D] w-12 h-12" />
+        <div className="w-full aspect-[1200/630] bg-[#0F1428] relative overflow-hidden rounded-xl shadow-2xl">
+          <img 
+            src="https://i.postimg.cc/SjF8HhM1/Diwali2.jpg" 
+            alt="Diwali Background" 
+            className="absolute inset-0 w-full h-full object-cover opacity-60 grayscale-[40%]"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0F1428] via-[#0F1428]/90 to-transparent"></div>
+          
+          <div className="relative z-10 h-full p-20 flex flex-col justify-between text-left">
+            <div className="space-y-2">
+               <div className="flex items-center gap-3">
+                  <span className="font-serif text-4xl font-bold text-white tracking-tight">Utsavs</span>
+                  <div className="h-px w-20 bg-[#E8A33D]/40"></div>
+                  <span className="font-mono text-[12px] font-bold text-[#E8A33D] uppercase tracking-[0.4em]">Intelligence</span>
                </div>
-               <div className="space-y-1">
-                  <h1 className="font-display text-6xl font-bold text-[#0F1428] tracking-tighter">Utsavs</h1>
-                  <p className="text-[11px] font-mono font-bold uppercase tracking-[0.5em] text-[#E8A33D]">Global Date Intelligence</p>
-               </div>
+               <p className="font-serif italic text-[16px] text-[#9AA1C0]">Planning around the occasion</p>
             </div>
-            <p className="text-2xl text-[#6E7495] max-w-xl font-medium">
-              Understand the world's calendar. Structured intelligence for travel, study and operations.
-            </p>
-            <div className="pt-4">
-              <span className="px-6 py-2 border border-[#E8A33D]/30 text-[#E8A33D] text-xs font-bold uppercase tracking-widest rounded-full">utsavs.com/api</span>
+
+            <div className="max-w-xl space-y-10">
+              <h2 className="text-7xl font-serif font-medium leading-tight tracking-tight text-white">
+                Know the date. <br />Calculate the impact.
+              </h2>
+              <div className="p-8 bg-white border border-white/20 rounded-[24px] shadow-[0_32px_64px_rgba(0,0,0,0.4)] space-y-5">
+                 <div className="flex items-center justify-between">
+                    <span className="text-[12px] font-mono font-bold text-gray-400 uppercase tracking-widest">RECORD_081126</span>
+                    <div className="flex items-center gap-1.5 px-3 py-1 bg-green-500/10 text-green-600 text-[10px] font-bold uppercase rounded-full border border-green-500/20">
+                        <ShieldCheck className="w-3 h-3" /> Verified
+                    </div>
+                 </div>
+                 <div className="space-y-1">
+                    <p className="text-3xl font-bold text-[#0F1428] font-serif">8 Nov 2026 — Diwali</p>
+                    <p className="text-sm text-gray-500 font-medium">National Holiday · Mandatory Closure · High Density Movement</p>
+                 </div>
+              </div>
             </div>
           </div>
         </div>
       )
     },
     {
-      id: 'fusion',
-      name: 'Option 3: The Context Fusion',
-      desc: 'Atmospheric and meaningful. Blends cultural beauty with technical precision.',
+      id: 'brand-pure',
+      name: 'Option 4: Brand Pure',
+      desc: 'Focuses entirely on the brand promise and the "Single Now" pulse.',
       render: (
-        <div className="w-full aspect-[1200/630] bg-[#0F1428] relative overflow-hidden rounded-xl shadow-2xl">
-          <img 
-            src="https://i.postimg.cc/SjF8HhM1/Diwali2.jpg" 
-            alt="Diwali Background" 
-            className="absolute inset-0 w-full h-full object-cover opacity-50 blur-[2px]"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0F1428] via-[#0F1428]/80 to-transparent"></div>
-          
-          <div className="relative z-10 h-full p-20 flex flex-col justify-between text-left">
-            <div className="space-y-2">
-               <span className="font-display text-4xl font-bold">Utsavs</span>
-               <p className="text-[12px] font-mono text-[#E8A33D] uppercase tracking-[0.3em]">Planning around the occasion</p>
+        <div className="w-full aspect-[1200/630] bg-[#F7F4EE] p-16 flex items-center justify-center relative overflow-hidden rounded-xl border border-gray-200 shadow-2xl">
+          <div className="absolute inset-0 opacity-40" style={{ backgroundImage: 'radial-gradient(#171D3A 1px, transparent 1px)', backgroundSize: '40px 40px' }}></div>
+          <div className="relative z-10 flex flex-col items-center text-center space-y-12">
+            <div className="space-y-6">
+               <div className="w-32 h-32 bg-[#171D3A] rounded-[40px] flex items-center justify-center mx-auto shadow-2xl transform rotate-3 hover:rotate-0 transition-transform">
+                  <Globe className="text-[#E8A33D] w-16 h-16" />
+               </div>
+               <div className="space-y-2">
+                  <h1 className="font-serif text-8xl font-bold text-[#0F1428] tracking-tighter">Utsavs</h1>
+                  <p className="text-[14px] font-mono font-bold uppercase tracking-[0.6em] text-[#E8A33D]">Global Date Intelligence</p>
+               </div>
             </div>
-
-            <div className="max-w-xl space-y-8">
-              <h2 className="text-6xl font-display font-medium tracking-tight">Know the date. <br />Calculate the impact.</h2>
-              <div className="p-6 bg-white border border-white/20 rounded-2xl shadow-2xl space-y-4">
-                 <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">RECORD_081126</span>
-                    <span className="px-2 py-0.5 bg-green-500/10 text-green-600 text-[9px] font-bold uppercase rounded">Verified</span>
-                 </div>
-                 <div className="space-y-1">
-                    <p className="text-2xl font-bold text-[#0F1428]">8 Nov 2026 — Diwali</p>
-                    <p className="text-xs text-gray-500 font-medium">India · National Holiday · Total Market Closure</p>
-                 </div>
-              </div>
+            <p className="text-3xl text-[#6E7495] max-w-2xl font-medium font-serif leading-relaxed">
+              Standardizing global holiday intelligence for travel, study and operations.
+            </p>
+            <div className="pt-4 flex items-center gap-4">
+              <span className="px-8 py-3 bg-[#171D3A] text-white text-[12px] font-bold uppercase tracking-widest rounded-full shadow-lg">utsavs.com</span>
+              <span className="text-gray-300">/</span>
+              <span className="text-[#171D3A] font-mono text-sm font-bold">API PREVIEW</span>
             </div>
           </div>
         </div>
@@ -151,47 +169,70 @@ export default function SocialCardLabPage() {
   ];
 
   return (
-    <div className="bg-[#0F1428] text-[#F4F1E8] min-h-screen font-sans">
+    <div className="bg-[#0F1428] text-[#F4F1E8] min-h-screen font-sans selection:bg-[#E8A33D] selection:text-[#0F1428]">
       <Header />
+      
       <main className="py-24">
-        <div className="max-w-[1180px] mx-auto px-6 space-y-20">
-          <div className="space-y-4 text-left">
-            <div className="text-[12.5px] font-mono text-[#E8A33D] tracking-widest uppercase">Launch Lab</div>
-            <h1 className="text-4xl md:text-6xl font-headline font-medium">Social Sharing Options</h1>
-            <p className="text-xl text-[#9AA1C0] max-w-2xl font-medium leading-relaxed">
-              Evaluating how the platform appears on LinkedIn, Twitter, and WhatsApp. Option 4 is currently the active production standard.
+        <div className="max-w-[1180px] mx-auto px-6 space-y-24">
+          
+          <div className="space-y-6 text-left max-w-3xl">
+            <div className="text-[12.5px] font-mono text-[#E8A33D] tracking-[0.3em] uppercase">Visual Identity Lab</div>
+            <h1 className="text-4xl md:text-6xl font-serif font-medium leading-tight">Social Card Designer</h1>
+            <p className="text-xl text-[#9AA1C0] leading-relaxed font-medium">
+              We are generating high-precision sharing previews. Visit this page on a desktop, screenshot your preferred design, and provide the image link for the permanent <code className="text-[#F4F1E8] bg-white/10 px-1.5 rounded">og:image</code> property.
             </p>
           </div>
 
-          <div className="space-y-32">
+          <div className="space-y-40">
             {options.map((opt) => (
-              <div key={opt.id} className="space-y-8">
-                <div className="space-y-2 text-left">
-                  <h3 className="text-2xl font-bold font-headline">{opt.name}</h3>
-                  <p className="text-sm text-[#9AA1C0] max-w-xl">{opt.desc}</p>
+              <div key={opt.id} className="space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-700">
+                <div className="flex flex-col md:flex-row justify-between items-baseline gap-4 border-b border-white/10 pb-6">
+                  <div className="space-y-2 text-left">
+                    <h3 className="text-2xl font-bold font-serif">{opt.name}</h3>
+                    <p className="text-sm text-[#9AA1C0] max-w-xl">{opt.desc}</p>
+                  </div>
+                  <Badge variant="outline" className="border-[#4FD1C5] text-[#4FD1C5] uppercase font-bold tracking-widest text-[10px]">1200 x 630 px</Badge>
                 </div>
-                <div className="max-w-full overflow-hidden">
+                <div className="max-w-full overflow-hidden rounded-xl shadow-[0_64px_128px_-32px_rgba(0,0,0,0.8)]">
                   {opt.render}
                 </div>
               </div>
             ))}
           </div>
 
-          <div className="p-12 rounded-3xl border-2 border-dashed border-white/10 bg-white/5 text-center space-y-6">
-            <h2 className="text-2xl font-headline font-medium">Production Checklist</h2>
-            <div className="flex flex-wrap justify-center gap-4">
-               {['brand-lab', 'favicon-lab', 'temp-tracker-lab', 'color-palettes', 'social-card-lab', 'v1', 'v2'].map(p => (
-                 <div key={p} className="px-4 py-2 bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-bold uppercase tracking-widest rounded-lg flex items-center gap-2">
-                    Remove: /{p}
+          <section className="p-12 md:p-20 rounded-[48px] border-2 border-dashed border-white/10 bg-white/5 space-y-10">
+            <div className="max-w-2xl mx-auto text-center space-y-6">
+                <h2 className="text-3xl md:text-5xl font-serif font-medium text-white tracking-tight">The API Philosophy</h2>
+                <p className="text-lg text-[#9AA1C0] leading-relaxed">
+                   Utsavs is moving beyond discovery. Our API is the "Global Holiday Intelligence" layer. 
+                   It translates cultural dates into <strong>deterministic operational data</strong> for three primary stakeholders:
+                </p>
+            </div>
+            
+            <div className="grid md:grid-cols-3 gap-8">
+               {[
+                 { t: "HR & People", d: "Automate leave calendars and working-day calculations for global teams." },
+                 { t: "Finance & Fintech", d: "Track regional bank holidays and market closures with source-aware precision." },
+                 { t: "Logistics", d: "Calculate terminal closures and customs availability across multi-country trade lanes." }
+               ].map(card => (
+                 <div key={card.t} className="p-8 bg-[#171D3A] rounded-3xl border border-white/5 space-y-4 text-left">
+                    <div className="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center">
+                       <Zap className="w-5 h-5 text-[#E8A33D]" />
+                    </div>
+                    <h4 className="font-bold text-lg">{card.t}</h4>
+                    <p className="text-sm text-[#9AA1C0] leading-relaxed">{card.d}</p>
                  </div>
                ))}
             </div>
-            <p className="text-sm text-[#9AA1C0] italic">
-              Removing these routes will clean up the sitemap and ensure users only see the production interface.
-            </p>
+          </section>
+
+          <div className="text-center pt-12">
+            <p className="text-[11px] font-bold text-[#6E7495] uppercase tracking-[0.4em] mb-10">End of Designer View</p>
+            <div className="h-px bg-white/5 w-full"></div>
           </div>
         </div>
       </main>
+
       <Footer />
     </div>
   );
