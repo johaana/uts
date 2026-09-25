@@ -129,12 +129,14 @@ export default function ChristmasPage() {
                                             <p className="text-lg font-serif italic">"Joy to the world, the Lord is come! Let earth receive her King..."</p>
                                             <p className="mt-2 text-foreground/80">A jubilant hymn celebrating the arrival of Jesus and the joy he brings to the world.</p>
                                         </CardContent>
-                                    </div>
-                                </TabsContent>
-                            </Tabs>
-                        </CardContent>
-                    </Card>
-                </div>
+                                    </Card>
+                                </div>
+                            </TabsContent>
+                        </Tabs>
+                        <ShareButtons title="Christmas" />
+                    </CardContent>
+                </Card>
             </div>
-        );
+        </div>
+    );
 }

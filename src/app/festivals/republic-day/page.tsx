@@ -1,5 +1,3 @@
-'use client';
-
 import { Card, CardContent } from "@/components/ui/card";
 import { ShareButtons } from "@/components/ShareButtons";
 import { RepublicDayPageContent } from "./RepublicDayPageContent";
@@ -11,7 +9,6 @@ export const metadata = {
 };
 
 export default function RepublicDayPage() {
-
     return (
         <div className="bg-background">
             <div className="container mx-auto px-4 py-12">
