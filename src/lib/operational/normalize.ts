@@ -70,7 +70,7 @@ export function getCanonicalRules(): CanonicalRule[] {
         category: rule.type || 'holiday',
         jurisdiction: { country_code: cc, country_name: COUNTRY_LABELS[cc] || cc, scope: 'national' },
         purpose_relevance: rule.purpose_relevance,
-        temporal_kind: rule.kind === 'dated' ? 'event' : 'recurring',
+        temporal_kind: 'recurring',
         state: rule.status || 'confirmed',
         confidence: rule.confidence || 'unsourced',
         evidence: rule.evidence || { source_name: null, source_url: "" },
