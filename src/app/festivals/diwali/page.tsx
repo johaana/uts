@@ -1,4 +1,3 @@
-
 import type { Metadata } from 'next';
 import { DiwaliPageContent } from './DiwaliPageContent';
 import { Card, CardContent } from '@/components/ui/card';
@@ -7,8 +6,8 @@ import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 import Image from 'next/image';
 
 export const metadata: Metadata = {
-  title: "Diwali 2025: Dates, Lakshmi Puja Muhurat & Best Amazon Deals 🪔",
-  description: "Find the Diwali 2025 dates, Lakshmi Puja timings, and traditions. Explore our curated list of the best deals on diyas, lights, and gifts on Amazon.",
+  title: "Diwali: Know before you plan.",
+  description: "A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.",
 };
 
 const relatedContent: RelatedItem[] = [

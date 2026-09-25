@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -6,6 +5,10 @@ import { ShareButtons } from "@/components/ShareButtons";
 import { RepublicDayPageContent } from "./RepublicDayPageContent";
 import Image from "next/image";
 
+export const metadata = {
+  title: "Republic Day: Know before you plan.",
+  description: "A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.",
+};
 
 export default function RepublicDayPage() {
 

@@ -14,7 +14,7 @@ import {
   ArrowRight,
   ShieldAlert
 } from "lucide-react";
-import Link from 'next/link';
+import Link from 'link';
 import { Button } from "@/components/ui/button";
 
 export default function BuiltForPage() {
@@ -86,9 +86,9 @@ export default function BuiltForPage() {
             
             <div className="space-y-4">
               <div className="text-[12.5px] font-mono text-[#4FD1C5] tracking-widest uppercase">Built For</div>
-              <h1 className="text-4xl md:text-6xl font-headline font-medium leading-tight tracking-tight text-left">Choose the right day for what you are trying to do.</h1>
+              <h1 className="text-4xl md:text-6xl font-headline font-medium leading-tight tracking-tight text-left">Know before you plan. Not after.</h1>
               <p className="text-xl text-[#9AA1C0] leading-relaxed max-w-2xl font-medium">
-                Travel, study, business, workforce and operations can all be affected by the same date in different ways. Utsavs helps you see the practical consequence.
+                A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.
               </p>
             </div>
 

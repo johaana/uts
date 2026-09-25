@@ -1,10 +1,9 @@
-
 import type { Metadata } from 'next';
 import { GaneshChaturthiPageContent } from './GaneshChaturthiPageContent';
 
 export const metadata: Metadata = {
-  title: "Ganesh Chaturthi 2025: Date, Puja Vidhi & Eco-Friendly Murti Ideas 🐘",
-  description: "Get the Ganesh Chaturthi 2025 date and puja vidhi. Discover beautiful, eco-friendly Ganesha idols and complete puja kits available on Amazon.",
+  title: "Ganesh Chaturthi: Know before you plan.",
+  description: "A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.",
 };
 
 export default function GaneshChaturthiPage() {

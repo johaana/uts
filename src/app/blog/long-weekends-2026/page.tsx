@@ -1,4 +1,3 @@
-
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
@@ -14,11 +13,11 @@ const post = {
 };
 
 export const metadata: Metadata = {
-  title: `${post.title} | Utsavs`,
-  description: post.excerpt,
+  title: "Long Weekends 2026: Know before you plan.",
+  description: "A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.",
   openGraph: {
-    title: `${post.title} | Utsavs`,
-    description: post.excerpt,
+    title: `Long Weekends 2026: Know before you plan.`,
+    description: "A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.",
     images: [{ url: post.image, width: 1200, height: 630, alt: post.title }],
     type: 'article',
     publishedTime: new Date('2026-01-01').toISOString(),
@@ -26,8 +25,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: `${post.title} | Utsavs`,
-    description: post.excerpt,
+    title: `Long Weekends 2026: Know before you plan.`,
+    description: "A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.",
     images: [post.image],
   },
 };

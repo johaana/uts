@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -10,6 +9,11 @@ import { ShareButtons } from "@/components/ShareButtons";
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 import { ProductCard } from "@/components/ProductCard";
 import { products } from "@/lib/product-data";
+
+export const metadata = {
+  title: "Diwali 2026: Know before you plan.",
+  description: "A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.",
+};
 
 const post = { 
     title: "Diwali 2026: Your Guide to Lakshmi Puja Muhurat, Rituals, and Decor", 
