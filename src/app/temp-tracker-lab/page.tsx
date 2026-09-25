@@ -23,6 +23,27 @@ const REGIONAL_FACTS: Record<string, any> = {
     type: "Religious Holiday",
     consequence: "Gazetted National Holiday. Mandatory closure for government and banking sectors. Expect significant urban movement impact due to public processions.",
     status: "REGIONAL PLANNING FACT"
+  },
+  JP: {
+    state: "TOKYO",
+    event: "Silver Week Opening",
+    type: "National Holiday",
+    consequence: "Japan Financial Markets (JPX) and banking systems are closed. Reduced operational capacity in Tokyo and Osaka business districts.",
+    status: "MARKET CLOSURE FACT"
+  },
+  US: {
+    state: "FEDERAL",
+    event: "Labor Day (Observed)",
+    type: "National Holiday",
+    consequence: "Federal Government offices and USPS are closed. Trading sessions for NYSE and NASDAQ are suspended.",
+    status: "FEDERAL PLANNING FACT"
+  },
+  SG: {
+    state: "NATIONAL",
+    event: "Deepavali Season",
+    type: "Religious Holiday",
+    consequence: "Regional Bank Holiday. High density activity in Little India district. Public sector operates at reduced capacity.",
+    status: "JURISDICTIONAL FACT"
   }
 };
 
