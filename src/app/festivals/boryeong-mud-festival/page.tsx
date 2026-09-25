@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -6,7 +5,11 @@ import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 import { BoryeongMudFestivalPageContent } from "./BoryeongMudFestivalPageContent";
-import type { Metadata } from 'next';
+
+export const metadata = {
+  title: "Boryeong Mud Festival: Know before you plan.",
+  description: "Boryeong Mud Festival is observed in South Korea from Jul 17, 2026. A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.",
+};
 
 const relatedContent: RelatedItem[] = [
     { slug: "la-tomatina", title: "La Tomatina", image: "https://i.postimg.cc/GhwH7wCz/la-tomatina1.jpg", type: "Festival", link: "/festivals/la-tomatina", hint: "tomato fight" },
@@ -15,16 +18,6 @@ const relatedContent: RelatedItem[] = [
 ];
 
 export default function BoryeongMudFestivalPage() {
-    const metadata: Metadata = {
-        title: "Boryeong Mud Festival | South Korea's Messiest Party | Utsavs",
-        description: "Get ready to get muddy! Discover the story, traditions, and pure, unadulterated fun of the Boryeong Mud Festival in South Korea.",
-        openGraph: {
-            title: "Boryeong Mud Festival | South Korea's Messiest Party | Utsavs",
-            description: "Get ready to get muddy! Discover the story, traditions, and pure, unadulterated fun of the Boryeong Mud Festival in South Korea.",
-            images: [{ url: "https://i.postimg.cc/N0MM9Q6G/boryeong.avif", width: 1200, height: 630, alt: "People covered in mud at the Boryeong Mud Festival" }],
-        },
-    };
-
     return (
         <div className="bg-background">
             <section className="relative h-[50vh] flex items-center justify-center bg-yellow-800/10">

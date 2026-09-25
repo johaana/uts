@@ -10,7 +10,7 @@ import { products } from "@/lib/product-data";
 
 export const metadata: Metadata = {
   title: "Holi: Know before you plan.",
-  description: "A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.",
+  description: "Holi is observed in India on 4 Mar 2026. A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.",
 };
 
 const recipes = [

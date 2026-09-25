@@ -1,10 +1,14 @@
-
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
 import { ShareButtons } from "@/components/ShareButtons";
 import { AkshayaTritiyaPageContent } from "./AkshayaTritiyaPageContent";
 import Image from "next/image";
+
+export const metadata = {
+  title: "Akshaya Tritiya: Know before you plan.",
+  description: "Akshaya Tritiya is observed in India on 10 Apr 2026. A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.",
+};
 
 export default function AkshayaTritiyaPage() {
     return (

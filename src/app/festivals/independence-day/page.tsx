@@ -1,9 +1,13 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BookOpen, Sparkles, Flag } from "lucide-react";
 import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
+
+export const metadata = {
+  title: "Independence Day: Know before you plan.",
+  description: "Independence Day is observed in India on 15 Aug 2026. A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.",
+};
 
 export default function IndependenceDayPage() {
     return (

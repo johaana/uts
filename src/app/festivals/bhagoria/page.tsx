@@ -1,9 +1,13 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BookOpen, Sparkles, Heart } from "lucide-react";
 import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
+
+export const metadata = {
+  title: "Bhagoria: Know before you plan.",
+  description: "Bhagoria is observed in India from Feb 25, 2026. A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.",
+};
 
 export default function BhagoriaPage() {
     return (

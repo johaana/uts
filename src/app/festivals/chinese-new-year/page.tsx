@@ -1,10 +1,9 @@
-
 import type { Metadata } from 'next';
 import { ChineseNewYearPageContent } from './ChineseNewYearPageContent';
 
 export const metadata: Metadata = {
-  title: "Chinese New Year 2025: Dates, Traditions & The Year of the Snake 🐲",
-  description: "Discover the dates and traditions for Chinese New Year 2025. Explore the story of the Spring Festival and find out what The Year of the Snake has in store.",
+  title: "Chinese New Year: Know before you plan.",
+  description: "Chinese New Year is observed in China on 17 Feb 2026. A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.",
 };
 
 export default function ChineseNewYearPage() {

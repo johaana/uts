@@ -1,4 +1,3 @@
-
 import { Card, CardContent } from "@/components/ui/card";
 import { BookOpen, Utensils, Sparkles, MessageSquareQuote } from "lucide-react";
 import Link from "next/link";
@@ -6,6 +5,11 @@ import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
 import { ProductCard } from "@/components/ProductCard";
 import { products } from "@/lib/product-data";
+
+export const metadata = {
+  title: "Eid al-Fitr: Know before you plan.",
+  description: "Eid al-Fitr is observed in Various Countries on 20 Mar 2026. A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.",
+};
 
 const recipes = [
     { name: "Sheer Khurma", link: "/recipes/sheer-khurma" },

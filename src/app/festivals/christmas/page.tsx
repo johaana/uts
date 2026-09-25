@@ -1,5 +1,3 @@
-
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CheckCircle, BookOpen, Utensils, Sparkles, MessageSquareQuote } from "lucide-react";
@@ -8,6 +6,11 @@ import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
 import { ProductCard } from "@/components/ProductCard";
 import { products } from "@/lib/product-data";
+
+export const metadata = {
+  title: "Christmas: Know before you plan.",
+  description: "Christmas is observed in Various Countries on 25 Dec 2026. A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.",
+};
 
 const recipes = [
     { name: "Christmas Cake", link: "/recipes/christmas-cake" },
@@ -126,16 +129,12 @@ export default function ChristmasPage() {
                                             <p className="text-lg font-serif italic">"Joy to the world, the Lord is come! Let earth receive her King..."</p>
                                             <p className="mt-2 text-foreground/80">A jubilant hymn celebrating the arrival of Jesus and the joy he brings to the world.</p>
                                         </CardContent>
-                                    </Card>
-                                </div>
-                            </TabsContent>
-                        </Tabs>
-                        <ShareButtons title="Christmas" />
-                    </CardContent>
-                </Card>
+                                    </div>
+                                </TabsContent>
+                            </Tabs>
+                        </CardContent>
+                    </Card>
+                </div>
             </div>
-        </div>
-    );
+        );
 }
-
-    

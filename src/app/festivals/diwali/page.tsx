@@ -7,7 +7,7 @@ import Image from 'next/image';
 
 export const metadata: Metadata = {
   title: "Diwali: Know before you plan.",
-  description: "A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.",
+  description: "Diwali is observed in India on 8 Nov 2026. A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.",
 };
 
 const relatedContent: RelatedItem[] = [

@@ -1,7 +1,7 @@
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowLeft, CheckCircle, Gift, Lightbulb, Sparkles } from "lucide-react";
+import { ArrowLeft, Gift, Lightbulb, Sparkles } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
@@ -12,7 +12,7 @@ import { products } from "@/lib/product-data";
 
 export const metadata = {
   title: "Diwali 2026: Know before you plan.",
-  description: "A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.",
+  description: "Diwali is observed in India on 29 Oct 2026. A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.",
 };
 
 const post = { 

@@ -1,10 +1,14 @@
-
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
 import { ArattupuzhaPooramPageContent } from "./ArattupuzhaPooramPageContent";
+
+export const metadata = {
+  title: "Arattupuzha Pooram: Know before you plan.",
+  description: "Arattupuzha Pooram is observed in India on Mar 31, 2026. A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.",
+};
 
 export default function ArattupuzhaPooramPage() {
     return (

@@ -1,9 +1,13 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BookOpen, Sparkles, MessageSquareQuote } from "lucide-react";
 import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
+
+export const metadata = {
+  title: "Gandhi Jayanti: Know before you plan.",
+  description: "Gandhi Jayanti is observed in India on 2 Oct 2026. A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.",
+};
 
 export default function GandhiJayantiPage() {
     return (

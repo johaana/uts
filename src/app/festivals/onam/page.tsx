@@ -1,10 +1,9 @@
-
 import type { Metadata } from 'next';
 import { OnamPageContent } from './OnamPageContent';
 
 export const metadata: Metadata = {
-  title: "Onam 2025: Kerala's Harvest Festival Dates & Traditions 🌸",
-  description: "Find the Onam 2025 dates and explore the rich traditions of Kerala's harvest festival. Discover ideas for Pookalam, Sadya, and traditional attire on Amazon.",
+  title: "Onam: Know before you plan.",
+  description: "Onam is observed in India from 26 Aug 2026. A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.",
 };
 
 export default function OnamPage() {

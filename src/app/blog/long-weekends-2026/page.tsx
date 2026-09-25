@@ -6,19 +6,13 @@ import { Button } from "@/components/ui/button";
 import { ShareButtons } from "@/components/ShareButtons";
 import type { Metadata } from 'next';
 
-const post = {
-    title: "The 2026 Long Weekend Cheatsheet: Turn 8 Days Off Into 35 Days of Travel",
-    image: "https://i.postimg.cc/VLQf0kKF/long-weekend-1.jpg",
-    excerpt: "Unlock your 2026 travel potential! This guide details all the long weekends in India, offering festival-based travel ideas to help you plan your holidays and make the most of every break."
-};
-
 export const metadata: Metadata = {
   title: "Long Weekends 2026: Know before you plan.",
-  description: "A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.",
+  description: "Long Weekends 2026 are observed in India on Various dates. A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.",
   openGraph: {
     title: `Long Weekends 2026: Know before you plan.`,
-    description: "A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.",
-    images: [{ url: post.image, width: 1200, height: 630, alt: post.title }],
+    description: "Long Weekends 2026 are observed in India on Various dates. A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.",
+    images: [{ url: "https://i.postimg.cc/VLQf0kKF/long-weekend-1.jpg", width: 1200, height: 630, alt: "Long Weekends 2026" }],
     type: 'article',
     publishedTime: new Date('2026-01-01').toISOString(),
     authors: ['Utsavs'],
@@ -26,8 +20,8 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: `Long Weekends 2026: Know before you plan.`,
-    description: "A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.",
-    images: [post.image],
+    description: "Long Weekends 2026 are observed in India on Various dates. A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.",
+    images: ["https://i.postimg.cc/VLQf0kKF/long-weekend-1.jpg"],
   },
 };
 
@@ -48,7 +42,7 @@ export default function SingleBlogPage() {
                     <article className="prose max-w-none text-foreground/80">
                          <div className="text-center mb-8">
                             <p className="text-sm text-muted-foreground">By Team Utsavs on January 01, 2026</p>
-                            <h1 className="font-headline text-4xl font-bold text-primary mt-2">{post.title}</h1>
+                            <h1 className="font-headline text-4xl font-bold text-primary mt-2">The 2026 Long Weekend Cheatsheet: Turn 8 Days Off Into 35 Days of Travel</h1>
                         </div>
 
                         <p>The year 2026 is a treasure trove for savvy travelers, packed with numerous long weekends just waiting to be claimed. By strategically planning your leaves around India's rich calendar of festivals and holidays, you can transform a few days off into a truly memorable escape. This is your ultimate 2026 long weekend planner, designed to help you maximize your vacation time and immerse yourself in the cultural heartbeat of India. Get ready to pack your bags and explore!</p>
@@ -104,7 +98,7 @@ export default function SingleBlogPage() {
                         <strong>Travel Idea:</strong> Head to Mumbai or Pune to witness the grand and vibrant <Link href="/festivals/ganesh-chaturthi" className="text-accent">Ganesh Chaturthi</Link> festivities.</p>
                         
                         <h3>October: The Ultimate Festival Month</h3>
-                         <p><strong>The Weekend:</strong> October 2 (Friday) to October 4 (Sunday).<br/>
+                         <p><strong>The Weekend:</strong> October 2 (Friday) to October 04 (Sunday).<br/>
                         <strong>Holidays:</strong> Gandhi Jayanti (Oct 2, Friday).<br/>
                         <strong>Plan:</strong> A guaranteed 3-day weekend. <br/>
                         <strong>Travel Idea:</strong> A perfect time for a quick trip to reflect and relax.</p>
@@ -128,7 +122,7 @@ export default function SingleBlogPage() {
                         
                         <p>With a little planning, 2026 can be your most travel-filled year yet. Use this guide to chart your adventures, book your tickets early, and get ready to create lasting memories. Happy travels!</p>
                     </article>
-                    <ShareButtons title={post.title} />
+                    <ShareButtons title="The 2026 Long Weekend Cheatsheet" />
                 </CardContent>
             </Card>
         </div>

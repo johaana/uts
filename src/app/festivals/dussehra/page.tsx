@@ -1,13 +1,16 @@
-
 'use client';
 
-import type { Metadata } from 'next';
-import { DussehraPageContent } from './DussehraPageContent';
+import { Card, CardContent } from "@/components/ui/card";
 import { ShareButtons } from "@/components/ShareButtons";
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
-import { Card, CardContent } from "@/components/ui/card";
 import { BookOpen, Sparkles, MessageSquareQuote } from "lucide-react";
 import Image from 'next/image';
+import { DussehraPageContent } from './DussehraPageContent';
+
+export const metadata = {
+  title: "Dussehra: Know before you plan.",
+  description: "Dussehra is observed in India on 20 Oct 2026. A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.",
+};
 
 const relatedContent: RelatedItem[] = [
     {

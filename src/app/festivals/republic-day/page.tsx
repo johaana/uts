@@ -7,7 +7,7 @@ import Image from "next/image";
 
 export const metadata = {
   title: "Republic Day: Know before you plan.",
-  description: "A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.",
+  description: "Republic Day is observed in India on 26 Jan 2026. A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.",
 };
 
 export default function RepublicDayPage() {

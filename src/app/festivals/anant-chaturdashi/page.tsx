@@ -1,10 +1,14 @@
-
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
 import { ShareButtons } from "@/components/ShareButtons";
 import { AnantChaturdashiPageContent } from "./AnantChaturdashiPageContent";
 import Image from "next/image";
+
+export const metadata = {
+  title: "Anant Chaturdashi: Know before you plan.",
+  description: "Anant Chaturdashi is observed in India on 25 Sep 2026. A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.",
+};
 
 export default function AnantChaturdashiPage() {
     return (

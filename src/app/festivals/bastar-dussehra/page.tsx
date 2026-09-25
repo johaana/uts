@@ -1,10 +1,13 @@
-
-
 'use client';
 import { Card, CardContent } from "@/components/ui/card";
 import { ShareButtons } from "@/components/ShareButtons";
 import { BastarDussehraPageContent } from "./BastarDussehraPageContent";
 import Image from "next/image";
+
+export const metadata = {
+  title: "Bastar Dussehra: Know before you plan.",
+  description: "Bastar Dussehra is observed in India from 20 Oct 2026. A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.",
+};
 
 export default function BastarDussehraPage() {
     return (
