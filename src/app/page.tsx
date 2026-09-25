@@ -356,7 +356,7 @@ export default function HomePage() {
 
                   <div className="hero-tracker-next-grid">
                     <div className="hero-tracker-next-card">
-                      <span className="next-card-kicker">Global</span>
+                      <span className="next-card-kicker">Worldwide today</span>
                       <span className="next-card-name" id="pulse-global-name">{globalNext?.primary || "No upcoming national record"}</span>
                       {globalNext?.others.map((other, i) => (
                         <span key={i} className="block text-[12px] font-medium text-paper/80 mt-1">
@@ -375,7 +375,7 @@ export default function HomePage() {
                     </div>
                     <div className="hero-tracker-next-card">
                       <span className="next-card-kicker" id="pulse-regional-kicker">
-                        {regionalNext?.scope ? (regionalNext.scope.charAt(0).toUpperCase() + regionalNext.scope.slice(1)) : 'Regional'} · {COUNTRY_LABELS[country] || country}
+                        Next for {COUNTRY_LABELS[country] || country}
                       </span>
                       <span className="next-card-name" id="pulse-regional-name">{regionalNext?.name || "Clear window"}</span>
                       <span className="next-card-date" id="pulse-regional-date">
@@ -389,6 +389,9 @@ export default function HomePage() {
                       </span>
                     </div>
                   </div>
+                  <p className="text-[11px] text-[#6E7495] mt-2 px-4">
+                    "Next for" updates automatically when you change the destination above.
+                  </p>
 
                   <div className="hero-tracker-feed">
                     <div className="marquee" aria-live="polite">

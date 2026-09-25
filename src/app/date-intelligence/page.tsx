@@ -19,13 +19,7 @@ import { OperationalResultCard } from '@/components/operational/OperationalResul
 import { COUNTRY_LABELS } from '@/lib/calendar-intelligence';
 
 const LENS_LABELS = {
-  all: "All intelligence",
-  government: "Government",
-  banking: "Banking",
-  markets: "Markets",
-  embassy: "Embassy",
-  trade: "Trade & logistics",
-  travel: "Travel"
+  all: "All intelligence"
 };
 
 export default function DateIntelligencePage() {
