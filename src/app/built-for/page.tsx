@@ -134,12 +134,12 @@ export default function BuiltForPage() {
             <section className="py-16 border-y border-white/10 text-center space-y-8">
                <h2 className="text-3xl font-headline font-medium">Ready to understand your dates?</h2>
                <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <Link href="/date-intelligence">
+                  <Link href="/date-intelligence" asChild>
                     <Button className="bg-[#E8A33D] text-[#0F1428] hover:bg-[#F0C888] font-bold px-10 h-14 rounded-full">
                       Start Planning Now <ArrowRight className="ml-2 w-4 h-4" />
                     </Button>
                   </Link>
-                  <Link href="/api">
+                  <Link href="/api" asChild>
                     <Button variant="ghost" className="px-10 h-14 font-bold border border-white/10 rounded-full">
                       Explore the API →
                     </Button>

@@ -1,5 +1,9 @@
 import { ImageResponse } from 'next/og'
 
+// Route segment config
+export const runtime = 'edge'
+
+// Image metadata
 export const alt = 'Utsavs: Know before you plan. Not after.'
 export const size = {
   width: 1200,
@@ -7,9 +11,11 @@ export const size = {
 }
 export const contentType = 'image/png'
 
+// Image generation
 export default function Image() {
   return new ImageResponse(
     (
+      // ImageResponse render element
       <div
         style={{
           background: '#0F1428',
@@ -17,126 +23,108 @@ export default function Image() {
           height: '100%',
           display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'center',
-          padding: '80px',
-          color: '#F4F1E8',
+          position: 'relative',
         }}
       >
-        <div
+        {/* Background Image */}
+        <img
+          src="https://i.postimg.cc/05BfryHW/d747e23cb49deff051147f1657027da2.jpg"
+          width="1200"
+          height="630"
           style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '0',
-            marginBottom: '40px',
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            objectFit: 'cover',
           }}
-        >
-          <h1
-            style={{
-              fontSize: '84px',
-              fontFamily: 'serif',
-              fontWeight: '600',
-              lineHeight: '1.05',
-              margin: '0',
-              letterSpacing: '-0.02em',
-            }}
-          >
-            Know before you plan.
-          </h1>
-          <h1
-            style={{
-              fontSize: '84px',
-              fontFamily: 'serif',
-              fontWeight: '600',
-              lineHeight: '1.05',
-              margin: '0',
-              letterSpacing: '-0.02em',
-            }}
-          >
-            Not after.
-          </h1>
-        </div>
-        <p
-          style={{
-            fontSize: '32px',
-            fontFamily: 'sans-serif',
-            color: '#9AA1C0',
-            lineHeight: '1.4',
-            maxWidth: '900px',
-            margin: '0',
-          }}
-        >
-          A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.
-        </p>
+        />
         
-        {/* Utsavs Wordmark */}
+        {/* Subtle Vignette Overlay */}
         <div
           style={{
             position: 'absolute',
-            bottom: '60px',
-            left: '80px',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'flex-start',
-            gap: '2px',
+            inset: 0,
+            background: 'linear-gradient(to bottom, rgba(15, 20, 40, 0.2), rgba(15, 20, 40, 0.8))',
           }}
-        >
-          <span
-            style={{
-              fontSize: '32px',
-              fontFamily: 'serif',
-              color: '#F4F1E8',
-              fontWeight: '600',
-              letterSpacing: '0.01em',
-            }}
-          >
-            Utsavs
-          </span>
-          <span
-            style={{
-              fontSize: '14px',
-              fontFamily: 'serif',
-              fontStyle: 'italic',
-              color: '#9AA1C0',
-              fontWeight: '400',
-            }}
-          >
-            from occasion to impact
-          </span>
-        </div>
+        />
 
+        {/* Branding Bar at the bottom */}
         <div
           style={{
             position: 'absolute',
-            bottom: '60px',
-            right: '80px',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: '180px',
+            background: 'linear-gradient(to bottom, transparent, #0F1428)',
             display: 'flex',
-            alignItems: 'center',
-            gap: '12px',
+            alignItems: 'flex-end',
+            padding: '40px 60px',
+            justifyContent: 'space-between',
           }}
         >
           <div
             style={{
-              width: '12px',
-              height: '12px',
-              borderRadius: '50%',
-              background: '#E8A33D',
-            }}
-          />
-          <span
-            style={{
-              fontSize: '18px',
-              fontFamily: 'monospace',
-              color: '#E8A33D',
-              fontWeight: 'bold',
-              letterSpacing: '0.2em',
-              textTransform: 'uppercase',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '4px',
             }}
           >
-            GLOBAL HOLIDAY INTELLIGENCE
-          </span>
+            <span
+              style={{
+                fontSize: '48px',
+                fontFamily: 'serif',
+                color: '#F4F1E8',
+                fontWeight: 'bold',
+                letterSpacing: '-0.02em',
+              }}
+            >
+              Utsavs
+            </span>
+            <span
+              style={{
+                fontSize: '18px',
+                fontFamily: 'serif',
+                fontStyle: 'italic',
+                color: '#9AA1C0',
+              }}
+            >
+              from occasion to impact
+            </span>
+          </div>
+
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '12px',
+              marginBottom: '10px',
+            }}
+          >
+            <div
+              style={{
+                width: '12px',
+                height: '12px',
+                borderRadius: '50%',
+                background: '#E8A33D',
+              }}
+            />
+            <span
+              style={{
+                fontSize: '18px',
+                fontWeight: 'bold',
+                color: '#E8A33D',
+                letterSpacing: '0.2em',
+                textTransform: 'uppercase',
+              }}
+            >
+              GLOBAL HOLIDAY INTELLIGENCE
+            </span>
+          </div>
         </div>
       </div>
     ),
+    // ImageResponse options
     {
       ...size,
     }
