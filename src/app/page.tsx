@@ -375,7 +375,7 @@ export default function HomePage() {
                     </div>
                     <div className="hero-tracker-next-card">
                       <span className="next-card-kicker" id="pulse-regional-kicker">
-                        Next for {COUNTRY_LABELS[country] || country}
+                        Next for {COUNTRY_LABELS[country] || country} · Updates automatically with your selected destination.
                       </span>
                       <span className="next-card-name" id="pulse-regional-name">{regionalNext?.name || "Clear window"}</span>
                       <span className="next-card-date" id="pulse-regional-date">
@@ -389,10 +389,6 @@ export default function HomePage() {
                       </span>
                     </div>
                   </div>
-                  <p className="text-[11px] text-paper/50 mt-2 px-[18px]">
-                    Updates automatically with your selected destination.
-                  </p>
-
                   <div className="hero-tracker-feed">
                     <div className="marquee" aria-live="polite">
                       <div className="marquee-track" id="pulse-marquee-track">
