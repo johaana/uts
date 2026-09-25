@@ -23,11 +23,11 @@ const plexMono = IBM_Plex_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:9002'),
-  title: "Know before you fly. Know before you schedule.",
-  description: "A date is more than a date. Know what’s happening before you travel, schedule, study or work across borders. Verified, source-aware global holiday intelligence.",
+  title: "Know before you plan. Not after.",
+  description: "A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.",
   openGraph: {
-    title: "Know before you fly. Know before you schedule.",
-    description: "A date is more than a date. Know what’s happening before you travel, schedule, study or work across borders. Verified, source-aware global holiday intelligence.",
+    title: "Know before you plan. Not after.",
+    description: "A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.",
     type: 'website',
   }
 };
