@@ -22,6 +22,7 @@ const plexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:9002'),
   title: "Utsavs: Global Holiday Intelligence",
   description: "Understand the world's calendar. Structured, verified intelligence for holidays, festivals and observances.",
 };
