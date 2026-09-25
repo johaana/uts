@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { Button } from './ui/button';
+import { MessageSquare } from 'lucide-react';
 
 const navLinks = [
   { href: "/date-intelligence", label: "Date Intelligence" },
@@ -18,13 +19,13 @@ export function MobileNav({ setOpen }: { setOpen: (open: boolean) => void }) {
 
   return (
     <div className="flex flex-col h-full bg-background">
-      <div className="p-6 border-b">
+      <div className="p-6 border-b text-left">
         <Link href="/" className="logo" onClick={() => setOpen(false)}>
             Utsavs
             <span>from occasion to impact</span>
         </Link>
       </div>
-      <nav className="flex flex-col p-6 space-y-6">
+      <nav className="flex flex-col p-6 space-y-6 text-left">
         {navLinks.map((link) => (
           <Link
             key={link.href}
@@ -42,8 +43,10 @@ export function MobileNav({ setOpen }: { setOpen: (open: boolean) => void }) {
         ))}
       </nav>
       <div className="mt-auto p-6 border-t bg-muted/10">
-        <a href="mailto:joy@utsavs.com">
-          <Button className="w-full font-bold">Contact Us</Button>
+        <a href="https://wa.me/919860997711" target="_blank" rel="noopener noreferrer">
+          <Button className="w-full font-bold h-12 rounded-full bg-[#E8A33D] text-[#0F1428] hover:bg-[#F0C888]">
+            <MessageSquare className="w-4 h-4 mr-2" /> WhatsApp Us
+          </Button>
         </a>
       </div>
     </div>

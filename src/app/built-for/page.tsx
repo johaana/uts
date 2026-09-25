@@ -12,9 +12,11 @@ import {
   Landmark,
   ShieldCheck,
   ChevronRight,
-  ArrowRight
+  ArrowRight,
+  ShieldAlert
 } from "lucide-react";
 import Link from 'next/link';
+import { Button } from "@/components/ui/button";
 
 export default function BuiltForPage() {
   const useCases = [
@@ -107,7 +109,7 @@ export default function BuiltForPage() {
                     <p className="text-[15px] text-[#9AA1C0] leading-relaxed font-medium">
                       {uc.description}
                     </p>
-                    <ul className="space-y-3 pt-4 border-t border-white/5">
+                    <ul className="space-y-3 pt-4 border-t border-white/5 text-left">
                        {uc.benefits.map((benefit, j) => (
                          <li key={j} className="flex items-start gap-3 text-sm text-[#F4F1E8] font-medium leading-snug">
                             <ChevronRight className="w-4 h-4 text-[#4FD1C5] shrink-0 mt-0.5" />
@@ -118,6 +120,16 @@ export default function BuiltForPage() {
                   </CardContent>
                 </Card>
               ))}
+            </div>
+
+            <div className="p-8 md:p-12 rounded-3xl border border-white/10 bg-white/5 space-y-6 text-center">
+                <ShieldAlert className="w-8 h-8 text-[#4FD1C5] mx-auto" />
+                <h2 className="text-2xl font-headline font-medium">Deterministic Intelligence</h2>
+                <p className="text-sm text-[#9AA1C0] leading-relaxed max-w-2xl mx-auto font-medium">
+                  Unlike probabilistic AI models, Utsavs provides deterministic data. Every record is verified 
+                  against authoritative sources, making it safe for enterprise-level risk assessment and internal 
+                  workforce scheduling without the risk of hallucinations or data leakage.
+                </p>
             </div>
 
             <section className="py-16 border-y border-white/10 text-center space-y-8">

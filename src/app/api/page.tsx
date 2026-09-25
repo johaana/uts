@@ -13,7 +13,9 @@ import {
   Layers, 
   Globe,
   ArrowRight,
-  Server
+  Server,
+  ShieldAlert,
+  MessageSquare
 } from "lucide-react";
 import Link from 'next/link';
 
@@ -45,8 +47,10 @@ export default function ApiPage() {
                     Use Utsavs programmatically when your product, workflow or operation needs calendar intelligence at scale.
                   </p>
                   <div className="pt-4 flex gap-4">
-                    <Button className="bg-[#E8A33D] text-[#0F1428] hover:bg-[#F0C888] font-bold px-8 h-12 rounded-full shadow-lg">Join API Preview</Button>
-                    <a href="mailto:api@utsavs.com">
+                    <a href="https://wa.me/919860997711" target="_blank" rel="noopener noreferrer">
+                      <Button className="bg-[#E8A33D] text-[#0F1428] hover:bg-[#F0C888] font-bold px-8 h-12 rounded-full shadow-lg">Chat for API Preview</Button>
+                    </a>
+                    <a href="https://wa.me/919860997711" target="_blank" rel="noopener noreferrer">
                       <Button variant="ghost" className="border border-white/10 hover:bg-white/5 font-bold px-8 h-12 rounded-full">Contact Support</Button>
                     </a>
                   </div>
@@ -67,7 +71,7 @@ export default function ApiPage() {
                  { title: "Origin → Destination", desc: "Identify mismatches between working calendars across borders automatically.", icon: Globe },
                  { title: "Change Intelligence", desc: "Track official date changes and late government announcements in real-time.", icon: Server }
                ].map(item => (
-                 <div key={item.title} className="space-y-4">
+                 <div key={item.title} className="space-y-4 text-left">
                     <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center text-[#E8A33D]">
                       <item.icon className="w-5 h-5" />
                     </div>
@@ -103,12 +107,28 @@ export default function ApiPage() {
                       <p className="text-[10px] font-bold uppercase tracking-widest text-[#4FD1C5]">Update Frequency</p>
                       <p className="text-2xl font-headline font-bold">Real-time Analysis</p>
                     </div>
-                    <Link href="mailto:joy@utsavs.com?subject=Enterprise API Inquiry">
-                      <Button className="w-full mt-4 bg-[#4FD1C5] text-[#0F1428] hover:bg-[#F4F1E8] font-bold h-12 rounded-full">Contact Enterprise Sales</Button>
-                    </Link>
+                    <a href="https://wa.me/919860997711" target="_blank" rel="noopener noreferrer" className="block w-full mt-4">
+                      <Button className="w-full bg-[#4FD1C5] text-[#0F1428] hover:bg-[#F4F1E8] font-bold h-12 rounded-full">
+                        <MessageSquare className="w-4 h-4 mr-2" /> WhatsApp Enterprise Sales
+                      </Button>
+                    </a>
                   </div>
                </div>
             </Card>
+
+            <div className="p-8 md:p-12 rounded-3xl border-2 border-dashed border-white/10 bg-[#E8A33D]/5 space-y-6 text-center">
+                <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#E8A33D]/10 border border-[#E8A33D]/20 rounded-full mb-2">
+                  <ShieldAlert className="w-4 h-4 text-[#E8A33D]" />
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-[#E8A33D]">Zero-AI Deterministic Data</span>
+                </div>
+                <h2 className="text-2xl md:text-3xl font-headline font-medium">Safe for secure risk workflows.</h2>
+                <p className="text-sm text-[#9AA1C0] leading-relaxed max-w-2xl mx-auto font-medium">
+                  Utsavs is engineered for absolute reliability. Our platform uses verified source data with 
+                  <strong> zero probabilistic AI models</strong>, ensuring no data leakage and no hallucinations. 
+                  This makes our intelligence suitable for secure internal enterprise scheduling, compliance, 
+                  and high-stakes operational risk workflows.
+                </p>
+            </div>
 
           </div>
         </div>

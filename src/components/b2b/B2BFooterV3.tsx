@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { MessageSquare } from 'lucide-react';
 
 export function B2BFooterV3() {
   return (
@@ -35,8 +36,10 @@ export function B2BFooterV3() {
             </div>
 
             <div className="lg:col-span-4 space-y-6 lg:text-right text-left">
-                <p className="text-[11px] font-bold text-[#6D6870] uppercase tracking-[0.2em] font-ui">Contact</p>
-                <p className="text-lg font-display font-bold">joy@utsavs.com</p>
+                <p className="text-[11px] font-bold text-[#6D6870] uppercase tracking-[0.2em] font-ui">Inquiries</p>
+                <a href="https://wa.me/919860997711" target="_blank" rel="noopener noreferrer" className="flex items-center lg:justify-end gap-2 text-lg font-display font-bold hover:text-[#E94368] transition-colors">
+                  <MessageSquare className="w-5 h-5 text-[#E94368]" /> +91 9860997711
+                </a>
             </div>
         </div>
         

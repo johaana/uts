@@ -14,7 +14,7 @@ import {
   ShieldAlert,
   Users2,
   Handshake,
-  Mail
+  MessageSquare
 } from "lucide-react";
 import Link from 'next/link';
 
@@ -34,15 +34,15 @@ export default function TravelInsurancePage() {
                 Utsavs helps you plan around dates, calendars and other things you can anticipate. Protection can help with the unexpected.
               </p>
               <div className="pt-4 flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="mailto:joy@utsavs.com?subject=Travel Protection Inquiry">
+                <a href="https://wa.me/919860997711" target="_blank" rel="noopener noreferrer">
                   <Button className="bg-[#E8A33D] text-[#0F1428] hover:bg-[#F0C888] font-bold px-12 h-16 rounded-full shadow-2xl transition-transform hover:scale-105">
-                    Get in touch with us <ArrowRight className="ml-2 w-4 h-4" />
+                    <MessageSquare className="w-5 h-5 mr-2" /> WhatsApp Our Team <ArrowRight className="ml-2 w-4 h-4" />
                   </Button>
                 </a>
               </div>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-px bg-white/10 border border-white/10 rounded-2xl overflow-hidden shadow-xl">
+            <div className="grid md:grid-cols-2 gap-px bg-white/10 border border-white/10 rounded-2xl overflow-hidden shadow-xl text-left">
                <div className="bg-[#171D3A] p-10 space-y-6 border-b md:border-b-0 md:border-r border-white/10">
                   <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#E8A33D]">FOR USERS</span>
                   <h3 className="text-2xl font-headline font-medium">Personal Protection</h3>
