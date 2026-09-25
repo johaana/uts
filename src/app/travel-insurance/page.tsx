@@ -82,11 +82,11 @@ export default function TravelInsurancePage() {
                 <div className="w-1.5 h-1.5 rounded-full bg-[#4FD1C5] animate-pulse"></div>
                 <span className="text-[10px] font-bold uppercase tracking-widest text-[#4FD1C5]">Verified Assistance Network</span>
               </div>
-              <h1 className="text-3xl md:text-5xl font-headline font-medium leading-tight tracking-tight">
+              <h1 className="text-2xl md:text-4xl font-headline font-medium leading-tight tracking-tight">
                 Plan for what you can predict. <br/>
                 <span className="italic text-[#9AA1C0]">Protect against what you can't.</span>
               </h1>
-              <p className="text-xl text-[#9AA1C0] leading-relaxed max-w-2xl mx-auto font-medium">
+              <p className="text-lg text-[#9AA1C0] leading-relaxed max-w-2xl mx-auto font-medium">
                 Utsavs provides the date intelligence to plan your journey. We facilitate access to global networks to provide the assistance to protect it.
               </p>
               <div className="pt-6">
@@ -190,16 +190,18 @@ export default function TravelInsurancePage() {
 
             {/* MANDATORY DISCLOSURE */}
             <div className="p-10 rounded-3xl border-2 border-dashed border-white/10 bg-white/5 space-y-6 text-left">
-              <h2 className="font-headline text-2xl font-medium flex items-center gap-3 text-foreground tracking-tight">
+              <h2 className="font-headline text-2xl font-medium flex items-center gap-3 text-paper tracking-tight">
                 <ShieldAlert className="w-6 h-6 text-[#E8A33D]" />
                 Regulatory Disclosure
               </h2>
               <div className="space-y-4 text-xs text-[#9AA1C0] leading-relaxed font-medium">
-                <p>Assistance services are provided by Asego Global Assistance Private Limited.</p>
-                <p>Insurance is underwritten by an IRDAI authorised underwriter and is a subject matter of solicitation.</p>
-                <p>All Insurance policies are sold under the Corporate Agency of Asego Global Assistance Private Limited bearing IRDAI registration no. Ca0776. Content is for information purposes and does not accept liability unless confirmed by an authorized representative.</p>
+                <div className="space-y-1">
+                  <p>Assistance services are provided by Asego Global Assistance Private Limited.</p>
+                  <p>Insurance is underwritten by an IRDAI authorised underwriter and is a subject matter of solicitation.</p>
+                </div>
+                <p>The content expressed in this platform is for information purpose only and it does not accept any liability of any sort unless confirmed by an authorized representative. All Insurance policies are sold under the Corporate Agency of Asego Global Assistance Private Limited bearing IRDAI registration no. Ca0776.</p>
                 <div className="h-px bg-white/10 w-full" />
-                <p className="italic text-[#6E7495]">Note: Assistance provided by Asego Travel LLP. Student Journey plans meet leading U.S. university and visa requirements for F1, J1, and M1 students.</p>
+                <p className="italic text-[#6E7495]">Note: Assistance provided by Asego Travel LLP. Student Journey plans meet leading U.S. university and visa requirements for F1, J1, and M1 students. Insurance underwritten by an IRDAI authorised underwriter – ICICI Lombard General Insurance Company Ltd or International Medical Group Inc. (IMG).</p>
               </div>
             </div>
 
