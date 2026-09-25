@@ -67,11 +67,48 @@ export default function Image() {
         >
           A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.
         </p>
+        
+        {/* Utsavs Wordmark */}
         <div
           style={{
             position: 'absolute',
             bottom: '60px',
             left: '80px',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'flex-start',
+            gap: '2px',
+          }}
+        >
+          <span
+            style={{
+              fontSize: '32px',
+              fontFamily: 'serif',
+              color: '#F4F1E8',
+              fontWeight: '600',
+              letterSpacing: '0.01em',
+            }}
+          >
+            Utsavs
+          </span>
+          <span
+            style={{
+              fontSize: '14px',
+              fontFamily: 'serif',
+              fontStyle: 'italic',
+              color: '#9AA1C0',
+              fontWeight: '400',
+            }}
+          >
+            from occasion to impact
+          </span>
+        </div>
+
+        <div
+          style={{
+            position: 'absolute',
+            bottom: '60px',
+            right: '80px',
             display: 'flex',
             alignItems: 'center',
             gap: '12px',
@@ -95,7 +132,7 @@ export default function Image() {
               textTransform: 'uppercase',
             }}
           >
-            Utsavs Global Holiday Intelligence
+            GLOBAL HOLIDAY INTELLIGENCE
           </span>
         </div>
       </div>
