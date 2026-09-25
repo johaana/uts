@@ -82,7 +82,7 @@ export default function TravelInsurancePage() {
                 <div className="w-1.5 h-1.5 rounded-full bg-[#4FD1C5] animate-pulse"></div>
                 <span className="text-[10px] font-bold uppercase tracking-widest text-[#4FD1C5]">Verified Assistance Network</span>
               </div>
-              <h1 className="text-4xl md:text-7xl font-headline font-medium leading-tight tracking-tight">
+              <h1 className="text-3xl md:text-5xl font-headline font-medium leading-tight tracking-tight">
                 Plan for what you can predict. <br/>
                 <span className="italic text-[#9AA1C0]">Protect against what you can't.</span>
               </h1>
