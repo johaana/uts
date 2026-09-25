@@ -1,9 +1,12 @@
-
-'use client';
 import { Card, CardContent } from "@/components/ui/card";
 import { ShareButtons } from "@/components/ShareButtons";
 import { HolaMohallaPageContent } from "./HolaMohallaPageContent";
 import Image from "next/image";
+
+export const metadata = {
+  title: "Hola Mohalla: Know before you plan.",
+  description: "Hola Mohalla is observed in India from Mar 4, 2026. A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.",
+};
 
 export default function HolaMohallaPage() {
     return (

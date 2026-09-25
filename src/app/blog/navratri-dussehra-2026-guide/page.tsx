@@ -1,6 +1,3 @@
-
-'use client';
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, Palette, Drama } from "lucide-react";
 import Link from "next/link";
@@ -10,6 +7,11 @@ import { ShareButtons } from "@/components/ShareButtons";
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 import { ProductCard } from "@/components/ProductCard";
 import { products } from "@/lib/product-data";
+
+export const metadata = {
+  title: "Navratri & Dussehra 2026: Know before you plan.",
+  description: "Navratri & Dussehra 2026 are observed in India from 1 Oct 2026. A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.",
+};
 
 const post = { 
     title: "Navratri & Dussehra 2026: A 10-Day Guide to Garba, Gods, and Victory", 

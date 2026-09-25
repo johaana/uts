@@ -1,6 +1,3 @@
-
-'use client';
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, CheckCircle, Palette, Sparkles } from "lucide-react";
 import Link from "next/link";
@@ -10,6 +7,11 @@ import { ShareButtons } from "@/components/ShareButtons";
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 import { ProductCard } from "@/components/ProductCard";
 import { products } from "@/lib/product-data";
+
+export const metadata = {
+  title: "Ganesh Chaturthi 2026: Know before you plan.",
+  description: "Ganesh Chaturthi is observed in India on 15 Sep 2026. A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.",
+};
 
 const post = { 
     title: "Ganesh Chaturthi 2026: Best Murti Designs, Decoration Ideas & Visarjan Dates", 

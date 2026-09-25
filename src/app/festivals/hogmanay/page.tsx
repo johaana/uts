@@ -1,11 +1,13 @@
-
-'use client';
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BookOpen, Sparkles, MessageSquareQuote } from "lucide-react";
 import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
+
+export const metadata = {
+  title: "Hogmanay: Know before you plan.",
+  description: "Hogmanay is observed in Scotland from Dec 31, 2026. A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.",
+};
 
 export default function HogmanayPage() {
     return (
@@ -67,4 +69,3 @@ export default function HogmanayPage() {
         </div>
     );
 }
-    

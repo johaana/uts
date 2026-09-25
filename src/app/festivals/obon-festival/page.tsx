@@ -1,10 +1,13 @@
-'use client';
-
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 import { ObonFestivalPageContent } from "./ObonFestivalPageContent";
+
+export const metadata = {
+  title: "Obon Festival: Know before you plan.",
+  description: "Obon Festival is observed in Japan on Aug 13, 2026. A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.",
+};
 
 const relatedContent: RelatedItem[] = [
     {

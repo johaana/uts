@@ -1,11 +1,12 @@
-
-'use client';
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BookOpen, Music } from "lucide-react";
 import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
-import { Metadata } from 'next';
+
+export const metadata = {
+  title: "Carnival: Know before you plan.",
+  description: "Carnival is observed in Various Countries from Feb 13, 2026. A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.",
+};
 
 const pageSections = [
     { id: "overview", title: "Overview", icon: BookOpen },

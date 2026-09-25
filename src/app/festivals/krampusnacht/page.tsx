@@ -1,11 +1,13 @@
-'use client';
-
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 import { KrampusnachtPageContent } from "./KrampusnachtPageContent";
 
+export const metadata = {
+  title: "Krampusnacht: Know before you plan.",
+  description: "Krampusnacht is observed in Austria on Dec 5, 2026. A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.",
+};
 
 const relatedContent: RelatedItem[] = [
     {

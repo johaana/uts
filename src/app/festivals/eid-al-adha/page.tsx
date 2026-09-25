@@ -1,13 +1,14 @@
-
-'use client';
-
 import { Card, CardContent } from "@/components/ui/card";
 import { ShareButtons } from "@/components/ShareButtons";
 import { EidAlAdhaPageContent } from "./EidAlAdhaPageContent";
 import Image from 'next/image';
 
-export default function EidAlAdhaPage() {
+export const metadata = {
+  title: "Eid al-Adha: Know before you plan.",
+  description: "Eid al-Adha is observed in Various Countries from Jun 16, 2026. A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.",
+};
 
+export default function EidAlAdhaPage() {
     return (
         <div className="bg-background">
             <div className="container mx-auto px-4 py-12">

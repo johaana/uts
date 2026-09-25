@@ -1,11 +1,13 @@
-
-'use client';
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { BookOpen, Sparkles, MessageSquareQuote } from "lucide-react";
+import { BookOpen, Sparkles } from "lucide-react";
 import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
+
+export const metadata = {
+  title: "St. Patrick's Day: Know before you plan.",
+  description: "St. Patrick's Day is observed in Ireland on Mar 17, 2026. A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.",
+};
 
 export default function StPatricksDayPage() {
     return (

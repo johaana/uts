@@ -1,11 +1,13 @@
-'use client';
-
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 import { HadakaMatsuriPageContent } from "./HadakaMatsuriPageContent";
 
+export const metadata = {
+  title: "Hadaka Matsuri: Know before you plan.",
+  description: "Hadaka Matsuri is observed in Japan on Feb 21, 2026. A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.",
+};
 
 const relatedContent: RelatedItem[] = [
     {
