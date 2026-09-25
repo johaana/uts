@@ -9,16 +9,19 @@ import {
   CheckCircle2,
   Lock,
   Zap,
-  Terminal
+  Terminal,
+  Plane,
+  Activity
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Badge } from '@/components/ui/badge';
 
 export default function SocialCardLabPage() {
   const options = [
     {
       id: 'authored-logo',
-      name: 'Option 1: The Authored Style (with Logo)',
-      desc: 'Clean, high-impact typography with the Utsavs brand lockup at the base. Direct and editorial.',
+      name: 'Option 1: The Authored Style (Editorial)',
+      desc: 'Clean, high-impact typography with the Utsavs brand lockup. Focuses on the conversational hook.',
       render: (
         <div className="w-full aspect-[1200/630] bg-[#0F1428] p-20 flex flex-col justify-center relative overflow-hidden rounded-xl border border-white/10 shadow-2xl text-left">
           <div className="space-y-0 mb-10">
@@ -46,56 +49,94 @@ export default function SocialCardLabPage() {
       )
     },
     {
-      id: 'terminal-api',
-      name: 'Option 2: The Intelligence Terminal (API Focus)',
-      desc: 'Emphasizes the "Global Holiday Intelligence" product and technical reliability. High trust for B2B/Corporate.',
+      id: 'global-transit',
+      name: 'Option 2: The Global Transit (Movement)',
+      desc: 'Visualizes the "Aeroplane + Globe" concept. Emphasizes the intersection of travel and global data.',
       render: (
-        <div className="w-full aspect-[1200/630] bg-[#0F1428] p-16 flex flex-col justify-between relative overflow-hidden rounded-xl border border-white/10 shadow-2xl text-left">
-          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#E8A33D]/5 blur-[140px] -mr-40 -mt-40"></div>
+        <div className="w-full aspect-[1200/630] bg-[#171D3A] p-20 flex flex-col justify-between relative overflow-hidden rounded-xl border border-white/10 shadow-2xl text-left">
+          <div className="absolute top-[-100px] right-[-100px] w-[600px] h-[600px] bg-[#4FD1C5]/5 blur-[120px] rounded-full"></div>
           
-          <div className="relative z-10 flex items-center gap-4">
-            <div className="w-12 h-12 bg-[#E8A33D] rounded-xl flex items-center justify-center">
-              <Globe className="text-[#0F1428] w-7 h-7" />
-            </div>
-            <div className="flex flex-col">
-                <span className="font-serif text-3xl font-bold tracking-tight text-white">Utsavs</span>
-                <span className="text-[9px] font-mono font-bold uppercase tracking-[0.4em] text-[#4FD1C5]">Global Intelligence</span>
-            </div>
-          </div>
-
-          <div className="relative z-10 max-w-3xl space-y-8">
-            <h2 className="text-6xl md:text-7xl font-serif font-medium leading-[1.05] tracking-tighter text-[#F4F1E8]">
-              Verified calendar fact. <br/>Zero-AI reliability.
-            </h2>
-            <div className="flex gap-8">
-               <div className="flex items-center gap-2.5 px-5 py-2.5 bg-white/5 border border-white/10 rounded-full">
-                  <ShieldCheck className="w-5 h-5 text-[#4FD1C5]" />
-                  <span className="text-[14px] font-bold uppercase tracking-widest text-[#9AA1C0]">Deterministic Data</span>
-               </div>
-               <div className="flex items-center gap-2.5 px-5 py-2.5 bg-white/5 border border-white/10 rounded-full">
-                  <CheckCircle2 className="w-5 h-5 text-[#4FD1C5]" />
-                  <span className="text-[14px] font-bold uppercase tracking-widest text-[#9AA1C0]">Source Aware</span>
-               </div>
-            </div>
-          </div>
-
-          <div className="absolute bottom-16 right-16 opacity-30">
-             <div className="p-8 border border-white/20 rounded-2xl bg-white/5 space-y-4 w-[360px] font-mono">
-                <div className="flex items-center gap-2 mb-2">
-                    <Terminal className="w-3 h-3 text-[#4FD1C5]" />
-                    <span className="text-[10px] text-[#4FD1C5]">GET /v1/intelligence</span>
-                </div>
-                <div className="h-2 w-3/4 bg-white/20 rounded-full"></div>
-                <div className="h-2 w-full bg-white/40 rounded-full"></div>
-                <div className="h-2 w-1/2 bg-white/20 rounded-full"></div>
+          <div className="relative z-10 flex items-center gap-6">
+             <div className="w-20 h-20 bg-[#F4F1E8] rounded-[32px] flex items-center justify-center shadow-xl transform -rotate-6">
+                <Globe className="text-[#0F1428] w-10 h-10" />
              </div>
+             <div className="space-y-1">
+                <h1 className="font-serif text-4xl font-bold text-white tracking-tight">Utsavs</h1>
+                <p className="text-[10px] font-mono font-bold uppercase tracking-[0.4em] text-[#E8A33D]">Global Intelligence</p>
+             </div>
+          </div>
+
+          <div className="relative z-10 space-y-6">
+             <h2 className="text-[82px] font-serif font-medium leading-[0.95] tracking-tighter text-[#F4F1E8]">
+                World Class <br />Date Precision.
+             </h2>
+             <div className="flex items-center gap-4">
+                <div className="px-6 py-3 bg-[#E8A33D] text-[#0F1428] rounded-full flex items-center gap-3 shadow-lg">
+                   <Plane className="w-5 h-5 fill-current" />
+                   <span className="text-sm font-bold uppercase tracking-widest">Travel Ready</span>
+                </div>
+                <div className="px-6 py-3 bg-white/5 border border-white/10 text-[#9AA1C0] rounded-full flex items-center gap-3">
+                   <ShieldCheck className="w-5 h-5" />
+                   <span className="text-sm font-bold uppercase tracking-widest">Verified Sources</span>
+                </div>
+             </div>
+          </div>
+
+          <div className="absolute bottom-[-40px] right-[-40px] opacity-10">
+             <Plane className="w-[400px] h-[400px] transform -rotate-12" />
+          </div>
+        </div>
+      )
+    },
+    {
+      id: 'verified-pulse',
+      name: 'Option 3: The Verified Pulse (Technical)',
+      desc: 'Focuses on the "Precision Dot" and the pulse of the world. High trust for B2B/API users.',
+      render: (
+        <div className="w-full aspect-[1200/630] bg-[#0F1428] p-20 flex flex-col justify-end relative overflow-hidden rounded-xl border border-white/10 shadow-2xl text-left">
+          <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'radial-gradient(#1E2650 1px, transparent 1px)', backgroundSize: '40px 40px' }}></div>
+          
+          <div className="absolute top-16 right-16 flex items-center gap-3">
+             <div className="w-3 h-3 bg-[#4FD1C5] rounded-full shadow-[0_0_15px_rgba(79,209,197,0.8)]"></div>
+             <span className="font-mono text-[12px] font-bold text-[#4FD1C5] uppercase tracking-[0.3em]">Live Intelligence Feed</span>
+          </div>
+
+          <div className="relative z-10 space-y-12">
+            <div className="space-y-4">
+                <h2 className="text-[76px] font-serif font-medium leading-none tracking-tighter text-[#F4F1E8]">
+                  From dates <br /> to determination.
+                </h2>
+                <p className="text-[24px] font-sans text-[#9AA1C0] max-w-2xl font-medium">
+                   Reconciling public calendars with institutional closures and regional rules for zero-AI reliability.
+                </p>
+            </div>
+            
+            <div className="flex items-center gap-12 pt-8 border-t border-white/10">
+               <div className="flex flex-col gap-1">
+                  <span className="text-[10px] font-mono font-bold text-[#6E7495] uppercase">Coverage</span>
+                  <span className="text-2xl font-bold text-white">92+ Jurisdictions</span>
+               </div>
+               <div className="flex flex-col gap-1">
+                  <span className="text-[10px] font-mono font-bold text-[#6E7495] uppercase">Records</span>
+                  <span className="text-2xl font-bold text-white">1000+ Deterministic</span>
+               </div>
+               <div className="flex flex-col gap-1">
+                  <span className="text-[10px] font-mono font-bold text-[#6E7495] uppercase">Confidence</span>
+                  <span className="text-2xl font-bold text-[#4FD1C5]">Verified Source</span>
+               </div>
+            </div>
+          </div>
+
+          <div className="absolute bottom-16 right-16 flex flex-col items-end text-right">
+             <span className="font-serif text-[42px] font-bold text-white tracking-tighter">Utsavs</span>
+             <span className="text-[10px] font-mono font-bold uppercase tracking-[0.4em] text-[#E8A33D]">API PREVIEW</span>
           </div>
         </div>
       )
     },
     {
       id: 'atmospheric-fusion',
-      name: 'Option 3: The Context Fusion',
+      name: 'Option 4: The Context Fusion',
       desc: 'Blends atmospheric cultural imagery with technical precision. Warm but professional.',
       render: (
         <div className="w-full aspect-[1200/630] bg-[#0F1428] relative overflow-hidden rounded-xl shadow-2xl">
@@ -136,35 +177,6 @@ export default function SocialCardLabPage() {
           </div>
         </div>
       )
-    },
-    {
-      id: 'brand-pure',
-      name: 'Option 4: Brand Pure',
-      desc: 'Focuses entirely on the brand promise and the "Single Now" pulse.',
-      render: (
-        <div className="w-full aspect-[1200/630] bg-[#F7F4EE] p-16 flex items-center justify-center relative overflow-hidden rounded-xl border border-gray-200 shadow-2xl">
-          <div className="absolute inset-0 opacity-40" style={{ backgroundImage: 'radial-gradient(#171D3A 1px, transparent 1px)', backgroundSize: '40px 40px' }}></div>
-          <div className="relative z-10 flex flex-col items-center text-center space-y-12">
-            <div className="space-y-6">
-               <div className="w-32 h-32 bg-[#171D3A] rounded-[40px] flex items-center justify-center mx-auto shadow-2xl transform rotate-3 hover:rotate-0 transition-transform">
-                  <Globe className="text-[#E8A33D] w-16 h-16" />
-               </div>
-               <div className="space-y-2">
-                  <h1 className="font-serif text-8xl font-bold text-[#0F1428] tracking-tighter">Utsavs</h1>
-                  <p className="text-[14px] font-mono font-bold uppercase tracking-[0.6em] text-[#E8A33D]">Global Date Intelligence</p>
-               </div>
-            </div>
-            <p className="text-3xl text-[#6E7495] max-w-2xl font-medium font-serif leading-relaxed">
-              Standardizing global holiday intelligence for travel, study and operations.
-            </p>
-            <div className="pt-4 flex items-center gap-4">
-              <span className="px-8 py-3 bg-[#171D3A] text-white text-[12px] font-bold uppercase tracking-widest rounded-full shadow-lg">utsavs.com</span>
-              <span className="text-gray-300">/</span>
-              <span className="text-[#171D3A] font-mono text-sm font-bold">API PREVIEW</span>
-            </div>
-          </div>
-        </div>
-      )
     }
   ];
 
@@ -179,7 +191,7 @@ export default function SocialCardLabPage() {
             <div className="text-[12.5px] font-mono text-[#E8A33D] tracking-[0.3em] uppercase">Visual Identity Lab</div>
             <h1 className="text-4xl md:text-6xl font-serif font-medium leading-tight">Social Card Designer</h1>
             <p className="text-xl text-[#9AA1C0] leading-relaxed font-medium">
-              We are generating high-precision sharing previews. Visit this page on a desktop, screenshot your preferred design, and provide the image link for the permanent <code className="text-[#F4F1E8] bg-white/10 px-1.5 rounded">og:image</code> property.
+              Screenshotted cards should be saved as PNGs. Update the <code className="text-[#F4F1E8] bg-white/10 px-1.5 rounded">og:image</code> property in <code className="text-[#F4F1E8] bg-white/10 px-1.5 rounded">layout.tsx</code> once finalized.
             </p>
           </div>
 
@@ -200,29 +212,48 @@ export default function SocialCardLabPage() {
             ))}
           </div>
 
-          <section className="p-12 md:p-20 rounded-[48px] border-2 border-dashed border-white/10 bg-white/5 space-y-10">
+          <section className="p-12 md:p-20 rounded-[48px] border-2 border-dashed border-white/10 bg-white/5 space-y-12">
             <div className="max-w-2xl mx-auto text-center space-y-6">
-                <h2 className="text-3xl md:text-5xl font-serif font-medium text-white tracking-tight">The API Philosophy</h2>
+                <div className="w-12 h-12 bg-[#E8A33D]/10 rounded-full flex items-center justify-center mx-auto">
+                   <Activity className="w-6 h-6 text-[#E8A33D]" />
+                </div>
+                <h2 className="text-3xl md:text-5xl font-serif font-medium text-white tracking-tight">The Intelligence API</h2>
                 <p className="text-lg text-[#9AA1C0] leading-relaxed">
-                   Utsavs is moving beyond discovery. Our API is the "Global Holiday Intelligence" layer. 
-                   It translates cultural dates into <strong>deterministic operational data</strong> for three primary stakeholders:
+                   To answer your question: <strong>Yes, the API exists.</strong> The project currently includes the <strong>Temporal Intelligence Engine</strong> in <code className="text-white">src/lib/operational</code>. 
+                   This engine is the source of truth for the platform.
                 </p>
             </div>
             
             <div className="grid md:grid-cols-3 gap-8">
                {[
-                 { t: "HR & People", d: "Automate leave calendars and working-day calculations for global teams." },
-                 { t: "Finance & Fintech", d: "Track regional bank holidays and market closures with source-aware precision." },
-                 { t: "Logistics", d: "Calculate terminal closures and customs availability across multi-country trade lanes." }
+                 { 
+                   t: "Deterministic Logic", 
+                   d: "Unlike generic AI, our engine follows hard rules for lunar, lunisolar, and government-declared dates.",
+                   icon: Terminal
+                 },
+                 { 
+                   t: "Operational Mapping", 
+                   d: "The API translates a date into consequences for Banking, Logistics, and Corporate HR systems.",
+                   icon: Zap
+                 },
+                 { 
+                   t: "Source Authenticity", 
+                   d: "Every data point in the API is accompanied by its authoritative source and verification status.",
+                   icon: ShieldCheck
+                 }
                ].map(card => (
-                 <div key={card.t} className="p-8 bg-[#171D3A] rounded-3xl border border-white/5 space-y-4 text-left">
-                    <div className="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center">
-                       <Zap className="w-5 h-5 text-[#E8A33D]" />
+                 <div key={card.t} className="p-8 bg-[#171D3A] rounded-3xl border border-white/5 space-y-4 text-left group hover:border-[#4FD1C5] transition-colors">
+                    <div className="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center group-hover:bg-[#4FD1C5]/10 transition-colors">
+                       <card.icon className="w-5 h-5 text-[#4FD1C5]" />
                     </div>
                     <h4 className="font-bold text-lg">{card.t}</h4>
                     <p className="text-sm text-[#9AA1C0] leading-relaxed">{card.d}</p>
                  </div>
                ))}
+            </div>
+            
+            <div className="text-center pt-8">
+               <Badge variant="outline" className="px-4 py-2 border-[#E8A33D] text-[#E8A33D] font-mono text-[10px] uppercase tracking-[0.3em]">Private API Preview v3.1</Badge>
             </div>
           </section>
 
