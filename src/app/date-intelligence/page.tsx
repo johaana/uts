@@ -172,14 +172,14 @@ export default function DateIntelligencePage() {
                         </p>
                       </div>
                       <div className="bg-[#1E2650] p-4 space-y-1">
-                        <span className="text-[10px] font-mono text-[#6E7495] uppercase">Planning</span>
+                        <span className="text-[10px] font-mono text-[#6E7495] uppercase">Planning Signals</span>
                         <p className="text-sm font-headline font-medium">
-                          {result?.records.filter(r => r.category !== 'holiday' && r.category !== 'regional').length || 0} items
+                          {result?.records.length || 0} items
                         </p>
                       </div>
                       <div className="bg-[#1E2650] p-4 space-y-1">
-                        <span className="text-[10px] font-mono text-[#6E7495] uppercase">Confidence</span>
-                        <p className="text-sm font-headline font-medium">HIGH</p>
+                        <span className="text-[10px] font-mono text-[#6E7495] uppercase">Schedule status</span>
+                        <p className="text-sm font-headline font-medium">{result?.records.length ? 'Modified' : 'Regular'}</p>
                       </div>
                    </div>
 

@@ -348,19 +348,19 @@ export default function HomePage() {
                 <div className="hidden md:block">
                   <div className="hero-tracker-head">
                     <div>
-                      <span className="hero-tracker-kicker">TODAY AROUND THE WORLD</span>
+                      <span className="hero-tracker-kicker">TODAY</span>
                       <strong id="hero-tracker-date">{globalNext?.dateStr || "Determining next..."}</strong>
                     </div>
-                    <span className="hero-tracker-live"><i></i> Live calendar view</span>
+                    <span className="hero-tracker-live"><i></i> Calendar view</span>
                   </div>
 
                   <div className="hero-tracker-next-grid">
                     <div className="hero-tracker-next-card">
-                      <span className="next-card-kicker">Worldwide today</span>
+                      <span className="next-card-kicker">Around the globe</span>
                       <span className="next-card-name" id="pulse-global-name">{globalNext?.primary || "No upcoming national record"}</span>
                       {globalNext?.others.map((other, i) => (
-                        <span key={i} className="block text-[12px] font-medium text-paper/80 mt-1">
-                          + {other}
+                        <span key={i} className="next-card-name mt-1">
+                          {other}
                         </span>
                       ))}
                       <span className="next-card-date" id="pulse-global-date">
@@ -389,8 +389,8 @@ export default function HomePage() {
                       </span>
                     </div>
                   </div>
-                  <p className="text-[11px] text-[#6E7495] mt-2 px-4">
-                    "Next for" updates automatically when you change the destination above.
+                  <p className="text-[11px] text-paper/50 mt-2 px-[18px]">
+                    Updates automatically with your selected destination.
                   </p>
 
                   <div className="hero-tracker-feed">
@@ -565,7 +565,7 @@ export default function HomePage() {
                       />
                     </div>
                     <div className="checker-field">
-                      <label htmlFor="comp-end-date">To</label>
+                      <label htmlFor="end-date">To</label>
                       <input 
                         type="date" 
                         id="comp-end-date" 
@@ -648,13 +648,13 @@ export default function HomePage() {
                     </span>
                   </div>
                   <div className="di-summary-item">
-                    <span className="label">Institutional Impact</span>
+                    <span className="label">Planning Signals</span>
                     <span className="value">
-                      {diLoading ? '...' : (diResults?.records.filter(r => r.category !== 'holiday' && r.category !== 'regional').length === 0 ? "0 considerations" : diResults?.records.filter(r => r.category !== 'holiday' && r.category !== 'regional').length + ' considerations')}
+                      {diLoading ? '...' : (diResults?.records.length === 0 ? "0 signals" : diResults?.records.length + ' signals')}
                     </span>
                   </div>
                   <div className="di-summary-item">
-                    <span className="label">Planning Context</span>
+                    <span className="label">Schedule status</span>
                     <span className="value">
                       {diResults?.records.length ? 'Modified' : 'Regular'}
                     </span>

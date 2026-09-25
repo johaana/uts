@@ -1,4 +1,3 @@
-
 'use client';
 
 import React from 'react';
@@ -15,21 +14,20 @@ interface OperationalResultCardProps {
 export function OperationalResultCard({ record }: OperationalResultCardProps) {
   const isHighConfidence = record.confidence === 'high';
   
+  const metaParts = [];
+  if (record.confidence) metaParts.push(record.confidence.toUpperCase());
+  if (record.jurisdiction?.scope === 'regional') metaParts.push("REGIONAL");
+  if (record.temporal_kind === 'standing') metaParts.push("STANDING");
+  if (record.evidence?.source_name) metaParts.push("SOURCED");
+
   return (
     <Card className="mb-4 border-l-4 border-l-primary overflow-hidden shadow-sm hover:shadow-md transition-shadow">
       <CardHeader className="bg-muted/5 py-4 px-6 flex flex-col sm:flex-row items-start justify-between gap-4">
         <div className="space-y-1">
           <div className="flex flex-wrap items-center gap-2">
             <h3 className="font-bold text-lg leading-tight">{record.name}</h3>
-            <div className="flex gap-1">
-              <Badge variant={record.state === 'confirmed' ? 'default' : 'secondary'} className="text-[9px] h-4 font-mono px-1">
-                {record.state.toUpperCase()}
-              </Badge>
-              {record.temporal_kind === 'standing' && (
-                <Badge variant="outline" className="text-[9px] h-4 font-mono px-1 border-accent text-accent">
-                  STANDING POLICY
-                </Badge>
-              )}
+            <div className="text-[10px] font-bold text-muted-foreground/60 uppercase tracking-widest">
+              {metaParts.join(' / ')}
             </div>
           </div>
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] text-muted-foreground font-medium">
