@@ -16,6 +16,7 @@ const navLinks = [
 
 export function MobileNav({ setOpen }: { setOpen: (open: boolean) => void }) {
   const pathname = usePathname();
+  const WHATSAPP_LINK = "https://wa.me/919860997711";
 
   return (
     <div className="flex flex-col h-full bg-background">
@@ -43,7 +44,7 @@ export function MobileNav({ setOpen }: { setOpen: (open: boolean) => void }) {
         ))}
       </nav>
       <div className="mt-auto p-6 border-t bg-muted/10">
-        <a href="https://wa.me/919860997711" target="_blank" rel="noopener noreferrer">
+        <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer">
           <Button className="w-full font-bold h-12 rounded-full bg-[#E8A33D] text-[#0F1428] hover:bg-[#F0C888]">
             <MessageSquare className="w-4 h-4 mr-2" /> WhatsApp Us
           </Button>

@@ -20,6 +20,8 @@ import {
 import Link from 'next/link';
 
 export default function ApiPage() {
+  const WHATSAPP_LINK = "https://wa.me/919860997711";
+
   const jsonCode = `{
   "name": "Diwali",
   "date": "2026-11-08",
@@ -40,17 +42,17 @@ export default function ApiPage() {
           <div className="max-w-5xl mx-auto space-y-16">
             
             <div className="grid lg:grid-cols-[1fr_1fr] gap-12 lg:gap-24 items-center">
-               <div className="space-y-6">
+               <div className="space-y-6 text-left">
                   <div className="text-[12.5px] font-mono text-[#E8A33D] tracking-widest uppercase">API</div>
                   <h1 className="text-4xl md:text-6xl font-headline font-medium leading-tight tracking-tight">Put date intelligence into the tools you already use.</h1>
                   <p className="text-xl text-[#9AA1C0] leading-relaxed font-medium">
                     Use Utsavs programmatically when your product, workflow or operation needs calendar intelligence at scale.
                   </p>
                   <div className="pt-4 flex gap-4">
-                    <a href="https://wa.me/919860997711" target="_blank" rel="noopener noreferrer">
+                    <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer">
                       <Button className="bg-[#E8A33D] text-[#0F1428] hover:bg-[#F0C888] font-bold px-8 h-12 rounded-full shadow-lg">Chat for API Preview</Button>
                     </a>
-                    <a href="https://wa.me/919860997711" target="_blank" rel="noopener noreferrer">
+                    <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer">
                       <Button variant="ghost" className="border border-white/10 hover:bg-white/5 font-bold px-8 h-12 rounded-full">Contact Support</Button>
                     </a>
                   </div>
@@ -58,8 +60,8 @@ export default function ApiPage() {
 
                <div className="bg-[#0B0F22] p-8 md:p-10 rounded-3xl border border-zinc-800 shadow-2xl font-mono text-[13px] text-zinc-300 overflow-hidden relative group">
                   <div className="absolute top-0 right-0 p-4 text-[10px] font-bold uppercase tracking-widest text-[#4FD1C5]/40">Illustrative JSON</div>
-                  <p className="text-[#4FD1C5] mb-2 font-bold">GET /v1/holidays?country=IN&year=2026</p>
-                  <pre className="whitespace-pre-wrap leading-relaxed overflow-x-auto">
+                  <p className="text-[#4FD1C5] mb-2 font-bold text-left">GET /v1/holidays?country=IN&year=2026</p>
+                  <pre className="whitespace-pre-wrap leading-relaxed overflow-x-auto text-left">
                     <code>{jsonCode}</code>
                   </pre>
                </div>
@@ -98,7 +100,7 @@ export default function ApiPage() {
                        ))}
                     </ul>
                   </div>
-                  <div className="bg-[#0B0F22] p-8 rounded-xl border border-white/5 space-y-4">
+                  <div className="bg-[#0B0F22] p-8 rounded-xl border border-white/5 space-y-4 text-left">
                     <div className="space-y-1">
                       <p className="text-[10px] font-bold uppercase tracking-widest text-[#4FD1C5]">Endpoint Coverage</p>
                       <p className="text-2xl font-headline font-bold">100+ Jurisdictions</p>
@@ -107,7 +109,7 @@ export default function ApiPage() {
                       <p className="text-[10px] font-bold uppercase tracking-widest text-[#4FD1C5]">Update Frequency</p>
                       <p className="text-2xl font-headline font-bold">Real-time Analysis</p>
                     </div>
-                    <a href="https://wa.me/919860997711" target="_blank" rel="noopener noreferrer" className="block w-full mt-4">
+                    <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="block w-full mt-4">
                       <Button className="w-full bg-[#4FD1C5] text-[#0F1428] hover:bg-[#F4F1E8] font-bold h-12 rounded-full">
                         <MessageSquare className="w-4 h-4 mr-2" /> WhatsApp Enterprise Sales
                       </Button>
