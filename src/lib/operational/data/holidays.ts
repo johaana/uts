@@ -88,14 +88,14 @@ export const HOLIDAY_RULES: Record<string, any[]> = {
   NZ: [
     fixed(1, 1, "New Year's Day", "public", ["travel", "business"], "high", { source_name: "NZ Government", source_url: "https://www.govt.nz/browse/work/public-holidays-and-work/" }),
     fixed(1, 2, "Day after New Year's Day", "public", ["travel", "business"], "high", { source_name: "NZ Government", source_url: "https://www.govt.nz/browse/work/public-holidays-and-work/" }),
-    fixed(2, 6, "Waitangi Day", "public", ["travel", "business"], "high", { source_name: "NZ Government", source_url: "https://www.govt.nz/browse/work/public-holidays-and-work/" }),
+    fixed(2, 6, "Waitangi Day", "public", ["travel", "business"], "high", { source_name: "NZ Government", source_url: "https://www.govt.nz/browse/work/public-holidays-and-anniversary-dates/" }),
     fixed(4, 25, "Anzac Day", "public", ["travel", "business"], "high", { source_name: "NZ Government", source_url: "https://www.govt.nz/browse/work/public-holidays-and-work/" }),
     fixed(12, 25, "Christmas Day", "public", ["travel", "business"], "high", { source_name: "NZ Government", source_url: "https://www.govt.nz/browse/work/public-holidays-and-work/" }),
     fixed(12, 26, "Boxing Day", "public", ["travel", "business"], "high", { source_name: "NZ Government", source_url: "https://www.govt.nz/browse/work/public-holidays-and-work/" }),
     dated({ 2026: "2026-04-03" }, "Good Friday", "public", "confirmed", "high", { source_name: "NZ Government", source_url: "https://www.govt.nz/browse/work/public-holidays-and-work/" }),
     dated({ 2026: "2026-04-06" }, "Easter Monday", "public", "confirmed", "high", { source_name: "NZ Government", source_url: "https://www.govt.nz/browse/work/public-holidays-and-work/" }),
     dated({ 2026: "2026-06-01" }, "King's Birthday", "public", "confirmed", "high", { source_name: "NZ Government", source_url: "https://www.govt.nz/browse/work/public-holidays-and-work/" }),
-    dated({ 2026: "2026-06-26" }, "Matariki", "public", "confirmed", "high", { source_name: "NZ Government", source_url: "https://www.govt.nz/browse/work/public-holidays-and-work/" }),
+    dated({ 2026: "2026-06-26" }, "Matariki", "public", "confirmed", "high", { source_name: "NZ Government", source_url: "https://www.govt.nz/browse/work/public-holidays-and-anniversary-dates/" }),
     dated({ 2026: "2026-10-26" }, "Labour Day", "public", "confirmed", "high", { source_name: "NZ Government", source_url: "https://www.govt.nz/browse/work/public-holidays-and-work/" })
   ],
   ZA: [
@@ -189,8 +189,7 @@ export const HOLIDAY_RULES: Record<string, any[]> = {
     dated({ 2026: "2026-02-17" }, "Spring Festival", "public", "confirmed", "high", { source_name: "State Council", source_url: "https://www.gov.cn/zhengce/content/2025-11/04/content_7047685.htm" }),
     dated({ 2026: "2026-04-05" }, "Qingming Festival", "public", "confirmed", "high", { source_name: "State Council", source_url: "https://www.gov.cn/zhengce/content/2025-11/04/content_7047685.htm" }),
     dated({ 2026: "2026-06-19" }, "Dragon Boat Festival", "public", "confirmed", "high", { source_name: "State Council", source_url: "https://www.gov.cn/zhengce/content/2025-11/04/content_7047685.htm" }),
-    dated({ 2026: "2026-09-25" }, "Mid-Autumn Festival", "public", "confirmed", "high", { source_name: "State Council", source_url: "https://www.gov.cn/zhengce/content/2025-11/04/content_7047685.htm" }),
-    dated({ 2027: "2027-01-01" }, "New Year's Day", "public", "annual_calendar_pending", "medium", { source_name: "State Council", source_url: "https://www.gov.cn/" })
+    dated({ 2026: "2026-09-25" }, "Mid-Autumn Festival", "public", "confirmed", "high", { source_name: "State Council", source_url: "https://www.gov.cn/zhengce/content/2025-11/04/content_7047685.htm" })
   ],
   HK: [
     fixed(1, 1, "New Year's Day", "public", ["travel", "business"], "high", { source_name: "HKSAR Gov", source_url: "https://www.info.gov.hk/gia/general/202605/15/P2026051400300.htm" }),
