@@ -1,3 +1,4 @@
+
 'use client';
 
 import React from 'react';
@@ -18,11 +19,35 @@ import { cn } from '@/lib/utils';
 export default function SocialCardLabPage() {
   const options = [
     {
+      id: 'authored',
+      name: 'Option 4: The Authored Style (ACTIVE)',
+      desc: 'Clean, high-impact typography. Focuses purely on the value proposition.',
+      render: (
+        <div className="w-full aspect-[1200/630] bg-[#0F1428] p-20 flex flex-col justify-center relative overflow-hidden rounded-xl border border-white/10 shadow-2xl text-left">
+          <div className="space-y-0 mb-10">
+            <h2 className="text-[72px] font-display font-medium leading-[1.05] tracking-tight text-[#F4F1E8]">
+              Know before you fly.
+            </h2>
+            <h2 className="text-[72px] font-display font-medium leading-[1.05] tracking-tight text-[#F4F1E8]">
+              Know before you schedule.
+            </h2>
+          </div>
+          <p className="text-[28px] font-sans text-[#9AA1C0] leading-relaxed max-w-[800px]">
+            Check a country and your actual dates — before you book, schedule, send a student, or send an employee across borders.
+          </p>
+          <div className="absolute bottom-16 left-20 flex items-center gap-3">
+             <div className="w-3 h-3 bg-[#E8A33D] rounded-full"></div>
+             <span className="font-mono text-[14px] font-bold text-[#E8A33D] uppercase tracking-[0.2em]">Utsavs Global Holiday Intelligence</span>
+          </div>
+        </div>
+      )
+    },
+    {
       id: 'terminal',
       name: 'Option 1: The Intelligence Terminal',
       desc: 'High-contrast, professional, and deterministic. Best for B2B/Enterprise trust.',
       render: (
-        <div className="w-full aspect-[1200/630] bg-[#0F1428] p-16 flex flex-col justify-between relative overflow-hidden rounded-xl border border-white/10 shadow-2xl">
+        <div className="w-full aspect-[1200/630] bg-[#0F1428] p-16 flex flex-col justify-between relative overflow-hidden rounded-xl border border-white/10 shadow-2xl text-left">
           <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#E8A33D]/5 blur-[120px] -mr-32 -mt-32"></div>
           <div className="relative z-10 space-y-4">
             <div className="flex items-center gap-3">
@@ -100,7 +125,7 @@ export default function SocialCardLabPage() {
           />
           <div className="absolute inset-0 bg-gradient-to-r from-[#0F1428] via-[#0F1428]/80 to-transparent"></div>
           
-          <div className="relative z-10 h-full p-20 flex flex-col justify-between">
+          <div className="relative z-10 h-full p-20 flex flex-col justify-between text-left">
             <div className="space-y-2">
                <span className="font-display text-4xl font-bold">Utsavs</span>
                <p className="text-[12px] font-mono text-[#E8A33D] uppercase tracking-[0.3em]">Planning around the occasion</p>
@@ -130,18 +155,18 @@ export default function SocialCardLabPage() {
       <Header />
       <main className="py-24">
         <div className="max-w-[1180px] mx-auto px-6 space-y-20">
-          <div className="space-y-4">
+          <div className="space-y-4 text-left">
             <div className="text-[12.5px] font-mono text-[#E8A33D] tracking-widest uppercase">Launch Lab</div>
             <h1 className="text-4xl md:text-6xl font-headline font-medium">Social Sharing Options</h1>
             <p className="text-xl text-[#9AA1C0] max-w-2xl font-medium leading-relaxed">
-              Evaluating how the platform appears on LinkedIn, Twitter, and WhatsApp. These designs reconcile cultural richness with deterministic data authority.
+              Evaluating how the platform appears on LinkedIn, Twitter, and WhatsApp. Option 4 is currently the active production standard.
             </p>
           </div>
 
           <div className="space-y-32">
             {options.map((opt) => (
               <div key={opt.id} className="space-y-8">
-                <div className="space-y-2">
+                <div className="space-y-2 text-left">
                   <h3 className="text-2xl font-bold font-headline">{opt.name}</h3>
                   <p className="text-sm text-[#9AA1C0] max-w-xl">{opt.desc}</p>
                 </div>
@@ -155,7 +180,7 @@ export default function SocialCardLabPage() {
           <div className="p-12 rounded-3xl border-2 border-dashed border-white/10 bg-white/5 text-center space-y-6">
             <h2 className="text-2xl font-headline font-medium">Production Checklist</h2>
             <div className="flex flex-wrap justify-center gap-4">
-               {['brand-lab', 'favicon-lab', 'temp-tracker-lab', 'color-palettes', 'v1', 'v2'].map(p => (
+               {['brand-lab', 'favicon-lab', 'temp-tracker-lab', 'color-palettes', 'social-card-lab', 'v1', 'v2'].map(p => (
                  <div key={p} className="px-4 py-2 bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-bold uppercase tracking-widest rounded-lg flex items-center gap-2">
                     Remove: /{p}
                  </div>
