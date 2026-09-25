@@ -23,8 +23,13 @@ const plexMono = IBM_Plex_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:9002'),
-  title: "Utsavs: Global Holiday Intelligence",
-  description: "Understand the world's calendar. Structured, verified intelligence for holidays, festivals and observances.",
+  title: "Know before you fly. Know before you schedule.",
+  description: "A date is more than a date. Know what’s happening before you travel, schedule, study or work across borders. Verified, source-aware global holiday intelligence.",
+  openGraph: {
+    title: "Know before you fly. Know before you schedule.",
+    description: "A date is more than a date. Know what’s happening before you travel, schedule, study or work across borders. Verified, source-aware global holiday intelligence.",
+    type: 'website',
+  }
 };
 
 export const viewport: Viewport = {

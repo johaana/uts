@@ -171,26 +171,6 @@ export default function HomePage() {
     return new Map(sortedEntries);
   }, [isMounted, todayKey, allRecords]);
 
-  // Mobile Specific Filtered Index (Excludes Regional for Global Pulse)
-  const mobileForwardIndex = useMemo(() => {
-    const idx = new Map();
-    if (!isMounted || !todayKey || allRecords.length === 0) return idx;
-    
-    allRecords
-      .filter(r => r.category !== 'regional' && r.jurisdiction?.scope !== 'regional')
-      .forEach(r => {
-        if (!idx.has(r.date)) idx.set(r.date, []);
-        idx.get(r.date).push({ 
-          code: r.jurisdiction?.country_code, 
-          name: r.name,
-          category: r.category
-        });
-      });
-    
-    const sortedEntries = Array.from(idx.entries()).sort((a, b) => a[0].localeCompare(b[0]));
-    return new Map(sortedEntries);
-  }, [isMounted, todayKey, allRecords]);
-
   const globalNext = useMemo(() => {
     const dates = Array.from(forwardIndex.keys()).sort();
     if (!dates.length) return null;
@@ -211,28 +191,6 @@ export default function HomePage() {
       category: entries[0]?.category || 'Holiday'
     };
   }, [forwardIndex, todayKey, isMounted]);
-
-  // Mobile Specific Next Global
-  const mobileGlobalNext = useMemo(() => {
-    const dates = Array.from(mobileForwardIndex.keys()).sort();
-    if (!dates.length) return null;
-    
-    const candidate = dates.find(d => d >= todayKey);
-    if (!candidate) return null;
-
-    const entries = mobileForwardIndex.get(candidate) || [];
-    const dateObj = new Date(candidate + 'T00:00:00');
-    
-    return { 
-      dateStr: format(dateObj, 'EEEE, d MMMM yyyy'),
-      shortDate: format(dateObj, 'd MMM'),
-      primary: entries[0] ? `${COUNTRY_LABELS[entries[0].code] || entries[0].code} — ${entries[0].name}` : "—", 
-      others: entries.slice(1).map((e: any) => `${COUNTRY_LABELS[e.code] || e.code} — ${e.name}`),
-      count: entries.length, 
-      daysAway: differenceInDays(dateObj, new Date(todayKey + 'T00:00:00')),
-      category: entries[0]?.category || 'Holiday'
-    };
-  }, [mobileForwardIndex, todayKey, isMounted]);
 
   const regionalNext = useMemo(() => {
     if (!isMounted || !todayKey || allRecords.length === 0) return null;
@@ -313,7 +271,7 @@ export default function HomePage() {
         {/* HERO SECTION */}
         <section className="hero" id="explore">
           <div className="wrap hero-grid">
-            <div className="hero-copy">
+            <div className="hero-copy text-left">
               <h1 className="headline md:max-w-none max-w-[320px]">
                 Know before you fly. <br className="md:hidden" />
                 Know before you schedule.
@@ -321,30 +279,23 @@ export default function HomePage() {
               <p className="sub hidden md:block">Check a country and your actual dates — before you book, schedule, send a student, or send an employee across borders.</p>
 
               <aside className="hero-tracker md:order-last" id="world" aria-label="Next holiday tracker" style={{ order: isComparing ? 2 : 3 }}>
-                {/* Mobile Specific Tracker View (Compact Pulse) */}
                 <div className="md:hidden p-5 space-y-3 text-left">
                   <div className="space-y-1">
                     <span className="hero-tracker-kicker">TODAY</span>
                     <strong className="block text-base md:text-lg font-headline leading-tight text-paper">
-                      {mobileGlobalNext?.primary || "Determining next..."}
+                      {globalNext?.primary || "Determining next..."}
                     </strong>
-                    {mobileGlobalNext?.others.map((other, i) => (
+                    {globalNext?.others.map((other, i) => (
                       <span key={i} className="block text-[12px] font-medium text-paper/80">
                         + {other}
                       </span>
                     ))}
-                    {mobileGlobalNext && (
-                      <span className="next-card-date block mt-1">
-                        {mobileGlobalNext.shortDate} · {mobileGlobalNext.count} {mobileGlobalNext.count === 1 ? 'country' : 'countries'} · {getDisplayCategory(mobileGlobalNext.category)} · {mobileGlobalNext.daysAway === 0 ? 'TODAY' : `${mobileGlobalNext.daysAway}d away`}
-                      </span>
-                    )}
                   </div>
                   <a className="inline-block text-[12px] font-bold text-gold-soft hover:text-gold transition-colors pt-1" href="#date-intelligence">
                     See what this date means →
                   </a>
                 </div>
 
-                {/* Desktop Tracker View (Frozen) */}
                 <div className="hidden md:block">
                   <div className="hero-tracker-head">
                     <div>
@@ -354,7 +305,7 @@ export default function HomePage() {
                     <span className="hero-tracker-live"><i></i> Calendar view</span>
                   </div>
 
-                  <div className="hero-tracker-next-grid">
+                  <div className="hero-tracker-next-grid text-left">
                     <div className="hero-tracker-next-card">
                       <span className="next-card-kicker">Around the globe</span>
                       <span className="next-card-name" id="pulse-global-name">{globalNext?.primary || "No upcoming national record"}</span>
@@ -367,21 +318,6 @@ export default function HomePage() {
                         {globalNext ? (
                           <>
                             {globalNext.shortDate} · {globalNext.count} {globalNext.count === 1 ? 'country' : 'countries'} · {getDisplayCategory(globalNext.category)} · {globalNext.daysAway === 0 ? 'TODAY' : `${globalNext.daysAway} ${globalNext.daysAway === 1 ? 'day' : 'days'} away`}
-                          </>
-                        ) : (
-                          'Normal operational status'
-                        )}
-                      </span>
-                    </div>
-                    <div className="hero-tracker-next-card">
-                      <span className="next-card-kicker" id="pulse-regional-kicker">
-                        Next for {COUNTRY_LABELS[country] || country} · Updates automatically with your selected destination.
-                      </span>
-                      <span className="next-card-name" id="pulse-regional-name">{regionalNext?.name || "Clear window"}</span>
-                      <span className="next-card-date" id="pulse-regional-date">
-                        {regionalNext ? (
-                          <>
-                            {regionalNext.shortDate} · {regionalNext.daysAway === 0 ? 'TODAY' : `${regionalNext.daysAway} ${regionalNext.daysAway === 1 ? 'day' : 'days'} away`}
                           </>
                         ) : (
                           'Normal operational status'
@@ -407,13 +343,13 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                <a className="hero-tracker-link hidden md:block" href="#date-intelligence">
+                <a className="hero-tracker-link hidden md:block text-left" href="#date-intelligence">
                   VIEW TODAY'S INTELLIGENCE <span>→</span>
                 </a>
               </aside>
             </div>
 
-            <div className="checker" style={{ order: 1 }}>
+            <div className="checker text-left" style={{ order: 1 }}>
               <div className="checker-top">
                 <h3 id="checker-title">Trip impact checker</h3>
                 <button type="button" className="compare-launch" onClick={() => setIsComparing(!isComparing)}>
@@ -443,7 +379,6 @@ export default function HomePage() {
                     </div>
                   </div>
                   
-                  {/* Date Selection Grid - Side by Side on Mobile */}
                   <div className="grid grid-cols-2 gap-3 mb-4">
                     <div className="checker-field">
                       <label htmlFor="start-date">From</label>
@@ -473,18 +408,12 @@ export default function HomePage() {
                     <div><b className="font-headline">{checkerData.nextDays}</b><span>{checkerData.nextDaysVal === 1 ? 'day' : 'days'} to next one</span></div>
                   </div>
                   <div className="checker-brief" id="checker-brief">
-                    <strong>IN SHORT:</strong> {checkerData.count} {checkerData.count === 1 ? 'date' : 'dates'} in your selected period {checkerData.count === 1 ? 'is' : 'are'} worth keeping in mind. The details below show what is happening on each date and any related local or institutional information.
+                    <strong>IN SHORT:</strong> {checkerData.count} {checkerData.count === 1 ? 'date' : 'dates'} in your selected period {checkerData.count === 1 ? 'is' : 'are'} worth keeping in mind. The details below show what is happening on each date.
                   </div>
                   <div className="checker-list" id="checker-list">
                     {checkerData.records.map((r, i) => {
                       const dateObj = new Date(r.date + 'T00:00:00');
                       const dateStr = format(dateObj, 'EEE dd MMM');
-                      const metaParts = [];
-                      if (r.confidence) metaParts.push(r.confidence.charAt(0).toUpperCase() + r.confidence.slice(1));
-                      if (r.temporal_kind === 'standing') metaParts.push("ONGOING");
-                      else if (r.jurisdiction?.scope === 'regional') metaParts.push("Regional");
-                      if (r.evidence?.source_name) metaParts.push("Source");
-
                       return (
                         <div key={i} className="impact-row flex-col !items-start gap-1 py-4">
                           <div className="flex w-full justify-between items-baseline">
@@ -492,7 +421,7 @@ export default function HomePage() {
                                 <div className="impact-date">{r.temporal_kind === 'standing' ? 'Ongoing' : dateStr}</div>
                                 <div className="impact-name">{r.name}</div>
                              </div>
-                             <div className="impact-meta">{metaParts.join(' / ')}</div>
+                             <div className="impact-meta">{r.confidence.toUpperCase()}</div>
                           </div>
                           <div className="text-[13px] text-muted-foreground mt-1 leading-relaxed pl-[91px]">
                             {r.consequences.implication}
@@ -506,26 +435,6 @@ export default function HomePage() {
                       </div>
                     )}
                   </div>
-
-                  {checkerData.count > 0 && (
-                    <div className="checker-note" id="checker-note">
-                      <strong>FOR YOUR PLANS.</strong>
-                      <p>
-                        {checkerData.count} {checkerData.count === 1 ? 'date may affect' : 'dates may affect'} your plans during this period.{' '}
-                        {checkerData.publicCount > 0 && (
-                          <>
-                            {checkerData.publicCount === 1 ? 'One is a public holiday' : `${checkerData.publicCount} are public holidays`}, which may affect government offices, banks or other services.{' '}
-                          </>
-                        )}
-                        {checkerData.regionalCount > 0 && (
-                          <>
-                            {checkerData.regionalCount === 1 ? 'A regional holiday' : `${checkerData.regionalCount} regional holidays`} also {checkerData.regionalCount === 1 ? 'falls' : 'fall'} within your selected dates.{' '}
-                          </>
-                        )}
-                        Check the relevant organization if your plans depend on a particular office or service being open.
-                      </p>
-                    </div>
-                  )}
                 </div>
               ) : (
                 <div id="compare-view">
@@ -547,28 +456,14 @@ export default function HomePage() {
                       </select>
                     </div>
                   </div>
-                  
-                  {/* Compare Dates Grid */}
-                  <div className="grid grid-cols-2 gap-3 mb-4">
+                   <div className="grid grid-cols-2 gap-3 mb-4">
                     <div className="checker-field">
                       <label htmlFor="comp-start-date">From</label>
-                      <input 
-                        type="date" 
-                        id="comp-start-date" 
-                        className="w-full text-[13px] md:text-sm px-2 py-2.5" 
-                        value={startDate} 
-                        onChange={e => setStartDate(e.target.value)} 
-                      />
+                      <input type="date" className="w-full text-[13px]" value={startDate} onChange={e => setStartDate(e.target.value)} />
                     </div>
                     <div className="checker-field">
                       <label htmlFor="end-date">To</label>
-                      <input 
-                        type="date" 
-                        id="comp-end-date" 
-                        className="w-full text-[13px] md:text-sm px-2 py-2.5" 
-                        value={endDate} 
-                        onChange={e => setEndDate(e.target.value)} 
-                      />
+                      <input type="date" className="w-full text-[13px]" value={endDate} onChange={e => setEndDate(e.target.value)} />
                     </div>
                   </div>
                    <p className="text-sm text-muted italic p-8 text-center border border-dashed border-white/5 rounded-xl">
@@ -582,7 +477,7 @@ export default function HomePage() {
 
         {/* DATE INTELLIGENCE SECTION */}
         <section id="date-intelligence" className="wrap">
-          <div className="section-head">
+          <div className="section-head text-left">
             <div className="kicker">★ Date intelligence</div>
             <h2 className="section-title">What happens on this date?</h2>
             <p>One place for the calendar fact, travel information and institution-specific evidence around a date — with the scope and source kept visible.</p>
@@ -623,11 +518,10 @@ export default function HomePage() {
             </div>
 
             <div className="di-body">
-              {/* LEFT: Date Context */}
               <div className="di-panel di-context-panel">
                 <div className="space-y-1 mb-8 text-left">
                   <p className="text-[10.5px] font-mono text-[#4FD1C5] uppercase tracking-widest">Date context</p>
-                  <h2 className="text-3xl font-serif font-medium text-[#F4F1E8] flex items-center gap-3">
+                  <h2 className="text-3xl font-headline font-medium text-[#F4F1E8] flex items-center gap-3">
                     {isValid(new Date(diDate + 'T00:00:00')) ? format(new Date(diDate + 'T00:00:00'), 'EEEE, d MMMM yyyy') : 'Invalid Date'}
                     {diDate === todayKey && <span className="text-[9px] font-mono px-2 py-0.5 border border-accent/40 text-accent rounded-full uppercase">Today</span>}
                   </h2>
@@ -636,68 +530,47 @@ export default function HomePage() {
                   </p>
                 </div>
 
-                <div className="di-summary-grid">
+                <div className="di-summary-grid text-left">
                   <div className="di-summary-item">
                     <span className="label">Calendar</span>
                     <span className="value">
-                      {diLoading ? '...' : (diResults?.records.filter(r => r.category === 'holiday' || r.category === 'regional').length === 0 ? "0 events" : diResults?.records.filter(r => r.category === 'holiday' || r.category === 'regional').length + ' events')}
+                      {diLoading ? '...' : (diResults?.records.filter(r => r.category === 'holiday' || r.category === 'regional').length || 0) + ' events'}
                     </span>
                   </div>
                   <div className="di-summary-item">
                     <span className="label">Planning Signals</span>
-                    <span className="value">
-                      {diLoading ? '...' : (diResults?.records.length === 0 ? "0 signals" : diResults?.records.length + ' signals')}
-                    </span>
+                    <span className="value">{diLoading ? '...' : (diResults?.records.length || 0) + ' signals'}</span>
                   </div>
                   <div className="di-summary-item">
                     <span className="label">Schedule status</span>
-                    <span className="value">
-                      {diResults?.records.length ? 'Modified' : 'Regular'}
-                    </span>
+                    <span className="value">{diResults?.records.length ? 'Modified' : 'Regular'}</span>
                   </div>
-                </div>
-
-                <div className="mt-8 text-sm text-muted leading-relaxed text-left">
-                  {diLoading ? (
-                    <p className="italic">Updating intelligence for {diDate}...</p>
-                  ) : diResults?.records.length ? (
-                    <p>Found {diResults.records.length} curated record(s) for this date and location. Review domain-specific impacts on the right.</p>
-                  ) : (
-                    <div className="space-y-4">
-                      <p className="font-bold text-paper">Clear window</p>
-                      <p>A relatively normal day around the available calendar. No curated observance or institutional closure is currently recorded for this date. That can make it a useful window for scheduling meetings, travel, or operations, although local weekends and one-off events outside this calendar may still apply.</p>
-                    </div>
-                  )}
                 </div>
               </div>
 
-              {/* RIGHT: What Affects This Date? */}
-              <div className="di-panel di-impact-panel">
-                <h4 className="font-bold text-xs uppercase tracking-widest text-primary mb-6 text-left">What affects this date?</h4>
-                
+              <div className="di-panel di-impact-panel text-left">
+                <h4 className="font-bold text-xs uppercase tracking-widest text-primary mb-6">What affects this date?</h4>
                 <div className="space-y-8">
                   {Object.keys(LENS_LABELS).filter(k => k !== 'all').map(categoryKey => {
                     if (diLens !== 'all' && diLens !== categoryKey) return null;
-
                     const relevantRecords = diResults?.records.filter(r => {
-                      if (categoryKey === 'government') return r.category === 'holiday' || r.category === 'regional' || r.category === 'business_travel';
+                      if (categoryKey === 'government') return r.category === 'holiday' || r.category === 'regional';
                       if (categoryKey === 'banking') return r.category === 'banking';
                       if (categoryKey === 'markets') return r.category === 'market';
-                      if (categoryKey === 'embassy') return r.category === 'student_risk' || r.category === 'institutional';
+                      if (categoryKey === 'embassy') return r.category === 'institutional';
                       if (categoryKey === 'trade') return r.category === 'customs';
                       if (categoryKey === 'travel') return r.category === 'travel' || r.category === 'holiday';
                       return false;
                     }) || [];
 
                     return (
-                      <div key={categoryKey} className="di-impact-group text-left">
+                      <div key={categoryKey} className="di-impact-group">
                         <div className="flex justify-between items-start mb-2">
                            <h5 className="text-[11px] font-mono text-[#6E7495] uppercase tracking-wider">{LENS_LABELS[categoryKey]}</h5>
                            <span className={cn("di-status-badge", relevantRecords.length > 0 ? "active" : "none")}>
                              {relevantRecords.length > 0 ? "PLANNING FACT" : "No impact indicated"}
                            </span>
                         </div>
-                        
                         {relevantRecords.length > 0 ? (
                           <div className="space-y-4">
                             {relevantRecords.map(r => (
@@ -709,7 +582,7 @@ export default function HomePage() {
                           </div>
                         ) : (
                           <p className="text-sm text-muted-dim font-medium leading-relaxed">
-                            {DOMAIN_GUIDANCE[categoryKey] || "No specific planning consideration recorded in Utsavs."}
+                            {DOMAIN_GUIDANCE[categoryKey] || "No specific planning consideration recorded."}
                           </p>
                         )}
                       </div>

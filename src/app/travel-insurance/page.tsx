@@ -4,20 +4,15 @@ import React from 'react';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { 
   ShieldCheck, 
   Plane, 
   Globe, 
   Landmark, 
-  ArrowRight,
   ShieldAlert,
-  Users2,
-  Handshake,
   MessageSquare,
   Stethoscope,
-  Briefcase,
-  Smartphone,
   School,
   Backpack,
   Trophy,
@@ -78,7 +73,7 @@ export default function TravelInsurancePage() {
       <Header />
       
       <main className="py-12 md:py-24">
-        <div className="container mx-auto px-6">
+        <div className="container mx-auto px-6 text-left">
           <div className="max-w-5xl mx-auto space-y-24">
             
             {/* HERO */}
@@ -92,7 +87,7 @@ export default function TravelInsurancePage() {
                 <span className="italic text-[#9AA1C0]">Protect against what you can't.</span>
               </h1>
               <p className="text-xl text-[#9AA1C0] leading-relaxed max-w-2xl mx-auto font-medium">
-                Utsavs provides the date intelligence to plan your journey. We partner with global networks to provide the assistance to protect it.
+                Utsavs provides the date intelligence to plan your journey. We facilitate access to global networks to provide the assistance to protect it.
               </p>
               <div className="pt-6">
                 <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer">
@@ -116,7 +111,7 @@ export default function TravelInsurancePage() {
                        <div className="w-12 h-12 bg-white/5 rounded-xl flex items-center justify-center shrink-0 group-hover:bg-[#4FD1C5]/10 transition-colors">
                           <f.icon className="w-6 h-6 text-[#4FD1C5]" />
                        </div>
-                       <div className="space-y-2 text-left">
+                       <div className="space-y-2">
                           <h4 className="text-xl font-bold font-headline">{f.title}</h4>
                           <p className="text-sm text-[#9AA1C0] leading-relaxed font-medium">{f.desc}</p>
                        </div>
@@ -130,7 +125,7 @@ export default function TravelInsurancePage() {
             <div className="p-10 md:p-16 bg-[#1E2650] border border-white/10 rounded-[40px] relative overflow-hidden">
                <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#E8A33D]/5 blur-[120px] -mr-32 -mt-32"></div>
                <div className="relative z-10 grid lg:grid-cols-[0.8fr_1.2fr] gap-16 items-start">
-                  <div className="space-y-6 text-left">
+                  <div className="space-y-6">
                     <div className="w-12 h-12 bg-[#E8A33D]/10 rounded-full flex items-center justify-center text-[#E8A33D]">
                       <School className="w-6 h-6" />
                     </div>
@@ -145,7 +140,7 @@ export default function TravelInsurancePage() {
                        </Button>
                     </a>
                   </div>
-                  <div className="grid sm:grid-cols-2 gap-8 text-left">
+                  <div className="grid sm:grid-cols-2 gap-8">
                     {studentFeatures.map((sf, idx) => (
                       <div key={idx} className="space-y-3">
                          <sf.icon className="w-5 h-5 text-[#E8A33D]" />
@@ -157,10 +152,10 @@ export default function TravelInsurancePage() {
                </div>
             </div>
 
-            {/* PARTNERSHIPS */}
-            <div className="grid md:grid-cols-2 gap-px bg-white/10 border border-white/10 rounded-2xl overflow-hidden shadow-xl text-left">
+            {/* CONCIERGE */}
+            <div className="grid md:grid-cols-2 gap-px bg-white/10 border border-white/10 rounded-2xl overflow-hidden shadow-xl">
                <div className="bg-[#171D3A] p-10 space-y-6 border-b md:border-b-0 md:border-r border-white/10">
-                  <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#E8A33D]">FOR ORGANISATIONS</span>
+                  <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#E8A33D]">Operational Support</span>
                   <h3 className="text-2xl font-headline font-medium">B2B Risk Workflows</h3>
                   <p className="text-sm text-[#9AA1C0] leading-relaxed font-medium">
                     Integrate travel protection into your corporate travel policy. Work with us on organizational risk and workforce scheduling.
@@ -168,17 +163,17 @@ export default function TravelInsurancePage() {
                   <ul className="space-y-3">
                      {["Automated policy mapping", "Bulk enrollment", "Corporate risk reporting"].map(li => (
                        <li key={li} className="flex items-center gap-3 text-xs font-bold text-[#F4F1E8]">
-                          <Handshake className="w-4 h-4 text-[#4FD1C5]" />
+                          <ShieldCheck className="w-4 h-4 text-[#4FD1C5]" />
                           {li}
                        </li>
                      ))}
                   </ul>
                </div>
                <div className="bg-[#171D3A] p-10 space-y-6">
-                  <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#E8A33D]">CONCIERGE SERVICES</span>
-                  <h3 className="text-2xl font-headline font-medium">Health Navigation</h3>
+                  <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#E8A33D]">Health Navigation</span>
+                  <h3 className="text-2xl font-headline font-medium">Direct Assistance</h3>
                   <p className="text-sm text-[#9AA1C0] leading-relaxed font-medium">
-                    Direct access to medical bill negotiation, provider search, and patient advocacy teams nationwide.
+                    Direct access to medical bill negotiation, provider search, and patient advocacy teams.
                   </p>
                   <div className="grid grid-cols-1 gap-4 pt-2">
                      <div className="p-4 bg-white/5 rounded-lg border border-white/5 space-y-2">
@@ -193,19 +188,18 @@ export default function TravelInsurancePage() {
                </div>
             </div>
 
-            {/* DISCLOSURE */}
-            <div className="p-10 rounded-3xl border-2 border-dashed border-white/10 bg-white/5 text-left space-y-6">
+            {/* MANDATORY DISCLOSURE */}
+            <div className="p-10 rounded-3xl border-2 border-dashed border-white/10 bg-white/5 space-y-6 text-left">
               <h2 className="font-headline text-2xl font-medium flex items-center gap-3 text-foreground tracking-tight">
                 <ShieldAlert className="w-6 h-6 text-[#E8A33D]" />
-                Important Disclosure
+                Regulatory Disclosure
               </h2>
-              <p className="text-sm text-[#9AA1C0] leading-relaxed font-medium">
-                Insurance is a subject matter of solicitation. Utsavs provides planning and date intelligence context and facilitates assistance through authorized global providers. Coverage, eligibility, and terms are determined by the applicable policy and insurer. Please review the official policy wording and applicable requirements before purchase.
-              </p>
-              <div className="h-px bg-white/10 w-full" />
-              <p className="text-xs text-[#6E7495] leading-relaxed font-medium italic text-center">
-                For detailed quotes, policy wording, and assistance network specifics, please connect with our representative on WhatsApp.
-              </p>
+              <div className="space-y-4 text-sm text-[#9AA1C0] leading-relaxed font-medium">
+                <p>Assistance services are provided by Asego Global Assistance Private Limited. Insurance is underwritten by an IRDAI authorised underwriter and is a subject matter of solicitation.</p>
+                <p>All Insurance policies are sold under the Corporate Agency of Asego Global Assistance Private Limited bearing IRDAI registration no. Ca0776. Content is for information purposes and does not accept liability unless confirmed by an authorized representative.</p>
+                <div className="h-px bg-white/10 w-full" />
+                <p className="text-xs italic text-[#6E7495]">Note: Assistance provided by Asego Travel LLP. Student Journey plans meet leading U.S. university and visa requirements for F1, J1, and M1 students.</p>
+              </div>
             </div>
 
           </div>

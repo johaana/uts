@@ -10,7 +10,6 @@ import {
   Globe, 
   Clock, 
   Landmark,
-  ShieldCheck,
   ChevronRight,
   ArrowRight,
   ShieldAlert
@@ -82,12 +81,12 @@ export default function BuiltForPage() {
       <Header />
       
       <main className="py-12 md:py-24">
-        <div className="container mx-auto px-6">
+        <div className="container mx-auto px-6 text-left">
           <div className="max-w-4xl mx-auto space-y-16">
             
             <div className="space-y-4">
               <div className="text-[12.5px] font-mono text-[#4FD1C5] tracking-widest uppercase">Built For</div>
-              <h1 className="text-4xl md:text-6xl font-headline font-medium leading-tight tracking-tight">Choose the right day for what you are trying to do.</h1>
+              <h1 className="text-4xl md:text-6xl font-headline font-medium leading-tight tracking-tight text-left">Choose the right day for what you are trying to do.</h1>
               <p className="text-xl text-[#9AA1C0] leading-relaxed max-w-2xl font-medium">
                 Travel, study, business, workforce and operations can all be affected by the same date in different ways. Utsavs helps you see the practical consequence.
               </p>
@@ -109,7 +108,7 @@ export default function BuiltForPage() {
                     <p className="text-[15px] text-[#9AA1C0] leading-relaxed font-medium">
                       {uc.description}
                     </p>
-                    <ul className="space-y-3 pt-4 border-t border-white/5 text-left">
+                    <ul className="space-y-3 pt-4 border-t border-white/5">
                        {uc.benefits.map((benefit, j) => (
                          <li key={j} className="flex items-start gap-3 text-sm text-[#F4F1E8] font-medium leading-snug">
                             <ChevronRight className="w-4 h-4 text-[#4FD1C5] shrink-0 mt-0.5" />
@@ -124,11 +123,11 @@ export default function BuiltForPage() {
 
             <div className="p-8 md:p-12 rounded-3xl border border-white/10 bg-white/5 space-y-6 text-center">
                 <ShieldAlert className="w-8 h-8 text-[#4FD1C5] mx-auto" />
-                <h2 className="text-2xl font-headline font-medium">Deterministic Intelligence</h2>
+                <h2 className="text-2xl font-headline font-medium">Verified Data & Confidence</h2>
                 <p className="text-sm text-[#9AA1C0] leading-relaxed max-w-2xl mx-auto font-medium">
-                  Unlike probabilistic AI models, Utsavs provides deterministic data. Every record is verified 
-                  against authoritative sources, making it safe for enterprise-level risk assessment and internal 
-                  workforce scheduling without the risk of hallucinations or data leakage.
+                  Utsavs provides deterministic data with explicit confidence tiers. Every record is verified 
+                  against named authoritative sources, making it safe for enterprise-level risk assessment and internal 
+                  workforce scheduling.
                 </p>
             </div>
 
