@@ -6,16 +6,17 @@ import { Footer } from '@/components/footer';
 import { cn } from '@/lib/utils';
 import { 
   ShieldCheck, 
-  RefreshCw, 
-  Globe, 
   MapPin,
-  CheckCircle2,
-  Info
+  RefreshCw,
+  Info,
+  Globe,
+  Activity,
+  AlertCircle
 } from "lucide-react";
 import { format, startOfToday } from 'date-fns';
 
 // --------------------------------------------------------------------------------
-// SIMULATED DATA (Matching Production Engine Logic)
+// AUTHORITATIVE MOCK DATA (Unique descriptions for each)
 // --------------------------------------------------------------------------------
 
 const GLOBAL_TODAY = [
@@ -30,28 +31,28 @@ const REGIONAL_FACTS: Record<string, any> = {
     state: "Maharashtra",
     event: "Ganesh Chaturthi",
     type: "Religious Holiday",
-    consequence: "Gazetted National Holiday. Mandatory closure for government and banking sectors. Expect significant urban movement impact due to public processions.",
+    consequence: "Public processions (Ganesh immersion) create severe urban congestion in Mumbai/Pune districts. Mandatory closures for public sector and banking. High density movement flagged.",
   },
   JP: {
     country: "Japan",
     state: "Tokyo",
     event: "Silver Week Opening",
     type: "National Holiday",
-    consequence: "Japan Financial Markets (JPX) and banking systems are closed. Reduced operational capacity in Tokyo and Osaka business districts.",
+    consequence: "JPX (Stock Exchange) and BoJ systems suspended. Reduced service capacity in Chiyoda and Chuo commercial wards. Logistics delays expected.",
   },
   US: {
     country: "United States",
     state: "Federal",
     event: "Labor Day (Observed)",
     type: "National Holiday",
-    consequence: "Federal Government offices and USPS are closed. Trading sessions for NYSE and NASDAQ are suspended.",
+    consequence: "Federal Government offices and USPS closed. Equity trading sessions (NYSE/NASDAQ) suspended. Public transport operates on reduced holiday schedule.",
   },
   SG: {
     country: "Singapore",
     state: "National",
     event: "Deepavali Season",
     type: "Religious Holiday",
-    consequence: "Regional Bank Holiday. High density activity in Little India district. Public sector operates at reduced capacity.",
+    consequence: "Extended trading hours in Little India district. Banks observe a regional closure. No national commercial shutdown indicated.",
   },
 };
 
@@ -70,9 +71,12 @@ const COUNTRY_OPTIONS = [
 export default function TempTrackerLabPage() {
   const [country, setCountry] = useState('IN');
   const [todayDate, setTodayDate] = useState('');
+  const [fullDate, setFullDate] = useState('');
   
   useEffect(() => {
-    setTodayDate(format(startOfToday(), 'EEEE, d MMMM yyyy'));
+    const today = startOfToday();
+    setTodayDate(format(today, 'd MMM'));
+    setFullDate(format(today, 'EEEE, d MMMM yyyy'));
   }, []);
 
   const regionalIntel = REGIONAL_FACTS[country];
@@ -81,141 +85,170 @@ export default function TempTrackerLabPage() {
     <div className="bg-[#0F1428] text-[#F4F1E8] min-h-screen font-sans selection:bg-[#E8A33D] selection:text-[#0F1428]">
       <Header />
       
-      <main className="hero">
+      <main className="py-12 md:py-16">
         <div className="wrap">
           
-          {/* LAB KICKER (Production Meta) */}
-          <div className="mb-12 flex items-center justify-between border-b border-white/10 pb-6">
-             <div className="space-y-1">
-                <div className="text-[10px] font-mono text-gold tracking-[0.3em] uppercase font-bold">Hero Simulation · Integrated Logic</div>
-                <h1 className="text-2xl font-headline font-medium text-muted">Homepage Production Preview</h1>
+          {/* LAB KICKER */}
+          <div className="mb-16 flex flex-col md:flex-row items-center justify-between border-b border-white/10 pb-8 gap-6">
+             <div className="space-y-2 text-left">
+                <div className="text-[11px] font-mono text-gold tracking-[0.4em] uppercase font-bold">Lab v10.0 · Design System Sync</div>
+                <h1 className="text-3xl font-headline font-medium">Hero Stack Variants</h1>
+                <p className="text-sm text-muted-foreground">Integrating Regional Intel as a professional note. No gaudy highlights.</p>
              </div>
-             <div className="p-3 bg-white/5 rounded-lg border border-dashed border-white/10 max-w-xs">
-                <p className="text-[10px] text-muted-dim leading-tight">
-                  This simulation uses exact production Tailwind classes. Use the Trip Checker on the right to test regional intelligence reactivity.
-                </p>
+             <div className="flex gap-4">
+                <div className="p-4 bg-white/5 rounded-xl border border-dashed border-white/10">
+                  <p className="text-[10px] text-muted-dim leading-tight">
+                    Change the <b>Destination</b> in the checker (Right) <br /> 
+                    to test regional intelligence reactivity.
+                  </p>
+                </div>
              </div>
           </div>
 
           <div className="hero-grid items-start">
             
-            {/* LEFT: HERO COPY + UNIFIED INTELLIGENCE CONTAINER */}
-            <div className="space-y-8 text-left">
-              <div className="space-y-6">
-                <h1 className="headline">
-                  Know before you fly. <br/> Know before you schedule.
-                </h1>
-                <p className="sub">
-                  Check a country and your actual dates — before you book, schedule, or send a team across borders.
-                </p>
-              </div>
-
-              {/* UNIFIED CONTAINER (Variant 5) */}
-              <div className="hero-tracker !mb-0 shadow-2xl animate-in fade-in slide-in-from-bottom-4 duration-700">
-                
-                {/* 1. Head: Today Context */}
-                <div className="hero-tracker-head">
-                    <div>
-                      <span className="hero-tracker-kicker">TODAY</span>
-                      <strong className="text-lg">{todayDate || "Determining next..."}</strong>
-                    </div>
-                    <span className="hero-tracker-live"><i></i> Intelligence view</span>
+            {/* LEFT: REPLICA HERO + VARIANTS */}
+            <div className="space-y-20">
+              
+              {/* VARIANT 5: THE UNIFIED FEED (Cleanest) */}
+              <div className="space-y-8 text-left">
+                <div className="space-y-6">
+                  <div className="flex items-center gap-3">
+                    <div className="w-1.5 h-1.5 rounded-full bg-gold"></div>
+                    <span className="text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-gold">Variant 5 (Approved Baseline)</span>
+                  </div>
+                  <h2 className="headline !mb-0">Know before you fly.</h2>
+                  <p className="sub">Verified regional data for operational planning.</p>
                 </div>
 
-                {/* 2. Global Section (Primary) */}
-                <div className="p-6 md:p-8 space-y-6 border-b border-white/10">
-                  <div className="flex justify-between items-baseline">
-                    <h4 className="font-bold font-headline text-xl text-white">Around the Globe</h4>
-                    <span className="text-[9px] font-mono text-muted-dim tracking-[0.2em] uppercase font-bold">NATIONAL</span>
-                  </div>
-                  <div className="space-y-4">
-                    {GLOBAL_TODAY.map(g => (
-                      <div key={g.name} className="flex justify-between items-center text-[14px]">
-                        <span className="font-medium leading-tight"><b className="text-white">{g.name}</b> — {g.event}</span>
-                        <span className="text-[9px] font-mono text-muted-dim uppercase font-bold tracking-wider shrink-0 ml-4">{g.type}</span>
+                <div className="hero-tracker shadow-2xl overflow-hidden border border-white/18">
+                  <div className="hero-tracker-head">
+                      <div>
+                        <span className="hero-tracker-kicker">TODAY</span>
+                        <strong className="text-[15.5px]">{fullDate}</strong>
                       </div>
-                    ))}
+                      <span className="hero-tracker-live"><i></i> Intelligence View</span>
                   </div>
-                </div>
 
-                {/* 3. Regional Intel (Subordinate Note) */}
-                <div className="p-6 md:p-8 bg-white/[0.01]">
-                   {regionalIntel ? (
-                     <div className="space-y-5">
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-2">
-                             <MapPin className="w-4 h-4 text-gold-soft" />
-                             <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-gold-soft">REGIONAL INTEL</span>
-                          </div>
-                          <div className="flex items-center gap-1.5">
-                            <ShieldCheck className="w-3.5 h-3.5 text-teal/60" />
-                            <span className="text-[9px] font-bold uppercase tracking-widest text-muted-dim">Verified Record</span>
-                          </div>
+                  {/* GLOBAL STACK */}
+                  <div className="p-6 md:p-8 space-y-5 border-b border-white/10">
+                    <div className="flex justify-between items-baseline">
+                      <h4 className="font-bold font-headline text-[15.5px] text-white">Around the Globe</h4>
+                      <span className="text-[9px] font-mono text-muted-dim tracking-[0.2em] uppercase font-bold">National Status</span>
+                    </div>
+                    <div className="space-y-3">
+                      {GLOBAL_TODAY.map(g => (
+                        <div key={g.name} className="flex justify-between items-center text-[14px]">
+                          <span className="font-medium text-paper/90"><b className="text-white">{g.name}</b> — {g.event}</span>
+                          <span className="text-[9px] font-mono text-muted-dim uppercase font-bold tracking-widest">{g.type}</span>
                         </div>
-                        <div className="space-y-2">
-                          <h5 className="font-bold text-paper/90 text-base font-headline">
-                            {regionalIntel.country} · {regionalIntel.state} · {regionalIntel.event}
-                          </h5>
-                          <p className="text-[13.5px] text-muted leading-relaxed font-medium">
-                            {regionalIntel.consequence}
-                          </p>
-                        </div>
-                        <div className="flex items-center gap-2 text-[9px] text-muted-dim font-bold uppercase tracking-widest pt-4 border-t border-white/5">
-                           <RefreshCw className="w-3 h-3 text-gold/40" />
-                           <span>Updated for {regionalIntel.country} · changes with checker</span>
-                        </div>
-                     </div>
-                   ) : (
-                     <div className="flex items-center gap-3 py-2">
-                        <CheckCircle2 className="w-5 h-5 text-teal/40" />
-                        <div className="space-y-1">
-                          <p className="text-[10px] font-bold uppercase tracking-widest text-muted-dim">REGIONAL INTEL</p>
-                          <p className="text-[13px] text-muted-dim italic">No regional variants identified for this date. National rules apply.</p>
-                        </div>
-                     </div>
-                   )}
-                </div>
-
-                {/* 4. Marquee Section */}
-                <div className="hero-tracker-feed !border-t-0">
-                  <div className="marquee">
-                    <div className="marquee-track">
-                      {[
-                        { f: '🇮🇳', c: 'India', e: 'Janmashtami' },
-                        { f: '🇯🇵', c: 'Japan', e: 'Respect for the Aged' },
-                        { f: '🇺🇸', c: 'USA', e: 'Labor Day Observed' },
-                        { f: '🇸🇬', c: 'Singapore', e: 'Deepavali' },
-                        { f: '🇲🇽', c: 'Mexico', e: 'Independence Day' },
-                        { f: '🇮🇳', c: 'India', e: 'Janmashtami' },
-                      ].map((item, i) => (
-                        <span key={i} className="chip">
-                          <b>{item.c}</b> — {item.e}
-                        </span>
                       ))}
                     </div>
                   </div>
-                </div>
 
-                <a className="hero-tracker-link text-left" href="#date-intelligence">
-                  VIEW FULL DATE INTELLIGENCE <span>→</span>
-                </a>
+                  {/* REGIONAL NOTE (Integration Path) */}
+                  <div className="p-6 md:p-8 bg-white/[0.01] text-left">
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between">
+                         <div className="flex items-center gap-2">
+                           <Activity className="w-4 h-4 text-teal" />
+                           <h4 className="text-[11px] font-bold uppercase tracking-[0.2em] text-teal">Regional Intel</h4>
+                         </div>
+                         <div className="flex items-center gap-1.5">
+                           <ShieldCheck className="w-3.5 h-3.5 text-muted-dim/60" />
+                           <span className="text-[9px] font-bold uppercase tracking-widest text-muted-dim">Verified Record</span>
+                         </div>
+                      </div>
+
+                      {regionalIntel ? (
+                        <div className="space-y-3">
+                          <p className="text-[15px] font-bold font-headline text-paper">
+                            {regionalIntel.country} · {regionalIntel.state} · {regionalIntel.event}
+                          </p>
+                          <p className="text-[13px] text-muted leading-relaxed font-medium">
+                            {regionalIntel.consequence}
+                          </p>
+                        </div>
+                      ) : (
+                        <div className="py-2 flex items-center gap-3">
+                           <CheckCircle2 className="w-4 h-4 text-muted-dim/40" />
+                           <p className="text-[13px] text-muted-dim italic font-medium">No regional variants identified for this date. National rules apply.</p>
+                        </div>
+                      )}
+
+                      <div className="flex items-center gap-2 pt-4 border-t border-white/5">
+                        <RefreshCw className="w-3 h-3 text-gold/40" />
+                        <p className="text-[9px] font-bold uppercase tracking-widest text-muted-dim">
+                          Showing regional intel for selected country. Changes with checker.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="hero-tracker-feed !border-t-0">
+                    <div className="marquee">
+                      <div className="marquee-track">
+                        {GLOBAL_TODAY.concat(GLOBAL_TODAY).map((item, i) => (
+                          <span key={i} className="chip">
+                            <b>{item.name}</b> — {item.event}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                  <a className="hero-tracker-link text-left" href="#">
+                    VIEW FULL DATE INTELLIGENCE <span>→</span>
+                  </a>
+                </div>
               </div>
+
+              {/* VARIANT 11: THE STATUS SUB-TEXT (Even more minimal) */}
+              <div className="space-y-8 text-left opacity-80">
+                <div className="flex items-center gap-3">
+                    <div className="w-1.5 h-1.5 rounded-full bg-muted-dim"></div>
+                    <span className="text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-muted-dim">Variant 11 (Subordinate Footnote)</span>
+                </div>
+                <div className="hero-tracker border border-white/10 rounded-xl overflow-hidden bg-panel">
+                   <div className="p-6 space-y-4">
+                      <h4 className="font-headline text-[15.5px] font-bold">Around the Globe Today</h4>
+                      <div className="space-y-2">
+                        {GLOBAL_TODAY.slice(0, 2).map(g => (
+                          <p key={g.name} className="text-sm text-muted font-medium"><b className="text-white">{g.name}</b>: {g.event}</p>
+                        ))}
+                      </div>
+                      <div className="pt-6 mt-6 border-t border-white/5 flex gap-4">
+                         <div className="shrink-0 pt-0.5"><Info className="w-4 h-4 text-gold-soft" /></div>
+                         <div className="space-y-1">
+                            <span className="text-[10px] font-bold uppercase tracking-widest text-gold-soft">Regional Note · {country}</span>
+                            <p className="text-[12.5px] text-muted font-medium leading-relaxed">
+                              {regionalIntel?.consequence || "No regional impact recorded for this jurisdiction."}
+                            </p>
+                         </div>
+                      </div>
+                   </div>
+                </div>
+              </div>
+
             </div>
 
-            {/* RIGHT: TRIP CHECKER (Production Accurate) */}
+            {/* RIGHT: TRIP CHECKER (The Control) */}
             <div className="checker shadow-2xl border-white/10 bg-[#171D3A] rounded-2xl p-8 lg:p-10 sticky top-24">
               <div className="flex justify-between items-center mb-8">
                  <h3 className="font-headline font-medium text-xl">Trip impact checker</h3>
                  <div className="flex items-center gap-1.5 px-2.5 py-1 bg-teal/10 border border-teal/20 rounded-full">
                     <div className="w-1 h-1 rounded-full bg-teal animate-pulse" />
-                    <span className="text-[9px] font-bold uppercase tracking-widest text-teal">Live Connection</span>
+                    <span className="text-[9px] font-bold uppercase tracking-widest text-teal">Live</span>
                  </div>
               </div>
 
               <div className="space-y-6">
                 <div className="checker-field">
                   <label>Destination / Jurisdiction</label>
-                  <select value={country} onChange={e => setCountry(e.target.value)} className="w-full bg-[#1E2650] border border-white/18 text-white rounded-xl px-4 py-3.5 text-sm focus:border-gold outline-none transition-all">
+                  <select 
+                    value={country} 
+                    onChange={e => setCountry(e.target.value)} 
+                    className="w-full bg-[#1E2650] border border-white/18 text-white rounded-xl px-4 py-3.5 text-sm focus:border-gold outline-none transition-all cursor-pointer"
+                  >
                     {COUNTRY_OPTIONS.map(c => <option key={c.code} value={c.code}>{c.name}</option>)}
                   </select>
                 </div>
@@ -233,25 +266,16 @@ export default function TempTrackerLabPage() {
                   Check Impact
                 </button>
               </div>
-
-              <div className="mt-8 pt-8 border-t border-white/10">
-                 <div className="flex items-start gap-3 p-4 bg-white/5 rounded-xl border border-dashed border-white/10">
-                    <Info className="w-4 h-4 text-gold-soft shrink-0 mt-0.5" />
-                    <p className="text-[10px] text-muted-dim leading-relaxed font-medium">
-                      Note: Changing the destination here will dynamically update the <b>Regional Intel</b> section on the left to reflect local jurisdiction rules.
-                    </p>
-                 </div>
-              </div>
             </div>
 
           </div>
 
-          {/* FOOTER NOTE (Cinema Style) */}
+          {/* QUOTE SECTION */}
           <div className="mt-32 pt-20 border-t border-white/10 max-w-3xl mx-auto text-center space-y-6">
-             <h3 className="font-headline text-2xl md:text-3xl italic text-paper/80">"The same date can mean something entirely different as you cross a border. We capture the nuance, not just the date."</h3>
+             <h3 className="font-headline text-2xl md:text-3xl italic text-paper/80">"One place for the calendar fact, travel signals and institutional evidence — with the scope kept visible."</h3>
              <div className="flex justify-center gap-4">
-                <span className="font-mono text-[11px] text-muted-dim border border-white/10 px-4 py-1.5 rounded-full uppercase tracking-widest">Region-aware</span>
                 <span className="font-mono text-[11px] text-muted-dim border border-white/10 px-4 py-1.5 rounded-full uppercase tracking-widest">Source-aware</span>
+                <span className="font-mono text-[11px] text-muted-dim border border-white/10 px-4 py-1.5 rounded-full uppercase tracking-widest">Region-aware</span>
              </div>
           </div>
 
