@@ -1,22 +1,20 @@
 
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { cn } from '@/lib/utils';
 import { 
   RefreshCw,
-  Search,
-  ShieldCheck,
   Globe,
   MapPin,
-  AlertCircle
+  AlertCircle,
+  ShieldCheck
 } from "lucide-react";
-import { format } from 'date-fns';
 
 // --------------------------------------------------------------------------------
-// AUTHORITATIVE MOCK DATA (Improvised for High-Density Intel)
+// AUTHORITATIVE MOCK DATA (Impact-First Improvised Content)
 // --------------------------------------------------------------------------------
 
 const MARQUEE_DATA = [
@@ -30,13 +28,13 @@ const MARQUEE_DATA = [
 const GLOBAL_INTEL = [
   {
     event: "Indonesia — Maulid Nabi",
-    meta: "Today · 12 jurisdictions · National Holiday",
-    desc: "Systemic public sector closures. Global banking systems active; regional settlement latency flagged."
+    meta: "12 JURISDICTIONS · NATIONAL HOLIDAY",
+    desc: "BANKING: Systemic public closures. Active settlement latency flagged for regional corridors."
   },
   {
     event: "Hong Kong — Mid-Autumn Festival",
-    meta: "Today · Regional · Public Holiday",
-    desc: "Modified trading session. Public transport on extended evening schedules. Normal logistics flow."
+    meta: "REGIONAL · PUBLIC HOLIDAY",
+    desc: "MARKETS: Modified trading session. LOGISTICS: Standard port flow; extended transit schedules."
   }
 ];
 
@@ -45,25 +43,25 @@ const REGIONAL_INTEL_MAP: Record<string, any> = {
     country: "INDIA",
     region: "Maharashtra",
     event: "Janmashtami / Dahi Handi",
-    intel: "Mandatory public/bank closures. High urban movement impact in Mumbai due to public processions."
+    intel: "URBAN: High density movement impact in Mumbai/Pune. BANKING: Mandatory regional closures."
   },
   JP: {
     country: "JAPAN",
     region: "Tokyo",
     event: "Respect for the Aged Day",
-    intel: "JPX (Stock Exchange) suspended. BoJ settlement systems offline. Standard national logistics delays."
+    intel: "MARKETS: JPX session suspended. BANKING: BoJ systems offline. LOGISTICS: 24h delay expected."
   },
   US: {
     country: "UNITED STATES",
     region: "Federal",
     event: "Labor Day",
-    intel: "NYSE/NASDAQ sessions suspended. USPS and Federal offices closed. Transit on Sunday schedule."
+    intel: "MARKETS: NYSE/NASDAQ suspended. GOVT: Federal offices closed. LOGISTICS: Sunday schedule."
   },
   SG: {
     country: "SINGAPORE",
     region: "Little India",
     event: "Deepavali Season",
-    intel: "Extended trading in Little India district. No national commercial shutdown indicated for this date."
+    intel: "RETAIL: Extended trading in Little India. No national commercial shutdown indicated for this date."
   },
 };
 
@@ -81,7 +79,7 @@ const COUNTRY_OPTIONS = [
 
 export default function TempTrackerLabPage() {
   const [country, setCountry] = useState('IN');
-  const [todayFull, setTodayFull] = useState('Friday, 4 September 2026');
+  const [todayFull] = useState('Friday, 4 September 2026');
   const [isComparing, setIsComparing] = useState(false);
   const [mode, setMode] = useState('traveler');
   
@@ -92,7 +90,7 @@ export default function TempTrackerLabPage() {
       <Header />
       
       <main>
-        {/* HERO REPLICA */}
+        {/* REPLICA HERO CONTAINER */}
         <section className="hero">
           <div className="wrap hero-grid">
             
@@ -103,7 +101,7 @@ export default function TempTrackerLabPage() {
               </h1>
               <p className="sub hidden md:block">Check a country and your actual dates — before you book, schedule, send a student, or send an employee across borders.</p>
 
-              {/* THE TRACKER */}
+              {/* REPLICA TRACKER */}
               <aside className="hero-tracker md:order-last">
                 <div className="hero-tracker-head">
                   <div>
@@ -114,21 +112,21 @@ export default function TempTrackerLabPage() {
                 </div>
 
                 <div className="hero-tracker-next-grid text-left">
-                  {/* GLOBAL STATUS SECTION (High-visibility Teal Anchor) */}
+                  {/* GLOBAL STATUS (Teal Anchor) */}
                   <div className="bg-white/[0.01]">
-                    <div className="px-[18px] pt-4 pb-1 flex items-center justify-between border-l-2 border-[#4FD1C5]/40">
+                    <div className="px-[18px] pt-4 pb-1 flex items-center justify-between border-l-2 border-[#4FD1C5]">
                       <span className="next-card-kicker flex items-center gap-1.5 !text-[#4FD1C5]">
                         <Globe className="w-2.5 h-2.5" /> AROUND THE GLOBE
                       </span>
-                      <span className="text-[8px] font-bold text-[#4FD1C5]/40 uppercase tracking-widest">Global Facts</span>
+                      <span className="text-[8px] font-bold text-[#4FD1C5]/40 uppercase tracking-widest">Global Impacts</span>
                     </div>
                     
                     <div className="space-y-4 pb-4">
                       {GLOBAL_INTEL.map((item, idx) => (
                         <div key={idx} className={cn("px-[18px] py-1.5", idx > 0 && "border-t border-white/5 pt-3")}>
-                          <span className="next-card-name text-[14.5px]">{item.event}</span>
-                          <span className="next-card-date text-[10px] text-[#4FD1C5] mb-1.5 block font-bold uppercase tracking-wider">{item.meta}</span>
-                          <p className="text-[12px] text-muted leading-tight font-medium max-w-[360px]">
+                          <span className="next-card-name text-[14.5px] font-bold">{item.event}</span>
+                          <span className="next-card-date text-[10px] text-[#4FD1C5] mb-1 block font-bold uppercase tracking-wider">{item.meta}</span>
+                          <p className="text-[12px] text-[#9AA1C0] leading-tight font-medium max-w-[360px]">
                               {item.desc}
                           </p>
                         </div>
@@ -136,7 +134,7 @@ export default function TempTrackerLabPage() {
                     </div>
                   </div>
 
-                  {/* REGIONAL INTEL SECTION (High-visibility Gold Anchor) */}
+                  {/* REGIONAL INTEL (Gold Anchor) */}
                   <div className="hero-tracker-next-card border-t border-white/10 bg-[#E8A33D]/[0.02] py-5 relative">
                      <div className="absolute left-0 top-0 bottom-0 w-[2px] bg-[#E8A33D]"></div>
                      
@@ -144,7 +142,7 @@ export default function TempTrackerLabPage() {
                         <span className="next-card-kicker !text-[#E8A33D] uppercase tracking-widest flex items-center gap-1.5">
                            <MapPin className="w-2.5 h-2.5" /> JURISDICTION INTEL · {regionalIntel?.country || 'NA'}
                         </span>
-                        {regionalIntel && <span className="text-[8px] font-bold text-[#E8A33D] border border-[#E8A33D]/40 px-1.5 py-0.5 rounded-sm uppercase tracking-widest">Selection Active</span>}
+                        {regionalIntel && <span className="text-[8px] font-bold text-[#E8A33D] border border-[#E8A33D]/40 px-1.5 py-0.5 rounded-sm uppercase tracking-widest">Live Nuance</span>}
                      </div>
                      
                      {regionalIntel ? (
@@ -152,24 +150,24 @@ export default function TempTrackerLabPage() {
                           <span className="next-card-name !text-[14.5px] block font-bold">
                             {regionalIntel.event} · {regionalIntel.region}
                           </span>
-                          <span className="next-card-date text-[12px] leading-relaxed text-muted block font-medium max-w-[360px]">
+                          <p className="text-[12px] leading-tight text-[#9AA1C0] block font-medium max-w-[360px]">
                               {regionalIntel.intel}
-                          </span>
+                          </p>
                        </div>
                      ) : (
                        <div className="py-2 px-1">
-                          <span className="next-card-date italic text-muted-dim font-medium text-[12px] flex items-center gap-2">
+                          <span className="next-card-date italic text-[#6E7495] font-medium text-[12px] flex items-center gap-2">
                              <AlertCircle className="w-3.5 h-3.5 opacity-50" /> No regional variants identified. National rules apply.
                           </span>
                        </div>
                      )}
 
-                     {/* Optimized Compact Footer */}
+                     {/* COMPACT FOOTER */}
                      <div className="mt-5 pt-3 border-t border-white/5 flex items-center justify-between px-1">
                         <div className="flex items-center gap-2">
-                           <RefreshCw className="w-2 h-2 text-[#E8A33D]/60" />
-                           <span className="text-[8.5px] font-bold uppercase tracking-widest text-muted-dim">
-                              Synchronized with selection.
+                           <RefreshCw className="w-2.5 h-2.5 text-[#E8A33D]" />
+                           <span className="text-[8.5px] font-bold uppercase tracking-widest text-[#9AA1C0]">
+                              Jurisdictional context. Synced with selection.
                            </span>
                         </div>
                         <div className="flex items-center gap-1.5">
@@ -180,7 +178,7 @@ export default function TempTrackerLabPage() {
                   </div>
                 </div>
 
-                {/* MARQUEE WITH DATES (High Clarity) */}
+                {/* MARQUEE TRACK (Dates Restored) */}
                 <div className="hero-tracker-feed">
                   <div className="marquee">
                     <div className="marquee-track">
@@ -199,7 +197,7 @@ export default function TempTrackerLabPage() {
               </aside>
             </div>
 
-            {/* CHECKER REPLICA */}
+            {/* REPLICA TRIP CHECKER */}
             <div className="checker text-left" style={{ order: 1 }}>
               <div className="checker-top">
                 <h3 className="font-headline text-[18px]">Trip impact checker</h3>
@@ -260,7 +258,7 @@ export default function TempTrackerLabPage() {
            <div className="section-head text-left max-w-3xl">
               <div className="kicker">★ Global Intelligence</div>
               <h2 className="section-title">Verified facts for cross-border planning.</h2>
-              <p className="text-lg text-muted">Reconciling public calendars with institutional closures and regional rules for zero-AI reliability.</p>
+              <p className="text-lg text-[#9AA1C0]">Reconciling public calendars with institutional closures and regional rules for zero-AI reliability.</p>
            </div>
         </section>
 
