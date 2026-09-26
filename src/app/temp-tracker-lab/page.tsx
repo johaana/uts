@@ -16,17 +16,17 @@ import { format, startOfToday } from 'date-fns';
 // --------------------------------------------------------------------------------
 
 const MARQUEE_DATA = [
-  { c: 'India', e: 'Janmashtami, Dahi Handi' },
-  { c: 'Japan', e: 'Respect for the Aged Day' },
-  { c: 'Mexico', e: 'Independence Day' },
-  { c: 'USA', e: 'Labor Day' },
-  { c: 'Singapore', e: 'Deepavali Season' }
+  { c: 'India', e: 'Janmashtami', d: '4 Sep' },
+  { c: 'Japan', e: 'Respect for Aged', d: '21 Sep' },
+  { c: 'Mexico', e: 'Indep. Day', d: '16 Sep' },
+  { c: 'USA', e: 'Labor Day', d: '7 Sep' },
+  { c: 'Singapore', e: 'Deepavali', d: '8 Nov' }
 ];
 
 const GLOBAL_INTEL = {
   event: "Indonesia — Maulid Nabi",
   meta: "Today · 12 jurisdictions affected · National Holiday",
-  desc: "Significant public sector closures across Southeast Asia. Global settlement systems remain active with regional latency flagged."
+  desc: "Significant public sector closures across SE Asia. Global settlement systems active; regional latency flagged."
 };
 
 const REGIONAL_INTEL_MAP: Record<string, any> = {
@@ -34,25 +34,25 @@ const REGIONAL_INTEL_MAP: Record<string, any> = {
     country: "INDIA",
     region: "Maharashtra",
     event: "Ganesh Chaturthi",
-    intel: "Mandatory closures for public sector and banking. High urban movement impact flagged in Mumbai/Pune due to public processions."
+    intel: "Mandatory public/bank closures. High urban movement impact in Mumbai/Pune due to public processions."
   },
   JP: {
     country: "JAPAN",
     region: "Tokyo",
     event: "Respect for the Aged Day",
-    intel: "JPX (Stock Exchange) and BoJ systems suspended. Standard logistics delays expected across all prefectures."
+    intel: "JPX (Stock Exchange) and BoJ systems suspended. Standard logistics delays expected nationwide."
   },
   US: {
     country: "UNITED STATES",
     region: "Federal",
     event: "Labor Day",
-    intel: "NYSE/NASDAQ sessions suspended. USPS and Federal offices closed. Transit operates on holiday schedule."
+    intel: "NYSE/NASDAQ sessions suspended. USPS and Federal offices closed. Transit on holiday schedule."
   },
   SG: {
     country: "SINGAPORE",
     region: "Little India",
     event: "Deepavali Season",
-    intel: "Extended trading hours in Little India district. No national commercial shutdown indicated for this date."
+    intel: "Extended trading in Little India district. No national commercial shutdown indicated for this date."
   },
 };
 
@@ -74,11 +74,6 @@ export default function TempTrackerLabPage() {
   const [isComparing, setIsComparing] = useState(false);
   const [mode, setMode] = useState('traveler');
   
-  useEffect(() => {
-    // Force a specific prototype date for the lab view
-    // In production this would be startOfToday()
-  }, []);
-
   const regionalIntel = REGIONAL_INTEL_MAP[country];
 
   return (
@@ -86,11 +81,10 @@ export default function TempTrackerLabPage() {
       <Header />
       
       <main>
-        {/* EXACT HERO REPLICA SECTION */}
         <section className="hero">
           <div className="wrap hero-grid">
             
-            {/* LEFT COLUMN: REPLICA COPY & TRACKER */}
+            {/* LEFT COLUMN: HERO REPLICA */}
             <div className="hero-copy text-left">
               <h1 className="headline md:max-w-none max-w-[320px]">
                 Know before you fly. <br className="md:hidden" />
@@ -98,7 +92,7 @@ export default function TempTrackerLabPage() {
               </h1>
               <p className="sub hidden md:block">Check a country and your actual dates — before you book, schedule, send a student, or send an employee across borders.</p>
 
-              {/* THE TRACKER (INTEGRATED V5 STYLE) */}
+              {/* THE TRACKER */}
               <aside className="hero-tracker md:order-last">
                 <div className="hero-tracker-head">
                   <div>
@@ -114,12 +108,12 @@ export default function TempTrackerLabPage() {
                     <span className="next-card-kicker">AROUND THE GLOBE</span>
                     <span className="next-card-name text-[15px] mt-1">{GLOBAL_INTEL.event}</span>
                     <span className="next-card-date text-[10.5px] opacity-60 mb-2 block">{GLOBAL_INTEL.meta}</span>
-                    <p className="text-[13px] text-muted leading-relaxed font-medium">
+                    <p className="text-[12.5px] text-muted leading-snug font-medium max-w-[340px]">
                         {GLOBAL_INTEL.desc}
                     </p>
                   </div>
 
-                  {/* REGIONAL INTEL NOTE (INTEGRATED V5 STYLE) */}
+                  {/* REGIONAL INTEL NOTE */}
                   <div className="hero-tracker-next-card border-t border-white/10 bg-white/[0.01]">
                      <div className="flex justify-between items-center mb-1">
                         <span className="next-card-kicker !text-[#E8A33D] uppercase tracking-widest">REGIONAL INTEL · {regionalIntel?.country || 'NA'}</span>
@@ -130,13 +124,13 @@ export default function TempTrackerLabPage() {
                           <span className="next-card-name !text-[15px] block">
                             {regionalIntel.event} · {regionalIntel.region}
                           </span>
-                          <span className="next-card-date text-[13px] leading-relaxed text-muted block font-medium">
+                          <span className="next-card-date text-[12.5px] leading-snug text-muted block font-medium max-w-[340px]">
                               {regionalIntel.intel}
                           </span>
                        </div>
                      ) : (
                        <div className="py-2">
-                          <span className="next-card-date italic text-muted-dim font-medium text-[13px]">No regional variants identified for this date. National rules apply.</span>
+                          <span className="next-card-date italic text-muted-dim font-medium text-[12.5px]">No regional variants identified. National rules apply.</span>
                        </div>
                      )}
 
@@ -147,13 +141,13 @@ export default function TempTrackerLabPage() {
                   </div>
                 </div>
 
-                {/* NO-DATE MARQUEE */}
+                {/* MARQUEE WITH DATES */}
                 <div className="hero-tracker-feed">
                   <div className="marquee">
                     <div className="marquee-track">
                       {MARQUEE_DATA.concat(MARQUEE_DATA).map((item, i) => (
                         <span key={i} className="chip">
-                          <b>{item.c}</b> — {item.e}
+                          <b>{item.c}</b> — {item.e} · {item.d}
                         </span>
                       ))}
                     </div>
@@ -166,7 +160,7 @@ export default function TempTrackerLabPage() {
               </aside>
             </div>
 
-            {/* RIGHT COLUMN: THE CHECKER REPLICA */}
+            {/* RIGHT COLUMN: THE CHECKER */}
             <div className="checker text-left" style={{ order: 1 }}>
               <div className="checker-top">
                 <h3 className="font-headline text-[18px]">Trip impact checker</h3>
@@ -223,7 +217,6 @@ export default function TempTrackerLabPage() {
           </div>
         </section>
 
-        {/* REPLICA FOOTER SECTIONS */}
         <section className="wrap py-24 border-t border-white/5">
            <div className="section-head text-left max-w-3xl">
               <div className="kicker">★ Global Intelligence</div>
