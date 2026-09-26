@@ -26,7 +26,7 @@ const MARQUEE_DATA = [
 
 const GLOBAL_INTEL = {
   event: "Indonesia — Maulid Nabi",
-  meta: "Today · 12 jurisdictions affected · National Holiday",
+  meta: "4 Sep · 12 countries · National Holiday",
   desc: "Significant public sector closures across SE Asia. Global settlement systems active; regional latency flagged."
 };
 
@@ -82,10 +82,10 @@ export default function TempTrackerLabPage() {
       <Header />
       
       <main>
+        {/* HERO REPLICA */}
         <section className="hero">
           <div className="wrap hero-grid">
             
-            {/* LEFT COLUMN: HERO REPLICA */}
             <div className="hero-copy text-left">
               <h1 className="headline md:max-w-none max-w-[320px]">
                 Know before you fly. <br className="md:hidden" />
@@ -116,11 +116,9 @@ export default function TempTrackerLabPage() {
                     </p>
                   </div>
 
-                  {/* REGIONAL INTEL NOTE (Compact & Integrated) */}
+                  {/* REGIONAL INTEL NOTE (Optimized for Space) */}
                   <div className="hero-tracker-next-card border-t border-white/10 bg-white/[0.01]">
-                     <div className="flex justify-between items-center mb-1">
-                        <span className="next-card-kicker !text-[#E8A33D] uppercase tracking-widest">REGIONAL INTEL · {regionalIntel?.country || 'NA'}</span>
-                     </div>
+                     <span className="next-card-kicker !text-[#E8A33D] uppercase tracking-widest">REGIONAL INTEL · {regionalIntel?.country || 'NA'}</span>
                      
                      {regionalIntel ? (
                        <div className="space-y-1">
@@ -137,17 +135,17 @@ export default function TempTrackerLabPage() {
                        </div>
                      )}
 
-                     {/* Proper Explanatory Note */}
-                     <div className="mt-4 pt-4 border-t border-white/5 flex items-start gap-2.5 opacity-60">
-                        <RefreshCw className="w-3 h-3 text-[#E8A33D] mt-0.5 shrink-0" />
-                        <span className="text-[10px] font-bold uppercase tracking-widest text-[#9AA1C0] leading-normal">
-                          Jurisdiction-specific intelligence. Synchronized with your checker selection.
+                     {/* Compact Wording & Better use of space */}
+                     <div className="mt-3 pt-3 border-t border-white/5 flex items-center gap-2 opacity-50">
+                        <RefreshCw className="w-2.5 h-2.5 text-[#E8A33D]" />
+                        <span className="text-[9px] font-bold uppercase tracking-widest text-[#9AA1C0]">
+                          Jurisdiction-specific. Synchronized with selection.
                         </span>
                      </div>
                   </div>
                 </div>
 
-                {/* MARQUEE WITH DATES RESTORED */}
+                {/* MARQUEE WITH DATES */}
                 <div className="hero-tracker-feed">
                   <div className="marquee">
                     <div className="marquee-track">
@@ -166,7 +164,7 @@ export default function TempTrackerLabPage() {
               </aside>
             </div>
 
-            {/* RIGHT COLUMN: THE CHECKER */}
+            {/* CHECKER REPLICA */}
             <div className="checker text-left" style={{ order: 1 }}>
               <div className="checker-top">
                 <h3 className="font-headline text-[18px]">Trip impact checker</h3>
