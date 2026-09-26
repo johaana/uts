@@ -20,7 +20,8 @@ import {
   AlertCircle,
   TrendingUp,
   Fingerprint,
-  List
+  List,
+  Globe
 } from "lucide-react";
 
 // --------------------------------------------------------------------------------
