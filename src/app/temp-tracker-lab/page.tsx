@@ -13,7 +13,7 @@ import {
 import { format, startOfToday } from 'date-fns';
 
 // --------------------------------------------------------------------------------
-// AUTHORITATIVE MOCK DATA
+// AUTHORITATIVE MOCK DATA (High Density for Lab)
 // --------------------------------------------------------------------------------
 
 const MARQUEE_DATA = [
@@ -24,11 +24,18 @@ const MARQUEE_DATA = [
   { c: 'Singapore', e: 'Deepavali', d: '8 Nov' }
 ];
 
-const GLOBAL_INTEL = {
-  event: "Indonesia — Maulid Nabi",
-  meta: "4 Sep · 12 countries · National Holiday",
-  desc: "Significant public sector closures across SE Asia. Global settlement systems active; regional latency flagged."
-};
+const GLOBAL_INTEL = [
+  {
+    event: "Indonesia — Maulid Nabi",
+    meta: "Today · 12 jurisdictions affected · National Holiday",
+    desc: "Significant public sector closures across SE Asia. Global systems active; regional latency flagged."
+  },
+  {
+    event: "Hong Kong — Mid-Autumn Festival",
+    meta: "Today · Regional · Public Holiday",
+    desc: "Evening festivities. Transport on extended schedules. Banking operations modified."
+  }
+];
 
 const REGIONAL_INTEL_MAP: Record<string, any> = {
   IN: {
@@ -104,41 +111,48 @@ export default function TempTrackerLabPage() {
                 </div>
 
                 <div className="hero-tracker-next-grid text-left">
-                  {/* GLOBAL STATUS CARD */}
-                  <div className="hero-tracker-next-card">
-                    <span className="next-card-kicker flex items-center gap-1.5">
-                      <ShieldCheck className="w-2.5 h-2.5" /> AROUND THE GLOBE
-                    </span>
-                    <span className="next-card-name text-[15px] mt-1">{GLOBAL_INTEL.event}</span>
-                    <span className="next-card-date text-[10.5px] opacity-60 mb-2 block">{GLOBAL_INTEL.meta}</span>
-                    <p className="text-[12.5px] text-muted leading-snug font-medium max-w-[340px]">
-                        {GLOBAL_INTEL.desc}
-                    </p>
+                  {/* GLOBAL STATUS SECTION (Compact Multiple Events) */}
+                  <div className="bg-white/[0.01]">
+                    <div className="px-[18px] pt-3 pb-1">
+                      <span className="next-card-kicker flex items-center gap-1.5 !text-[#4FD1C5]">
+                        <ShieldCheck className="w-2.5 h-2.5" /> AROUND THE GLOBE
+                      </span>
+                    </div>
+                    
+                    {GLOBAL_INTEL.map((item, idx) => (
+                      <div key={idx} className={cn("px-[18px] py-2.5", idx > 0 && "border-t border-white/5")}>
+                        <span className="next-card-name text-[14.5px]">{item.event}</span>
+                        <span className="next-card-date text-[10px] opacity-50 mb-1.5 block">{item.meta}</span>
+                        <p className="text-[12px] text-muted leading-tight font-medium max-w-[360px]">
+                            {item.desc}
+                        </p>
+                      </div>
+                    ))}
                   </div>
 
-                  {/* REGIONAL INTEL NOTE (Optimized for Space) */}
-                  <div className="hero-tracker-next-card border-t border-white/10 bg-white/[0.01]">
+                  {/* REGIONAL INTEL NOTE (Synchronized Card) */}
+                  <div className="hero-tracker-next-card border-t border-white/10 bg-white/[0.02] py-4">
                      <span className="next-card-kicker !text-[#E8A33D] uppercase tracking-widest">REGIONAL INTEL · {regionalIntel?.country || 'NA'}</span>
                      
                      {regionalIntel ? (
                        <div className="space-y-1">
-                          <span className="next-card-name !text-[15px] block">
+                          <span className="next-card-name !text-[14.5px] block">
                             {regionalIntel.event} · {regionalIntel.region}
                           </span>
-                          <span className="next-card-date text-[12.5px] leading-snug text-muted block font-medium max-w-[340px]">
+                          <span className="next-card-date text-[12px] leading-tight text-muted block font-medium max-w-[360px]">
                               {regionalIntel.intel}
                           </span>
                        </div>
                      ) : (
                        <div className="py-1">
-                          <span className="next-card-date italic text-muted-dim font-medium text-[12.5px]">No regional variants identified. National rules apply.</span>
+                          <span className="next-card-date italic text-muted-dim font-medium text-[12px]">No regional variants identified. National rules apply.</span>
                        </div>
                      )}
 
-                     {/* Compact Wording & Better use of space */}
-                     <div className="mt-3 pt-3 border-t border-white/5 flex items-center gap-2 opacity-50">
-                        <RefreshCw className="w-2.5 h-2.5 text-[#E8A33D]" />
-                        <span className="text-[9px] font-bold uppercase tracking-widest text-[#9AA1C0]">
+                     {/* Shorter Explanatory Note */}
+                     <div className="mt-3 pt-3 border-t border-white/5 flex items-center gap-2">
+                        <RefreshCw className="w-2 h-2 text-[#E8A33D]/60" />
+                        <span className="text-[8.5px] font-bold uppercase tracking-widest text-muted-dim">
                           Jurisdiction-specific. Synchronized with selection.
                         </span>
                      </div>
