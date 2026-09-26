@@ -8,7 +8,9 @@ import { cn } from '@/lib/utils';
 import { 
   RefreshCw,
   Search,
-  ShieldCheck
+  ShieldCheck,
+  Globe,
+  MapPin
 } from "lucide-react";
 import { format, startOfToday } from 'date-fns';
 
@@ -111,12 +113,13 @@ export default function TempTrackerLabPage() {
                 </div>
 
                 <div className="hero-tracker-next-grid text-left">
-                  {/* GLOBAL STATUS SECTION (Compact Multiple Events) */}
+                  {/* GLOBAL STATUS SECTION (Teal Anchor for Global) */}
                   <div className="bg-white/[0.01]">
-                    <div className="px-[18px] pt-3 pb-1">
+                    <div className="px-[18px] pt-3 pb-1 flex items-center justify-between">
                       <span className="next-card-kicker flex items-center gap-1.5 !text-[#4FD1C5]">
-                        <ShieldCheck className="w-2.5 h-2.5" /> AROUND THE GLOBE
+                        <Globe className="w-2.5 h-2.5" /> AROUND THE GLOBE
                       </span>
+                      <span className="text-[8px] font-bold text-[#4FD1C5]/40 uppercase tracking-widest">Global Status</span>
                     </div>
                     
                     {GLOBAL_INTEL.map((item, idx) => (
@@ -130,12 +133,20 @@ export default function TempTrackerLabPage() {
                     ))}
                   </div>
 
-                  {/* REGIONAL INTEL NOTE (Synchronized Card) */}
-                  <div className="hero-tracker-next-card border-t border-white/10 bg-white/[0.02] py-4">
-                     <span className="next-card-kicker !text-[#E8A33D] uppercase tracking-widest">REGIONAL INTEL · {regionalIntel?.country || 'NA'}</span>
+                  {/* REGIONAL INTEL NOTE (Gold Anchor for Regional Nuance) */}
+                  <div className="hero-tracker-next-card border-t border-white/10 bg-[#E8A33D]/[0.02] py-4 relative">
+                     {/* Subtle side accent for quick glance visibility */}
+                     <div className="absolute left-0 top-4 bottom-4 w-[2px] bg-[#E8A33D]/40"></div>
+                     
+                     <div className="px-1 flex items-center justify-between mb-3">
+                        <span className="next-card-kicker !text-[#E8A33D] uppercase tracking-widest flex items-center gap-1.5">
+                           <MapPin className="w-2.5 h-2.5" /> REGIONAL INTEL · {regionalIntel?.country || 'NA'}
+                        </span>
+                        {regionalIntel && <span className="text-[8px] font-bold text-[#E8A33D]/60 border border-[#E8A33D]/30 px-1.5 py-0.5 rounded-sm uppercase tracking-widest">Nuance</span>}
+                     </div>
                      
                      {regionalIntel ? (
-                       <div className="space-y-1">
+                       <div className="space-y-1 px-1">
                           <span className="next-card-name !text-[14.5px] block">
                             {regionalIntel.event} · {regionalIntel.region}
                           </span>
@@ -144,22 +155,25 @@ export default function TempTrackerLabPage() {
                           </span>
                        </div>
                      ) : (
-                       <div className="py-1">
+                       <div className="py-1 px-1">
                           <span className="next-card-date italic text-muted-dim font-medium text-[12px]">No regional variants identified. National rules apply.</span>
                        </div>
                      )}
 
-                     {/* Shorter Explanatory Note */}
-                     <div className="mt-3 pt-3 border-t border-white/5 flex items-center gap-2">
-                        <RefreshCw className="w-2 h-2 text-[#E8A33D]/60" />
-                        <span className="text-[8.5px] font-bold uppercase tracking-widest text-muted-dim">
-                          Jurisdiction-specific. Synchronized with selection.
-                        </span>
+                     {/* Optimized Compact Footer */}
+                     <div className="mt-4 pt-3 border-t border-white/5 flex items-center justify-between px-1">
+                        <div className="flex items-center gap-2">
+                           <RefreshCw className="w-2 h-2 text-[#E8A33D]/60" />
+                           <span className="text-[8.5px] font-bold uppercase tracking-widest text-muted-dim">
+                              Jurisdiction-specific. Synchronized with selection.
+                           </span>
+                        </div>
+                        <ShieldCheck className="w-3 h-3 text-[#4FD1C5]/30" />
                      </div>
                   </div>
                 </div>
 
-                {/* MARQUEE WITH DATES */}
+                {/* MARQUEE WITH DATES (Preserved as requested) */}
                 <div className="hero-tracker-feed">
                   <div className="marquee">
                     <div className="marquee-track">
