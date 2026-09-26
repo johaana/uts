@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { cn } from '@/lib/utils';
+import { Badge } from '@/components/ui/badge';
 import { 
   ShieldCheck, 
   RefreshCw, 
@@ -18,7 +19,8 @@ import {
   CheckCircle2,
   AlertCircle,
   TrendingUp,
-  Fingerprint
+  Fingerprint,
+  List
 } from "lucide-react";
 
 // --------------------------------------------------------------------------------
@@ -78,7 +80,7 @@ const COUNTRY_OPTIONS = [
 const ReactiveNote = () => (
   <div className="flex items-start gap-2 text-[9px] text-muted-dim font-bold uppercase tracking-widest mt-3 pt-3 border-t border-white/5">
     <RefreshCw className="w-3 h-3 animate-spin-slow mt-0.5" />
-    <span className="leading-relaxed">This shows regional intel for the selected country. Changes with checker selection.</span>
+    <span className="leading-relaxed text-left">Showing regional intel for the selected country. Changes with checker selection.</span>
   </div>
 );
 
@@ -131,12 +133,12 @@ export default function TempTrackerLabPage() {
                 </div>
                 <aside className="border border-white/18 rounded-2xl bg-[#171D3A] overflow-hidden shadow-2xl">
                   <div className="p-6 space-y-6">
-                    <div className="flex justify-between items-baseline border-b border-white/10 pb-4">
+                    <div className="flex justify-between items-baseline border-b border-white/10 pb-4 text-left">
                       <h4 className="text-xl font-bold font-headline text-white">Around the Globe</h4>
                       <span className="text-[10px] font-mono text-muted-dim tracking-widest uppercase">TODAY</span>
                     </div>
                     
-                    <div className="space-y-4">
+                    <div className="space-y-4 text-left">
                        {GLOBAL_TODAY.map(g => (
                          <div key={g.code} className="flex justify-between items-center text-[13px]">
                             <span><b className="text-white">{g.name}</b> — {g.event}</span>
@@ -156,7 +158,7 @@ export default function TempTrackerLabPage() {
                               </div>
                             </div>
                             <div className="p-4 bg-white/[0.02] border border-white/5 rounded-xl space-y-1">
-                              <h5 className="text-sm font-bold text-paper/90">{regionalIntel.event} · {regionalIntel.country} · {regionalIntel.state}</h5>
+                              <h5 className="text-sm font-bold text-paper/90">{regionalIntel.country} · {regionalIntel.state} · {regionalIntel.event}</h5>
                               <p className="text-[12px] text-muted leading-relaxed font-medium">{regionalIntel.consequence}</p>
                             </div>
                             <ReactiveNote />
@@ -523,7 +525,7 @@ export default function TempTrackerLabPage() {
                       <MousePointerClick className="w-4 h-4 text-gold-soft" />
                    </div>
                    <p className="text-[11px] text-muted leading-relaxed font-medium">
-                    <b>Interaction Point:</b> Changing the Destination here instantly updates the <b>Regional Intel</b> logic on the left across all 10 options.
+                    <b>Interaction Point:</b> Changing the Destination here instantly updates the <b>Regional Intel</b> logic on the left across all options.
                   </p>
                 </div>
               </div>
