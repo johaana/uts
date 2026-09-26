@@ -9,7 +9,6 @@ import {
   RefreshCw, 
   LayoutGrid, 
   Tablet, 
-  List, 
   Table as TableIcon, 
   AlignLeft, 
   Grid3X3,
@@ -17,7 +16,9 @@ import {
   Monitor,
   Info,
   CheckCircle2,
-  AlertCircle
+  AlertCircle,
+  TrendingUp,
+  Fingerprint
 } from "lucide-react";
 
 // --------------------------------------------------------------------------------
@@ -32,30 +33,34 @@ const GLOBAL_TODAY = [
 
 const REGIONAL_FACTS: Record<string, any> = {
   IN: {
-    state: "MAHARASHTRA",
+    country: "India",
+    state: "Maharashtra",
     event: "Ganesh Chaturthi",
     type: "Religious Holiday",
     consequence: "Gazetted National Holiday. Mandatory closure for government and banking sectors. Expect significant urban movement impact due to public processions.",
   },
   JP: {
-    state: "TOKYO",
+    country: "Japan",
+    state: "Tokyo",
     event: "Silver Week Opening",
     type: "National Holiday",
     consequence: "Japan Financial Markets (JPX) and banking systems are closed. Reduced operational capacity in Tokyo and Osaka business districts.",
   },
   US: {
-    state: "FEDERAL",
+    country: "United States",
+    state: "Federal",
     event: "Labor Day (Observed)",
     type: "National Holiday",
     consequence: "Federal Government offices and USPS are closed. Trading sessions for NYSE and NASDAQ are suspended.",
   },
   SG: {
-    state: "NATIONAL",
+    country: "Singapore",
+    state: "National",
     event: "Deepavali Season",
     type: "Religious Holiday",
     consequence: "Regional Bank Holiday. High density activity in Little India district. Public sector operates at reduced capacity.",
   },
-  FR: null // Example for "No Regional Impact"
+  FR: null 
 };
 
 const COUNTRY_OPTIONS = [
@@ -71,9 +76,9 @@ const COUNTRY_OPTIONS = [
 // --------------------------------------------------------------------------------
 
 const ReactiveNote = () => (
-  <div className="flex items-center gap-2 text-[9px] text-muted-dim font-bold uppercase tracking-widest mt-2">
-    <RefreshCw className="w-3 h-3 animate-spin-slow" />
-    <span>Regional intel · Reactive to country selection</span>
+  <div className="flex items-start gap-2 text-[9px] text-muted-dim font-bold uppercase tracking-widest mt-3 pt-3 border-t border-white/5">
+    <RefreshCw className="w-3 h-3 animate-spin-slow mt-0.5" />
+    <span className="leading-relaxed">This shows regional intel for the selected country. Changes with checker selection.</span>
   </div>
 );
 
@@ -105,10 +110,11 @@ export default function TempTrackerLabPage() {
         <div className="max-w-[1180px] mx-auto px-6">
           
           <div className="mb-12 space-y-2 text-left border-b border-white/10 pb-6">
-            <div className="text-[10px] font-mono text-gold tracking-[0.3em] uppercase font-bold">Lab v8.0 · Unified & Contextual</div>
-            <h1 className="text-3xl font-headline font-medium">Standardized Regional Intel</h1>
+            <div className="text-[10px] font-mono text-gold tracking-[0.3em] uppercase font-bold">Lab v9.0 · High Context & Unified</div>
+            <h1 className="text-3xl font-headline font-medium">Regional Intelligence Architecture</h1>
             <p className="text-sm text-muted max-w-2xl font-medium leading-relaxed">
-              Standardizing labels to "REGIONAL INTEL" and testing unified/compact layouts that handle empty states gracefully.
+              Testing improved country-context labeling and unified layouts where Global and Regional data share a single visual logic. 
+              <strong> Change "Destination" on the right to see live updates.</strong>
             </p>
           </div>
 
@@ -117,22 +123,22 @@ export default function TempTrackerLabPage() {
             {/* COLUMN 1: 10 DESIGN OPTIONS (LEFT) */}
             <div className="space-y-24 pb-40">
 
-              {/* --- OPTION 1: INTEGRATED NOTE --- */}
+              {/* --- OPTION 1: THE REPLICA (current hero feel) --- */}
               <div className="space-y-4">
                 <div className="flex items-center gap-2">
                    <Monitor className="w-4 h-4 text-gold" />
-                   <span className="text-[10px] font-bold uppercase tracking-widest text-gold/60">Option 1: The Integrated Note</span>
+                   <span className="text-[10px] font-bold uppercase tracking-widest text-gold/60">Option 1: Integrated Note (Hero Replica)</span>
                 </div>
                 <aside className="border border-white/18 rounded-2xl bg-[#171D3A] overflow-hidden shadow-2xl">
-                  <div className="p-6 md:p-8 space-y-6">
+                  <div className="p-6 space-y-6">
                     <div className="flex justify-between items-baseline border-b border-white/10 pb-4">
-                      <h4 className="text-2xl font-bold font-headline text-white">Around the Globe</h4>
+                      <h4 className="text-xl font-bold font-headline text-white">Around the Globe</h4>
                       <span className="text-[10px] font-mono text-muted-dim tracking-widest uppercase">TODAY</span>
                     </div>
                     
                     <div className="space-y-4">
                        {GLOBAL_TODAY.map(g => (
-                         <div key={g.code} className="flex justify-between items-center text-[13.5px]">
+                         <div key={g.code} className="flex justify-between items-center text-[13px]">
                             <span><b className="text-white">{g.name}</b> — {g.event}</span>
                             <span className="text-[9px] font-mono text-muted-dim uppercase font-bold tracking-wider">{g.type}</span>
                          </div>
@@ -150,8 +156,8 @@ export default function TempTrackerLabPage() {
                               </div>
                             </div>
                             <div className="p-4 bg-white/[0.02] border border-white/5 rounded-xl space-y-1">
-                              <h5 className="text-sm font-bold text-paper/90">{regionalIntel.event} · {regionalIntel.state}</h5>
-                              <p className="text-[12.5px] text-muted leading-relaxed font-medium">{regionalIntel.consequence}</p>
+                              <h5 className="text-sm font-bold text-paper/90">{regionalIntel.event} · {regionalIntel.country} · {regionalIntel.state}</h5>
+                              <p className="text-[12px] text-muted leading-relaxed font-medium">{regionalIntel.consequence}</p>
                             </div>
                             <ReactiveNote />
                          </div>
@@ -161,102 +167,58 @@ export default function TempTrackerLabPage() {
                 </aside>
               </div>
               
-              {/* --- OPTION 2: UNIFIED SPLIT CARD (New) --- */}
+              {/* --- OPTION 2: UNIFIED STATUS FEED (Cleanest) --- */}
+              <div className="space-y-4">
+                <div className="flex items-center gap-2">
+                   <List className="w-4 h-4 text-gold" />
+                   <span className="text-[10px] font-bold uppercase tracking-widest text-gold/60">Option 2: Unified Status Feed</span>
+                </div>
+                <div className="border border-white/10 rounded-2xl bg-[#171D3A] overflow-hidden text-left">
+                   <div className="p-6 bg-white/[0.02] border-b border-white/5 flex justify-between items-center">
+                      <h4 className="text-sm font-bold uppercase tracking-widest">Temporal Intelligence</h4>
+                      <span className="text-[9px] font-mono text-muted-dim">15 SEP 2026</span>
+                   </div>
+                   <div className="divide-y divide-white/5">
+                      {GLOBAL_TODAY.map(g => (
+                        <div key={g.code} className="p-4 px-6 flex justify-between items-center">
+                           <div className="space-y-0.5">
+                              <p className="text-[9px] font-bold text-teal/60 uppercase tracking-tighter">GLOBAL · {g.name}</p>
+                              <p className="text-sm font-bold">{g.event}</p>
+                           </div>
+                           <span className="text-[9px] font-bold uppercase text-muted-dim">{g.type}</span>
+                        </div>
+                      ))}
+                      {regionalIntel ? (
+                        <div className="p-6 bg-gold/[0.03]">
+                           <div className="space-y-3">
+                              <div className="flex justify-between items-start">
+                                 <div className="space-y-0.5">
+                                    <p className="text-[10px] font-bold text-gold uppercase tracking-widest">REGIONAL · {regionalIntel.country} · {regionalIntel.state}</p>
+                                    <p className="text-base font-bold text-white">{regionalIntel.event}</p>
+                                 </div>
+                                 <Badge variant="outline" className="border-gold/30 text-gold text-[8px]">PLANNING FACT</Badge>
+                              </div>
+                              <p className="text-[12.5px] text-muted leading-relaxed">{regionalIntel.consequence}</p>
+                              <ReactiveNote />
+                           </div>
+                        </div>
+                      ) : (
+                        <div className="p-6 opacity-40 text-center italic text-xs">No regional variants identified.</div>
+                      )}
+                   </div>
+                </div>
+              </div>
+
+              {/* --- OPTION 3: THE SIGNAL PANE (Split) --- */}
               <div className="space-y-4">
                 <div className="flex items-center gap-2">
                    <Grid3X3 className="w-4 h-4 text-gold" />
-                   <span className="text-[10px] font-bold uppercase tracking-widest text-gold/60">Option 2: Unified Split View</span>
+                   <span className="text-[10px] font-bold uppercase tracking-widest text-gold/60">Option 3: The Signal Pane (Split)</span>
                 </div>
-                <aside className="border border-white/18 rounded-2xl bg-[#171D3A] overflow-hidden shadow-xl grid md:grid-cols-[1.2fr_1fr] divide-x divide-white/10">
-                   <div className="p-6 md:p-8 space-y-6 text-left">
-                      <div className="flex justify-between items-center">
-                        <h4 className="text-sm font-bold uppercase tracking-[0.2em] text-muted-dim">Global Pulse</h4>
-                        <span className="w-1.5 h-1.5 rounded-full bg-teal animate-pulse shadow-[0_0_8px_var(--teal)]"></span>
-                      </div>
+                <div className="border border-white/10 rounded-2xl overflow-hidden bg-[#171D3A] grid md:grid-cols-[1fr_1.1fr] divide-x divide-white/10">
+                   <div className="p-6 space-y-6 text-left">
+                      <p className="text-[10px] font-bold uppercase tracking-widest text-muted-dim">Global Snapshot</p>
                       <div className="space-y-4">
-                        {GLOBAL_TODAY.map(g => (
-                          <div key={g.code} className="space-y-0.5">
-                            <p className="text-xs font-bold text-white">{g.name}</p>
-                            <p className="text-[11px] text-muted-dim leading-tight">{g.event}</p>
-                          </div>
-                        ))}
-                      </div>
-                   </div>
-                   <div className="p-6 md:p-8 bg-white/[0.01] text-left">
-                      <h4 className="text-sm font-bold uppercase tracking-[0.2em] text-gold-soft mb-6">Regional Intel</h4>
-                      {regionalIntel ? (
-                        <div className="space-y-4">
-                           <div className="space-y-1">
-                              <p className="text-lg font-bold font-headline leading-tight">{regionalIntel.event}</p>
-                              <p className="text-[10px] font-bold text-muted-dim uppercase tracking-widest">{regionalIntel.state} · {regionalIntel.type}</p>
-                           </div>
-                           <p className="text-[12.5px] text-muted leading-relaxed border-l border-gold/30 pl-4">{regionalIntel.consequence}</p>
-                           <ReactiveNote />
-                        </div>
-                      ) : (
-                        <div className="flex flex-col h-full justify-center text-center opacity-40">
-                           <AlertCircle className="w-5 h-5 mx-auto mb-2" />
-                           <p className="text-[11px] font-bold uppercase tracking-widest">No Regional Conflict</p>
-                        </div>
-                      )}
-                   </div>
-                </aside>
-              </div>
-
-              {/* --- OPTION 3: THE EMBEDDED SIGNAL (New Idea) --- */}
-              <div className="space-y-4">
-                <div className="flex items-center gap-2">
-                   <Info className="w-4 h-4 text-gold" />
-                   <span className="text-[10px] font-bold uppercase tracking-widest text-gold/60">Option 3: The Embedded Signal</span>
-                </div>
-                <div className="p-8 border border-white/10 rounded-2xl bg-[#171D3A] space-y-10 text-left">
-                   <div className="flex justify-between items-center">
-                      <h4 className="text-2xl font-bold font-headline">Around the Globe</h4>
-                      <div className="flex gap-2">
-                         <span className="px-2 py-0.5 bg-white/5 border border-white/10 rounded text-[9px] font-bold">LIVE</span>
-                         <span className="px-2 py-0.5 bg-white/5 border border-white/10 rounded text-[9px] font-bold">15 SEPT</span>
-                      </div>
-                   </div>
-                   
-                   <div className="grid sm:grid-cols-2 gap-12">
-                      <div className="space-y-5">
-                         {GLOBAL_TODAY.map(g => (
-                           <div key={g.code} className="flex gap-4 items-start">
-                              <span className="text-xs font-mono font-bold text-teal">{g.code}</span>
-                              <div className="space-y-0.5">
-                                 <p className="text-sm font-bold">{g.name}</p>
-                                 <p className="text-[11px] text-muted-dim">{g.event}</p>
-                              </div>
-                           </div>
-                         ))}
-                      </div>
-                      <div className="relative">
-                         <div className="absolute left-[-24px] top-0 bottom-0 w-px bg-white/10 hidden sm:block"></div>
-                         {regionalIntel ? (
-                           <div className="space-y-4">
-                              <div className="space-y-1">
-                                 <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-gold">REGIONAL INTEL</p>
-                                 <p className="text-base font-bold font-headline">{regionalIntel.event}</p>
-                              </div>
-                              <p className="text-[12px] text-muted leading-relaxed">{regionalIntel.consequence}</p>
-                              <ReactiveNote />
-                           </div>
-                         ) : <NoRegionalImpact />}
-                      </div>
-                   </div>
-                </div>
-              </div>
-
-              {/* --- OPTION 4: THE DUAL CONSOLE --- */}
-              <div className="space-y-4">
-                <div className="flex items-center gap-2">
-                   <Tablet className="w-4 h-4 text-gold" />
-                   <span className="text-[10px] font-bold uppercase tracking-widest text-gold/60">Option 4: Dual Console (Tight)</span>
-                </div>
-                <div className="border border-white/18 rounded-2xl bg-[#171D3A] overflow-hidden shadow-2xl">
-                   <div className="p-6 border-b border-white/10 text-left">
-                      <h4 className="text-xl font-bold font-headline text-white mb-6">Global Pulse</h4>
-                      <div className="grid grid-cols-3 gap-6">
                          {GLOBAL_TODAY.map(g => (
                            <div key={g.code} className="space-y-1">
                               <p className="text-xs font-bold text-paper">{g.name}</p>
@@ -265,136 +227,34 @@ export default function TempTrackerLabPage() {
                          ))}
                       </div>
                    </div>
-                   <div className="p-6 bg-white/[0.01] text-left">
-                      <div className="flex justify-between items-center mb-3">
-                        <h4 className="text-xs font-bold font-mono text-gold-soft uppercase tracking-widest">REGIONAL INTEL</h4>
-                        <ReactiveNote />
-                      </div>
+                   <div className="p-6 bg-white/[0.01] text-left relative">
+                      <p className="text-[10px] font-bold uppercase tracking-widest text-gold mb-6">Regional Context</p>
                       {regionalIntel ? (
-                        <div className="space-y-2">
-                           <p className="text-sm font-bold text-white">{regionalIntel.event} · <span className="text-[10px] font-mono uppercase text-muted-dim">{regionalIntel.state}</span></p>
-                           <p className="text-[13px] text-muted leading-relaxed font-medium">{regionalIntel.consequence}</p>
-                        </div>
-                      ) : <NoRegionalImpact />}
-                   </div>
-                </div>
-              </div>
-
-              {/* --- OPTION 5: DATA AUDIT LIST --- */}
-              <div className="space-y-4">
-                <div className="flex items-center gap-2">
-                   <TableIcon className="w-4 h-4 text-gold" />
-                   <span className="text-[10px] font-bold uppercase tracking-widest text-gold/60">Option 5: Audit Feed Style</span>
-                </div>
-                <div className="border border-white/10 rounded-2xl overflow-hidden bg-[#171D3A] text-left">
-                   <div className="p-6 border-b border-white/10">
-                      <h4 className="text-lg font-bold font-headline text-white">Global Feed</h4>
-                   </div>
-                   <div className="divide-y divide-white/5">
-                      {GLOBAL_TODAY.map(g => (
-                        <div key={g.code} className="flex justify-between items-center p-4 px-6 text-sm">
-                           <span><b className="text-teal">{g.code}</b> · {g.name} — {g.event}</span>
-                           <span className="text-[9px] font-mono text-muted-dim uppercase">{g.type}</span>
-                        </div>
-                      ))}
-                      <div className="p-6 bg-white/[0.02]">
-                         {regionalIntel ? (
-                           <>
-                             <div className="flex justify-between items-start mb-2">
-                                <span className="text-[10px] font-bold uppercase tracking-widest text-gold">REGIONAL INTEL</span>
-                                <ReactiveNote />
-                             </div>
-                             <p className="text-sm font-bold text-white mb-1">{regionalIntel.event} ({regionalIntel.state})</p>
-                             <p className="text-xs text-muted leading-relaxed max-w-xl">{regionalIntel.consequence}</p>
-                           </>
-                         ) : <NoRegionalImpact />}
-                      </div>
-                   </div>
-                </div>
-              </div>
-
-              {/* --- OPTION 6: THE BENTO CONTEXT --- */}
-              <div className="space-y-4">
-                <div className="flex items-center gap-2">
-                   <Grid3X3 className="w-4 h-4 text-gold" />
-                   <span className="text-[10px] font-bold uppercase tracking-widest text-gold/60">Option 6: Bento Snapshot</span>
-                </div>
-                <div className="grid md:grid-cols-2 gap-4 text-left">
-                   <div className="p-6 bg-[#171D3A] border border-white/18 rounded-2xl space-y-6 shadow-xl">
-                      <h4 className="text-xl font-bold font-headline text-white">World Pulse</h4>
-                      <div className="space-y-3">
-                         {GLOBAL_TODAY.map(g => (
-                           <div key={g.code} className="flex items-center justify-between text-sm">
-                              <span className="font-bold">{g.name}</span>
-                              <span className="text-[10px] text-muted-dim uppercase">{g.code}</span>
-                           </div>
-                         ))}
-                      </div>
-                   </div>
-                   <div className="p-6 bg-white/[0.02] border border-white/10 rounded-2xl space-y-6 flex flex-col justify-between">
-                      {regionalIntel ? (
-                        <>
-                          <div className="space-y-2">
-                            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gold">REGIONAL INTEL</p>
-                            <h5 className="font-bold text-white">{regionalIntel.event}</h5>
-                            <p className="text-xs text-muted-dim leading-relaxed font-medium">{regionalIntel.consequence.slice(0, 100)}...</p>
-                          </div>
-                          <div className="pt-4 border-t border-white/5">
-                            <ReactiveNote />
-                          </div>
-                        </>
-                      ) : <NoRegionalImpact />}
-                   </div>
-                </div>
-              </div>
-
-              {/* --- OPTION 7: THE MINIMALIST STRIP (New) --- */}
-              <div className="space-y-4">
-                <div className="flex items-center gap-2">
-                   <AlignLeft className="w-4 h-4 text-gold" />
-                   <span className="text-[10px] font-bold uppercase tracking-widest text-gold/60">Option 7: The Minimalist Strip</span>
-                </div>
-                <div className="space-y-6 text-left p-8 border border-white/5 rounded-3xl bg-white/[0.01]">
-                   <div className="space-y-4">
-                      <h4 className="text-sm font-bold uppercase tracking-[0.25em] text-muted-dim">Global Today</h4>
-                      <div className="flex flex-wrap gap-4">
-                         {GLOBAL_TODAY.map(g => (
-                           <span key={g.code} className="px-3 py-1.5 border border-white/10 rounded-lg text-[13px]">
-                             <b className="text-white">{g.code}</b> {g.event}
-                           </span>
-                         ))}
-                      </div>
-                   </div>
-                   <div className="pt-6 border-t border-white/10">
-                      {regionalIntel ? (
-                        <div className="flex items-start gap-4">
-                           <div className="w-10 h-10 bg-gold/10 rounded-lg flex items-center justify-center shrink-0">
-                              <Info className="w-5 h-5 text-gold-soft" />
-                           </div>
+                        <div className="space-y-4">
                            <div className="space-y-1">
-                              <p className="text-[10px] font-bold uppercase tracking-widest text-gold">REGIONAL INTEL: {regionalIntel.state}</p>
-                              <p className="text-sm font-bold text-white">{regionalIntel.event}</p>
-                              <p className="text-[12.5px] text-muted leading-relaxed">{regionalIntel.consequence}</p>
-                              <ReactiveNote />
+                              <h5 className="text-lg font-bold font-headline leading-tight">{regionalIntel.event}</h5>
+                              <p className="text-[10px] font-bold text-muted-dim uppercase">{regionalIntel.country} · {regionalIntel.state}</p>
                            </div>
+                           <p className="text-[12px] text-muted leading-relaxed">{regionalIntel.consequence}</p>
+                           <ReactiveNote />
                         </div>
                       ) : <NoRegionalImpact />}
                    </div>
                 </div>
               </div>
 
-              {/* --- OPTION 8: TECHNICAL CONSOLE --- */}
+              {/* --- OPTION 4: MONOSPACE TERMINAL (Operational) --- */}
               <div className="space-y-4">
                 <div className="flex items-center gap-2">
                    <Monitor className="w-4 h-4 text-gold" />
-                   <span className="text-[10px] font-bold uppercase tracking-widest text-gold/60">Option 8: Operational Console</span>
+                   <span className="text-[10px] font-bold uppercase tracking-widest text-gold/60">Option 4: Operational Console</span>
                 </div>
                 <div className="font-mono p-8 border border-white/18 rounded-2xl bg-[#0B0F22] shadow-2xl space-y-8 text-left">
                    <div className="space-y-4">
-                      <p className="text-[10px] text-teal font-bold uppercase tracking-widest">>> GLOBAL_FEED_SNAPSHOT</p>
+                      <p className="text-[10px] text-teal font-bold uppercase tracking-widest">>> GLOBAL_FEED_SYNC</p>
                       <div className="space-y-2 text-xs">
                         {GLOBAL_TODAY.map(g => (
-                          <div key={g.code} className="flex gap-4">
+                          <div key={g.code} className="flex gap-4 border-l border-teal/20 pl-4">
                              <span className="text-muted-dim">[{g.code}]</span>
                              <span>{g.event.toUpperCase()}</span>
                           </div>
@@ -404,15 +264,218 @@ export default function TempTrackerLabPage() {
                    <div className="space-y-4 pt-6 border-t border-white/10">
                       <p className="text-[10px] text-gold font-bold uppercase tracking-widest">>> REGIONAL_INTEL_REACTIVE</p>
                       {regionalIntel ? (
-                        <div className="space-y-2 text-xs">
-                           <p className="text-white font-bold">{regionalIntel.event.toUpperCase()} [{regionalIntel.state}]</p>
-                           <p className="text-muted-dim leading-relaxed">{regionalIntel.consequence}</p>
+                        <div className="space-y-3 text-xs">
+                           <div className="flex gap-2">
+                              <span className="text-white font-bold">[{regionalIntel.country.toUpperCase()} · {regionalIntel.state.toUpperCase()}]</span>
+                              <span className="text-gold">{regionalIntel.event.toUpperCase()}</span>
+                           </div>
+                           <p className="text-muted-dim leading-relaxed bg-white/[0.02] p-3 rounded">{regionalIntel.consequence}</p>
                            <div className="pt-2">
                               <ReactiveNote />
                            </div>
                         </div>
                       ) : <p className="text-xs text-muted-dim italic">NO REGIONAL CONFLICT IDENTIFIED.</p>}
                    </div>
+                </div>
+              </div>
+
+              {/* --- OPTION 5: MINIMALIST BLOCK --- */}
+              <div className="space-y-4">
+                <div className="flex items-center gap-2">
+                   <AlignLeft className="w-4 h-4 text-gold" />
+                   <span className="text-[10px] font-bold uppercase tracking-widest text-gold/60">Option 5: Minimalist Text Blocks</span>
+                </div>
+                <div className="space-y-10 text-left">
+                   <div className="space-y-4">
+                      <div className="flex items-center gap-4">
+                         <h4 className="text-xl font-bold font-headline">Around the Globe</h4>
+                         <div className="h-px flex-1 bg-white/10"></div>
+                      </div>
+                      <div className="flex flex-wrap gap-4">
+                        {GLOBAL_TODAY.map(g => (
+                          <span key={g.code} className="text-sm"><b className="text-teal">{g.code}</b> {g.event}</span>
+                        ))}
+                      </div>
+                   </div>
+                   <div className="space-y-4">
+                      <div className="flex items-center gap-4">
+                         <h4 className="text-xl font-bold font-headline text-gold-soft">Regional Intel</h4>
+                         <div className="h-px flex-1 bg-gold/10"></div>
+                      </div>
+                      {regionalIntel ? (
+                        <div className="space-y-2">
+                           <p className="text-sm font-bold">{regionalIntel.country} · {regionalIntel.state} · {regionalIntel.event}</p>
+                           <p className="text-[13px] text-muted leading-relaxed max-w-2xl">{regionalIntel.consequence}</p>
+                           <ReactiveNote />
+                        </div>
+                      ) : <NoRegionalImpact />}
+                   </div>
+                </div>
+              </div>
+
+              {/* --- OPTION 6: BENTO DASHBOARD --- */}
+              <div className="space-y-4">
+                <div className="flex items-center gap-2">
+                   <LayoutGrid className="w-4 h-4 text-gold" />
+                   <span className="text-[10px] font-bold uppercase tracking-widest text-gold/60">Option 6: Bento Snapshot</span>
+                </div>
+                <div className="grid md:grid-cols-2 gap-4 text-left">
+                   <div className="p-6 bg-[#171D3A] border border-white/10 rounded-2xl space-y-6">
+                      <p className="text-[10px] font-bold uppercase tracking-widest text-muted-dim">Global Today</p>
+                      <div className="space-y-4">
+                        {GLOBAL_TODAY.map(g => (
+                          <div key={g.code} className="flex justify-between items-center text-sm">
+                            <span className="font-bold">{g.name}</span>
+                            <span className="text-[10px] text-muted-dim uppercase">{g.code}</span>
+                          </div>
+                        ))}
+                      </div>
+                   </div>
+                   <div className="p-6 bg-white/[0.02] border border-white/10 rounded-2xl flex flex-col justify-between">
+                      {regionalIntel ? (
+                        <div className="space-y-3">
+                           <p className="text-[10px] font-bold uppercase tracking-widest text-gold">REGIONAL · {regionalIntel.country}</p>
+                           <h5 className="font-bold text-white leading-tight">{regionalIntel.event} ({regionalIntel.state})</h5>
+                           <p className="text-xs text-muted-dim leading-relaxed">{regionalIntel.consequence.slice(0, 80)}...</p>
+                           <ReactiveNote />
+                        </div>
+                      ) : <NoRegionalImpact />}
+                   </div>
+                </div>
+              </div>
+
+              {/* --- OPTION 7: SIDEBAR NOTIFICATION STYLE --- */}
+              <div className="space-y-4">
+                <div className="flex items-center gap-2">
+                   <Info className="w-4 h-4 text-gold" />
+                   <span className="text-[10px] font-bold uppercase tracking-widest text-gold/60">Option 7: Sidebar Alerts</span>
+                </div>
+                <div className="space-y-4 text-left">
+                   <div className="p-5 border border-white/10 rounded-xl bg-[#171D3A] flex items-start gap-4">
+                      <div className="w-8 h-8 bg-teal/10 rounded-lg flex items-center justify-center shrink-0">
+                         <Globe className="w-4 h-4 text-teal" />
+                      </div>
+                      <div className="space-y-1">
+                         <p className="text-sm font-bold">Global Status Update</p>
+                         <p className="text-xs text-muted-dim">Multiple observances across 12 countries. Standard international rules apply.</p>
+                      </div>
+                   </div>
+                   {regionalIntel ? (
+                     <div className="p-5 border border-gold/20 rounded-xl bg-gold/[0.02] flex items-start gap-4">
+                        <div className="w-8 h-8 bg-gold/10 rounded-lg flex items-center justify-center shrink-0">
+                           <AlertCircle className="w-4 h-4 text-gold-soft" />
+                        </div>
+                        <div className="space-y-1">
+                           <p className="text-sm font-bold">Regional Intel: {regionalIntel.country}</p>
+                           <p className="text-xs text-paper/80 font-bold">{regionalIntel.event} · {regionalIntel.state}</p>
+                           <p className="text-xs text-muted-dim leading-relaxed">{regionalIntel.consequence}</p>
+                           <ReactiveNote />
+                        </div>
+                     </div>
+                   ) : <NoRegionalImpact />}
+                </div>
+              </div>
+
+              {/* --- OPTION 8: THE TREND LINE (Unified) --- */}
+              <div className="space-y-4">
+                <div className="flex items-center gap-2">
+                   <TrendingUp className="w-4 h-4 text-gold" />
+                   <span className="text-[10px] font-bold uppercase tracking-widest text-gold/60">Option 8: The Trend Line</span>
+                </div>
+                <div className="p-8 border border-white/10 rounded-2xl bg-[#171D3A] text-left space-y-8">
+                   <div className="flex justify-between items-center">
+                      <h4 className="text-xl font-bold font-headline">Calendar Momentum</h4>
+                      <span className="px-3 py-1 bg-teal/10 text-teal text-[9px] font-bold rounded-full">92 JURISDICTIONS ACTIVE</span>
+                   </div>
+                   <div className="grid grid-cols-4 gap-4">
+                      {GLOBAL_TODAY.map(g => (
+                        <div key={g.code} className="space-y-1 border-l border-white/10 pl-4">
+                           <p className="text-[10px] text-muted-dim font-bold">{g.code}</p>
+                           <p className="text-sm font-bold">{g.event}</p>
+                        </div>
+                      ))}
+                      {regionalIntel ? (
+                        <div className="space-y-1 border-l border-gold/40 pl-4 bg-gold/[0.03] p-2 rounded-r-lg">
+                           <p className="text-[10px] text-gold font-bold">{regionalIntel.country.toUpperCase()}</p>
+                           <p className="text-sm font-bold">{regionalIntel.event}</p>
+                        </div>
+                      ) : <div className="text-[10px] text-muted-dim italic flex items-center">No local conflict</div>}
+                   </div>
+                   <div className="pt-4 border-t border-white/5">
+                      {regionalIntel && (
+                        <div className="space-y-1">
+                           <p className="text-[10px] font-bold uppercase tracking-widest text-gold">Operational Impact: {regionalIntel.state}</p>
+                           <p className="text-xs text-muted leading-relaxed">{regionalIntel.consequence}</p>
+                        </div>
+                      )}
+                      <ReactiveNote />
+                   </div>
+                </div>
+              </div>
+
+              {/* --- OPTION 9: THE AUTHENTICITY BADGE --- */}
+              <div className="space-y-4">
+                <div className="flex items-center gap-2">
+                   <Fingerprint className="w-4 h-4 text-gold" />
+                   <span className="text-[10px] font-bold uppercase tracking-widest text-gold/60">Option 9: Data Fingerprint</span>
+                </div>
+                <div className="border border-white/10 rounded-2xl overflow-hidden bg-[#171D3A] text-left">
+                   <div className="p-6 space-y-4">
+                      <div className="flex items-center gap-2">
+                         <div className="w-2 h-2 rounded-full bg-teal"></div>
+                         <p className="text-[10px] font-bold uppercase tracking-[0.2em]">Global Verification</p>
+                      </div>
+                      <div className="flex flex-wrap gap-3">
+                        {GLOBAL_TODAY.map(g => (
+                          <div key={g.code} className="px-4 py-2 bg-white/5 border border-white/10 rounded-lg">
+                             <p className="text-[11px] font-bold">{g.name}: {g.event}</p>
+                          </div>
+                        ))}
+                      </div>
+                   </div>
+                   <div className="p-8 bg-white/[0.02] border-t border-white/5">
+                      {regionalIntel ? (
+                        <div className="space-y-4">
+                           <div className="flex items-center gap-3">
+                              <ShieldCheck className="w-5 h-5 text-gold-soft" />
+                              <h5 className="text-lg font-bold font-headline">Regional Verification: {regionalIntel.country}</h5>
+                           </div>
+                           <div className="space-y-1 border-l-2 border-gold/30 pl-6">
+                              <p className="text-sm font-bold text-gold-soft">{regionalIntel.event} · {regionalIntel.state}</p>
+                              <p className="text-[13px] text-muted leading-relaxed">{regionalIntel.consequence}</p>
+                           </div>
+                           <ReactiveNote />
+                        </div>
+                      ) : <NoRegionalImpact />}
+                   </div>
+                </div>
+              </div>
+
+              {/* --- OPTION 10: THE COMPACT STATUS CHIP --- */}
+              <div className="space-y-4">
+                <div className="flex items-center gap-2">
+                   <Tablet className="w-4 h-4 text-gold" />
+                   <span className="text-[10px] font-bold uppercase tracking-widest text-gold/60">Option 10: Chip-Based Overview</span>
+                </div>
+                <div className="p-8 border border-white/5 rounded-3xl bg-white/[0.01] text-left space-y-8">
+                   <div className="space-y-4">
+                      <p className="text-[10px] font-bold uppercase tracking-widest text-muted-dim">Currently Observing</p>
+                      <div className="flex flex-wrap gap-2">
+                         {GLOBAL_TODAY.map(g => (
+                           <span key={g.code} className="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-xs font-medium">{g.name}: {g.event}</span>
+                         ))}
+                         {regionalIntel && (
+                           <span className="px-3 py-1 bg-gold/10 border border-gold/30 rounded-full text-xs font-bold text-gold-soft underline underline-offset-4 decoration-gold/50">{regionalIntel.country} ({regionalIntel.state})</span>
+                         )}
+                      </div>
+                   </div>
+                   {regionalIntel && (
+                     <div className="space-y-2">
+                        <p className="text-[10px] font-bold uppercase tracking-widest text-gold">Local Impact Note</p>
+                        <p className="text-sm text-muted leading-relaxed font-medium italic">"{regionalIntel.consequence}"</p>
+                        <ReactiveNote />
+                     </div>
+                   )}
                 </div>
               </div>
 
@@ -460,7 +523,7 @@ export default function TempTrackerLabPage() {
                       <MousePointerClick className="w-4 h-4 text-gold-soft" />
                    </div>
                    <p className="text-[11px] text-muted leading-relaxed font-medium">
-                    <b>Live Interaction:</b> Change the Destination above. All <b>Regional Intel</b> notes on the left will update instantly. Try <b>France</b> for the empty state.
+                    <b>Interaction Point:</b> Changing the Destination here instantly updates the <b>Regional Intel</b> logic on the left across all 10 options.
                   </p>
                 </div>
               </div>
