@@ -20,7 +20,8 @@ import {
   Layers,
   Maximize2,
   Minimize2,
-  FileText
+  FileText,
+  AlignLeft
 } from "lucide-react";
 
 // --------------------------------------------------------------------------------
@@ -74,7 +75,7 @@ const COUNTRY_OPTIONS = [
 ];
 
 // --------------------------------------------------------------------------------
-// SHARED UI BLOCKS
+// SHARED UI BLOCKS (Variants of Option 1)
 // --------------------------------------------------------------------------------
 
 const GlobalCardContent = ({ compact = false }: { compact?: boolean }) => (
