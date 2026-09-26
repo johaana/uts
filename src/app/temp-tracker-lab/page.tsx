@@ -141,7 +141,7 @@ export default function TempTrackerLabPage() {
                      <div className="mt-4 pt-4 border-t border-white/5 flex items-start gap-2.5 opacity-60">
                         <RefreshCw className="w-3 h-3 text-[#E8A33D] mt-0.5 shrink-0" />
                         <span className="text-[10px] font-bold uppercase tracking-widest text-[#9AA1C0] leading-normal">
-                          Showing regional intel for the selected country. Changes with checker selection.
+                          Jurisdiction-specific intelligence. Synchronized with your checker selection.
                         </span>
                      </div>
                   </div>
