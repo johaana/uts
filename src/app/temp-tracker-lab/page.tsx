@@ -6,12 +6,7 @@ import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { cn } from '@/lib/utils';
 import { 
-  ShieldCheck, 
   RefreshCw,
-  Globe,
-  MapPin,
-  Activity,
-  AlertCircle,
   Search
 } from "lucide-react";
 import { format, startOfToday } from 'date-fns';
@@ -21,19 +16,17 @@ import { format, startOfToday } from 'date-fns';
 // --------------------------------------------------------------------------------
 
 const MARQUEE_DATA = [
-  { name: 'Indonesia', event: 'Maulid Nabi', impact: 'National Closure' },
-  { name: 'Japan', event: 'Respect for the Aged Day', impact: 'Markets Suspended' },
-  { name: 'Mexico', event: 'Independence Day', impact: 'Public Holiday' },
-  { name: 'USA', event: 'Labor Day', impact: 'Federal Holiday' },
-  { name: 'Singapore', event: 'Deepavali Season', impact: 'Active' }
+  { c: 'India', e: 'Janmashtami, Dahi Handi' },
+  { c: 'Japan', e: 'Respect for the Aged Day' },
+  { c: 'Mexico', e: 'Independence Day' },
+  { c: 'USA', e: 'Labor Day' },
+  { c: 'Singapore', e: 'Deepavali Season' }
 ];
 
 const GLOBAL_INTEL = {
   event: "Indonesia — Maulid Nabi",
   meta: "Today · 12 jurisdictions affected · National Holiday",
-  market_status: "MIXED STATUS",
-  logistics: "NORMAL",
-  summary: "Significant public sector closures across Southeast Asia. Global settlement systems remain active with regional latency flagged."
+  desc: "Significant public sector closures across Southeast Asia. Global settlement systems remain active with regional latency flagged."
 };
 
 const REGIONAL_INTEL_MAP: Record<string, any> = {
@@ -41,33 +34,25 @@ const REGIONAL_INTEL_MAP: Record<string, any> = {
     country: "INDIA",
     region: "Maharashtra",
     event: "Ganesh Chaturthi",
-    status: "CLOSED",
-    logistics: "MODIFIED",
     intel: "Mandatory closures for public sector and banking. High urban movement impact flagged in Mumbai/Pune due to public processions."
   },
   JP: {
     country: "JAPAN",
     region: "Tokyo",
     event: "Respect for the Aged Day",
-    status: "SUSPENDED",
-    logistics: "NORMAL",
     intel: "JPX (Stock Exchange) and BoJ systems suspended. Standard logistics delays expected across all prefectures."
   },
   US: {
     country: "UNITED STATES",
     region: "Federal",
     event: "Labor Day",
-    status: "OFFLINE",
-    logistics: "DELAYED",
     intel: "NYSE/NASDAQ sessions suspended. USPS and Federal offices closed. Transit operates on holiday schedule."
   },
   SG: {
     country: "SINGAPORE",
     region: "Little India",
     event: "Deepavali Season",
-    status: "ACTIVE",
-    logistics: "NORMAL",
-    intel: "Extended trading hours in Little India district. No national commercial shutdown indicated for this specific date."
+    intel: "Extended trading hours in Little India district. No national commercial shutdown indicated for this date."
   },
 };
 
@@ -76,7 +61,7 @@ const COUNTRY_OPTIONS = [
   { code: 'JP', name: 'Japan' },
   { code: 'US', name: 'United States' },
   { code: 'SG', name: 'Singapore' },
-  { code: 'FR', name: 'France (No Impact)' }
+  { code: 'FR', name: 'France (No Regional Impact)' }
 ];
 
 // --------------------------------------------------------------------------------
@@ -85,13 +70,13 @@ const COUNTRY_OPTIONS = [
 
 export default function TempTrackerLabPage() {
   const [country, setCountry] = useState('IN');
-  const [todayFull, setTodayFull] = useState('');
+  const [todayFull, setTodayFull] = useState('Friday, 4 September 2026');
   const [isComparing, setIsComparing] = useState(false);
   const [mode, setMode] = useState('traveler');
   
   useEffect(() => {
-    const today = startOfToday();
-    setTodayFull(format(today, 'EEEE, d MMMM yyyy'));
+    // Force a specific prototype date for the lab view
+    // In production this would be startOfToday()
   }, []);
 
   const regionalIntel = REGIONAL_INTEL_MAP[country];
@@ -101,8 +86,8 @@ export default function TempTrackerLabPage() {
       <Header />
       
       <main>
-        {/* EXACT HERO REPLICA */}
-        <section className="hero py-12 md:py-16">
+        {/* EXACT HERO REPLICA SECTION */}
+        <section className="hero">
           <div className="wrap hero-grid">
             
             {/* LEFT COLUMN: REPLICA COPY & TRACKER */}
@@ -113,79 +98,51 @@ export default function TempTrackerLabPage() {
               </h1>
               <p className="sub hidden md:block">Check a country and your actual dates — before you book, schedule, send a student, or send an employee across borders.</p>
 
-              {/* THE TRACKER (INTELLIGENCE FEED) */}
+              {/* THE TRACKER (INTEGRATED V5 STYLE) */}
               <aside className="hero-tracker md:order-last">
                 <div className="hero-tracker-head">
                   <div>
                     <span className="hero-tracker-kicker">TODAY</span>
-                    <strong className="text-[15.5px]">{todayFull}</strong>
+                    <strong className="text-[15.5px] font-headline">{todayFull}</strong>
                   </div>
-                  <span className="hero-tracker-live">
-                    <i className="w-1.5 h-1.5 rounded-full bg-[#4FD1C5] shadow-[0_0_8px_rgba(79,209,197,0.65)]"></i> 
-                    Intelligence view
-                  </span>
+                  <span className="hero-tracker-live"><i></i> Intelligence view</span>
                 </div>
 
                 <div className="hero-tracker-next-grid text-left">
-                  {/* GLOBAL INTELLIGENCE BLOCK */}
+                  {/* GLOBAL STATUS CARD */}
                   <div className="hero-tracker-next-card">
-                    <span className="next-card-kicker !text-[#4FD1C5]">AROUND THE GLOBE</span>
-                    <span className="next-card-name text-[18px] mt-1">{GLOBAL_INTEL.event}</span>
-                    <span className="next-card-date text-[12px] opacity-60 mb-4 block">{GLOBAL_INTEL.meta}</span>
-                    
-                    <div className="grid grid-cols-2 gap-4 mb-3">
-                        <div className="flex flex-col gap-0.5">
-                           <span className="text-[9px] font-mono text-muted-dim uppercase tracking-widest">Global Markets</span>
-                           <span className="text-[11px] font-bold text-[#F0C888]">{GLOBAL_INTEL.market_status}</span>
-                        </div>
-                        <div className="flex flex-col gap-0.5">
-                           <span className="text-[9px] font-mono text-muted-dim uppercase tracking-widest">Global Logistics</span>
-                           <span className="text-[11px] font-bold text-paper">{GLOBAL_INTEL.logistics}</span>
-                        </div>
-                    </div>
+                    <span className="next-card-kicker">AROUND THE GLOBE</span>
+                    <span className="next-card-name text-[15px] mt-1">{GLOBAL_INTEL.event}</span>
+                    <span className="next-card-date text-[10.5px] opacity-60 mb-2 block">{GLOBAL_INTEL.meta}</span>
                     <p className="text-[13px] text-muted leading-relaxed font-medium">
-                        {GLOBAL_INTEL.summary}
+                        {GLOBAL_INTEL.desc}
                     </p>
                   </div>
 
-                  {/* REGIONAL INTELLIGENCE BLOCK (INTEGRATED NOTE) */}
+                  {/* REGIONAL INTEL NOTE (INTEGRATED V5 STYLE) */}
                   <div className="hero-tracker-next-card border-t border-white/10 bg-white/[0.01]">
-                     <div className="flex justify-between items-center mb-3">
+                     <div className="flex justify-between items-center mb-1">
                         <span className="next-card-kicker !text-[#E8A33D] uppercase tracking-widest">REGIONAL INTEL · {regionalIntel?.country || 'NA'}</span>
-                        <span className="text-[9px] font-bold uppercase tracking-widest text-[#4FD1C5] bg-[#4FD1C5]/10 px-2 py-0.5 rounded border border-[#4FD1C5]/20">Verified</span>
                      </div>
                      
                      {regionalIntel ? (
-                       <div className="space-y-4">
-                          <span className="next-card-name !text-[16px] block">
+                       <div className="space-y-1">
+                          <span className="next-card-name !text-[15px] block">
                             {regionalIntel.event} · {regionalIntel.region}
                           </span>
-                          <div className="grid grid-cols-2 gap-4 bg-white/[0.02] p-3 rounded-lg border border-white/5">
-                              <div className="flex flex-col gap-0.5">
-                                 <span className="text-[9px] font-mono text-muted-dim uppercase tracking-widest">Market Status</span>
-                                 <span className="text-[11px] font-bold text-paper">{regionalIntel.status}</span>
-                              </div>
-                              <div className="flex flex-col gap-0.5">
-                                 <span className="text-[9px] font-mono text-muted-dim uppercase tracking-widest">Logistics</span>
-                                 <span className="text-[11px] font-bold text-[#E8A33D]">{regionalIntel.logistics}</span>
-                              </div>
-                          </div>
                           <span className="next-card-date text-[13px] leading-relaxed text-muted block font-medium">
                               {regionalIntel.intel}
                           </span>
                        </div>
                      ) : (
                        <div className="py-2">
-                          <span className="next-card-date italic text-muted-dim font-medium">No regional variants identified for this date. National rules apply.</span>
+                          <span className="next-card-date italic text-muted-dim font-medium text-[13px]">No regional variants identified for this date. National rules apply.</span>
                        </div>
                      )}
 
-                     <div className="mt-4 pt-4 border-t border-white/5 flex items-center justify-between opacity-50">
-                        <div className="flex items-center gap-2">
-                          <RefreshCw className="w-3 h-3 text-[#E8A33D]" />
-                          <span className="text-[9px] font-bold uppercase tracking-widest">Linked to checker selection</span>
-                        </div>
-                        <span className="text-[9px] font-mono text-muted-dim uppercase">Engine v3.1</span>
+                     <div className="mt-4 pt-4 border-t border-white/5 flex items-center gap-2 opacity-50">
+                        <RefreshCw className="w-3 h-3 text-[#E8A33D]" />
+                        <span className="text-[9px] font-bold uppercase tracking-widest">Linked to checker selection</span>
                      </div>
                   </div>
                 </div>
@@ -196,7 +153,7 @@ export default function TempTrackerLabPage() {
                     <div className="marquee-track">
                       {MARQUEE_DATA.concat(MARQUEE_DATA).map((item, i) => (
                         <span key={i} className="chip">
-                          <b>{item.name}</b> — {item.event} · <span className="text-[10px] uppercase opacity-60 font-bold">{item.impact}</span>
+                          <b>{item.c}</b> — {item.e}
                         </span>
                       ))}
                     </div>
@@ -212,12 +169,12 @@ export default function TempTrackerLabPage() {
             {/* RIGHT COLUMN: THE CHECKER REPLICA */}
             <div className="checker text-left" style={{ order: 1 }}>
               <div className="checker-top">
-                <h3>Trip impact checker</h3>
+                <h3 className="font-headline text-[18px]">Trip impact checker</h3>
                 <button type="button" className="compare-launch" onClick={() => setIsComparing(!isComparing)}>
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M8 3 4 7l4 4M4 7h13M16 21l4-4-4-4M20 17H7"/>
                   </svg>
-                  <span>{isComparing ? 'Single view' : 'Compare countries'}</span>
+                  <span className="text-[11px] font-bold uppercase tracking-widest">{isComparing ? 'Single view' : 'Compare countries'}</span>
                 </button>
               </div>
 
@@ -229,34 +186,34 @@ export default function TempTrackerLabPage() {
 
               <div className="space-y-4">
                 <div className="checker-field">
-                  <label>Destination / Jurisdiction</label>
-                  <select value={country} onChange={e => setCountry(e.target.value)}>
+                  <label className="text-[10.5px] font-mono uppercase tracking-widest">Destination / Jurisdiction</label>
+                  <select value={country} onChange={e => setCountry(e.target.value)} className="bg-[#1E2650] border border-white/10 rounded-lg p-2.5 text-sm">
                     {COUNTRY_OPTIONS.map(c => <option key={c.code} value={c.code}>{c.name}</option>)}
                   </select>
                 </div>
                 <div className="checker-row date-row">
                   <div className="checker-field">
-                    <label>From</label>
-                    <input type="date" defaultValue="2026-09-04" />
+                    <label className="text-[10.5px] font-mono uppercase tracking-widest">From</label>
+                    <input type="date" defaultValue="2026-09-04" className="bg-[#1E2650] border border-white/10 rounded-lg p-2.5 text-sm" />
                   </div>
                   <div className="checker-field">
-                    <label>To</label>
-                    <input type="date" defaultValue="2026-10-31" />
+                    <label className="text-[10.5px] font-mono uppercase tracking-widest">To</label>
+                    <input type="date" defaultValue="2026-10-31" className="bg-[#1E2650] border border-white/10 rounded-lg p-2.5 text-sm" />
                   </div>
                 </div>
                 
-                <div className="checker-summary">
-                  <div><b className="font-headline text-[28px]">3</b><span>dates to keep in mind</span></div>
-                  <div><b className="font-headline text-[28px]">2</b><span>days in longest flagged run</span></div>
-                  <div><b className="font-headline text-[28px]">0</b><span>days to next one</span></div>
+                <div className="checker-summary py-4 border-b border-white/10 flex gap-4 text-left">
+                  <div><b className="font-headline text-[28px] text-[#F0C888]">3</b><span className="text-[11.5px] text-muted-dim block leading-tight">dates to keep in mind</span></div>
+                  <div><b className="font-headline text-[28px] text-[#F0C888]">2</b><span className="text-[11.5px] text-muted-dim block leading-tight">days in longest flagged run</span></div>
+                  <div><b className="font-headline text-[28px] text-[#F0C888]">0</b><span className="text-[11.5px] text-muted-dim block leading-tight">days to next one</span></div>
                 </div>
 
-                <div className="checker-brief text-[13px] leading-relaxed">
+                <div className="checker-brief text-[13px] leading-relaxed text-muted pt-2">
                   <strong>IN SHORT:</strong> 3 dates in your selected period are worth keeping in mind. The details below show what is happening on each date.
                 </div>
 
                 <div className="checker-list">
-                   <p className="text-[12px] text-muted-dim italic text-center py-8 border border-dashed border-white/10 rounded-xl">
+                   <p className="text-[12px] text-muted-dim italic text-center py-10 border border-dashed border-white/10 rounded-xl mt-4">
                       Individual record detail available on production home page.
                    </p>
                 </div>
