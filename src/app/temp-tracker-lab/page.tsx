@@ -10,12 +10,13 @@ import {
   Search,
   ShieldCheck,
   Globe,
-  MapPin
+  MapPin,
+  AlertCircle
 } from "lucide-react";
-import { format, startOfToday } from 'date-fns';
+import { format } from 'date-fns';
 
 // --------------------------------------------------------------------------------
-// AUTHORITATIVE MOCK DATA (High Density for Lab)
+// AUTHORITATIVE MOCK DATA (Improvised for High-Density Intel)
 // --------------------------------------------------------------------------------
 
 const MARQUEE_DATA = [
@@ -29,13 +30,13 @@ const MARQUEE_DATA = [
 const GLOBAL_INTEL = [
   {
     event: "Indonesia — Maulid Nabi",
-    meta: "Today · 12 jurisdictions affected · National Holiday",
-    desc: "Significant public sector closures across SE Asia. Global systems active; regional latency flagged."
+    meta: "Today · 12 jurisdictions · National Holiday",
+    desc: "Systemic public sector closures. Global banking systems active; regional settlement latency flagged."
   },
   {
     event: "Hong Kong — Mid-Autumn Festival",
     meta: "Today · Regional · Public Holiday",
-    desc: "Evening festivities. Transport on extended schedules. Banking operations modified."
+    desc: "Modified trading session. Public transport on extended evening schedules. Normal logistics flow."
   }
 ];
 
@@ -43,20 +44,20 @@ const REGIONAL_INTEL_MAP: Record<string, any> = {
   IN: {
     country: "INDIA",
     region: "Maharashtra",
-    event: "Ganesh Chaturthi",
-    intel: "Mandatory public/bank closures. High urban movement impact in Mumbai/Pune due to public processions."
+    event: "Janmashtami / Dahi Handi",
+    intel: "Mandatory public/bank closures. High urban movement impact in Mumbai due to public processions."
   },
   JP: {
     country: "JAPAN",
     region: "Tokyo",
     event: "Respect for the Aged Day",
-    intel: "JPX (Stock Exchange) and BoJ systems suspended. Standard logistics delays expected nationwide."
+    intel: "JPX (Stock Exchange) suspended. BoJ settlement systems offline. Standard national logistics delays."
   },
   US: {
     country: "UNITED STATES",
     region: "Federal",
     event: "Labor Day",
-    intel: "NYSE/NASDAQ sessions suspended. USPS and Federal offices closed. Transit on holiday schedule."
+    intel: "NYSE/NASDAQ sessions suspended. USPS and Federal offices closed. Transit on Sunday schedule."
   },
   SG: {
     country: "SINGAPORE",
@@ -113,67 +114,73 @@ export default function TempTrackerLabPage() {
                 </div>
 
                 <div className="hero-tracker-next-grid text-left">
-                  {/* GLOBAL STATUS SECTION (Teal Anchor for Global) */}
+                  {/* GLOBAL STATUS SECTION (High-visibility Teal Anchor) */}
                   <div className="bg-white/[0.01]">
-                    <div className="px-[18px] pt-3 pb-1 flex items-center justify-between">
+                    <div className="px-[18px] pt-4 pb-1 flex items-center justify-between border-l-2 border-[#4FD1C5]/40">
                       <span className="next-card-kicker flex items-center gap-1.5 !text-[#4FD1C5]">
                         <Globe className="w-2.5 h-2.5" /> AROUND THE GLOBE
                       </span>
-                      <span className="text-[8px] font-bold text-[#4FD1C5]/40 uppercase tracking-widest">Global Status</span>
+                      <span className="text-[8px] font-bold text-[#4FD1C5]/40 uppercase tracking-widest">Global Facts</span>
                     </div>
                     
-                    {GLOBAL_INTEL.map((item, idx) => (
-                      <div key={idx} className={cn("px-[18px] py-2.5", idx > 0 && "border-t border-white/5")}>
-                        <span className="next-card-name text-[14.5px]">{item.event}</span>
-                        <span className="next-card-date text-[10px] opacity-50 mb-1.5 block">{item.meta}</span>
-                        <p className="text-[12px] text-muted leading-tight font-medium max-w-[360px]">
-                            {item.desc}
-                        </p>
-                      </div>
-                    ))}
+                    <div className="space-y-4 pb-4">
+                      {GLOBAL_INTEL.map((item, idx) => (
+                        <div key={idx} className={cn("px-[18px] py-1.5", idx > 0 && "border-t border-white/5 pt-3")}>
+                          <span className="next-card-name text-[14.5px]">{item.event}</span>
+                          <span className="next-card-date text-[10px] text-[#4FD1C5] mb-1.5 block font-bold uppercase tracking-wider">{item.meta}</span>
+                          <p className="text-[12px] text-muted leading-tight font-medium max-w-[360px]">
+                              {item.desc}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
                   </div>
 
-                  {/* REGIONAL INTEL NOTE (Gold Anchor for Regional Nuance) */}
-                  <div className="hero-tracker-next-card border-t border-white/10 bg-[#E8A33D]/[0.02] py-4 relative">
-                     {/* Subtle side accent for quick glance visibility */}
-                     <div className="absolute left-0 top-4 bottom-4 w-[2px] bg-[#E8A33D]/40"></div>
+                  {/* REGIONAL INTEL SECTION (High-visibility Gold Anchor) */}
+                  <div className="hero-tracker-next-card border-t border-white/10 bg-[#E8A33D]/[0.02] py-5 relative">
+                     <div className="absolute left-0 top-0 bottom-0 w-[2px] bg-[#E8A33D]"></div>
                      
                      <div className="px-1 flex items-center justify-between mb-3">
                         <span className="next-card-kicker !text-[#E8A33D] uppercase tracking-widest flex items-center gap-1.5">
-                           <MapPin className="w-2.5 h-2.5" /> REGIONAL INTEL · {regionalIntel?.country || 'NA'}
+                           <MapPin className="w-2.5 h-2.5" /> JURISDICTION INTEL · {regionalIntel?.country || 'NA'}
                         </span>
-                        {regionalIntel && <span className="text-[8px] font-bold text-[#E8A33D]/60 border border-[#E8A33D]/30 px-1.5 py-0.5 rounded-sm uppercase tracking-widest">Nuance</span>}
+                        {regionalIntel && <span className="text-[8px] font-bold text-[#E8A33D] border border-[#E8A33D]/40 px-1.5 py-0.5 rounded-sm uppercase tracking-widest">Selection Active</span>}
                      </div>
                      
                      {regionalIntel ? (
                        <div className="space-y-1 px-1">
-                          <span className="next-card-name !text-[14.5px] block">
+                          <span className="next-card-name !text-[14.5px] block font-bold">
                             {regionalIntel.event} · {regionalIntel.region}
                           </span>
-                          <span className="next-card-date text-[12px] leading-tight text-muted block font-medium max-w-[360px]">
+                          <span className="next-card-date text-[12px] leading-relaxed text-muted block font-medium max-w-[360px]">
                               {regionalIntel.intel}
                           </span>
                        </div>
                      ) : (
-                       <div className="py-1 px-1">
-                          <span className="next-card-date italic text-muted-dim font-medium text-[12px]">No regional variants identified. National rules apply.</span>
+                       <div className="py-2 px-1">
+                          <span className="next-card-date italic text-muted-dim font-medium text-[12px] flex items-center gap-2">
+                             <AlertCircle className="w-3.5 h-3.5 opacity-50" /> No regional variants identified. National rules apply.
+                          </span>
                        </div>
                      )}
 
                      {/* Optimized Compact Footer */}
-                     <div className="mt-4 pt-3 border-t border-white/5 flex items-center justify-between px-1">
+                     <div className="mt-5 pt-3 border-t border-white/5 flex items-center justify-between px-1">
                         <div className="flex items-center gap-2">
                            <RefreshCw className="w-2 h-2 text-[#E8A33D]/60" />
                            <span className="text-[8.5px] font-bold uppercase tracking-widest text-muted-dim">
-                              Jurisdiction-specific. Synchronized with selection.
+                              Synchronized with selection.
                            </span>
                         </div>
-                        <ShieldCheck className="w-3 h-3 text-[#4FD1C5]/30" />
+                        <div className="flex items-center gap-1.5">
+                           <span className="text-[8px] font-bold text-green-500/60 uppercase">Verified Data</span>
+                           <ShieldCheck className="w-3 h-3 text-green-500/40" />
+                        </div>
                      </div>
                   </div>
                 </div>
 
-                {/* MARQUEE WITH DATES (Preserved as requested) */}
+                {/* MARQUEE WITH DATES (High Clarity) */}
                 <div className="hero-tracker-feed">
                   <div className="marquee">
                     <div className="marquee-track">
