@@ -7,7 +7,8 @@ import { Footer } from '@/components/footer';
 import { cn } from '@/lib/utils';
 import { 
   RefreshCw,
-  Search
+  Search,
+  ShieldCheck
 } from "lucide-react";
 import { format, startOfToday } from 'date-fns';
 
@@ -105,7 +106,9 @@ export default function TempTrackerLabPage() {
                 <div className="hero-tracker-next-grid text-left">
                   {/* GLOBAL STATUS CARD */}
                   <div className="hero-tracker-next-card">
-                    <span className="next-card-kicker">AROUND THE GLOBE</span>
+                    <span className="next-card-kicker flex items-center gap-1.5">
+                      <ShieldCheck className="w-2.5 h-2.5" /> AROUND THE GLOBE
+                    </span>
                     <span className="next-card-name text-[15px] mt-1">{GLOBAL_INTEL.event}</span>
                     <span className="next-card-date text-[10.5px] opacity-60 mb-2 block">{GLOBAL_INTEL.meta}</span>
                     <p className="text-[12.5px] text-muted leading-snug font-medium max-w-[340px]">
@@ -113,7 +116,7 @@ export default function TempTrackerLabPage() {
                     </p>
                   </div>
 
-                  {/* REGIONAL INTEL NOTE */}
+                  {/* REGIONAL INTEL NOTE (Compact & Integrated) */}
                   <div className="hero-tracker-next-card border-t border-white/10 bg-white/[0.01]">
                      <div className="flex justify-between items-center mb-1">
                         <span className="next-card-kicker !text-[#E8A33D] uppercase tracking-widest">REGIONAL INTEL · {regionalIntel?.country || 'NA'}</span>
@@ -129,19 +132,22 @@ export default function TempTrackerLabPage() {
                           </span>
                        </div>
                      ) : (
-                       <div className="py-2">
+                       <div className="py-1">
                           <span className="next-card-date italic text-muted-dim font-medium text-[12.5px]">No regional variants identified. National rules apply.</span>
                        </div>
                      )}
 
-                     <div className="mt-4 pt-4 border-t border-white/5 flex items-center gap-2 opacity-50">
-                        <RefreshCw className="w-3 h-3 text-[#E8A33D]" />
-                        <span className="text-[9px] font-bold uppercase tracking-widest">Linked to checker selection</span>
+                     {/* Proper Explanatory Note */}
+                     <div className="mt-4 pt-4 border-t border-white/5 flex items-start gap-2.5 opacity-60">
+                        <RefreshCw className="w-3 h-3 text-[#E8A33D] mt-0.5 shrink-0" />
+                        <span className="text-[10px] font-bold uppercase tracking-widest text-[#9AA1C0] leading-normal">
+                          Showing regional intel for the selected country. Changes with checker selection.
+                        </span>
                      </div>
                   </div>
                 </div>
 
-                {/* MARQUEE WITH DATES */}
+                {/* MARQUEE WITH DATES RESTORED */}
                 <div className="hero-tracker-feed">
                   <div className="marquee">
                     <div className="marquee-track">
