@@ -65,31 +65,32 @@ export default function HomePage() {
   }, [isMounted, todayKey, allRecords]);
 
   const globalTodayEvents = useMemo(() => {
+    if (!isMounted || !todayKey) return [];
     return (forwardIndex.get(todayKey) || []).filter((r: any) => r.jurisdiction.scope === 'national');
-  }, [forwardIndex, todayKey]);
+  }, [forwardIndex, todayKey, isMounted]);
 
   const localSignalsFeed = useMemo(() => {
     if (!isMounted || !todayKey) return [];
     
-    // 1. Check for actual regional signals today
+    // 1. Check for actual regional signals TODAY
     const todayItems = (forwardIndex.get(todayKey) || []).filter((r: any) => r.jurisdiction.scope === 'regional');
     
     if (todayItems.length > 0) {
       return todayItems.map((e: any) => ({
-        text: `${COUNTRY_LABELS[e.jurisdiction.country_code] || e.jurisdiction.country_code} — ${e.jurisdiction.region || ''} — ${e.name} · ${format(new Date(e.date + 'T00:00:00'), 'd MMM')}`,
+        text: `${COUNTRY_LABELS[e.jurisdiction.country_code] || e.jurisdiction.country_code} — ${e.jurisdiction.region || ''} — ${e.name} · Today`,
         isLive: true
       }));
     }
 
-    // 2. If today is clear, look at the whole current month
-    const currentMonth = todayKey.substring(0, 7); // yyyy-MM
-    const monthlyItems = allRecords.filter(r => 
-      r.date.startsWith(currentMonth) && 
+    // 2. If today is clear, look ahead at the next 10 regional events in the future (EXCLUDE PAST)
+    const upcomingItems = allRecords.filter(r => 
+      r.date > todayKey && 
       r.jurisdiction.scope === 'regional'
-    );
+    ).sort((a, b) => a.date.localeCompare(b.date))
+    .slice(0, 10);
 
-    if (monthlyItems.length > 0) {
-        return monthlyItems.map((e: any) => ({
+    if (upcomingItems.length > 0) {
+        return upcomingItems.map((e: any) => ({
             text: `${COUNTRY_LABELS[e.jurisdiction.country_code] || e.jurisdiction.country_code} — ${e.jurisdiction.region || ''} — ${e.name} · ${format(new Date(e.date + 'T00:00:00'), 'd MMM')}`,
             isLive: false
         }));
@@ -174,7 +175,7 @@ export default function HomePage() {
                         </div>
                       )) : (
                         <div className="px-[18px] py-6 text-left">
-                           <p className="text-[13.5px] font-medium text-paper/80 leading-relaxed pr-4">
+                           <p className="text-[13.5px] font-medium text-paper/80 leading-relaxed pr-4 italic">
                               Standard Global business day. High-trust window for international meetings and cross-border office operations.
                            </p>
                         </div>
@@ -306,8 +307,8 @@ export default function HomePage() {
         {/* INTEGRATED USE CASES */}
         <section className="py-24 border-t border-white/5" id="built-for">
           <div className="wrap">
-            <div className="mb-12 space-y-3">
-               <span className="text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-[#E8A33D]">GLOBAL COVERAGE · EVERYWHERE WE TRACK</span>
+            <div className="mb-12 space-y-3 text-left">
+               <span className="text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-[#E8A33D]">Global Coverage · Everywhere we track</span>
                <h2 className="font-headline text-3xl md:text-5xl font-medium">Built for technical planning.</h2>
                <p className="text-[#9AA1C0] text-lg max-w-2xl">Reconciling deterministic rules across multiple jurisdictions for high-stakes operational assessment.</p>
             </div>
