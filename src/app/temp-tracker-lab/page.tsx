@@ -123,7 +123,6 @@ export default function TempTrackerLabPage() {
     const month = now.getMonth();
     const day = now.getDate();
 
-    // 1. Check for real events today in the registry
     const liveMatches = PERIOD_EVENTS.filter(e => {
         const d = parseISO(e.date);
         return d.getMonth() === month && d.getDate() === day && e.scope === 'REGIONAL';
@@ -136,7 +135,6 @@ export default function TempTrackerLabPage() {
         }));
     }
 
-    // 2. Verified Clear Fallback
     return [{
         text: "Standard global working day · 92 jurisdictions verified · No regional alerts today.",
         isLive: true
@@ -180,42 +178,45 @@ export default function TempTrackerLabPage() {
               <aside className="hero-tracker md:order-last">
                 <div className="hero-tracker-head">
                   <div>
-                    <span className="block font-mono text-[10px] font-bold uppercase tracking-[0.3em] text-[#E8A33D] mb-1">LIVE UPDATES</span>
-                    <strong className="text-[15.5px] font-headline">{isClient ? format(new Date(), 'EEEE, d MMM yyyy') : '...'}</strong>
+                    <span className="block font-mono text-[9px] font-bold uppercase tracking-[0.35em] text-[#E8A33D] mb-1">LIVE UPDATES</span>
+                    <strong className="text-[17px] font-headline">{isClient ? format(new Date(), 'EEEE, d MMM yyyy') : '...'}</strong>
                   </div>
-                  <span className="hero-tracker-live"><i></i> Operational View</span>
+                  <div className="flex items-center gap-1.5 opacity-50">
+                    <div className="w-1.5 h-1.5 rounded-full bg-[#4FD1C5]" />
+                    <span className="font-mono text-[9px] font-bold uppercase tracking-widest">Operational View</span>
+                  </div>
                 </div>
 
-                <div className="hero-tracker-next-grid text-left border-b border-white/10">
-                   <div className="px-[18px] py-6 space-y-4">
+                <div className="text-left border-b border-white/10 bg-white/[0.01]">
+                   <div className="px-[20px] py-8 space-y-6">
                       <div className="flex items-center gap-2">
-                        <Globe className="w-2.5 h-2.5 text-[#4FD1C5]" />
-                        <span className="text-[9px] font-bold uppercase tracking-[0.25em] text-[#4FD1C5]">GLOBAL IMPACTS</span>
+                        <Globe className="w-3 h-3 text-[#4FD1C5]" />
+                        <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#4FD1C5]">GLOBAL IMPACTS</span>
                       </div>
-                      <div className="space-y-4">
+                      <div className="space-y-8">
                         {GLOBAL_INTEL.map((item) => (
-                          <div key={item.id} className="space-y-1.5">
-                            <span className="block text-[14px] font-bold">{item.event}</span>
-                            <p className="text-[12px] text-[#9AA1C0] leading-snug font-medium italic">"{item.desc}"</p>
+                          <div key={item.id} className="space-y-2 border-l-2 border-white/5 pl-4 hover:border-[#4FD1C5]/30 transition-colors">
+                            <span className="block text-[14px] font-bold text-white/90">{item.event}</span>
+                            <p className="text-[12.5px] text-[#9AA1C0] leading-relaxed font-medium italic">"{item.desc}"</p>
                           </div>
                         ))}
                       </div>
                    </div>
                 </div>
 
-                <div className="hero-tracker-feed">
-                  <div className="px-[18px] mb-2 flex items-center gap-2">
-                     <span className="text-[9px] font-bold text-[#4FD1C5] uppercase tracking-[0.25em]">LOCAL SIGNALS</span>
+                <div className="hero-tracker-feed !py-6">
+                  <div className="px-[20px] mb-4 flex items-center gap-2">
+                     <span className="text-[10px] font-bold text-[#4FD1C5] uppercase tracking-[0.25em]">LOCAL SIGNALS</span>
                   </div>
                   <div className="marquee">
                     <div className="marquee-track">
                       {todayRegionalPulse.concat(todayRegionalPulse).map((item, i) => (
-                        <span key={i} className="chip flex items-center gap-3">
-                          <span className="relative flex h-1.5 w-1.5 shrink-0">
+                        <span key={i} className="chip flex items-center gap-3 !border-white/5 bg-white/[0.02]">
+                          <span className="relative flex h-2 w-2 shrink-0">
                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.8)]"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.6)]"></span>
                           </span>
-                          <b className={cn("text-[13px]", !item.isLive && "text-muted-dim font-normal")}>{item.text}</b>
+                          <b className={cn("text-[13.5px]", !item.isLive && "text-muted-dim font-normal")}>{item.text}</b>
                         </span>
                       ))}
                     </div>
@@ -267,12 +268,11 @@ export default function TempTrackerLabPage() {
                   </div>
                 </div>
                 
-                <div className="checker-summary py-4 border-b border-white/10 flex gap-4 text-left">
-                  <div><b className="font-headline text-[28px] text-[#F0C888]">{filteredEvents.length}</b><span className="text-[11.5px] text-muted-dim block leading-tight">period flags</span></div>
-                  <div><b className="font-headline text-[28px] text-[#F0C888]">{filteredEvents.filter(e => e.severity === 'high').length}</b><span className="text-[11.5px] text-muted-dim block leading-tight">high-impact</span></div>
+                <div className="checker-summary py-6 border-b border-white/10 flex gap-10 text-left">
+                  <div><b className="font-headline text-[32px] text-[#F0C888]">{filteredEvents.length}</b><span className="text-[11.5px] text-muted-dim block font-bold uppercase tracking-widest mt-1">period flags</span></div>
+                  <div><b className="font-headline text-[32px] text-[#F0C888]">{filteredEvents.filter(e => e.severity === 'high').length}</b><span className="text-[11.5px] text-muted-dim block font-bold uppercase tracking-widest mt-1">high-impact</span></div>
                 </div>
 
-                {/* SCENARIO A: HIGH-FIDELITY CONVERSATIONAL LIST */}
                 {scenario === 'A' && (
                   <div className="mt-4 space-y-1">
                     <div className="checker-list max-h-[440px] overflow-y-auto custom-scrollbar pr-1">
@@ -328,7 +328,6 @@ export default function TempTrackerLabPage() {
                   </div>
                 )}
 
-                {/* SCENARIO C: SIMPLIFIED INTERPRETATION */}
                 {scenario === 'C' && (
                   <div className="pt-6 animate-in fade-in slide-in-from-bottom-2 duration-500">
                     <div className="p-8 rounded-2xl border bg-white/[0.03] border-white/10 shadow-2xl space-y-6">
