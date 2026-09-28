@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 
 // --------------------------------------------------------------------------------
-// AUTHORITATIVE MOCK DATA (Operational & Purpose Nuance)
+// AUTHORITATIVE MOCK DATA (Conversational & Descriptive)
 // --------------------------------------------------------------------------------
 
 const GLOBAL_INTEL = [
@@ -25,13 +25,13 @@ const GLOBAL_INTEL = [
     event: "Indonesia — Maulid Nabi",
     meta: "12 COUNTRIES: SYSTEMIC PUBLIC CLOSURES",
     impacts: { govt: 'CLOSED', banks: 'CLOSED', markets: 'ACTIVE' },
-    desc: "BANKING: Systemic public closures. Active settlement latency flagged."
+    desc: "Most government offices and banks are closed across the country. However, major financial markets remain open for trading."
   },
   {
     event: "Hong Kong — Mid-Autumn Festival",
     meta: "REGIONAL · PUBLIC HOLIDAY",
     impacts: { govt: 'OPEN', banks: 'CLOSED', markets: 'MODIFIED' },
-    desc: "MARKETS: Modified trading session. LOGISTICS: 24h transit delay."
+    desc: "Banks are closed today and the stock market is running on a modified session. Expect a 24-hour delay in local logistics and shipping."
   }
 ];
 
@@ -40,46 +40,46 @@ const PERIOD_EVENTS = [
     date: "2026-09-04",
     shortDate: "4 Sep",
     name: "Janmashtami",
-    scope: "REGIONAL",
+    scope: "STATE HOLIDAY (MH)",
     jurisdiction: "Maharashtra",
     impacts: { govt: 'CLOSED', banks: 'CLOSED', markets: 'SUSPENDED' },
     advice: {
-      traveler: "MOVEMENT (Mumbai/Pune): High impact due to Dahi Handi processions. Expect major road closures.",
-      study: "OFFICES (Maharashtra): Regional university admin and state offices likely offline for the day.",
-      corporate: "BANKING (Mumbai): Regional settlement suspension. Expect transaction latency for MH-based accounts."
+      traveler: "If you're moving around Mumbai or Pune today, expect significant road closures and huge crowds due to the Dahi Handi processions.",
+      study: "Most university administration offices across Maharashtra will be closed today for the regional holiday.",
+      corporate: "Regional banking and financial settlements in Mumbai are suspended today; expect some delay in transactions for accounts based in the state."
     }
   },
   {
     date: "2026-09-15",
     shortDate: "15 Sep",
     name: "Ganesh Chaturthi",
-    scope: "STATE",
+    scope: "REGIONAL ADVISORY",
     jurisdiction: "West India",
     impacts: { govt: 'CLOSED', banks: 'CLOSED', markets: 'CLOSED' },
     advice: {
-      traveler: "MOVEMENT (Mumbai): Heavy urban traffic. Mandatory travel buffer required for airport transfers.",
-      study: "OFFICES (Western Region): Admissions verification centers and campus services closed.",
-      corporate: "OPERATIONS (State-wide): Full commercial shutdown. Regional logistics pipelines offline."
+      traveler: "Traffic in Mumbai will be very heavy today as the festival begins. If you have an airport transfer, make sure to leave much earlier than usual.",
+      study: "Admissions centers and student service offices in the Western region will be closed today for the public holiday.",
+      corporate: "There is a full commercial shutdown across the state today. Most logistics and supply chain operations will be offline."
     }
   },
   {
     date: "2026-10-02",
     shortDate: "2 Oct",
     name: "Gandhi Jayanti",
-    scope: "NATIONAL",
+    scope: "NATIONAL PUBLIC HOLIDAY",
     jurisdiction: "National",
     impacts: { govt: 'CLOSED', banks: 'CLOSED', markets: 'CLOSED' },
     advice: {
-      traveler: "OFFICES (National): Major public sector closure. No access to government-facing services nationwide.",
-      study: "OFFICES (National): National holiday. All institutional and administrative offices closed.",
-      corporate: "BANKING (National): National banking suspension. RTGS and NEFT systems offline."
+      traveler: "This is a major national holiday. All government offices and public services will be closed across the country.",
+      study: "All educational institutions and university administrative offices nationwide are closed today.",
+      corporate: "National banking systems, including RTGS and NEFT, are offline today for the public holiday."
     }
   }
 ];
 
 const REGIONAL_ROUNDUP_INDIA = [
-  { region: "Maharashtra", event: "Janmashtami", intel: "MOVEMENT: High urban movement impact in Mumbai/Pune. BANKS: Mandatory regional closures." },
-  { region: "Uttar Pradesh", event: "Krishna Janmashtami", intel: "OFFICES: Partial public sector holiday. BANKS: Regular operational status." }
+  { region: "Maharashtra", event: "Janmashtami", intel: "Expect high urban movement impact in Mumbai and Pune. Most regional bank branches will be closed." },
+  { region: "Uttar Pradesh", event: "Krishna Janmashtami", intel: "Partial holiday for the public sector. Banks and private offices are generally operating as normal." }
 ];
 
 // --------------------------------------------------------------------------------
@@ -142,21 +142,21 @@ export default function TempTrackerLabPage() {
               </h1>
               <p className="sub hidden md:block">Check a country and your actual dates — before you book, schedule, send a student, or send an employee across borders.</p>
 
-              {/* LEFT SIDEBAR: Global Pulse */}
+              {/* LEFT SIDEBAR: Global Pulse (Stable Across Scenarios) */}
               <aside className={cn("hero-tracker md:order-last", scenario === 'B' && "hidden md:block")}>
                 <div className="hero-tracker-head">
                   <div>
-                    <span className="hero-tracker-kicker">WORLD STATE</span>
+                    <span className="hero-tracker-kicker">GLOBAL PULSE</span>
                     <strong className="text-[15.5px] font-headline">Friday, 4 Sep 2026</strong>
                   </div>
-                  <span className="hero-tracker-live"><i></i> Intelligence view</span>
+                  <span className="hero-tracker-live"><i></i> World view</span>
                 </div>
 
                 <div className="hero-tracker-next-grid text-left">
                   <div className="bg-white/[0.01]">
                     <div className="px-[18px] pt-4 pb-1 flex items-center justify-between border-l-2 border-[#4FD1C5]">
                       <span className="next-card-kicker flex items-center gap-1.5 !text-[#4FD1C5]">
-                        <Globe className="w-2.5 h-2.5" /> GLOBAL PULSE
+                        <Globe className="w-2.5 h-2.5" /> WORLD STATE TODAY
                       </span>
                     </div>
                     <div className="space-y-4 pb-4">
@@ -252,7 +252,7 @@ export default function TempTrackerLabPage() {
                             <div className="flex justify-between items-start">
                               <div className="space-y-0.5">
                                   <h4 className="font-bold text-[14.5px]">{event.name}</h4>
-                                  <p className="text-[10px] text-muted-dim uppercase font-bold">{event.shortDate} · {event.scope} · {event.jurisdiction}</p>
+                                  <p className="text-[10px] text-muted-dim uppercase font-bold">{event.shortDate} · {event.scope}</p>
                               </div>
                               <span className="text-[9px] font-bold text-[#E8A33D] uppercase tracking-widest">Verified</span>
                             </div>
@@ -261,7 +261,7 @@ export default function TempTrackerLabPage() {
                               <StatusStrip label="BANKS" status={event.impacts.banks} scenario="A" />
                               <StatusStrip label="MKTS" status={event.impacts.markets} scenario="A" />
                             </div>
-                            <p className="text-[12.5px] text-[#F4F1E8] font-medium leading-snug border-l border-[#E8A33D]/40 pl-3 py-1">
+                            <p className="text-[12.5px] text-[#F4F1E8] font-medium leading-relaxed border-l border-[#E8A33D]/40 pl-3 py-1">
                               {event.advice[mode]}
                             </p>
                         </div>
@@ -270,7 +270,7 @@ export default function TempTrackerLabPage() {
                     <div className="p-5 bg-[#E8A33D]/5 border border-[#E8A33D]/20 rounded-xl space-y-4 mt-6">
                       <div className="flex items-center justify-between border-b border-[#E8A33D]/10 pb-2">
                         <span className="text-[9px] font-extrabold uppercase tracking-widest text-[#E8A33D] flex items-center gap-1.5">
-                          <Activity className="w-3 h-3" /> DESTINATION ADVISORY · {country}
+                          <Activity className="w-3 h-3" /> LIVE JURISDICTIONAL ROUNDUP · {country}
                         </span>
                       </div>
                       <div className="space-y-4">
@@ -280,7 +280,7 @@ export default function TempTrackerLabPage() {
                                <span className="text-[13.5px] font-bold">{item.event}</span>
                                <span className="text-[9px] font-mono text-muted-dim uppercase">{item.region}</span>
                             </div>
-                            <p className="text-[12px] leading-snug text-[#9AA1C0] font-medium">
+                            <p className="text-[12px] leading-relaxed text-[#9AA1C0] font-medium">
                               {item.intel}
                             </p>
                           </div>
@@ -310,7 +310,7 @@ export default function TempTrackerLabPage() {
                           <div className="flex justify-between items-baseline">
                              <div className="space-y-1">
                                 <h4 className="font-bold text-[16px] font-headline">{event.name}</h4>
-                                <p className="text-[9.5px] font-extrabold uppercase tracking-widest text-[#E8A33D]">{event.shortDate} · {event.scope} ({event.jurisdiction})</p>
+                                <p className="text-[9.5px] font-extrabold uppercase tracking-widest text-[#E8A33D]">{event.shortDate} · {event.scope}</p>
                              </div>
                           </div>
                           <div className="flex flex-wrap gap-1.5">
@@ -326,7 +326,7 @@ export default function TempTrackerLabPage() {
                     </div>
                     <div className="space-y-6">
                        <div className="p-6 bg-white/[0.03] border border-white/10 rounded-xl space-y-6">
-                          <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#4FD1C5]">Global Market Pulse</h4>
+                          <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#4FD1C5]">World Operational Pulse</h4>
                           {GLOBAL_INTEL.map((item, idx) => (
                             <div key={idx} className="space-y-3">
                                <p className="text-[14px] font-bold">{item.event}</p>
@@ -334,7 +334,7 @@ export default function TempTrackerLabPage() {
                                   <StatusStrip label="BANKS" status={item.impacts.banks} scenario="B" />
                                   <StatusStrip label="MKTS" status={item.impacts.markets} scenario="B" />
                                </div>
-                               <p className="text-[12px] text-muted-dim leading-snug">{item.desc}</p>
+                               <p className="text-[12px] text-muted-dim leading-relaxed">{item.desc}</p>
                             </div>
                           ))}
                        </div>
@@ -343,7 +343,7 @@ export default function TempTrackerLabPage() {
                           {REGIONAL_ROUNDUP_INDIA.map((item, idx) => (
                             <div key={idx} className="text-left space-y-1">
                                <p className="text-[13px] font-bold">{item.event} <span className="text-[9px] font-mono text-muted-dim ml-2">{item.region}</span></p>
-                               <p className="text-[11px] text-[#9AA1C0] leading-snug">{item.intel}</p>
+                               <p className="text-[11px] text-[#9AA1C0] leading-relaxed">{item.intel}</p>
                             </div>
                           ))}
                        </div>
@@ -367,9 +367,9 @@ export default function TempTrackerLabPage() {
                            <div className="flex items-center gap-4">
                               <span className={cn(
                                 "text-[9px] font-extrabold px-2 py-0.5 rounded-full border tracking-widest",
-                                event.scope === 'NATIONAL' ? "border-red-500/40 text-red-500 bg-red-500/5" : "border-[#E8A33D]/40 text-[#E8A33D] bg-[#E8A33D]/5"
+                                event.scope.includes('NATIONAL') ? "border-red-500/40 text-red-500 bg-red-500/5" : "border-[#E8A33D]/40 text-[#E8A33D] bg-[#E8A33D]/5"
                               )}>
-                                {event.scope} {event.impacts.govt === 'CLOSED' ? 'CLOSURE' : 'ADVISORY'}
+                                {event.scope}
                               </span>
                               {expandedDate === event.date ? <ChevronUp className="w-4 h-4 text-muted-dim" /> : <ChevronDown className="w-4 h-4 text-muted-dim" />}
                            </div>
@@ -382,8 +382,8 @@ export default function TempTrackerLabPage() {
                                 <StatusStrip label="MKTS" status={event.impacts.markets} scenario="C" />
                              </div>
                              <div className="p-4 border-l-2 border-[#E8A33D] bg-[#E8A33D]/5 rounded-r-lg">
-                                <p className="text-[13.5px] font-medium leading-relaxed text-paper">
-                                  {event.advice[mode]}
+                                <p className="text-[13.5px] font-medium leading-relaxed text-paper italic">
+                                  "{event.advice[mode]}"
                                 </p>
                              </div>
                           </div>
@@ -392,14 +392,14 @@ export default function TempTrackerLabPage() {
                     ))}
                     <div className="p-5 bg-white/[0.02] border border-white/5 rounded-xl mt-8">
                        <p className="text-[10px] font-bold uppercase tracking-widest text-[#E8A33D] mb-4 flex items-center gap-2">
-                         <Activity className="w-3.5 h-3.5" /> Jurisdictional Nuance · {country}
+                         <Activity className="w-3.5 h-3.5" /> LIVE JURISDICTIONAL ROUNDUP · {country}
                        </p>
                        <div className="grid gap-4">
                           {REGIONAL_ROUNDUP_INDIA.map((item, idx) => (
                             <div key={idx} className="flex justify-between items-start border-b border-white/5 pb-4 last:border-0 last:pb-0">
                                <div className="space-y-1">
                                   <p className="text-[13px] font-bold">{item.event}</p>
-                                  <p className="text-[11px] text-muted-dim leading-snug">{item.intel}</p>
+                                  <p className="text-[11px] text-muted-dim leading-relaxed">{item.intel}</p>
                                </div>
                                <span className="text-[9px] font-mono text-[#E8A33D]/60 font-bold uppercase">{item.region}</span>
                             </div>
@@ -418,7 +418,7 @@ export default function TempTrackerLabPage() {
         {/* SCENARIO SWITCHER */}
         <section className="fixed bottom-0 left-0 right-0 bg-[#0B0F22]/95 backdrop-blur-md border-t border-white/10 p-4 z-[60]">
            <div className="max-w-md mx-auto flex flex-col gap-3">
-              <p className="text-[10px] font-bold uppercase tracking-widest text-muted-dim text-center">UI/UX Scenario Switcher</p>
+              <p className="text-[10px] font-bold uppercase tracking-widest text-muted-dim text-center">Design Scenario Switcher</p>
               <div className="grid grid-cols-3 gap-2">
                  {(['A', 'B', 'C'] as const).map(s => (
                    <button 
@@ -442,4 +442,3 @@ export default function TempTrackerLabPage() {
     </div>
   );
 }
-
