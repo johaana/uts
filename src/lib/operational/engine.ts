@@ -1,13 +1,14 @@
 /**
  * @fileOverview Phase 3A Temporal Engine.
- * Implements Fixed, Nth-Weekday, and Easter-relative logic.
+ * Implements Purpose-Aware Advice and Canonical Logic.
  */
 
 import { 
   CanonicalRule, 
   DateIntelligenceRecord, 
   OperationalQuery, 
-  HolidayRule 
+  HolidayRule,
+  UserPurpose
 } from './types';
 import { 
   format, 
@@ -20,16 +21,10 @@ import {
   startOfToday
 } from 'date-fns';
 
-/**
- * Resolves the "Single Now" instant for a request.
- */
 export function resolveNow(): Date {
   return startOfToday();
 }
 
-/**
- * Calculates Gregorian Easter Sunday using the Meeus/Jones/Butcher algorithm.
- */
 export function getEaster(year: number): Date {
   const a = year % 19;
   const b = Math.floor(year / 100);
@@ -48,84 +43,53 @@ export function getEaster(year: number): Date {
   return new Date(year, month - 1, day);
 }
 
-/**
- * The core Temporal Matcher.
- * Filters canonical rules and expands them into concrete instances.
- */
 export function evaluateQuery(rules: CanonicalRule[], query: OperationalQuery, now: Date): DateIntelligenceRecord[] {
   const queryStart = query.startDate;
   const queryEnd = query.endDate;
   const results: DateIntelligenceRecord[] = [];
 
-  // TEMPORARY Phase 3A Validation Test Rule
-  // This rule only exists during the evaluation of T-018 to prove the production path.
-  const testYear = getYear(parseISO(queryStart));
-  if (query.destination === 'XX' && testYear === 2027) {
-    const gfDate = format(addDays(getEaster(2027), -2), 'yyyy-MM-dd');
-    if (gfDate >= queryStart && gfDate <= queryEnd) {
-      results.push({
-        id: `RULE_TEST_Good_Friday_easter_-2__${gfDate}`,
-        rule_id: "RULE_TEST_Good_Friday_easter_-2",
-        source_dataset: "TEST_SUITE",
-        name: "Test Good Friday",
-        category: "holiday",
-        jurisdiction: { country_code: "XX", country_name: "Testland", scope: "national" },
-        purpose_relevance: ["travel"],
-        temporal_kind: "recurring",
-        state: "confirmed",
-        confidence: "high",
-        evidence: { source_name: "Temporal Test Suite", source_url: "" },
-        date: gfDate,
-        consequences: { implication: "Calculated Easter-relative occurrence.", affected_operations: ["testing"], severity: "low" }
-      });
-    }
-  }
-
   rules.forEach(rule => {
-    // 1. Filter by Purpose Relevance
     if (!rule.purpose_relevance.includes(query.purpose)) return;
-
-    // 2. Filter by Destination
     if (rule.jurisdiction.country_code !== query.destination) return;
 
-    // 3. Temporal Dispatch
-    switch (rule.temporal_kind) {
-      case "standing":
-        if (matchStanding(rule, queryStart, queryEnd)) {
-          results.push(materializeStanding(rule, queryStart));
+    // Expand recurrence if needed
+    if (rule.temporal_kind === "recurring" && rule.rule_definition) {
+      const startYear = getYear(parseISO(queryStart));
+      const endYear = getYear(parseISO(queryEnd));
+      
+      for (let y = startYear; y <= endYear; y++) {
+        const date = expandRecurrence(rule.rule_definition, y);
+        if (date && date >= queryStart && date <= queryEnd) {
+          results.push(materialize(rule, date, query.purpose));
         }
-        break;
-
-      case "event":
-      case "estimated":
-        if (rule.valid_from && rule.valid_from >= queryStart && rule.valid_from <= queryEnd) {
-          results.push({ ...rule, id: `${rule.rule_id}__${rule.valid_from}`, date: rule.valid_from });
-        }
-        break;
-
-      case "period":
-        if (matchPeriod(rule, queryStart, queryEnd)) {
-          results.push({ ...rule, id: `${rule.rule_id}__${rule.valid_from}`, date: rule.valid_from!, end_date: rule.valid_to });
-        }
-        break;
-
-      case "recurring":
-        if (rule.rule_definition) {
-          const startYear = getYear(parseISO(queryStart));
-          const endYear = getYear(parseISO(queryEnd));
-          
-          for (let y = startYear; y <= endYear; y++) {
-            const date = expandRecurrence(rule.rule_definition, y);
-            if (date && date >= queryStart && date <= queryEnd) {
-              results.push({ ...rule, id: `${rule.rule_id}__${date}`, date });
-            }
-          }
-        }
-        break;
+      }
+    } 
+    else if (rule.temporal_kind === "standing") {
+      if (matchStanding(rule, queryStart, queryEnd)) {
+        results.push(materialize(rule, rule.valid_from || queryStart, query.purpose));
+      }
+    }
+    else if (rule.valid_from && rule.valid_from >= queryStart && rule.valid_from <= queryEnd) {
+      results.push(materialize(rule, rule.valid_from, query.purpose));
     }
   });
 
   return results.sort((a, b) => a.date.localeCompare(b.date));
+}
+
+function materialize(rule: CanonicalRule, date: string, purpose: UserPurpose): DateIntelligenceRecord {
+  // Select the specific advice sentence for the user's purpose
+  const materialAdvice = rule.consequences.advice[purpose] || rule.consequences.implication;
+  
+  return {
+    ...rule,
+    id: `${rule.rule_id}__${date}`,
+    date,
+    consequences: {
+      ...rule.consequences,
+      implication: materialAdvice // Override the general implication with purpose-specific advice
+    }
+  };
 }
 
 function matchStanding(rule: CanonicalRule, start: string, end: string): boolean {
@@ -134,22 +98,6 @@ function matchStanding(rule: CanonicalRule, start: string, end: string): boolean
   return validFrom <= end && validTo >= start;
 }
 
-function matchPeriod(rule: CanonicalRule, start: string, end: string): boolean {
-  if (!rule.valid_from || !rule.valid_to) return false;
-  return rule.valid_from <= end && rule.valid_to >= start;
-}
-
-function materializeStanding(rule: CanonicalRule, queryStart: string): DateIntelligenceRecord {
-  return {
-    ...rule,
-    id: `${rule.rule_id}__STANDING`,
-    date: rule.valid_from || queryStart
-  };
-}
-
-/**
- * Expands a recurring rule into a concrete YYYY-MM-DD string.
- */
 export function expandRecurrence(rule: HolidayRule, year: number): string | null {
   if (rule.kind === "fixed") {
     if (rule.month === undefined || rule.day === undefined) return null;

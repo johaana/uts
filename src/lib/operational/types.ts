@@ -73,17 +73,19 @@ export interface HolidayRule {
   day?: number;
   dow?: number;
   n?: number;
-  offset?: number; // For Easter-relative rules
+  offset?: number; 
   dates?: Record<number, string>;
+  advice?: {
+    traveler: string;
+    study: string;
+    corporate: string;
+  };
 }
 
-/**
- * The Canonical Rule represents the static source pattern (the 417+ patterns).
- */
 export interface CanonicalRule {
   id: string;
-  rule_id: string; // Stable rule identity
-  source_dataset: string; // Authoritative provenance stamp
+  rule_id: string; 
+  source_dataset: string; 
   name: string;
   category: OperationalCategory;
   jurisdiction: {
@@ -98,30 +100,30 @@ export interface CanonicalRule {
   state: DateState;
   confidence: ConfidenceTier;
   evidence: SourceEvidence;
-  // Specific data for the temporal engine
-  valid_from?: string; // YYYY-MM-DD
-  valid_to?: string;   // YYYY-MM-DD
+  valid_from?: string; 
+  valid_to?: string;   
   rule_definition?: HolidayRule;
   consequences: {
     implication: string;
+    advice: {
+      traveler: string;
+      study: string;
+      corporate: string;
+    };
     affected_operations: string[];
     severity: "low" | "medium" | "high";
   };
 }
 
-/**
- * A Date Intelligence Record represents a concrete temporal instance 
- * resulting from rule evaluation.
- */
 export interface DateIntelligenceRecord extends CanonicalRule {
-  date: string; // The specific evaluated date (YYYY-MM-DD)
-  end_date?: string; // For periods
+  date: string; 
+  end_date?: string; 
 }
 
 export interface OperationalQuery {
   destination: string;
-  startDate: string; // YYYY-MM-DD
-  endDate: string;   // YYYY-MM-DD
+  startDate: string; 
+  endDate: string;   
   purpose: UserPurpose;
   activity?: string;
   include?: {

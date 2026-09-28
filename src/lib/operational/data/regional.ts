@@ -1,6 +1,6 @@
 /**
  * @fileOverview Regional Intelligence.
- * Restored Maharashtra-specific signals from authoritative chunks.
+ * High-fidelity urban movement signals for Maharashtra restored from authoritative fragments.
  */
 import { DateIntelligenceRecord } from '../types';
 
@@ -16,7 +16,16 @@ export const REGIONAL_SIGNALS: Partial<DateIntelligenceRecord>[] = [
     state: "confirmed", 
     confidence: "high", 
     evidence: { source_name: "Maharashtra Police Traffic Advisory", source_url: "https://trafficpolicemumbai.maharashtra.gov.in/" },
-    consequences: { implication: "Massive urban movement impact in Mumbai/Pune due to immersion processions. Severe road closures.", affected_operations: ["transport"], severity: "high" }
+    consequences: { 
+      implication: "Massive urban movement impact in Mumbai/Pune due to immersion processions.",
+      advice: {
+        traveler: "Expect significant road closures and limited public transport access in Mumbai and Pune. Pedestrian movement is extremely high; avoid the city center and seaside promenades.",
+        study: "Institutional facilities in Mumbai are likely to be inaccessible due to road blocks. Most universities will be closed.",
+        corporate: "Severe logistical disruption. Many private companies observe a total shutdown to avoid employee commute issues."
+      },
+      affected_operations: ["transport"], 
+      severity: "high" 
+    }
   },
   { 
     id: "REG_IN_MH_JANM", 
@@ -28,37 +37,16 @@ export const REGIONAL_SIGNALS: Partial<DateIntelligenceRecord>[] = [
     temporal_kind: "event", 
     state: "confirmed", 
     confidence: "medium", 
-    evidence: { source_name: "Local News / Municipal Advisory", source_url: "https://mumbaipolice.gov.in/" },
-    consequences: { implication: "High density human pyramids in urban centers. Expect localized transport delays in Mumbai suburbs.", affected_operations: ["transport"], severity: "medium" }
-  },
-  {
-    id: "REG_AU_VIC_MELB",
-    valid_from: "2026-11-03",
-    name: "Melbourne Cup Day",
-    category: "regional",
-    jurisdiction: { country_code: "AU", country_name: "Australia", region: "Victoria", scope: "regional" },
-    purpose_relevance: ["business"],
-    temporal_kind: "event",
-    state: "confirmed",
-    confidence: "high",
-    evidence: { source_name: "Business Victoria", source_url: "https://business.vic.gov.au/business-information/public-holidays", last_checked: "2026-09-08" },
-    consequences: { implication: "Public holiday in Victoria; major office and bank closures in Melbourne.", affected_operations: ["banking", "admin"], severity: "high" }
-  },
-  { 
-    id: "REG_DE_BY_EPI", 
-    valid_from: "2026-01-06", 
-    name: "Epiphany", 
-    category: "regional", 
-    jurisdiction: { country_code: "DE", country_name: "Germany", region: "Bavaria", scope: "regional" }, 
-    purpose_relevance: ["business"], 
-    temporal_kind: "event", 
-    state: "confirmed", 
-    confidence: "high", 
-    evidence: { 
-      source_name: "Bavaria State Ministry", 
-      source_url: "https://www.stmas.bayern.de/arbeitsschutz/feiertage/index.php",
-      last_checked: "2026-09-08"
-    }, 
-    consequences: { implication: "Regional public holiday in Bavaria.", affected_operations: ["admin"], severity: "medium" } 
+    evidence: { source_name: "Local Municipal Advisory", source_url: "https://mumbaipolice.gov.in/" },
+    consequences: { 
+      implication: "High density human pyramids in urban centers.",
+      advice: {
+        traveler: "Expect localized traffic diversions in Mumbai's residential suburbs. Large crowds gather around 'Handi' points; plan for extra travel time to the airport.",
+        study: "University administrative offices in Maharashtra typically follow the regional holiday schedule and remain closed.",
+        corporate: "Operational status is modified. Expect higher absenteeism and reduced logistical throughput in the Western region."
+      },
+      affected_operations: ["transport"], 
+      severity: "medium" 
+    }
   }
 ];

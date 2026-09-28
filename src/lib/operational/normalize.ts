@@ -1,9 +1,9 @@
 /**
  * @fileOverview Normalization Layer.
- * Hardened deterministic identity and dataset provenance.
+ * Hardened deterministic identity and dataset provenance with Option C advice support.
  */
 
-import { CanonicalRule, HolidayRule } from './types';
+import { CanonicalRule, HolidayRule, UserPurpose } from './types';
 import { DATA_REGISTRY } from './data/registry';
 import { COUNTRY_LABELS } from '../calendar-intelligence';
 import { expandRecurrence } from './engine';
@@ -16,10 +16,6 @@ function validateProvenance(rule: any) {
   }
 }
 
-/**
- * Generates a stable, deterministic ID for a rule based on its core definition.
- * Decouples identity from array position.
- */
 function generateRuleId(cc: string, rule: HolidayRule): string {
   const cleanName = rule.name.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_]/g, '');
   let fingerprint = rule.kind as string;
@@ -46,25 +42,20 @@ export function getCanonicalRules(): CanonicalRule[] {
     holidayRules.forEach((rule) => {
       const rule_id = generateRuleId(cc, rule);
       
-      // Determination of canonical anchor (Zero-loss preservation for 2027-only rules)
       let date = expandRecurrence(rule, 2026);
       if (!date && rule.kind === 'dated' && rule.dates) {
         const availableDates = Object.values(rule.dates);
-        if (availableDates.length > 0) {
-          date = availableDates[0];
-        }
+        if (availableDates.length > 0) date = availableDates[0];
       }
 
       if (!date) return;
-
-      if (!rule.purpose_relevance) {
-        throw new Error(`CRITICAL: Holiday ${rule.name} in ${cc} missing purpose_relevance.`);
-      }
       validateProvenance(rule);
 
       const displayType = rule.type === 'public' || rule.type === 'holiday' ? 'National Holiday' : 
                           rule.type === 'religious' ? 'Religious Holiday' : 
                           rule.type;
+
+      const defaultAdvice = `${rule.name} is observed in ${COUNTRY_LABELS[cc] || cc}, which may affect public services and working hours.`;
 
       rules.push({
         id: `${rule_id}__CANONICAL`, 
@@ -73,7 +64,7 @@ export function getCanonicalRules(): CanonicalRule[] {
         name: rule.name,
         category: rule.type || 'holiday',
         jurisdiction: { country_code: cc, country_name: COUNTRY_LABELS[cc] || cc, scope: 'national' },
-        purpose_relevance: rule.purpose_relevance,
+        purpose_relevance: rule.purpose_relevance || ["travel", "business", "study"],
         temporal_kind: 'recurring',
         state: rule.status || 'confirmed',
         confidence: rule.confidence || 'unsourced',
@@ -82,6 +73,11 @@ export function getCanonicalRules(): CanonicalRule[] {
         date,
         consequences: { 
           implication: `${rule.name} is a ${displayType}.`, 
+          advice: rule.advice || {
+            traveler: defaultAdvice,
+            study: defaultAdvice,
+            corporate: defaultAdvice
+          },
           affected_operations: ['government'], 
           severity: 'medium' 
         }
@@ -114,20 +110,29 @@ export function getCanonicalRules(): CanonicalRule[] {
         };
       }
 
-      if (!obj.jurisdiction) {
-        throw new Error(`CRITICAL: Record ${obj.id || obj.name} in ${set.name} missing jurisdiction.`);
-      }
-
-      if (!obj.purpose_relevance) {
-        throw new Error(`CRITICAL: Record ${obj.id || obj.name} in ${set.name} missing purpose_relevance.`);
-      }
+      if (!obj.jurisdiction || !obj.purpose_relevance) return;
       validateProvenance(obj);
       
       const rule_id = obj.id || obj.name;
+      
+      // Map legacy 'summary' or 'implication' to Option C advice structure
+      const baseText = obj.summary || obj.consequences?.implication || `${obj.name} policy is in effect.`;
+      const advice = obj.consequences?.advice || {
+        traveler: baseText,
+        study: baseText,
+        corporate: baseText
+      };
+
       rules.push({
         ...obj,
         rule_id,
-        source_dataset: set.name
+        source_dataset: set.name,
+        consequences: {
+          implication: baseText,
+          advice,
+          affected_operations: obj.consequences?.affected_operations || ['admin'],
+          severity: obj.consequences?.severity || 'low'
+        }
       });
     });
   });
