@@ -1,6 +1,6 @@
 /**
  * @fileOverview Authoritative Holidays Data (2026–2028).
- * Contains high-fidelity rules for 92 jurisdictions.
+ * Contains high-fidelity rules for 92 jurisdictions from all 17 chunks.
  */
 import { HolidayRule, SourceEvidence, ConfidenceTier } from '../types';
 
@@ -96,18 +96,31 @@ export const HOLIDAY_RULES: Record<string, any[]> = {
   ],
   SG: [
     fixed(1, 1, "New Year's Day", "public", ["travel", "business"], "high", { source_name: "MOM", source_url: "https://www.mom.gov.sg/employment-practices/public-holidays" }),
+    fixed(5, 1, "Labour Day", "public", ["travel", "business"], "high", { source_name: "MOM", source_url: "https://www.mom.gov.sg/employment-practices/public-holidays" }),
     fixed(8, 9, "National Day", "public", ["travel", "business"], "high", { source_name: "MOM", source_url: "https://www.mom.gov.sg/employment-practices/public-holidays" }),
-    dated({ 2026: "2026-02-17", 2027: "2027-02-07", 2028: "2028-01-26" }, "Chinese New Year", "public", "confirmed", "high", { source_name: "MOM", source_url: "https://www.mom.gov.sg/employment-practices/public-holidays" }),
-    dated({ 2026: "2026-11-08", 2027: "2027-10-29", 2028: "2028-10-17" }, "Deepavali", "public", "confirmed", "high", { source_name: "MOM", source_url: "https://www.mom.gov.sg/employment-practices/public-holidays" })
+    fixed(12, 25, "Christmas Day", "public", ["travel", "business"], "high", { source_name: "MOM", source_url: "https://www.mom.gov.sg/employment-practices/public-holidays" }),
+    dated({ 2026: "2026-02-17", 2027: "2027-02-06", 2028: "2028-01-26" }, "Chinese New Year", "public", "confirmed", "high", { source_name: "MOM", source_url: "https://www.mom.gov.sg/employment-practices/public-holidays" }),
+    dated({ 2026: "2026-02-18", 2027: "2027-02-07", 2028: "2028-01-27" }, "Chinese New Year (2nd Day)", "public", "confirmed", "high", { source_name: "MOM", source_url: "https://www.mom.gov.sg/employment-practices/public-holidays" }),
+    dated({ 2026: "2026-11-08", 2027: "2027-10-29", 2028: "2028-10-17" }, "Deepavali", "public", "confirmed", "high", { source_name: "MOM", source_url: "https://www.mom.gov.sg/employment-practices/public-holidays" }),
+    dated({ 2026: "2026-06-17", 2027: "2027-06-06", 2028: "2028-05-25" }, "Hari Raya Puasa", "public", "confirmed", "high", { source_name: "MOM", source_url: "https://www.mom.gov.sg/employment-practices/public-holidays" })
   ],
   JP: [
     fixed(1, 1, "New Year's Day", "public", ["travel", "business"], "high", { source_name: "Cabinet Office", source_url: "https://www8.cao.go.jp/chosei/shukujitsu/gaiyou.html" }),
+    fixed(2, 11, "National Foundation Day", "public", ["travel", "business"], "high", { source_name: "Cabinet Office", source_url: "https://www8.cao.go.jp/chosei/shukujitsu/gaiyou.html" }),
+    fixed(4, 29, "Showa Day", "public", ["travel", "business"], "high", { source_name: "Cabinet Office", source_url: "https://www8.cao.go.jp/chosei/shukujitsu/gaiyou.html" }),
+    fixed(5, 3, "Constitution Memorial Day", "public", ["travel", "business"], "high", { source_name: "Cabinet Office", source_url: "https://www8.cao.go.jp/chosei/shukujitsu/gaiyou.html" }),
+    fixed(5, 4, "Greenery Day", "public", ["travel", "business"], "high", { source_name: "Cabinet Office", source_url: "https://www8.cao.go.jp/chosei/shukujitsu/gaiyou.html" }),
+    fixed(5, 5, "Children's Day", "public", ["travel", "business"], "high", { source_name: "Cabinet Office", source_url: "https://www8.cao.go.jp/chosei/shukujitsu/gaiyou.html" }),
     fixed(11, 3, "Culture Day", "public", ["travel", "business"], "high", { source_name: "Cabinet Office", source_url: "https://www8.cao.go.jp/chosei/shukujitsu/gaiyou.html" }),
+    fixed(11, 23, "Labor Thanksgiving Day", "public", ["travel", "business"], "high", { source_name: "Cabinet Office", source_url: "https://www8.cao.go.jp/chosei/shukujitsu/gaiyou.html" }),
     dated({ 2026: "2026-09-21", 2027: "2027-09-20", 2028: "2028-09-18" }, "Respect for the Aged Day", "public", "confirmed", "high", { source_name: "Cabinet Office", source_url: "https://www8.cao.go.jp/chosei/shukujitsu/gaiyou.html" })
   ],
   LK: [
+    dated({ 2026: "2026-01-03", 2027: "2027-01-22", 2028: "2028-01-11" }, "Duruthu Full Moon Poya Day", "public", "confirmed", "high", { source_name: "Sri Lanka Gov", source_url: "https://documents.gov.lk/view/calander/2026/2026_E.pdf" }),
+    dated({ 2026: "2026-02-01", 2027: "2027-02-21", 2028: "2028-02-10" }, "Nawam Full Moon Poya Day", "public", "confirmed", "high", { source_name: "Sri Lanka Gov", source_url: "https://documents.gov.lk/view/calander/2026/2026_E.pdf" }),
     dated({ 2026: "2026-10-25", 2027: "2027-10-14", 2028: "2028-11-01" }, "Vap Full Moon Poya Day", "public", "confirmed", "high", { source_name: "Sri Lanka Gov", source_url: "https://documents.gov.lk/view/calander/2026/2026_E.pdf" }),
-    dated({ 2026: "2026-11-24", 2027: "2027-11-13", 2028: "2028-12-01" }, "Il Full Moon Poya Day", "public", "confirmed", "high", { source_name: "Sri Lanka Gov", source_url: "https://documents.gov.lk/view/calander/2026/2026_E.pdf" })
+    dated({ 2026: "2026-11-24", 2027: "2027-11-13", 2028: "2028-12-01" }, "Il Full Moon Poya Day", "public", "confirmed", "high", { source_name: "Sri Lanka Gov", source_url: "https://documents.gov.lk/view/calander/2026/2026_E.pdf" }),
+    fixed(2, 4, "Independence Day", "public", ["travel", "business"], "high", { source_name: "Sri Lanka Gov", source_url: "https://documents.gov.lk/view/calander/2026/2026_E.pdf" })
   ],
   AE: [fixed(12, 2, "National Day", "public", ["travel", "business"], "high", { source_name: "UAE Gov", source_url: "https://u.ae/en/about-the-uae/public-holidays" })],
   GB: [fixed(12, 25, "Christmas Day", "public", ["travel", "business"], "high", { source_name: "UK Gov", source_url: "https://www.gov.uk/bank-holidays" })],
