@@ -19,6 +19,7 @@ import {
   ArrowRight
 } from "lucide-react";
 import { format, isWithinInterval, startOfDay, parseISO, getMonth } from 'date-fns';
+import { AnimatePresence, motion } from 'framer-motion';
 
 // --------------------------------------------------------------------------------
 // AUTHORITATIVE CONVERSATIONAL DATA
@@ -107,7 +108,7 @@ const PERIOD_EVENTS = [
 export default function TempTrackerLabPage() {
   const [country, setCountry] = useState('IN');
   const [mode, setMode] = useState<'traveler' | 'study' | 'corporate'>('traveler');
-  const [scenario, setScenario] = useState<'A' | 'C'>('C');
+  const [scenario, setScenario] = useState<'A' | 'C'>('A');
   const [expandedDate, setExpandedDate] = useState<string | null>(null);
 
   const [fromDate, setFromDate] = useState('2026-09-01');
@@ -156,7 +157,7 @@ export default function TempTrackerLabPage() {
     const month = getMonth(new Date());
     if (month >= 5 && month <= 8) {
       return {
-        label: "SITUATIONAL AWARENESS",
+        label: "PLANNING SIGNAL",
         location: "Maharashtra",
         title: "Southwest Monsoon",
         date: "Active now",
@@ -167,7 +168,7 @@ export default function TempTrackerLabPage() {
     }
 
     return {
-      label: "SITUATIONAL AWARENESS",
+      label: "PLANNING SIGNAL",
       location: "India",
       title: "Bank Closure Policy (RBI)",
       date: "Ongoing",
@@ -194,12 +195,12 @@ export default function TempTrackerLabPage() {
                 Know before you plan. <br className="md:hidden" />
                 Not after.
               </h1>
-              <p className="sub hidden md:block">Testing Scenario C: High-Fidelity Conversational Synthesis.</p>
+              <p className="sub hidden md:block">Testing Scenario {scenario}: High-Fidelity {scenario === 'A' ? 'List' : 'Synthesis'}.</p>
 
               <aside className="hero-tracker md:order-last">
                 <div className="hero-tracker-head">
                   <div>
-                    <span className="hero-tracker-kicker">GLOBAL PULSE</span>
+                    <span className="hero-tracker-kicker uppercase tracking-widest text-[#E8A33D] font-mono text-[10px]">Global Pulse</span>
                     <strong className="text-[15.5px] font-headline">Friday, 4 Sep 2026</strong>
                   </div>
                   <span className="hero-tracker-live"><i></i> World view</span>
@@ -278,22 +279,71 @@ export default function TempTrackerLabPage() {
                   <div><b className="font-headline text-[28px] text-[#F0C888]">{heroSignal.kind === 'seasonal' || heroSignal.kind === 'policy' ? '0' : '1'}</b><span className="text-[11.5px] text-muted-dim block leading-tight">dates to know</span></div>
                 </div>
 
-                {/* SCENARIO A: LIST BOX */}
+                {/* SCENARIO A: HIGH-FIDELITY LIST */}
                 {scenario === 'A' && (
-                  <div className="checker-list mt-2 space-y-1 max-h-[200px] overflow-y-auto custom-scrollbar">
-                    {filteredEvents.map((event) => (
-                      <button 
-                        key={event.date}
-                        onClick={() => toggleExpand(event.date)}
-                        className="w-full flex items-center justify-between p-4 border-b border-white/5 hover:bg-white/5 transition-colors text-left"
-                      >
-                         <div className="flex items-center gap-6">
-                            <span className="font-mono text-[11px] text-muted-dim w-14">{event.shortDate}</span>
-                            <span className="font-bold text-[15px]">{event.name}</span>
-                         </div>
-                         <ChevronDown className="w-4 h-4 text-muted-dim" />
-                      </button>
-                    ))}
+                  <div className="mt-4 space-y-2">
+                    {/* Today's Pulse Pin */}
+                    <div className="mb-6 p-5 rounded-xl border border-[#E8A33D]/20 bg-[#E8A33D]/5 space-y-4">
+                       <div className="flex items-center justify-between">
+                          <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#E8A33D]">{heroSignal.label} · TODAY</p>
+                          <div className="flex items-center gap-1.5 px-2 py-0.5 bg-green-500/10 text-green-500 text-[8px] font-extrabold uppercase rounded-sm border border-green-500/20">
+                             <ShieldCheck className="w-2.5 h-2.5" /> Verified Live
+                          </div>
+                       </div>
+                       <div className="space-y-1.5">
+                          <h4 className="text-base font-bold text-white">{heroSignal.location} — {heroSignal.title}</h4>
+                          <p className="text-[12.5px] text-[#9AA1C0] leading-relaxed font-medium italic">
+                            "{heroSignal.desc}"
+                          </p>
+                       </div>
+                    </div>
+
+                    {/* Interactive List */}
+                    <div className="checker-list space-y-1 max-h-[300px] overflow-y-auto custom-scrollbar pr-1">
+                      {filteredEvents.map((event) => (
+                        <div key={event.date} className="border-b border-white/5 last:border-0 group">
+                          <button 
+                            onClick={() => toggleExpand(event.date)}
+                            className="w-full flex items-center justify-between py-4 hover:bg-white/[0.02] transition-all text-left"
+                          >
+                             <div className="flex items-center gap-6">
+                                <div className="w-14 font-mono text-[10px] text-[#6E7495] uppercase tracking-widest">{event.shortDate}</div>
+                                <div className="space-y-1">
+                                   <span className="block font-bold text-[15px] group-hover:text-[#E8A33D] transition-colors leading-tight">
+                                     {event.jurisdiction} — {event.name}
+                                   </span>
+                                   <span className="block text-[9px] font-bold text-[#6E7495] uppercase tracking-[0.2em]">{event.scope}</span>
+                                </div>
+                             </div>
+                             {expandedDate === event.date ? <ChevronUp className="w-4 h-4 text-[#6E7495]" /> : <ChevronDown className="w-4 h-4 text-[#6E7495]" />}
+                          </button>
+                          
+                          <AnimatePresence>
+                            {expandedDate === event.date && (
+                              <motion.div 
+                                initial={{ height: 0, opacity: 0 }}
+                                animate={{ height: 'auto', opacity: 1 }}
+                                exit={{ height: 0, opacity: 0 }}
+                                className="overflow-hidden"
+                              >
+                                <div className="pb-6 space-y-4 px-[80px]">
+                                   <p className="text-[13px] font-medium leading-relaxed italic text-[#9AA1C0] border-l border-[#E8A33D]/30 pl-4">
+                                     "{event.advice[mode]}"
+                                   </p>
+                                   <div className="flex items-center justify-between text-[9px] font-bold text-[#6E7495] uppercase tracking-[0.2em] pt-2 border-t border-white/5">
+                                      <span>Source: Authoritative Registry</span>
+                                      <div className="flex items-center gap-1 text-green-500/60">
+                                        <ShieldCheck className="w-2.5 h-2.5" />
+                                        <span>Verified</span>
+                                      </div>
+                                   </div>
+                                </div>
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 )}
 
