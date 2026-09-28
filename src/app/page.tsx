@@ -9,10 +9,10 @@ import {
   COUNTRY_LABELS, 
 } from '@/lib/calendar-intelligence';
 import { getSource } from '@/lib/operational/source';
-import { evaluateQuery } from '@/lib/operational/engine';
+import { evaluateQuery, resolveNow } from '@/lib/operational/engine';
 import { DateIntelligenceRecord, CanonicalRule } from '@/lib/operational/types';
-import { format, addDays, differenceInDays, isAfter, startOfToday, isSameDay } from 'date-fns';
-import { ChevronDown, ChevronUp, ShieldCheck, Clock, ExternalLink, Repeat, Globe } from 'lucide-react';
+import { format, addDays, differenceInDays, isAfter, startOfToday, isSameDay, parseISO } from 'date-fns';
+import { ChevronDown, ChevronUp, ShieldCheck, Clock, ExternalLink, Repeat } from 'lucide-react';
 import Link from 'next/link';
 
 export default function HomePage() {
@@ -33,7 +33,6 @@ export default function HomePage() {
   
   useEffect(() => {
     setIsMounted(true);
-    const today = startOfToday();
     // Anchor prototype to Sept 29, 2026 for consistent context
     const tKey = '2026-09-29';
     setTodayKey(tKey);
@@ -77,7 +76,6 @@ export default function HomePage() {
   const nextEvent = useMemo(() => {
     if (!isMounted || !todayKey || allRecords.length === 0) return null;
     const anchorDate = new Date(todayKey + 'T00:00:00');
-    // Find the absolute next holiday globally
     return allRecords.find(r => {
       const d = new Date(r.date + 'T00:00:00');
       return isAfter(d, anchorDate) && !isSameDay(d, anchorDate);
@@ -130,21 +128,30 @@ export default function HomePage() {
     
     const nextImplication = uniqueMatches.find(r => r.date === nextDate)?.consequences.implication || '';
 
-    let longest = 0;
-    let current = 0;
-    let lastD: Date | null = null;
-    uniqueDates.forEach(dStr => {
-      const d = new Date(dStr + 'T00:00:00');
-      if (lastD && differenceInDays(d, lastD) === 1) {
-        current++;
+    // Advanced Sequence Detection (Holiday + Weekend)
+    let maxOffSequence = 0;
+    const dateSet = new Set(uniqueDates);
+    const start = parseISO(startDate);
+    const end = parseISO(endDate);
+    
+    let currentSeq = 0;
+    for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+      const dStr = format(d, 'yyyy-MM-dd');
+      const isHoliday = dateSet.has(dStr);
+      const isWeekend = d.getDay() === 0 || d.getDay() === 6; 
+      
+      if (isHoliday || isWeekend) {
+        currentSeq++;
       } else {
-        current = 1;
+        if (currentSeq >= 3) {
+          if (currentSeq > maxOffSequence) maxOffSequence = currentSeq;
+        }
+        currentSeq = 0;
       }
-      if (current > longest) longest = current;
-      lastD = d;
-    });
+    }
+    if (currentSeq >= 3 && currentSeq > maxOffSequence) maxOffSequence = currentSeq;
 
-    return { records: uniqueMatches, count, nextDays, longestRun: longest, nextImplication };
+    return { records: uniqueMatches, count, nextDays, longestRun: maxOffSequence, nextImplication };
   }, [country, compA, compB, startDate, endDate, canonicalRules, mode, todayKey, isComparing]);
 
   return (
@@ -356,7 +363,7 @@ export default function HomePage() {
                       <b className="font-serif text-[32px] text-gold-soft">{checkerData.count}</b>
                       <span className="text-[11.5px] text-muted-dim block font-bold uppercase tracking-widest mt-0.5">days affected</span>
                     </div>
-                    {checkerData.longestRun > 1 && (
+                    {checkerData.longestRun >= 3 && (
                       <div className="flex flex-col items-center">
                         <b className="font-serif text-[32px] text-gold-soft">{checkerData.longestRun}</b>
                         <span className="text-[11.5px] text-muted-dim block font-bold uppercase tracking-widest mt-0.5">day long weekend</span>
