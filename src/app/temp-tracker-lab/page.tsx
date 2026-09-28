@@ -17,21 +17,23 @@ import {
 } from "lucide-react";
 
 // --------------------------------------------------------------------------------
-// AUTHORITATIVE MOCK DATA (Conversational & Descriptive)
+// AUTHORITATIVE CONVERSATIONAL DATA
 // --------------------------------------------------------------------------------
 
 const GLOBAL_INTEL = [
   {
+    id: "gi-1",
     event: "Indonesia — Maulid Nabi",
-    meta: "12 COUNTRIES: SYSTEMIC PUBLIC CLOSURES",
+    meta: "12 COUNTRIES · SYSTEMIC CLOSURES",
     impacts: { govt: 'CLOSED', banks: 'CLOSED', markets: 'ACTIVE' },
-    desc: "Most government offices and banks are closed across the country. However, major financial markets remain open for trading."
+    desc: "Most government offices and banks are closed across the country today. However, major financial markets remain open for trading as usual."
   },
   {
+    id: "gi-2",
     event: "Hong Kong — Mid-Autumn Festival",
     meta: "REGIONAL · PUBLIC HOLIDAY",
     impacts: { govt: 'OPEN', banks: 'CLOSED', markets: 'MODIFIED' },
-    desc: "Banks are closed today and the stock market is running on a modified session. Expect a 24-hour delay in local logistics and shipping."
+    desc: "Banks are closed today and the stock market is running on a modified session. You should expect about a 24-hour delay in local logistics and shipping."
   }
 ];
 
@@ -70,7 +72,7 @@ const PERIOD_EVENTS = [
     jurisdiction: "National",
     impacts: { govt: 'CLOSED', banks: 'CLOSED', markets: 'CLOSED' },
     advice: {
-      traveler: "This is a major national holiday. All government offices and public services will be closed across the country.",
+      traveler: "This is a major national holiday. All government offices and public services will be closed across the country today.",
       study: "All educational institutions and university administrative offices nationwide are closed today.",
       corporate: "National banking systems, including RTGS and NEFT, are offline today for the public holiday."
     }
@@ -120,11 +122,16 @@ const StatusStrip = ({ label, status, scenario }: { label: string, status: strin
 export default function TempTrackerLabPage() {
   const [country, setCountry] = useState('IN');
   const [mode, setMode] = useState<'traveler' | 'study' | 'corporate'>('traveler');
-  const [scenario, setScenario] = useState<'A' | 'B' | 'C'>('A');
+  const [scenario, setScenario] = useState<'A' | 'B' | 'C'>('C');
   const [expandedDate, setExpandedDate] = useState<string | null>(null);
+  const [expandedGlobal, setExpandedGlobal] = useState<string | null>(null);
 
   const toggleExpand = (date: string) => {
     setExpandedDate(expandedDate === date ? null : date);
+  };
+
+  const toggleGlobalExpand = (id: string) => {
+    setExpandedGlobal(expandedGlobal === id ? null : id);
   };
 
   return (
@@ -142,7 +149,7 @@ export default function TempTrackerLabPage() {
               </h1>
               <p className="sub hidden md:block">Check a country and your actual dates — before you book, schedule, send a student, or send an employee across borders.</p>
 
-              {/* LEFT SIDEBAR: Global Pulse (Stable Across Scenarios) */}
+              {/* LEFT SIDEBAR: Global Pulse */}
               <aside className={cn("hero-tracker md:order-last", scenario === 'B' && "hidden md:block")}>
                 <div className="hero-tracker-head">
                   <div>
@@ -159,22 +166,55 @@ export default function TempTrackerLabPage() {
                         <Globe className="w-2.5 h-2.5" /> WORLD STATE TODAY
                       </span>
                     </div>
-                    <div className="space-y-4 pb-4">
-                      {GLOBAL_INTEL.map((item, idx) => (
-                        <div key={idx} className={cn("px-[18px] py-1.5", idx > 0 && "border-t border-white/5 pt-3")}>
-                          <span className="next-card-name text-[14.5px] font-bold">{item.event}</span>
-                          <span className="next-card-date text-[10px] text-[#4FD1C5] mb-2 block font-bold uppercase tracking-wider">{item.meta}</span>
-                          <div className="flex flex-wrap gap-1.5 mb-2">
-                             <StatusStrip label="GOVT" status={item.impacts.govt} scenario={scenario} />
-                             <StatusStrip label="BANKS" status={item.impacts.banks} scenario={scenario} />
-                             <StatusStrip label="MKTS" status={item.impacts.markets} scenario={scenario} />
+                    
+                    {/* SCENARIO C: SCAN-THEN-DRILL FOR GLOBAL PULSE */}
+                    {scenario === 'C' ? (
+                      <div className="divide-y divide-white/5">
+                        {GLOBAL_INTEL.map((item) => (
+                          <div key={item.id} className="relative">
+                            <button 
+                              onClick={() => toggleGlobalExpand(item.id)}
+                              className="w-full flex items-center justify-between px-[18px] py-4 hover:bg-white/5 transition-all text-left group"
+                            >
+                              <div className="space-y-0.5">
+                                <span className="block text-[14px] font-bold group-hover:text-[#4FD1C5] transition-colors">{item.event}</span>
+                                <span className="block text-[8.5px] font-bold text-muted-dim uppercase tracking-widest">{item.meta}</span>
+                              </div>
+                              {expandedGlobal === item.id ? <ChevronUp className="w-4 h-4 text-muted-dim" /> : <ChevronDown className="w-4 h-4 text-muted-dim" />}
+                            </button>
+                            {expandedGlobal === item.id && (
+                              <div className="px-[18px] pb-6 space-y-4 animate-in slide-in-from-top-2 duration-300">
+                                <div className="flex flex-wrap gap-1.5">
+                                  <StatusStrip label="GOVT" status={item.impacts.govt} scenario="C" />
+                                  <StatusStrip label="BANKS" status={item.impacts.banks} scenario="C" />
+                                  <StatusStrip label="MKTS" status={item.impacts.markets} scenario="C" />
+                                </div>
+                                <p className="text-[12.5px] text-[#9AA1C0] leading-snug font-medium border-l border-[#4FD1C5]/30 pl-3">
+                                  {item.desc}
+                                </p>
+                              </div>
+                            )}
                           </div>
-                          <p className="text-[12.5px] text-[#9AA1C0] leading-snug font-medium">
-                            {item.desc}
-                          </p>
-                        </div>
-                      ))}
-                    </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="space-y-4 pb-4">
+                        {GLOBAL_INTEL.map((item, idx) => (
+                          <div key={idx} className={cn("px-[18px] py-1.5", idx > 0 && "border-t border-white/5 pt-3")}>
+                            <span className="next-card-name text-[14.5px] font-bold">{item.event}</span>
+                            <span className="next-card-date text-[10px] text-[#4FD1C5] mb-2 block font-bold uppercase tracking-wider">{item.meta}</span>
+                            <div className="flex flex-wrap gap-1.5 mb-2">
+                               <StatusStrip label="GOVT" status={item.impacts.govt} scenario={scenario} />
+                               <StatusStrip label="BANKS" status={item.impacts.banks} scenario={scenario} />
+                               <StatusStrip label="MKTS" status={item.impacts.markets} scenario={scenario} />
+                            </div>
+                            <p className="text-[12.5px] text-[#9AA1C0] leading-snug font-medium">
+                              {item.desc}
+                            </p>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </div>
 
@@ -193,7 +233,7 @@ export default function TempTrackerLabPage() {
               </aside>
             </div>
 
-            {/* TRIP CHECKER (Right Box) */}
+            {/* TRIP CHECKER */}
             <div className={cn("checker text-left", scenario === 'B' ? "col-span-full" : "order-1")}>
               <div className="checker-top">
                 <h3 className="font-headline text-[18px]">Trip impact checker</h3>
@@ -270,7 +310,7 @@ export default function TempTrackerLabPage() {
                     <div className="p-5 bg-[#E8A33D]/5 border border-[#E8A33D]/20 rounded-xl space-y-4 mt-6">
                       <div className="flex items-center justify-between border-b border-[#E8A33D]/10 pb-2">
                         <span className="text-[9px] font-extrabold uppercase tracking-widest text-[#E8A33D] flex items-center gap-1.5">
-                          <Activity className="w-3 h-3" /> LIVE JURISDICTIONAL ROUNDUP · {country}
+                          <Activity className="w-3 h-3" /> DESTINATION ADVISORY · {country}
                         </span>
                       </div>
                       <div className="space-y-4">
@@ -338,15 +378,6 @@ export default function TempTrackerLabPage() {
                             </div>
                           ))}
                        </div>
-                       <div className="p-6 bg-[#E8A33D]/5 border border-[#E8A33D]/20 rounded-xl space-y-4">
-                          <p className="text-[10px] font-bold uppercase tracking-widest text-[#E8A33D]">Local Roundup</p>
-                          {REGIONAL_ROUNDUP_INDIA.map((item, idx) => (
-                            <div key={idx} className="text-left space-y-1">
-                               <p className="text-[13px] font-bold">{item.event} <span className="text-[9px] font-mono text-muted-dim ml-2">{item.region}</span></p>
-                               <p className="text-[11px] text-[#9AA1C0] leading-relaxed">{item.intel}</p>
-                            </div>
-                          ))}
-                       </div>
                     </div>
                   </div>
                 )}
@@ -392,12 +423,12 @@ export default function TempTrackerLabPage() {
                     ))}
                     <div className="p-5 bg-white/[0.02] border border-white/5 rounded-xl mt-8">
                        <p className="text-[10px] font-bold uppercase tracking-widest text-[#E8A33D] mb-4 flex items-center gap-2">
-                         <Activity className="w-3.5 h-3.5" /> LIVE JURISDICTIONAL ROUNDUP · {country}
+                         <Activity className="w-3.5 h-3.5" /> DESTINATION ADVISORY · {country}
                        </p>
                        <div className="grid gap-4">
                           {REGIONAL_ROUNDUP_INDIA.map((item, idx) => (
                             <div key={idx} className="flex justify-between items-start border-b border-white/5 pb-4 last:border-0 last:pb-0">
-                               <div className="space-y-1">
+                               <div className="space-y-1 text-left">
                                   <p className="text-[13px] font-bold">{item.event}</p>
                                   <p className="text-[11px] text-muted-dim leading-relaxed">{item.intel}</p>
                                </div>
@@ -442,3 +473,4 @@ export default function TempTrackerLabPage() {
     </div>
   );
 }
+
