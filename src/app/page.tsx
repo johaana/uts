@@ -12,15 +12,16 @@ import { getSource } from '@/lib/operational/source';
 import { evaluateQuery, resolveNow } from '@/lib/operational/engine';
 import { OperationalResult, DateIntelligenceRecord, CanonicalRule } from '@/lib/operational/types';
 import { format, addDays, startOfDay, differenceInDays, isValid, startOfToday } from 'date-fns';
+import { ChevronDown, ChevronUp, Activity, Info, Globe } from 'lucide-react';
 
 const LENS_LABELS = {
   all: "All intelligence",
-  government: "Government",
+  government: "Offices",
   banking: "Banking",
   markets: "Markets",
   embassy: "Embassy",
   trade: "Trade & logistics",
-  travel: "Travel"
+  travel: "Movement"
 };
 
 const DOMAIN_GUIDANCE: Record<string, string> = {
@@ -43,6 +44,23 @@ const getDisplayCategory = (cat: string) => {
   return map[cat.toLowerCase()] || cat.charAt(0).toUpperCase() + cat.slice(1).replace('_', ' ');
 };
 
+const StatusStrip = ({ label, status }: { label: string, status: string }) => {
+  const colorClass = status === 'CLOSED' || status === 'SUSPENDED' 
+    ? "text-red-400" 
+    : status === 'MODIFIED' 
+    ? "text-yellow-400" 
+    : "text-green-400";
+
+  return (
+    <div className="flex items-center gap-1.5 px-2 py-0.5 border border-white/10 bg-white/5 rounded-sm">
+      <span className="text-[8px] font-bold uppercase tracking-widest text-muted-dim">{label}:</span>
+      <span className={cn("text-[8px] font-extrabold uppercase tracking-widest", colorClass)}>
+        {status}
+      </span>
+    </div>
+  );
+};
+
 export default function HomePage() {
   const [isMounted, setIsMounted] = useState(false);
   const [allRecords, setAllRecords] = useState<DateIntelligenceRecord[]>([]);
@@ -52,6 +70,7 @@ export default function HomePage() {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [todayKey, setTodayKey] = useState('');
+  const [expandedRecord, setExpandedRecord] = useState<string | null>(null);
   
   // Comparison States
   const [isComparing, setIsComparing] = useState(false);
@@ -192,25 +211,9 @@ export default function HomePage() {
     };
   }, [forwardIndex, todayKey, isMounted]);
 
-  const regionalNext = useMemo(() => {
-    if (!isMounted || !todayKey || allRecords.length === 0) return null;
-    const match = allRecords
-      .filter(r => r.jurisdiction?.country_code === country && r.date >= todayKey)
-      .sort((a, b) => a.date.localeCompare(b.date))[0];
-    
-    if (!match) return null;
-    const dateObj = new Date(match.date + 'T00:00:00');
-    return { 
-      name: match.name, 
-      shortDate: format(dateObj, 'd MMM'), 
-      daysAway: differenceInDays(dateObj, new Date(todayKey + 'T00:00:00')),
-      scope: match.jurisdiction?.scope
-    };
-  }, [isMounted, country, todayKey, allRecords]);
-
   // --- Logic: Checker Evaluation ---
   const checkerData = useMemo(() => {
-    if (!startDate || !endDate || canonicalRules.length === 0) return { records: [], count: 0, longest: 0, nextDays: '—', publicCount: 0, regionalCount: 0 };
+    if (!startDate || !endDate || canonicalRules.length === 0) return { records: [], regionalRoundup: [], count: 0, longest: 0, nextDays: '—', publicCount: 0, regionalCount: 0 };
     
     const purposeMap: Record<string, 'travel' | 'study' | 'workforce' | 'business' | 'logistics'> = {
       traveler: 'travel',
@@ -228,8 +231,12 @@ export default function HomePage() {
     }, resolveNow());
 
     const uniqueDatesSet = new Set(matches.map(m => m.date));
-    const uniqueRecords = matches.filter((v, i, a) => a.findIndex(t => t.name === v.name && t.date === v.date) === i);
+    const uniqueRecords = matches.filter((v, i, a) => 
+      a.findIndex(t => t.name === v.name && t.date === v.date) === i && v.category !== 'regional'
+    );
     
+    const regionalRoundup = matches.filter(r => r.category === 'regional');
+
     let longest = 0, current = 0, prev = null;
     [...uniqueDatesSet].sort().forEach(d => {
       const cur = new Date(d + 'T00:00:00');
@@ -254,7 +261,8 @@ export default function HomePage() {
     const rCount = matches.filter(r => r.category === 'regional').length;
 
     return { 
-      records: uniqueRecords, 
+      records: uniqueRecords,
+      regionalRoundup,
       count: uniqueDatesSet.size, 
       longest, 
       nextDays: nextDaysLabel, 
@@ -263,6 +271,10 @@ export default function HomePage() {
       regionalCount: rCount 
     };
   }, [country, startDate, endDate, canonicalRules, mode]);
+
+  const toggleRecord = (id: string) => {
+    setExpandedRecord(expandedRecord === id ? null : id);
+  };
 
   return (
     <div className="bg-ink text-paper min-h-screen font-sans">
@@ -299,15 +311,15 @@ export default function HomePage() {
                 <div className="hidden md:block">
                   <div className="hero-tracker-head">
                     <div>
-                      <span className="hero-tracker-kicker">TODAY</span>
+                      <span className="hero-tracker-kicker uppercase tracking-widest text-[#E8A33D] font-mono text-[10px]">Global Pulse</span>
                       <strong id="hero-tracker-date">{globalNext?.dateStr || "Determining next..."}</strong>
                     </div>
-                    <span className="hero-tracker-live"><i></i> Calendar view</span>
+                    <span className="hero-tracker-live"><i></i> Intelligence View</span>
                   </div>
 
                   <div className="hero-tracker-next-grid text-left">
                     <div className="hero-tracker-next-card">
-                      <span className="next-card-kicker">Around the globe</span>
+                      <span className="next-card-kicker">World State Today</span>
                       <span className="next-card-name" id="pulse-global-name">{globalNext?.primary || "No upcoming national record"}</span>
                       {globalNext?.others.map((other, i) => (
                         <span key={i} className="next-card-name mt-1">
@@ -403,33 +415,73 @@ export default function HomePage() {
                   </div>
 
                   <div className="checker-summary">
-                    <div><b className="font-headline">{checkerData.count}</b><span>{checkerData.count === 1 ? 'date' : 'dates'} to keep in mind</span></div>
-                    <div><b className="font-headline">{checkerData.longest}</b><span>{checkerData.longest === 1 ? 'day' : 'days'} in longest flagged run</span></div>
-                    <div><b className="font-headline">{checkerData.nextDays}</b><span>{checkerData.nextDaysVal === 1 ? 'day' : 'days'} to next one</span></div>
+                    <div><b className="font-headline">{checkerData.count}</b><span>{checkerData.count === 1 ? 'date' : 'dates'} worth keeping in mind</span></div>
+                    <div><b className="font-headline">{checkerData.longest}</b><span>{checkerData.longest === 1 ? 'day' : 'days'} max streak</span></div>
+                    <div><b className="font-headline">{checkerData.nextDays}</b><span>{checkerData.nextDaysVal === 1 ? 'day' : 'days'} away</span></div>
                   </div>
-                  <div className="checker-brief" id="checker-brief">
-                    <strong>IN SHORT:</strong> {checkerData.count} {checkerData.count === 1 ? 'date' : 'dates'} in your selected period {checkerData.count === 1 ? 'is' : 'are'} worth keeping in mind. The details below show what is happening on each date.
-                  </div>
+                  
                   <div className="checker-list" id="checker-list">
                     {checkerData.records.map((r, i) => {
+                      const isExpanded = expandedRecord === r.id;
                       const dateObj = new Date(r.date + 'T00:00:00');
                       const dateStr = format(dateObj, 'EEE dd MMM');
+                      
                       return (
-                        <div key={i} className="impact-row flex-col !items-start gap-1 py-4">
-                          <div className="flex w-full justify-between items-baseline">
-                             <div className="flex gap-4 items-baseline">
-                                <div className="impact-date">{r.temporal_kind === 'standing' ? 'Ongoing' : dateStr}</div>
-                                <div className="impact-name">{r.name}</div>
+                        <div key={r.id} className="border-b border-white/10 last:border-0">
+                          <button 
+                            onClick={() => toggleRecord(r.id)}
+                            className="w-full flex items-center justify-between py-4 hover:bg-white/5 transition-all text-left group"
+                          >
+                             <div className="flex items-center gap-6">
+                                <div className="impact-date font-mono text-[11px] text-muted-dim w-16">{dateStr}</div>
+                                <div className="impact-name font-bold text-base group-hover:text-gold-soft transition-colors">{r.name}</div>
                              </div>
-                             <div className="impact-meta">{r.confidence.toUpperCase()}</div>
-                          </div>
-                          <div className="text-[13px] text-muted-foreground mt-1 leading-relaxed pl-[91px]">
-                            {r.consequences.implication}
-                          </div>
+                             <div className="flex items-center gap-4">
+                                <span className="text-[9px] font-bold text-muted-dim uppercase border border-white/20 px-2 py-0.5 rounded-full">
+                                  {r.jurisdiction.scope}
+                                </span>
+                                {isExpanded ? <ChevronUp className="w-4 h-4 text-muted-dim" /> : <ChevronDown className="w-4 h-4 text-muted-dim" />}
+                             </div>
+                          </button>
+                          
+                          {isExpanded && (
+                            <div className="pb-6 pt-2 space-y-4 animate-in slide-in-from-top-2 duration-300">
+                               <div className="flex flex-wrap gap-2">
+                                  <StatusStrip label="OFFICES" status="CLOSED" />
+                                  <StatusStrip label="BANKING" status="SUSPENDED" />
+                                  <StatusStrip label="MOVEMENT" status="MODIFIED" />
+                               </div>
+                               <div className="p-4 bg-white/5 border-l-2 border-gold-soft rounded-r-lg">
+                                  <p className="text-[13.5px] font-medium leading-relaxed italic text-paper/90">
+                                    "{r.consequences.implication}"
+                                  </p>
+                               </div>
+                            </div>
+                          )}
                         </div>
                       );
                     })}
-                    {checkerData.records.length === 0 && (
+
+                    {checkerData.regionalRoundup.length > 0 && (
+                      <div className="p-5 bg-white/[0.02] border border-white/5 rounded-xl mt-8">
+                         <p className="text-[10px] font-bold uppercase tracking-widest text-[#E8A33D] mb-4 flex items-center gap-2">
+                           <Activity className="w-3.5 h-3.5" /> JURISDICTIONAL ROUNDUP · {country}
+                         </p>
+                         <div className="grid gap-4">
+                            {checkerData.regionalRoundup.map((item, idx) => (
+                              <div key={idx} className="flex justify-between items-start border-b border-white/5 pb-4 last:border-0 last:pb-0">
+                                 <div className="space-y-1 text-left">
+                                    <p className="text-[13px] font-bold">{item.name}</p>
+                                    <p className="text-[11px] text-muted-dim leading-relaxed">{item.consequences.implication}</p>
+                                 </div>
+                                 <span className="text-[9px] font-mono text-[#E8A33D]/60 font-bold uppercase">{item.jurisdiction.region}</span>
+                              </div>
+                            ))}
+                         </div>
+                      </div>
+                    )}
+
+                    {checkerData.records.length === 0 && checkerData.regionalRoundup.length === 0 && (
                       <div className="p-12 text-center border-2 border-dashed border-white/5 rounded-xl text-muted italic">
                         No matching intelligence is recorded for this destination and purpose in the selected period.
                       </div>

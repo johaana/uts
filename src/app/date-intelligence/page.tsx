@@ -19,7 +19,18 @@ import { OperationalResultCard } from '@/components/operational/OperationalResul
 import { COUNTRY_LABELS } from '@/lib/calendar-intelligence';
 
 const LENS_LABELS = {
-  all: "All intelligence"
+  all: "All intelligence",
+  government: "Offices",
+  banking: "Banking",
+  markets: "Markets",
+  travel: "Movement"
+};
+
+const DOMAIN_GUIDANCE: Record<string, string> = {
+  government: "No specific government or public sector advisories recorded for this date.",
+  banking: "Standard banking operations expected unless a specific closure is listed.",
+  markets: "Market sessions follow regular hours unless a specific session change is flagged.",
+  travel: "Standard travel conditions apply. Check local transport for holiday schedules."
 };
 
 export default function DateIntelligencePage() {
@@ -65,7 +76,7 @@ export default function DateIntelligencePage() {
   }, []);
 
   const changeDate = (days: number) => {
-    const current = new Date(query.startDate);
+    const current = new Date(query.startDate + 'T00:00:00');
     current.setDate(current.getDate() + days);
     const dateStr = current.toISOString().split('T')[0];
     const newQuery = { ...query, startDate: dateStr, endDate: dateStr };
@@ -154,13 +165,13 @@ export default function DateIntelligencePage() {
                    <div className="space-y-1">
                       <p className="text-[10.5px] font-mono text-[#4FD1C5] uppercase tracking-widest">Date context</p>
                       <h2 className="text-3xl font-headline font-medium text-[#F4F1E8] flex items-baseline gap-3">
-                        {new Date(query.startDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
+                        {new Date(query.startDate + 'T00:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
                         {query.startDate === new Date().toISOString().split('T')[0] && (
                           <span className="text-[10px] font-mono text-[#4FD1C5] border border-[#4FD1C5]/30 rounded-full px-2 py-0.5 uppercase">Today</span>
                         )}
                       </h2>
                       <p className="text-[13px] text-[#9AA1C0]">
-                        {COUNTRY_LABELS[query.destination] || query.destination} · Weekday
+                        {COUNTRY_LABELS[query.destination] || query.destination} · {new Date(query.startDate + 'T00:00:00').toLocaleDateString('en-GB', { weekday: 'long' })}
                       </p>
                    </div>
 
@@ -218,17 +229,19 @@ export default function DateIntelligencePage() {
                         </div>
                       ) : result && result.records.length > 0 ? (
                         <div className="space-y-4">
-                           {result.records.map(record => (
-                             <OperationalResultCard key={record.id} record={record} />
-                           ))}
+                           {result.records
+                             .filter(r => activeLens === 'all' || r.category === activeLens || (activeLens === 'government' && (r.category === 'holiday' || r.category === 'regional')))
+                             .map(record => (
+                               <OperationalResultCard key={record.id} record={record} />
+                             ))}
                         </div>
                       ) : (
                         <div className="space-y-8 pt-4">
-                           {['Government', 'Banking', 'Markets', 'Travel'].map(cat => (
-                             <div key={cat} className="flex justify-between items-start gap-4 group">
+                           {Object.entries(LENS_LABELS).filter(([k]) => k !== 'all').map(([key, label]) => (
+                             <div key={key} className="flex justify-between items-start gap-4 group">
                                 <div className="space-y-1 text-left">
-                                   <p className="text-[11px] font-mono text-[#6E7495] uppercase tracking-wider">{cat}</p>
-                                   <p className="text-sm font-medium text-[#9AA1C0]">No specific operational impact recorded.</p>
+                                   <p className="text-[11px] font-mono text-[#6E7495] uppercase tracking-wider">{label}</p>
+                                   <p className="text-sm font-medium text-[#9AA1C0]">{DOMAIN_GUIDANCE[key] || "No specific operational impact recorded."}</p>
                                 </div>
                                 <span className="text-[10px] font-mono text-[#6E7495] px-2 py-0.5 border border-dashed border-white/10 rounded-full">NONE</span>
                              </div>
@@ -242,7 +255,7 @@ export default function DateIntelligencePage() {
               {/* Foot */}
               <div className="p-4 md:px-6 bg-[#1E2650] border-t border-white/10 text-[11.5px] text-[#6E7495] leading-relaxed text-left">
                 <b>Reading the page:</b> the calendar tells you what the date is; institutional rows show published institution-level planning considerations; 
-                the travel row adds a live public advisory when available. No closure is inferred from a holiday or weekend alone.
+                the movement row adds a live public advisory when available. No closure is inferred from a holiday or weekend alone.
               </div>
             </div>
 
