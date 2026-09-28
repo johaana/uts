@@ -11,9 +11,9 @@ import {
 import { getSource } from '@/lib/operational/source';
 import { evaluateQuery, resolveNow } from '@/lib/operational/engine';
 import { DateIntelligenceRecord, CanonicalRule } from '@/lib/operational/types';
-import { allEvents, internationalEvents } from '@/lib/festival-data';
-import { format, addDays, startOfToday, differenceInDays, parse, isValid, startOfTomorrow } from 'date-fns';
-import { ChevronDown, ChevronUp, ShieldCheck, Clock, ExternalLink, ArrowRight, Plane, School, Briefcase } from 'lucide-react';
+import { format, addDays, startOfToday, differenceInDays } from 'date-fns';
+import { ChevronDown, ChevronUp, ShieldCheck, Clock, ExternalLink, Plane, School, Briefcase, ArrowRight } from 'lucide-react';
+import Link from 'next/link';
 
 export default function HomePage() {
   const [isMounted, setIsMounted] = useState(false);
@@ -81,7 +81,7 @@ export default function HomePage() {
     }
 
     return [{
-      text: "Standard global working day · No regional alerts today.",
+      text: "Standard global working day · 92 jurisdictions verified · No regional alerts today.",
       isLive: true
     }];
   }, [isMounted, forwardIndex, todayKey]);
@@ -157,8 +157,8 @@ export default function HomePage() {
                            )}
                         </div>
                       )) : (
-                        <div className="px-[18px] py-10 text-center space-y-3">
-                           <p className="text-[14.5px] font-headline font-medium text-paper leading-relaxed max-w-[280px] mx-auto italic opacity-90">
+                        <div className="px-[18px] py-6 text-left">
+                           <p className="text-[13.5px] font-medium text-paper/80 leading-relaxed italic pr-4">
                               Standard Global business day. High-trust window for international meetings and cross-border office operations.
                            </p>
                         </div>
@@ -281,11 +281,6 @@ export default function HomePage() {
                         )}
                      </div>
                    ))}
-                   {checkerData.records.length === 0 && (
-                     <div className="py-12 text-center text-xs text-muted-dim italic border-2 border-dashed border-white/5 rounded-xl">
-                        No holidays detected. Note: {COUNTRY_LABELS[country] || country} typically observes standard Sunday closures for supermarkets and banks.
-                     </div>
-                   )}
                 </div>
               </div>
             </div>
@@ -341,4 +336,3 @@ export default function HomePage() {
     </div>
   );
 }
-

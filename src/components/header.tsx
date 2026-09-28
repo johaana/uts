@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -21,7 +22,7 @@ export function Header() {
   const isEditorial = pathname.startsWith('/festivals') || pathname.startsWith('/blog') || pathname === '/about';
 
   return (
-    <header className={cn(isEditorial ? "bg-[#F4F1E8]/86 border-[#17151A]/10" : "bg-[#0F1428]/86 border-white/5")}>
+    <header className={cn("sticky top-0 z-50 transition-colors duration-300", isEditorial ? "bg-[#F4F1E8]/86 border-[#17151A]/10" : "bg-[#0F1428]/86 border-white/5", "backdrop-blur-md")}>
       <nav className="wrap h-[76px] flex items-center justify-between">
         <Link href="/" className={cn("logo", isEditorial && "text-[#17151A]")}>
           Utsavs

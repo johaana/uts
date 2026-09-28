@@ -4,7 +4,6 @@
 import { useState, useMemo, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ArrowRight, Search, RotateCcw, Globe } from "lucide-react";
@@ -67,7 +66,7 @@ function FestivalsPageContent() {
                     <div className="flex flex-col items-center gap-3">
                         <span className="text-[10px] font-mono font-bold uppercase tracking-[0.4em] text-[#E94368]">THE LIBRARY INDEX</span>
                         <div className="h-px w-20 bg-[#17151A]/10"></div>
-                        <span className="text-[9px] font-mono font-bold uppercase tracking-widest text-[#6D6870]">INDEX STATUS: 92 COUNTRIES RECONCILED</span>
+                        <span className="text-[9px] font-mono font-bold uppercase tracking-widest text-[#6D6870]">INDEX STATUS: 92 COUNTRIES TRACKED</span>
                     </div>
                     <h1 className="font-headline text-4xl md:text-7xl font-bold tracking-tighter leading-none">Discover Festivals</h1>
                     <p className="text-xl text-[#6D6870] font-medium leading-relaxed max-w-2xl mx-auto">
@@ -83,7 +82,7 @@ function FestivalsPageContent() {
                             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#6D6870]" />
                             <Input 
                                 placeholder="Search library..." 
-                                className="pl-10 bg-transparent border-none focus-visible:ring-0 h-11 text-base"
+                                className="pl-10 bg-transparent border-none focus-visible:ring-0 h-11 text-base text-[#17151A]"
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                             />
@@ -91,7 +90,7 @@ function FestivalsPageContent() {
                         <div className="h-8 w-px bg-[#17151A]/10 hidden md:block"></div>
                         <div className="flex gap-4 w-full md:w-auto">
                             <Select value={selectedRegion} onValueChange={setSelectedRegion}>
-                                <SelectTrigger className="w-full md:w-48 bg-transparent border-none focus:ring-0 font-bold uppercase tracking-widest text-[10px]">
+                                <SelectTrigger className="w-full md:w-48 bg-transparent border-none focus:ring-0 font-bold uppercase tracking-widest text-[10px] text-[#17151A]">
                                     <SelectValue placeholder="All Regions" />
                                 </SelectTrigger>
                                 <SelectContent>
