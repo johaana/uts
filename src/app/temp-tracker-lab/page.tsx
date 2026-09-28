@@ -11,9 +11,10 @@ import {
   ChevronDown,
   ChevronUp,
   ArrowRight,
-  Activity
+  Activity,
+  Clock
 } from "lucide-react";
-import { format, isWithinInterval, startOfDay, parseISO, isSameDay } from 'date-fns';
+import { format, isWithinInterval, startOfDay, parseISO, isSameDay, startOfToday } from 'date-fns';
 import { AnimatePresence, motion } from 'framer-motion';
 
 // --------------------------------------------------------------------------------
@@ -118,7 +119,7 @@ export default function TempTrackerLabPage() {
 
   const todayRegionalPulse = useMemo(() => {
     if (!isClient) return [];
-    const now = new Date();
+    const now = startOfToday();
     const month = now.getMonth();
     const day = now.getDate();
 
@@ -135,10 +136,10 @@ export default function TempTrackerLabPage() {
         }));
     }
 
-    // 2. Return the requested "Standard Day" fallback
+    // 2. Verified Clear Fallback
     return [{
         text: "Standard global working day · 92 jurisdictions verified · No regional alerts today.",
-        isLive: true // Use pulse dot for the "Verified Clear" state
+        isLive: true
     }];
   }, [isClient]);
 
@@ -179,7 +180,7 @@ export default function TempTrackerLabPage() {
               <aside className="hero-tracker md:order-last">
                 <div className="hero-tracker-head">
                   <div>
-                    <span className="hero-tracker-kicker uppercase tracking-widest text-[#E8A33D] font-mono text-[10px]">Global Pulse</span>
+                    <span className="hero-tracker-kicker uppercase tracking-widest text-[#E8A33D] font-mono text-[10px]">LIVE UPDATES</span>
                     <strong className="text-[15.5px] font-headline">{isClient ? format(new Date(), 'EEEE, d MMM yyyy') : '...'}</strong>
                   </div>
                   <span className="hero-tracker-live"><i></i> Operational View</span>
@@ -189,7 +190,7 @@ export default function TempTrackerLabPage() {
                    <div className="px-[18px] py-6 space-y-4">
                       <div className="flex items-center gap-2 px-2.5 py-1 bg-teal/10 border border-teal/20 rounded-full w-fit">
                         <Globe className="w-2.5 h-2.5 text-teal" />
-                        <span className="text-[9px] font-bold uppercase tracking-widest text-teal">World State Today</span>
+                        <span className="text-[9px] font-bold uppercase tracking-widest text-teal">GLOBAL IMPACTS</span>
                       </div>
                       <div className="space-y-4">
                         {GLOBAL_INTEL.map((item) => (
@@ -204,7 +205,7 @@ export default function TempTrackerLabPage() {
 
                 <div className="hero-tracker-feed">
                   <div className="space-y-1.5 px-[18px] mb-2">
-                     <span className="text-[9px] font-bold text-[#6E7495] uppercase tracking-[0.25em]">Local Signals</span>
+                     <span className="text-[9px] font-bold text-[#6E7495] uppercase tracking-[0.25em]">LOCAL SIGNALS</span>
                   </div>
                   <div className="marquee">
                     <div className="marquee-track">
@@ -286,7 +287,7 @@ export default function TempTrackerLabPage() {
                                 <div className="impact-date w-14 shrink-0">{event.shortDate}</div>
                                 <div className="space-y-1">
                                    <span className="block font-bold text-[15.5px] group-hover:text-gold-soft transition-colors leading-tight">
-                                     {event.jurisdiction} — {event.name}
+                                     {event.country} — {event.jurisdiction} — {event.name}
                                    </span>
                                    <div className="flex items-center gap-2">
                                       <span className="text-[9px] font-bold text-muted-dim uppercase border border-white/20 px-2 py-0.5 rounded-full">{event.scope}</span>
@@ -328,16 +329,16 @@ export default function TempTrackerLabPage() {
                   </div>
                 )}
 
-                {/* SCENARIO C: INTERPRETATION MODEL */}
+                {/* SCENARIO C: SIMPLIFIED INTERPRETATION */}
                 {scenario === 'C' && (
                   <div className="pt-6 animate-in fade-in slide-in-from-bottom-2 duration-500">
                     <div className="p-8 rounded-2xl border bg-white/[0.03] border-white/10 shadow-2xl space-y-6">
                       {heroSignal ? (
                         <>
                           <div className="space-y-1.5">
-                            <p className="text-[10px] font-mono text-teal uppercase tracking-[0.3em] font-bold">1 date to know</p>
+                            <p className="text-[10px] font-mono text-teal uppercase tracking-[0.3em] font-bold">Primary Date Signal</p>
                             <h4 className="text-2xl font-headline font-bold text-paper leading-tight">
-                              {heroSignal.jurisdiction} — {heroSignal.name}
+                              {heroSignal.country} — {heroSignal.jurisdiction} — {heroSignal.name}
                             </h4>
                             <div className="flex items-center gap-2 pt-1">
                                <span className="text-[11px] font-mono text-gold-soft uppercase tracking-widest font-bold">{heroSignal.shortDate}</span>
@@ -355,7 +356,7 @@ export default function TempTrackerLabPage() {
                              <div className="flex items-center gap-1.5 px-3 py-1 bg-green-500/10 text-green-500 text-[10px] font-bold uppercase rounded-sm border border-green-500/20">
                                <ShieldCheck className="w-3 h-3" /> Verified Source
                              </div>
-                             <span className="text-[9px] font-bold text-muted-dim uppercase tracking-widest">Determination: {heroSignal.severity === 'high' ? 'Confirmed' : 'High Confidence'}</span>
+                             <span className="text-[9px] font-bold text-muted-dim uppercase tracking-widest">Status: {heroSignal.severity === 'high' ? 'Confirmed' : 'High Confidence'}</span>
                           </div>
                         </>
                       ) : (
