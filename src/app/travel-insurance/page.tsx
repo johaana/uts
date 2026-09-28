@@ -144,6 +144,21 @@ export default function TravelInsurancePage() {
                </Card>
             </div>
 
+            {/* Decision CTA: Get Your Custom Quote */}
+            <section className="py-16 text-center space-y-8 bg-[#E8A33D]/5 rounded-[40px] border border-[#E8A33D]/20 animate-in fade-in slide-in-from-bottom-4 duration-1000">
+               <h2 className="text-3xl md:text-5xl font-headline font-bold">Get Your Custom Quote</h2>
+               <p className="text-lg text-[#9AA1C0] max-w-2xl mx-auto font-medium">
+                  Ready to secure your journey? Speak with our experts for a plan tailored to your specific travel, study, or business requirements.
+               </p>
+               <div className="pt-4">
+                  <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer">
+                    <Button className="bg-[#E8A33D] text-[#0F1428] hover:bg-[#F0C888] font-bold px-12 h-16 rounded-full shadow-2xl transition-transform hover:scale-105 uppercase tracking-widest text-xs">
+                      <MessageSquare className="w-5 h-5 mr-2" /> Message for Quote
+                    </Button>
+                  </a>
+               </div>
+            </section>
+
             {/* B2B / PARTNERSHIPS */}
             <div className="p-10 md:p-16 bg-[#171D3A] border border-white/5 rounded-[40px] text-center space-y-8">
                <h3 className="text-3xl font-headline font-medium">Group Bookings & Partnerships</h3>

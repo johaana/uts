@@ -308,7 +308,7 @@ export default function HomePage() {
                       </div>
                     )}
                   </div>
-                  <p className="text-[11px] font-bold text-muted-dim uppercase tracking-widest">details below</p>
+                  <p className="text-[9px] font-bold text-muted-dim uppercase tracking-widest">details below</p>
                 </div>
 
                 <div className="checker-list max-h-[440px] overflow-y-auto custom-scrollbar pr-1 text-left">
