@@ -41,7 +41,7 @@ export default function HomePage() {
     setTodayKey(tKey);
     setStartDate(tKey);
     
-    const end = addDays(today, 90); // default lookahead to end of year
+    const end = addDays(today, 90); 
     setEndDate(format(end, 'yyyy-MM-dd'));
 
     getSource().getRecords().then(records => {
@@ -76,12 +76,10 @@ export default function HomePage() {
     return (forwardIndex.get(todayKey) || []).filter((r: any) => r.jurisdiction.scope === 'national');
   }, [forwardIndex, todayKey]);
 
-  // Logic to find the next major international impact for the functional lookahead
   const nextIntl = useMemo(() => {
     if (!isMounted) return null;
     const tomorrow = startOfTomorrow();
     
-    // Scan all events (major and international) to find the next milestone
     const sorted = [...allEvents, ...internationalEvents]
       .map(e => ({
         ...e,
@@ -90,7 +88,6 @@ export default function HomePage() {
       .filter(e => isValid(e.d) && e.d >= tomorrow)
       .sort((a,b) => a.d.getTime() - b.d.getTime());
     
-    // Prioritize major milestones (Public, Diwali, or high-category events)
     const found = sorted.find(e => e.type === 'public' || e.type === 'Holiday' || e.type === 'Diwali' || e.type === 'Religious');
     if (!found) return null;
     
@@ -254,9 +251,9 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                <div className="checker-summary">
-                  <div><b className="font-headline">{checkerData.count}</b><span>flags in period</span></div>
-                  <div><b className="font-headline">{checkerData.nextDays}</b><span>days to next</span></div>
+                <div className="checker-summary py-6 border-b border-white/10 flex gap-10 text-left">
+                  <div><b className="font-headline text-[32px] text-gold-soft">{checkerData.count}</b><span className="text-[11.5px] text-muted-dim block font-bold uppercase tracking-widest mt-1">flags in period</span></div>
+                  <div><b className="font-headline text-[32px] text-gold-soft">{checkerData.nextDays}</b><span className="text-[11.5px] text-muted-dim block font-bold uppercase tracking-widest mt-1">days to next</span></div>
                 </div>
 
                 <div className="checker-list max-h-[440px] overflow-y-auto custom-scrollbar pr-1">

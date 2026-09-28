@@ -4,7 +4,7 @@
  */
 import { HolidayRule, SourceEvidence, ConfidenceTier, UserPurpose } from '../types';
 
-const ALL_PURPOSES: UserPurpose[] = ["travel", "business", "study", "logistics"];
+const ALL_PURPOSES: UserPurpose[] = ["travel", "business", "study", "workforce", "logistics"];
 
 // Backward-compatible helpers for legacy data chunks
 function fixed(month: number, day: number, name: string, type: any, confidence?: any, evidence?: any, state?: any): any {
@@ -13,7 +13,7 @@ function fixed(month: number, day: number, name: string, type: any, confidence?:
     month, 
     day, 
     name, 
-    type, 
+    type: type || "public", 
     purpose_relevance: ALL_PURPOSES, 
     status: "confirmed", 
     confidence: typeof confidence === 'string' ? confidence : "unsourced", 
@@ -27,7 +27,7 @@ function dated(dates: Record<number, string>, name: string, type: any, status?: 
     kind: "dated", 
     dates, 
     name, 
-    type, 
+    type: type || "public", 
     purpose_relevance: ALL_PURPOSES, 
     status: status || "confirmed", 
     confidence: typeof confidence === 'string' ? confidence : (typeof status === 'string' && !['confirmed', 'estimated'].includes(status) ? status : "unsourced"), 
@@ -36,7 +36,7 @@ function dated(dates: Record<number, string>, name: string, type: any, status?: 
   };
 }
 
-const CIA_SOURCE = { source_name: "Authoritative Reference", source_url: "https://www.cia.gov/the-world-factbook/", last_checked: "2026-09-08" };
+const CIA_SOURCE = { source_name: "Authoritative Reference", source_url: "https://www.cia.gov/the-world-factbook/", last_checked: "2026-09-09" };
 
 export const HOLIDAY_RULES: Record<string, any[]> = {
   IN: [
@@ -49,13 +49,16 @@ export const HOLIDAY_RULES: Record<string, any[]> = {
     fixed(10, 2, "Gandhi Jayanti", "public", "high", 
       { source_name: "DoPT Office Memorandum F.No.12/2/2023-JCA (3 Jul 2025)", source_url: "https://www.aiimsmangalagiri.edu.in/wp-content/uploads/2025/11/Holidays-Circular-2026-1.pdf" }
     ),
-    dated({ 2026: "2026-09-14" }, "Ganesh Chaturthi", "religious", "confirmed", "high", 
+    dated({ 2026: "2026-09-04" }, "Janmashtami", "religious", "confirmed", "high", 
+      { source_name: "CAG India", source_url: "https://cag.gov.in/uploads/media/Holiday-List-2026-06982ddd8e2f3c2-57681843.pdf" }
+    ),
+    dated({ 2026: "2026-09-15" }, "Ganesh Chaturthi", "religious", "confirmed", "high", 
       { source_name: "CAG India", source_url: "https://cag.gov.in/uploads/media/Holiday-List-2026-06982ddd8e2f3c2-57681843.pdf" }
     ),
     dated({ 2026: "2026-10-20" }, "Dussehra", "religious", "confirmed", "high", 
       { source_name: "Comptroller and Auditor General of India, 2026 List of Public Holidays (Annexure-I) — Dussehra (Vijayadashmi), 20 Oct 2026", source_url: "https://cag.gov.in/uploads/media/Holiday-List-2026-06982ddd8e2f3c2-57681843.pdf" }
     ),
-    dated({ 2026: "2026-11-08", 2027: "2027-10-29", 2028: "2028-10-17" }, "Diwali", "public", "confirmed", "high", {
+    dated({ 2026: "2026-10-29", 2027: "2027-10-29", 2028: "2028-10-17" }, "Diwali", "public", "confirmed", "high", {
       source_name: "DoPT OM F.No.12/2/2023-JCA, Annexure-I (Delhi/New Delhi date).",
       source_url: "https://www.aiimsmangalagiri.edu.in/wp-content/uploads/2025/11/Holidays-Circular-2026-1.pdf"
     }),

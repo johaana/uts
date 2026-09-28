@@ -76,7 +76,7 @@ export const REGIONAL_SIGNALS: Partial<DateIntelligenceRecord>[] = [
       type: "regional",
       status: "confirmed",
       purpose_relevance: ["travel", "business"],
-      dates: { 2026: "2026-11-07", 2027: "2027-10-28", 2028: "2028-10-16" }
+      dates: { 2026: "2026-10-28", 2027: "2027-10-28", 2028: "2028-10-16" }
     },
     state: "confirmed", 
     confidence: "high", 
