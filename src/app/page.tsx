@@ -12,7 +12,7 @@ import { getSource } from '@/lib/operational/source';
 import { evaluateQuery, resolveNow } from '@/lib/operational/engine';
 import { OperationalResult, DateIntelligenceRecord, CanonicalRule } from '@/lib/operational/types';
 import { format, addDays, startOfDay, differenceInDays, isValid, startOfToday } from 'date-fns';
-import { ChevronDown, ChevronUp, Activity, Info, Globe } from 'lucide-react';
+import { ChevronDown, ChevronUp, Activity, Info, Globe, ExternalLink, ShieldCheck } from 'lucide-react';
 
 const getCleanLabel = (scope: string, category: string) => {
   const s = scope.toUpperCase();
@@ -21,7 +21,7 @@ const getCleanLabel = (scope: string, category: string) => {
   if (s === c || c.includes(s)) return s;
   
   // Custom mappings for cleaner professional look
-  if (c === 'PUBLIC' || c === 'HOLIDAY') return s; // "National Holiday" or "Regional Holiday" becomes just "NATIONAL" or "REGIONAL"
+  if (c === 'PUBLIC' || c === 'HOLIDAY') return s; 
   if (c === 'RELIGIOUS') return `${s} · RELIGIOUS`;
   
   return `${s} · ${c}`;
@@ -39,10 +39,7 @@ export default function HomePage() {
   const [expandedRecord, setExpandedRecord] = useState<string | null>(null);
   const [expandedGlobal, setExpandedGlobal] = useState<string | null>(null);
   
-  // Comparison States
   const [isComparing, setIsComparing] = useState(false);
-  const [compA, setCompA] = useState('IN');
-  const [compB, setCompB] = useState('JP');
 
   useEffect(() => {
     setIsMounted(true);
@@ -83,8 +80,8 @@ export default function HomePage() {
   }, [isMounted, todayKey, allRecords]);
 
   const globalTodayEvents = useMemo(() => {
-    const events = (forwardIndex.get(todayKey) || [])
-      .filter((e: any) => e.jurisdiction.scope === 'national' || e.jurisdiction.scope === 'global');
+    // Exact Option C: Show anything happening Today (National or Regional) for situational awareness
+    const events = (forwardIndex.get(todayKey) || []);
     return events;
   }, [forwardIndex, todayKey]);
 
@@ -96,14 +93,12 @@ export default function HomePage() {
     const nextDate = [...uniqueDates].sort().find(d => d >= startDate);
     const nextDays = nextDate ? differenceInDays(new Date(nextDate + 'T00:00:00'), new Date(startDate + 'T00:00:00')) : '—';
     
-    // For the "Roundup", include regional events in the window PLUS any standing policies for the country
     const regionalEvents = matches.filter(m => m.category === 'regional' || m.jurisdiction.scope === 'regional');
     const standingPolicies = canonicalRules.filter(r => 
       r.jurisdiction.country_code === country && 
       (r.temporal_kind === 'standing' || r.category === 'policy' || r.category === 'banking')
     );
 
-    // De-duplicate materialized standing policies
     const materializedStanding = standingPolicies.map(p => ({
       ...p,
       date: 'POLICY',
@@ -159,6 +154,13 @@ export default function HomePage() {
                                 <p className="text-[12.5px] text-[#9AA1C0] leading-snug font-medium border-l border-[#4FD1C5]/30 pl-3 italic">
                                    "{item.consequences.implication}"
                                 </p>
+                                <div className="pt-3 border-t border-white/5 flex items-center justify-between">
+                                  <span className="text-[9px] font-bold text-muted-dim uppercase tracking-widest">Source: {item.evidence.source_name || 'Authoritative'}</span>
+                                  <div className="flex items-center gap-1 text-green-500/60">
+                                    <ShieldCheck className="w-2.5 h-2.5" />
+                                    <span className="text-[9px] font-bold uppercase">Verified</span>
+                                  </div>
+                                </div>
                              </div>
                            )}
                         </div>
@@ -257,6 +259,24 @@ export default function HomePage() {
                                 <p className="text-[13px] font-medium leading-relaxed italic text-paper/90">
                                   "{r.consequences.implication}"
                                 </p>
+                             </div>
+                             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 px-4 text-[10px] text-muted-dim">
+                                <div className="flex items-center gap-1.5">
+                                   <span className="font-bold uppercase">Evidence:</span>
+                                   <span>{r.evidence.source_name || 'Authoritative Source'}</span>
+                                   {r.evidence.source_url && (
+                                     <a href={r.evidence.source_url} target="_blank" rel="noopener noreferrer" className="text-[#4FD1C5] hover:underline flex items-center gap-0.5">
+                                       <ExternalLink className="w-2 h-2" />
+                                     </a>
+                                   )}
+                                </div>
+                                <div className="flex items-center gap-3">
+                                   <span>State: <b className="text-paper">{r.state.toUpperCase()}</b></span>
+                                   <div className="flex items-center gap-1">
+                                      <ShieldCheck className="w-3 h-3 text-green-500/60" />
+                                      <span className="font-bold uppercase">Confirmed</span>
+                                   </div>
+                                </div>
                              </div>
                           </div>
                         )}
