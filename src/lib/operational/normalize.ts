@@ -1,6 +1,6 @@
 /**
  * @fileOverview Normalization Layer.
- * Hardened deterministic identity and dataset provenance with Option C advice support.
+ * Hardened deterministic identity and dataset provenance.
  */
 
 import { CanonicalRule, HolidayRule, UserPurpose } from './types';
@@ -115,7 +115,6 @@ export function getCanonicalRules(): CanonicalRule[] {
       
       const rule_id = obj.id || obj.name;
       
-      // Map legacy 'summary' or 'implication' to Option C advice structure
       const baseText = obj.summary || obj.consequences?.implication || `${obj.name} policy is in effect.`;
       const advice = obj.consequences?.advice || {
         traveler: baseText,
@@ -127,6 +126,10 @@ export function getCanonicalRules(): CanonicalRule[] {
         ...obj,
         rule_id,
         source_dataset: set.name,
+        temporal_kind: obj.temporal_kind || 'standing',
+        state: obj.state || 'confirmed',
+        confidence: obj.confidence || 'high',
+        evidence: obj.evidence || { source_name: 'Authoritative Source', source_url: "" },
         consequences: {
           implication: baseText,
           advice,

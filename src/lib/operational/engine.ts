@@ -78,8 +78,18 @@ export function evaluateQuery(rules: CanonicalRule[], query: OperationalQuery, n
 }
 
 function materialize(rule: CanonicalRule, date: string, purpose: UserPurpose): DateIntelligenceRecord {
-  // Select the specific advice sentence for the user's purpose
-  const materialAdvice = rule.consequences.advice[purpose] || rule.consequences.implication;
+  // Mapping UI keys to Data keys
+  // UI: travel, business, study
+  // Data: traveler, corporate, study
+  const mapping: Record<string, string> = {
+    travel: 'traveler',
+    business: 'corporate',
+    workforce: 'corporate',
+    study: 'study'
+  };
+
+  const adviceKey = mapping[purpose] || purpose;
+  const materialAdvice = (rule.consequences.advice as any)[adviceKey] || rule.consequences.implication;
   
   return {
     ...rule,
@@ -87,7 +97,7 @@ function materialize(rule: CanonicalRule, date: string, purpose: UserPurpose): D
     date,
     consequences: {
       ...rule.consequences,
-      implication: materialAdvice // Override the general implication with purpose-specific advice
+      implication: materialAdvice 
     }
   };
 }
