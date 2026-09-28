@@ -54,11 +54,7 @@ export function getCanonicalRules(): CanonicalRule[] {
       if (!date) return;
       validateProvenance(rule);
 
-      const displayType = rule.type === 'public' || rule.type === 'holiday' ? 'National Holiday' : 
-                          rule.type === 'religious' ? 'Religious Holiday' : 
-                          rule.type;
-
-      const defaultAdvice = `${rule.name} is observed in ${COUNTRY_LABELS[cc] || cc}, which may affect public services and working hours.`;
+      const defaultAdvice = "Public holiday. Expect government office and bank closures.";
 
       rules.push({
         id: `${rule_id}__CANONICAL`, 
@@ -75,7 +71,7 @@ export function getCanonicalRules(): CanonicalRule[] {
         rule_definition: rule,
         date,
         consequences: { 
-          implication: `${rule.name} is a ${displayType}.`, 
+          implication: defaultAdvice, 
           advice: rule.advice || {
             traveler: defaultAdvice,
             study: defaultAdvice,

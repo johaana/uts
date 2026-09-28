@@ -11,8 +11,7 @@ import { getSource } from '@/lib/operational/source';
 import { evaluateQuery } from '@/lib/operational/engine';
 import { DateIntelligenceRecord, CanonicalRule } from '@/lib/operational/types';
 import { format, addDays, differenceInDays, isAfter, startOfToday, isSameDay } from 'date-fns';
-import { ChevronDown, ChevronUp, ShieldCheck, Clock, ExternalLink, Plane, School, Briefcase, ArrowRight, Repeat } from 'lucide-react';
-import Link from 'next/link';
+import { ChevronDown, ChevronUp, ShieldCheck, Clock, ExternalLink, Repeat } from 'lucide-react';
 
 export default function HomePage() {
   const [isMounted, setIsMounted] = useState(false);
@@ -74,6 +73,7 @@ export default function HomePage() {
   const localSignalsFeed = useMemo(() => {
     if (!isMounted || !todayKey || allRecords.length === 0) return [];
     const anchorDate = new Date(todayKey + 'T00:00:00');
+    
     const upcomingItems = allRecords.filter(r => {
       const d = new Date(r.date + 'T00:00:00');
       return isAfter(d, anchorDate) && !isSameDay(d, anchorDate);
@@ -116,7 +116,6 @@ export default function HomePage() {
     
     const nextImplication = uniqueMatches.find(r => r.date === nextDate)?.consequences.implication || '';
 
-    // Longest Run
     let longest = 0;
     let current = 0;
     let lastD: Date | null = null;
@@ -243,10 +242,10 @@ export default function HomePage() {
                 </button>
               </div>
 
-              <div className="mode-toggle grid-cols-3">
-                <button type="button" className={cn(mode === 'traveler' && "active")} onClick={() => setMode('traveler')}>Travel</button>
-                <button type="button" className={cn(mode === 'study' && "active")} onClick={() => setMode('study')}>Study abroad</button>
-                <button type="button" className={cn(mode === 'corporate' && "active")} onClick={() => setMode('corporate')}>Business travel</button>
+              <div className="mode-toggle">
+                <button type="button" className={cn(mode === 'traveler' && "active", "w-full")} onClick={() => setMode('traveler')}>Travel</button>
+                <button type="button" className={cn(mode === 'study' && "active", "w-full")} onClick={() => setMode('study')}>Study abroad</button>
+                <button type="button" className={cn(mode === 'corporate' && "active", "w-full")} onClick={() => setMode('corporate')}>Business travel</button>
               </div>
 
               <div className="space-y-4">
@@ -371,19 +370,19 @@ export default function HomePage() {
         </section>
 
         <section className="py-24 border-t border-white/5" id="built-for">
-          <div className="wrap">
-            <div className="mb-12 space-y-3 text-left">
+          <div className="wrap text-left">
+            <div className="mb-12 space-y-3">
                <span className="text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-[#E8A33D]">Global Coverage · Everywhere we track</span>
                <h2 className="font-headline text-3xl md:text-5xl font-medium">Built for technical planning.</h2>
                <p className="text-[#9AA1C0] text-lg max-w-2xl">Reconciling deterministic rules across multiple jurisdictions for high-stakes operational assessment.</p>
             </div>
             <div className="grid md:grid-cols-3 gap-6">
                {[
-                 { icon: Plane, t: "Travelers", d: "Understand the cultural intensity and operational state of your destination. Flag festivals that drive high-density migration or unexpected closures." },
-                 { icon: School, t: "Students", d: "Put institutional calendars and arrival timing around your dates. Align visa interviews and orientation with verified host-country intelligence." },
-                 { icon: Briefcase, t: "Corporate & HR", d: "Manage global workforce calendars with precision. Identify local regional holidays that affect payroll, meetings, and office availability." }
+                 { icon: Repeat, t: "Travelers", d: "Understand the cultural intensity and operational state of your destination. Flag festivals that drive high-density migration or unexpected closures." },
+                 { icon: ShieldCheck, t: "Students", d: "Put institutional calendars and arrival timing around your dates. Align visa interviews and orientation with verified host-country intelligence." },
+                 { icon: Clock, t: "Corporate & HR", d: "Manage global workforce calendars with precision. Identify local regional holidays that affect payroll, meetings, and office availability." }
                ].map(uc => (
-                 <div key={uc.t} className="p-8 bg-[#171D3A] border border-white/10 rounded-2xl space-y-4 group hover:border-gold-soft transition-colors text-left">
+                 <div key={uc.t} className="p-8 bg-[#171D3A] border border-white/10 rounded-2xl space-y-4 group hover:border-gold-soft transition-colors">
                     <uc.icon className="w-8 h-8 text-[#E8A33D]" />
                     <h4 className="font-headline text-2xl font-bold">{uc.t}</h4>
                     <p className="text-sm text-[#9AA1C0] leading-relaxed font-medium">{uc.d}</p>
@@ -406,7 +405,7 @@ export default function HomePage() {
                </p>
                <div className="pt-2">
                  <a href="https://wa.me/919860997711" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-sm font-bold text-[#E8A33D] hover:underline uppercase tracking-[0.2em] group">
-                    Inquire about partnership <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
+                    Inquire about partnership <Repeat className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
                  </a>
                </div>
             </div>

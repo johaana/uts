@@ -375,7 +375,7 @@ h1.headline {
 
 .mode-toggle {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   background: var(--panel-2);
   border-radius: 12px;
   padding: 3px;
@@ -393,6 +393,7 @@ h1.headline {
   font-size: 12px;
   font-weight: 600;
   transition: all 0.15s ease;
+  width: 100%;
 }
 
 .mode-toggle button.active {
