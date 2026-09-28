@@ -11,7 +11,7 @@ import {
 import { getSource } from '@/lib/operational/source';
 import { evaluateQuery, resolveNow } from '@/lib/operational/engine';
 import { DateIntelligenceRecord, CanonicalRule } from '@/lib/operational/types';
-import { format, addDays, startOfToday, getMonth } from 'date-fns';
+import { format, addDays, startOfToday, getMonth, differenceInDays } from 'date-fns';
 import { ChevronDown, ChevronUp, Activity, ShieldCheck, Clock, ExternalLink } from 'lucide-react';
 
 const getCleanLabel = (scope?: string, category?: string) => {
