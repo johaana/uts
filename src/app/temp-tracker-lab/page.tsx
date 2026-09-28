@@ -51,9 +51,9 @@ const PERIOD_EVENTS = [
     jurisdiction: "Maharashtra",
     impacts: { govt: 'CLOSED', banks: 'CLOSED', markets: 'SUSPENDED' },
     advice: {
-      traveler: "If you're moving around Mumbai or Pune today, expect significant road closures and huge crowds due to the Dahi Handi processions.",
-      study: "Most university administration offices across Maharashtra will be closed today for the regional holiday.",
-      corporate: "Regional banking and financial settlements in Mumbai are suspended today; expect some delay in transactions for accounts based in the state."
+      traveler: "High density human pyramids in urban centers. Expect localized traffic diversions in Mumbai suburbs; add 45-min buffer for airport transfers.",
+      study: "Regional university administration offices across Maharashtra are closed for the state holiday.",
+      corporate: "Regional banking and financial settlements in Mumbai are suspended today; expect transaction latency for Maharashtra-based accounts."
     }
   },
   {
@@ -65,7 +65,7 @@ const PERIOD_EVENTS = [
     jurisdiction: "Mumbai/Pune",
     impacts: { govt: 'CLOSED', banks: 'CLOSED', markets: 'CLOSED' },
     advice: {
-      traveler: "The final day of the Ganesh festival triggers a total urban shutdown in Mumbai. Massive processions will block all major roads; add a 3-hour buffer for any travel to the airport.",
+      traveler: "Total urban shutdown in Mumbai. Massive processions block all major roads; add 3-hour buffer for any travel to the airport or train terminals.",
       study: "Complete campus access lockdown in city centers. Admissions and admin offices are non-operational.",
       corporate: "Major logistical shutdown. All commercial transport and branch banking in Mumbai is essentially offline."
     }
@@ -76,10 +76,10 @@ const PERIOD_EVENTS = [
     name: "Gandhi Jayanti",
     scope: "NATIONAL",
     severity: "medium",
-    jurisdiction: "National",
+    jurisdiction: "India",
     impacts: { govt: 'CLOSED', banks: 'CLOSED', markets: 'CLOSED' },
     advice: {
-      traveler: "This is a major national holiday. All government offices and public services will be closed across the country today.",
+      traveler: "Mandatory national holiday. All government offices and public services are closed nationwide. Expect heavy crowds at major memorials.",
       study: "All educational institutions and university administrative offices nationwide are closed today.",
       corporate: "National banking systems, including RTGS and NEFT, are offline today for the public holiday."
     }
@@ -90,36 +90,15 @@ const PERIOD_EVENTS = [
     name: "Diwali (Lakshmi Puja)",
     scope: "NATIONAL",
     severity: "high",
-    jurisdiction: "National",
+    jurisdiction: "India",
     impacts: { govt: 'CLOSED', banks: 'CLOSED', markets: 'CLOSED' },
     advice: {
-      traveler: "Maximum national impact. Most shops and all offices are closed. Expect extreme travel demand and widespread commercial shutdown.",
+      traveler: "Maximum national impact. Total commercial shutdown across all major hubs. Expect extreme travel demand and limited shop availability.",
       study: "All universities are closed for the Diwali break; expect administration to be offline for 3-5 days.",
-      corporate: "Total national commercial shutdown. Financial markets and bank branches are closed for Lakshmi Puja."
+      corporate: "Complete national commercial shutdown. Financial markets and bank branches are closed for Lakshmi Puja."
     }
   }
 ];
-
-// --------------------------------------------------------------------------------
-// SUB-COMPONENTS
-// --------------------------------------------------------------------------------
-
-const StatusStrip = ({ label, status }: { label: string, status: string }) => {
-  const colorClass = status === 'CLOSED' || status === 'SUSPENDED' 
-    ? "text-red-400" 
-    : status === 'MODIFIED' 
-    ? "text-yellow-400" 
-    : "text-green-400";
-
-  return (
-    <div className="flex items-center gap-1.5 px-2 py-0.5 border border-white/10 bg-white/5 rounded-sm">
-      <span className="text-[8px] font-bold uppercase tracking-widest text-muted-dim">{label}:</span>
-      <span className={cn("text-[8px] font-extrabold uppercase tracking-widest", colorClass)}>
-        {status}
-      </span>
-    </div>
-  );
-};
 
 // --------------------------------------------------------------------------------
 // MAIN LAB COMPONENT
@@ -128,9 +107,8 @@ const StatusStrip = ({ label, status }: { label: string, status: string }) => {
 export default function TempTrackerLabPage() {
   const [country, setCountry] = useState('IN');
   const [mode, setMode] = useState<'traveler' | 'study' | 'corporate'>('traveler');
-  const [scenario, setScenario] = useState<'A' | 'B' | 'C'>('C');
+  const [scenario, setScenario] = useState<'A' | 'C'>('C');
   const [expandedDate, setExpandedDate] = useState<string | null>(null);
-  const [expandedGlobal, setExpandedGlobal] = useState<string | null>(null);
 
   const [fromDate, setFromDate] = useState('2026-09-01');
   const [toDate, setToDate] = useState('2026-10-31');
@@ -144,7 +122,7 @@ export default function TempTrackerLabPage() {
     });
   }, [fromDate, toDate]);
 
-  // --- Logic: Hero Signal Synthesis (The new direction) ---
+  // --- Logic: Hero Signal Synthesis (Deterministic Interpretation) ---
   const heroSignal = useMemo(() => {
     // Priority 1: High Severity (Super-Events)
     const superEvent = filteredEvents.find(e => e.severity === 'high');
@@ -154,6 +132,7 @@ export default function TempTrackerLabPage() {
         location: superEvent.jurisdiction,
         title: superEvent.name,
         date: superEvent.shortDate,
+        scope: superEvent.scope,
         desc: superEvent.advice[mode],
         kind: 'high'
       };
@@ -164,9 +143,10 @@ export default function TempTrackerLabPage() {
     if (nationalEvent) {
       return {
         label: "SITUATIONAL AWARENESS",
-        location: "India",
+        location: nationalEvent.jurisdiction,
         title: nationalEvent.name,
         date: nationalEvent.shortDate,
+        scope: nationalEvent.scope,
         desc: nationalEvent.advice[mode],
         kind: 'national'
       };
@@ -180,7 +160,8 @@ export default function TempTrackerLabPage() {
         location: "Maharashtra",
         title: "Southwest Monsoon",
         date: "Active now",
-        desc: "Monsoon is currently active. Expect localized waterlogging in Mumbai and Bangalore city centers; allow 90-min extra buffer for airport transfers.",
+        scope: "REGIONAL",
+        desc: "Active in MH, KA, and KL. Expect localized waterlogging in Mumbai and Bangalore city centers; allow 90-min extra buffer for airport transfers.",
         kind: 'seasonal'
       };
     }
@@ -189,8 +170,9 @@ export default function TempTrackerLabPage() {
       label: "SITUATIONAL AWARENESS",
       location: "India",
       title: "Bank Closure Policy (RBI)",
-      date: "Operational",
-      desc: "Standard working days detected. Note: RBI state-specific holiday lists govern branch availability. Verify local bank calendars for settlement-sensitive payments.",
+      date: "Ongoing",
+      scope: "POLICY",
+      desc: "State-specific RBI holiday lists govern banking availability for RTGS/NEFT settlement cycles. Assume regional suspension of branch operations where listed.",
       kind: 'policy'
     };
   }, [filteredEvents, mode]);
@@ -334,7 +316,10 @@ export default function TempTrackerLabPage() {
                              <h4 className="text-xl font-headline font-bold text-paper leading-tight">
                                {heroSignal.location} — {heroSignal.title}
                              </h4>
-                             <span className="text-[10px] font-mono text-gold-soft uppercase tracking-widest font-bold">{heroSignal.date}</span>
+                             <div className="flex items-center gap-2">
+                               <span className="text-[10px] font-mono text-gold-soft uppercase tracking-widest font-bold">{heroSignal.date}</span>
+                               <span className="text-[10px] font-mono text-muted-dim uppercase tracking-widest font-bold">· {heroSignal.scope}</span>
+                             </div>
                           </div>
                         </div>
 
