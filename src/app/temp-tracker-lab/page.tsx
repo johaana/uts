@@ -10,11 +10,12 @@ import {
   Globe,
   MapPin,
   AlertCircle,
-  ShieldCheck
+  ShieldCheck,
+  ChevronRight
 } from "lucide-react";
 
 // --------------------------------------------------------------------------------
-// AUTHORITATIVE MOCK DATA (Impact-First Improvised Content)
+// AUTHORITATIVE MOCK DATA (Impact-First Intelligence)
 // --------------------------------------------------------------------------------
 
 const MARQUEE_DATA = [
@@ -65,6 +66,14 @@ const REGIONAL_INTEL_MAP: Record<string, any> = {
   },
 };
 
+const HEADER_OPTIONS = [
+  "JURISDICTIONAL RULES",
+  "REGIONAL NUANCE",
+  "LOCAL IMPACT",
+  "SELECTION INSIGHT",
+  "DESTINATION ADVISORY"
+];
+
 const COUNTRY_OPTIONS = [
   { code: 'IN', name: 'India' },
   { code: 'JP', name: 'Japan' },
@@ -79,18 +88,34 @@ const COUNTRY_OPTIONS = [
 
 export default function TempTrackerLabPage() {
   const [country, setCountry] = useState('IN');
-  const [todayFull] = useState('Friday, 4 September 2026');
+  const [headerIndex, setHeaderIndex] = useState(0);
   const [isComparing, setIsComparing] = useState(false);
   const [mode, setMode] = useState('traveler');
   
   const regionalIntel = REGIONAL_INTEL_MAP[country];
+  const activeHeader = HEADER_OPTIONS[headerIndex];
+
+  const cycleHeader = () => {
+    setHeaderIndex((prev) => (prev + 1) % HEADER_OPTIONS.length);
+  };
 
   return (
     <div className="bg-[#0F1428] text-[#F4F1E8] min-h-screen font-sans selection:bg-[#E8A33D] selection:text-[#0F1428]">
       <Header />
       
       <main>
-        {/* REPLICA HERO CONTAINER */}
+        {/* LAB CONTROLS (Floating) */}
+        <div className="fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-4 bg-[#1E2650] border border-white/20 p-4 rounded-2xl shadow-2xl">
+          <div className="flex flex-col gap-1">
+             <span className="text-[9px] font-bold uppercase tracking-widest text-[#4FD1C5]">Header Lab</span>
+             <button onClick={cycleHeader} className="flex items-center gap-2 bg-[#171D3A] hover:bg-[#252D5A] px-4 py-2 rounded-lg text-xs font-bold transition-all border border-white/10">
+                <RefreshCw className="w-3 h-3 text-[#E8A33D]" />
+                Switch Header: {activeHeader}
+             </button>
+          </div>
+        </div>
+
+        {/* HERO REPLICA */}
         <section className="hero">
           <div className="wrap hero-grid">
             
@@ -101,12 +126,12 @@ export default function TempTrackerLabPage() {
               </h1>
               <p className="sub hidden md:block">Check a country and your actual dates — before you book, schedule, send a student, or send an employee across borders.</p>
 
-              {/* REPLICA TRACKER */}
+              {/* TRACKER REPLICA */}
               <aside className="hero-tracker md:order-last">
                 <div className="hero-tracker-head">
                   <div>
                     <span className="hero-tracker-kicker">TODAY</span>
-                    <strong className="text-[15.5px] font-headline">{todayFull}</strong>
+                    <strong className="text-[15.5px] font-headline">Friday, 4 September 2026</strong>
                   </div>
                   <span className="hero-tracker-live"><i></i> Intelligence view</span>
                 </div>
@@ -118,7 +143,7 @@ export default function TempTrackerLabPage() {
                       <span className="next-card-kicker flex items-center gap-1.5 !text-[#4FD1C5]">
                         <Globe className="w-2.5 h-2.5" /> AROUND THE GLOBE
                       </span>
-                      <span className="text-[8px] font-bold text-[#4FD1C5]/40 uppercase tracking-widest">Global Impacts</span>
+                      <span className="text-[8px] font-bold text-[#4FD1C5]/40 uppercase tracking-widest">General Impact</span>
                     </div>
                     
                     <div className="space-y-4 pb-4">
@@ -135,12 +160,12 @@ export default function TempTrackerLabPage() {
                   </div>
 
                   {/* REGIONAL INTEL (Gold Anchor) */}
-                  <div className="hero-tracker-next-card border-t border-white/10 bg-[#E8A33D]/[0.02] py-5 relative">
+                  <div className="hero-tracker-next-card border-t border-white/10 bg-[#E8A33D]/[0.01] py-5 relative">
                      <div className="absolute left-0 top-0 bottom-0 w-[2px] bg-[#E8A33D]"></div>
                      
                      <div className="px-1 flex items-center justify-between mb-3">
                         <span className="next-card-kicker !text-[#E8A33D] uppercase tracking-widest flex items-center gap-1.5">
-                           <MapPin className="w-2.5 h-2.5" /> JURISDICTION INTEL · {regionalIntel?.country || 'NA'}
+                           <MapPin className="w-2.5 h-2.5" /> {activeHeader} · {regionalIntel?.country || 'NA'}
                         </span>
                         {regionalIntel && <span className="text-[8px] font-bold text-[#E8A33D] border border-[#E8A33D]/40 px-1.5 py-0.5 rounded-sm uppercase tracking-widest">Live Nuance</span>}
                      </div>
@@ -171,7 +196,7 @@ export default function TempTrackerLabPage() {
                            </span>
                         </div>
                         <div className="flex items-center gap-1.5">
-                           <span className="text-[8px] font-bold text-green-500/60 uppercase">Verified Data</span>
+                           <span className="text-[8px] font-bold text-green-500/60 uppercase">Verified</span>
                            <ShieldCheck className="w-3 h-3 text-green-500/40" />
                         </div>
                      </div>
@@ -197,7 +222,7 @@ export default function TempTrackerLabPage() {
               </aside>
             </div>
 
-            {/* REPLICA TRIP CHECKER */}
+            {/* TRIP CHECKER REPLICA */}
             <div className="checker text-left" style={{ order: 1 }}>
               <div className="checker-top">
                 <h3 className="font-headline text-[18px]">Trip impact checker</h3>
@@ -243,8 +268,8 @@ export default function TempTrackerLabPage() {
                   <strong>IN SHORT:</strong> 3 dates in your selected period are worth keeping in mind. The details below show what is happening on each date.
                 </div>
 
-                <div className="checker-list">
-                   <p className="text-[12px] text-muted-dim italic text-center py-10 border border-dashed border-white/10 rounded-xl mt-4">
+                <div className="checker-list mt-4">
+                   <p className="text-[12px] text-muted-dim italic text-center py-10 border border-dashed border-white/10 rounded-xl">
                       Individual record detail available on production home page.
                    </p>
                 </div>
@@ -258,7 +283,7 @@ export default function TempTrackerLabPage() {
            <div className="section-head text-left max-w-3xl">
               <div className="kicker">★ Global Intelligence</div>
               <h2 className="section-title">Verified facts for cross-border planning.</h2>
-              <p className="text-lg text-[#9AA1C0]">Reconciling public calendars with institutional closures and regional rules for zero-AI reliability.</p>
+              <p className="text-lg text-muted">Reconciling public calendars with institutional closures and regional rules for zero-AI reliability.</p>
            </div>
         </section>
 
