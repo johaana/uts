@@ -14,7 +14,8 @@ import {
   ChevronDown,
   ChevronUp,
   Sparkles,
-  Calendar
+  Calendar,
+  ArrowRight
 } from "lucide-react";
 import { format, isWithinInterval, startOfDay, parseISO, getMonth } from 'date-fns';
 
