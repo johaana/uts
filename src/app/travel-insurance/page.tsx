@@ -47,13 +47,6 @@ export default function TravelInsurancePage() {
                 Comprehensive international travel insurance tailored for students, corporate teams, and global explorers. 
                 Move with certainty across 1.4 million providers worldwide.
               </p>
-              <div className="pt-6 flex flex-col sm:flex-row gap-4 justify-center">
-                <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer">
-                  <Button className="bg-[#E8A33D] text-[#0F1428] hover:bg-[#F0C888] font-bold px-12 h-16 rounded-full shadow-2xl transition-transform hover:scale-105 uppercase tracking-widest text-xs">
-                    <MessageSquare className="w-5 h-5 mr-2" /> Chat for Custom Quote
-                  </Button>
-                </a>
-              </div>
             </div>
 
             {/* PRODUCT OFFERINGS GRID */}
