@@ -7,18 +7,12 @@ import { Footer } from '@/components/footer';
 import { cn } from '@/lib/utils';
 import { 
   Globe, 
-  MapPin, 
   ShieldCheck, 
-  Activity,
-  Zap,
-  Info,
   ChevronDown,
   ChevronUp,
-  Sparkles,
-  Calendar,
   ArrowRight
 } from "lucide-react";
-import { format, isWithinInterval, startOfDay, parseISO, getMonth } from 'date-fns';
+import { format, isWithinInterval, startOfDay, parseISO } from 'date-fns';
 import { AnimatePresence, motion } from 'framer-motion';
 
 // --------------------------------------------------------------------------------
@@ -123,13 +117,10 @@ export default function TempTrackerLabPage() {
     });
   }, [fromDate, toDate]);
 
-  // --- Logic: Hero Signal Synthesis (Deterministic Interpretation) ---
   const heroSignal = useMemo(() => {
-    // Priority 1: High Severity (Super-Events)
     const superEvent = filteredEvents.find(e => e.severity === 'high');
     if (superEvent) {
       return {
-        label: "SITUATIONAL AWARENESS",
         location: superEvent.jurisdiction,
         title: superEvent.name,
         date: superEvent.shortDate,
@@ -138,12 +129,9 @@ export default function TempTrackerLabPage() {
         kind: 'high'
       };
     }
-
-    // Priority 2: National Holidays
     const nationalEvent = filteredEvents.find(e => e.scope === 'NATIONAL');
     if (nationalEvent) {
       return {
-        label: "SITUATIONAL AWARENESS",
         location: nationalEvent.jurisdiction,
         title: nationalEvent.name,
         date: nationalEvent.shortDate,
@@ -152,30 +140,7 @@ export default function TempTrackerLabPage() {
         kind: 'national'
       };
     }
-
-    // Priority 3: Seasonal/Policy Fallback (Real-Time Month Logic)
-    const month = getMonth(new Date());
-    if (month >= 5 && month <= 8) {
-      return {
-        label: "PLANNING SIGNAL",
-        location: "Maharashtra",
-        title: "Southwest Monsoon",
-        date: "Active now",
-        scope: "REGIONAL",
-        desc: "Active in MH, KA, and KL. Expect localized waterlogging in Mumbai and Bangalore city centers; allow 90-min extra buffer for airport transfers.",
-        kind: 'seasonal'
-      };
-    }
-
-    return {
-      label: "PLANNING SIGNAL",
-      location: "India",
-      title: "Bank Closure Policy (RBI)",
-      date: "Ongoing",
-      scope: "POLICY",
-      desc: "State-specific RBI holiday lists govern banking availability for RTGS/NEFT settlement cycles. Assume regional suspension of branch operations where listed.",
-      kind: 'policy'
-    };
+    return null;
   }, [filteredEvents, mode]);
 
   const toggleExpand = (date: string) => {
@@ -195,7 +160,7 @@ export default function TempTrackerLabPage() {
                 Know before you plan. <br className="md:hidden" />
                 Not after.
               </h1>
-              <p className="sub hidden md:block">Testing Scenario {scenario}: High-Fidelity {scenario === 'A' ? 'List' : 'Synthesis'}.</p>
+              <p className="sub hidden md:block">Refined high-fidelity data signals.</p>
 
               <aside className="hero-tracker md:order-last">
                 <div className="hero-tracker-head">
@@ -245,14 +210,14 @@ export default function TempTrackerLabPage() {
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M8 3 4 7l4 4M4 7h13M16 21l4-4-4-4M20 17H7"/>
                   </svg>
-                  <span>{scenario === 'A' ? 'Scenario C' : 'Scenario A'}</span>
+                  <span>{scenario === 'A' ? 'Option C' : 'Option A'}</span>
                 </button>
               </div>
 
               <div className="mode-toggle">
                 <button type="button" className={cn(mode === 'traveler' && "active")} onClick={() => setMode('traveler')}>Travel</button>
-                <button type="button" className={cn(mode === 'study' && "active")} onClick={() => setMode('study')}>Study abroad</button>
-                <button type="button" className={cn(mode === 'corporate' && "active")} onClick={() => setMode('corporate')}>Business travel</button>
+                <button type="button" className={cn(mode === 'study' && "active")} onClick={() => setMode('study')}>Study</button>
+                <button type="button" className={cn(mode === 'corporate' && "active")} onClick={() => setMode('corporate')}>Business</button>
               </div>
 
               <div className="space-y-4">
@@ -276,30 +241,13 @@ export default function TempTrackerLabPage() {
                 
                 <div className="checker-summary py-4 border-b border-white/10 flex gap-4 text-left">
                   <div><b className="font-headline text-[28px] text-[#F0C888]">{filteredEvents.length}</b><span className="text-[11.5px] text-muted-dim block leading-tight">period flags</span></div>
-                  <div><b className="font-headline text-[28px] text-[#F0C888]">{heroSignal.kind === 'seasonal' || heroSignal.kind === 'policy' ? '0' : '1'}</b><span className="text-[11.5px] text-muted-dim block leading-tight">dates to know</span></div>
+                  <div><b className="font-headline text-[28px] text-[#F0C888]">{heroSignal ? '1' : '0'}</b><span className="text-[11.5px] text-muted-dim block leading-tight">high-impact</span></div>
                 </div>
 
-                {/* SCENARIO A: HIGH-FIDELITY LIST */}
+                {/* SCENARIO A: REFINED HIGH-FIDELITY LIST */}
                 {scenario === 'A' && (
                   <div className="mt-4 space-y-2">
-                    {/* Today's Pulse Pin */}
-                    <div className="mb-6 p-5 rounded-xl border border-[#E8A33D]/20 bg-[#E8A33D]/5 space-y-4">
-                       <div className="flex items-center justify-between">
-                          <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#E8A33D]">{heroSignal.label} · TODAY</p>
-                          <div className="flex items-center gap-1.5 px-2 py-0.5 bg-green-500/10 text-green-500 text-[8px] font-extrabold uppercase rounded-sm border border-green-500/20">
-                             <ShieldCheck className="w-2.5 h-2.5" /> Verified Live
-                          </div>
-                       </div>
-                       <div className="space-y-1.5">
-                          <h4 className="text-base font-bold text-white">{heroSignal.location} — {heroSignal.title}</h4>
-                          <p className="text-[12.5px] text-[#9AA1C0] leading-relaxed font-medium italic">
-                            "{heroSignal.desc}"
-                          </p>
-                       </div>
-                    </div>
-
-                    {/* Interactive List */}
-                    <div className="checker-list space-y-1 max-h-[300px] overflow-y-auto custom-scrollbar pr-1">
+                    <div className="checker-list space-y-1 max-h-[400px] overflow-y-auto custom-scrollbar pr-1">
                       {filteredEvents.map((event) => (
                         <div key={event.date} className="border-b border-white/5 last:border-0 group">
                           <button 
@@ -347,21 +295,14 @@ export default function TempTrackerLabPage() {
                   </div>
                 )}
 
-                {/* SCENARIO C: THE HERO INTERPRETATION */}
-                {scenario === 'C' && (
+                {/* SCENARIO C: REFINED INTERPRETATION */}
+                {scenario === 'C' && heroSignal && (
                   <div className="pt-2 animate-in fade-in slide-in-from-bottom-2 duration-500">
                     <div className={cn(
-                      "p-6 rounded-2xl border relative overflow-hidden group transition-all",
-                      heroSignal.kind === 'high' ? "bg-red-500/5 border-red-500/20 shadow-[0_0_40px_rgba(239,68,68,0.05)]" : "bg-gold/5 border-gold/20"
+                      "p-6 rounded-2xl border bg-white/[0.03] border-white/10 shadow-xl"
                     )}>
-                      {/* Brand Marker */}
-                      <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                         <Activity className="w-12 h-12 text-white" />
-                      </div>
-
-                      <div className="space-y-5 relative z-10">
+                      <div className="space-y-5">
                         <div className="space-y-1">
-                          <p className="text-[9px] font-bold uppercase tracking-[0.35em] text-[#E8A33D]">{heroSignal.label}</p>
                           <div className="flex flex-col gap-0.5">
                              <h4 className="text-xl font-headline font-bold text-paper leading-tight">
                                {heroSignal.location} — {heroSignal.title}
@@ -378,19 +319,17 @@ export default function TempTrackerLabPage() {
                         </p>
 
                         <div className="pt-4 border-t border-white/5 flex items-center justify-between">
-                           <span className="text-[9px] font-bold text-muted-dim uppercase tracking-widest">Synthesis: Utsavs Logic Engine</span>
+                           <span className="text-[9px] font-bold text-muted-dim uppercase tracking-widest">Determination: Confirmed</span>
                            <div className="flex items-center gap-1.5 px-2 py-0.5 bg-green-500/10 text-green-500 text-[9px] font-bold uppercase rounded-sm border border-green-500/20">
-                             <ShieldCheck className="w-3 h-3" /> Live Verified
+                             <ShieldCheck className="w-3 h-3" /> Source Verified
                            </div>
                         </div>
                       </div>
                     </div>
 
-                    <div className="mt-6 flex flex-col gap-4">
-                       <button className="w-full flex items-center justify-center gap-2 py-3 text-[11px] font-bold uppercase tracking-[0.2em] text-[#F0C888] hover:text-white transition-colors border border-white/10 rounded-xl bg-white/[0.02]">
-                          Check Full Date Intelligence <ArrowRight className="w-3 h-3" />
-                       </button>
-                    </div>
+                    <button className="mt-6 w-full flex items-center justify-center gap-2 py-3 text-[11px] font-bold uppercase tracking-[0.2em] text-[#F0C888] hover:text-white transition-colors border border-white/10 rounded-xl bg-white/[0.02]">
+                       View Full Date Intelligence <ArrowRight className="w-3 h-3" />
+                    </button>
                   </div>
                 )}
 
