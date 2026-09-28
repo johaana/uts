@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
@@ -13,14 +14,6 @@ import { DateIntelligenceRecord, CanonicalRule } from '@/lib/operational/types';
 import { allEvents, internationalEvents } from '@/lib/festival-data';
 import { format, addDays, startOfToday, differenceInDays, parse, isValid, startOfTomorrow } from 'date-fns';
 import { ChevronDown, ChevronUp, ShieldCheck, Clock, ExternalLink, ArrowRight, Plane, School, Briefcase } from 'lucide-react';
-
-const getCleanLabel = (scope?: string, category?: string) => {
-  const s = (scope || 'NATIONAL').toUpperCase();
-  const c = (category || '').toUpperCase().replace('_', ' ');
-  
-  if (!c || s === c || c === 'HOLIDAY' || c === 'PUBLIC') return s;
-  return `${s} · ${c}`;
-};
 
 export default function HomePage() {
   const [isMounted, setIsMounted] = useState(false);
@@ -76,38 +69,19 @@ export default function HomePage() {
     return (forwardIndex.get(todayKey) || []).filter((r: any) => r.jurisdiction.scope === 'national');
   }, [forwardIndex, todayKey]);
 
-  const nextIntl = useMemo(() => {
-    if (!isMounted) return null;
-    const tomorrow = startOfTomorrow();
-    
-    const sorted = [...allEvents, ...internationalEvents]
-      .map(e => ({
-        ...e,
-        d: parse(e.date.split(' - ')[0], 'MMM dd, yyyy', new Date())
-      }))
-      .filter(e => isValid(e.d) && e.d >= tomorrow)
-      .sort((a,b) => a.d.getTime() - b.d.getTime());
-    
-    const found = sorted.find(e => e.type === 'public' || e.type === 'Holiday' || e.type === 'Diwali' || e.type === 'Religious');
-    if (!found) return null;
-    
-    const diff = differenceInDays(found.d, startOfToday());
-    return { ...found, diff };
-  }, [isMounted]);
-
   const localSignalsFeed = useMemo(() => {
     if (!isMounted) return [];
     const todayItems = (forwardIndex.get(todayKey) || []).filter((r: any) => r.jurisdiction.scope === 'regional');
     
     if (todayItems.length > 0) {
       return todayItems.map((e: any) => ({
-        text: `🟢 ${COUNTRY_LABELS[e.jurisdiction.country_code] || e.jurisdiction.country_code} — ${e.jurisdiction.region || ''} — ${e.name} · ${format(new Date(e.date + 'T00:00:00'), 'd MMM')}`,
+        text: `${COUNTRY_LABELS[e.jurisdiction.country_code] || e.jurisdiction.country_code} — ${e.jurisdiction.region || ''} — ${e.name} · ${format(new Date(e.date + 'T00:00:00'), 'd MMM')}`,
         isLive: true
       }));
     }
 
     return [{
-      text: "🟢 Standard global working day · No regional alerts today.",
+      text: "Standard global working day · No regional alerts today.",
       isLive: true
     }];
   }, [isMounted, forwardIndex, todayKey]);
@@ -162,7 +136,7 @@ export default function HomePage() {
                               <div className="space-y-0.5">
                                  <span className="block text-[14px] font-bold group-hover:text-[#4FD1C5] transition-colors">{item.name}</span>
                                  <span className="block text-[9px] font-bold text-muted-dim uppercase tracking-widest font-mono">
-                                    {COUNTRY_LABELS[item.jurisdiction.country_code]} · {getCleanLabel(item.jurisdiction.scope, item.category)}
+                                    {COUNTRY_LABELS[item.jurisdiction.country_code]} · {item.jurisdiction.scope.toUpperCase()}
                                  </span>
                               </div>
                               {expandedGlobal === item.id ? <ChevronUp className="w-4 h-4 text-muted-dim" /> : <ChevronDown className="w-4 h-4 text-muted-dim" />}
@@ -187,11 +161,6 @@ export default function HomePage() {
                            <p className="text-[13px] text-paper font-medium leading-relaxed">
                               Standard Global business day. High-trust window for international meetings and cross-border office operations.
                            </p>
-                           {nextIntl && (
-                             <p className="text-[11px] text-muted-dim font-medium italic">
-                               Next major international impact: <b className="text-paper">{nextIntl.name} ({format(nextIntl.d, 'd MMM')})</b> in {nextIntl.diff} days.
-                             </p>
-                           )}
                         </div>
                       )}
                    </div>
@@ -261,9 +230,6 @@ export default function HomePage() {
                     <div><b className="font-headline text-[32px] text-gold-soft">{checkerData.count}</b><span className="text-[11.5px] text-muted-dim block font-bold uppercase tracking-widest mt-1">flags in period</span></div>
                     <div><b className="font-headline text-[32px] text-gold-soft">{checkerData.nextDays}</b><span className="text-[11.5px] text-muted-dim block font-bold uppercase tracking-widest mt-1">days to next</span></div>
                   </div>
-                  <div className="text-[9px] font-mono text-muted-dim uppercase tracking-widest pb-1 opacity-60">
-                    DATABASE STATUS: 92 COUNTRIES TRACKED · VERIFICATION ACTIVE
-                  </div>
                 </div>
 
                 <div className="checker-list max-h-[440px] overflow-y-auto custom-scrollbar pr-1">
@@ -330,7 +296,7 @@ export default function HomePage() {
         <section className="py-24 border-t border-white/5" id="built-for">
           <div className="wrap">
             <div className="mb-12 space-y-3">
-               <span className="text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-[#E8A33D]">Verified for your purpose</span>
+               <span className="text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-[#E8A33D]">INDEX STATUS: 92 COUNTRIES TRACKED · VERIFICATION ACTIVE</span>
                <h2 className="font-headline text-3xl md:text-5xl font-medium">Built for technical planning.</h2>
                <p className="text-[#9AA1C0] text-lg max-w-2xl">Reconciling 1,091 deterministic rules across 92 jurisdictions for high-stakes operational assessment.</p>
             </div>
@@ -375,3 +341,4 @@ export default function HomePage() {
     </div>
   );
 }
+
