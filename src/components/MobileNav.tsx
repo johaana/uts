@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from 'next/link';
@@ -8,9 +9,9 @@ import { MessageSquare } from 'lucide-react';
 
 const navLinks = [
   { href: "/date-intelligence", label: "Date Intelligence" },
-  { href: "/built-for", label: "Built For" },
+  { href: "/travel-insurance", label: "Insurance" },
   { href: "/api", label: "API" },
-  { href: "/travel-insurance", label: "Travel Insurance" },
+  { href: "/built-for", label: "Built For" },
   { href: "/festivals", label: "Stories ↗" },
 ];
 
@@ -19,14 +20,14 @@ export function MobileNav({ setOpen }: { setOpen: (open: boolean) => void }) {
   const WHATSAPP_LINK = "https://wa.me/919860997711";
 
   return (
-    <div className="flex flex-col h-full bg-background">
-      <div className="p-6 border-b text-left">
+    <div className="flex flex-col h-full bg-background text-left">
+      <div className="p-6 border-b">
         <Link href="/" className="logo" onClick={() => setOpen(false)}>
             Utsavs
             <span>from occasion to impact</span>
         </Link>
       </div>
-      <nav className="flex flex-col p-6 space-y-6 text-left">
+      <nav className="flex flex-col p-6 space-y-6">
         {navLinks.map((link) => (
           <Link
             key={link.href}

@@ -11,6 +11,7 @@ import { MobileNav } from "./MobileNav";
 
 const navLinks = [
   { href: "/date-intelligence", label: "Date Intelligence" },
+  { href: "/travel-insurance", label: "Insurance" },
   { href: "/festivals", label: "Stories ↗" },
 ];
 
@@ -29,9 +30,9 @@ export function Header() {
         : "bg-[#0F1428]/86 border-white/5"
     )}>
       <nav className="wrap h-[72px] flex items-center justify-between">
-        <Link href="/" className={cn("logo transition-colors duration-500", isEditorial && "text-[#17151A]")}>
+        <Link href="/" className={cn("logo transition-colors duration-500", isEditorial ? "text-[#800000]" : "text-white")}>
           Utsavs
-          <span className={cn("transition-colors duration-500", isEditorial && "text-[#6D6870]")}>from occasion to impact</span>
+          <span className={cn("transition-colors duration-500", isEditorial ? "text-[#6D6870]" : "text-muted")}>from occasion to impact</span>
         </Link>
         
         <div className="hidden md:flex gap-9 text-[13px] font-bold uppercase tracking-[0.2em] font-ui">
