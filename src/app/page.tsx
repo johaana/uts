@@ -83,7 +83,23 @@ export default function HomePage() {
   }, [isMounted, todayKey, allRecords]);
 
   const globalTodayEvents = useMemo(() => {
-    return (forwardIndex.get(todayKey) || []);
+    return (forwardIndex.get(todayKey) || []).filter((r: any) => r.jurisdiction.scope === 'national');
+  }, [forwardIndex, todayKey]);
+
+  const localSignalsFeed = useMemo(() => {
+    const todayItems = (forwardIndex.get(todayKey) || []).filter((r: any) => r.jurisdiction.scope === 'regional');
+    
+    if (todayItems.length > 0) {
+      return todayItems.map((e: any) => ({
+        text: `${COUNTRY_LABELS[e.jurisdiction.country_code] || e.jurisdiction.country_code} — ${e.jurisdiction.region || ''} — ${e.name} · ${format(new Date(e.date + 'T00:00:00'), 'd MMM')}`,
+        isLive: true
+      }));
+    }
+
+    return [{
+      text: "Standard global working day · 92 jurisdictions verified · No regional alerts today.",
+      isLive: false
+    }];
   }, [forwardIndex, todayKey]);
 
   const checkerData = useMemo(() => {
@@ -168,23 +184,18 @@ export default function HomePage() {
               <aside className="hero-tracker md:order-last" id="world">
                 <div className="hero-tracker-head">
                   <div>
-                    <span className="hero-tracker-kicker uppercase tracking-widest text-[#E8A33D] font-mono text-[10px]">Global Pulse</span>
+                    <span className="hero-tracker-kicker uppercase tracking-[0.25em] text-[#E8A33D] font-mono text-[10px] font-bold">LIVE UPDATES</span>
                     <strong>{isMounted ? format(startOfToday(), 'EEEE, d MMMM yyyy') : 'Loading...'}</strong>
                   </div>
-                  <span className="hero-tracker-live flex items-center gap-1.5">
-                    <span className="relative flex h-2 w-2">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal opacity-75"></span>
-                      <span className="relative inline-flex rounded-full h-2 w-2 bg-teal"></span>
-                    </span>
-                    World View
+                  <span className="hero-tracker-live flex items-center gap-1.5 opacity-60">
+                    <Clock className="w-2.5 h-2.5 text-teal" />
+                    <span className="font-mono text-[9px] font-bold uppercase tracking-widest text-teal">Verified Feed</span>
                   </span>
                 </div>
 
-                <div className="hero-tracker-next-grid text-left border-b border-white/10">
-                   <div className="px-[18px] pt-4 pb-1">
-                      <span className="next-card-kicker flex items-center gap-1.5 !text-[#4FD1C5]">
-                        <Globe className="w-2.5 h-2.5" /> WORLD STATE TODAY
-                      </span>
+                <div className="hero-tracker-next-grid text-left border-b border-white/10 bg-white/[0.01]">
+                   <div className="px-[18px] pt-5 pb-1">
+                      <span className="text-[10px] font-mono font-bold uppercase tracking-[0.25em] text-[#4FD1C5]">GLOBAL IMPACTS · TODAY</span>
                    </div>
                    <div className="divide-y divide-white/5">
                       {globalTodayEvents.length > 0 ? globalTodayEvents.map((item) => (
@@ -216,33 +227,30 @@ export default function HomePage() {
                         </div>
                       )) : (
                         <div className="px-[18px] py-8 text-center text-xs text-muted-dim italic">
-                           No primary records for today.
+                           No primary national records for today.
                         </div>
                       )}
                    </div>
                 </div>
 
-                <div className="hero-tracker-feed">
+                <div className="hero-tracker-feed !py-6 bg-[#1E2650]/40">
+                  <div className="px-[18px] mb-4">
+                     <span className="text-[10px] font-mono font-bold text-[#4FD1C5] uppercase tracking-[0.25em]">LOCAL SIGNALS</span>
+                  </div>
                   <div className="marquee">
                     <div className="marquee-track">
-                      {Array.from(forwardIndex.entries())
-                        .filter(([d]) => {
-                          if (!d || d === 'POLICY') return false;
-                          const date = parseISO(d);
-                          const today = startOfToday();
-                          return date >= today && differenceInDays(date, today) <= 14;
-                        })
-                        .map(([date, entries]) => (
-                        entries.map((e: any, idx: number) => (
-                          <span key={`${date}-${idx}`} className="chip">
-                            <b>{COUNTRY_LABELS[e.jurisdiction.country_code] || e.jurisdiction.country_code}</b> — {e.name} · {format(new Date(date + 'T00:00:00'), 'd MMM')}
+                      {localSignalsFeed.concat(localSignalsFeed).map((item, i) => (
+                        <span key={i} className="chip flex items-center gap-3 !border-white/5 bg-white/[0.02]">
+                          <span className="relative flex h-2 w-2 shrink-0">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]"></span>
                           </span>
-                        ))
+                          <b className={cn("text-[13.5px]", !item.isLive && "text-muted-dim font-normal")}>{item.text}</b>
+                        </span>
                       ))}
                     </div>
                   </div>
                 </div>
-                <a className="hero-tracker-link text-left" href="/date-intelligence">VIEW TODAY'S FULL INTELLIGENCE <span>→</span></a>
               </aside>
             </div>
 
@@ -293,43 +301,47 @@ export default function HomePage() {
 
                 <div className="checker-list space-y-1">
                    {checkerData.records.map((r) => (
-                     <div key={r.id} className="border-b border-white/5 last:border-0">
+                     <div key={r.id} className="border-b border-white/5 last:border-0 group">
                         <button 
                           onClick={() => setExpandedRecord(expandedRecord === r.id ? null : r.id)}
-                          className="w-full flex items-center justify-between py-4 hover:bg-white/5 transition-all text-left group"
+                          className="w-full flex items-center justify-between py-5 hover:bg-white/[0.02] transition-all text-left"
                         >
                            <div className="flex items-center gap-6">
                               <div className="impact-date w-14 shrink-0">{format(new Date(r.date + 'T00:00:00'), 'dd MMM')}</div>
-                              <div className="impact-name font-bold group-hover:text-gold-soft transition-colors">{r.name}</div>
+                              <div className="space-y-1">
+                                 <span className="block font-bold text-[16.5px] group-hover:text-gold-soft transition-colors leading-tight">{r.name}</span>
+                                 <div className="flex items-center gap-3">
+                                    <span className="text-[10px] font-mono font-bold text-muted-dim uppercase tracking-wider">
+                                       {r.jurisdiction.region ? r.jurisdiction.region + ' · ' : ''}{COUNTRY_LABELS[r.jurisdiction.country_code] || r.jurisdiction.country_code}
+                                    </span>
+                                    <span className={cn(
+                                      "text-[8px] font-bold px-1.5 py-0.5 rounded-sm uppercase tracking-widest border",
+                                      r.jurisdiction.scope === 'national' ? "bg-[#E8A33D]/10 text-[#F0C888] border-[#E8A33D]/20" : "bg-white/5 text-muted-dim border-white/10"
+                                    )}>{r.jurisdiction.scope.toUpperCase()}</span>
+                                 </div>
+                              </div>
                            </div>
-                           <div className="flex items-center gap-4">
-                              <span className="text-[9px] font-bold text-muted-dim uppercase border border-white/20 px-2 py-0.5 rounded-full">{getCleanLabel(r.jurisdiction.scope, r.category)}</span>
-                              {expandedRecord === r.id ? <ChevronUp className="w-4 h-4 text-muted-dim" /> : <ChevronDown className="w-4 h-4 text-muted-dim" />}
-                           </div>
+                           {expandedRecord === r.id ? <ChevronUp className="w-4 h-4 text-muted-dim" /> : <ChevronDown className="w-4 h-4 text-muted-dim" />}
                         </button>
                         {expandedRecord === r.id && (
-                          <div className="pb-6 space-y-4 animate-in slide-in-from-top-2 duration-300">
+                          <div className="pb-6 space-y-4 animate-in slide-in-from-top-2 duration-300 px-[80px]">
                              <div className="p-4 bg-white/5 border-l-2 border-gold-soft rounded-r-lg">
                                 <p className="text-[13px] font-medium leading-relaxed italic text-paper/90">
                                   "{r.consequences.implication}"
                                 </p>
                              </div>
-                             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 px-4 text-[10px] text-muted-dim">
+                             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-[9.5px] font-bold text-muted-dim uppercase tracking-[0.2em] pt-2 border-t border-white/5">
                                 <div className="flex items-center gap-1.5">
-                                   <span className="font-bold uppercase">Evidence:</span>
-                                   <span>{r.evidence.source_name || 'Authoritative Source'}</span>
+                                   <span>Source: {r.evidence.source_name || 'Authoritative Source'}</span>
                                    {r.evidence.source_url && (
                                      <a href={r.evidence.source_url} target="_blank" rel="noopener noreferrer" className="text-[#4FD1C5] hover:underline flex items-center gap-0.5">
                                        <ExternalLink className="w-2 h-2" />
                                      </a>
                                    )}
                                 </div>
-                                <div className="flex items-center gap-3">
-                                   <span>State: <b className="text-paper">{r.state.toUpperCase()}</b></span>
-                                   <div className="flex items-center gap-1">
-                                      <ShieldCheck className="w-3 h-3 text-green-500/60" />
-                                      <span className="font-bold uppercase">Confirmed</span>
-                                   </div>
+                                <div className="flex items-center gap-1.5 text-green-500/60">
+                                   <ShieldCheck className="w-2.5 h-2.5" />
+                                   <span>Verified</span>
                                 </div>
                              </div>
                           </div>
