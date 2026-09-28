@@ -180,7 +180,7 @@ export default function TempTrackerLabPage() {
               <aside className="hero-tracker md:order-last">
                 <div className="hero-tracker-head">
                   <div>
-                    <span className="hero-tracker-kicker uppercase tracking-widest text-[#E8A33D] font-mono text-[10px]">LIVE UPDATES</span>
+                    <span className="block font-mono text-[10px] font-bold uppercase tracking-[0.3em] text-[#E8A33D] mb-1">LIVE UPDATES</span>
                     <strong className="text-[15.5px] font-headline">{isClient ? format(new Date(), 'EEEE, d MMM yyyy') : '...'}</strong>
                   </div>
                   <span className="hero-tracker-live"><i></i> Operational View</span>
@@ -188,9 +188,9 @@ export default function TempTrackerLabPage() {
 
                 <div className="hero-tracker-next-grid text-left border-b border-white/10">
                    <div className="px-[18px] py-6 space-y-4">
-                      <div className="flex items-center gap-2 px-2.5 py-1 bg-teal/10 border border-teal/20 rounded-full w-fit">
-                        <Globe className="w-2.5 h-2.5 text-teal" />
-                        <span className="text-[9px] font-bold uppercase tracking-widest text-teal">GLOBAL IMPACTS</span>
+                      <div className="flex items-center gap-2">
+                        <Globe className="w-2.5 h-2.5 text-[#4FD1C5]" />
+                        <span className="text-[9px] font-bold uppercase tracking-[0.25em] text-[#4FD1C5]">GLOBAL IMPACTS</span>
                       </div>
                       <div className="space-y-4">
                         {GLOBAL_INTEL.map((item) => (
@@ -204,8 +204,8 @@ export default function TempTrackerLabPage() {
                 </div>
 
                 <div className="hero-tracker-feed">
-                  <div className="space-y-1.5 px-[18px] mb-2">
-                     <span className="text-[9px] font-bold text-[#6E7495] uppercase tracking-[0.25em]">LOCAL SIGNALS</span>
+                  <div className="px-[18px] mb-2 flex items-center gap-2">
+                     <span className="text-[9px] font-bold text-[#4FD1C5] uppercase tracking-[0.25em]">LOCAL SIGNALS</span>
                   </div>
                   <div className="marquee">
                     <div className="marquee-track">
@@ -221,7 +221,6 @@ export default function TempTrackerLabPage() {
                     </div>
                   </div>
                 </div>
-                <a className="hero-tracker-link text-left" href="/date-intelligence">VIEW TODAY'S FULL INTELLIGENCE <span>→</span></a>
               </aside>
             </div>
 
@@ -336,7 +335,7 @@ export default function TempTrackerLabPage() {
                       {heroSignal ? (
                         <>
                           <div className="space-y-1.5">
-                            <p className="text-[10px] font-mono text-teal uppercase tracking-[0.3em] font-bold">Primary Date Signal</p>
+                            <p className="text-[10px] font-mono text-[#4FD1C5] uppercase tracking-[0.3em] font-bold">Primary Date Signal</p>
                             <h4 className="text-2xl font-headline font-bold text-paper leading-tight">
                               {heroSignal.country} — {heroSignal.jurisdiction} — {heroSignal.name}
                             </h4>
@@ -362,7 +361,7 @@ export default function TempTrackerLabPage() {
                       ) : (
                         <div className="py-10 text-center space-y-4">
                            <p className="text-sm text-muted-dim font-medium italic">No major date impacts detected for this window.</p>
-                           <p className="text-[11px] font-mono uppercase tracking-[0.2em] text-teal">Systems Operating Normally</p>
+                           <p className="text-[11px] font-mono uppercase tracking-[0.2em] text-[#4FD1C5]">Systems Operating Normally</p>
                         </div>
                       )}
                     </div>
