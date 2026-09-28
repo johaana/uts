@@ -11,7 +11,7 @@ import { getOperationalImpact } from '@/lib/operational/adapter';
 import { getSource } from '@/lib/operational/source';
 import { evaluateQuery, resolveNow } from '@/lib/operational/engine';
 import { OperationalResult, DateIntelligenceRecord, CanonicalRule } from '@/lib/operational/types';
-import { format, addDays, startOfDay, differenceInDays, isValid, startOfToday, parseISO } from 'date-fns';
+import { format, addDays, startOfDay, differenceInDays, isValid, startOfToday, parseISO, getMonth } from 'date-fns';
 import { ChevronDown, ChevronUp, Activity, Info, Globe, ExternalLink, ShieldCheck } from 'lucide-react';
 
 const getCleanLabel = (scope?: string, category?: string) => {
@@ -87,8 +87,9 @@ export default function HomePage() {
     const nextDate = [...uniqueDates].sort().find(d => d >= startDate);
     const nextDays = nextDate ? differenceInDays(new Date(nextDate + 'T00:00:00'), new Date(startDate + 'T00:00:00')) : '—';
     
-    // Logic for Regional Intel (Filtered to Today)
     const regionalSignals = [];
+    const today = startOfToday();
+    const month = getMonth(today); // 0-11
     
     // 1. Filter matches for Regional events happening TODAY
     const todayMatches = matches.filter(m => m.date === todayKey);
@@ -96,22 +97,47 @@ export default function HomePage() {
     
     if (todayRegional.length > 0) {
       regionalSignals.push(...todayRegional);
-    } else {
-      // 2. Standing Policies: Restrict to Corporate Mode ONLY when events exist in range
-      if (mode === 'corporate' && country === 'IN' && matches.length > 0) {
+    } else if (country === 'IN') {
+      // 2. Authoritative Seasonal Switcher (Baseline Intelligence)
+      // Jun (5) to Sep (8)
+      if (month >= 5 && month <= 8) {
         regionalSignals.push({
-          name: "Bank closure policy",
-          consequences: { implication: "State-specific RBI holiday lists govern banking availability for RTGS/NEFT." },
-          jurisdiction: { region: "POLICY" }
+          name: "Southwest Monsoon",
+          consequences: { implication: "Active in MH, KA, and KL. Expect localized waterlogging in Mumbai and Bangalore; allow 90-min extra buffer for airport transfers." },
+          jurisdiction: { region: "IMD BASELINE" }
+        });
+      } 
+      // Oct (9) to Nov (10)
+      else if (month >= 9 && month <= 10) {
+        regionalSignals.push({
+          name: "Retreating Monsoon",
+          consequences: { implication: "Cyclonic activity alert for TN, AP, and Odisha. Monitor coastal road conditions and port operational status." },
+          jurisdiction: { region: "IMD BASELINE" }
         });
       }
-      
-      // 3. Fallback: Seasonal Awareness for Traveler mode if nothing specific is today
-      if (mode === 'traveler' && country === 'IN') {
+      // Dec (11) to Jan (0)
+      else if (month === 11 || month === 0) {
         regionalSignals.push({
-          name: "Monsoon Season",
-          consequences: { implication: "Heavy localized rain in Western regions may affect airport transfer times." },
-          jurisdiction: { region: "SEASONAL" }
+          name: "North India Fog",
+          consequences: { implication: "High density fog in DL, PB, and HR. Expect systemic flight and rail delays; check live status before heading to terminals." },
+          jurisdiction: { region: "AAI ADVISORY" }
+        });
+      }
+      // Apr (3) to May (4)
+      else if (month >= 3 && month <= 4) {
+        regionalSignals.push({
+          name: "Pre-Monsoon Heatwave",
+          consequences: { implication: "Temperatures exceeding 44°C in RJ, GJ, and MP. Outdoor logistical throughput reduced between 12:00 and 16:00." },
+          jurisdiction: { region: "IMD BASELINE" }
+        });
+      }
+
+      // 3. Standing Policies: Unified for Corporate Mode
+      if (mode === 'corporate' && matches.length > 0) {
+        regionalSignals.push({
+          name: "Bank closure policy",
+          consequences: { implication: "State-specific RBI holiday lists govern banking availability for RTGS/NEFT settlement cycles." },
+          jurisdiction: { region: "RBI POLICY" }
         });
       }
     }
