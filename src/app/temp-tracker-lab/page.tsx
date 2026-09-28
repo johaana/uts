@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useMemo, useEffect } from 'react';
@@ -149,7 +150,8 @@ export default function TempTrackerLabPage() {
     const superEvent = filteredEvents.find(e => e.severity === 'high');
     if (superEvent) {
       return {
-        label: "DATE INTELLIGENCE · 1 date to know",
+        label: "SITUATIONAL AWARENESS",
+        location: superEvent.jurisdiction,
         title: superEvent.name,
         date: superEvent.shortDate,
         desc: superEvent.advice[mode],
@@ -161,7 +163,8 @@ export default function TempTrackerLabPage() {
     const nationalEvent = filteredEvents.find(e => e.scope === 'NATIONAL');
     if (nationalEvent) {
       return {
-        label: "WHY THIS DATE MATTERS · Coming up",
+        label: "SITUATIONAL AWARENESS",
+        location: "India",
         title: nationalEvent.name,
         date: nationalEvent.shortDate,
         desc: nationalEvent.advice[mode],
@@ -173,18 +176,20 @@ export default function TempTrackerLabPage() {
     const month = getMonth(new Date());
     if (month >= 5 && month <= 8) {
       return {
-        label: "PLANNING SIGNAL · Seasonal",
+        label: "SITUATIONAL AWARENESS",
+        location: "Maharashtra",
         title: "Southwest Monsoon",
-        date: "Active: MH, KA, KL",
-        desc: "No holidays detected in window. However, Monsoon is active. Expect localized waterlogging in Mumbai and Bangalore; allow 90-min extra buffer for airport transfers.",
+        date: "Active now",
+        desc: "Monsoon is currently active. Expect localized waterlogging in Mumbai and Bangalore city centers; allow 90-min extra buffer for airport transfers.",
         kind: 'seasonal'
       };
     }
 
     return {
-      label: "PLANNING SIGNAL · Operational",
-      title: "Bank Closure Policy",
-      date: "Regional Check",
+      label: "SITUATIONAL AWARENESS",
+      location: "India",
+      title: "Bank Closure Policy (RBI)",
+      date: "Operational",
       desc: "Standard working days detected. Note: RBI state-specific holiday lists govern branch availability. Verify local bank calendars for settlement-sensitive payments.",
       kind: 'policy'
     };
@@ -207,7 +212,7 @@ export default function TempTrackerLabPage() {
                 Know before you plan. <br className="md:hidden" />
                 Not after.
               </h1>
-              <p className="sub hidden md:block">Testing Scenario C: One Intelligent Interpretation vs. The List.</p>
+              <p className="sub hidden md:block">Testing Scenario C: High-Fidelity Conversational Synthesis.</p>
 
               <aside className="hero-tracker md:order-last">
                 <div className="hero-tracker-head">
@@ -288,7 +293,7 @@ export default function TempTrackerLabPage() {
                 
                 <div className="checker-summary py-4 border-b border-white/10 flex gap-4 text-left">
                   <div><b className="font-headline text-[28px] text-[#F0C888]">{filteredEvents.length}</b><span className="text-[11.5px] text-muted-dim block leading-tight">period flags</span></div>
-                  <div><b className="font-headline text-[28px] text-[#F0C888]">{heroSignal.kind === 'seasonal' ? '0' : '1'}</b><span className="text-[11.5px] text-muted-dim block leading-tight">dates to know</span></div>
+                  <div><b className="font-headline text-[28px] text-[#F0C888]">{heroSignal.kind === 'seasonal' || heroSignal.kind === 'policy' ? '0' : '1'}</b><span className="text-[11.5px] text-muted-dim block leading-tight">dates to know</span></div>
                 </div>
 
                 {/* SCENARIO A: LIST BOX */}
@@ -315,19 +320,21 @@ export default function TempTrackerLabPage() {
                   <div className="pt-2 animate-in fade-in slide-in-from-bottom-2 duration-500">
                     <div className={cn(
                       "p-6 rounded-2xl border relative overflow-hidden group transition-all",
-                      heroSignal.kind === 'high' ? "bg-red-500/5 border-red-500/20" : "bg-gold/5 border-gold/20"
+                      heroSignal.kind === 'high' ? "bg-red-500/5 border-red-500/20 shadow-[0_0_40px_rgba(239,68,68,0.05)]" : "bg-gold/5 border-gold/20"
                     )}>
                       {/* Brand Marker */}
                       <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
                          <Activity className="w-12 h-12 text-white" />
                       </div>
 
-                      <div className="space-y-6 relative z-10">
+                      <div className="space-y-5 relative z-10">
                         <div className="space-y-1">
-                          <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#E8A33D]">{heroSignal.label}</p>
-                          <div className="flex items-baseline justify-between gap-4">
-                             <h4 className="text-2xl font-headline font-bold text-paper">{heroSignal.title}</h4>
-                             <span className="text-sm font-mono text-gold-soft font-bold whitespace-nowrap">{heroSignal.date}</span>
+                          <p className="text-[9px] font-bold uppercase tracking-[0.35em] text-[#E8A33D]">{heroSignal.label}</p>
+                          <div className="flex flex-col gap-0.5">
+                             <h4 className="text-xl font-headline font-bold text-paper leading-tight">
+                               {heroSignal.location} — {heroSignal.title}
+                             </h4>
+                             <span className="text-[10px] font-mono text-gold-soft uppercase tracking-widest font-bold">{heroSignal.date}</span>
                           </div>
                         </div>
 
@@ -336,7 +343,7 @@ export default function TempTrackerLabPage() {
                         </p>
 
                         <div className="pt-4 border-t border-white/5 flex items-center justify-between">
-                           <span className="text-[9px] font-bold text-muted-dim uppercase tracking-widest">Calculated by Utsavs Engine</span>
+                           <span className="text-[9px] font-bold text-muted-dim uppercase tracking-widest">Synthesis: Utsavs Logic Engine</span>
                            <div className="flex items-center gap-1.5 px-2 py-0.5 bg-green-500/10 text-green-500 text-[9px] font-bold uppercase rounded-sm border border-green-500/20">
                              <ShieldCheck className="w-3 h-3" /> Live Verified
                            </div>
