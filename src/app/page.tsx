@@ -10,8 +10,8 @@ import {
 import { getSource } from '@/lib/operational/source';
 import { evaluateQuery, resolveNow } from '@/lib/operational/engine';
 import { DateIntelligenceRecord, CanonicalRule } from '@/lib/operational/types';
-import { internationalEvents } from '@/lib/festival-data';
-import { format, addDays, startOfToday, differenceInDays, parse, isValid } from 'date-fns';
+import { allEvents, internationalEvents } from '@/lib/festival-data';
+import { format, addDays, startOfToday, differenceInDays, parse, isValid, startOfTomorrow } from 'date-fns';
 import { ChevronDown, ChevronUp, ShieldCheck, Clock, ExternalLink, ArrowRight, Plane, School, Briefcase } from 'lucide-react';
 
 const getCleanLabel = (scope?: string, category?: string) => {
@@ -41,7 +41,7 @@ export default function HomePage() {
     setTodayKey(tKey);
     setStartDate(tKey);
     
-    const end = addDays(today, 30);
+    const end = addDays(today, 90); // default lookahead to end of year
     setEndDate(format(end, 'yyyy-MM-dd'));
 
     getSource().getRecords().then(records => {
@@ -76,26 +76,30 @@ export default function HomePage() {
     return (forwardIndex.get(todayKey) || []).filter((r: any) => r.jurisdiction.scope === 'national');
   }, [forwardIndex, todayKey]);
 
-  // Logic to find the next major international impact for the fallback view
+  // Logic to find the next major international impact for the functional lookahead
   const nextIntl = useMemo(() => {
     if (!isMounted) return null;
-    const today = startOfToday();
-    const sorted = [...internationalEvents]
+    const tomorrow = startOfTomorrow();
+    
+    // Scan all events (major and international) to find the next milestone
+    const sorted = [...allEvents, ...internationalEvents]
       .map(e => ({
         ...e,
         d: parse(e.date.split(' - ')[0], 'MMM dd, yyyy', new Date())
       }))
-      .filter(e => isValid(e.d))
+      .filter(e => isValid(e.d) && e.d >= tomorrow)
       .sort((a,b) => a.d.getTime() - b.d.getTime());
     
-    const found = sorted.find(e => e.d >= today);
+    // Prioritize major milestones (Public, Diwali, or high-category events)
+    const found = sorted.find(e => e.type === 'public' || e.type === 'Holiday' || e.type === 'Diwali' || e.type === 'Religious');
     if (!found) return null;
     
-    const diff = differenceInDays(found.d, today);
+    const diff = differenceInDays(found.d, startOfToday());
     return { ...found, diff };
   }, [isMounted]);
 
   const localSignalsFeed = useMemo(() => {
+    if (!isMounted) return [];
     const todayItems = (forwardIndex.get(todayKey) || []).filter((r: any) => r.jurisdiction.scope === 'regional');
     
     if (todayItems.length > 0) {
@@ -106,10 +110,10 @@ export default function HomePage() {
     }
 
     return [{
-      text: "🟢 Standard global working day · No regional alerts today.",
+      text: "Standard global working day · No regional alerts today.",
       isLive: true
     }];
-  }, [forwardIndex, todayKey]);
+  }, [isMounted, forwardIndex, todayKey]);
 
   const checkerData = useMemo(() => {
     if (!startDate || !endDate || canonicalRules.length === 0) return { records: [], count: 0, longest: 0, nextDays: '—' };
@@ -192,13 +196,17 @@ export default function HomePage() {
                 </div>
 
                 <div className="hero-tracker-feed !py-6 bg-[#1E2650]/40">
-                  <div className="px-[18px] mb-4">
+                  <div className="px-[18px] mb-4 flex items-center gap-2">
                      <span className="text-[10px] font-mono font-bold text-[#4FD1C5] uppercase tracking-[0.25em]">LOCAL SIGNALS</span>
                   </div>
                   <div className="marquee">
                     <div className="marquee-track">
                       {localSignalsFeed.concat(localSignalsFeed).map((item, i) => (
                         <span key={i} className="chip flex items-center gap-3 !border-white/5 bg-white/[0.02]">
+                          <span className="relative flex h-1.5 w-1.5 shrink-0">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-green-500 shadow-[0_0_5px_rgba(34,197,94,0.6)]"></span>
+                          </span>
                           <b className={cn("text-[13.5px]", !item.isLive && "text-muted-dim font-normal")}>{item.text}</b>
                         </span>
                       ))}
@@ -251,7 +259,7 @@ export default function HomePage() {
                   <div><b className="font-headline">{checkerData.nextDays}</b><span>days to next</span></div>
                 </div>
 
-                <div className="checker-list space-y-1">
+                <div className="checker-list max-h-[440px] overflow-y-auto custom-scrollbar pr-1">
                    {checkerData.records.map((r) => (
                      <div key={r.id} className="border-b border-white/5 last:border-0 group">
                         <button 
@@ -260,10 +268,10 @@ export default function HomePage() {
                         >
                            <div className="flex items-center gap-6">
                               <div className="impact-date w-14 shrink-0">{format(new Date(r.date + 'T00:00:00'), 'dd MMM')}</div>
-                              <div className="space-y-0">
-                                 <span className="block font-bold text-[14px] group-hover:text-gold-soft transition-colors leading-tight">{r.name}</span>
+                              <div className="space-y-1">
+                                 <span className="block font-bold text-[13.5px] group-hover:text-gold-soft transition-colors leading-tight">{r.name}</span>
                                  <div className="flex items-center gap-3">
-                                    <span className="text-[9px] font-mono font-bold text-muted-dim uppercase tracking-widest">
+                                    <span className="text-[8.5px] font-mono font-bold text-muted-dim uppercase tracking-widest">
                                        {r.jurisdiction.region ? r.jurisdiction.region + ' · ' : ''}{COUNTRY_LABELS[r.jurisdiction.country_code] || r.jurisdiction.country_code}
                                     </span>
                                     <span className={cn(
@@ -312,7 +320,7 @@ export default function HomePage() {
         </section>
 
         {/* INTEGRATED USE CASES */}
-        <section className="py-24 border-t border-white/5">
+        <section className="py-24 border-t border-white/5" id="built-for">
           <div className="wrap">
             <div className="mb-12 space-y-3">
                <span className="text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-[#E8A33D]">Verified for your purpose</span>
@@ -325,7 +333,7 @@ export default function HomePage() {
                  { icon: School, t: "Students", d: "Put institutional calendars and arrival timing around your dates. Align visa interviews and orientation with verified host-country intelligence." },
                  { icon: Briefcase, t: "Corporate & HR", d: "Manage global workforce calendars with precision. Identify local regional holidays that affect payroll, meetings, and office availability." }
                ].map(uc => (
-                 <div key={uc.t} className="p-8 bg-[#171D3A] border border-white/10 rounded-2xl space-y-4 group hover:border-gold-soft transition-colors">
+                 <div key={uc.t} className="p-8 bg-[#171D3A] border border-white/10 rounded-2xl space-y-4 group hover:border-gold-soft transition-colors text-left">
                     <uc.icon className="w-8 h-8 text-[#E8A33D]" />
                     <h4 className="font-headline text-2xl font-bold">{uc.t}</h4>
                     <p className="text-sm text-[#9AA1C0] leading-relaxed font-medium">{uc.d}</p>
