@@ -79,8 +79,6 @@ export function evaluateQuery(rules: CanonicalRule[], query: OperationalQuery, n
 
 function materialize(rule: CanonicalRule, date: string, purpose: UserPurpose): DateIntelligenceRecord {
   // Mapping UI keys to Data keys
-  // UI: travel, business, study
-  // Data: traveler, corporate, study
   const mapping: Record<string, string> = {
     travel: 'traveler',
     business: 'corporate',
