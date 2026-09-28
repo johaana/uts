@@ -130,7 +130,7 @@ export default function HomePage() {
               <p className="sub">A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.</p>
 
               <aside className="hero-tracker md:order-last" id="world">
-                <div className="hero-tracker-head">
+                <div className="hero-tracker-head py-3">
                   <div>
                     <span className="hero-tracker-kicker uppercase tracking-[0.25em] text-[#E8A33D] font-mono text-[10px] font-bold">LIVE UPDATES</span>
                     <strong className="text-[15px] font-headline">
@@ -144,7 +144,7 @@ export default function HomePage() {
                 </div>
 
                 <div className="hero-tracker-next-grid text-left border-b border-white/10 bg-white/[0.01]">
-                   <div className="px-[18px] pt-5 pb-1 text-left">
+                   <div className="px-[18px] pt-4 pb-0 text-left">
                       <span className="text-[10px] font-mono font-bold uppercase tracking-[0.25em] text-[#4FD1C5]">GLOBAL IMPACTS · TODAY</span>
                    </div>
                    <div className="divide-y divide-white/5">
@@ -152,7 +152,7 @@ export default function HomePage() {
                         <div key={item.id} className="relative">
                            <button 
                              onClick={() => setExpandedGlobal(expandedGlobal === item.id ? null : item.id)}
-                             className="w-full flex items-center justify-between px-[18px] py-4 hover:bg-white/5 transition-all text-left group"
+                             className="w-full flex items-center justify-between px-[18px] py-3 hover:bg-white/5 transition-all text-left group"
                            >
                               <div className="space-y-0.5">
                                  <span className="block text-[14px] font-bold group-hover:text-[#4FD1C5] transition-colors">{item.name}</span>
@@ -163,11 +163,11 @@ export default function HomePage() {
                               {expandedGlobal === item.id ? <ChevronUp className="w-4 h-4 text-muted-dim" /> : <ChevronDown className="w-4 h-4 text-muted-dim" />}
                            </button>
                            {expandedGlobal === item.id && (
-                             <div className="px-[18px] pb-6 space-y-4 animate-in slide-in-from-top-2 duration-300">
+                             <div className="px-[18px] pb-5 space-y-3 animate-in slide-in-from-top-2 duration-300">
                                 <p className="text-[12.5px] text-[#9AA1C0] leading-snug font-medium border-l border-[#4FD1C5]/30 pl-3 italic">
                                    "{item.consequences.implication}"
                                 </p>
-                                <div className="pt-3 border-t border-white/5 flex items-center justify-between">
+                                <div className="pt-2 border-t border-white/5 flex items-center justify-between">
                                   <span className="text-[9px] font-bold text-muted-dim uppercase tracking-widest">Source: {item.evidence.source_name || 'Authoritative'}</span>
                                   <div className="flex items-center gap-1 text-green-500/60">
                                     <ShieldCheck className="w-2.5 h-2.5" />
@@ -178,8 +178,8 @@ export default function HomePage() {
                            )}
                         </div>
                       )) : (
-                        <div className="px-[18px] py-8 text-left">
-                           <p className="text-[14.5px] font-medium text-paper/90 leading-relaxed max-w-lg italic font-display">
+                        <div className="px-[18px] py-6 text-left">
+                           <p className="text-[14px] font-medium text-paper/90 leading-relaxed max-w-lg italic font-display">
                               Standard Global business day. High-trust window for international meetings and cross-border office operations.
                            </p>
                         </div>
@@ -187,8 +187,8 @@ export default function HomePage() {
                    </div>
                 </div>
 
-                <div className="hero-tracker-feed !py-6 bg-[#1E2650]/40">
-                  <div className="px-[20px] mb-4 flex items-center gap-2">
+                <div className="hero-tracker-feed !py-4 bg-[#1E2650]/40">
+                  <div className="px-[20px] mb-3 flex items-center gap-2">
                      <span className="text-[10px] font-mono font-bold text-[#4FD1C5] uppercase tracking-[0.25em]">LOCAL SIGNALS</span>
                   </div>
                   <div className="marquee">
@@ -292,7 +292,7 @@ export default function HomePage() {
                            <div className="flex items-center gap-6">
                               <div className="impact-date w-14 shrink-0 font-mono text-[11px] text-muted-dim">{format(new Date(r.date + 'T00:00:00'), 'dd MMM')}</div>
                               <div className="space-y-0.5">
-                                 <span className="block font-bold text-[13.5px] group-hover:text-gold-soft transition-colors leading-tight">{r.name}</span>
+                                 <span className="block font-bold text-[14px] group-hover:text-gold-soft transition-colors leading-tight">{r.name}</span>
                                  <div className="flex items-center gap-3">
                                     <span className="text-[9px] font-mono font-bold text-muted-dim uppercase tracking-widest">
                                        {r.jurisdiction.region ? r.jurisdiction.region + ' · ' : ''}{COUNTRY_LABELS[r.jurisdiction.country_code] || r.jurisdiction.country_code}

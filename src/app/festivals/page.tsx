@@ -6,6 +6,7 @@ import { ArrowRight, BookOpen, Globe, Utensils, Flag } from "lucide-react";
 import Link from "next/link";
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
+import { cn } from '@/lib/utils';
 
 const hubCategories = [
     {

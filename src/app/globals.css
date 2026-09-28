@@ -375,7 +375,7 @@ h1.headline {
 
 .mode-toggle {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   background: var(--panel-2);
   border-radius: 12px;
   padding: 3px;
@@ -628,7 +628,7 @@ section.wrap { padding: 80px 0; }
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  padding: 16px 24px;
+  padding: 166px 24px;
   background: var(--panel);
   border-bottom: 1px solid var(--line);
 }
