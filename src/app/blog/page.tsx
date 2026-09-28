@@ -12,6 +12,7 @@ import { blogPosts } from "@/lib/blog-data";
 import { Badge } from '@/components/ui/badge';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
+import { cn } from "@/lib/utils";
 
 const categories = [...new Set(blogPosts.map(p => p.category))].sort();
 const sortOptions = ["Newest First", "Oldest First", "Title (A-Z)"];

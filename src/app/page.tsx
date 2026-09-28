@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
@@ -410,7 +409,7 @@ export default function HomePage() {
                                    <span>Source: {r.evidence.source_name || 'Authoritative Source'}</span>
                                    {r.evidence.source_url && (
                                      <a href={r.evidence.source_url} target="_blank" rel="noopener noreferrer" className="text-[#4FD1C5] hover:underline flex items-center gap-0.5">
-                                       <ExternalLink className="w-2 h-2" />
+                                       <ExternalLink className="w-2.5 h-2.5" />
                                      </a>
                                    )}
                                 </div>
@@ -479,7 +478,7 @@ export default function HomePage() {
                <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#4FD1C5]/10 border border-[#4FD1C5]/20 rounded-full">
                  <span className="text-[9px] font-bold uppercase tracking-widest text-[#4FD1C5]">B2B Opportunity</span>
                </div>
-               <h3 className="font-headline text-3xl md:text-4xl font-medium">Drive ancillary revenue.</h3>
+               <h3 className="headline text-3xl md:text-4xl font-medium">Drive ancillary revenue.</h3>
                <p className="text-[#9AA1C0] leading-relaxed text-lg font-medium">
                   Work with Utsavs to integrate travel protection and verified calendar intelligence into your booking engines. 
                   Provide high-trust safety layers that enhance customer loyalty and operational precision.
