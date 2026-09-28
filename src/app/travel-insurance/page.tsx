@@ -1,3 +1,4 @@
+
 'use client';
 
 import React from 'react';
@@ -16,57 +17,13 @@ import {
   School,
   Backpack,
   Trophy,
-  History
+  History,
+  Activity,
+  HeartPulse
 } from "lucide-react";
 
 export default function TravelInsurancePage() {
   const WHATSAPP_LINK = "https://wa.me/919860997711";
-
-  const coreFeatures = [
-    {
-      title: "Emergency Medical",
-      desc: "Worldwide medical assistance and emergency evacuation with limits up to $1 Million.",
-      icon: Stethoscope
-    },
-    {
-      title: "Anywhere to Anywhere",
-      desc: "Protection for foreign nationals, NRIs, and global travelers departing from or arriving at any destination.",
-      icon: Globe
-    },
-    {
-      title: "Active Baggage Tracking",
-      desc: "Guaranteed compensation for luggage delays and active tracking support across all global airlines.",
-      icon: Backpack
-    },
-    {
-      title: "Flight Special Covers",
-      desc: "Full protection against delays, cancellations, missed connections, and fee changes.",
-      icon: Plane
-    }
-  ];
-
-  const studentFeatures = [
-    {
-      title: "Education Continuity",
-      desc: "Study Interruption and Sponsor Protection ensuring education stays on track during emergencies.",
-      icon: School
-    },
-    {
-      title: "Institutional Safety",
-      desc: "Specialized coverage for University Insolvency and foreign bail bond support.",
-      icon: Landmark
-    },
-    {
-      title: "Sports & Wellness",
-      desc: "Cover for inter-collegiate sports injuries and mental health support while abroad.",
-      icon: Trophy
-    },
-    {
-      title: "Lifestyle Protection",
-      desc: "Comprehensive cover for gadgets, mugging protection, and credit card fraud.",
-      icon: ShieldCheck
-    }
-  ];
 
   return (
     <div className="bg-[#0F1428] text-[#F4F1E8] min-h-screen font-sans selection:bg-[#E8A33D] selection:text-[#0F1428]">
@@ -87,9 +44,10 @@ export default function TravelInsurancePage() {
                 <span className="italic text-[#9AA1C0]">Protect against what you can't.</span>
               </h1>
               <p className="text-lg text-[#9AA1C0] leading-relaxed max-w-3xl mx-auto font-medium">
-                Utsavs provides the date intelligence to plan your journey. Reach us for a custom quote on group bookings, international student insurance, and partnership opportunities.
+                Comprehensive international travel insurance tailored for students, corporate teams, and global explorers. 
+                Move with certainty across 1.4 million providers worldwide.
               </p>
-              <div className="pt-6">
+              <div className="pt-6 flex flex-col sm:flex-row gap-4 justify-center">
                 <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer">
                   <Button className="bg-[#E8A33D] text-[#0F1428] hover:bg-[#F0C888] font-bold px-12 h-16 rounded-full shadow-2xl transition-transform hover:scale-105 uppercase tracking-widest text-xs">
                     <MessageSquare className="w-5 h-5 mr-2" /> Chat for Custom Quote
@@ -98,93 +56,107 @@ export default function TravelInsurancePage() {
               </div>
             </div>
 
-            {/* CORE SOLUTIONS */}
-            <div className="space-y-12">
-              <div className="text-left space-y-2">
-                <p className="text-[11px] font-mono font-bold uppercase tracking-[0.3em] text-[#E8A33D]">Comprehensive Solutions</p>
-                <h2 className="text-3xl font-headline font-medium">New-Age Travel Assistance</h2>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {coreFeatures.map((f, i) => (
-                  <Card key={i} className="bg-[#171D3A] border-white/10 p-8 rounded-2xl group hover:border-[#4FD1C5] transition-all">
-                    <div className="flex gap-6 items-start">
-                       <div className="w-12 h-12 bg-white/5 rounded-xl flex items-center justify-center shrink-0 group-hover:bg-[#4FD1C5]/10 transition-colors">
-                          <f.icon className="w-6 h-6 text-[#4FD1C5]" />
-                       </div>
-                       <div className="space-y-2">
-                          <h4 className="text-xl font-bold font-headline">{f.title}</h4>
-                          <p className="text-sm text-[#9AA1C0] leading-relaxed font-medium">{f.desc}</p>
-                       </div>
-                    </div>
-                  </Card>
-                ))}
-              </div>
-            </div>
-
-            {/* STUDENT ASSIST */}
-            <div className="p-10 md:p-16 bg-[#1E2650] border border-white/10 rounded-[40px] relative overflow-hidden">
-               <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#E8A33D]/5 blur-[120px] -mr-32 -mt-32"></div>
-               <div className="relative z-10 grid lg:grid-cols-[0.8fr_1.2fr] gap-16 items-start">
-                  <div className="space-y-6 text-left">
-                    <div className="w-12 h-12 bg-[#E8A33D]/10 rounded-full flex items-center justify-center text-[#E8A33D]">
-                      <School className="w-6 h-6" />
-                    </div>
-                    <h3 className="text-3xl md:text-5xl font-headline font-medium leading-tight">Student Safety.<br/>Global Reliability.</h3>
-                    <p className="text-[#9AA1C0] font-medium leading-relaxed">
-                      Custom plans for international students meeting university and visa requirements (F1, J1, M1). 
-                      Access to 1.4 million providers and 67,000 pharmacies worldwide.
-                    </p>
-                    <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="inline-block pt-4">
-                       <Button variant="outline" className="border-white/20 hover:bg-white/5 font-bold rounded-full h-12 px-8">
-                         Request Student Quote
-                       </Button>
-                    </a>
+            {/* PRODUCT OFFERINGS GRID */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+               
+               {/* 01. STUDENT JOURNEY */}
+               <Card className="bg-[#1E2650] border-white/10 p-10 rounded-[32px] space-y-8 relative overflow-hidden group hover:border-[#E8A33D]/40 transition-all">
+                  <div className="space-y-4 relative z-10">
+                     <div className="w-14 h-14 bg-[#E8A33D]/10 rounded-2xl flex items-center justify-center text-[#E8A33D]">
+                        <School className="w-7 h-7" />
+                     </div>
+                     <h3 className="text-3xl font-headline font-bold">Student Journey Plans</h3>
+                     <p className="text-[#9AA1C0] leading-relaxed font-medium">
+                        Specialized coverage meeting leading university and visa requirements for F1, J1, and M1 students. 
+                        Includes 67,000+ pharmacies and 24/7 campus-aligned assistance.
+                     </p>
                   </div>
-                  <div className="grid sm:grid-cols-2 gap-8 text-left">
-                    {studentFeatures.map((sf, idx) => (
-                      <div key={idx} className="space-y-3">
-                         <sf.icon className="w-5 h-5 text-[#E8A33D]" />
-                         <h4 className="font-bold text-lg">{sf.title}</h4>
-                         <p className="text-xs text-[#9AA1C0] leading-relaxed font-medium">{sf.desc}</p>
-                      </div>
-                    ))}
-                  </div>
-               </div>
-            </div>
-
-            {/* B2B / PARTNERSHIPS */}
-            <div className="grid md:grid-cols-2 gap-px bg-white/10 border border-white/10 rounded-2xl overflow-hidden shadow-xl">
-               <div className="bg-[#171D3A] p-10 space-y-6 border-b md:border-b-0 md:border-r border-white/10 text-left">
-                  <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#E8A33D]">Partnership Opportunities</span>
-                  <h3 className="text-2xl font-headline font-medium">B2B Risk Workflows</h3>
-                  <p className="text-sm text-[#9AA1C0] leading-relaxed font-medium">
-                    Work with Utsavs to integrate travel protection and date intelligence into your corporate travel policy or organizational risk management.
-                  </p>
-                  <ul className="space-y-3">
-                     {["Group enrollment for teams", "Custom university blocks", "Direct API safety layer"].map(li => (
-                       <li key={li} className="flex items-center gap-3 text-xs font-bold text-[#F4F1E8]">
-                          <ShieldCheck className="w-4 h-4 text-[#4FD1C5]" />
-                          {li}
+                  <ul className="space-y-3 relative z-10">
+                     {["Compliant with US/UK/AU University Rules", "Mental Health & Wellness Support", "Inter-collegiate Sports Cover"].map(item => (
+                       <li key={item} className="flex items-center gap-3 text-sm font-bold text-paper/90">
+                          <ShieldCheck className="w-4 h-4 text-[#4FD1C5]" /> {item}
                        </li>
                      ))}
                   </ul>
-               </div>
-               <div className="bg-[#171D3A] p-10 space-y-6 text-left">
-                  <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#E8A33D]">Direct Assistance</span>
-                  <h3 className="text-2xl font-headline font-medium">Health Navigation</h3>
-                  <p className="text-sm text-[#9AA1C0] leading-relaxed font-medium">
-                    Facilitating direct access to medical bill negotiation, provider search, and patient advocacy teams across the globe.
-                  </p>
-                  <div className="grid grid-cols-1 gap-4 pt-2">
-                     <div className="p-4 bg-white/5 rounded-lg border border-white/5 space-y-2">
-                        <p className="text-xs font-bold flex items-center gap-2"><History className="w-4 h-4 text-[#4FD1C5]" /> Bill Review</p>
-                        <p className="text-[11px] text-[#9AA1C0]">Reviewing medical bills for discrepancies and inaccuracies in foreign jurisdictions.</p>
+               </Card>
+
+               {/* 02. CORPORATE RISK */}
+               <Card className="bg-[#171D3A] border-white/10 p-10 rounded-[32px] space-y-8 group hover:border-[#4FD1C5]/40 transition-all">
+                  <div className="space-y-4">
+                     <div className="w-14 h-14 bg-[#4FD1C5]/10 rounded-2xl flex items-center justify-center text-[#4FD1C5]">
+                        <Landmark className="w-7 h-7" />
                      </div>
-                     <div className="p-4 bg-white/5 rounded-lg border border-white/5 space-y-2">
-                        <p className="text-xs font-bold flex items-center gap-2"><Globe className="w-4 h-4 text-[#4FD1C5]" /> Global Support</p>
-                        <p className="text-[11px] text-[#9AA1C0]">Multilingual 24/7/365 assistance network supported across 45+ states and globally.</p>
-                     </div>
+                     <h3 className="text-3xl font-headline font-bold">Corporate Risk Cover</h3>
+                     <p className="text-[#9AA1C0] leading-relaxed font-medium">
+                        Enterprise-grade protection for global workforces. Manage group enrollments and organizational liability 
+                        with deterministic regional holiday intelligence integration.
+                     </p>
                   </div>
+                  <ul className="space-y-3">
+                     {["Group Enrollment for Teams", "B2B Partnership Enquiries", "Institutional Liability Support"].map(item => (
+                       <li key={item} className="flex items-center gap-3 text-sm font-bold text-paper/90">
+                          <ShieldCheck className="w-4 h-4 text-[#E8A33D]" /> {item}
+                       </li>
+                     ))}
+                  </ul>
+               </Card>
+
+               {/* 03. INTERNATIONAL MEDICAL */}
+               <Card className="bg-[#171D3A] border-white/10 p-10 rounded-[32px] space-y-8 group hover:border-[#4FD1C5]/40 transition-all">
+                  <div className="space-y-4">
+                     <div className="w-14 h-14 bg-red-500/10 rounded-2xl flex items-center justify-center text-red-400">
+                        <HeartPulse className="w-7 h-7" />
+                     </div>
+                     <h3 className="text-3xl font-headline font-bold">International Medical</h3>
+                     <p className="text-[#9AA1C0] leading-relaxed font-medium">
+                        Anywhere-to-Anywhere medical assistance. From emergency evacuation to bill review, 
+                        our network ensures high-stakes health safety in foreign jurisdictions.
+                     </p>
+                  </div>
+                  <ul className="space-y-3">
+                     {["Limits up to $1 Million USD", "Global Emergency Evacuation", "Medical Bill Discrepancy Review"].map(item => (
+                       <li key={item} className="flex items-center gap-3 text-sm font-bold text-paper/90">
+                          <ShieldCheck className="w-4 h-4 text-[#4FD1C5]" /> {item}
+                       </li>
+                     ))}
+                  </ul>
+               </Card>
+
+               {/* 04. SPECIALTY ADD-ONS */}
+               <Card className="bg-[#1E2650] border-white/10 p-10 rounded-[32px] space-y-8 group hover:border-[#E8A33D]/40 transition-all">
+                  <div className="space-y-4">
+                     <div className="w-14 h-14 bg-teal/10 rounded-2xl flex items-center justify-center text-teal">
+                        <Activity className="w-7 h-7" />
+                     </div>
+                     <h3 className="text-3xl font-headline font-bold">Specialty Add-ons</h3>
+                     <p className="text-[#9AA1C0] leading-relaxed font-medium">
+                        Layered protection for modern lifestyle risks. Secure your high-value gadgets, 
+                        mitigate study interruption losses, and protect against credit card fraud.
+                     </p>
+                  </div>
+                  <ul className="space-y-3">
+                     {["Global Gadget & Laptop Cover", "Study Interruption Protection", "Mugging & Credit Card Fraud Shield"].map(item => (
+                       <li key={item} className="flex items-center gap-3 text-sm font-bold text-paper/90">
+                          <ShieldCheck className="w-4 h-4 text-teal" /> {item}
+                       </li>
+                     ))}
+                  </ul>
+               </Card>
+            </div>
+
+            {/* B2B / PARTNERSHIPS */}
+            <div className="p-10 md:p-16 bg-[#171D3A] border border-white/5 rounded-[40px] text-center space-y-8">
+               <h3 className="text-3xl font-headline font-medium">Group Bookings & Partnerships</h3>
+               <p className="text-lg text-[#9AA1C0] max-w-2xl mx-auto font-medium">
+                  Integrate verified calendar intelligence and travel protection directly into your platform. 
+                  We support university blocks, corporate accounts, and API-led ancillary revenue streams.
+               </p>
+               <div className="pt-4">
+                 <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer">
+                   <Button variant="outline" className="border-white/20 hover:bg-white/5 font-bold rounded-full h-14 px-10 uppercase tracking-widest text-xs">
+                     Enquire about Partnership
+                   </Button>
+                 </a>
                </div>
             </div>
 

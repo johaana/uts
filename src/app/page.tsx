@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
@@ -11,7 +12,8 @@ import { getSource } from '@/lib/operational/source';
 import { evaluateQuery } from '@/lib/operational/engine';
 import { DateIntelligenceRecord, CanonicalRule } from '@/lib/operational/types';
 import { format, addDays, differenceInDays, isAfter, startOfToday, isSameDay } from 'date-fns';
-import { ChevronDown, ChevronUp, ShieldCheck, Clock, ExternalLink, Repeat } from 'lucide-react';
+import { ChevronDown, ChevronUp, ShieldCheck, Clock, ExternalLink, Repeat, Globe } from 'lucide-react';
+import Link from 'next/link';
 
 export default function HomePage() {
   const [isMounted, setIsMounted] = useState(false);
@@ -384,6 +386,28 @@ export default function HomePage() {
                  </div>
                ))}
             </div>
+          </div>
+        </section>
+
+        {/* NEW: HIGH-IMPACT DATE INTELLIGENCE SECTION */}
+        <section className="py-24 border-t border-white/5 bg-[#171D3A]" id="intelligence-section">
+          <div className="wrap">
+             <div className="grid lg:grid-cols-[1fr_auto] gap-12 items-center">
+                <div className="space-y-6 text-left">
+                   <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#4FD1C5]/10 border border-[#4FD1C5]/20 rounded-full">
+                      <span className="text-[10px] font-bold uppercase tracking-widest text-[#4FD1C5]">The Intelligence Layer</span>
+                   </div>
+                   <h2 className="font-headline text-3xl md:text-5xl font-medium">Global Date Intelligence.</h2>
+                   <p className="text-[#9AA1C0] text-lg max-w-2xl font-medium">
+                      One place for the calendar fact, travel signals and institution-specific evidence around a date — with the scope and source kept visible.
+                   </p>
+                </div>
+                <Link href="/date-intelligence">
+                   <button className="bg-white text-ink font-bold text-xs h-12 px-10 rounded-full hover:bg-gold transition-colors uppercase tracking-[0.2em] shadow-xl active:scale-95 transition-all">
+                      Open Explorer
+                   </button>
+                </Link>
+             </div>
           </div>
         </section>
 
