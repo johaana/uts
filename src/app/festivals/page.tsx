@@ -73,31 +73,31 @@ function FestivalsPageContent() {
                 </div>
 
                 <div className="max-w-4xl mx-auto space-y-12">
-                    {/* Horizontal Filter Bar */}
-                    <div className="bg-white border border-[#17151A]/10 rounded-sm p-4 flex flex-col md:flex-row gap-4 items-center shadow-sm">
+                    {/* Horizontal Filter Bar - Premium Design */}
+                    <div className="bg-white border-none rounded-2xl p-4 flex flex-col md:flex-row gap-4 items-center shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all">
                         <div className="relative flex-1 w-full">
-                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#6D6870]" />
+                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-[#6D6870]" />
                             <Input 
                                 placeholder="Search library..." 
-                                className="pl-10 bg-transparent border-none focus-visible:ring-0 h-11 text-base text-[#17151A]"
+                                className="pl-12 bg-transparent border-none focus-visible:ring-0 h-12 text-base text-[#17151A] placeholder:text-[#6D6870]/50"
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                             />
                         </div>
-                        <div className="h-8 w-px bg-[#17151A]/10 hidden md:block"></div>
-                        <div className="flex gap-4 w-full md:w-auto">
+                        <div className="h-8 w-px bg-[#17151A]/5 hidden md:block"></div>
+                        <div className="flex gap-4 w-full md:w-auto px-2">
                             <Select value={selectedRegion} onValueChange={setSelectedRegion}>
-                                <SelectTrigger className="w-full md:w-48 bg-transparent border-none focus:ring-0 font-bold uppercase tracking-widest text-[10px] text-[#17151A]">
+                                <SelectTrigger className="w-full md:w-48 bg-transparent border-none focus:ring-0 font-bold uppercase tracking-widest text-[10px] text-[#17151A] h-12">
                                     <SelectValue placeholder="All Regions" />
                                 </SelectTrigger>
-                                <SelectContent>
+                                <SelectContent className="bg-[#F4F1E8] border-[#17151A]/10">
                                     <SelectItem value="all">All Regions</SelectItem>
                                     {regions.map(region => (
                                         <SelectItem key={region} value={region}>{region}</SelectItem>
                                     ))}
                                 </SelectContent>
                             </Select>
-                            <Button variant="ghost" onClick={resetFilters} className="text-[#6D6870] hover:text-[#17151A]" size="icon">
+                            <Button variant="ghost" onClick={resetFilters} className="text-[#6D6870] hover:text-[#E94368] h-12 w-12 rounded-full hover:bg-[#17151A]/5" size="icon">
                                 <RotateCcw className="h-4 w-4" />
                             </Button>
                         </div>
@@ -109,7 +109,7 @@ function FestivalsPageContent() {
                             <Link href={festival.link!} key={festival.slug} className="block group">
                                 <div className="bg-white border border-[#17151A]/5 rounded-sm p-4 md:p-6 flex flex-col md:flex-row gap-6 md:items-center hover:border-[#17151A]/20 hover:shadow-md transition-all">
                                     <div className="relative w-full md:w-40 aspect-[4/3] rounded-sm overflow-hidden shrink-0 bg-[#17151A]/5">
-                                        <Image src={festival.image!} alt={festival.name} layout="fill" objectFit="cover" data-ai-hint={festival.hint} className="group-hover:scale-105 transition-transform duration-700" />
+                                        <Image src={festival.image!} alt={festival.name} fill className="object-cover group-hover:scale-105 transition-transform duration-700" data-ai-hint={festival.hint} />
                                     </div>
                                     <div className="flex-1 space-y-2 text-left py-1">
                                         <div className="flex items-center gap-3">
@@ -151,7 +151,7 @@ function FestivalsPageContent() {
 
 export default function FestivalsPage() {
     return (
-        <Suspense fallback={<div>Loading Library Index...</div>}>
+        <Suspense fallback={<div className="min-h-screen bg-[#F4F1E8] flex items-center justify-center font-mono text-[10px] uppercase tracking-widest text-[#6D6870]">Loading Library Index...</div>}>
             <FestivalsPageContent />
         </Suspense>
     );

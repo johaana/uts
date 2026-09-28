@@ -29,11 +29,7 @@ export default function HomePage() {
   useEffect(() => {
     setIsMounted(true);
     // Anchor dashboard to a specific "Prototype Date" for the Sept 2026 experience
-    const now = new Date();
-    const isActually2026 = now.getFullYear() === 2026;
-    
-    // If we're not in 2026, anchor to Sept 8, 2026 to ensure the dashboard works as intended
-    const prototypeToday = isActually2026 ? startOfToday() : new Date('2026-09-08T00:00:00');
+    const prototypeToday = new Date('2026-09-08T00:00:00');
     
     const tKey = format(prototypeToday, 'yyyy-MM-dd');
     setTodayKey(tKey);
@@ -78,7 +74,6 @@ export default function HomePage() {
   const nextMajorImpactMessage = useMemo(() => {
     if (!isMounted || !todayKey || allRecords.length === 0) return null;
     
-    // Look ahead from today's anchored prototype date
     const anchorDate = new Date(todayKey + 'T00:00:00');
     
     const futureHolidays = allRecords
@@ -102,26 +97,27 @@ export default function HomePage() {
     
     const anchorDate = new Date(todayKey + 'T00:00:00');
 
-    // 1. Check for actual regional signals TODAY
-    const todayItems = (forwardIndex.get(todayKey) || []).filter((r: any) => r.jurisdiction.scope === 'regional');
+    // 1. Check for actual signals TODAY
+    const todayItems = (forwardIndex.get(todayKey) || []);
     
     if (todayItems.length > 0) {
       return todayItems.map((e: any) => ({
-        text: `${COUNTRY_LABELS[e.jurisdiction.country_code] || e.jurisdiction.country_code} — ${e.jurisdiction.region || ''} — ${e.name} · Today`,
+        text: `${COUNTRY_LABELS[e.jurisdiction.country_code] || e.jurisdiction.country_code} — ${e.jurisdiction.region ? e.jurisdiction.region + ' — ' : ''}${e.name} · Today`,
         isLive: true
       }));
     }
 
-    // 2. Look ahead at the next 10 regional events in the future relative to the anchored date
+    // 2. Look ahead at upcoming events strictly in the FUTURE relative to anchor
     const upcomingItems = allRecords.filter(r => {
       const d = new Date(r.date + 'T00:00:00');
-      return isAfter(d, anchorDate) && r.jurisdiction.scope === 'regional';
+      // Strictly future, no same-day (since we handled today above)
+      return isAfter(d, anchorDate);
     }).sort((a, b) => a.date.localeCompare(b.date))
     .slice(0, 10);
 
     if (upcomingItems.length > 0) {
         return upcomingItems.map((e: any) => ({
-            text: `${COUNTRY_LABELS[e.jurisdiction.country_code] || e.jurisdiction.country_code} — ${e.jurisdiction.region || ''} — ${e.name} · ${format(new Date(e.date + 'T00:00:00'), 'd MMM')}`,
+            text: `${COUNTRY_LABELS[e.jurisdiction.country_code] || e.jurisdiction.country_code} — ${e.jurisdiction.region ? e.jurisdiction.region + ' — ' : ''}${e.name} · ${format(new Date(e.date + 'T00:00:00'), 'd MMM')}`,
             isLive: false
         }));
     }
@@ -172,7 +168,7 @@ export default function HomePage() {
                 </div>
 
                 <div className="hero-tracker-next-grid text-left border-b border-white/10 bg-white/[0.01]">
-                   <div className="px-[18px] pt-5 pb-1">
+                   <div className="px-[18px] pt-5 pb-1 text-left">
                       <span className="text-[10px] font-mono font-bold uppercase tracking-[0.25em] text-[#4FD1C5]">GLOBAL IMPACTS · TODAY</span>
                    </div>
                    <div className="divide-y divide-white/5">
@@ -222,7 +218,7 @@ export default function HomePage() {
 
                 <div className="hero-tracker-feed !py-6 bg-[#1E2650]/40">
                   <div className="px-[20px] mb-4 flex items-center gap-2">
-                     <span className="text-[10px] font-mono font-bold text-[#4FD1C5] uppercase tracking-[0.25em]">LOCAL SIGNALS</span>
+                     <span className="text-[10px] font-mono font-bold text-[#4FD1C5] uppercase tracking-[0.25em]">WORLD PULSE</span>
                   </div>
                   <div className="marquee">
                     <div className="marquee-track">
