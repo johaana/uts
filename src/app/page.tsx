@@ -10,7 +10,7 @@ import {
 import { getSource } from '@/lib/operational/source';
 import { evaluateQuery, resolveNow } from '@/lib/operational/engine';
 import { DateIntelligenceRecord, CanonicalRule } from '@/lib/operational/types';
-import { format, addDays, startOfToday, differenceInDays, parseISO } from 'date-fns';
+import { format, addDays, startOfToday, differenceInDays, parseISO, isAfter, isSameDay } from 'date-fns';
 import { ChevronDown, ChevronUp, ShieldCheck, Clock, ExternalLink, Plane, School, Briefcase, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 
@@ -28,12 +28,18 @@ export default function HomePage() {
   
   useEffect(() => {
     setIsMounted(true);
-    const today = startOfToday();
-    const tKey = format(today, 'yyyy-MM-dd');
+    // Anchor dashboard to a specific "Prototype Date" for the Sept 2026 experience
+    const now = new Date();
+    const isActually2026 = now.getFullYear() === 2026;
+    
+    // If we're not in 2026, anchor to Sept 8, 2026 to ensure the dashboard works as intended
+    const prototypeToday = isActually2026 ? startOfToday() : new Date('2026-09-08T00:00:00');
+    
+    const tKey = format(prototypeToday, 'yyyy-MM-dd');
     setTodayKey(tKey);
     setStartDate(tKey);
     
-    const end = addDays(today, 90); 
+    const end = addDays(prototypeToday, 90); 
     setEndDate(format(end, 'yyyy-MM-dd'));
 
     getSource().getRecords().then(records => {
@@ -69,9 +75,33 @@ export default function HomePage() {
     return (forwardIndex.get(todayKey) || []).filter((r: any) => r.jurisdiction.scope === 'national');
   }, [forwardIndex, todayKey, isMounted]);
 
-  const localSignalsFeed = useMemo(() => {
-    if (!isMounted || !todayKey) return [];
+  const nextMajorImpactMessage = useMemo(() => {
+    if (!isMounted || !todayKey || allRecords.length === 0) return null;
     
+    // Look ahead from today's anchored prototype date
+    const anchorDate = new Date(todayKey + 'T00:00:00');
+    
+    const futureHolidays = allRecords
+      .filter(r => {
+        const d = new Date(r.date + 'T00:00:00');
+        return isAfter(d, anchorDate) && r.jurisdiction.scope === 'national';
+      })
+      .sort((a, b) => a.date.localeCompare(b.date));
+
+    if (futureHolidays.length > 0) {
+      const next = futureHolidays[0];
+      const diff = differenceInDays(new Date(next.date + 'T00:00:00'), anchorDate);
+      return `Next major international impact: ${next.name} (${format(new Date(next.date + 'T00:00:00'), 'd MMM')}) in ${diff} days.`;
+    }
+    
+    return null;
+  }, [isMounted, todayKey, allRecords]);
+
+  const localSignalsFeed = useMemo(() => {
+    if (!isMounted || !todayKey || allRecords.length === 0) return [];
+    
+    const anchorDate = new Date(todayKey + 'T00:00:00');
+
     // 1. Check for actual regional signals TODAY
     const todayItems = (forwardIndex.get(todayKey) || []).filter((r: any) => r.jurisdiction.scope === 'regional');
     
@@ -82,11 +112,11 @@ export default function HomePage() {
       }));
     }
 
-    // 2. If today is clear, look ahead at the next 10 regional events in the future (EXCLUDE PAST)
-    const upcomingItems = allRecords.filter(r => 
-      r.date > todayKey && 
-      r.jurisdiction.scope === 'regional'
-    ).sort((a, b) => a.date.localeCompare(b.date))
+    // 2. Look ahead at the next 10 regional events in the future relative to the anchored date
+    const upcomingItems = allRecords.filter(r => {
+      const d = new Date(r.date + 'T00:00:00');
+      return isAfter(d, anchorDate) && r.jurisdiction.scope === 'regional';
+    }).sort((a, b) => a.date.localeCompare(b.date))
     .slice(0, 10);
 
     if (upcomingItems.length > 0) {
@@ -96,7 +126,7 @@ export default function HomePage() {
         }));
     }
 
-    // 3. Absolute fallback
+    // 3. Fallback
     return [{
       text: "Standard Global business day · High-trust window for international meetings.",
       isLive: true
@@ -106,13 +136,13 @@ export default function HomePage() {
   const checkerData = useMemo(() => {
     if (!startDate || !endDate || canonicalRules.length === 0) return { records: [], count: 0, longest: 0, nextDays: '—' };
     const purposeMap: Record<string, any> = { traveler: 'travel', study: 'study', corporate: 'business' };
-    const matches = evaluateQuery(canonicalRules, { destination: country, startDate, endDate, purpose: purposeMap[mode] }, resolveNow());
+    const matches = evaluateQuery(canonicalRules, { destination: country, startDate, endDate, purpose: purposeMap[mode] }, new Date(todayKey + 'T00:00:00'));
     const uniqueDates = new Set(matches.map(m => m.date));
     const nextDate = [...uniqueDates].sort().find(d => d >= startDate);
     const nextDays = nextDate ? differenceInDays(new Date(nextDate + 'T00:00:00'), new Date(startDate + 'T00:00:00')) : '—';
     
     return { records: matches, count: uniqueDates.size, longest: 0, nextDays };
-  }, [country, startDate, endDate, canonicalRules, mode]);
+  }, [country, startDate, endDate, canonicalRules, mode, todayKey]);
 
   return (
     <div className="bg-ink text-paper min-h-screen font-sans">
@@ -131,7 +161,9 @@ export default function HomePage() {
                 <div className="hero-tracker-head">
                   <div>
                     <span className="hero-tracker-kicker uppercase tracking-[0.25em] text-[#E8A33D] font-mono text-[10px] font-bold">LIVE UPDATES</span>
-                    <strong className="text-[15px] font-headline">{isMounted ? format(startOfToday(), 'EEEE, d MMMM yyyy') : 'Loading...'}</strong>
+                    <strong className="text-[15px] font-headline">
+                      {isMounted ? format(new Date(todayKey + 'T00:00:00'), 'EEEE, d MMMM yyyy') : 'Loading...'}
+                    </strong>
                   </div>
                   <span className="hero-tracker-live flex items-center gap-1.5 opacity-60">
                     <Clock className="w-2.5 h-2.5 text-teal" />
@@ -174,10 +206,15 @@ export default function HomePage() {
                            )}
                         </div>
                       )) : (
-                        <div className="px-[18px] py-6 text-left">
+                        <div className="px-[18px] py-6 text-left space-y-2">
                            <p className="text-[13.5px] font-medium text-paper/80 leading-relaxed pr-4 italic">
                               Standard Global business day. High-trust window for international meetings and cross-border office operations.
                            </p>
+                           {nextMajorImpactMessage && (
+                             <p className="text-[11px] font-bold text-[#E8A33D] uppercase tracking-widest">
+                                {nextMajorImpactMessage}
+                             </p>
+                           )}
                         </div>
                       )}
                    </div>
@@ -192,8 +229,13 @@ export default function HomePage() {
                       {localSignalsFeed.concat(localSignalsFeed).map((item, i) => (
                         <span key={i} className="chip flex items-center gap-3 !border-white/5 bg-white/[0.02]">
                           <span className="relative flex h-1.5 w-1.5 shrink-0">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-green-500 shadow-[0_0_5px_rgba(34,197,94,0.6)]"></span>
+                            {item.isLive && (
+                              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
+                            )}
+                            <span className={cn(
+                              "relative inline-flex rounded-full h-1.5 w-1.5",
+                              item.isLive ? "bg-green-500 shadow-[0_0_5px_rgba(34,197,94,0.6)]" : "bg-muted-dim/40"
+                            )}></span>
                           </span>
                           <b className={cn("text-[13.5px]", !item.isLive && "text-muted-dim font-normal")}>{item.text}</b>
                         </span>
