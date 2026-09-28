@@ -48,7 +48,7 @@ const CIA_SOURCE = { source_name: "Authoritative Reference", source_url: "https:
 export const HOLIDAY_RULES: Record<string, any[]> = {
   IN: [
     fixed(1, 26, "Republic Day", "public", ALL_PURPOSES, "high", 
-      { source_name: "DoPT Office Memorandum", source_url: "https://www.aiimsmangalagiri.edu.in/wp-content/uploads/2025/11/Holidays-Circular-2026-1.pdf" },
+      { source_name: "DoPT Office Memorandum F.No.12/2/2023-JCA (3 Jul 2025)", source_url: "https://www.aiimsmangalagiri.edu.in/wp-content/uploads/2025/11/Holidays-Circular-2026-1.pdf" },
       {
         traveler: "All government-facing services and public offices are closed. Expect normal transport but significant crowds at historical sites.",
         study: "All educational institutions and university administrative offices nationwide are closed for the national holiday.",
@@ -56,7 +56,7 @@ export const HOLIDAY_RULES: Record<string, any[]> = {
       }
     ),
     fixed(8, 15, "Independence Day", "public", ALL_PURPOSES, "high", 
-      { source_name: "DoPT Office Memorandum", source_url: "https://www.aiimsmangalagiri.edu.in/wp-content/uploads/2025/11/Holidays-Circular-2026-1.pdf" },
+      { source_name: "DoPT Office Memorandum F.No.12/2/2023-JCA (3 Jul 2025)", source_url: "https://www.aiimsmangalagiri.edu.in/wp-content/uploads/2025/11/Holidays-Circular-2026-1.pdf" },
       {
         traveler: "National holiday with widespread office closures. Expect traffic around parade routes and high migration.",
         study: "University campuses remain closed; orientation and admissions services will be offline for the day.",
@@ -64,7 +64,7 @@ export const HOLIDAY_RULES: Record<string, any[]> = {
       }
     ),
     fixed(10, 2, "Gandhi Jayanti", "public", ALL_PURPOSES, "high", 
-      { source_name: "DoPT Office Memorandum", source_url: "https://www.aiimsmangalagiri.edu.in/wp-content/uploads/2025/11/Holidays-Circular-2026-1.pdf" },
+      { source_name: "DoPT Office Memorandum F.No.12/2/2023-JCA (3 Jul 2025)", source_url: "https://www.aiimsmangalagiri.edu.in/wp-content/uploads/2025/11/Holidays-Circular-2026-1.pdf" },
       {
         traveler: "Public offices are closed for the national holiday. Expect heavy crowds at major memorials.",
         study: "Institutional holiday; university administration and campus services are unavailable.",
@@ -106,6 +106,44 @@ export const HOLIDAY_RULES: Record<string, any[]> = {
     }),
     fixed(1, 1, "New Year's Day", "public", ALL_PURPOSES, "medium", CIA_SOURCE, STD_ADVICE.NY),
     fixed(5, 1, "Labour Day", "public", ALL_PURPOSES, "medium", CIA_SOURCE, STD_ADVICE.LABOUR),
+    fixed(12, 25, "Christmas Day", "public", ALL_PURPOSES, "medium", CIA_SOURCE, STD_ADVICE.XMAS)
+  ],
+  US: [
+    fixed(11, 26, "Thanksgiving Day", "public", ALL_PURPOSES, "high", { source_name: "OPM USA", source_url: "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/" }, {
+      traveler: "One of the busiest travel periods in the US. Widespread closures of businesses and public services. Expect heavy traffic and high transport demand.",
+      study: "Campus Skeleton Staff. Most university administrative offices and housing services move to emergency-only status for the 4-day break.",
+      corporate: "Full national commercial shutdown. Banks and financial markets are closed on Thursday; many offices also observe Friday as a holiday."
+    }),
+    fixed(1, 1, "New Year's Day", "public", ALL_PURPOSES, "medium", CIA_SOURCE, STD_ADVICE.NY),
+    fixed(7, 4, "Independence Day", "public", ALL_PURPOSES, "medium", CIA_SOURCE),
+    fixed(12, 25, "Christmas Day", "public", ALL_PURPOSES, "medium", CIA_SOURCE, STD_ADVICE.XMAS)
+  ],
+  GB: [
+    fixed(12, 26, "Boxing Day", "public", ALL_PURPOSES, "high", { source_name: "UK Govt", source_url: "https://www.gov.uk/bank-holidays" }, {
+      traveler: "Total transport shutdown. No trains or buses operate nationwide on Dec 25/26. Plan private transfers if moving between cities.",
+      study: "University campuses are in full winter recess. No administrative or library services available.",
+      corporate: "Major bank holiday. All financial systems and corporate offices are closed. High operational latency expected."
+    }),
+    fixed(1, 1, "New Year's Day", "public", ALL_PURPOSES, "medium", CIA_SOURCE, STD_ADVICE.NY),
+    fixed(12, 25, "Christmas Day", "public", ALL_PURPOSES, "medium", CIA_SOURCE, STD_ADVICE.XMAS)
+  ],
+  AU: [
+    dated({ 2026: "2026-04-25" }, "Anzac Day", "public", "confirmed", "high", { source_name: "Fair Work AU", source_url: "https://www.fairwork.gov.au/" }, ALL_PURPOSES, {
+      traveler: "Midday Hard-Closure. Most retail and supermarkets are legally restricted from opening before 1pm. Public transport runs on limited schedules.",
+      study: "Institutional holiday. Universities and campus services are closed for the day.",
+      corporate: "National public holiday. Most commercial establishments are closed, particularly in the morning hours."
+    }),
+    fixed(1, 1, "New Year's Day", "public", ALL_PURPOSES, "medium", CIA_SOURCE, STD_ADVICE.NY),
+    fixed(1, 26, "Australia Day", "public", ALL_PURPOSES, "medium", CIA_SOURCE),
+    fixed(12, 25, "Christmas Day", "public", ALL_PURPOSES, "medium", CIA_SOURCE, STD_ADVICE.XMAS)
+  ],
+  CA: [
+    fixed(7, 1, "Canada Day", "public", ALL_PURPOSES, "high", { source_name: "Gov Canada", source_url: "https://www.canada.ca/" }, {
+      traveler: "National holiday with significant public celebrations. Most government offices and banks are closed. Retail hours are often restricted.",
+      study: "University administrative offices and libraries are closed for the national holiday.",
+      corporate: "National Statutory Holiday. Mandatory office and bank closures across all provinces. Limited retail and logistics operations."
+    }),
+    fixed(1, 1, "New Year's Day", "public", ALL_PURPOSES, "medium", CIA_SOURCE, STD_ADVICE.NY),
     fixed(12, 25, "Christmas Day", "public", ALL_PURPOSES, "medium", CIA_SOURCE, STD_ADVICE.XMAS)
   ],
   FR: [

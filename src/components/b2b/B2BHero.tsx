@@ -4,31 +4,24 @@ import { useEffect, useState, useMemo } from 'react';
 import { IntelligenceRecord } from './IntelligenceRecord';
 import { motion, AnimatePresence } from 'framer-motion';
 import { GHI_RECORDS, GHIEvent } from '@/lib/calendar-intelligence-data';
-import { Search, MapPin, Sparkles } from 'lucide-react';
-import { Input } from '@/components/ui/input';
+import { MapPin, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 export function B2BHero() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isRotating, setIsRotating] = useState(true);
-  const [searchTerm, setSearchTerm] = useState('');
 
-  // Live Logic: Filter GHI_RECORDS based on the current system date
-  // We match by month and day to simulate "Live" status using the 2026 mock data
   const todayEvents = useMemo(() => {
     const now = new Date();
-    const currentMonth = now.getMonth(); // 0-11
+    const currentMonth = now.getMonth(); 
     const currentDay = now.getDate();
 
-    // 1. Try to find exact matches for today's month/day
     const matches = GHI_RECORDS.filter(r => r.month === currentMonth && r.day === currentDay);
     if (matches.length > 0) return matches;
 
-    // 2. If no exact matches, show events from the current month
     const monthly = GHI_RECORDS.filter(r => r.month === currentMonth);
     if (monthly.length > 0) return monthly;
 
-    // 3. Fallback to a curated subset for the prototype
     return GHI_RECORDS.slice(0, 3);
   }, []);
 
@@ -46,7 +39,7 @@ export function B2BHero() {
     <section className="pt-6 pb-24 lg:pt-12 lg:pb-32 overflow-hidden">
       <div className="container mx-auto px-6 text-left">
         <div className="flex flex-col lg:flex-row items-start gap-12 lg:gap-24">
-          {/* 01. INTENT / SEARCH */}
+          {/* 01. INTENT */}
           <div className="flex-1 max-w-xl space-y-10">
             <div className="space-y-4">
               <p className="text-[11px] font-bold uppercase tracking-[0.5em] text-[#E94368] mb-4 font-ui">Calendar Intelligence</p>
@@ -59,25 +52,6 @@ export function B2BHero() {
             </div>
 
             <div className="space-y-6">
-              <div className="space-y-2">
-                <label className="text-[10px] font-extrabold uppercase tracking-[0.3em] text-[#17151A] font-ui">Search the Calendar</label>
-                <div className="relative group">
-                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6D6870] group-focus-within:text-[#E94368] transition-colors" />
-                  <Input 
-                    placeholder="Search a holiday, place, date or ask a question..."
-                    className="h-14 pl-12 bg-white border-[#DED9D0] rounded-sm font-ui text-base focus:ring-0 focus:border-[#17151A] transition-all"
-                    onFocus={() => setIsRotating(false)}
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                  />
-                </div>
-                <div className="flex flex-wrap gap-4 mt-4 text-[10px] font-bold uppercase tracking-widest text-[#6D6870]">
-                  {['Diwali', 'Japan', 'October 2026', 'What\'s next?'].map(ex => (
-                    <button key={ex} className="hover:text-[#17151A] transition-colors underline underline-offset-4">{ex}</button>
-                  ))}
-                </div>
-              </div>
-
               <div className="pt-6 border-t border-[#DED9D0]">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">

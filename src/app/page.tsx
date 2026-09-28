@@ -87,19 +87,31 @@ export default function HomePage() {
     const nextDate = [...uniqueDates].sort().find(d => d >= startDate);
     const nextDays = nextDate ? differenceInDays(new Date(nextDate + 'T00:00:00'), new Date(startDate + 'T00:00:00')) : '—';
     
-    const regionalEvents = matches.filter(m => m.category === 'regional' || m.jurisdiction.scope === 'regional');
-    const standingPolicies = canonicalRules.filter(r => 
-      r.jurisdiction.country_code === country && 
-      (r.temporal_kind === 'standing' || r.category === 'policy' || r.category === 'banking')
-    );
-
-    const materializedStanding = standingPolicies.map(p => ({
-      ...p,
-      date: 'POLICY',
-      id: `${p.rule_id}__POLICY`
-    }));
+    // Logic for Jurisdictional Roundup
+    const regionalSignals = [];
     
-    return { records: matches, count: uniqueDates.size, longest: 0, nextDays, regionalSignals: [...regionalEvents, ...materializedStanding] };
+    // 1. Add matching regional events from the list
+    regionalSignals.push(...matches.filter(m => m.category === 'regional' || m.jurisdiction.scope === 'regional'));
+    
+    // 2. Standing Policies: India Bank closure policy for Corporate mode ONLY when events are present
+    if (mode === 'corporate' && country === 'IN' && matches.length > 0) {
+      regionalSignals.push({
+        name: "Bank closure policy",
+        consequences: { implication: "State-specific RBI holiday lists govern banking availability for RTGS/NEFT." },
+        jurisdiction: { region: "POLICY" }
+      });
+    }
+    
+    // 3. Fallback: India Monsoon awareness for Traveler mode if no other signals
+    if (mode === 'traveler' && country === 'IN' && regionalSignals.length === 0) {
+      regionalSignals.push({
+        name: "Monsoon Season",
+        consequences: { implication: "Heavy localized rain in Western regions may affect airport transfer times." },
+        jurisdiction: { region: "SEASONAL" }
+      });
+    }
+    
+    return { records: matches, count: uniqueDates.size, longest: 0, nextDays, regionalSignals };
   }, [country, startDate, endDate, canonicalRules, mode]);
 
   return (
@@ -282,7 +294,7 @@ export default function HomePage() {
                    ))}
                    {checkerData.records.length === 0 && (
                      <div className="py-12 text-center text-xs text-muted-dim italic border-2 border-dashed border-white/5 rounded-xl">
-                        No operational records found for this window.
+                        No holidays detected. Note: {COUNTRY_LABELS[country] || country} typically observes standard Sunday closures for supermarkets and banks.
                      </div>
                    )}
                 </div>
@@ -299,7 +311,7 @@ export default function HomePage() {
                                <p className="text-[13px] font-bold">{item.name}</p>
                                <p className="text-[11px] text-muted-dim leading-relaxed italic">"{item.consequences.implication}"</p>
                             </div>
-                            <span className="text-[9px] font-mono text-[#E8A33D]/60 font-bold uppercase shrink-0 ml-4">{item.jurisdiction.region || (item.temporal_kind === 'standing' ? 'POLICY' : 'REGIONAL')}</span>
+                            <span className="text-[9px] font-mono text-[#E8A33D]/60 font-bold uppercase shrink-0 ml-4">{item.jurisdiction?.region || (item.temporal_kind === 'standing' ? 'POLICY' : 'REGIONAL')}</span>
                          </div>
                        ))}
                     </div>
