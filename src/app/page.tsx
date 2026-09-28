@@ -311,7 +311,7 @@ export default function HomePage() {
                     {checkerData.longestRun > 1 && (
                       <div className="flex flex-col items-center">
                         <b className="font-serif text-[32px] text-gold-soft">{checkerData.longestRun}</b>
-                        <span className="text-[9px] text-muted-dim block font-bold uppercase tracking-widest mt-1">day long weekend</span>
+                        <span className="text-[11.5px] text-muted-dim block font-bold uppercase tracking-widest mt-1">day long weekend</span>
                       </div>
                     )}
                   </div>
