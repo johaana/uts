@@ -33,29 +33,28 @@ const GLOBAL_INTEL = [
   {
     event: "Indonesia — Maulid Nabi",
     meta: "12 JURISDICTIONS · NATIONAL",
-    desc: "**BANKING:** Systemic public closures. Active settlement latency flagged."
+    desc: "BANKING: Systemic public closures. Active settlement latency flagged"
   },
   {
     event: "Hong Kong — Mid-Autumn Festival",
     meta: "REGIONAL · PUBLIC HOLIDAY",
-    desc: "**MARKETS:** Modified trading session. **LOGISTICS:** 24h transit delay."
+    desc: "MARKETS: Modified trading session. LOGISTICS: 24h transit delay"
   }
 ];
 
-// Jurisdictional Roundup (Multiple variants per country)
 const ROUNDUP_MAP: Record<string, any[]> = {
   IN: [
-    { region: "Maharashtra", event: "Janmashtami", intel: "**URBAN:** High movement impact in Mumbai/Pune. **BANKS:** Mandatory regional closures." },
-    { region: "Uttar Pradesh", event: "Krishna Janmashtami", intel: "**ADMIN:** Partial public sector holiday. **BANKS:** Regular operational status." },
-    { region: "Gujarat", event: "Janmashtami", intel: "**MARKETS:** Regional commodity exchange suspension." }
+    { region: "Maharashtra", event: "Janmashtami", intel: "URBAN: High movement impact in Mumbai/Pune. BANKS: Mandatory regional closures" },
+    { region: "Uttar Pradesh", event: "Krishna Janmashtami", intel: "ADMIN: Partial public sector holiday. BANKS: Regular operational status" },
+    { region: "Gujarat", event: "Janmashtami", intel: "MARKETS: Regional commodity exchange suspension" }
   ],
   JP: [
-    { region: "Tokyo", event: "Respect for the Aged", intel: "**MARKETS:** JPX session suspended. **BANKS:** BoJ systems offline." },
-    { region: "Kyoto", event: "Local Observance", intel: "**TRANSPORT:** Severe traffic congestion flagged in tourist sectors." }
+    { region: "Tokyo", event: "Respect for the Aged", intel: "MARKETS: JPX session suspended. BANKS: BoJ systems offline" },
+    { region: "Kyoto", event: "Local Observance", intel: "TRANSPORT: Severe traffic congestion flagged in tourist sectors" }
   ],
   US: [
-    { region: "Federal", event: "Labor Day", intel: "**MARKETS:** NYSE/NASDAQ suspended. **GOVT:** Federal offices closed." },
-    { region: "Regional", event: "Transit schedule", intel: "**LOGISTICS:** Standard Sunday schedule applies to all major carriers." }
+    { region: "Federal", event: "Labor Day", intel: "MARKETS: NYSE/NASDAQ suspended. GOVT: Federal offices closed" },
+    { region: "Regional", event: "Transit schedule", intel: "LOGISTICS: Standard Sunday schedule applies to all major carriers" }
   ]
 };
 
@@ -96,7 +95,7 @@ export default function TempTrackerLabPage() {
               </h1>
               <p className="sub hidden md:block">Check a country and your actual dates — before you book, schedule, send a student, or send an employee across borders.</p>
 
-              {/* LEFT SIDEBAR (Behavior changes by scenario) */}
+              {/* LEFT SIDEBAR: Global Pulse */}
               <aside className="hero-tracker md:order-last">
                 <div className="hero-tracker-head">
                   <div>
@@ -107,11 +106,10 @@ export default function TempTrackerLabPage() {
                 </div>
 
                 <div className="hero-tracker-next-grid text-left">
-                  {/* GLOBAL STATUS (Teal Anchor) */}
                   <div className="bg-white/[0.01]">
                     <div className="px-[18px] pt-4 pb-1 flex items-center justify-between border-l-2 border-[#4FD1C5]">
                       <span className="next-card-kicker flex items-center gap-1.5 !text-[#4FD1C5]">
-                        <Globe className="w-2.5 h-2.5" /> GLOBAL PULSE
+                        <Globe className="w-2.5 h-2.5" /> GLOBAL STATUS
                       </span>
                     </div>
                     <div className="space-y-4 pb-4">
@@ -119,35 +117,13 @@ export default function TempTrackerLabPage() {
                         <div key={idx} className={cn("px-[18px] py-1.5", idx > 0 && "border-t border-white/5 pt-3")}>
                           <span className="next-card-name text-[14.5px] font-bold">{item.event}</span>
                           <span className="next-card-date text-[10px] text-[#4FD1C5] mb-1 block font-bold uppercase tracking-wider">{item.meta}</span>
-                          <p className="text-[12.5px] text-[#9AA1C0] leading-snug font-medium max-w-[360px]" dangerouslySetInnerHTML={{ __html: item.desc }} />
+                          <p className="text-[12px] text-[#9AA1C0] leading-snug font-medium">
+                            {item.desc}
+                          </p>
                         </div>
                       ))}
                     </div>
                   </div>
-
-                  {/* REGIONAL INTEL (Only shows here in Scenario C) */}
-                  {(scenario === 'C') && (
-                    <div className="hero-tracker-next-card border-t border-white/10 bg-[#E8A33D]/[0.01] py-5 relative">
-                       <div className="absolute left-0 top-0 bottom-0 w-[2px] bg-[#E8A33D]"></div>
-                       <div className="px-1 flex items-center justify-between mb-3">
-                          <span className="next-card-kicker !text-[#E8A33D] uppercase tracking-widest flex items-center gap-1.5">
-                             <MapPin className="w-2.5 h-2.5" /> DESTINATION ADVISORY · {country}
-                          </span>
-                       </div>
-                       <div className="space-y-4 px-1">
-                          {regionalRoundup.map((item, idx) => (
-                            <div key={idx} className={cn(idx > 0 && "border-t border-white/5 pt-3")}>
-                              <span className="next-card-name !text-[13.5px] block font-bold">{item.event} · {item.region}</span>
-                              <p className="text-[12px] leading-snug text-[#9AA1C0] block font-medium" dangerouslySetInnerHTML={{ __html: item.intel }} />
-                            </div>
-                          ))}
-                       </div>
-                       <div className="mt-5 pt-3 border-t border-white/5 flex items-center justify-between px-1">
-                          <span className="text-[8.5px] font-bold uppercase tracking-widest text-[#9AA1C0]">Trip-specific. Synced with selection.</span>
-                          <ShieldCheck className="w-3 h-3 text-green-500/40" />
-                       </div>
-                    </div>
-                  )}
                 </div>
 
                 <div className="hero-tracker-feed">
@@ -191,33 +167,6 @@ export default function TempTrackerLabPage() {
                   </select>
                 </div>
 
-                {/* SCENARIO A: PROXIMITY BRIEFING */}
-                {(scenario === 'A') && (
-                  <div className="p-5 bg-[#E8A33D]/5 border border-[#E8A33D]/20 rounded-xl space-y-4 animate-in fade-in slide-in-from-top-2">
-                    <div className="flex items-center justify-between border-b border-[#E8A33D]/10 pb-2">
-                      <span className="text-[9px] font-extrabold uppercase tracking-widest text-[#E8A33D] flex items-center gap-1.5">
-                        <Activity className="w-3 h-3" /> LIVE DESTINATION ADVISORY
-                      </span>
-                      <span className="text-[8px] font-bold text-[#E8A33D]/40 uppercase tracking-widest">Today's Nuance</span>
-                    </div>
-                    <div className="space-y-4">
-                      {regionalRoundup.map((item, idx) => (
-                        <div key={idx} className="space-y-1">
-                          <div className="flex items-center justify-between">
-                             <span className="text-[13.5px] font-bold">{item.event}</span>
-                             <span className="text-[9px] font-mono text-muted-dim uppercase">{item.region}</span>
-                          </div>
-                          <p className="text-[12px] leading-snug text-[#9AA1C0] font-medium" dangerouslySetInnerHTML={{ __html: item.intel }} />
-                        </div>
-                      ))}
-                    </div>
-                    <div className="pt-2 border-t border-[#E8A33D]/10 flex items-center gap-2">
-                       <ShieldCheck className="w-3 h-3 text-green-500/40" />
-                       <span className="text-[8px] font-bold uppercase tracking-widest text-[#9AA1C0]">Sourced jurisdiction data. Synced with selection.</span>
-                    </div>
-                  </div>
-                )}
-
                 <div className="grid grid-cols-2 gap-3">
                   <div className="checker-field">
                     <label className="text-[10.5px] font-mono uppercase tracking-widest">From</label>
@@ -230,13 +179,17 @@ export default function TempTrackerLabPage() {
                 </div>
                 
                 <div className="checker-summary py-4 border-b border-white/10 flex gap-4 text-left">
-                  <div><b className="font-headline text-[28px] text-[#F0C888]">{regionalRoundup.length}</b><span className="text-[11.5px] text-muted-dim block leading-tight">variants today</span></div>
                   <div><b className="font-headline text-[28px] text-[#F0C888]">3</b><span className="text-[11.5px] text-muted-dim block leading-tight">period flags</span></div>
+                  <div><b className="font-headline text-[28px] text-[#F0C888]">{regionalRoundup.length}</b><span className="text-[11.5px] text-muted-dim block leading-tight">variants today</span></div>
                   <div><b className="font-headline text-[28px] text-[#F0C888]">0</b><span className="text-[11.5px] text-muted-dim block leading-tight">days to next</span></div>
                 </div>
 
-                <div className="checker-list mt-4 space-y-4">
-                   {/* SCENARIO C: METADATA STRIPS (Anti-Filler) */}
+                <div className="checker-brief text-xs leading-relaxed text-[#9AA1C0]">
+                   <strong className="text-gold-soft font-bold uppercase tracking-widest text-[9px] mr-2">IN SHORT:</strong>
+                   3 dates in your selected period are worth keeping in mind. The details below show what is happening on each date.
+                </div>
+
+                <div className="checker-list mt-2 space-y-4">
                    <div className="p-5 border border-white/5 rounded-xl bg-white/[0.02] space-y-3">
                       <div className="flex justify-between items-start">
                          <div className="space-y-0.5">
@@ -251,56 +204,47 @@ export default function TempTrackerLabPage() {
                         <StatusStrip label="MARKETS" status="CLOSED" />
                         <StatusStrip label="TRANSIT" status="MODIFIED" />
                       </div>
-                      {scenario !== 'C' && (
-                        <p className="text-xs text-muted-dim italic">Note: Mandatory public sector closure enforced nationwide.</p>
+                      {scenario === 'C' ? (
+                        <p className="text-[12px] text-[#9AA1C0] font-medium">BANKING: National closure. MARKETS: NSE/BSE session suspended.</p>
+                      ) : (
+                        <p className="text-xs text-muted-dim italic leading-snug">Note: Mandatory public sector closure enforced nationwide.</p>
                       )}
                    </div>
                 </div>
+
+                {/* Scenario A: PROXIMITY BRIEFING (Moved to Bottom) */}
+                {(scenario === 'A') && (
+                  <div className="p-5 bg-[#E8A33D]/5 border border-[#E8A33D]/20 rounded-xl space-y-4 animate-in fade-in slide-in-from-top-2">
+                    <div className="flex items-center justify-between border-b border-[#E8A33D]/10 pb-2">
+                      <span className="text-[9px] font-extrabold uppercase tracking-widest text-[#E8A33D] flex items-center gap-1.5">
+                        <Activity className="w-3 h-3" /> DESTINATION ADVISORY
+                      </span>
+                      <span className="text-[8px] font-bold text-[#E8A33D]/40 uppercase tracking-widest">Today's Nuance</span>
+                    </div>
+                    <div className="space-y-4">
+                      {regionalRoundup.map((item, idx) => (
+                        <div key={idx} className="space-y-1">
+                          <div className="flex items-center justify-between">
+                             <span className="text-[13.5px] font-bold">{item.event}</span>
+                             <span className="text-[9px] font-mono text-muted-dim uppercase">{item.region}</span>
+                          </div>
+                          <p className="text-[12px] leading-snug text-[#9AA1C0] font-medium">
+                            {item.intel}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="pt-2 border-t border-[#E8A33D]/10 flex items-center justify-between">
+                       <span className="text-[8.5px] font-bold uppercase tracking-widest text-[#9AA1C0]">Trip-specific intelligence. Synced with selection.</span>
+                       <ShieldCheck className="w-3 h-3 text-green-500/40" />
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
 
           </div>
         </section>
-
-        {/* SCENARIO B: UNIFIED COMMAND CENTER (Full Width Dashboard View) */}
-        {(scenario === 'B') && (
-          <section className="wrap py-24 border-t border-white/10">
-            <div className="max-w-6xl mx-auto space-y-10">
-               <div className="text-left space-y-2">
-                  <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#E8A33D]">SCENARIO B · UNIFIED CONSOLE</div>
-                  <h2 className="text-3xl font-headline font-bold">Consolidated Operational Matrix</h2>
-               </div>
-               <div className="grid lg:grid-cols-[1fr_1fr] gap-px bg-white/10 border border-white/10 rounded-2xl overflow-hidden shadow-2xl">
-                  {/* Matrix Left: Global */}
-                  <div className="bg-[#171D3A] p-10 space-y-8">
-                     <div className="flex items-center gap-3 border-b border-white/5 pb-4">
-                        <Globe className="text-[#4FD1C5] w-5 h-5" />
-                        <h3 className="font-bold text-lg">World Pulse Today</h3>
-                     </div>
-                     {GLOBAL_INTEL.map((item, idx) => (
-                        <div key={idx} className="space-y-2">
-                           <p className="text-sm font-bold text-white">{item.event}</p>
-                           <p className="text-[11px] text-muted leading-relaxed" dangerouslySetInnerHTML={{ __html: item.desc }} />
-                        </div>
-                      ))}
-                  </div>
-                  {/* Matrix Right: Local */}
-                  <div className="bg-[#1E2650] p-10 space-y-8 border-l border-white/10">
-                     <div className="flex items-center gap-3 border-b border-white/5 pb-4">
-                        <MapPin className="text-[#E8A33D] w-5 h-5" />
-                        <h3 className="font-bold text-lg">{country} Operational Nuance</h3>
-                     </div>
-                     {regionalRoundup.map((item, idx) => (
-                        <div key={idx} className="space-y-2">
-                           <p className="text-sm font-bold text-[#F0C888]">{item.event} · {item.region}</p>
-                           <p className="text-[11px] text-muted leading-relaxed" dangerouslySetInnerHTML={{ __html: item.intel }} />
-                        </div>
-                      ))}
-                  </div>
-               </div>
-            </div>
-          </section>
-        )}
 
         {/* SCENARIO SWITCHER (Admin Interface for Lab) */}
         <section className="fixed bottom-10 left-1/2 -translate-x-1/2 z-50">
