@@ -20,7 +20,7 @@ export function Footer() {
     <footer className="bg-ink border-t border-white/5 py-20">
       <div className="wrap space-y-12">
         <div className="grid md:grid-cols-2 gap-12 items-start">
-           <div className="space-y-6">
+           <div className="space-y-6 text-left">
               <div className="flex flex-col">
                 <span className="font-headline text-3xl font-bold tracking-tight">Utsavs</span>
                 <span className="text-[10px] font-mono font-bold text-gold uppercase tracking-[0.3em] mt-1">GLOBAL HOLIDAY INTELLIGENCE</span>
@@ -30,9 +30,9 @@ export function Footer() {
                 Built for technical systems and professional planning.
               </p>
            </div>
-           <div className="flex flex-col md:items-end gap-8">
+           <div className="flex flex-col md:items-end gap-8 text-left">
               <Link href="/api">
-                <Button className="bg-[#E8A33D] text-[#0F1428] font-bold h-12 px-8 rounded-full shadow-lg group">
+                <Button className="bg-[#E8A33D] text-[#0F1428] font-bold h-12 px-8 rounded-full shadow-lg group active:scale-95 transition-all">
                   Get API Access <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </Link>

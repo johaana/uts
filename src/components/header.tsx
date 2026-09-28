@@ -10,7 +10,6 @@ import { MobileNav } from "./MobileNav";
 
 const navLinks = [
   { href: "/date-intelligence", label: "Date Intelligence" },
-  { href: "/travel-insurance", label: "Travel Insurance" },
   { href: "/festivals", label: "Stories ↗" },
 ];
 
@@ -18,21 +17,27 @@ export function Header() {
   const pathname = usePathname();
   const [open, setOpen] = React.useState(false);
 
+  // Check if we are on a "Cultural" page (Paper theme)
+  const isEditorial = pathname.startsWith('/festivals') || pathname.startsWith('/blog') || pathname === '/about';
+
   return (
-    <header>
-      <nav className="wrap">
-        <Link href="/" className="logo">
+    <header className={cn(isEditorial ? "bg-[#F4F1E8]/86 border-[#17151A]/10" : "bg-[#0F1428]/86 border-white/5")}>
+      <nav className="wrap h-[76px] flex items-center justify-between">
+        <Link href="/" className={cn("logo", isEditorial && "text-[#17151A]")}>
           Utsavs
-          <span>from occasion to impact</span>
+          <span className={cn(isEditorial && "text-[#6D6870]")}>from occasion to impact</span>
         </Link>
         
-        <div className="hidden md:flex navlinks">
+        <div className="hidden md:flex gap-9 text-[14.5px] font-bold uppercase tracking-widest font-ui">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
               className={cn(
-                pathname === link.href && "active"
+                "transition-colors",
+                isEditorial 
+                  ? (pathname === link.href ? "text-[#17151A]" : "text-[#6D6870] hover:text-[#17151A]")
+                  : (pathname === link.href ? "text-white" : "text-[#9AA1C0] hover:text-white")
               )}
             >
               {link.label}
@@ -43,7 +48,7 @@ export function Header() {
         <div className="md:hidden">
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
-              <button className="p-2 text-muted hover:text-paper transition-colors" aria-label="Toggle menu">
+              <button className={cn("p-2 transition-colors", isEditorial ? "text-[#17151A]" : "text-muted")} aria-label="Toggle menu">
                 <Menu className="w-6 h-6" />
                 <span className="sr-only">Toggle menu</span>
               </button>

@@ -107,7 +107,7 @@ export default function HomePage() {
     }
 
     return [{
-      text: "Standard global working day · No regional alerts today.",
+      text: "🟢 Standard global working day · No regional alerts today.",
       isLive: true
     }];
   }, [isMounted, forwardIndex, todayKey]);
@@ -140,7 +140,7 @@ export default function HomePage() {
                 <div className="hero-tracker-head">
                   <div>
                     <span className="hero-tracker-kicker uppercase tracking-[0.25em] text-[#E8A33D] font-mono text-[10px] font-bold">LIVE UPDATES</span>
-                    <strong>{isMounted ? format(startOfToday(), 'EEEE, d MMMM yyyy') : 'Loading...'}</strong>
+                    <strong className="text-[15px] font-headline">{isMounted ? format(startOfToday(), 'EEEE, d MMMM yyyy') : 'Loading...'}</strong>
                   </div>
                   <span className="hero-tracker-live flex items-center gap-1.5 opacity-60">
                     <Clock className="w-2.5 h-2.5 text-teal" />
@@ -159,9 +159,9 @@ export default function HomePage() {
                              onClick={() => setExpandedGlobal(expandedGlobal === item.id ? null : item.id)}
                              className="w-full flex items-center justify-between px-[18px] py-4 hover:bg-white/5 transition-all text-left group"
                            >
-                              <div className="space-y-0">
+                              <div className="space-y-0.5">
                                  <span className="block text-[14px] font-bold group-hover:text-[#4FD1C5] transition-colors">{item.name}</span>
-                                 <span className="block text-[8.5px] font-bold text-muted-dim uppercase tracking-widest">
+                                 <span className="block text-[9px] font-bold text-muted-dim uppercase tracking-widest font-mono">
                                     {COUNTRY_LABELS[item.jurisdiction.country_code]} · {getCleanLabel(item.jurisdiction.scope, item.category)}
                                  </span>
                               </div>
@@ -183,9 +183,14 @@ export default function HomePage() {
                            )}
                         </div>
                       )) : (
-                        <div className="px-[18px] py-8 text-left text-[13px] text-muted-dim italic leading-relaxed">
-                           Standard global working day. {nextIntl && (
-                             <>Next major international impact: <b className="text-paper">{nextIntl.name} ({format(nextIntl.d, 'd MMM')})</b> in {nextIntl.diff} days.</>
+                        <div className="px-[18px] py-8 text-left space-y-2">
+                           <p className="text-[13px] text-paper font-medium leading-relaxed">
+                              Standard Global business day. High-trust window for international meetings and cross-border office operations.
+                           </p>
+                           {nextIntl && (
+                             <p className="text-[11px] text-muted-dim font-medium italic">
+                               Next major international impact: <b className="text-paper">{nextIntl.name} ({format(nextIntl.d, 'd MMM')})</b> in {nextIntl.diff} days.
+                             </p>
                            )}
                         </div>
                       )}
@@ -251,9 +256,14 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                <div className="checker-summary py-6 border-b border-white/10 flex gap-10 text-left">
-                  <div><b className="font-headline text-[32px] text-gold-soft">{checkerData.count}</b><span className="text-[11.5px] text-muted-dim block font-bold uppercase tracking-widest mt-1">flags in period</span></div>
-                  <div><b className="font-headline text-[32px] text-gold-soft">{checkerData.nextDays}</b><span className="text-[11.5px] text-muted-dim block font-bold uppercase tracking-widest mt-1">days to next</span></div>
+                <div className="checker-summary pt-6 pb-4 border-b border-white/10 flex flex-col sm:flex-row sm:items-end justify-between gap-4 text-left">
+                  <div className="flex gap-10">
+                    <div><b className="font-headline text-[32px] text-gold-soft">{checkerData.count}</b><span className="text-[11.5px] text-muted-dim block font-bold uppercase tracking-widest mt-1">flags in period</span></div>
+                    <div><b className="font-headline text-[32px] text-gold-soft">{checkerData.nextDays}</b><span className="text-[11.5px] text-muted-dim block font-bold uppercase tracking-widest mt-1">days to next</span></div>
+                  </div>
+                  <div className="text-[9px] font-mono text-muted-dim uppercase tracking-widest pb-1 opacity-60">
+                    DATABASE STATUS: 92 COUNTRIES TRACKED · VERIFICATION ACTIVE
+                  </div>
                 </div>
 
                 <div className="checker-list max-h-[440px] overflow-y-auto custom-scrollbar pr-1">
@@ -264,11 +274,11 @@ export default function HomePage() {
                           className="w-full flex items-center justify-between py-5 hover:bg-white/[0.02] transition-all text-left"
                         >
                            <div className="flex items-center gap-6">
-                              <div className="impact-date w-14 shrink-0">{format(new Date(r.date + 'T00:00:00'), 'dd MMM')}</div>
-                              <div className="space-y-1">
+                              <div className="impact-date w-14 shrink-0 font-mono text-[11px] text-muted-dim">{format(new Date(r.date + 'T00:00:00'), 'dd MMM')}</div>
+                              <div className="space-y-0.5">
                                  <span className="block font-bold text-[13.5px] group-hover:text-gold-soft transition-colors leading-tight">{r.name}</span>
                                  <div className="flex items-center gap-3">
-                                    <span className="text-[8.5px] font-mono font-bold text-muted-dim uppercase tracking-widest">
+                                    <span className="text-[9px] font-mono font-bold text-muted-dim uppercase tracking-widest">
                                        {r.jurisdiction.region ? r.jurisdiction.region + ' · ' : ''}{COUNTRY_LABELS[r.jurisdiction.country_code] || r.jurisdiction.country_code}
                                     </span>
                                     <span className={cn(
