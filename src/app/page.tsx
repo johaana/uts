@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
@@ -150,17 +151,17 @@ export default function HomePage() {
     <div className="bg-ink text-paper min-h-screen font-sans">
       <Header />
       <main>
-        <section className="hero" id="explore">
-          <div className="wrap hero-grid">
+        <section className="hero !py-4 md:!py-8" id="explore">
+          <div className="wrap hero-grid !gap-4 md:!gap-12">
             <div className="hero-copy text-left">
-              <h1 className="headline md:max-w-none max-w-[320px]">
+              <h1 className="headline md:max-w-none max-w-[320px] !mb-4">
                 Know before you fly. <br className="md:hidden" />
                 Know before you schedule.
               </h1>
-              <p className="sub">A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.</p>
+              <p className="sub !mb-4">A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.</p>
 
-              <aside className="hero-tracker md:order-last" id="world">
-                <div className="hero-tracker-head py-3">
+              <aside className="hero-tracker md:order-last !my-0" id="world">
+                <div className="hero-tracker-head py-2.5">
                   <div>
                     <span className="hero-tracker-kicker uppercase tracking-[0.25em] text-[#E8A33D] font-mono text-[10px] font-bold">LIVE UPDATES</span>
                     <strong className="text-[15px] font-headline">
@@ -174,7 +175,7 @@ export default function HomePage() {
                 </div>
 
                 <div className="text-left bg-white/[0.01]">
-                   <div className="px-[20px] pt-4 pb-0 text-left">
+                   <div className="px-[20px] pt-3 pb-0 text-left border-b border-white/5">
                       <span className="text-[10px] font-mono font-bold uppercase tracking-[0.25em] text-[#4FD1C5]">GLOBAL IMPACTS</span>
                    </div>
                    <div className="divide-y divide-white/5">
@@ -182,7 +183,7 @@ export default function HomePage() {
                         <div key={item.id} className="relative">
                            <button 
                              onClick={() => setExpandedGlobal(expandedGlobal === item.id ? null : item.id)}
-                             className="w-full flex items-center justify-between px-[18px] py-3 hover:bg-white/5 transition-all text-left group"
+                             className="w-full flex items-center justify-between px-[18px] py-2.5 hover:bg-white/5 transition-all text-left group"
                            >
                               <div className="space-y-0.5">
                                  <span className="block text-[14px] font-bold group-hover:text-[#4FD1C5] transition-colors">{item.name}</span>
@@ -193,7 +194,7 @@ export default function HomePage() {
                               {expandedGlobal === item.id ? <ChevronUp className="w-4 h-4 text-muted-dim" /> : <ChevronDown className="w-4 h-4 text-muted-dim" />}
                            </button>
                            {expandedGlobal === item.id && (
-                             <div className="px-[18px] pb-5 space-y-3 animate-in slide-in-from-top-2 duration-300">
+                             <div className="px-[18px] pb-4 space-y-3 animate-in slide-in-from-top-2 duration-300">
                                 <p className="text-[12.5px] text-[#9AA1C0] leading-snug font-medium border-l border-[#4FD1C5]/30 pl-3 italic">
                                    "{item.consequences.implication}"
                                 </p>
@@ -208,10 +209,10 @@ export default function HomePage() {
                            )}
                         </div>
                       )) : nextEvent ? (
-                        <div className="px-[18px] py-6 text-left">
+                        <div className="px-[18px] py-4 text-left">
                            <div className="space-y-3">
                               <div className="flex items-center gap-2">
-                                <span className="text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-[#E8A33D]">Next Up</span>
+                                <span className="text-[9px] font-mono font-bold uppercase tracking-[0.2em] text-[#E8A33D]">Next Up</span>
                                 <div className="h-px flex-1 bg-white/5"></div>
                               </div>
                               <div className="space-y-1">
@@ -219,13 +220,13 @@ export default function HomePage() {
                                    onClick={() => setShowNextAdvice(!showNextAdvice)}
                                    className="w-full flex items-center justify-between text-left group"
                                  >
-                                   <div className="space-y-1">
-                                      <span className="block text-[18px] font-bold text-paper/90 leading-tight group-hover:text-[#4FD1C5] transition-colors">{nextEvent.name}</span>
+                                   <div className="space-y-0.5">
+                                      <span className="block text-[17px] font-bold text-paper/90 leading-tight group-hover:text-[#4FD1C5] transition-colors">{nextEvent.name}</span>
                                       <div className="flex items-center gap-3">
-                                         <span className="text-[11px] font-mono font-bold text-[#4FD1C5] uppercase tracking-widest">
+                                         <span className="text-[10px] font-mono font-bold text-[#4FD1C5] uppercase tracking-widest">
                                             {format(new Date(nextEvent.date + 'T00:00:00'), 'd MMMM yyyy')}
                                          </span>
-                                         <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-sm uppercase tracking-widest bg-white/5 text-muted-dim border border-white/10">
+                                         <span className="text-[8px] font-bold px-1.5 py-0.5 rounded-sm uppercase tracking-widest bg-white/5 text-muted-dim border border-white/10">
                                             {COUNTRY_LABELS[nextEvent.jurisdiction.country_code]} · {nextEvent.jurisdiction.scope.toUpperCase()}
                                          </span>
                                       </div>
@@ -234,8 +235,8 @@ export default function HomePage() {
                                  </button>
                                  
                                  {showNextAdvice && (
-                                   <div className="pt-3 animate-in slide-in-from-top-2 duration-300">
-                                      <p className="text-[12.5px] text-[#9AA1C0] leading-snug font-medium italic border-l border-[#E8A33D]/30 pl-3">
+                                   <div className="pt-2.5 animate-in slide-in-from-top-2 duration-300">
+                                      <p className="text-[12px] text-[#9AA1C0] leading-relaxed font-medium italic border-l border-[#E8A33D]/30 pl-3">
                                          "{nextEvent.consequences.implication}"
                                       </p>
                                    </div>
@@ -244,8 +245,8 @@ export default function HomePage() {
                            </div>
                         </div>
                       ) : (
-                        <div className="px-[18px] py-6 text-left">
-                           <p className="text-[14px] font-medium text-paper/90 leading-relaxed max-w-lg italic font-display">
+                        <div className="px-[18px] py-5 text-left">
+                           <p className="text-[13px] font-medium text-paper/90 leading-relaxed max-w-lg italic font-display">
                               Standard Global business day. High-trust window for international meetings and cross-border office operations.
                            </p>
                         </div>
@@ -253,9 +254,9 @@ export default function HomePage() {
                    </div>
                 </div>
 
-                <div className="hero-tracker-feed !py-4 bg-[#1E2650]/40">
-                  <div className="px-[20px] mb-3 flex items-center gap-2">
-                     <span className="text-[10px] font-mono font-bold text-[#4FD1C5] uppercase tracking-[0.25em]">LOCAL SIGNALS</span>
+                <div className="hero-tracker-feed !py-3.5 bg-[#1E2650]/40">
+                  <div className="px-[20px] mb-2 flex items-center gap-2">
+                     <span className="text-[9px] font-mono font-bold text-[#4FD1C5] uppercase tracking-[0.25em]">LOCAL SIGNALS</span>
                   </div>
                   <div className="marquee">
                     <div className="marquee-track">
@@ -270,7 +271,7 @@ export default function HomePage() {
                               item.isLive ? "bg-green-500 shadow-[0_0_5px_rgba(34,197,94,0.6)]" : "bg-muted-dim/40"
                             )}></span>
                           </span>
-                          <b className={cn("text-[13.5px]", !item.isLive && "text-muted-dim font-normal")}>{item.text}</b>
+                          <b className={cn("text-[13px]", !item.isLive && "text-muted-dim font-normal")}>{item.text}</b>
                         </span>
                       ))}
                     </div>
@@ -279,7 +280,7 @@ export default function HomePage() {
               </aside>
             </div>
 
-            <div className="checker text-left order-1">
+            <div className="checker text-left order-1 !p-6 md:!p-7">
               <div className="checker-top">
                 <h3 className="font-serif">Trip impact checker</h3>
                 <button 
@@ -291,7 +292,7 @@ export default function HomePage() {
                 </button>
               </div>
 
-              <div className="mode-toggle">
+              <div className="mode-toggle !mb-3">
                 {(['traveler', 'study', 'corporate'] as const).map(m => (
                   <button 
                     key={m} 
@@ -304,7 +305,7 @@ export default function HomePage() {
                 ))}
               </div>
 
-              <div className="space-y-4">
+              <div className="space-y-3">
                 {isComparing ? (
                   <div className="grid grid-cols-2 gap-3">
                     <div className="checker-field">
@@ -325,7 +326,7 @@ export default function HomePage() {
                     </div>
                   </div>
                 ) : (
-                  <div className="checker-row" id="single-country-row">
+                  <div className="checker-row !mb-0" id="single-country-row">
                     <div className="checker-field">
                       <label>Destination / Jurisdiction</label>
                       <select value={country} onChange={e => setCountry(e.target.value)}>
@@ -364,14 +365,14 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                <div className="checker-list max-h-[440px] overflow-y-auto custom-scrollbar pr-1 text-left">
+                <div className="checker-list max-h-[380px] overflow-y-auto custom-scrollbar pr-1 text-left">
                    {checkerData.records.map((r) => (
                      <div key={r.id} className="border-b border-white/5 last:border-0 group">
                         <button 
                           onClick={() => setExpandedRecord(expandedRecord === r.id ? null : r.id)}
-                          className="w-full flex items-center justify-between py-5 hover:bg-white/[0.02] transition-all text-left"
+                          className="w-full flex items-center justify-between py-4 hover:bg-white/[0.02] transition-all text-left"
                         >
-                           <div className="flex items-center gap-6">
+                           <div className="flex items-center gap-5">
                               <div className="impact-date w-20 shrink-0 font-mono text-[10px] text-muted-dim uppercase">
                                 {format(new Date(r.date + 'T00:00:00'), 'EEE, dd MMM')}
                               </div>
@@ -391,8 +392,8 @@ export default function HomePage() {
                            {expandedRecord === r.id ? <ChevronUp className="w-4 h-4 text-muted-dim" /> : <ChevronDown className="w-4 h-4 text-muted-dim" />}
                         </button>
                         {expandedRecord === r.id && (
-                          <div className="pb-6 space-y-4 animate-in slide-in-from-top-2 duration-300 px-[80px]">
-                             <div className="p-4 bg-white/5 border-l-2 border-gold-soft rounded-r-lg">
+                          <div className="pb-5 space-y-4 animate-in slide-in-from-top-2 duration-300 px-[80px]">
+                             <div className="p-3.5 bg-white/5 border-l-2 border-gold-soft rounded-r-lg">
                                 <p className="text-[13px] font-medium leading-relaxed italic text-paper/90">
                                   "{r.consequences.implication}"
                                 </p>
@@ -421,9 +422,9 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="py-24 border-t border-white/5" id="built-for">
+        <section className="py-20 border-t border-white/5" id="built-for">
           <div className="wrap text-left">
-            <div className="mb-12 space-y-3">
+            <div className="mb-10 space-y-3">
                <span className="text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-[#E8A33D]">Global Coverage · Everywhere we track</span>
                <h2 className="font-headline text-3xl md:text-5xl font-medium">Built for technical planning.</h2>
                <p className="text-[#9AA1C0] text-lg max-w-2xl">Reconciling deterministic rules across multiple jurisdictions for high-stakes operational assessment.</p>
@@ -444,7 +445,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="py-24 border-t border-white/5 bg-[#171D3A]" id="intelligence-section">
+        <section className="py-20 border-t border-white/5 bg-[#171D3A]" id="intelligence-section">
           <div className="wrap">
              <div className="grid lg:grid-cols-[1fr_auto] gap-12 items-center">
                 <div className="space-y-6 text-left">
@@ -465,7 +466,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="py-24 border-t border-white/5 bg-white/[0.01]">
+        <section className="py-20 border-t border-white/5 bg-white/[0.01]">
           <div className="wrap text-left">
             <div className="max-w-3xl space-y-6">
                <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#4FD1C5]/10 border border-[#4FD1C5]/20 rounded-full">
