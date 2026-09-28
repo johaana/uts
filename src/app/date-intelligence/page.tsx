@@ -37,8 +37,8 @@ export default function DateIntelligencePage() {
   const [canonicalRules, setCanonicalRules] = useState<CanonicalRule[]>([]);
   const [query, setQuery] = useState<OperationalQuery>({
     destination: 'IN',
-    startDate: new Date().toISOString().split('T')[0],
-    endDate: new Date().toISOString().split('T')[0],
+    startDate: '2026-09-29',
+    endDate: '2026-09-29',
     purpose: 'travel'
   });
   const [result, setResult] = useState<OperationalResult | null>(null);
@@ -85,7 +85,7 @@ export default function DateIntelligencePage() {
   };
 
   const setToday = () => {
-    const dateStr = new Date().toISOString().split('T')[0];
+    const dateStr = '2026-09-29';
     const newQuery = { ...query, startDate: dateStr, endDate: dateStr };
     setQuery(newQuery);
     handleSearch(newQuery);
@@ -111,7 +111,7 @@ export default function DateIntelligencePage() {
               {/* Controls */}
               <div className="grid grid-cols-1 md:grid-cols-[1fr_1fr_auto] gap-4 p-6 bg-[#1E2650] border-b border-white/10 items-end">
                 <div className="space-y-2">
-                  <label className="block text-[10.5px] font-mono text-[#6E7495] uppercase tracking-wider">Date · live today by default</label>
+                  <label className="block text-[10.5px] font-mono text-[#6E7495] uppercase tracking-wider">Date · live prototype anchor</label>
                   <Input 
                     type="date" 
                     value={query.startDate} 
@@ -159,14 +159,14 @@ export default function DateIntelligencePage() {
               </div>
 
               {/* Body */}
-              <div className="grid md:grid-cols-2">
+              <div className="grid md:grid-cols-2 text-left">
                 {/* Left: Date context */}
                 <div className="p-8 space-y-6 border-b md:border-b-0 md:border-r border-white/10">
                    <div className="space-y-1">
                       <p className="text-[10.5px] font-mono text-[#4FD1C5] uppercase tracking-widest">Date context</p>
                       <h2 className="text-3xl font-headline font-medium text-[#F4F1E8] flex items-baseline gap-3">
                         {new Date(query.startDate + 'T00:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
-                        {query.startDate === new Date().toISOString().split('T')[0] && (
+                        {query.startDate === '2026-09-29' && (
                           <span className="text-[10px] font-mono text-[#4FD1C5] border border-[#4FD1C5]/30 rounded-full px-2 py-0.5 uppercase">Today</span>
                         )}
                       </h2>
@@ -208,7 +208,7 @@ export default function DateIntelligencePage() {
                         </div>
                       ) : (
                         <div className="p-6 text-center border border-dashed border-white/10 rounded-xl">
-                          <p className="text-sm text-[#9AA1C0] italic font-medium">
+                          <p className="text-sm text-[#9AA1C0] italic font-medium text-left">
                             No holiday or observance is currently recorded for this place and date in Utsavs.
                           </p>
                         </div>
@@ -217,7 +217,7 @@ export default function DateIntelligencePage() {
                 </div>
 
                 {/* Right: Operational signals */}
-                <div className="p-8 space-y-6 bg-white/5">
+                <div className="p-8 space-y-6 bg-white/5 text-left">
                    <div className="space-y-1">
                       <p className="text-[10.5px] font-mono text-[#4FD1C5] uppercase tracking-widest">What affects this date?</p>
                    </div>

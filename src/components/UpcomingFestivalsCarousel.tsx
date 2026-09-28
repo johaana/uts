@@ -1,5 +1,3 @@
-
-
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -42,7 +40,8 @@ export function UpcomingFestivalsCarousel() {
 
     useEffect(() => {
         if (isClient) {
-            const now = startOfDay(new Date());
+            // Anchor to prototype date
+            const now = startOfDay(new Date('2026-09-29'));
             
             const eventsWithParsedDates = allEvents
                 .map(event => ({ ...event, parsedDate: parseFestivalDate(event.date) }))
@@ -50,9 +49,9 @@ export function UpcomingFestivalsCarousel() {
             
             eventsWithParsedDates.sort((a, b) => a.parsedDate!.getTime() - b.parsedDate!.getTime());
 
-            // Find the index of the first upcoming event
-            let startIndex = eventsWithParsedDates.findIndex(event => isFuture(event.parsedDate!) || isToday(event.parsedDate!));
-            if (startIndex === -1) { // If no upcoming events in the current cycle, start from the beginning
+            // Find the index of the first upcoming event relative to Sept 29, 2026
+            let startIndex = eventsWithParsedDates.findIndex(event => event.parsedDate! >= now);
+            if (startIndex === -1) { 
                 startIndex = 0;
             }
 

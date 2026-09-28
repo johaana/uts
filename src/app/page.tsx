@@ -8,9 +8,9 @@ import {
   COUNTRY_LABELS, 
 } from '@/lib/calendar-intelligence';
 import { getSource } from '@/lib/operational/source';
-import { evaluateQuery, resolveNow } from '@/lib/operational/engine';
+import { evaluateQuery } from '@/lib/operational/engine';
 import { DateIntelligenceRecord, CanonicalRule } from '@/lib/operational/types';
-import { format, addDays, startOfToday, differenceInDays, parseISO, isAfter, isSameDay } from 'date-fns';
+import { format, addDays, differenceInDays, isAfter } from 'date-fns';
 import { ChevronDown, ChevronUp, ShieldCheck, Clock, ExternalLink, Plane, School, Briefcase, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 
@@ -28,14 +28,14 @@ export default function HomePage() {
   
   useEffect(() => {
     setIsMounted(true);
-    // Anchor dashboard to a specific "Prototype Date" for the Sept 2026 experience
-    const prototypeToday = new Date('2026-09-08T00:00:00');
+    // Anchor dashboard to the approved Go-Live Prototype Date
+    const prototypeToday = new Date('2026-09-29T00:00:00');
     
     const tKey = format(prototypeToday, 'yyyy-MM-dd');
     setTodayKey(tKey);
     setStartDate(tKey);
     
-    const end = addDays(prototypeToday, 90); 
+    const end = addDays(prototypeToday, 60); 
     setEndDate(format(end, 'yyyy-MM-dd'));
 
     getSource().getRecords().then(records => {
@@ -71,33 +71,10 @@ export default function HomePage() {
     return (forwardIndex.get(todayKey) || []).filter((r: any) => r.jurisdiction.scope === 'national');
   }, [forwardIndex, todayKey, isMounted]);
 
-  const nextMajorImpactMessage = useMemo(() => {
-    if (!isMounted || !todayKey || allRecords.length === 0) return null;
-    
-    const anchorDate = new Date(todayKey + 'T00:00:00');
-    
-    const futureHolidays = allRecords
-      .filter(r => {
-        const d = new Date(r.date + 'T00:00:00');
-        return isAfter(d, anchorDate) && r.jurisdiction.scope === 'national';
-      })
-      .sort((a, b) => a.date.localeCompare(b.date));
-
-    if (futureHolidays.length > 0) {
-      const next = futureHolidays[0];
-      const diff = differenceInDays(new Date(next.date + 'T00:00:00'), anchorDate);
-      return `Next major international impact: ${next.name} (${format(new Date(next.date + 'T00:00:00'), 'd MMM')}) in ${diff} days.`;
-    }
-    
-    return null;
-  }, [isMounted, todayKey, allRecords]);
-
   const localSignalsFeed = useMemo(() => {
     if (!isMounted || !todayKey || allRecords.length === 0) return [];
     
     const anchorDate = new Date(todayKey + 'T00:00:00');
-
-    // 1. Check for actual signals TODAY
     const todayItems = (forwardIndex.get(todayKey) || []);
     
     if (todayItems.length > 0) {
@@ -107,10 +84,8 @@ export default function HomePage() {
       }));
     }
 
-    // 2. Look ahead at upcoming events strictly in the FUTURE relative to anchor
     const upcomingItems = allRecords.filter(r => {
       const d = new Date(r.date + 'T00:00:00');
-      // Strictly future, no same-day (since we handled today above)
       return isAfter(d, anchorDate);
     }).sort((a, b) => a.date.localeCompare(b.date))
     .slice(0, 10);
@@ -122,7 +97,6 @@ export default function HomePage() {
         }));
     }
 
-    // 3. Fallback
     return [{
       text: "Standard Global business day · High-trust window for international meetings.",
       isLive: true
@@ -130,14 +104,14 @@ export default function HomePage() {
   }, [isMounted, forwardIndex, todayKey, allRecords]);
 
   const checkerData = useMemo(() => {
-    if (!startDate || !endDate || canonicalRules.length === 0) return { records: [], count: 0, longest: 0, nextDays: '—' };
+    if (!startDate || !endDate || canonicalRules.length === 0) return { records: [], count: 0, nextDays: '—' };
     const purposeMap: Record<string, any> = { traveler: 'travel', study: 'study', corporate: 'business' };
     const matches = evaluateQuery(canonicalRules, { destination: country, startDate, endDate, purpose: purposeMap[mode] }, new Date(todayKey + 'T00:00:00'));
     const uniqueDates = new Set(matches.map(m => m.date));
     const nextDate = [...uniqueDates].sort().find(d => d >= startDate);
     const nextDays = nextDate ? differenceInDays(new Date(nextDate + 'T00:00:00'), new Date(startDate + 'T00:00:00')) : '—';
     
-    return { records: matches, count: uniqueDates.size, longest: 0, nextDays };
+    return { records: matches, count: uniqueDates.size, nextDays };
   }, [country, startDate, endDate, canonicalRules, mode, todayKey]);
 
   return (
@@ -202,15 +176,10 @@ export default function HomePage() {
                            )}
                         </div>
                       )) : (
-                        <div className="px-[18px] py-6 text-left space-y-2">
-                           <p className="text-[13.5px] font-medium text-paper/80 leading-relaxed pr-4 italic">
+                        <div className="px-[18px] py-8 text-left">
+                           <p className="text-[14.5px] font-medium text-paper/90 leading-relaxed max-w-lg italic font-display">
                               Standard Global business day. High-trust window for international meetings and cross-border office operations.
                            </p>
-                           {nextMajorImpactMessage && (
-                             <p className="text-[11px] font-bold text-[#E8A33D] uppercase tracking-widest">
-                                {nextMajorImpactMessage}
-                             </p>
-                           )}
                         </div>
                       )}
                    </div>
@@ -287,7 +256,7 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                <div className="checker-list max-h-[440px] overflow-y-auto custom-scrollbar pr-1">
+                <div className="checker-list max-h-[440px] overflow-y-auto custom-scrollbar pr-1 text-left">
                    {checkerData.records.map((r) => (
                      <div key={r.id} className="border-b border-white/5 last:border-0 group">
                         <button 
@@ -342,7 +311,6 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* INTEGRATED USE CASES */}
         <section className="py-24 border-t border-white/5" id="built-for">
           <div className="wrap">
             <div className="mb-12 space-y-3 text-left">
@@ -366,7 +334,6 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* PARTNERSHIPS */}
         <section className="py-24 border-t border-white/5 bg-white/[0.01]">
           <div className="wrap text-left">
             <div className="max-w-3xl space-y-6">
