@@ -28,14 +28,16 @@ export default function HomePage() {
   const [todayKey, setTodayKey] = useState('');
   const [expandedRecord, setExpandedRecord] = useState<string | null>(null);
   const [expandedGlobal, setExpandedGlobal] = useState<string | null>(null);
+  const [showNextAdvice, setShowNextAdvice] = useState(false);
   
   useEffect(() => {
     setIsMounted(true);
     const today = startOfToday();
-    const tKey = format(today, 'yyyy-MM-dd');
+    // Anchor prototype to Sept 29, 2026 for consistent context
+    const tKey = '2026-09-29';
     setTodayKey(tKey);
     setStartDate(tKey);
-    const end = addDays(today, 60); 
+    const end = addDays(new Date(tKey + 'T00:00:00'), 60); 
     setEndDate(format(end, 'yyyy-MM-dd'));
 
     getSource().getRecords().then(records => {
@@ -74,7 +76,7 @@ export default function HomePage() {
   const nextEvent = useMemo(() => {
     if (!isMounted || !todayKey || allRecords.length === 0) return null;
     const anchorDate = new Date(todayKey + 'T00:00:00');
-    // sorted records are already chronological from getRecords()
+    // Find the absolute next holiday globally
     return allRecords.find(r => {
       const d = new Date(r.date + 'T00:00:00');
       return isAfter(d, anchorDate) && !isSameDay(d, anchorDate);
@@ -171,9 +173,9 @@ export default function HomePage() {
                   </span>
                 </div>
 
-                <div className="hero-tracker-next-grid text-left border-b border-white/10 bg-white/[0.01]">
-                   <div className="px-[18px] pt-4 pb-0 text-left">
-                      <span className="text-[10px] font-mono font-bold uppercase tracking-[0.25em] text-[#4FD1C5]">GLOBAL IMPACTS · TODAY</span>
+                <div className="text-left bg-white/[0.01]">
+                   <div className="px-[20px] pt-4 pb-0 text-left">
+                      <span className="text-[10px] font-mono font-bold uppercase tracking-[0.25em] text-[#4FD1C5]">GLOBAL IMPACTS</span>
                    </div>
                    <div className="divide-y divide-white/5">
                       {todayEvents.length > 0 ? todayEvents.map((item) => (
@@ -213,19 +215,32 @@ export default function HomePage() {
                                 <div className="h-px flex-1 bg-white/5"></div>
                               </div>
                               <div className="space-y-1">
-                                 <span className="block text-[18px] font-bold text-paper/90 leading-tight">{nextEvent.name}</span>
-                                 <div className="flex items-center gap-3">
-                                    <span className="text-[11px] font-mono font-bold text-[#4FD1C5] uppercase tracking-widest">
-                                       {format(new Date(nextEvent.date + 'T00:00:00'), 'd MMMM yyyy')}
-                                    </span>
-                                    <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-sm uppercase tracking-widest bg-white/5 text-muted-dim border border-white/10">
-                                       {COUNTRY_LABELS[nextEvent.jurisdiction.country_code]} · {nextEvent.jurisdiction.scope.toUpperCase()}
-                                    </span>
-                                 </div>
+                                 <button 
+                                   onClick={() => setShowNextAdvice(!showNextAdvice)}
+                                   className="w-full flex items-center justify-between text-left group"
+                                 >
+                                   <div className="space-y-1">
+                                      <span className="block text-[18px] font-bold text-paper/90 leading-tight group-hover:text-[#4FD1C5] transition-colors">{nextEvent.name}</span>
+                                      <div className="flex items-center gap-3">
+                                         <span className="text-[11px] font-mono font-bold text-[#4FD1C5] uppercase tracking-widest">
+                                            {format(new Date(nextEvent.date + 'T00:00:00'), 'd MMMM yyyy')}
+                                         </span>
+                                         <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-sm uppercase tracking-widest bg-white/5 text-muted-dim border border-white/10">
+                                            {COUNTRY_LABELS[nextEvent.jurisdiction.country_code]} · {nextEvent.jurisdiction.scope.toUpperCase()}
+                                         </span>
+                                      </div>
+                                   </div>
+                                   {showNextAdvice ? <ChevronUp className="w-4 h-4 text-muted-dim" /> : <ChevronDown className="w-4 h-4 text-muted-dim" />}
+                                 </button>
+                                 
+                                 {showNextAdvice && (
+                                   <div className="pt-3 animate-in slide-in-from-top-2 duration-300">
+                                      <p className="text-[12.5px] text-[#9AA1C0] leading-snug font-medium italic border-l border-[#E8A33D]/30 pl-3">
+                                         "{nextEvent.consequences.implication}"
+                                      </p>
+                                   </div>
+                                 )}
                               </div>
-                              <p className="text-[12.5px] text-[#9AA1C0] leading-snug font-medium italic border-l border-white/10 pl-3">
-                                 "{nextEvent.consequences.implication}"
-                              </p>
                            </div>
                         </div>
                       ) : (
@@ -333,17 +348,17 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                <div className="pt-3 space-y-3 border-b border-white/10 pb-3 text-center">
+                <div className="pt-2 space-y-1 border-b border-white/10 pb-2 text-center">
                   <div className="text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-[#4FD1C5]">FOR YOUR JOURNEY</div>
                   <div className="flex flex-row items-center justify-center gap-20 md:gap-32">
                     <div className="flex flex-col items-center">
                       <b className="font-serif text-[32px] text-gold-soft">{checkerData.count}</b>
-                      <span className="text-[11.5px] text-muted-dim block font-bold uppercase tracking-widest mt-1">days affected</span>
+                      <span className="text-[11.5px] text-muted-dim block font-bold uppercase tracking-widest mt-0.5">days affected</span>
                     </div>
                     {checkerData.longestRun > 1 && (
                       <div className="flex flex-col items-center">
                         <b className="font-serif text-[32px] text-gold-soft">{checkerData.longestRun}</b>
-                        <span className="text-[11.5px] text-muted-dim block font-bold uppercase tracking-widest mt-1">day long weekend</span>
+                        <span className="text-[11.5px] text-muted-dim block font-bold uppercase tracking-widest mt-0.5">day long weekend</span>
                       </div>
                     )}
                   </div>
@@ -357,7 +372,9 @@ export default function HomePage() {
                           className="w-full flex items-center justify-between py-5 hover:bg-white/[0.02] transition-all text-left"
                         >
                            <div className="flex items-center gap-6">
-                              <div className="impact-date w-14 shrink-0 font-mono text-[11px] text-muted-dim">{format(new Date(r.date + 'T00:00:00'), 'dd MMM')}</div>
+                              <div className="impact-date w-20 shrink-0 font-mono text-[10px] text-muted-dim uppercase">
+                                {format(new Date(r.date + 'T00:00:00'), 'EEE, dd MMM')}
+                              </div>
                               <div className="space-y-0.5">
                                  <span className="block font-bold text-[14px] group-hover:text-gold-soft transition-colors leading-tight">{r.name}</span>
                                  <div className="flex items-center gap-3">

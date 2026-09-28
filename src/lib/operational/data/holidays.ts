@@ -58,7 +58,7 @@ export const HOLIDAY_RULES: Record<string, any[]> = {
     dated({ 2026: "2026-10-20" }, "Dussehra", "religious", "confirmed", "high", 
       { source_name: "Comptroller and Auditor General of India, 2026 List of Public Holidays (Annexure-I) — Dussehra (Vijayadashmi), 20 Oct 2026", source_url: "https://cag.gov.in/uploads/media/Holiday-List-2026-06982ddd8e2f3c2-57681843.pdf" }
     ),
-    dated({ 2026: "2026-10-29", 2027: "2027-10-29", 2028: "2028-10-17" }, "Diwali", "public", "confirmed", "high", {
+    dated({ 2026: "2026-11-08", 2027: "2027-10-29", 2028: "2028-10-17" }, "Diwali", "public", "confirmed", "high", {
       source_name: "DoPT OM F.No.12/2/2023-JCA, Annexure-I (Delhi/New Delhi date).",
       source_url: "https://www.aiimsmangalagiri.edu.in/wp-content/uploads/2025/11/Holidays-Circular-2026-1.pdf"
     }),
@@ -95,6 +95,7 @@ export const HOLIDAY_RULES: Record<string, any[]> = {
     fixed(12, 25, "Christmas Day", "public", "medium", CIA_SOURCE)
   ],
   CA: [
+    dated({ 2026: "2026-09-30" }, "National Day for Truth and Reconciliation", "public", "confirmed", "high", { source_name: "Gov Canada", source_url: "https://www.canada.ca/" }),
     fixed(7, 1, "Canada Day", "public", "high", { source_name: "Gov Canada", source_url: "https://www.canada.ca/" }),
     fixed(1, 1, "New Year's Day", "public", "medium", CIA_SOURCE),
     fixed(12, 25, "Christmas Day", "public", "medium", CIA_SOURCE)
