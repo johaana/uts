@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useMemo, Suspense } from 'react';
@@ -31,7 +30,6 @@ function FestivalsPageContent() {
     };
     
     const filteredAndSortedFestivals = useMemo(() => {
-        // De-duplicate festivals first to create a clean directory
         const uniqueMap = new Map();
         allEvents.forEach(event => {
             const baseSlug = event.slug.split('-202')[0];
@@ -64,20 +62,19 @@ function FestivalsPageContent() {
             <div className="container mx-auto px-6 py-12 md:py-24">
                 <div className="max-w-4xl mx-auto mb-16 text-center space-y-6">
                     <div className="flex flex-col items-center gap-3">
-                        <span className="text-[10px] font-mono font-bold uppercase tracking-[0.4em] text-[#E94368]">THE LIBRARY INDEX</span>
+                        <span className="text-[10px] font-mono font-bold uppercase tracking-[0.4em] text-[#E94368]">THE UTSAVS INDEX</span>
                         <div className="h-px w-20 bg-[#17151A]/10"></div>
-                        <span className="text-[9px] font-mono font-bold uppercase tracking-widest text-[#6D6870]">INDEX STATUS: 92 COUNTRIES TRACKED</span>
                     </div>
-                    <h1 className="font-headline text-4xl md:text-7xl font-bold tracking-tighter leading-none">Discover Festivals</h1>
+                    <h1 className="font-headline text-4xl md:text-7xl font-bold tracking-tighter leading-none">Discover Traditions</h1>
                     <p className="text-xl text-[#6D6870] font-medium leading-relaxed max-w-2xl mx-auto">
                         The definitive guide to the world's most vibrant cultural events. 
-                        Understand the stories, the rituals, and the impact.
+                        Understand the stories, the rituals, and the narratives that shape our world.
                     </p>
                 </div>
 
                 <div className="max-w-4xl mx-auto space-y-12">
                     {/* Horizontal Filter Bar */}
-                    <div className="bg-white/50 border border-[#17151A]/10 rounded-sm p-4 flex flex-col md:flex-row gap-4 items-center shadow-sm">
+                    <div className="bg-white border border-[#17151A]/10 rounded-sm p-4 flex flex-col md:flex-row gap-4 items-center shadow-sm">
                         <div className="relative flex-1 w-full">
                             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#6D6870]" />
                             <Input 

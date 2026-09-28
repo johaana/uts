@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
@@ -11,7 +10,7 @@ import {
 import { getSource } from '@/lib/operational/source';
 import { evaluateQuery, resolveNow } from '@/lib/operational/engine';
 import { DateIntelligenceRecord, CanonicalRule } from '@/lib/operational/types';
-import { format, addDays, startOfToday, differenceInDays } from 'date-fns';
+import { format, addDays, startOfToday, differenceInDays, parseISO } from 'date-fns';
 import { ChevronDown, ChevronUp, ShieldCheck, Clock, ExternalLink, Plane, School, Briefcase, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 
@@ -70,7 +69,9 @@ export default function HomePage() {
   }, [forwardIndex, todayKey]);
 
   const localSignalsFeed = useMemo(() => {
-    if (!isMounted) return [];
+    if (!isMounted || !todayKey) return [];
+    
+    // 1. Check for actual regional signals today
     const todayItems = (forwardIndex.get(todayKey) || []).filter((r: any) => r.jurisdiction.scope === 'regional');
     
     if (todayItems.length > 0) {
@@ -80,11 +81,26 @@ export default function HomePage() {
       }));
     }
 
+    // 2. If today is clear, look at the whole current month
+    const currentMonth = todayKey.substring(0, 7); // yyyy-MM
+    const monthlyItems = allRecords.filter(r => 
+      r.date.startsWith(currentMonth) && 
+      r.jurisdiction.scope === 'regional'
+    );
+
+    if (monthlyItems.length > 0) {
+        return monthlyItems.map((e: any) => ({
+            text: `${COUNTRY_LABELS[e.jurisdiction.country_code] || e.jurisdiction.country_code} — ${e.jurisdiction.region || ''} — ${e.name} · ${format(new Date(e.date + 'T00:00:00'), 'd MMM')}`,
+            isLive: false
+        }));
+    }
+
+    // 3. Absolute fallback
     return [{
-      text: "Standard global working day · 92 jurisdictions verified · No regional alerts today.",
+      text: "Standard Global business day · High-trust window for international meetings.",
       isLive: true
     }];
-  }, [isMounted, forwardIndex, todayKey]);
+  }, [isMounted, forwardIndex, todayKey, allRecords]);
 
   const checkerData = useMemo(() => {
     if (!startDate || !endDate || canonicalRules.length === 0) return { records: [], count: 0, longest: 0, nextDays: '—' };
@@ -158,7 +174,7 @@ export default function HomePage() {
                         </div>
                       )) : (
                         <div className="px-[18px] py-6 text-left">
-                           <p className="text-[13.5px] font-medium text-paper/80 leading-relaxed italic pr-4">
+                           <p className="text-[13.5px] font-medium text-paper/80 leading-relaxed pr-4">
                               Standard Global business day. High-trust window for international meetings and cross-border office operations.
                            </p>
                         </div>
@@ -167,7 +183,7 @@ export default function HomePage() {
                 </div>
 
                 <div className="hero-tracker-feed !py-6 bg-[#1E2650]/40">
-                  <div className="px-[18px] mb-4 flex items-center gap-2">
+                  <div className="px-[20px] mb-4 flex items-center gap-2">
                      <span className="text-[10px] font-mono font-bold text-[#4FD1C5] uppercase tracking-[0.25em]">LOCAL SIGNALS</span>
                   </div>
                   <div className="marquee">
@@ -291,9 +307,9 @@ export default function HomePage() {
         <section className="py-24 border-t border-white/5" id="built-for">
           <div className="wrap">
             <div className="mb-12 space-y-3">
-               <span className="text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-[#E8A33D]">INDEX STATUS: 92 COUNTRIES TRACKED · VERIFICATION ACTIVE</span>
+               <span className="text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-[#E8A33D]">GLOBAL COVERAGE · EVERYWHERE WE TRACK</span>
                <h2 className="font-headline text-3xl md:text-5xl font-medium">Built for technical planning.</h2>
-               <p className="text-[#9AA1C0] text-lg max-w-2xl">Reconciling 1,091 deterministic rules across 92 jurisdictions for high-stakes operational assessment.</p>
+               <p className="text-[#9AA1C0] text-lg max-w-2xl">Reconciling deterministic rules across multiple jurisdictions for high-stakes operational assessment.</p>
             </div>
             <div className="grid md:grid-cols-3 gap-6">
                {[

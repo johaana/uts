@@ -54,14 +54,14 @@ export function OperationalResultCard({ record }: OperationalResultCardProps) {
             <ShieldCheck className="w-3 h-3" /> {record.confidence}
           </div>
           <div className="flex items-center gap-1 px-2 py-0.5 rounded border border-primary/20 bg-primary/5 text-[9px] font-bold uppercase tracking-wider text-primary">
-            PLANNING FACT
+            PLANNING INSIGHT
           </div>
         </div>
       </CardHeader>
       <CardContent className="p-6 pt-2 space-y-4">
         <div className="p-4 bg-primary/5 rounded-lg border border-primary/10">
           <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary mb-2 flex items-center gap-2">
-            <Info className="w-3 h-3" /> {record.temporal_kind === 'standing' ? 'Policy implication' : 'Why it matters'}
+            <Info className="w-3 h-3" /> {record.temporal_kind === 'standing' ? 'Policy implication' : 'What this means for your trip'}
           </h4>
           <p className="text-sm font-medium leading-relaxed text-foreground/90">
             {record.consequences.implication}
