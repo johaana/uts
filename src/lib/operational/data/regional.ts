@@ -7,12 +7,19 @@ import { DateIntelligenceRecord } from '../types';
 export const REGIONAL_SIGNALS: Partial<DateIntelligenceRecord>[] = [
   { 
     id: "REG_IN_MH_ANANT", 
-    valid_from: "2026-09-25", 
     name: "Anant Chaturdashi (Visarjan)", 
     category: "regional",
     jurisdiction: { country_code: "IN", country_name: "India", region: "Maharashtra", scope: "regional" },
     purpose_relevance: ["travel", "logistics"],
-    temporal_kind: "event", 
+    temporal_kind: "recurring",
+    rule_definition: {
+      kind: "dated",
+      name: "Anant Chaturdashi (Visarjan)",
+      type: "regional",
+      status: "confirmed",
+      purpose_relevance: ["travel", "logistics"],
+      dates: { 2026: "2026-09-25", 2027: "2027-09-14", 2028: "2028-09-03" }
+    },
     state: "confirmed", 
     confidence: "high", 
     evidence: { source_name: "Maharashtra Police Traffic Advisory", source_url: "https://trafficpolicemumbai.maharashtra.gov.in/" },
@@ -29,12 +36,19 @@ export const REGIONAL_SIGNALS: Partial<DateIntelligenceRecord>[] = [
   },
   { 
     id: "REG_IN_MH_JANM", 
-    valid_from: "2026-09-04", 
     name: "Dahi Handi Processions", 
     category: "regional",
     jurisdiction: { country_code: "IN", country_name: "India", region: "Maharashtra", scope: "regional" },
     purpose_relevance: ["travel"],
-    temporal_kind: "event", 
+    temporal_kind: "recurring",
+    rule_definition: {
+      kind: "dated",
+      name: "Dahi Handi Processions",
+      type: "regional",
+      status: "confirmed",
+      purpose_relevance: ["travel"],
+      dates: { 2026: "2026-09-04", 2027: "2027-08-25", 2028: "2028-08-14" }
+    },
     state: "confirmed", 
     confidence: "medium", 
     evidence: { source_name: "Local Municipal Advisory", source_url: "https://mumbaipolice.gov.in/" },
