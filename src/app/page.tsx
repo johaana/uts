@@ -83,7 +83,8 @@ export default function HomePage() {
   }, [isMounted, todayKey, allRecords]);
 
   const globalTodayEvents = useMemo(() => {
-    const events = forwardIndex.get(todayKey) || [];
+    const events = (forwardIndex.get(todayKey) || [])
+      .filter((e: any) => e.jurisdiction.scope === 'national' || e.jurisdiction.scope === 'global');
     return events;
   }, [forwardIndex, todayKey]);
 
