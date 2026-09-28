@@ -14,10 +14,14 @@ import { OperationalResult, DateIntelligenceRecord, CanonicalRule } from '@/lib/
 import { format, addDays, startOfDay, differenceInDays, isValid, startOfToday } from 'date-fns';
 import { ChevronDown, ChevronUp, Activity, Info, Globe, ExternalLink, ShieldCheck } from 'lucide-react';
 
-const getCleanLabel = (scope: string, category: string) => {
-  const s = scope.toUpperCase();
-  const c = category.toUpperCase().replace('_', ' ');
+const getCleanLabel = (scope?: string, category?: string) => {
+  const s = (scope || '').toUpperCase();
+  const c = (category || '').toUpperCase().replace('_', ' ');
   
+  if (!s && !c) return 'RECORD';
+  if (!s) return c;
+  if (!c) return s;
+
   if (s === c || c.includes(s)) return s;
   
   // Custom mappings for cleaner professional look
@@ -176,8 +180,11 @@ export default function HomePage() {
                   <div className="marquee">
                     <div className="marquee-track">
                       {Array.from(forwardIndex.entries())
-                        .filter(([d]) => d >= todayKey)
-                        .slice(0, 12)
+                        .filter(([d]) => {
+                          const date = parseISO(d);
+                          const today = startOfToday();
+                          return date >= today && differenceInDays(date, today) <= 14;
+                        })
                         .map(([date, entries]) => (
                         entries.map((e: any, idx: number) => (
                           <span key={`${date}-${idx}`} className="chip">
