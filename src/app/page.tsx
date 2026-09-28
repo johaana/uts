@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
@@ -301,7 +300,7 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                <div className="pt-6 space-y-6 border-b border-white/10 pb-4 text-center">
+                <div className="pt-4 space-y-3 border-b border-white/10 pb-3 text-center">
                   <div className="text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-[#4FD1C5]">FOR YOUR JOURNEY</div>
                   <div className="flex flex-row items-center justify-center gap-20 md:gap-32">
                     <div className="flex flex-col items-center">
