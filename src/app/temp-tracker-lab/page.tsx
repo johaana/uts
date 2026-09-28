@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useMemo, useEffect } from 'react';
@@ -9,7 +10,8 @@ import {
   ShieldCheck, 
   ChevronDown,
   ChevronUp,
-  ArrowRight
+  ArrowRight,
+  Activity
 } from "lucide-react";
 import { format, isWithinInterval, startOfDay, parseISO, isSameDay } from 'date-fns';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -120,8 +122,7 @@ export default function TempTrackerLabPage() {
     const month = now.getMonth();
     const day = now.getDate();
 
-    // Logic: Look for REGIONAL events matching current month/day in our registry
-    // For prototype simulation, we'll map the 2026 specific dates to current time if they match
+    // 1. Check for real events today in the registry
     const liveMatches = PERIOD_EVENTS.filter(e => {
         const d = parseISO(e.date);
         return d.getMonth() === month && d.getDate() === day && e.scope === 'REGIONAL';
@@ -134,11 +135,10 @@ export default function TempTrackerLabPage() {
         }));
     }
 
-    // Fallback: Global Status
-    const nextReg = PERIOD_EVENTS.find(e => e.scope === 'REGIONAL');
+    // 2. Return the requested "Standard Day" fallback
     return [{
-        text: `Global systems normal · Next Regional Signal: ${nextReg?.country} — ${nextReg?.jurisdiction} — ${nextReg?.name} (${nextReg?.shortDate})`,
-        isLive: false
+        text: "Standard global working day · 92 jurisdictions verified · No regional alerts today.",
+        isLive: true // Use pulse dot for the "Verified Clear" state
     }];
   }, [isClient]);
 
@@ -203,17 +203,18 @@ export default function TempTrackerLabPage() {
                 </div>
 
                 <div className="hero-tracker-feed">
+                  <div className="space-y-1.5 px-[18px] mb-2">
+                     <span className="text-[9px] font-bold text-[#6E7495] uppercase tracking-[0.25em]">Local Signals</span>
+                  </div>
                   <div className="marquee">
                     <div className="marquee-track">
                       {todayRegionalPulse.concat(todayRegionalPulse).map((item, i) => (
                         <span key={i} className="chip flex items-center gap-3">
-                          {item.isLive && (
-                             <span className="relative flex h-2 w-2">
-                               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
-                               <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.8)]"></span>
-                             </span>
-                          )}
-                          <b className={cn(!item.isLive && "text-muted-dim font-normal")}>{item.text}</b>
+                          <span className="relative flex h-1.5 w-1.5 shrink-0">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.8)]"></span>
+                          </span>
+                          <b className={cn("text-[13px]", !item.isLive && "text-muted-dim font-normal")}>{item.text}</b>
                         </span>
                       ))}
                     </div>
@@ -230,7 +231,7 @@ export default function TempTrackerLabPage() {
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M8 3 4 7l4 4M4 7h13M16 21l4-4-4-4M20 17H7"/>
                   </svg>
-                  <span>{scenario === 'A' ? 'Switch to Option C' : 'Switch to Option A'}</span>
+                  <span>{scenario === 'A' ? 'Show Interpretation' : 'Show List'}</span>
                 </button>
               </div>
 
