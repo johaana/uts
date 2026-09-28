@@ -1,6 +1,6 @@
 /**
  * @fileOverview Authoritative Holidays Data (2026–2028).
- * Contains high-fidelity rules for 92 jurisdictions restored from fragments.
+ * Contains high-fidelity rules for 92 jurisdictions.
  */
 import { HolidayRule, SourceEvidence, ConfidenceTier } from '../types';
 
@@ -97,7 +97,8 @@ export const HOLIDAY_RULES: Record<string, any[]> = {
   SG: [
     fixed(1, 1, "New Year's Day", "public", ["travel", "business"], "high", { source_name: "MOM", source_url: "https://www.mom.gov.sg/employment-practices/public-holidays" }),
     fixed(8, 9, "National Day", "public", ["travel", "business"], "high", { source_name: "MOM", source_url: "https://www.mom.gov.sg/employment-practices/public-holidays" }),
-    dated({ 2026: "2026-02-17", 2027: "2027-02-07", 2028: "2028-01-26" }, "Chinese New Year", "public", "confirmed", "high", { source_name: "MOM", source_url: "https://www.mom.gov.sg/employment-practices/public-holidays" })
+    dated({ 2026: "2026-02-17", 2027: "2027-02-07", 2028: "2028-01-26" }, "Chinese New Year", "public", "confirmed", "high", { source_name: "MOM", source_url: "https://www.mom.gov.sg/employment-practices/public-holidays" }),
+    dated({ 2026: "2026-11-08", 2027: "2027-10-29", 2028: "2028-10-17" }, "Deepavali", "public", "confirmed", "high", { source_name: "MOM", source_url: "https://www.mom.gov.sg/employment-practices/public-holidays" })
   ],
   JP: [
     fixed(1, 1, "New Year's Day", "public", ["travel", "business"], "high", { source_name: "Cabinet Office", source_url: "https://www8.cao.go.jp/chosei/shukujitsu/gaiyou.html" }),
@@ -108,7 +109,6 @@ export const HOLIDAY_RULES: Record<string, any[]> = {
     dated({ 2026: "2026-10-25", 2027: "2027-10-14", 2028: "2028-11-01" }, "Vap Full Moon Poya Day", "public", "confirmed", "high", { source_name: "Sri Lanka Gov", source_url: "https://documents.gov.lk/view/calander/2026/2026_E.pdf" }),
     dated({ 2026: "2026-11-24", 2027: "2027-11-13", 2028: "2028-12-01" }, "Il Full Moon Poya Day", "public", "confirmed", "high", { source_name: "Sri Lanka Gov", source_url: "https://documents.gov.lk/view/calander/2026/2026_E.pdf" })
   ],
-  // Restored Global Batch (Independence Days & Primary Events)
   AE: [fixed(12, 2, "National Day", "public", ["travel", "business"], "high", { source_name: "UAE Gov", source_url: "https://u.ae/en/about-the-uae/public-holidays" })],
   GB: [fixed(12, 25, "Christmas Day", "public", ["travel", "business"], "high", { source_name: "UK Gov", source_url: "https://www.gov.uk/bank-holidays" })],
   FR: [fixed(7, 14, "Bastille Day", "public", ["travel", "business"], "medium", { source_name: "France Gov", source_url: "https://www.service-public.fr/" })],
