@@ -11,7 +11,7 @@ import {
 import { getSource } from '@/lib/operational/source';
 import { evaluateQuery, resolveNow } from '@/lib/operational/engine';
 import { DateIntelligenceRecord, CanonicalRule } from '@/lib/operational/types';
-import { format, addDays, differenceInDays, startOfToday, getMonth } from 'date-fns';
+import { format, addDays, startOfToday, getMonth } from 'date-fns';
 import { ChevronDown, ChevronUp, Activity, ShieldCheck, Clock, ExternalLink } from 'lucide-react';
 
 const getCleanLabel = (scope?: string, category?: string) => {
@@ -96,7 +96,7 @@ export default function HomePage() {
     }
 
     return [{
-      text: "Standard global working day · 92 jurisdictions verified · No regional alerts today.",
+      text: "Standard global working day · No regional alerts today.",
       isLive: true
     }];
   }, [forwardIndex, todayKey]);
@@ -109,60 +109,8 @@ export default function HomePage() {
     const nextDate = [...uniqueDates].sort().find(d => d >= startDate);
     const nextDays = nextDate ? differenceInDays(new Date(nextDate + 'T00:00:00'), new Date(startDate + 'T00:00:00')) : '—';
     
-    const regionalSignals = [];
-    const today = startOfToday();
-    const month = getMonth(today); 
-    
-    const todayMatches = matches.filter(m => m.date === todayKey);
-    const todayRegional = todayMatches.filter(m => m.category === 'regional' || m.jurisdiction.scope === 'regional');
-    
-    if (todayRegional.length > 0) {
-      regionalSignals.push(...todayRegional);
-    } else if (country === 'IN') {
-      if (month >= 5 && month <= 8) {
-        regionalSignals.push({
-          name: "Southwest Monsoon",
-          consequences: { implication: "Active in MH, KA, and KL. Expect localized waterlogging in Mumbai and Bangalore; allow 90-min extra buffer for airport transfers." },
-          jurisdiction: { region: "LIVE ADVISORY" },
-          isLive: true
-        });
-      } 
-      else if (month >= 9 && month <= 10) {
-        regionalSignals.push({
-          name: "Retreating Monsoon",
-          consequences: { implication: "Cyclonic activity alert for TN, AP, and Odisha. Monitor coastal road conditions and port operational status." },
-          jurisdiction: { region: "LIVE ADVISORY" },
-          isLive: true
-        });
-      }
-      else if (month === 11 || month === 0) {
-        regionalSignals.push({
-          name: "North India Fog",
-          consequences: { implication: "High density fog in DL, PB, and HR. Expect systemic flight and rail delays; check live status before heading to terminals." },
-          jurisdiction: { region: "LIVE ADVISORY" },
-          isLive: true
-        });
-      }
-      else if (month >= 3 && month <= 4) {
-        regionalSignals.push({
-          name: "Pre-Monsoon Heatwave",
-          consequences: { implication: "Temperatures exceeding 44°C in RJ, GJ, and MP. Outdoor logistical throughput reduced between 12:00 and 16:00." },
-          jurisdiction: { region: "LIVE ADVISORY" },
-          isLive: true
-        });
-      }
-
-      if (mode === 'corporate' && matches.length > 0) {
-        regionalSignals.push({
-          name: "Bank closure policy",
-          consequences: { implication: "State-specific RBI holiday lists govern banking availability for RTGS/NEFT settlement cycles." },
-          jurisdiction: { region: "RBI POLICY" }
-        });
-      }
-    }
-    
-    return { records: matches, count: uniqueDates.size, longest: 0, nextDays, regionalSignals };
-  }, [country, startDate, endDate, canonicalRules, mode, todayKey]);
+    return { records: matches, count: uniqueDates.size, longest: 0, nextDays };
+  }, [country, startDate, endDate, canonicalRules, mode]);
 
   return (
     <div className="bg-ink text-paper min-h-screen font-sans">
@@ -224,8 +172,8 @@ export default function HomePage() {
                            )}
                         </div>
                       )) : (
-                        <div className="px-[18px] py-8 text-center text-xs text-muted-dim italic">
-                           No primary national records for today.
+                        <div className="px-[18px] py-8 text-left text-xs text-muted-dim italic">
+                           Standard global working day.
                         </div>
                       )}
                    </div>
@@ -352,35 +300,6 @@ export default function HomePage() {
                      </div>
                    )}
                 </div>
-
-                {checkerData.regionalSignals.length > 0 && (
-                  <div className="p-5 bg-white/[0.02] border border-white/5 rounded-xl mt-8 space-y-4">
-                    <div className="flex items-center justify-between">
-                      <p className="text-[10px] font-bold uppercase tracking-widest text-[#E8A33D] flex items-center gap-2">
-                        <Activity className="w-3.5 h-3.5" /> REGIONAL INTEL · TODAY
-                      </p>
-                      <span className="text-[9px] font-mono text-muted-dim flex items-center gap-1.5">
-                        <Clock className="w-2.5 h-2.5" /> Live at {lastRefreshed}
-                      </span>
-                    </div>
-                    <div className="grid gap-4">
-                       {checkerData.regionalSignals.map((item: any, idx: number) => (
-                         <div key={idx} className="flex justify-between items-start border-b border-white/5 pb-4 last:border-0 last:pb-0 text-left">
-                            <div className="space-y-1">
-                               <div className="flex items-center gap-2">
-                                  <p className="text-[13px] font-bold">{item.name}</p>
-                                  {item.isLive && (
-                                    <span className="px-1.5 py-0.5 bg-green-500/10 text-green-500 text-[8px] font-extrabold uppercase rounded-sm border border-green-500/20">Verified Live</span>
-                                  )}
-                               </div>
-                               <p className="text-[11px] text-muted-dim leading-relaxed italic">"{item.consequences.implication}"</p>
-                            </div>
-                            <span className="text-[9px] font-mono text-[#E8A33D]/60 font-bold uppercase shrink-0 ml-4">{item.jurisdiction?.region || (item.temporal_kind === 'standing' ? 'POLICY' : 'REGIONAL')}</span>
-                         </div>
-                       ))}
-                    </div>
-                  </div>
-                )}
               </div>
             </div>
           </div>
