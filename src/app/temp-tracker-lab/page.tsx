@@ -10,8 +10,7 @@ import {
   Globe,
   MapPin,
   AlertCircle,
-  ShieldCheck,
-  ChevronRight
+  ShieldCheck
 } from "lucide-react";
 
 // --------------------------------------------------------------------------------
@@ -30,12 +29,12 @@ const GLOBAL_INTEL = [
   {
     event: "Indonesia — Maulid Nabi",
     meta: "12 JURISDICTIONS · NATIONAL HOLIDAY",
-    desc: "BANKING: Systemic public closures. Active settlement latency flagged for regional corridors."
+    desc: "**BANKING:** Systemic public closures. Active settlement latency flagged for regional corridors."
   },
   {
     event: "Hong Kong — Mid-Autumn Festival",
     meta: "REGIONAL · PUBLIC HOLIDAY",
-    desc: "MARKETS: Modified trading session. LOGISTICS: Standard port flow; extended transit schedules."
+    desc: "**MARKETS:** Modified trading session. **LOGISTICS:** Standard port flow; extended transit schedules."
   }
 ];
 
@@ -44,77 +43,43 @@ const REGIONAL_INTEL_MAP: Record<string, any> = {
     country: "INDIA",
     region: "Maharashtra",
     event: "Janmashtami / Dahi Handi",
-    intel: "URBAN: High density movement impact in Mumbai/Pune. BANKING: Mandatory regional closures."
+    intel: "**URBAN:** High density movement impact in Mumbai/Pune. **BANKING:** Mandatory regional closures."
   },
   JP: {
     country: "JAPAN",
     region: "Tokyo",
     event: "Respect for the Aged Day",
-    intel: "MARKETS: JPX session suspended. BANKING: BoJ systems offline. LOGISTICS: 24h delay expected."
+    intel: "**MARKETS:** JPX session suspended. **BANKING:** BoJ systems offline. **LOGISTICS:** 24h delay expected."
   },
   US: {
     country: "UNITED STATES",
     region: "Federal",
     event: "Labor Day",
-    intel: "MARKETS: NYSE/NASDAQ suspended. GOVT: Federal offices closed. LOGISTICS: Sunday schedule."
+    intel: "**MARKETS:** NYSE/NASDAQ suspended. **GOVT:** Federal offices closed. **LOGISTICS:** Sunday schedule."
   },
   SG: {
     country: "SINGAPORE",
     region: "Little India",
     event: "Deepavali Season",
-    intel: "RETAIL: Extended trading in Little India. No national commercial shutdown indicated for this date."
+    intel: "**RETAIL:** Extended trading in Little India. No national commercial shutdown indicated for this date."
   },
 };
 
-const HEADER_OPTIONS = [
-  "JURISDICTIONAL RULES",
-  "REGIONAL NUANCE",
-  "LOCAL IMPACT",
-  "SELECTION INSIGHT",
-  "DESTINATION ADVISORY"
-];
-
-const COUNTRY_OPTIONS = [
-  { code: 'IN', name: 'India' },
-  { code: 'JP', name: 'Japan' },
-  { code: 'US', name: 'United States' },
-  { code: 'SG', name: 'Singapore' },
-  { code: 'FR', name: 'France (No Regional Impact)' }
-];
-
 // --------------------------------------------------------------------------------
-// COMPONENT
+// COMPONENT (High-Fidelity Hero Replica)
 // --------------------------------------------------------------------------------
 
 export default function TempTrackerLabPage() {
   const [country, setCountry] = useState('IN');
-  const [headerIndex, setHeaderIndex] = useState(0);
-  const [isComparing, setIsComparing] = useState(false);
   const [mode, setMode] = useState('traveler');
   
   const regionalIntel = REGIONAL_INTEL_MAP[country];
-  const activeHeader = HEADER_OPTIONS[headerIndex];
-
-  const cycleHeader = () => {
-    setHeaderIndex((prev) => (prev + 1) % HEADER_OPTIONS.length);
-  };
 
   return (
     <div className="bg-[#0F1428] text-[#F4F1E8] min-h-screen font-sans selection:bg-[#E8A33D] selection:text-[#0F1428]">
       <Header />
       
       <main>
-        {/* LAB CONTROLS (Floating) */}
-        <div className="fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-4 bg-[#1E2650] border border-white/20 p-4 rounded-2xl shadow-2xl">
-          <div className="flex flex-col gap-1">
-             <span className="text-[9px] font-bold uppercase tracking-widest text-[#4FD1C5]">Header Lab</span>
-             <button onClick={cycleHeader} className="flex items-center gap-2 bg-[#171D3A] hover:bg-[#252D5A] px-4 py-2 rounded-lg text-xs font-bold transition-all border border-white/10">
-                <RefreshCw className="w-3 h-3 text-[#E8A33D]" />
-                Switch Header: {activeHeader}
-             </button>
-          </div>
-        </div>
-
         {/* HERO REPLICA */}
         <section className="hero">
           <div className="wrap hero-grid">
@@ -143,7 +108,7 @@ export default function TempTrackerLabPage() {
                       <span className="next-card-kicker flex items-center gap-1.5 !text-[#4FD1C5]">
                         <Globe className="w-2.5 h-2.5" /> AROUND THE GLOBE
                       </span>
-                      <span className="text-[8px] font-bold text-[#4FD1C5]/40 uppercase tracking-widest">General Impact</span>
+                      <span className="text-[8px] font-bold text-[#4FD1C5]/40 uppercase tracking-widest">Global Status</span>
                     </div>
                     
                     <div className="space-y-4 pb-4">
@@ -151,9 +116,7 @@ export default function TempTrackerLabPage() {
                         <div key={idx} className={cn("px-[18px] py-1.5", idx > 0 && "border-t border-white/5 pt-3")}>
                           <span className="next-card-name text-[14.5px] font-bold">{item.event}</span>
                           <span className="next-card-date text-[10px] text-[#4FD1C5] mb-1 block font-bold uppercase tracking-wider">{item.meta}</span>
-                          <p className="text-[12px] text-[#9AA1C0] leading-tight font-medium max-w-[360px]">
-                              {item.desc}
-                          </p>
+                          <p className="text-[12.5px] text-[#9AA1C0] leading-snug font-medium max-w-[360px]" dangerouslySetInnerHTML={{ __html: item.desc }} />
                         </div>
                       ))}
                     </div>
@@ -165,9 +128,9 @@ export default function TempTrackerLabPage() {
                      
                      <div className="px-1 flex items-center justify-between mb-3">
                         <span className="next-card-kicker !text-[#E8A33D] uppercase tracking-widest flex items-center gap-1.5">
-                           <MapPin className="w-2.5 h-2.5" /> {activeHeader} · {regionalIntel?.country || 'NA'}
+                           <MapPin className="w-2.5 h-2.5" /> DESTINATION ADVISORY · {regionalIntel?.country || country}
                         </span>
-                        {regionalIntel && <span className="text-[8px] font-bold text-[#E8A33D] border border-[#E8A33D]/40 px-1.5 py-0.5 rounded-sm uppercase tracking-widest">Live Nuance</span>}
+                        {regionalIntel && <span className="text-[8px] font-bold text-[#E8A33D] border border-[#E8A33D]/40 px-1.5 py-0.5 rounded-sm uppercase tracking-widest">Active Nuance</span>}
                      </div>
                      
                      {regionalIntel ? (
@@ -175,13 +138,11 @@ export default function TempTrackerLabPage() {
                           <span className="next-card-name !text-[14.5px] block font-bold">
                             {regionalIntel.event} · {regionalIntel.region}
                           </span>
-                          <p className="text-[12px] leading-tight text-[#9AA1C0] block font-medium max-w-[360px]">
-                              {regionalIntel.intel}
-                          </p>
+                          <p className="text-[12.5px] leading-snug text-[#9AA1C0] block font-medium max-w-[360px]" dangerouslySetInnerHTML={{ __html: regionalIntel.intel }} />
                        </div>
                      ) : (
                        <div className="py-2 px-1">
-                          <span className="next-card-date italic text-[#6E7495] font-medium text-[12px] flex items-center gap-2">
+                          <span className="next-card-date italic text-[#6E7495] font-medium text-[12.5px] flex items-center gap-2">
                              <AlertCircle className="w-3.5 h-3.5 opacity-50" /> No regional variants identified. National rules apply.
                           </span>
                        </div>
@@ -192,7 +153,7 @@ export default function TempTrackerLabPage() {
                         <div className="flex items-center gap-2">
                            <RefreshCw className="w-2.5 h-2.5 text-[#E8A33D]" />
                            <span className="text-[8.5px] font-bold uppercase tracking-widest text-[#9AA1C0]">
-                              Jurisdictional context. Synced with selection.
+                              Trip-specific intelligence. Synced with selection.
                            </span>
                         </div>
                         <div className="flex items-center gap-1.5">
@@ -226,12 +187,10 @@ export default function TempTrackerLabPage() {
             <div className="checker text-left" style={{ order: 1 }}>
               <div className="checker-top">
                 <h3 className="font-headline text-[18px]">Trip impact checker</h3>
-                <button type="button" className="compare-launch" onClick={() => setIsComparing(!isComparing)}>
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M8 3 4 7l4 4M4 7h13M16 21l4-4-4-4M20 17H7"/>
-                  </svg>
-                  <span className="text-[11px] font-bold uppercase tracking-widest">{isComparing ? 'Single view' : 'Compare countries'}</span>
-                </button>
+                <div className="flex items-center gap-2 px-2.5 py-1 bg-white/5 border border-white/10 rounded-full">
+                  <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div>
+                  <span className="text-[9px] font-bold uppercase tracking-wider text-green-500">Live Engine</span>
+                </div>
               </div>
 
               <div className="mode-toggle">
@@ -244,10 +203,14 @@ export default function TempTrackerLabPage() {
                 <div className="checker-field">
                   <label className="text-[10.5px] font-mono uppercase tracking-widest">Destination / Jurisdiction</label>
                   <select value={country} onChange={e => setCountry(e.target.value)} className="bg-[#1E2650] border border-white/10 rounded-lg p-2.5 text-sm">
-                    {COUNTRY_OPTIONS.map(c => <option key={c.code} value={c.code}>{c.name}</option>)}
+                    <option value="IN">India</option>
+                    <option value="JP">Japan</option>
+                    <option value="US">United States</option>
+                    <option value="SG">Singapore</option>
+                    <option value="FR">France (No Regional Impact)</option>
                   </select>
                 </div>
-                <div className="checker-row date-row">
+                <div className="grid grid-cols-2 gap-3">
                   <div className="checker-field">
                     <label className="text-[10.5px] font-mono uppercase tracking-widest">From</label>
                     <input type="date" defaultValue="2026-09-04" className="bg-[#1E2650] border border-white/10 rounded-lg p-2.5 text-sm" />
@@ -265,7 +228,7 @@ export default function TempTrackerLabPage() {
                 </div>
 
                 <div className="checker-brief text-[13px] leading-relaxed text-muted pt-2">
-                  <strong>IN SHORT:</strong> 3 dates in your selected period are worth keeping in mind. The details below show what is happening on each date.
+                  <strong>IN SHORT:</strong> {country === 'FR' ? '0' : '3'} dates in your selected period are worth keeping in mind. The tracker on the left is now synced to your destination.
                 </div>
 
                 <div className="checker-list mt-4">
