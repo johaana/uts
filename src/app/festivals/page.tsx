@@ -1,4 +1,3 @@
-
 'use client';
 
 import React from 'react';
@@ -11,7 +10,7 @@ import { cn } from '@/lib/utils';
 
 const hubCategories = [
     {
-        title: "National Index",
+        title: "Indian Festivals",
         label: "INDIA",
         desc: "The 28 states and 8 union territories.",
         icon: Flag,
@@ -20,7 +19,7 @@ const hubCategories = [
         bg: "bg-orange-600/10"
     },
     {
-        title: "The Global Map",
+        title: "World Festivals",
         label: "INTERNATIONAL",
         desc: "Major world-impact events and festivals.",
         icon: Globe,
@@ -29,7 +28,7 @@ const hubCategories = [
         bg: "bg-blue-600/10"
     },
     {
-        title: "The Journal",
+        title: "Stories & Blogs",
         label: "CULTURAL STORIES",
         desc: "The 'Why' behind the 'When'.",
         icon: BookOpen,
@@ -38,7 +37,7 @@ const hubCategories = [
         bg: "bg-purple-600/10"
     },
     {
-        title: "The Kitchen",
+        title: "Festive Recipes",
         label: "SACRED RECIPES",
         desc: "The authentic flavors of celebration.",
         icon: Utensils,

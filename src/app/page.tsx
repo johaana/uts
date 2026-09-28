@@ -18,7 +18,8 @@ export default function HomePage() {
   const [isMounted, setIsMounted] = useState(false);
   const [allRecords, setAllRecords] = useState<DateIntelligenceRecord[]>([]);
   const [canonicalRules, setCanonicalRules] = useState<CanonicalRule[]>([]);
-  const [mode, setMode] = useState<'traveler' | 'study' | 'corporate' | 'compare'>('traveler');
+  const [mode, setMode] = useState<'traveler' | 'study' | 'corporate'>('traveler');
+  const [isComparing, setIsComparing] = useState(false);
   const [country, setCountry] = useState('IN');
   const [compA, setCompA] = useState('IN');
   const [compB, setCompB] = useState('JP');
@@ -67,16 +68,12 @@ export default function HomePage() {
 
   const todayEvents = useMemo(() => {
     if (!isMounted || !todayKey) return [];
-    // Show all scopes today to prevent blunders
     return (forwardIndex.get(todayKey) || []);
   }, [forwardIndex, todayKey, isMounted]);
 
   const localSignalsFeed = useMemo(() => {
     if (!isMounted || !todayKey || allRecords.length === 0) return [];
-    
     const anchorDate = new Date(todayKey + 'T00:00:00');
-    
-    // Always filter for FUTURE items in marquee
     const upcomingItems = allRecords.filter(r => {
       const d = new Date(r.date + 'T00:00:00');
       return isAfter(d, anchorDate) && !isSameDay(d, anchorDate);
@@ -97,24 +94,45 @@ export default function HomePage() {
   }, [isMounted, todayKey, allRecords]);
 
   const checkerData = useMemo(() => {
-    if (!startDate || !endDate || canonicalRules.length === 0) return { records: [], count: 0, nextDays: '—' };
+    if (!startDate || !endDate || canonicalRules.length === 0) return { records: [], count: 0, nextDays: '—', longestRun: 0, nextImplication: '' };
     
-    if (mode === 'compare') {
-      const matchesA = evaluateQuery(canonicalRules, { destination: compA, startDate, endDate, purpose: 'travel' }, new Date(todayKey + 'T00:00:00'));
-      const matchesB = evaluateQuery(canonicalRules, { destination: compB, startDate, endDate, purpose: 'travel' }, new Date(todayKey + 'T00:00:00'));
-      const combined = [...matchesA, ...matchesB].sort((a, b) => a.date.localeCompare(b.date));
-      const uniqueDates = new Set(combined.map(m => m.date));
-      return { records: combined, count: uniqueDates.size, nextDays: '—' };
-    }
-
+    const targetCountries = isComparing ? [compA, compB] : [country];
     const purposeMap: Record<string, any> = { traveler: 'travel', study: 'study', corporate: 'business' };
-    const matches = evaluateQuery(canonicalRules, { destination: country, startDate, endDate, purpose: purposeMap[mode] }, new Date(todayKey + 'T00:00:00'));
-    const uniqueDates = new Set(matches.map(m => m.date));
-    const nextDate = [...uniqueDates].sort().find(d => d >= startDate);
+    
+    let matches: DateIntelligenceRecord[] = [];
+    targetCountries.forEach(c => {
+      const countryMatches = evaluateQuery(canonicalRules, { destination: c, startDate, endDate, purpose: purposeMap[mode] }, new Date(todayKey + 'T00:00:00'));
+      matches = [...matches, ...countryMatches];
+    });
+
+    const uniqueMatches = Array.from(new Map(matches.map(m => [m.id, m])).values())
+      .sort((a, b) => a.date.localeCompare(b.date));
+
+    const uniqueDates = Array.from(new Set(uniqueMatches.map(m => m.date))).sort();
+    const count = uniqueDates.length;
+    
+    const nextDate = uniqueDates.find(d => d >= startDate);
     const nextDays = nextDate ? differenceInDays(new Date(nextDate + 'T00:00:00'), new Date(startDate + 'T00:00:00')) : '—';
     
-    return { records: matches, count: uniqueDates.size, nextDays };
-  }, [country, compA, compB, startDate, endDate, canonicalRules, mode, todayKey]);
+    const nextImplication = uniqueMatches.find(r => r.date === nextDate)?.consequences.implication || '';
+
+    // Longest Run
+    let longest = 0;
+    let current = 0;
+    let lastD: Date | null = null;
+    uniqueDates.forEach(dStr => {
+      const d = new Date(dStr + 'T00:00:00');
+      if (lastD && differenceInDays(d, lastD) === 1) {
+        current++;
+      } else {
+        current = 1;
+      }
+      if (current > longest) longest = current;
+      lastD = d;
+    });
+
+    return { records: uniqueMatches, count, nextDays, longestRun: longest, nextImplication };
+  }, [country, compA, compB, startDate, endDate, canonicalRules, mode, todayKey, isComparing]);
 
   return (
     <div className="bg-ink text-paper min-h-screen font-sans">
@@ -215,22 +233,24 @@ export default function HomePage() {
 
             <div className="checker text-left order-1">
               <div className="checker-top">
-                <h3 id="checker-title">Trip impact checker</h3>
-                <div className="flex items-center gap-1.5 px-2.5 py-1 bg-green-500/10 border border-green-500/20 rounded-full">
-                  <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div>
-                  <span className="text-[9px] font-bold uppercase tracking-wider text-green-500/80">Live</span>
-                </div>
+                <h3 className="font-serif">Trip impact checker</h3>
+                <button 
+                  onClick={() => setIsComparing(!isComparing)}
+                  className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] text-teal hover:text-white transition-colors"
+                >
+                  <Repeat className="w-3.5 h-3.5" />
+                  <span>Compare Countries</span>
+                </button>
               </div>
 
-              <div className="mode-toggle grid-cols-4">
+              <div className="mode-toggle grid-cols-3">
                 <button type="button" className={cn(mode === 'traveler' && "active")} onClick={() => setMode('traveler')}>Travel</button>
-                <button type="button" className={cn(mode === 'study' && "active")} onClick={() => setMode('study')}>Study</button>
-                <button type="button" className={cn(mode === 'corporate' && "active")} onClick={() => setMode('corporate')}>Business</button>
-                <button type="button" className={cn(mode === 'compare' && "active")} onClick={() => setMode('compare')}>Compare</button>
+                <button type="button" className={cn(mode === 'study' && "active")} onClick={() => setMode('study')}>Study abroad</button>
+                <button type="button" className={cn(mode === 'corporate' && "active")} onClick={() => setMode('corporate')}>Business travel</button>
               </div>
 
               <div className="space-y-4">
-                {mode === 'compare' ? (
+                {isComparing ? (
                   <div className="grid grid-cols-2 gap-3">
                     <div className="checker-field">
                       <label>Origin</label>
@@ -250,7 +270,7 @@ export default function HomePage() {
                     </div>
                   </div>
                 ) : (
-                  <div className="checker-row">
+                  <div className="checker-row" id="single-country-row">
                     <div className="checker-field">
                       <label>Destination / Jurisdiction</label>
                       <select value={country} onChange={e => setCountry(e.target.value)}>
@@ -262,7 +282,7 @@ export default function HomePage() {
                   </div>
                 )}
 
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-2 gap-3 date-row">
                   <div className="checker-field">
                     <label>From</label>
                     <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} />
@@ -273,14 +293,27 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                <div className="checker-summary pt-6 pb-4 border-b border-white/10 flex flex-col sm:flex-row sm:items-end justify-between gap-4 text-left">
-                  <div className="flex gap-10">
-                    <div><b className="font-headline text-[32px] text-gold-soft">{checkerData.count}</b><span className="text-[11.5px] text-muted-dim block font-bold uppercase tracking-widest mt-1">flags in period</span></div>
-                    {mode !== 'compare' && (
-                      <div><b className="font-headline text-[32px] text-gold-soft">{checkerData.nextDays}</b><span className="text-[11.5px] text-muted-dim block font-bold uppercase tracking-widest mt-1">days to next</span></div>
-                    )}
+                <div className="checker-summary pt-6 pb-4 border-b border-white/10 flex flex-row items-end justify-between gap-4 text-left">
+                   <div>
+                    <b className="font-serif text-[32px] text-gold-soft">{checkerData.count}</b>
+                    <span className="text-[11.5px] text-muted-dim block font-bold uppercase tracking-widest mt-1">dates to keep in mind</span>
+                  </div>
+                  <div>
+                    <b className="font-serif text-[32px] text-gold-soft">{checkerData.longestRun}</b>
+                    <span className="text-[11.5px] text-muted-dim block font-bold uppercase tracking-widest mt-1">day in longest flagged run</span>
+                  </div>
+                  <div>
+                    <b className="font-serif text-[32px] text-gold-soft">{checkerData.nextDays}</b>
+                    <span className="text-[11.5px] text-muted-dim block font-bold uppercase tracking-widest mt-1">days to next one</span>
                   </div>
                 </div>
+
+                {checkerData.nextImplication && (
+                  <div className="checker-brief flex gap-3 italic">
+                    <strong className="shrink-0">Note:</strong>
+                    <p>"{checkerData.nextImplication}"</p>
+                  </div>
+                )}
 
                 <div className="checker-list max-h-[440px] overflow-y-auto custom-scrollbar pr-1 text-left">
                    {checkerData.records.map((r) => (
