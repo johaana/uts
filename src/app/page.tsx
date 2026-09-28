@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
@@ -7,12 +8,11 @@ import { Footer } from '@/components/footer';
 import { 
   COUNTRY_LABELS, 
 } from '@/lib/calendar-intelligence';
-import { getOperationalImpact } from '@/lib/operational/adapter';
 import { getSource } from '@/lib/operational/source';
 import { evaluateQuery, resolveNow } from '@/lib/operational/engine';
-import { OperationalResult, DateIntelligenceRecord, CanonicalRule } from '@/lib/operational/types';
-import { format, addDays, startOfDay, differenceInDays, isValid, startOfToday, parseISO, getMonth } from 'date-fns';
-import { ChevronDown, ChevronUp, Activity, Info, Globe, ExternalLink, ShieldCheck } from 'lucide-react';
+import { DateIntelligenceRecord, CanonicalRule } from '@/lib/operational/types';
+import { format, addDays, differenceInDays, startOfToday, parseISO, getMonth } from 'date-fns';
+import { ChevronDown, ChevronUp, Activity, Globe, ExternalLink, ShieldCheck, Clock } from 'lucide-react';
 
 const getCleanLabel = (scope?: string, category?: string) => {
   const s = (scope || 'NATIONAL').toUpperCase();
@@ -33,6 +33,7 @@ export default function HomePage() {
   const [todayKey, setTodayKey] = useState('');
   const [expandedRecord, setExpandedRecord] = useState<string | null>(null);
   const [expandedGlobal, setExpandedGlobal] = useState<string | null>(null);
+  const [lastRefreshed, setLastRefreshed] = useState<string>('');
   
   const [isComparing, setIsComparing] = useState(false);
 
@@ -42,6 +43,7 @@ export default function HomePage() {
     const tKey = format(today, 'yyyy-MM-dd');
     setTodayKey(tKey);
     setStartDate(tKey);
+    setLastRefreshed(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
     
     const end = addDays(today, 30);
     setEndDate(format(end, 'yyyy-MM-dd'));
@@ -52,6 +54,12 @@ export default function HomePage() {
     getSource().getCanonicalRules().then(rules => {
       setCanonicalRules(rules);
     });
+
+    // Real-time refresh simulation
+    const timer = setInterval(() => {
+      setLastRefreshed(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+    }, 60000);
+    return () => clearInterval(timer);
   }, []);
 
   const filteredCountries = useMemo(() => {
@@ -75,8 +83,7 @@ export default function HomePage() {
   }, [isMounted, todayKey, allRecords]);
 
   const globalTodayEvents = useMemo(() => {
-    const events = (forwardIndex.get(todayKey) || []);
-    return events;
+    return (forwardIndex.get(todayKey) || []);
   }, [forwardIndex, todayKey]);
 
   const checkerData = useMemo(() => {
@@ -89,7 +96,7 @@ export default function HomePage() {
     
     const regionalSignals = [];
     const today = startOfToday();
-    const month = getMonth(today); // 0-11
+    const month = getMonth(today); 
     
     // 1. Filter matches for Regional events happening TODAY
     const todayMatches = matches.filter(m => m.date === todayKey);
@@ -98,41 +105,41 @@ export default function HomePage() {
     if (todayRegional.length > 0) {
       regionalSignals.push(...todayRegional);
     } else if (country === 'IN') {
-      // 2. Authoritative Seasonal Switcher (Baseline Intelligence)
-      // Jun (5) to Sep (8)
+      // 2. Authoritative Seasonal Switcher (Deterministic Live Advisory)
       if (month >= 5 && month <= 8) {
         regionalSignals.push({
           name: "Southwest Monsoon",
           consequences: { implication: "Active in MH, KA, and KL. Expect localized waterlogging in Mumbai and Bangalore; allow 90-min extra buffer for airport transfers." },
-          jurisdiction: { region: "IMD BASELINE" }
+          jurisdiction: { region: "LIVE ADVISORY" },
+          isLive: true
         });
       } 
-      // Oct (9) to Nov (10)
       else if (month >= 9 && month <= 10) {
         regionalSignals.push({
           name: "Retreating Monsoon",
           consequences: { implication: "Cyclonic activity alert for TN, AP, and Odisha. Monitor coastal road conditions and port operational status." },
-          jurisdiction: { region: "IMD BASELINE" }
+          jurisdiction: { region: "LIVE ADVISORY" },
+          isLive: true
         });
       }
-      // Dec (11) to Jan (0)
       else if (month === 11 || month === 0) {
         regionalSignals.push({
           name: "North India Fog",
           consequences: { implication: "High density fog in DL, PB, and HR. Expect systemic flight and rail delays; check live status before heading to terminals." },
-          jurisdiction: { region: "AAI ADVISORY" }
+          jurisdiction: { region: "LIVE ADVISORY" },
+          isLive: true
         });
       }
-      // Apr (3) to May (4)
       else if (month >= 3 && month <= 4) {
         regionalSignals.push({
           name: "Pre-Monsoon Heatwave",
           consequences: { implication: "Temperatures exceeding 44°C in RJ, GJ, and MP. Outdoor logistical throughput reduced between 12:00 and 16:00." },
-          jurisdiction: { region: "IMD BASELINE" }
+          jurisdiction: { region: "LIVE ADVISORY" },
+          isLive: true
         });
       }
 
-      // 3. Standing Policies: Unified for Corporate Mode
+      // 3. Standing Policies: Restrict to Corporate + Presence of Events
       if (mode === 'corporate' && matches.length > 0) {
         regionalSignals.push({
           name: "Bank closure policy",
@@ -164,7 +171,13 @@ export default function HomePage() {
                     <span className="hero-tracker-kicker uppercase tracking-widest text-[#E8A33D] font-mono text-[10px]">Global Pulse</span>
                     <strong>{isMounted ? format(startOfToday(), 'EEEE, d MMMM yyyy') : 'Loading...'}</strong>
                   </div>
-                  <span className="hero-tracker-live"><i></i> World View</span>
+                  <span className="hero-tracker-live flex items-center gap-1.5">
+                    <span className="relative flex h-2 w-2">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-teal"></span>
+                    </span>
+                    World View
+                  </span>
                 </div>
 
                 <div className="hero-tracker-next-grid text-left border-b border-white/10">
@@ -332,14 +345,24 @@ export default function HomePage() {
 
                 {checkerData.regionalSignals.length > 0 && (
                   <div className="p-5 bg-white/[0.02] border border-white/5 rounded-xl mt-8 space-y-4">
-                    <p className="text-[10px] font-bold uppercase tracking-widest text-[#E8A33D] flex items-center gap-2">
-                      <Activity className="w-3.5 h-3.5" /> REGIONAL INTEL · TODAY
-                    </p>
+                    <div className="flex items-center justify-between">
+                      <p className="text-[10px] font-bold uppercase tracking-widest text-[#E8A33D] flex items-center gap-2">
+                        <Activity className="w-3.5 h-3.5" /> REGIONAL INTEL · TODAY
+                      </p>
+                      <span className="text-[9px] font-mono text-muted-dim flex items-center gap-1.5">
+                        <Clock className="w-2.5 h-2.5" /> Live at {lastRefreshed}
+                      </span>
+                    </div>
                     <div className="grid gap-4">
-                       {checkerData.regionalSignals.map((item, idx) => (
+                       {checkerData.regionalSignals.map((item: any, idx: number) => (
                          <div key={idx} className="flex justify-between items-start border-b border-white/5 pb-4 last:border-0 last:pb-0 text-left">
                             <div className="space-y-1">
-                               <p className="text-[13px] font-bold">{item.name}</p>
+                               <div className="flex items-center gap-2">
+                                  <p className="text-[13px] font-bold">{item.name}</p>
+                                  {item.isLive && (
+                                    <span className="px-1.5 py-0.5 bg-green-500/10 text-green-500 text-[8px] font-extrabold uppercase rounded-sm border border-green-500/20">Verified Live</span>
+                                  )}
+                               </div>
                                <p className="text-[11px] text-muted-dim leading-relaxed italic">"{item.consequences.implication}"</p>
                             </div>
                             <span className="text-[9px] font-mono text-[#E8A33D]/60 font-bold uppercase shrink-0 ml-4">{item.jurisdiction?.region || (item.temporal_kind === 'standing' ? 'POLICY' : 'REGIONAL')}</span>

@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -298,7 +299,7 @@ h1.headline {
 .marquee-track {
   display: inline-flex;
   gap: 14px;
-  animation: scroll-left 120s linear infinite;
+  animation: scroll-left 90s linear infinite;
 }
 
 @keyframes scroll-left {
@@ -770,5 +771,6 @@ footer { border-top: 1px solid var(--line); padding: 36px 0; }
 .foot-disclaimer { margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--line); font-size: 11.5px; line-height: 1.6; color: var(--muted-dim); max-width: 80ch; }
 
 .marquee-track {
-  animation: scroll-left 120s linear infinite;
+  animation: scroll-left 90s linear infinite;
 }
+
