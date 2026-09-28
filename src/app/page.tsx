@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
@@ -12,8 +11,8 @@ import { getSource } from '@/lib/operational/source';
 import { evaluateQuery, resolveNow } from '@/lib/operational/engine';
 import { DateIntelligenceRecord, CanonicalRule } from '@/lib/operational/types';
 import { internationalEvents } from '@/lib/festival-data';
-import { format, addDays, startOfToday, getMonth, differenceInDays, parse, isValid } from 'date-fns';
-import { ChevronDown, ChevronUp, Activity, ShieldCheck, Clock, ExternalLink, ArrowRight, Plane, School, Briefcase } from 'lucide-react';
+import { format, addDays, startOfToday, differenceInDays, parse, isValid } from 'date-fns';
+import { ChevronDown, ChevronUp, ShieldCheck, Clock, ExternalLink, ArrowRight, Plane, School, Briefcase } from 'lucide-react';
 
 const getCleanLabel = (scope?: string, category?: string) => {
   const s = (scope || 'NATIONAL').toUpperCase();
@@ -35,8 +34,6 @@ export default function HomePage() {
   const [expandedRecord, setExpandedRecord] = useState<string | null>(null);
   const [expandedGlobal, setExpandedGlobal] = useState<string | null>(null);
   
-  const [isComparing, setIsComparing] = useState(false);
-
   useEffect(() => {
     setIsMounted(true);
     const today = startOfToday();
@@ -103,13 +100,13 @@ export default function HomePage() {
     
     if (todayItems.length > 0) {
       return todayItems.map((e: any) => ({
-        text: `${COUNTRY_LABELS[e.jurisdiction.country_code] || e.jurisdiction.country_code} — ${e.jurisdiction.region || ''} — ${e.name} · ${format(new Date(e.date + 'T00:00:00'), 'd MMM')}`,
+        text: `🟢 ${COUNTRY_LABELS[e.jurisdiction.country_code] || e.jurisdiction.country_code} — ${e.jurisdiction.region || ''} — ${e.name} · ${format(new Date(e.date + 'T00:00:00'), 'd MMM')}`,
         isLive: true
       }));
     }
 
     return [{
-      text: "Standard global working day · 92 jurisdictions verified · No regional alerts today.",
+      text: "🟢 Standard global working day · No regional alerts today.",
       isLive: true
     }];
   }, [forwardIndex, todayKey]);
@@ -202,10 +199,6 @@ export default function HomePage() {
                     <div className="marquee-track">
                       {localSignalsFeed.concat(localSignalsFeed).map((item, i) => (
                         <span key={i} className="chip flex items-center gap-3 !border-white/5 bg-white/[0.02]">
-                          <span className="relative flex h-2 w-2 shrink-0">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]"></span>
-                          </span>
                           <b className={cn("text-[13.5px]", !item.isLive && "text-muted-dim font-normal")}>{item.text}</b>
                         </span>
                       ))}
@@ -218,12 +211,10 @@ export default function HomePage() {
             <div className="checker text-left order-1">
               <div className="checker-top">
                 <h3 id="checker-title">Trip impact checker</h3>
-                <button type="button" className="compare-launch" onClick={() => setIsComparing(!isComparing)}>
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M8 3 4 7l4 4M4 7h13M16 21l4-4-4-4M20 17H7"/>
-                  </svg>
-                  <span>{isComparing ? 'Single view' : 'Compare countries'}</span>
-                </button>
+                <div className="flex items-center gap-1.5 px-2.5 py-1 bg-green-500/10 border border-green-500/20 rounded-full">
+                  <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div>
+                  <span className="text-[9px] font-bold uppercase tracking-wider text-green-500/80">Live</span>
+                </div>
               </div>
 
               <div className="mode-toggle">
@@ -270,7 +261,7 @@ export default function HomePage() {
                            <div className="flex items-center gap-6">
                               <div className="impact-date w-14 shrink-0">{format(new Date(r.date + 'T00:00:00'), 'dd MMM')}</div>
                               <div className="space-y-0">
-                                 <span className="block font-bold text-[16.5px] group-hover:text-gold-soft transition-colors leading-tight">{r.name}</span>
+                                 <span className="block font-bold text-[14px] group-hover:text-gold-soft transition-colors leading-tight">{r.name}</span>
                                  <div className="flex items-center gap-3">
                                     <span className="text-[9px] font-mono font-bold text-muted-dim uppercase tracking-widest">
                                        {r.jurisdiction.region ? r.jurisdiction.region + ' · ' : ''}{COUNTRY_LABELS[r.jurisdiction.country_code] || r.jurisdiction.country_code}

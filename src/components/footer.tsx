@@ -1,4 +1,3 @@
-
 "use client";
 
 import Link from "next/link";
@@ -46,7 +45,7 @@ export function Footer() {
         </div>
 
         <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 text-[11px] text-muted-dim font-bold uppercase tracking-widest">
-          <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
+          <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4 text-center md:text-left">
              <span>&copy; {currentYear} UTSAVS</span>
              <span className="flex items-center gap-2">
                 <div className="w-1 h-1 rounded-full bg-teal shadow-[0_0_5px_var(--teal)]"></div>

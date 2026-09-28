@@ -1,4 +1,3 @@
-
 "use client";
 
 import Link from "next/link";
@@ -41,8 +40,6 @@ export function Header() {
           ))}
         </div>
         
-        <Link href="/api" className="hidden lg:inline-block navcta">API Access</Link>
-
         <div className="md:hidden">
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
