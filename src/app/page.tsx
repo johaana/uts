@@ -97,7 +97,7 @@ export default function HomePage() {
 
     return [{
       text: "Standard global working day · 92 jurisdictions verified · No regional alerts today.",
-      isLive: false
+      isLive: true
     }];
   }, [forwardIndex, todayKey]);
 
@@ -201,8 +201,10 @@ export default function HomePage() {
                              className="w-full flex items-center justify-between px-[18px] py-4 hover:bg-white/5 transition-all text-left group"
                            >
                               <div className="space-y-0.5">
-                                 <span className="block text-[14px] font-bold group-hover:text-[#4FD1C5] transition-colors">{COUNTRY_LABELS[item.jurisdiction.country_code]} — {item.name}</span>
-                                 <span className="block text-[8.5px] font-bold text-muted-dim uppercase tracking-widest">{getCleanLabel(item.jurisdiction.scope, item.category)}</span>
+                                 <span className="block text-[14px] font-bold group-hover:text-[#4FD1C5] transition-colors">{item.name}</span>
+                                 <span className="block text-[8.5px] font-bold text-muted-dim uppercase tracking-widest">
+                                    {COUNTRY_LABELS[item.jurisdiction.country_code]} · {getCleanLabel(item.jurisdiction.scope, item.category)}
+                                 </span>
                               </div>
                               {expandedGlobal === item.id ? <ChevronUp className="w-4 h-4 text-muted-dim" /> : <ChevronDown className="w-4 h-4 text-muted-dim" />}
                            </button>
@@ -388,4 +390,3 @@ export default function HomePage() {
     </div>
   );
 }
-
