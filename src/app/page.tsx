@@ -301,17 +301,17 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                <div className="pt-6 space-y-6 border-b border-white/10 pb-4">
+                <div className="pt-6 space-y-6 border-b border-white/10 pb-4 text-center">
                   <div className="text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-[#4FD1C5]">FOR YOUR JOURNEY</div>
-                  <div className="flex flex-row items-end gap-16 md:gap-24 text-left">
-                    <div>
+                  <div className="flex flex-row items-center justify-center gap-20 md:gap-32">
+                    <div className="flex flex-col items-center">
                       <b className="font-serif text-[32px] text-gold-soft">{checkerData.count}</b>
                       <span className="text-[11.5px] text-muted-dim block font-bold uppercase tracking-widest mt-1">days affected</span>
                     </div>
                     {checkerData.longestRun > 1 && (
-                      <div>
+                      <div className="flex flex-col items-center">
                         <b className="font-serif text-[32px] text-gold-soft">{checkerData.longestRun}</b>
-                        <span className="text-[11.5px] text-muted-dim block font-bold uppercase tracking-widest mt-1">day long weekend</span>
+                        <span className="text-[9px] text-muted-dim block font-bold uppercase tracking-widest mt-1">day long weekend</span>
                       </div>
                     )}
                   </div>
@@ -441,4 +441,3 @@ export default function HomePage() {
     </div>
   );
 }
-

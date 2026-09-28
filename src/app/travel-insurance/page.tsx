@@ -23,7 +23,7 @@ export default function TravelInsurancePage() {
     <div className="bg-[#0F1428] text-[#F4F1E8] min-h-screen font-sans selection:bg-[#E8A33D] selection:text-[#0F1428]">
       <Header />
       
-      <main className="py-8 md:py-16">
+      <main className="py-4 md:py-10">
         <div className="container mx-auto px-6 text-left">
           <div className="max-w-5xl mx-auto space-y-20">
             
@@ -183,4 +183,3 @@ export default function TravelInsurancePage() {
     </div>
   );
 }
-
