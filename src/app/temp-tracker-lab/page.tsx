@@ -117,7 +117,7 @@ export default function TempTrackerLabPage() {
 
   useEffect(() => setIsClient(true), []);
 
-  const todayRegionalPulse = useMemo(() => {
+  const localSignalsFeed = useMemo(() => {
     if (!isClient) return [];
     const now = startOfToday();
     const month = now.getMonth();
@@ -173,29 +173,28 @@ export default function TempTrackerLabPage() {
                 Know before you plan. <br className="md:hidden" />
                 Not after.
               </h1>
-              <p className="sub hidden md:block">Experimental Logic Interface.</p>
+              <p className="sub hidden md:block italic text-[#6E7495]">Experimental Logic Interface.</p>
 
               <aside className="hero-tracker md:order-last">
-                <div className="hero-tracker-head">
+                <div className="hero-tracker-head !border-b-0">
                   <div>
-                    <span className="block font-mono text-[9px] font-bold uppercase tracking-[0.35em] text-[#E8A33D] mb-1">LIVE UPDATES</span>
+                    <span className="block font-mono text-[10px] font-bold uppercase tracking-[0.35em] text-[#E8A33D] mb-1">LIVE UPDATES</span>
                     <strong className="text-[17px] font-headline">{isClient ? format(new Date(), 'EEEE, d MMM yyyy') : '...'}</strong>
                   </div>
-                  <div className="flex items-center gap-1.5 opacity-50">
-                    <div className="w-1.5 h-1.5 rounded-full bg-[#4FD1C5]" />
-                    <span className="font-mono text-[9px] font-bold uppercase tracking-widest">Operational View</span>
+                  <div className="flex items-center gap-1.5 opacity-60">
+                    <Clock className="w-2.5 h-2.5 text-[#4FD1C5]" />
+                    <span className="font-mono text-[9px] font-bold uppercase tracking-widest text-[#4FD1C5]">Verified Feed</span>
                   </div>
                 </div>
 
-                <div className="text-left border-b border-white/10 bg-white/[0.01]">
-                   <div className="px-[20px] py-8 space-y-6">
+                <div className="text-left bg-white/[0.01]">
+                   <div className="px-[20px] py-6 space-y-6">
                       <div className="flex items-center gap-2">
-                        <Globe className="w-3 h-3 text-[#4FD1C5]" />
-                        <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#4FD1C5]">GLOBAL IMPACTS</span>
+                        <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#4FD1C5]">GLOBAL IMPACTS · TODAY</span>
                       </div>
-                      <div className="space-y-8">
+                      <div className="space-y-6">
                         {GLOBAL_INTEL.map((item) => (
-                          <div key={item.id} className="space-y-2 border-l-2 border-white/5 pl-4 hover:border-[#4FD1C5]/30 transition-colors">
+                          <div key={item.id} className="space-y-1.5 border-l-2 border-white/5 pl-4 hover:border-[#4FD1C5]/30 transition-colors">
                             <span className="block text-[14px] font-bold text-white/90">{item.event}</span>
                             <p className="text-[12.5px] text-[#9AA1C0] leading-relaxed font-medium italic">"{item.desc}"</p>
                           </div>
@@ -204,13 +203,13 @@ export default function TempTrackerLabPage() {
                    </div>
                 </div>
 
-                <div className="hero-tracker-feed !py-6">
+                <div className="hero-tracker-feed !py-6 bg-[#1E2650]/40">
                   <div className="px-[20px] mb-4 flex items-center gap-2">
                      <span className="text-[10px] font-bold text-[#4FD1C5] uppercase tracking-[0.25em]">LOCAL SIGNALS</span>
                   </div>
                   <div className="marquee">
                     <div className="marquee-track">
-                      {todayRegionalPulse.concat(todayRegionalPulse).map((item, i) => (
+                      {localSignalsFeed.concat(localSignalsFeed).map((item, i) => (
                         <span key={i} className="chip flex items-center gap-3 !border-white/5 bg-white/[0.02]">
                           <span className="relative flex h-2 w-2 shrink-0">
                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
@@ -251,7 +250,7 @@ export default function TempTrackerLabPage() {
 
               <div className="space-y-4">
                 <div className="checker-field">
-                  <label className="text-[10.5px] font-mono uppercase tracking-widest">Destination</label>
+                  <label className="text-[10.5px] font-mono uppercase tracking-widest text-[#6E7495]">Destination</label>
                   <select value={country} onChange={e => setCountry(e.target.value)} className="bg-[#1E2650] border border-white/10 rounded-lg p-2.5 text-sm">
                     <option value="IN">India</option>
                   </select>
@@ -259,11 +258,11 @@ export default function TempTrackerLabPage() {
 
                 <div className="grid grid-cols-2 gap-3">
                   <div className="checker-field">
-                    <label className="text-[10.5px] font-mono uppercase tracking-widest">From</label>
+                    <label className="text-[10.5px] font-mono uppercase tracking-widest text-[#6E7495]">From</label>
                     <input type="date" value={fromDate} onChange={e => setFromDate(e.target.value)} className="bg-[#1E2650] border border-white/10 rounded-lg p-2.5 text-sm" />
                   </div>
                   <div className="checker-field">
-                    <label className="text-[10.5px] font-mono uppercase tracking-widest">To</label>
+                    <label className="text-[10.5px] font-mono uppercase tracking-widest text-[#6E7495]">To</label>
                     <input type="date" value={toDate} onChange={e => setToDate(e.target.value)} className="bg-[#1E2650] border border-white/10 rounded-lg p-2.5 text-sm" />
                   </div>
                 </div>
@@ -285,15 +284,17 @@ export default function TempTrackerLabPage() {
                              <div className="flex items-center gap-6">
                                 <div className="impact-date w-14 shrink-0">{event.shortDate}</div>
                                 <div className="space-y-1">
-                                   <span className="block font-bold text-[15.5px] group-hover:text-gold-soft transition-colors leading-tight">
-                                     {event.country} — {event.jurisdiction} — {event.name}
+                                   <span className="block font-bold text-[16.5px] group-hover:text-gold-soft transition-colors leading-tight">
+                                     {event.name}
                                    </span>
-                                   <div className="flex items-center gap-2">
-                                      <span className="text-[9px] font-bold text-muted-dim uppercase border border-white/20 px-2 py-0.5 rounded-full">{event.scope}</span>
-                                      <div className="flex items-center gap-1 text-green-500/60 scale-75 origin-left">
-                                        <ShieldCheck className="w-3 h-3" />
-                                        <span className="text-[10px] font-bold uppercase tracking-widest">Verified</span>
-                                      </div>
+                                   <div className="flex items-center gap-3">
+                                      <span className="text-[10px] font-mono font-bold text-muted-dim uppercase tracking-wider">
+                                        {event.jurisdiction} · {event.country}
+                                      </span>
+                                      <span className={cn(
+                                        "text-[8px] font-bold px-1.5 py-0.5 rounded-sm uppercase tracking-widest border",
+                                        event.scope === 'NATIONAL' ? "bg-[#E8A33D]/10 text-[#F0C888] border-[#E8A33D]/20" : "bg-white/5 text-muted-dim border-white/10"
+                                      )}>{event.scope}</span>
                                    </div>
                                 </div>
                              </div>
@@ -316,7 +317,10 @@ export default function TempTrackerLabPage() {
                                    </div>
                                    <div className="flex items-center justify-between text-[9.5px] font-bold text-muted-dim uppercase tracking-[0.2em] pt-2 border-t border-white/5">
                                       <span>Source: Authoritative Registry</span>
-                                      <span className="text-white/40">Determination: Confirmed</span>
+                                      <div className="flex items-center gap-1.5 text-green-500/60">
+                                        <ShieldCheck className="w-2.5 h-2.5" />
+                                        <span>Verified</span>
+                                      </div>
                                    </div>
                                 </div>
                               </motion.div>
@@ -333,14 +337,14 @@ export default function TempTrackerLabPage() {
                     <div className="p-8 rounded-2xl border bg-white/[0.03] border-white/10 shadow-2xl space-y-6">
                       {heroSignal ? (
                         <>
-                          <div className="space-y-1.5">
+                          <div className="space-y-2">
                             <p className="text-[10px] font-mono text-[#4FD1C5] uppercase tracking-[0.3em] font-bold">Primary Date Signal</p>
                             <h4 className="text-2xl font-headline font-bold text-paper leading-tight">
-                              {heroSignal.country} — {heroSignal.jurisdiction} — {heroSignal.name}
+                              {heroSignal.name}
                             </h4>
-                            <div className="flex items-center gap-2 pt-1">
+                            <div className="flex items-center gap-3 pt-1">
                                <span className="text-[11px] font-mono text-gold-soft uppercase tracking-widest font-bold">{heroSignal.shortDate}</span>
-                               <span className="text-[11px] font-mono text-muted-dim uppercase tracking-widest font-bold">· {heroSignal.scope}</span>
+                               <span className="text-[11px] font-mono text-muted-dim uppercase tracking-widest font-bold">· {heroSignal.jurisdiction} · {heroSignal.country}</span>
                             </div>
                           </div>
 
@@ -354,7 +358,7 @@ export default function TempTrackerLabPage() {
                              <div className="flex items-center gap-1.5 px-3 py-1 bg-green-500/10 text-green-500 text-[10px] font-bold uppercase rounded-sm border border-green-500/20">
                                <ShieldCheck className="w-3 h-3" /> Verified Source
                              </div>
-                             <span className="text-[9px] font-bold text-muted-dim uppercase tracking-widest">Status: {heroSignal.severity === 'high' ? 'Confirmed' : 'High Confidence'}</span>
+                             <span className="text-[9px] font-bold text-muted-dim uppercase tracking-widest">Status: Confirmed</span>
                           </div>
                         </>
                       ) : (
@@ -364,10 +368,6 @@ export default function TempTrackerLabPage() {
                         </div>
                       )}
                     </div>
-
-                    <button className="mt-8 w-full flex items-center justify-center gap-2 py-4 text-[11px] font-bold uppercase tracking-[0.25em] text-[#F0C888] hover:text-white transition-all border border-white/10 rounded-xl bg-white/[0.02] hover:bg-white/[0.05]">
-                       Open Full Date Intelligence <ArrowRight className="w-3 h-3" />
-                    </button>
                   </div>
                 )}
 
@@ -384,7 +384,7 @@ export default function TempTrackerLabPage() {
                 <p className="text-[10px] font-bold uppercase tracking-widest text-muted-dim">Lab Comparison: Option A vs C</p>
                 <div className="flex items-center gap-1.5">
                    <div className="w-1.5 h-1.5 rounded-full bg-green-500" />
-                   <span className="text-[9px] font-bold uppercase tracking-widest text-green-500">Real-Time Logic Active</span>
+                   <span className="text-[9px] font-bold uppercase tracking-widest text-green-500">Logic Active</span>
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-2">
@@ -416,3 +416,4 @@ export default function TempTrackerLabPage() {
     </div>
   );
 }
+
