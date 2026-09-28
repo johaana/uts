@@ -11,8 +11,8 @@ import {
 import { getSource } from '@/lib/operational/source';
 import { evaluateQuery, resolveNow } from '@/lib/operational/engine';
 import { DateIntelligenceRecord, CanonicalRule } from '@/lib/operational/types';
-import { format, addDays, differenceInDays, startOfToday, parseISO, getMonth } from 'date-fns';
-import { ChevronDown, ChevronUp, Activity, Globe, ExternalLink, ShieldCheck, Clock } from 'lucide-react';
+import { format, addDays, differenceInDays, startOfToday, getMonth } from 'date-fns';
+import { ChevronDown, ChevronUp, Activity, ShieldCheck, Clock, ExternalLink } from 'lucide-react';
 
 const getCleanLabel = (scope?: string, category?: string) => {
   const s = (scope || 'NATIONAL').toUpperCase();
@@ -55,7 +55,6 @@ export default function HomePage() {
       setCanonicalRules(rules);
     });
 
-    // Real-time refresh simulation
     const timer = setInterval(() => {
       setLastRefreshed(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
     }, 60000);
@@ -114,14 +113,12 @@ export default function HomePage() {
     const today = startOfToday();
     const month = getMonth(today); 
     
-    // 1. Filter matches for Regional events happening TODAY
     const todayMatches = matches.filter(m => m.date === todayKey);
     const todayRegional = todayMatches.filter(m => m.category === 'regional' || m.jurisdiction.scope === 'regional');
     
     if (todayRegional.length > 0) {
       regionalSignals.push(...todayRegional);
     } else if (country === 'IN') {
-      // 2. Authoritative Seasonal Switcher (Deterministic Live Advisory)
       if (month >= 5 && month <= 8) {
         regionalSignals.push({
           name: "Southwest Monsoon",
@@ -155,7 +152,6 @@ export default function HomePage() {
         });
       }
 
-      // 3. Standing Policies: Restrict to Corporate + Presence of Events
       if (mode === 'corporate' && matches.length > 0) {
         regionalSignals.push({
           name: "Bank closure policy",
@@ -392,3 +388,4 @@ export default function HomePage() {
     </div>
   );
 }
+
