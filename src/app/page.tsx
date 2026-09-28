@@ -87,32 +87,37 @@ export default function HomePage() {
     const nextDate = [...uniqueDates].sort().find(d => d >= startDate);
     const nextDays = nextDate ? differenceInDays(new Date(nextDate + 'T00:00:00'), new Date(startDate + 'T00:00:00')) : '—';
     
-    // Logic for Jurisdictional Roundup
+    // Logic for Regional Intel (Filtered to Today)
     const regionalSignals = [];
     
-    // 1. Add matching regional events from the list
-    regionalSignals.push(...matches.filter(m => m.category === 'regional' || m.jurisdiction.scope === 'regional'));
+    // 1. Filter matches for Regional events happening TODAY
+    const todayMatches = matches.filter(m => m.date === todayKey);
+    const todayRegional = todayMatches.filter(m => m.category === 'regional' || m.jurisdiction.scope === 'regional');
     
-    // 2. Standing Policies: India Bank closure policy for Corporate mode ONLY when events are present
-    if (mode === 'corporate' && country === 'IN' && matches.length > 0) {
-      regionalSignals.push({
-        name: "Bank closure policy",
-        consequences: { implication: "State-specific RBI holiday lists govern banking availability for RTGS/NEFT." },
-        jurisdiction: { region: "POLICY" }
-      });
-    }
-    
-    // 3. Fallback: India Monsoon awareness for Traveler mode if no other signals
-    if (mode === 'traveler' && country === 'IN' && regionalSignals.length === 0) {
-      regionalSignals.push({
-        name: "Monsoon Season",
-        consequences: { implication: "Heavy localized rain in Western regions may affect airport transfer times." },
-        jurisdiction: { region: "SEASONAL" }
-      });
+    if (todayRegional.length > 0) {
+      regionalSignals.push(...todayRegional);
+    } else {
+      // 2. Standing Policies: Restrict to Corporate Mode ONLY when events exist in range
+      if (mode === 'corporate' && country === 'IN' && matches.length > 0) {
+        regionalSignals.push({
+          name: "Bank closure policy",
+          consequences: { implication: "State-specific RBI holiday lists govern banking availability for RTGS/NEFT." },
+          jurisdiction: { region: "POLICY" }
+        });
+      }
+      
+      // 3. Fallback: Seasonal Awareness for Traveler mode if nothing specific is today
+      if (mode === 'traveler' && country === 'IN') {
+        regionalSignals.push({
+          name: "Monsoon Season",
+          consequences: { implication: "Heavy localized rain in Western regions may affect airport transfer times." },
+          jurisdiction: { region: "SEASONAL" }
+        });
+      }
     }
     
     return { records: matches, count: uniqueDates.size, longest: 0, nextDays, regionalSignals };
-  }, [country, startDate, endDate, canonicalRules, mode]);
+  }, [country, startDate, endDate, canonicalRules, mode, todayKey]);
 
   return (
     <div className="bg-ink text-paper min-h-screen font-sans">
@@ -302,7 +307,7 @@ export default function HomePage() {
                 {checkerData.regionalSignals.length > 0 && (
                   <div className="p-5 bg-white/[0.02] border border-white/5 rounded-xl mt-8 space-y-4">
                     <p className="text-[10px] font-bold uppercase tracking-widest text-[#E8A33D] flex items-center gap-2">
-                      <Activity className="w-3.5 h-3.5" /> JURISDICTIONAL ROUNDUP · {COUNTRY_LABELS[country] || country}
+                      <Activity className="w-3.5 h-3.5" /> REGIONAL INTEL · TODAY
                     </p>
                     <div className="grid gap-4">
                        {checkerData.regionalSignals.map((item, idx) => (
