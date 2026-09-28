@@ -14,21 +14,16 @@ import { OperationalResult, DateIntelligenceRecord, CanonicalRule } from '@/lib/
 import { format, addDays, startOfDay, differenceInDays, isValid, startOfToday } from 'date-fns';
 import { ChevronDown, ChevronUp, Activity, Info, Globe } from 'lucide-react';
 
-const getDisplayCategory = (cat: string) => {
-  const map: Record<string, string> = {
-    public: "National Holiday",
-    religious: "Religious Holiday",
-    cultural: "Cultural Event",
-    harvest: "Harvest Festival",
-    holiday: "National Holiday"
-  };
-  return map[cat.toLowerCase()] || cat.charAt(0).toUpperCase() + cat.slice(1).replace('_', ' ');
-};
-
 const getCleanLabel = (scope: string, category: string) => {
   const s = scope.toUpperCase();
   const c = category.toUpperCase().replace('_', ' ');
+  
   if (s === c || c.includes(s)) return s;
+  
+  // Custom mappings for cleaner professional look
+  if (c === 'PUBLIC' || c === 'HOLIDAY') return s; // "National Holiday" or "Regional Holiday" becomes just "NATIONAL" or "REGIONAL"
+  if (c === 'RELIGIOUS') return `${s} · RELIGIOUS`;
+  
   return `${s} · ${c}`;
 };
 
@@ -100,9 +95,21 @@ export default function HomePage() {
     const nextDate = [...uniqueDates].sort().find(d => d >= startDate);
     const nextDays = nextDate ? differenceInDays(new Date(nextDate + 'T00:00:00'), new Date(startDate + 'T00:00:00')) : '—';
     
-    const regionalSignals = matches.filter(m => m.category === 'regional' || m.jurisdiction.scope === 'regional');
+    // For the "Roundup", include regional events in the window PLUS any standing policies for the country
+    const regionalEvents = matches.filter(m => m.category === 'regional' || m.jurisdiction.scope === 'regional');
+    const standingPolicies = canonicalRules.filter(r => 
+      r.jurisdiction.country_code === country && 
+      (r.temporal_kind === 'standing' || r.category === 'policy' || r.category === 'banking')
+    );
+
+    // De-duplicate materialized standing policies
+    const materializedStanding = standingPolicies.map(p => ({
+      ...p,
+      date: 'POLICY',
+      id: `${p.rule_id}__POLICY`
+    }));
     
-    return { records: matches, count: uniqueDates.size, longest: 0, nextDays, regionalSignals };
+    return { records: matches, count: uniqueDates.size, longest: 0, nextDays, regionalSignals: [...regionalEvents, ...materializedStanding] };
   }, [country, startDate, endDate, canonicalRules, mode]);
 
   return (
@@ -273,7 +280,7 @@ export default function HomePage() {
                                <p className="text-[13px] font-bold">{item.name}</p>
                                <p className="text-[11px] text-muted-dim leading-relaxed italic">"{item.consequences.implication}"</p>
                             </div>
-                            <span className="text-[9px] font-mono text-[#E8A33D]/60 font-bold uppercase shrink-0 ml-4">{item.jurisdiction.region || 'REGIONAL'}</span>
+                            <span className="text-[9px] font-mono text-[#E8A33D]/60 font-bold uppercase shrink-0 ml-4">{item.jurisdiction.region || (item.temporal_kind === 'standing' ? 'POLICY' : 'REGIONAL')}</span>
                          </div>
                        ))}
                     </div>
