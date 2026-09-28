@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -10,8 +11,6 @@ import { MobileNav } from "./MobileNav";
 
 const navLinks = [
   { href: "/date-intelligence", label: "Date Intelligence" },
-  { href: "/built-for", label: "Built For" },
-  { href: "/api", label: "API" },
   { href: "/travel-insurance", label: "Travel Insurance" },
   { href: "/festivals", label: "Stories ↗" },
 ];
@@ -42,7 +41,7 @@ export function Header() {
           ))}
         </div>
         
-        <Link href="/api" className="hidden lg:inline-block navcta">Get API Access</Link>
+        <Link href="/api" className="hidden lg:inline-block navcta">API Access</Link>
 
         <div className="md:hidden">
           <Sheet open={open} onOpenChange={setOpen}>

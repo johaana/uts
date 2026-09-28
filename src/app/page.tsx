@@ -11,8 +11,9 @@ import {
 import { getSource } from '@/lib/operational/source';
 import { evaluateQuery, resolveNow } from '@/lib/operational/engine';
 import { DateIntelligenceRecord, CanonicalRule } from '@/lib/operational/types';
-import { format, addDays, startOfToday, getMonth, differenceInDays } from 'date-fns';
-import { ChevronDown, ChevronUp, Activity, ShieldCheck, Clock, ExternalLink } from 'lucide-react';
+import { internationalEvents } from '@/lib/festival-data';
+import { format, addDays, startOfToday, getMonth, differenceInDays, parse, isValid } from 'date-fns';
+import { ChevronDown, ChevronUp, Activity, ShieldCheck, Clock, ExternalLink, ArrowRight, Plane, School, Briefcase } from 'lucide-react';
 
 const getCleanLabel = (scope?: string, category?: string) => {
   const s = (scope || 'NATIONAL').toUpperCase();
@@ -33,7 +34,6 @@ export default function HomePage() {
   const [todayKey, setTodayKey] = useState('');
   const [expandedRecord, setExpandedRecord] = useState<string | null>(null);
   const [expandedGlobal, setExpandedGlobal] = useState<string | null>(null);
-  const [lastRefreshed, setLastRefreshed] = useState<string>('');
   
   const [isComparing, setIsComparing] = useState(false);
 
@@ -43,7 +43,6 @@ export default function HomePage() {
     const tKey = format(today, 'yyyy-MM-dd');
     setTodayKey(tKey);
     setStartDate(tKey);
-    setLastRefreshed(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
     
     const end = addDays(today, 30);
     setEndDate(format(end, 'yyyy-MM-dd'));
@@ -54,11 +53,6 @@ export default function HomePage() {
     getSource().getCanonicalRules().then(rules => {
       setCanonicalRules(rules);
     });
-
-    const timer = setInterval(() => {
-      setLastRefreshed(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
-    }, 60000);
-    return () => clearInterval(timer);
   }, []);
 
   const filteredCountries = useMemo(() => {
@@ -85,6 +79,25 @@ export default function HomePage() {
     return (forwardIndex.get(todayKey) || []).filter((r: any) => r.jurisdiction.scope === 'national');
   }, [forwardIndex, todayKey]);
 
+  // Logic to find the next major international impact for the fallback view
+  const nextIntl = useMemo(() => {
+    if (!isMounted) return null;
+    const today = startOfToday();
+    const sorted = [...internationalEvents]
+      .map(e => ({
+        ...e,
+        d: parse(e.date.split(' - ')[0], 'MMM dd, yyyy', new Date())
+      }))
+      .filter(e => isValid(e.d))
+      .sort((a,b) => a.d.getTime() - b.d.getTime());
+    
+    const found = sorted.find(e => e.d >= today);
+    if (!found) return null;
+    
+    const diff = differenceInDays(found.d, today);
+    return { ...found, diff };
+  }, [isMounted]);
+
   const localSignalsFeed = useMemo(() => {
     const todayItems = (forwardIndex.get(todayKey) || []).filter((r: any) => r.jurisdiction.scope === 'regional');
     
@@ -96,13 +109,13 @@ export default function HomePage() {
     }
 
     return [{
-      text: "Standard global working day · No regional alerts today.",
+      text: "Standard global working day · 92 jurisdictions verified · No regional alerts today.",
       isLive: true
     }];
   }, [forwardIndex, todayKey]);
 
   const checkerData = useMemo(() => {
-    if (!startDate || !endDate || canonicalRules.length === 0) return { records: [], count: 0, longest: 0, nextDays: '—', regionalSignals: [] };
+    if (!startDate || !endDate || canonicalRules.length === 0) return { records: [], count: 0, longest: 0, nextDays: '—' };
     const purposeMap: Record<string, any> = { traveler: 'travel', study: 'study', corporate: 'business' };
     const matches = evaluateQuery(canonicalRules, { destination: country, startDate, endDate, purpose: purposeMap[mode] }, resolveNow());
     const uniqueDates = new Set(matches.map(m => m.date));
@@ -148,7 +161,7 @@ export default function HomePage() {
                              onClick={() => setExpandedGlobal(expandedGlobal === item.id ? null : item.id)}
                              className="w-full flex items-center justify-between px-[18px] py-4 hover:bg-white/5 transition-all text-left group"
                            >
-                              <div className="space-y-0.5">
+                              <div className="space-y-0">
                                  <span className="block text-[14px] font-bold group-hover:text-[#4FD1C5] transition-colors">{item.name}</span>
                                  <span className="block text-[8.5px] font-bold text-muted-dim uppercase tracking-widest">
                                     {COUNTRY_LABELS[item.jurisdiction.country_code]} · {getCleanLabel(item.jurisdiction.scope, item.category)}
@@ -172,8 +185,10 @@ export default function HomePage() {
                            )}
                         </div>
                       )) : (
-                        <div className="px-[18px] py-8 text-left text-xs text-muted-dim italic">
-                           Standard global working day.
+                        <div className="px-[18px] py-8 text-left text-[13px] text-muted-dim italic leading-relaxed">
+                           Standard global working day. {nextIntl && (
+                             <>Next major international impact: <b className="text-paper">{nextIntl.name} ({format(nextIntl.d, 'd MMM')})</b> in {nextIntl.diff} days.</>
+                           )}
                         </div>
                       )}
                    </div>
@@ -254,10 +269,10 @@ export default function HomePage() {
                         >
                            <div className="flex items-center gap-6">
                               <div className="impact-date w-14 shrink-0">{format(new Date(r.date + 'T00:00:00'), 'dd MMM')}</div>
-                              <div className="space-y-1">
+                              <div className="space-y-0">
                                  <span className="block font-bold text-[16.5px] group-hover:text-gold-soft transition-colors leading-tight">{r.name}</span>
                                  <div className="flex items-center gap-3">
-                                    <span className="text-[10px] font-mono font-bold text-muted-dim uppercase tracking-wider">
+                                    <span className="text-[9px] font-mono font-bold text-muted-dim uppercase tracking-widest">
                                        {r.jurisdiction.region ? r.jurisdiction.region + ' · ' : ''}{COUNTRY_LABELS[r.jurisdiction.country_code] || r.jurisdiction.country_code}
                                     </span>
                                     <span className={cn(
@@ -301,6 +316,51 @@ export default function HomePage() {
                    )}
                 </div>
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* INTEGRATED USE CASES */}
+        <section className="py-24 border-t border-white/5">
+          <div className="wrap">
+            <div className="mb-12 space-y-3">
+               <span className="text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-[#E8A33D]">Verified for your purpose</span>
+               <h2 className="font-headline text-3xl md:text-5xl font-medium">Built for technical planning.</h2>
+               <p className="text-[#9AA1C0] text-lg max-w-2xl">Reconciling 1,091 deterministic rules across 92 jurisdictions for high-stakes operational assessment.</p>
+            </div>
+            <div className="grid md:grid-cols-3 gap-6">
+               {[
+                 { icon: Plane, t: "Travelers", d: "Understand the cultural intensity and operational state of your destination. Flag festivals that drive high-density migration or unexpected closures." },
+                 { icon: School, t: "Students", d: "Put institutional calendars and arrival timing around your dates. Align visa interviews and orientation with verified host-country intelligence." },
+                 { icon: Briefcase, t: "Corporate & HR", d: "Manage global workforce calendars with precision. Identify local regional holidays that affect payroll, meetings, and office availability." }
+               ].map(uc => (
+                 <div key={uc.t} className="p-8 bg-[#171D3A] border border-white/10 rounded-2xl space-y-4 group hover:border-gold-soft transition-colors">
+                    <uc.icon className="w-8 h-8 text-[#E8A33D]" />
+                    <h4 className="font-headline text-2xl font-bold">{uc.t}</h4>
+                    <p className="text-sm text-[#9AA1C0] leading-relaxed font-medium">{uc.d}</p>
+                 </div>
+               ))}
+            </div>
+          </div>
+        </section>
+
+        {/* PARTNERSHIPS */}
+        <section className="py-24 border-t border-white/5 bg-white/[0.01]">
+          <div className="wrap text-left">
+            <div className="max-w-3xl space-y-6">
+               <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#4FD1C5]/10 border border-[#4FD1C5]/20 rounded-full">
+                 <span className="text-[9px] font-bold uppercase tracking-widest text-[#4FD1C5]">B2B Opportunity</span>
+               </div>
+               <h3 className="font-headline text-3xl md:text-4xl font-medium">Partnership Opportunities</h3>
+               <p className="text-[#9AA1C0] leading-relaxed text-lg font-medium">
+                  We collaborate with travel agencies and study-abroad organizations to integrate our 
+                  verified calendar intelligence into specialized advisory workflows.
+               </p>
+               <div className="pt-2">
+                 <a href="https://wa.me/919860997711" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-sm font-bold text-[#E8A33D] hover:underline uppercase tracking-[0.2em] group">
+                    Inquire about partnership <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
+                 </a>
+               </div>
             </div>
           </div>
         </section>
