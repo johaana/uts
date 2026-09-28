@@ -240,14 +240,21 @@ export default function HomePage() {
                   className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] text-teal hover:text-white transition-colors"
                 >
                   <Repeat className="w-3.5 h-3.5" />
-                  <span>Compare Countries</span>
+                  <span>Add Origin</span>
                 </button>
               </div>
 
               <div className="mode-toggle">
-                <button type="button" className={cn(mode === 'traveler' && "active", "w-full")} onClick={() => setMode('traveler')}>Travel</button>
-                <button type="button" className={cn(mode === 'study' && "active", "w-full")} onClick={() => setMode('study')}>Study abroad</button>
-                <button type="button" className={cn(mode === 'corporate' && "active", "w-full")} onClick={() => setMode('corporate')}>Business travel</button>
+                {(['traveler', 'study', 'corporate'] as const).map(m => (
+                  <button 
+                    key={m} 
+                    type="button" 
+                    className={cn(mode === m && "active")} 
+                    onClick={() => setMode(m)}
+                  >
+                    {m === 'traveler' ? 'Travel' : m === 'study' ? 'Study abroad' : 'Business travel'}
+                  </button>
+                ))}
               </div>
 
               <div className="space-y-4">
@@ -389,7 +396,6 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* NEW: HIGH-IMPACT DATE INTELLIGENCE SECTION */}
         <section className="py-24 border-t border-white/5 bg-[#171D3A]" id="intelligence-section">
           <div className="wrap">
              <div className="grid lg:grid-cols-[1fr_auto] gap-12 items-center">
@@ -435,3 +441,4 @@ export default function HomePage() {
     </div>
   );
 }
+

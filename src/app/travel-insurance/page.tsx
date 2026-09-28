@@ -8,16 +8,10 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { 
   ShieldCheck, 
-  Plane, 
-  Globe, 
   Landmark, 
   ShieldAlert,
   MessageSquare,
-  Stethoscope,
   School,
-  Backpack,
-  Trophy,
-  History,
   Activity,
   HeartPulse
 } from "lucide-react";
@@ -29,16 +23,12 @@ export default function TravelInsurancePage() {
     <div className="bg-[#0F1428] text-[#F4F1E8] min-h-screen font-sans selection:bg-[#E8A33D] selection:text-[#0F1428]">
       <Header />
       
-      <main className="py-12 md:py-24">
+      <main className="py-8 md:py-16">
         <div className="container mx-auto px-6 text-left">
-          <div className="max-w-5xl mx-auto space-y-24">
+          <div className="max-w-5xl mx-auto space-y-20">
             
             {/* HERO */}
-            <div className="space-y-8 text-center max-w-4xl mx-auto">
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#4FD1C5]/10 border border-[#4FD1C5]/20 rounded-full">
-                <div className="w-1.5 h-1.5 rounded-full bg-[#4FD1C5] animate-pulse"></div>
-                <span className="text-[10px] font-bold uppercase tracking-widest text-[#4FD1C5]">GLOBAL SAFETY LAYER</span>
-              </div>
+            <div className="space-y-6 text-center max-w-4xl mx-auto">
               <h1 className="text-4xl md:text-6xl font-headline font-medium leading-tight tracking-tight">
                 Plan for what you can predict. <br/>
                 <span className="italic text-[#9AA1C0]">Protect against what you can't.</span>
@@ -193,3 +183,4 @@ export default function TravelInsurancePage() {
     </div>
   );
 }
+
