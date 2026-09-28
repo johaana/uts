@@ -298,7 +298,7 @@ h1.headline {
 .marquee-track {
   display: inline-flex;
   gap: 14px;
-  animation: scroll-left 32s linear infinite;
+  animation: scroll-left 120s linear infinite;
 }
 
 @keyframes scroll-left {

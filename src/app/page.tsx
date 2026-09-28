@@ -25,21 +25,11 @@ const getDisplayCategory = (cat: string) => {
   return map[cat.toLowerCase()] || cat.charAt(0).toUpperCase() + cat.slice(1).replace('_', ' ');
 };
 
-const StatusStrip = ({ label, status }: { label: string, status: string }) => {
-  const colorClass = status === 'CLOSED' || status === 'SUSPENDED' 
-    ? "text-red-400" 
-    : status === 'MODIFIED' 
-    ? "text-yellow-400" 
-    : "text-green-400";
-
-  return (
-    <div className="flex items-center gap-1.5 px-2 py-0.5 border border-white/10 bg-white/5 rounded-sm">
-      <span className="text-[8px] font-bold uppercase tracking-widest text-muted-dim">{label}:</span>
-      <span className={cn("text-[8px] font-extrabold uppercase tracking-widest", colorClass)}>
-        {status}
-      </span>
-    </div>
-  );
+const getCleanLabel = (scope: string, category: string) => {
+  const s = scope.toUpperCase();
+  const c = category.toUpperCase().replace('_', ' ');
+  if (s === c || c.includes(s)) return s;
+  return `${s} · ${c}`;
 };
 
 export default function HomePage() {
@@ -103,13 +93,16 @@ export default function HomePage() {
   }, [forwardIndex, todayKey]);
 
   const checkerData = useMemo(() => {
-    if (!startDate || !endDate || canonicalRules.length === 0) return { records: [], count: 0, longest: 0, nextDays: '—' };
+    if (!startDate || !endDate || canonicalRules.length === 0) return { records: [], count: 0, longest: 0, nextDays: '—', regionalSignals: [] };
     const purposeMap: Record<string, any> = { traveler: 'travel', study: 'study', corporate: 'business' };
     const matches = evaluateQuery(canonicalRules, { destination: country, startDate, endDate, purpose: purposeMap[mode] }, resolveNow());
     const uniqueDates = new Set(matches.map(m => m.date));
     const nextDate = [...uniqueDates].sort().find(d => d >= startDate);
     const nextDays = nextDate ? differenceInDays(new Date(nextDate + 'T00:00:00'), new Date(startDate + 'T00:00:00')) : '—';
-    return { records: matches, count: uniqueDates.size, longest: 0, nextDays };
+    
+    const regionalSignals = matches.filter(m => m.category === 'regional' || m.jurisdiction.scope === 'regional');
+    
+    return { records: matches, count: uniqueDates.size, longest: 0, nextDays, regionalSignals };
   }, [country, startDate, endDate, canonicalRules, mode]);
 
   return (
@@ -149,18 +142,13 @@ export default function HomePage() {
                            >
                               <div className="space-y-0.5">
                                  <span className="block text-[14px] font-bold group-hover:text-[#4FD1C5] transition-colors">{COUNTRY_LABELS[item.jurisdiction.country_code]} — {item.name}</span>
-                                 <span className="block text-[8.5px] font-bold text-muted-dim uppercase tracking-widest">{item.jurisdiction.scope} · {getDisplayCategory(item.category)}</span>
+                                 <span className="block text-[8.5px] font-bold text-muted-dim uppercase tracking-widest">{getCleanLabel(item.jurisdiction.scope, item.category)}</span>
                               </div>
                               {expandedGlobal === item.id ? <ChevronUp className="w-4 h-4 text-muted-dim" /> : <ChevronDown className="w-4 h-4 text-muted-dim" />}
                            </button>
                            {expandedGlobal === item.id && (
                              <div className="px-[18px] pb-6 space-y-4 animate-in slide-in-from-top-2 duration-300">
-                                <div className="flex flex-wrap gap-1.5">
-                                   <StatusStrip label="OFFICES" status="CLOSED" />
-                                   <StatusStrip label="BANKING" status="SUSPENDED" />
-                                   <StatusStrip label="MOVEMENT" status="MODIFIED" />
-                                </div>
-                                <p className="text-[12.5px] text-[#9AA1C0] leading-snug font-medium border-l border-[#4FD1C5]/30 pl-3">
+                                <p className="text-[12.5px] text-[#9AA1C0] leading-snug font-medium border-l border-[#4FD1C5]/30 pl-3 italic">
                                    "{item.consequences.implication}"
                                 </p>
                              </div>
@@ -190,6 +178,7 @@ export default function HomePage() {
                     </div>
                   </div>
                 </div>
+                <a className="hero-tracker-link text-left" href="/date-intelligence">VIEW TODAY'S FULL INTELLIGENCE <span>→</span></a>
               </aside>
             </div>
 
@@ -250,17 +239,12 @@ export default function HomePage() {
                               <div className="impact-name font-bold group-hover:text-gold-soft transition-colors">{r.name}</div>
                            </div>
                            <div className="flex items-center gap-4">
-                              <span className="text-[9px] font-bold text-muted-dim uppercase border border-white/20 px-2 py-0.5 rounded-full">{r.jurisdiction.scope}</span>
+                              <span className="text-[9px] font-bold text-muted-dim uppercase border border-white/20 px-2 py-0.5 rounded-full">{getCleanLabel(r.jurisdiction.scope, r.category)}</span>
                               {expandedRecord === r.id ? <ChevronUp className="w-4 h-4 text-muted-dim" /> : <ChevronDown className="w-4 h-4 text-muted-dim" />}
                            </div>
                         </button>
                         {expandedRecord === r.id && (
                           <div className="pb-6 space-y-4 animate-in slide-in-from-top-2 duration-300">
-                             <div className="flex flex-wrap gap-2">
-                                <StatusStrip label="OFFICES" status="CLOSED" />
-                                <StatusStrip label="BANKING" status="SUSPENDED" />
-                                <StatusStrip label="MOVEMENT" status="MODIFIED" />
-                             </div>
                              <div className="p-4 bg-white/5 border-l-2 border-gold-soft rounded-r-lg">
                                 <p className="text-[13px] font-medium leading-relaxed italic text-paper/90">
                                   "{r.consequences.implication}"
@@ -276,6 +260,25 @@ export default function HomePage() {
                      </div>
                    )}
                 </div>
+
+                {checkerData.regionalSignals.length > 0 && (
+                  <div className="p-5 bg-white/[0.02] border border-white/5 rounded-xl mt-8 space-y-4">
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-[#E8A33D] flex items-center gap-2">
+                      <Activity className="w-3.5 h-3.5" /> JURISDICTIONAL ROUNDUP · {COUNTRY_LABELS[country] || country}
+                    </p>
+                    <div className="grid gap-4">
+                       {checkerData.regionalSignals.map((item, idx) => (
+                         <div key={idx} className="flex justify-between items-start border-b border-white/5 pb-4 last:border-0 last:pb-0 text-left">
+                            <div className="space-y-1">
+                               <p className="text-[13px] font-bold">{item.name}</p>
+                               <p className="text-[11px] text-muted-dim leading-relaxed italic">"{item.consequences.implication}"</p>
+                            </div>
+                            <span className="text-[9px] font-mono text-[#E8A33D]/60 font-bold uppercase shrink-0 ml-4">{item.jurisdiction.region || 'REGIONAL'}</span>
+                         </div>
+                       ))}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>
