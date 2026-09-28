@@ -24,10 +24,6 @@ function dated(dates: Record<number, string>, name: string, type: any, status?: 
   };
 }
 
-function nthWeekday(month: number, dow: number, n: number, name: string, type: any, purposes: UserPurpose[], confidence?: ConfidenceTier, evidence?: SourceEvidence, advice?: any): any {
-  return { kind: "nth", month, dow, n, name, type, purpose_relevance: purposes, status: "confirmed", confidence: confidence || "unsourced", evidence: evidence || null, advice };
-}
-
 // Standard International Advice Templates
 const STD_ADVICE = {
   NY: {

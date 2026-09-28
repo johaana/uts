@@ -87,7 +87,7 @@ function materialize(rule: CanonicalRule, date: string, purpose: UserPurpose): D
   };
 
   const adviceKey = mapping[purpose] || purpose;
-  const materialAdvice = (rule.consequences.advice as any)[adviceKey] || rule.consequences.implication;
+  const materialAdvice = (rule.consequences.advice as any)?.[adviceKey] || rule.consequences.implication;
   
   return {
     ...rule,

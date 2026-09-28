@@ -11,23 +11,14 @@ import { getOperationalImpact } from '@/lib/operational/adapter';
 import { getSource } from '@/lib/operational/source';
 import { evaluateQuery, resolveNow } from '@/lib/operational/engine';
 import { OperationalResult, DateIntelligenceRecord, CanonicalRule } from '@/lib/operational/types';
-import { format, addDays, startOfDay, differenceInDays, isValid, startOfToday } from 'date-fns';
+import { format, addDays, startOfDay, differenceInDays, isValid, startOfToday, parseISO } from 'date-fns';
 import { ChevronDown, ChevronUp, Activity, Info, Globe, ExternalLink, ShieldCheck } from 'lucide-react';
 
 const getCleanLabel = (scope?: string, category?: string) => {
-  const s = (scope || '').toUpperCase();
+  const s = (scope || 'NATIONAL').toUpperCase();
   const c = (category || '').toUpperCase().replace('_', ' ');
   
-  if (!s && !c) return 'RECORD';
-  if (!s) return c;
-  if (!c) return s;
-
-  if (s === c || c.includes(s)) return s;
-  
-  // Custom mappings for cleaner professional look
-  if (c === 'PUBLIC' || c === 'HOLIDAY') return s; 
-  if (c === 'RELIGIOUS') return `${s} · RELIGIOUS`;
-  
+  if (!c || s === c || c === 'HOLIDAY' || c === 'PUBLIC') return s;
   return `${s} · ${c}`;
 };
 
@@ -84,7 +75,6 @@ export default function HomePage() {
   }, [isMounted, todayKey, allRecords]);
 
   const globalTodayEvents = useMemo(() => {
-    // Exact Option C: Show anything happening Today (National or Regional) for situational awareness
     const events = (forwardIndex.get(todayKey) || []);
     return events;
   }, [forwardIndex, todayKey]);
@@ -170,7 +160,7 @@ export default function HomePage() {
                         </div>
                       )) : (
                         <div className="px-[18px] py-8 text-center text-xs text-muted-dim italic">
-                           No primary national records for today.
+                           No primary records for today.
                         </div>
                       )}
                    </div>
@@ -181,6 +171,7 @@ export default function HomePage() {
                     <div className="marquee-track">
                       {Array.from(forwardIndex.entries())
                         .filter(([d]) => {
+                          if (!d || d === 'POLICY') return false;
                           const date = parseISO(d);
                           const today = startOfToday();
                           return date >= today && differenceInDays(date, today) <= 14;
