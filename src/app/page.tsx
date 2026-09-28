@@ -10,16 +10,18 @@ import {
 import { getSource } from '@/lib/operational/source';
 import { evaluateQuery } from '@/lib/operational/engine';
 import { DateIntelligenceRecord, CanonicalRule } from '@/lib/operational/types';
-import { format, addDays, differenceInDays, isAfter } from 'date-fns';
-import { ChevronDown, ChevronUp, ShieldCheck, Clock, ExternalLink, Plane, School, Briefcase, ArrowRight } from 'lucide-react';
+import { format, addDays, differenceInDays, isAfter, startOfToday, isSameDay } from 'date-fns';
+import { ChevronDown, ChevronUp, ShieldCheck, Clock, ExternalLink, Plane, School, Briefcase, ArrowRight, Repeat } from 'lucide-react';
 import Link from 'next/link';
 
 export default function HomePage() {
   const [isMounted, setIsMounted] = useState(false);
   const [allRecords, setAllRecords] = useState<DateIntelligenceRecord[]>([]);
   const [canonicalRules, setCanonicalRules] = useState<CanonicalRule[]>([]);
-  const [mode, setMode] = useState<'traveler' | 'study' | 'corporate'>('traveler');
+  const [mode, setMode] = useState<'traveler' | 'study' | 'corporate' | 'compare'>('traveler');
   const [country, setCountry] = useState('IN');
+  const [compA, setCompA] = useState('IN');
+  const [compB, setCompB] = useState('JP');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [todayKey, setTodayKey] = useState('');
@@ -28,14 +30,11 @@ export default function HomePage() {
   
   useEffect(() => {
     setIsMounted(true);
-    // Anchor dashboard to the approved Go-Live Prototype Date
-    const prototypeToday = new Date('2026-09-29T00:00:00');
-    
-    const tKey = format(prototypeToday, 'yyyy-MM-dd');
+    const today = startOfToday();
+    const tKey = format(today, 'yyyy-MM-dd');
     setTodayKey(tKey);
     setStartDate(tKey);
-    
-    const end = addDays(prototypeToday, 60); 
+    const end = addDays(today, 60); 
     setEndDate(format(end, 'yyyy-MM-dd'));
 
     getSource().getRecords().then(records => {
@@ -66,27 +65,21 @@ export default function HomePage() {
     return new Map(Array.from(idx.entries()).sort((a, b) => a[0].localeCompare(b[0])));
   }, [isMounted, todayKey, allRecords]);
 
-  const globalTodayEvents = useMemo(() => {
+  const todayEvents = useMemo(() => {
     if (!isMounted || !todayKey) return [];
-    return (forwardIndex.get(todayKey) || []).filter((r: any) => r.jurisdiction.scope === 'national');
+    // Show all scopes today to prevent blunders
+    return (forwardIndex.get(todayKey) || []);
   }, [forwardIndex, todayKey, isMounted]);
 
   const localSignalsFeed = useMemo(() => {
     if (!isMounted || !todayKey || allRecords.length === 0) return [];
     
     const anchorDate = new Date(todayKey + 'T00:00:00');
-    const todayItems = (forwardIndex.get(todayKey) || []);
     
-    if (todayItems.length > 0) {
-      return todayItems.map((e: any) => ({
-        text: `${COUNTRY_LABELS[e.jurisdiction.country_code] || e.jurisdiction.country_code} — ${e.jurisdiction.region ? e.jurisdiction.region + ' — ' : ''}${e.name} · Today`,
-        isLive: true
-      }));
-    }
-
+    // Always filter for FUTURE items in marquee
     const upcomingItems = allRecords.filter(r => {
       const d = new Date(r.date + 'T00:00:00');
-      return isAfter(d, anchorDate);
+      return isAfter(d, anchorDate) && !isSameDay(d, anchorDate);
     }).sort((a, b) => a.date.localeCompare(b.date))
     .slice(0, 10);
 
@@ -101,10 +94,19 @@ export default function HomePage() {
       text: "Standard Global business day · High-trust window for international meetings.",
       isLive: true
     }];
-  }, [isMounted, forwardIndex, todayKey, allRecords]);
+  }, [isMounted, todayKey, allRecords]);
 
   const checkerData = useMemo(() => {
     if (!startDate || !endDate || canonicalRules.length === 0) return { records: [], count: 0, nextDays: '—' };
+    
+    if (mode === 'compare') {
+      const matchesA = evaluateQuery(canonicalRules, { destination: compA, startDate, endDate, purpose: 'travel' }, new Date(todayKey + 'T00:00:00'));
+      const matchesB = evaluateQuery(canonicalRules, { destination: compB, startDate, endDate, purpose: 'travel' }, new Date(todayKey + 'T00:00:00'));
+      const combined = [...matchesA, ...matchesB].sort((a, b) => a.date.localeCompare(b.date));
+      const uniqueDates = new Set(combined.map(m => m.date));
+      return { records: combined, count: uniqueDates.size, nextDays: '—' };
+    }
+
     const purposeMap: Record<string, any> = { traveler: 'travel', study: 'study', corporate: 'business' };
     const matches = evaluateQuery(canonicalRules, { destination: country, startDate, endDate, purpose: purposeMap[mode] }, new Date(todayKey + 'T00:00:00'));
     const uniqueDates = new Set(matches.map(m => m.date));
@@ -112,7 +114,7 @@ export default function HomePage() {
     const nextDays = nextDate ? differenceInDays(new Date(nextDate + 'T00:00:00'), new Date(startDate + 'T00:00:00')) : '—';
     
     return { records: matches, count: uniqueDates.size, nextDays };
-  }, [country, startDate, endDate, canonicalRules, mode, todayKey]);
+  }, [country, compA, compB, startDate, endDate, canonicalRules, mode, todayKey]);
 
   return (
     <div className="bg-ink text-paper min-h-screen font-sans">
@@ -146,7 +148,7 @@ export default function HomePage() {
                       <span className="text-[10px] font-mono font-bold uppercase tracking-[0.25em] text-[#4FD1C5]">GLOBAL IMPACTS · TODAY</span>
                    </div>
                    <div className="divide-y divide-white/5">
-                      {globalTodayEvents.length > 0 ? globalTodayEvents.map((item) => (
+                      {todayEvents.length > 0 ? todayEvents.map((item) => (
                         <div key={item.id} className="relative">
                            <button 
                              onClick={() => setExpandedGlobal(expandedGlobal === item.id ? null : item.id)}
@@ -187,7 +189,7 @@ export default function HomePage() {
 
                 <div className="hero-tracker-feed !py-6 bg-[#1E2650]/40">
                   <div className="px-[20px] mb-4 flex items-center gap-2">
-                     <span className="text-[10px] font-mono font-bold text-[#4FD1C5] uppercase tracking-[0.25em]">WORLD PULSE</span>
+                     <span className="text-[10px] font-mono font-bold text-[#4FD1C5] uppercase tracking-[0.25em]">LOCAL SIGNALS</span>
                   </div>
                   <div className="marquee">
                     <div className="marquee-track">
@@ -220,23 +222,45 @@ export default function HomePage() {
                 </div>
               </div>
 
-              <div className="mode-toggle">
+              <div className="mode-toggle grid-cols-4">
                 <button type="button" className={cn(mode === 'traveler' && "active")} onClick={() => setMode('traveler')}>Travel</button>
-                <button type="button" className={cn(mode === 'study' && "active")} onClick={() => setMode('study')}>Study abroad</button>
-                <button type="button" className={cn(mode === 'corporate' && "active")} onClick={() => setMode('corporate')}>Business travel</button>
+                <button type="button" className={cn(mode === 'study' && "active")} onClick={() => setMode('study')}>Study</button>
+                <button type="button" className={cn(mode === 'corporate' && "active")} onClick={() => setMode('corporate')}>Business</button>
+                <button type="button" className={cn(mode === 'compare' && "active")} onClick={() => setMode('compare')}>Compare</button>
               </div>
 
               <div className="space-y-4">
-                <div className="checker-row">
-                  <div className="checker-field">
-                    <label>Destination / Jurisdiction</label>
-                    <select value={country} onChange={e => setCountry(e.target.value)}>
-                      {filteredCountries.map(code => (
-                        <option key={code} value={code}>{COUNTRY_LABELS[code] || code}</option>
-                      ))}
-                    </select>
+                {mode === 'compare' ? (
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="checker-field">
+                      <label>Origin</label>
+                      <select value={compA} onChange={e => setCompA(e.target.value)}>
+                        {filteredCountries.map(code => (
+                          <option key={code} value={code}>{COUNTRY_LABELS[code] || code}</option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className="checker-field">
+                      <label>Destination</label>
+                      <select value={compB} onChange={e => setCompB(e.target.value)}>
+                        {filteredCountries.map(code => (
+                          <option key={code} value={code}>{COUNTRY_LABELS[code] || code}</option>
+                        ))}
+                      </select>
+                    </div>
                   </div>
-                </div>
+                ) : (
+                  <div className="checker-row">
+                    <div className="checker-field">
+                      <label>Destination / Jurisdiction</label>
+                      <select value={country} onChange={e => setCountry(e.target.value)}>
+                        {filteredCountries.map(code => (
+                          <option key={code} value={code}>{COUNTRY_LABELS[code] || code}</option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                )}
 
                 <div className="grid grid-cols-2 gap-3">
                   <div className="checker-field">
@@ -252,7 +276,9 @@ export default function HomePage() {
                 <div className="checker-summary pt-6 pb-4 border-b border-white/10 flex flex-col sm:flex-row sm:items-end justify-between gap-4 text-left">
                   <div className="flex gap-10">
                     <div><b className="font-headline text-[32px] text-gold-soft">{checkerData.count}</b><span className="text-[11.5px] text-muted-dim block font-bold uppercase tracking-widest mt-1">flags in period</span></div>
-                    <div><b className="font-headline text-[32px] text-gold-soft">{checkerData.nextDays}</b><span className="text-[11.5px] text-muted-dim block font-bold uppercase tracking-widest mt-1">days to next</span></div>
+                    {mode !== 'compare' && (
+                      <div><b className="font-headline text-[32px] text-gold-soft">{checkerData.nextDays}</b><span className="text-[11.5px] text-muted-dim block font-bold uppercase tracking-widest mt-1">days to next</span></div>
+                    )}
                   </div>
                 </div>
 
