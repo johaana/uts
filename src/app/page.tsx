@@ -294,7 +294,7 @@ export default function HomePage() {
 
                 <div className="pt-6 space-y-6 border-b border-white/10 pb-4">
                   <div className="text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-[#4FD1C5]">FOR YOUR JOURNEY</div>
-                  <div className="flex flex-row items-end gap-12 text-left">
+                  <div className="flex flex-row items-end gap-16 md:gap-24 text-left">
                     <div>
                       <b className="font-serif text-[32px] text-gold-soft">{checkerData.count}</b>
                       <span className="text-[11.5px] text-muted-dim block font-bold uppercase tracking-widest mt-1">days affected</span>
