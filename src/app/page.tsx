@@ -71,6 +71,16 @@ export default function HomePage() {
     return (forwardIndex.get(todayKey) || []);
   }, [forwardIndex, todayKey, isMounted]);
 
+  const nextEvent = useMemo(() => {
+    if (!isMounted || !todayKey || allRecords.length === 0) return null;
+    const anchorDate = new Date(todayKey + 'T00:00:00');
+    // sorted records are already chronological from getRecords()
+    return allRecords.find(r => {
+      const d = new Date(r.date + 'T00:00:00');
+      return isAfter(d, anchorDate) && !isSameDay(d, anchorDate);
+    });
+  }, [isMounted, todayKey, allRecords]);
+
   const localSignalsFeed = useMemo(() => {
     if (!isMounted || !todayKey || allRecords.length === 0) return [];
     const anchorDate = new Date(todayKey + 'T00:00:00');
@@ -195,7 +205,30 @@ export default function HomePage() {
                              </div>
                            )}
                         </div>
-                      )) : (
+                      )) : nextEvent ? (
+                        <div className="px-[18px] py-6 text-left">
+                           <div className="space-y-3">
+                              <div className="flex items-center gap-2">
+                                <span className="text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-[#E8A33D]">Next Up</span>
+                                <div className="h-px flex-1 bg-white/5"></div>
+                              </div>
+                              <div className="space-y-1">
+                                 <span className="block text-[18px] font-bold text-paper/90 leading-tight">{nextEvent.name}</span>
+                                 <div className="flex items-center gap-3">
+                                    <span className="text-[11px] font-mono font-bold text-[#4FD1C5] uppercase tracking-widest">
+                                       {format(new Date(nextEvent.date + 'T00:00:00'), 'd MMMM yyyy')}
+                                    </span>
+                                    <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-sm uppercase tracking-widest bg-white/5 text-muted-dim border border-white/10">
+                                       {COUNTRY_LABELS[nextEvent.jurisdiction.country_code]} · {nextEvent.jurisdiction.scope.toUpperCase()}
+                                    </span>
+                                 </div>
+                              </div>
+                              <p className="text-[12.5px] text-[#9AA1C0] leading-snug font-medium italic border-l border-white/10 pl-3">
+                                 "{nextEvent.consequences.implication}"
+                              </p>
+                           </div>
+                        </div>
+                      ) : (
                         <div className="px-[18px] py-6 text-left">
                            <p className="text-[14px] font-medium text-paper/90 leading-relaxed max-w-lg italic font-display">
                               Standard Global business day. High-trust window for international meetings and cross-border office operations.
@@ -300,7 +333,7 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                <div className="pt-4 space-y-3 border-b border-white/10 pb-3 text-center">
+                <div className="pt-3 space-y-3 border-b border-white/10 pb-3 text-center">
                   <div className="text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-[#4FD1C5]">FOR YOUR JOURNEY</div>
                   <div className="flex flex-row items-center justify-center gap-20 md:gap-32">
                     <div className="flex flex-col items-center">
@@ -314,7 +347,6 @@ export default function HomePage() {
                       </div>
                     )}
                   </div>
-                  <p className="text-[9px] font-bold text-muted-dim uppercase tracking-widest">details below</p>
                 </div>
 
                 <div className="checker-list max-h-[440px] overflow-y-auto custom-scrollbar pr-1 text-left">
