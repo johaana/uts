@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useMemo, Suspense } from 'react';
@@ -31,22 +32,30 @@ function FestivalsPageContent() {
     };
     
     const filteredAndSortedFestivals = useMemo(() => {
-        let festivals = allEvents.filter(festival => {
+        // De-duplicate festivals first to create a clean directory
+        const uniqueMap = new Map();
+        allEvents.forEach(event => {
+            const baseSlug = event.slug.split('-202')[0];
+            if (!uniqueMap.has(baseSlug)) {
+                uniqueMap.set(baseSlug, event);
+            }
+        });
+        
+        let list = Array.from(uniqueMap.values());
+
+        list = list.filter(festival => {
             const nameMatch = festival.name.toLowerCase().includes(searchTerm.toLowerCase());
             const regionMatch = selectedRegion === 'all' || (festival.region && festival.region.toLowerCase().includes(selectedRegion.toLowerCase())) || festival.region === 'Nationwide';
             return nameMatch && regionMatch;
         });
 
         if (sortOrder === "Name (A-Z)") {
-            festivals.sort((a, b) => a.name.localeCompare(b.name));
+            list.sort((a, b) => a.name.localeCompare(b.name));
         } else if (sortOrder === "Name (Z-A)") {
-            festivals.sort((a, b) => b.name.localeCompare(a.name));
+            list.sort((a, b) => b.name.localeCompare(a.name));
         }
 
-        // De-duplicate festivals for the canonical list
-        const uniqueFestivals = Array.from(new Map(festivals.map(item => [item.slug.split('-202')[0], item])).values());
-
-        return uniqueFestivals;
+        return list;
     }, [searchTerm, selectedRegion, sortOrder]);
 
 
@@ -54,39 +63,35 @@ function FestivalsPageContent() {
         <div className="bg-[#F4F1E8] text-[#17151A] min-h-screen font-sans pb-24">
             <Header />
             <div className="container mx-auto px-6 py-12 md:py-24">
-                <div className="max-w-4xl mb-16 text-left space-y-6">
-                    <div className="flex items-center gap-4">
-                        <span className="text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-[#E94368]">THE LIBRARY</span>
-                        <div className="h-px flex-1 bg-[#17151A]/10"></div>
-                        <span className="text-[9px] font-mono font-bold uppercase tracking-widest text-[#6D6870]">INDEX: 92 COUNTRIES TRACKED</span>
+                <div className="max-w-4xl mx-auto mb-16 text-center space-y-6">
+                    <div className="flex flex-col items-center gap-3">
+                        <span className="text-[10px] font-mono font-bold uppercase tracking-[0.4em] text-[#E94368]">THE LIBRARY INDEX</span>
+                        <div className="h-px w-20 bg-[#17151A]/10"></div>
+                        <span className="text-[9px] font-mono font-bold uppercase tracking-widest text-[#6D6870]">INDEX STATUS: 92 COUNTRIES RECONCILED</span>
                     </div>
                     <h1 className="font-headline text-4xl md:text-7xl font-bold tracking-tighter leading-none">Discover Festivals</h1>
-                    <p className="text-xl text-[#6D6870] font-medium leading-relaxed max-w-2xl">
+                    <p className="text-xl text-[#6D6870] font-medium leading-relaxed max-w-2xl mx-auto">
                         The definitive guide to the world's most vibrant cultural events. 
                         Understand the stories, the rituals, and the impact.
                     </p>
                 </div>
 
-                <div className="grid md:grid-cols-[1fr_2.5fr] gap-12">
-                    {/* Filter Sidebar */}
-                    <aside className="space-y-8 h-fit sticky top-32">
-                        <div className="space-y-4">
-                            <label className="text-[10px] font-bold uppercase tracking-widest text-[#6D6870]">Search</label>
-                            <div className="relative">
-                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#6D6870]" />
-                                <Input 
-                                    placeholder="Search library..." 
-                                    className="pl-10 bg-white/50 border-[#17151A]/10 focus:border-[#E94368] h-11"
-                                    value={searchTerm}
-                                    onChange={(e) => setSearchTerm(e.target.value)}
-                                />
-                            </div>
+                <div className="max-w-4xl mx-auto space-y-12">
+                    {/* Horizontal Filter Bar */}
+                    <div className="bg-white/50 border border-[#17151A]/10 rounded-sm p-4 flex flex-col md:flex-row gap-4 items-center shadow-sm">
+                        <div className="relative flex-1 w-full">
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#6D6870]" />
+                            <Input 
+                                placeholder="Search library..." 
+                                className="pl-10 bg-transparent border-none focus-visible:ring-0 h-11 text-base"
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                            />
                         </div>
-
-                        <div className="space-y-4">
-                            <label className="text-[10px] font-bold uppercase tracking-widest text-[#6D6870]">Region</label>
+                        <div className="h-8 w-px bg-[#17151A]/10 hidden md:block"></div>
+                        <div className="flex gap-4 w-full md:w-auto">
                             <Select value={selectedRegion} onValueChange={setSelectedRegion}>
-                                <SelectTrigger className="bg-white/50 border-[#17151A]/10 h-11">
+                                <SelectTrigger className="w-full md:w-48 bg-transparent border-none focus:ring-0 font-bold uppercase tracking-widest text-[10px]">
                                     <SelectValue placeholder="All Regions" />
                                 </SelectTrigger>
                                 <SelectContent>
@@ -96,41 +101,50 @@ function FestivalsPageContent() {
                                     ))}
                                 </SelectContent>
                             </Select>
-                        </div>
-
-                        <div className="pt-6 border-t border-[#17151A]/10 flex flex-col gap-3">
-                             <Link href="/international-festivals">
-                                <Button className="w-full bg-[#17151A] text-white hover:bg-black font-bold h-11 rounded-sm shadow-sm">
-                                    <Globe className="mr-2 h-4 w-4" /> Global View
-                                </Button>
-                            </Link>
-                             <Button variant="ghost" onClick={resetFilters} className="text-[#6D6870] hover:text-[#17151A] text-xs font-bold uppercase tracking-widest">
-                                <RotateCcw className="mr-2 h-3.3 w-3" /> Reset
+                            <Button variant="ghost" onClick={resetFilters} className="text-[#6D6870] hover:text-[#17151A]" size="icon">
+                                <RotateCcw className="h-4 w-4" />
                             </Button>
                         </div>
-                    </aside>
+                    </div>
 
-                    {/* Festival List */}
-                    <main className="space-y-4">
+                    {/* Directory List */}
+                    <div className="space-y-4">
                         {filteredAndSortedFestivals.length > 0 ? filteredAndSortedFestivals.map((festival) => (
                             <Link href={festival.link!} key={festival.slug} className="block group">
-                                <div className="bg-white border border-[#17151A]/5 rounded-sm p-4 flex gap-6 hover:border-[#17151A]/20 hover:shadow-md transition-all">
-                                    <div className="relative w-24 h-24 md:w-32 md:h-32 rounded-sm overflow-hidden shrink-0 bg-[#17151A]/5">
-                                        <Image src={festival.image!} alt={festival.name} layout="fill" objectFit="cover" data-ai-hint={festival.hint} className="group-hover:scale-105 transition-transform duration-500" />
+                                <div className="bg-white border border-[#17151A]/5 rounded-sm p-4 md:p-6 flex flex-col md:flex-row gap-6 md:items-center hover:border-[#17151A]/20 hover:shadow-md transition-all">
+                                    <div className="relative w-full md:w-40 aspect-[4/3] rounded-sm overflow-hidden shrink-0 bg-[#17151A]/5">
+                                        <Image src={festival.image!} alt={festival.name} layout="fill" objectFit="cover" data-ai-hint={festival.hint} className="group-hover:scale-105 transition-transform duration-700" />
                                     </div>
-                                    <div className="flex flex-col justify-center text-left py-1">
-                                        <span className="text-[9px] font-mono font-bold text-[#E94368] uppercase tracking-[0.2em] mb-1">{festival.region}</span>
-                                        <h2 className="font-headline text-xl md:text-3xl font-bold tracking-tight text-[#17151A] mb-2">{festival.name.split(' (')[0]}</h2>
-                                        <p className="text-sm text-[#6D6870] line-clamp-2 leading-relaxed max-w-xl">{festival.description}</p>
+                                    <div className="flex-1 space-y-2 text-left py-1">
+                                        <div className="flex items-center gap-3">
+                                            <span className="text-[9px] font-mono font-bold text-[#E94368] uppercase tracking-[0.2em]">{festival.region}</span>
+                                            <div className="w-1 h-1 rounded-full bg-[#17151A]/10"></div>
+                                            <span className="text-[9px] font-mono font-bold text-[#6D6870] uppercase tracking-widest">{festival.type}</span>
+                                        </div>
+                                        <h2 className="font-headline text-2xl md:text-3xl font-bold tracking-tight text-[#17151A] group-hover:text-[#E94368] transition-colors">{festival.name.split(' (')[0]}</h2>
+                                        <p className="text-sm text-[#6D6870] line-clamp-2 leading-relaxed max-w-2xl font-medium">{festival.description}</p>
+                                    </div>
+                                    <div className="hidden md:block">
+                                        <Button variant="ghost" size="icon" className="text-[#17151A]/20 group-hover:text-[#E94368] group-hover:translate-x-1 transition-all">
+                                            <ArrowRight className="h-6 w-6" />
+                                        </Button>
                                     </div>
                                 </div>
                             </Link>
                         )) : (
-                            <div className="py-24 text-center border-2 border-dashed border-[#17151A]/10 rounded-lg">
-                                <p className="text-[#6D6870] italic">No matching records found in the library.</p>
+                            <div className="py-24 text-center border-2 border-dashed border-[#17151A]/10 rounded-sm">
+                                <p className="text-[#6D6870] italic font-medium">No matching records found in the library index.</p>
                             </div>
                         )}
-                    </main>
+                    </div>
+
+                    <div className="pt-12 text-center">
+                         <Link href="/international-festivals">
+                            <Button variant="outline" className="border-[#17151A]/10 text-[#17151A] hover:bg-[#17151A] hover:text-white font-bold h-12 px-10 rounded-sm uppercase tracking-widest text-[10px]">
+                                <Globe className="mr-2 h-4 w-4" /> View International Map
+                            </Button>
+                        </Link>
+                    </div>
                 </div>
             </div>
             <Footer />
@@ -141,7 +155,7 @@ function FestivalsPageContent() {
 
 export default function FestivalsPage() {
     return (
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<div>Loading Library Index...</div>}>
             <FestivalsPageContent />
         </Suspense>
     );

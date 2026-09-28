@@ -157,8 +157,8 @@ export default function HomePage() {
                            )}
                         </div>
                       )) : (
-                        <div className="px-[18px] py-8 text-left space-y-2">
-                           <p className="text-[13px] text-paper font-medium leading-relaxed">
+                        <div className="px-[18px] py-10 text-center space-y-3">
+                           <p className="text-[14.5px] font-headline font-medium text-paper leading-relaxed max-w-[280px] mx-auto italic opacity-90">
                               Standard Global business day. High-trust window for international meetings and cross-border office operations.
                            </p>
                         </div>
@@ -323,10 +323,10 @@ export default function HomePage() {
                <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#4FD1C5]/10 border border-[#4FD1C5]/20 rounded-full">
                  <span className="text-[9px] font-bold uppercase tracking-widest text-[#4FD1C5]">B2B Opportunity</span>
                </div>
-               <h3 className="font-headline text-3xl md:text-4xl font-medium">Partnership Opportunities</h3>
+               <h3 className="font-headline text-3xl md:text-4xl font-medium">Drive ancillary revenue.</h3>
                <p className="text-[#9AA1C0] leading-relaxed text-lg font-medium">
-                  We collaborate with travel agencies and study-abroad organizations to integrate our 
-                  verified calendar intelligence into specialized advisory workflows.
+                  Work with Utsavs to integrate travel protection and verified calendar intelligence into your booking engines. 
+                  Provide high-trust safety layers that enhance customer loyalty and operational precision.
                </p>
                <div className="pt-2">
                  <a href="https://wa.me/919860997711" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-sm font-bold text-[#E8A33D] hover:underline uppercase tracking-[0.2em] group">
