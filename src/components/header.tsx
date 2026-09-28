@@ -13,7 +13,7 @@ const navLinks = [
   { href: "/built-for", label: "Built For" },
   { href: "/api", label: "API" },
   { href: "/travel-insurance", label: "Travel Insurance" },
-  { href: "https://utsavs.com", label: "Stories ↗", external: true },
+  { href: "/festivals", label: "Stories ↗" },
 ];
 
 export function Header() {
@@ -33,8 +33,6 @@ export function Header() {
             <Link
               key={link.href}
               href={link.href}
-              target={link.external ? "_blank" : undefined}
-              rel={link.external ? "noopener noreferrer" : undefined}
               className={cn(
                 pathname === link.href && "active"
               )}

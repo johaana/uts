@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState } from 'react';
@@ -112,7 +111,7 @@ export default function V1Page() {
                   </CardHeader>
                   <CardContent className="p-6 md:p-8 space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="space-y-1.5">
+                      <div className="space-y-1.5 text-left">
                         <label className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Destination</label>
                         <Select value={query.destination} onValueChange={(v) => setQuery({...query, destination: v})}>
                           <SelectTrigger className="bg-background"><SelectValue /></SelectTrigger>
@@ -123,7 +122,7 @@ export default function V1Page() {
                           </SelectContent>
                         </Select>
                       </div>
-                      <div className="space-y-1.5">
+                      <div className="space-y-1.5 text-left">
                         <label className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Purpose</label>
                         <Select value={query.purpose} onValueChange={(v: any) => setQuery({...query, purpose: v})}>
                           <SelectTrigger className="bg-background"><SelectValue /></SelectTrigger>
@@ -134,11 +133,11 @@ export default function V1Page() {
                           </SelectContent>
                         </Select>
                       </div>
-                      <div className="space-y-1.5">
+                      <div className="space-y-1.5 text-left">
                         <label className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Start Date</label>
                         <Input type="date" value={query.startDate} onChange={(e) => setQuery({...query, startDate: e.target.value})} className="bg-background" />
                       </div>
-                      <div className="space-y-1.5">
+                      <div className="space-y-1.5 text-left">
                         <label className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">End Date</label>
                         <Input type="date" value={query.endDate} onChange={(e) => setQuery({...query, endDate: e.target.value})} className="bg-background" />
                       </div>

@@ -273,10 +273,10 @@ export default function HomePage() {
           <div className="wrap hero-grid">
             <div className="hero-copy text-left">
               <h1 className="headline md:max-w-none max-w-[320px]">
-                Know before you fly. <br className="md:hidden" />
-                Know before you schedule.
+                Know before you plan. <br className="md:hidden" />
+                Not after.
               </h1>
-              <p className="sub hidden md:block">Check a country and your actual dates — before you book, schedule, send a student, or send an employee across borders.</p>
+              <p className="sub">A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.</p>
 
               <aside className="hero-tracker md:order-last" id="world" aria-label="Next holiday tracker" style={{ order: isComparing ? 2 : 3 }}>
                 <div className="md:hidden p-5 space-y-3 text-left">
@@ -344,7 +344,7 @@ export default function HomePage() {
                 </div>
 
                 <a className="hero-tracker-link hidden md:block text-left" href="#date-intelligence">
-                  VIEW TODAY'S INTELLIGENCE <span>→</span>
+                  VIEW TODAY'S FULL INTELLIGENCE <span>→</span>
                 </a>
               </aside>
             </div>

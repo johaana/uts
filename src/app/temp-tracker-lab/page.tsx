@@ -1,7 +1,6 @@
-
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { cn } from '@/lib/utils';
@@ -15,6 +14,7 @@ import {
   ChevronDown,
   ChevronUp
 } from "lucide-react";
+import { format, isWithinInterval, startOfDay, parseISO } from 'date-fns';
 
 // --------------------------------------------------------------------------------
 // AUTHORITATIVE CONVERSATIONAL DATA
@@ -76,6 +76,19 @@ const PERIOD_EVENTS = [
       study: "All educational institutions and university administrative offices nationwide are closed today.",
       corporate: "National banking systems, including RTGS and NEFT, are offline today for the public holiday."
     }
+  },
+  {
+    date: "2026-10-29",
+    shortDate: "29 Oct",
+    name: "Diwali",
+    scope: "NATIONAL PUBLIC HOLIDAY",
+    jurisdiction: "National",
+    impacts: { govt: 'CLOSED', banks: 'CLOSED', markets: 'CLOSED' },
+    advice: {
+      traveler: "The national holiday for Diwali (Lakshmi Puja) typically results in a widespread shutdown of offices and public transportation. Expect high local migration.",
+      study: "All university and school administration will be closed for the Diwali holiday.",
+      corporate: "Full national shutdown for the festival of lights. All non-essential commercial operations will be offline."
+    }
   }
 ];
 
@@ -105,9 +118,9 @@ const StatusStrip = ({ label, status, scenario }: { label: string, status: strin
   return (
     <div className={cn(
       "flex items-center gap-1.5 px-2 py-0.5 border rounded-sm",
-      isB ? bgClass : "border-white/10 bg-white/5"
+      "border-white/10 bg-white/5"
     )}>
-      <span className={cn("text-[8px] font-bold uppercase tracking-widest", isB ? "text-paper/80" : "text-muted-dim")}>{label}:</span>
+      <span className={cn("text-[8px] font-bold uppercase tracking-widest", "text-muted-dim")}>{label}:</span>
       <span className={cn("text-[8px] font-extrabold uppercase tracking-widest", colorClass)}>
         {status}
       </span>
@@ -125,6 +138,19 @@ export default function TempTrackerLabPage() {
   const [scenario, setScenario] = useState<'A' | 'B' | 'C'>('C');
   const [expandedDate, setExpandedDate] = useState<string | null>(null);
   const [expandedGlobal, setExpandedGlobal] = useState<string | null>(null);
+
+  // Date Logic
+  const [fromDate, setFromDate] = useState('2026-09-01');
+  const [toDate, setToDate] = useState('2026-10-31');
+
+  const filteredEvents = useMemo(() => {
+    const start = startOfDay(parseISO(fromDate));
+    const end = startOfDay(parseISO(toDate));
+    return PERIOD_EVENTS.filter(e => {
+        const d = startOfDay(parseISO(e.date));
+        return isWithinInterval(d, { start, end });
+    });
+  }, [fromDate, toDate]);
 
   const toggleExpand = (date: string) => {
     setExpandedDate(expandedDate === date ? null : date);
@@ -144,8 +170,8 @@ export default function TempTrackerLabPage() {
             
             <div className="hero-copy text-left">
               <h1 className="headline md:max-w-none max-w-[320px]">
-                Know before you fly. <br className="md:hidden" />
-                Know before you schedule.
+                Know before you plan. <br className="md:hidden" />
+                Not after.
               </h1>
               <p className="sub hidden md:block">Check a country and your actual dates — before you book, schedule, send a student, or send an employee across borders.</p>
 
@@ -237,10 +263,12 @@ export default function TempTrackerLabPage() {
             <div className={cn("checker text-left", scenario === 'B' ? "col-span-full" : "order-1")}>
               <div className="checker-top">
                 <h3 className="font-headline text-[18px]">Trip impact checker</h3>
-                <div className="flex items-center gap-2 px-2.5 py-1 bg-white/5 border border-white/10 rounded-full">
-                  <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div>
-                  <span className="text-[9px] font-bold uppercase tracking-wider text-green-500">Verified Dataset v2.4</span>
-                </div>
+                <button type="button" className="compare-launch" onClick={() => setScenario(scenario === 'A' ? 'C' : 'A')}>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M8 3 4 7l4 4M4 7h13M16 21l4-4-4-4M20 17H7"/>
+                  </svg>
+                  <span>{scenario === 'A' ? 'Interactive view' : 'Compare countries'}</span>
+                </button>
               </div>
 
               <div className="mode-toggle">
@@ -264,30 +292,30 @@ export default function TempTrackerLabPage() {
                 <div className="grid grid-cols-2 gap-3">
                   <div className="checker-field">
                     <label className="text-[10.5px] font-mono uppercase tracking-widest">From</label>
-                    <input type="date" defaultValue="2026-09-04" className="bg-[#1E2650] border border-white/10 rounded-lg p-2.5 text-sm" />
+                    <input type="date" value={fromDate} onChange={e => setFromDate(e.target.value)} className="bg-[#1E2650] border border-white/10 rounded-lg p-2.5 text-sm" />
                   </div>
                   <div className="checker-field">
                     <label className="text-[10.5px] font-mono uppercase tracking-widest">To</label>
-                    <input type="date" defaultValue="2026-10-31" className="bg-[#1E2650] border border-white/10 rounded-lg p-2.5 text-sm" />
+                    <input type="date" value={toDate} onChange={e => setToDate(e.target.value)} className="bg-[#1E2650] border border-white/10 rounded-lg p-2.5 text-sm" />
                   </div>
                 </div>
                 
                 <div className="checker-summary py-4 border-b border-white/10 flex gap-4 text-left">
-                  <div><b className="font-headline text-[28px] text-[#F0C888]">3</b><span className="text-[11.5px] text-muted-dim block leading-tight">period flags</span></div>
+                  <div><b className="font-headline text-[28px] text-[#F0C888]">{filteredEvents.length}</b><span className="text-[11.5px] text-muted-dim block leading-tight">period flags</span></div>
                   <div><b className="font-headline text-[28px] text-[#F0C888]">2</b><span className="text-[11.5px] text-muted-dim block leading-tight">max run</span></div>
                   <div><b className="font-headline text-[28px] text-[#F0C888]">0</b><span className="text-[11.5px] text-muted-dim block leading-tight">days to next</span></div>
                 </div>
 
                 <div className="checker-brief text-xs leading-relaxed text-[#9AA1C0]">
                    <strong className="text-gold-soft font-bold uppercase tracking-widest text-[9px] mr-2">IN SHORT:</strong>
-                   3 dates in your selected period are worth keeping in mind. The details below show what is happening on each date.
+                   {filteredEvents.length} {filteredEvents.length === 1 ? 'date' : 'dates'} in your selected period {filteredEvents.length === 1 ? 'is' : 'are'} worth keeping in mind. The details below show what is happening on each date.
                 </div>
 
                 {/* SCENARIO A: BASELINE LIST */}
                 {scenario === 'A' && (
                   <>
                     <div className="checker-list mt-2 space-y-4 max-h-[420px] overflow-y-auto pr-1 custom-scrollbar">
-                      {PERIOD_EVENTS.map((event) => (
+                      {filteredEvents.map((event) => (
                         <div key={event.date} className="p-5 border border-white/5 rounded-xl bg-white/[0.02] space-y-3">
                             <div className="flex justify-between items-start">
                               <div className="space-y-0.5">
@@ -310,7 +338,7 @@ export default function TempTrackerLabPage() {
                     <div className="p-5 bg-[#E8A33D]/5 border border-[#E8A33D]/20 rounded-xl space-y-4 mt-6">
                       <div className="flex items-center justify-between border-b border-[#E8A33D]/10 pb-2">
                         <span className="text-[9px] font-extrabold uppercase tracking-widest text-[#E8A33D] flex items-center gap-1.5">
-                          <Activity className="w-3 h-3" /> DESTINATION ADVISORY · {country}
+                          <Activity className="w-3 h-3" /> JURISDICTIONAL ROUNDUP · {country}
                         </span>
                       </div>
                       <div className="space-y-4">
@@ -326,66 +354,14 @@ export default function TempTrackerLabPage() {
                           </div>
                         ))}
                       </div>
-                      <div className="pt-2 border-t border-[#E8A33D]/10 flex items-center justify-between">
-                         <span className="text-[8.5px] font-bold uppercase tracking-widest text-[#9AA1C0]">Trip-specific intelligence. Synced with selection.</span>
-                         <ShieldCheck className="w-3 h-3 text-green-500/40" />
-                      </div>
                     </div>
                   </>
-                )}
-
-                {/* SCENARIO B: SMART BRIEFING CONSOLE */}
-                {scenario === 'B' && (
-                  <div className="grid md:grid-cols-2 gap-6 mt-4">
-                    <div className="space-y-4 max-h-[500px] overflow-y-auto pr-1 custom-scrollbar">
-                      <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#E8A33D] mb-4">Trip Timeline</h4>
-                      {PERIOD_EVENTS.map((event, idx) => (
-                        <div key={event.date} className={cn(
-                          "p-5 border rounded-xl space-y-4 relative overflow-hidden transition-all",
-                          idx === 0 ? "border-[#E8A33D] bg-[#E8A33D]/5" : "border-white/5 bg-white/[0.02]"
-                        )}>
-                          {idx === 0 && (
-                            <div className="absolute top-0 right-0 px-3 py-0.5 bg-[#E8A33D] text-[#0F1428] text-[8px] font-extrabold uppercase tracking-widest">LIVE TODAY</div>
-                          )}
-                          <div className="flex justify-between items-baseline">
-                             <div className="space-y-1">
-                                <h4 className="font-bold text-[16px] font-headline">{event.name}</h4>
-                                <p className="text-[9.5px] font-extrabold uppercase tracking-widest text-[#E8A33D]">{event.shortDate} · {event.scope}</p>
-                             </div>
-                          </div>
-                          <div className="flex flex-wrap gap-1.5">
-                            <StatusStrip label="GOVT" status={event.impacts.govt} scenario="B" />
-                            <StatusStrip label="BANKS" status={event.impacts.banks} scenario="B" />
-                            <StatusStrip label="MKTS" status={event.impacts.markets} scenario="B" />
-                          </div>
-                          <div className="p-3 bg-white/5 rounded-lg border border-white/10">
-                             <p className="text-[12.5px] text-paper font-semibold leading-relaxed italic">"{event.advice[mode]}"</p>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                    <div className="space-y-6">
-                       <div className="p-6 bg-white/[0.03] border border-white/10 rounded-xl space-y-6">
-                          <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#4FD1C5]">World Operational Pulse</h4>
-                          {GLOBAL_INTEL.map((item, idx) => (
-                            <div key={idx} className="space-y-3">
-                               <p className="text-[14px] font-bold">{item.event}</p>
-                               <div className="flex gap-2">
-                                  <StatusStrip label="BANKS" status={item.impacts.banks} scenario="B" />
-                                  <StatusStrip label="MKTS" status={item.impacts.markets} scenario="B" />
-                               </div>
-                               <p className="text-[12px] text-muted-dim leading-relaxed">{item.desc}</p>
-                            </div>
-                          ))}
-                       </div>
-                    </div>
-                  </div>
                 )}
 
                 {/* SCENARIO C: INTERACTIVE MINIMALIST */}
                 {scenario === 'C' && (
                   <div className="checker-list mt-2 space-y-1">
-                    {PERIOD_EVENTS.map((event) => (
+                    {filteredEvents.map((event) => (
                       <div key={event.date} className="border-b border-white/5">
                         <button 
                           onClick={() => toggleExpand(event.date)}
@@ -423,7 +399,7 @@ export default function TempTrackerLabPage() {
                     ))}
                     <div className="p-5 bg-white/[0.02] border border-white/5 rounded-xl mt-8">
                        <p className="text-[10px] font-bold uppercase tracking-widest text-[#E8A33D] mb-4 flex items-center gap-2">
-                         <Activity className="w-3.5 h-3.5" /> DESTINATION ADVISORY · {country}
+                         <Activity className="w-3.5 h-3.5" /> JURISDICTIONAL ROUNDUP · {country}
                        </p>
                        <div className="grid gap-4">
                           {REGIONAL_ROUNDUP_INDIA.map((item, idx) => (
@@ -473,4 +449,3 @@ export default function TempTrackerLabPage() {
     </div>
   );
 }
-

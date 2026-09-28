@@ -85,11 +85,10 @@ export default function V2Page() {
               <div className="space-y-6 text-left">
                 <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary">DATE INTELLIGENCE</div>
                 <h1 className="font-headline text-4xl md:text-6xl font-bold leading-[1.1] tracking-tight">
-                  Know before you fly.<br/>Know before you schedule.
+                  Know before you plan.<br/>Not after.
                 </h1>
                 <p className="text-lg text-muted-foreground leading-relaxed max-w-lg font-medium">
-                  Check a country and your actual dates — before you book,
-                  schedule, send a student, or send an employee across borders.
+                  A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.
                 </p>
                 <div className="flex items-center gap-6 pt-4">
                   <Link href="/date-intelligence">

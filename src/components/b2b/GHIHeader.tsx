@@ -15,7 +15,7 @@ export function GHIHeader() {
         </div>
         
         <nav className="hidden md:flex items-center gap-10">
-          {['Explore', 'Calendar', 'World', 'Intelligence', 'API'].map((item) => (
+          {['Explore', 'Calendar', 'World', 'Intelligence'].map((item) => (
             <Link 
               key={item} 
               href={`#${item.toLowerCase()}`}
@@ -24,15 +24,18 @@ export function GHIHeader() {
               {item}
             </Link>
           ))}
+          <Link href="/api" className="text-[11px] font-bold text-[#6D6870] hover:text-[#17151A] transition-all uppercase tracking-[0.2em] font-ui">API</Link>
         </nav>
 
         <div className="flex items-center gap-6">
           <Link href="/" className="hidden lg:inline-block text-[10px] font-bold text-[#6D6870] hover:text-[#E94368] transition-colors uppercase tracking-[0.2em] font-ui">
             ← Utsavs.com
           </Link>
-          <Button className="btn-ink h-9 px-5 text-[10px] font-bold uppercase tracking-[0.2em] rounded-sm shadow-sm">
-            API Preview
-          </Button>
+          <Link href="/api">
+            <Button className="btn-ink h-9 px-5 text-[10px] font-bold uppercase tracking-[0.2em] rounded-sm shadow-sm">
+                API Preview
+            </Button>
+          </Link>
         </div>
       </div>
     </header>

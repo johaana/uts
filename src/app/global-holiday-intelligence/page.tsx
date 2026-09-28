@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useMemo, useEffect } from 'react';
@@ -194,11 +193,13 @@ export default function GlobalHolidayIntelligencePage() {
             <Link href="#calendar" className="hover:text-white">Calendar</Link>
             <Link href="#world" className="hover:text-white">World</Link>
             <Link href="#intelligence" className="hover:text-white">Intelligence</Link>
-            <Link href="#api" className="hover:text-white">API</Link>
+            <Link href="/api" className="hover:text-white">API</Link>
           </div>
-          <button className="text-sm font-medium bg-[#F0C888] text-[#0F1428] px-5 py-2.5 rounded-full hover:bg-[#E8A33D]">
-            Join API preview
-          </button>
+          <Link href="/api">
+            <button className="text-sm font-medium bg-[#F0C888] text-[#0F1428] px-5 py-2.5 rounded-full hover:bg-[#E8A33D]">
+              Join API preview
+            </button>
+          </Link>
         </nav>
       </header>
 
@@ -209,23 +210,18 @@ export default function GlobalHolidayIntelligencePage() {
             
             <div className="space-y-6">
               <h1 className="font-headline font-medium text-4xl md:text-5xl leading-[1.1] tracking-tight">
-                Know before you fly. Know before you schedule.
+                Know before you plan. <br/> Not after.
               </h1>
               <p className="text-lg text-[#9AA1C0] max-w-[46ch]">
-                Check a country and your actual dates — before you book, schedule, send a student, or send an employee across borders.
+                A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.
               </p>
               
               <div className="space-y-4">
-                <div className="flex items-center bg-[#171D3A] border border-white/18 rounded-[14px] p-1.5 pl-5 max-w-[480px] focus-within:border-[#E8A33D]">
-                  <input 
-                    type="text" 
-                    placeholder="Try “Diwali 2026” or “holidays in Japan, October”" 
-                    className="flex-1 bg-transparent border-none text-white text-[15px] py-3 focus:outline-none placeholder:text-[#6E7495]"
-                  />
-                  <button className="bg-[#E8A33D] text-[#0F1428] font-semibold text-sm px-5 py-2.5 rounded-[9px]">
-                    Search
-                  </button>
-                </div>
+                <Link href="/date-intelligence">
+                    <button className="bg-[#E8A33D] text-[#0F1428] font-bold text-sm h-14 px-8 rounded-full shadow-lg hover:scale-105 transition-transform">
+                      Check Date Intelligence →
+                    </button>
+                </Link>
                 <div className="flex flex-wrap gap-2.5 text-[12.5px] text-[#6E7495] font-mono">
                   {['Diwali 2026', 'Long weekends · India', 'Japan, October', 'Compare two countries'].map(h => (
                     <span key={h} className="border border-white/10 px-2.5 py-1 rounded-full">{h}</span>
@@ -284,11 +280,11 @@ export default function GlobalHolidayIntelligencePage() {
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-1.5">
                   <label className="text-[10px] text-[#6E7495] font-mono uppercase">Start Date</label>
-                  <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} className="w-full bg-[#1E2650] border border-white/18 text-white rounded-[9px] px-3 py-2 text-[13px]" />
+                  <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} className="w-full bg-[#1E2650] border border-white/18 text-white rounded-[9px] px-3 py-2.5 text-[13px]" />
                 </div>
                 <div className="space-y-1.5">
                   <label className="text-[10px] text-[#6E7495] font-mono uppercase">End Date</label>
-                  <input type="date" value={endDate} onChange={e => setEndDate(e.target.value)} className="w-full bg-[#1E2650] border border-white/18 text-white rounded-[9px] px-3 py-2 text-[13px]" />
+                  <input type="date" value={endDate} onChange={e => setEndDate(e.target.value)} className="w-full bg-[#1E2650] border border-white/18 text-white rounded-[9px] px-3 py-2.5 text-[13px]" />
                 </div>
               </div>
 
@@ -469,7 +465,7 @@ export default function GlobalHolidayIntelligencePage() {
                 { m: 'SRC', h: 'Source-aware', p: 'Access the exact authoritative origins of every date and regional rule.' },
                 { m: 'VER', h: 'Verification-aware', p: 'Differentiate between confirmed, declared, and estimated observations.' },
                 { m: 'REG', h: 'Region-aware', p: 'Navigate the complex jurisdictional differences between states and provinces.' },
-                { m: 'DAT', h: 'Date-aware', p: 'Sophisticated handling of lunar, lunisolar, and declared cycles.' }
+                { m: 'DAT', h: 'Date-aware', p: 'Sophisticated handling of lunar, lunisolar, and government-declared cycles.' }
               ].map(t => (
                 <div key={t.h} className="bg-[#0F1428] p-8 border-[0.5px] border-white/10">
                   <div className="w-9 h-9 border border-[#4FD1C5]/40 rounded-lg flex items-center justify-center font-mono text-[13px] text-[#4FD1C5] mb-6">{t.m}</div>
@@ -492,7 +488,7 @@ export default function GlobalHolidayIntelligencePage() {
               <span className="text-[#9AA1C0] text-sm">—</span>
               <span className="font-mono text-[13px] text-[#9AA1C0] border border-white/18 px-5 py-2.5 rounded-full">Global intelligence</span>
               <span className="text-[#9AA1C0] text-sm">—</span>
-              <span className="font-mono text-[13px] text-[#9AA1C0] border border-white/18 px-5 py-2.5 rounded-full">Intelligence API</span>
+              <Link href="/api"><span className="font-mono text-[13px] text-[#9AA1C0] border border-white/18 px-5 py-2.5 rounded-full">Intelligence API</span></Link>
             </div>
           </div>
         </section>
@@ -504,7 +500,7 @@ export default function GlobalHolidayIntelligencePage() {
           <div className="flex gap-6">
             <Link href="/" className="text-[#9AA1C0] hover:text-white">Explore Utsavs.com</Link>
             <Link href="/calendar" className="text-[#9AA1C0] hover:text-white">Full calendar</Link>
-            <Link href="#api" className="text-[#9AA1C0] hover:text-white">Join API preview</Link>
+            <Link href="/api" className="text-[#9AA1C0] hover:text-white">Join API preview</Link>
           </div>
         </div>
       </footer>

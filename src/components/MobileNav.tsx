@@ -11,7 +11,7 @@ const navLinks = [
   { href: "/built-for", label: "Built For" },
   { href: "/api", label: "API" },
   { href: "/travel-insurance", label: "Travel Insurance" },
-  { href: "https://utsavs.com", label: "Stories ↗", external: true },
+  { href: "/festivals", label: "Stories ↗" },
 ];
 
 export function MobileNav({ setOpen }: { setOpen: (open: boolean) => void }) {
@@ -31,12 +31,10 @@ export function MobileNav({ setOpen }: { setOpen: (open: boolean) => void }) {
           <Link
             key={link.href}
             href={link.href}
-            target={link.external ? "_blank" : undefined}
-            rel={link.external ? "noopener noreferrer" : undefined}
             onClick={() => setOpen(false)}
             className={cn(
               "text-lg font-bold transition-colors",
-              !link.external && pathname === link.href ? "text-primary" : "text-foreground/80 hover:text-primary"
+              pathname === link.href ? "text-primary" : "text-foreground/80 hover:text-primary"
             )}
           >
             {link.label}

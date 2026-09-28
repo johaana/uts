@@ -7,6 +7,7 @@ import { GHI_RECORDS, GHIEvent } from '@/lib/calendar-intelligence-data';
 import { IntelligenceRecord } from './IntelligenceRecord';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
+import Link from 'next/link';
 
 export function GHIHero() {
   const [isRotating, setIsRotating] = useState(true);
@@ -37,31 +38,19 @@ export function GHIHero() {
               <h1 className="text-5xl md:text-7xl font-bold leading-[0.92] tracking-tighter text-[#17151A] font-display">
                 Understand the <br /> world's calendar.
               </h1>
-              <p className="text-lg md:text-xl text-[#6D6870] leading-relaxed font-ui font-medium max-w-md">
-                "Verified temporal data for human discovery and system operations."
+              <p className="text-lg md:text-xl text-[#6D6870] font-ui leading-relaxed max-w-2xl font-medium text-left">
+                A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.
               </p>
+              <div className="pt-4 text-left">
+                <Link href="/date-intelligence">
+                    <button className="bg-[#17151A] text-white font-bold text-xs h-12 px-8 rounded-sm shadow-lg hover:bg-black transition-colors uppercase tracking-widest">
+                      Check Date Intelligence →
+                    </button>
+                </Link>
+              </div>
             </div>
 
             <div className="space-y-6">
-              <div className="space-y-2">
-                <label className="text-[10px] font-extrabold uppercase tracking-[0.3em] text-[#17151A] font-ui">Search the Calendar</label>
-                <div className="relative group">
-                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6D6870] group-focus-within:text-[#E94368] transition-colors" />
-                  <Input 
-                    placeholder="Search a holiday, place, date or ask a question..."
-                    className="h-14 pl-12 bg-white border-[#DED9D0] rounded-sm font-ui text-base focus:ring-0 focus:border-[#17151A] transition-all"
-                    onFocus={() => setIsRotating(false)}
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                  />
-                </div>
-                <div className="flex flex-wrap gap-4 mt-4 text-[10px] font-bold uppercase tracking-widest text-[#6D6870]">
-                  {['Diwali', 'Japan', 'October 2026', 'Next Long Weekend'].map(ex => (
-                    <button key={ex} className="hover:text-[#17151A] transition-colors underline underline-offset-4">{ex}</button>
-                  ))}
-                </div>
-              </div>
-
               <div className="pt-8 border-t border-[#DED9D0]">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">

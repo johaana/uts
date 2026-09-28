@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 export function GHIApiSection() {
   const jsonCode = `{
@@ -18,14 +19,18 @@ export function GHIApiSection() {
     <section id="api" className="container mx-auto px-6 py-24 border-t border-[#DED9D0]">
       <div className="flex flex-col lg:flex-row gap-20 items-center">
         <div className="flex-1 space-y-8">
-            <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#E94368] font-ui">API Preview</p>
-            <h2 className="text-4xl md:text-6xl font-bold font-display tracking-tight text-[#17151A]">One API.<br/>Global intelligence.</h2>
-            <p className="text-lg text-[#6D6870] font-ui leading-relaxed max-w-lg font-medium">
+            <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#E94368] font-ui text-left">API Preview</p>
+            <h2 className="text-4xl md:text-6xl font-bold font-display tracking-tight text-[#17151A] text-left">One API.<br/>Global intelligence.</h2>
+            <p className="text-lg text-[#6D6870] font-ui leading-relaxed max-w-lg font-medium text-left">
                 Build calendars, scheduling tools, travel experiences and operational systems on structured holiday intelligence.
             </p>
-            <Button className="btn-ink h-12 px-10 text-[10px] font-bold uppercase tracking-[0.2em] rounded-sm shadow-sm transition-all active:scale-95">
-                Join API Preview
-            </Button>
+            <div className="flex gap-4">
+                <Link href="/api">
+                    <Button className="btn-ink h-12 px-10 text-[10px] font-bold uppercase tracking-[0.2em] rounded-sm shadow-sm transition-all active:scale-95">
+                        Join API Preview
+                    </Button>
+                </Link>
+            </div>
         </div>
 
         <div className="flex-1 w-full max-w-xl">
@@ -61,7 +66,7 @@ export function GHIApiSection() {
             </div>
             <div className="text-[#E94368] rotate-90 md:rotate-0 font-bold text-xl opacity-40">→</div>
             <div className="space-y-1">
-               <p className="font-display text-xl font-bold text-[#17151A]">Intelligence API</p>
+               <Link href="/api" className="hover:text-[#E94368] transition-colors"><p className="font-display text-xl font-bold text-[#17151A]">Intelligence API</p></Link>
                <p className="text-[9px] text-[#6D6870] uppercase font-bold tracking-[0.3em] font-ui">Delivery</p>
             </div>
          </div>
