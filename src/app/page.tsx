@@ -292,27 +292,22 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                <div className="checker-summary pt-6 pb-4 border-b border-white/10 flex flex-row items-end justify-between gap-4 text-left">
-                   <div>
-                    <b className="font-serif text-[32px] text-gold-soft">{checkerData.count}</b>
-                    <span className="text-[11.5px] text-muted-dim block font-bold uppercase tracking-widest mt-1">dates to keep in mind</span>
+                <div className="pt-6 space-y-6 border-b border-white/10 pb-4">
+                  <div className="text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-[#4FD1C5]">FOR YOUR JOURNEY</div>
+                  <div className="flex flex-row items-end gap-12 text-left">
+                    <div>
+                      <b className="font-serif text-[32px] text-gold-soft">{checkerData.count}</b>
+                      <span className="text-[11.5px] text-muted-dim block font-bold uppercase tracking-widest mt-1">days affected</span>
+                    </div>
+                    {checkerData.longestRun > 1 && (
+                      <div>
+                        <b className="font-serif text-[32px] text-gold-soft">{checkerData.longestRun}</b>
+                        <span className="text-[11.5px] text-muted-dim block font-bold uppercase tracking-widest mt-1">day long weekend</span>
+                      </div>
+                    )}
                   </div>
-                  <div>
-                    <b className="font-serif text-[32px] text-gold-soft">{checkerData.longestRun}</b>
-                    <span className="text-[11.5px] text-muted-dim block font-bold uppercase tracking-widest mt-1">day in longest flagged run</span>
-                  </div>
-                  <div>
-                    <b className="font-serif text-[32px] text-gold-soft">{checkerData.nextDays}</b>
-                    <span className="text-[11.5px] text-muted-dim block font-bold uppercase tracking-widest mt-1">days to next one</span>
-                  </div>
+                  <p className="text-[11px] font-bold text-muted-dim uppercase tracking-widest">details below</p>
                 </div>
-
-                {checkerData.nextImplication && (
-                  <div className="checker-brief flex gap-3 italic">
-                    <strong className="shrink-0">Note:</strong>
-                    <p>"{checkerData.nextImplication}"</p>
-                  </div>
-                )}
 
                 <div className="checker-list max-h-[440px] overflow-y-auto custom-scrollbar pr-1 text-left">
                    {checkerData.records.map((r) => (
