@@ -17,7 +17,6 @@ import Link from 'next/link';
 import { Button } from "@/components/ui/button";
 import Image from 'next/image';
 import placeholderImages from '@/app/lib/placeholder-images.json';
-import type { Metadata } from 'next';
 
 export default function BuiltForPage() {
   const useCases = [
@@ -25,7 +24,7 @@ export default function BuiltForPage() {
       title: "Travelers",
       subtitle: "When to go",
       icon: Plane,
-      image: placeholderImages.travelerHero.url,
+      image: "https://i.postimg.cc/5j8vRbJz/45f462f5dba1896b43862b940c3ae998.jpg",
       description: "Understand the cultural intensity and operational state of your destination. Flag festivals that drive high-density migration or unexpected closures.",
       impact: "A holiday is a signal for crowds and immersion, not just a day off."
     },
@@ -33,7 +32,7 @@ export default function BuiltForPage() {
       title: "International Students",
       subtitle: "When to arrive",
       icon: Globe,
-      image: placeholderImages.studentHero.url,
+      image: "https://i.postimg.cc/7J12GMXx/a4aad4afd29215eb038e5716fd3d47d0.jpg",
       description: "Put institutional calendars and arrival timing around your dates. Align visa interviews and orientation with verified host-country intelligence.",
       impact: "A holiday can mean a university admissions office is offline for 48 hours."
     },
@@ -41,7 +40,7 @@ export default function BuiltForPage() {
       title: "Corporate & HR",
       subtitle: "When to operate",
       icon: Clock,
-      image: placeholderImages.corporateHero.url,
+      image: "https://i.postimg.cc/GHrY0Vh3/beautiful-girl-standing-airport.jpg",
       description: "Manage global workforce calendars with precision. Identify local regional holidays that affect payroll, meetings, and office availability.",
       impact: "A holiday means cross-border settlement latency and modified office hours."
     },
@@ -49,7 +48,7 @@ export default function BuiltForPage() {
       title: "Global Logistics",
       subtitle: "When to move",
       icon: Landmark,
-      image: placeholderImages.logisticsHero.url,
+      image: "https://i.postimg.cc/rKcW63FF/beautiful-girl-standing-airport-(1).jpg",
       description: "Avoid demurrage and detention. Track port and customs operational status across multiple jurisdictions simultaneously.",
       impact: "A holiday is a documented operational shift in port and terminal throughput."
     }
@@ -65,17 +64,17 @@ export default function BuiltForPage() {
             
             <div className="space-y-6 max-w-3xl">
               <div className="text-[12.5px] font-mono text-[#4FD1C5] tracking-[0.3em] uppercase">The Intelligence Layer</div>
-              <h1 className="text-4xl md:text-7xl font-headline font-medium leading-none tracking-tighter">
+              <h1 className="text-4xl md:text-7xl font-headline font-medium leading-none tracking-tighter text-left">
                 One date.<br/>Different consequences.
               </h1>
-              <p className="text-xl text-[#9AA1C0] leading-relaxed font-medium">
+              <p className="text-xl text-[#9AA1C0] leading-relaxed font-medium text-left">
                 A holiday for one traveler is a closed office for another. Utsavs was built for teams and individuals who need to know which one they are.
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {useCases.map((uc, i) => (
-                <Card key={i} className="bg-[#171D3A] border-white/10 rounded-2xl overflow-hidden group hover:border-white/20 transition-all shadow-xl">
+                <Card key={i} className="bg-[#171D3A] border-white/10 rounded-2xl overflow-hidden group hover:border-white/20 transition-all shadow-xl text-left">
                   <div className="relative h-64 w-full">
                     <Image src={uc.image} alt={uc.title} fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#171D3A] to-transparent"></div>
@@ -105,7 +104,7 @@ export default function BuiltForPage() {
 
             <div className="p-10 md:p-16 rounded-[40px] border-2 border-dashed border-white/10 bg-white/5 space-y-8 text-center max-w-4xl mx-auto">
                 <ShieldAlert className="w-10 h-10 text-[#E8A33D] mx-auto" />
-                <div className="space-y-4">
+                <div className="space-y-4 text-center">
                   <h2 className="text-3xl md:text-4xl font-headline font-medium">Verified Deterministic Data</h2>
                   <p className="text-lg text-[#9AA1C0] leading-relaxed max-w-2xl mx-auto font-medium">
                     Generic AI hallucinates dates. Utsavs uses a deterministic engine verified against 
@@ -122,11 +121,11 @@ export default function BuiltForPage() {
             </div>
 
             <section className="py-24 border-t border-white/10 text-center space-y-10">
-               <h2 className="text-4xl md:text-6xl font-headline font-medium tracking-tight">Ready to understand your dates?</h2>
+               <h2 className="text-4xl md:text-6xl font-headline font-medium tracking-tight text-center">Ready to understand your dates?</h2>
                <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
                   <Link href="/" asChild>
                     <Button className="bg-[#E8A33D] text-[#0F1428] hover:bg-[#F0C888] font-bold px-12 h-16 rounded-full shadow-2xl transition-all hover:scale-105 uppercase tracking-widest text-xs">
-                      Start Planning <ArrowRight className="ml-2 w-5 h-5" />
+                      Start Planning <ArrowRight className="ml-2 w-5 h-5 text-[#0F1428]" />
                     </Button>
                   </Link>
                   <Link href="/api" asChild>

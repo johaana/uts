@@ -9,22 +9,25 @@ const fraunces = Fraunces({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
   variable: '--font-headline',
+  display: 'swap',
 });
 
 const inter = Inter({
   subsets: ['latin'],
   variable: '--font-sans',
+  display: 'swap',
 });
 
 const plexMono = IBM_Plex_Mono({
   subsets: ['latin'],
   weight: ['400', '500', '600'],
   variable: '--font-mono',
+  display: 'swap',
 });
 
 const siteTitle = "Know before you fly. Know before you schedule.";
 const siteDescription = "A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.";
-const ogImage = placeholderImages.defaultOG.url;
+const ogImage = "https://i.postimg.cc/3W2pcYhm/d747e23cb49deff051147f1657027da2.jpg";
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://utsavs.com'),

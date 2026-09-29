@@ -8,7 +8,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         { url: `${siteUrl}/built-for`, lastModified: new Date().toISOString(), changeFrequency: 'weekly', priority: 0.8 },
         { url: `${siteUrl}/api`, lastModified: new Date().toISOString(), changeFrequency: 'weekly', priority: 0.8 },
         { url: `${siteUrl}/date-intelligence`, lastModified: new Date().toISOString(), changeFrequency: 'daily', priority: 0.9 },
-        { url: `${siteUrl}/travel-insurance`, lastModified: new Date().toISOString(), changeFrequency: 'weekly', priority: 0.8 },
+        { url: `${siteUrl}/international-insurance`, lastModified: new Date().toISOString(), changeFrequency: 'weekly', priority: 0.8 },
         { url: `${siteUrl}/festivals`, lastModified: new Date().toISOString(), changeFrequency: 'daily', priority: 0.7 },
     ];
 
