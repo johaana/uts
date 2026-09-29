@@ -4,6 +4,7 @@ import { Toaster } from '@/components/ui/toaster';
 import { Fraunces, Inter, IBM_Plex_Mono } from 'next/font/google';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import { FirebaseClientProvider } from '@/firebase';
+import Script from 'next/script';
 
 const fraunces = Fraunces({
   subsets: ['latin'],
@@ -66,6 +67,19 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${fraunces.variable} ${inter.variable} ${plexMono.variable} font-sans antialiased`}>
+        {/* Google tag (gtag.js) */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-4KFQ8L5SKW"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-4KFQ8L5SKW');
+          `}
+        </Script>
         <FirebaseClientProvider>
           <ThemeProvider
               attribute="class"
