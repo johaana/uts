@@ -23,8 +23,6 @@ import {
 } from "lucide-react";
 
 export default function ApiPage() {
-  const WHATSAPP_LINK = "https://wa.me/919860997711";
-
   const jsonCode = `{
   "event": "Ganesh Chaturthi",
   "date": "2026-09-15",
@@ -46,6 +44,12 @@ export default function ApiPage() {
     document.getElementById('docs')?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const openCrisp = () => {
+    if (typeof window !== 'undefined' && (window as any).$crisp) {
+      (window as any).$crisp.push(['do', 'chat:open']);
+    }
+  };
+
   return (
     <div className="bg-[#0F1428] text-[#F4F1E8] min-h-screen font-sans selection:bg-[#E8A33D] selection:text-[#0F1428]">
       <Header />
@@ -57,9 +61,6 @@ export default function ApiPage() {
           <div className="container mx-auto px-6 relative z-10">
             <div className="max-w-6xl mx-auto grid lg:grid-cols-[1.1fr_0.9fr] gap-12 lg:gap-24 items-center">
                <div className="space-y-8 text-left">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#E8A33D]/10 border border-[#E8A33D]/20 rounded-full">
-                    <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#E8A33D]">API Preview v4.2</span>
-                  </div>
                   <h1 className="text-4xl md:text-7xl font-headline font-medium leading-[1.05] tracking-tighter">
                     Data you <br/>can trace.
                   </h1>
@@ -67,11 +68,12 @@ export default function ApiPage() {
                     The Utsavs API reconciles public calendars with institutional closures and regional rules. Built for technical systems that require high-stakes date precision.
                   </p>
                   <div className="pt-4 flex flex-col sm:flex-row gap-4">
-                    <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer">
-                      <Button className="bg-[#E8A33D] text-[#0F1428] hover:bg-[#F0C888] font-bold px-10 h-14 rounded-full shadow-2xl uppercase tracking-widest text-xs transition-all active:scale-95">
-                        Request API Access
-                      </Button>
-                    </a>
+                    <Button 
+                      onClick={openCrisp}
+                      className="bg-[#E8A33D] text-[#0F1428] hover:bg-[#F0C888] font-bold px-10 h-14 rounded-full shadow-2xl uppercase tracking-widest text-xs transition-all active:scale-95"
+                    >
+                      Request API Access
+                    </Button>
                     <Button 
                       variant="ghost" 
                       onClick={scrollToDocs}
@@ -215,7 +217,7 @@ export default function ApiPage() {
                              <ShieldCheck className="w-6 h-6 text-[#4FD1C5]" /> 01. Authentication
                           </h3>
                           <p className="text-[#9AA1C0] font-medium leading-relaxed">
-                            Access to the Utsavs API is restricted to authorized partners. Every request must include an <code className="text-[#F4F1E8] bg-white/10 px-1.5 rounded">X-API-KEY</code> header. You can request an evaluation key via the primary CTA above.
+                            Access to the Utsavs API is restricted to authorized partners. Every request must include an <code className="text-[#F4F1E8] bg-white/10 px-1.5 rounded">X-API-KEY</code> header. You can request an evaluation key via the support chat.
                           </p>
                        </div>
 
@@ -269,13 +271,16 @@ export default function ApiPage() {
                           </div>
                        </div>
                        
-                       <div className="p-6 bg-[#E8A33D]/5 border border-[#E8A33D]/20 rounded-2xl text-left">
+                       <div 
+                         onClick={openCrisp}
+                         className="p-6 bg-[#E8A33D]/5 border border-[#E8A33D]/20 rounded-2xl text-left cursor-pointer hover:bg-[#E8A33D]/10 transition-colors"
+                        >
                           <div className="flex items-center gap-3 mb-3">
                              <Info className="w-5 h-5 text-[#E8A33D]" />
                              <h4 className="font-bold text-sm uppercase tracking-widest">Enterprise Support</h4>
                           </div>
                           <p className="text-sm text-[#9AA1C0] font-medium leading-relaxed">
-                             Need to export bulk deterministic data sets or integrate real-time change alerts into your ERP/HR system? Contact us for Enterprise integration support.
+                             Need to export bulk deterministic data sets or integrate real-time change alerts into your ERP/HR system? Chat with us for Enterprise integration support.
                           </p>
                        </div>
                     </div>
