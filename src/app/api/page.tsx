@@ -45,7 +45,7 @@ export default function ApiPage() {
                   </p>
                   <div className="pt-4 flex gap-4">
                     <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer">
-                      <Button className="bg-[#E8A33D] text-[#0F1428] hover:bg-[#F0C888] font-bold px-8 h-12 rounded-full shadow-lg">Chat for API Preview</Button>
+                      <Button className="bg-[#E8A33D] text-[#0F1428] hover:bg-[#F0C888] font-bold px-8 h-12 rounded-full shadow-lg uppercase tracking-widest text-xs">Chat for API Preview</Button>
                     </a>
                   </div>
                </div>
@@ -102,7 +102,7 @@ export default function ApiPage() {
                       <p className="text-2xl font-headline font-bold">Real-time Analysis</p>
                     </div>
                     <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="block w-full mt-4">
-                      <Button className="w-full bg-[#4FD1C5] text-[#0F1428] hover:bg-[#F4F1E8] font-bold h-12 rounded-full">
+                      <Button className="w-full bg-[#4FD1C5] text-[#0F1428] hover:bg-[#F4F1E8] font-bold h-12 rounded-full uppercase tracking-widest text-xs">
                         <MessageSquare className="w-4 h-4 mr-2" /> WhatsApp Enterprise Sales
                       </Button>
                     </a>

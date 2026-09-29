@@ -6,7 +6,6 @@ import { Footer } from '@/components/footer';
 import { Card, CardContent } from "@/components/ui/card";
 import { 
   Plane, 
-  Briefcase, 
   Globe, 
   Clock, 
   Landmark, 
@@ -16,6 +15,9 @@ import {
 } from "lucide-react";
 import Link from 'next/link';
 import { Button } from "@/components/ui/button";
+import Image from 'next/image';
+import placeholderImages from '@/app/lib/placeholder-images.json';
+import type { Metadata } from 'next';
 
 export default function BuiltForPage() {
   const useCases = [
@@ -23,6 +25,7 @@ export default function BuiltForPage() {
       title: "Travelers",
       subtitle: "When to go",
       icon: Plane,
+      image: placeholderImages.travelerHero.url,
       description: "Understand the cultural intensity and operational state of your destination. Flag festivals that drive high-density migration or unexpected closures.",
       impact: "A holiday is a signal for crowds and immersion, not just a day off."
     },
@@ -30,6 +33,7 @@ export default function BuiltForPage() {
       title: "International Students",
       subtitle: "When to arrive",
       icon: Globe,
+      image: placeholderImages.studentHero.url,
       description: "Put institutional calendars and arrival timing around your dates. Align visa interviews and orientation with verified host-country intelligence.",
       impact: "A holiday can mean a university admissions office is offline for 48 hours."
     },
@@ -37,6 +41,7 @@ export default function BuiltForPage() {
       title: "Corporate & HR",
       subtitle: "When to operate",
       icon: Clock,
+      image: placeholderImages.corporateHero.url,
       description: "Manage global workforce calendars with precision. Identify local regional holidays that affect payroll, meetings, and office availability.",
       impact: "A holiday means cross-border settlement latency and modified office hours."
     },
@@ -44,6 +49,7 @@ export default function BuiltForPage() {
       title: "Global Logistics",
       subtitle: "When to move",
       icon: Landmark,
+      image: placeholderImages.logisticsHero.url,
       description: "Avoid demurrage and detention. Track port and customs operational status across multiple jurisdictions simultaneously.",
       impact: "A holiday is a documented operational shift in port and terminal throughput."
     }
@@ -70,7 +76,11 @@ export default function BuiltForPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {useCases.map((uc, i) => (
                 <Card key={i} className="bg-[#171D3A] border-white/10 rounded-2xl overflow-hidden group hover:border-white/20 transition-all shadow-xl">
-                  <CardContent className="p-10 space-y-8">
+                  <div className="relative h-64 w-full">
+                    <Image src={uc.image} alt={uc.title} fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#171D3A] to-transparent"></div>
+                  </div>
+                  <CardContent className="p-10 space-y-8 pt-6">
                     <div className="flex justify-between items-start">
                       <div className="w-14 h-14 bg-[#E8A33D]/10 rounded-2xl flex items-center justify-center text-[#E8A33D]">
                         <uc.icon className="w-7 h-7" />

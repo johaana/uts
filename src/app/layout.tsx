@@ -3,6 +3,7 @@ import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import { Fraunces, Inter, IBM_Plex_Mono } from 'next/font/google';
 import { ThemeProvider } from '@/components/ThemeProvider';
+import placeholderImages from '@/app/lib/placeholder-images.json';
 
 const fraunces = Fraunces({
   subsets: ['latin'],
@@ -23,7 +24,7 @@ const plexMono = IBM_Plex_Mono({
 
 const siteTitle = "Know before you fly. Know before you schedule.";
 const siteDescription = "A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.";
-const ogImage = "https://i.postimg.cc/3W2pcYhm/d747e23cb49deff051147f1657027da2.jpg";
+const ogImage = placeholderImages.defaultOG.url;
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://utsavs.com'),

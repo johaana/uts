@@ -1,14 +1,56 @@
 {
-  "ghiHero": {
-    "url": "https://picsum.photos/seed/utsavs-ghi-1/1920/1080",
-    "width": 1920,
-    "height": 1080,
-    "hint": "atmospheric culture"
+  "defaultOG": {
+    "url": "https://i.postimg.cc/3W2pcYhm/d747e23cb49deff051147f1657027da2.jpg",
+    "width": 1200,
+    "height": 630,
+    "hint": "travel lifestyle"
   },
-  "ghiDiwali": {
-    "url": "https://i.postimg.cc/SjF8HhM1/Diwali2.jpg",
+  "travelerHero": {
+    "url": "https://i.postimg.cc/5j8vRbJz/45f462f5dba1896b43862b940c3ae998.jpg",
     "width": 1200,
     "height": 800,
-    "hint": "diwali celebration"
+    "hint": "airport traveler"
+  },
+  "studentHero": {
+    "url": "https://i.postimg.cc/7J12GMXx/a4aad4afd29215eb038e5716fd3d47d0.jpg",
+    "width": 1200,
+    "height": 800,
+    "hint": "international student"
+  },
+  "insuranceHero": {
+    "url": "https://i.postimg.cc/xqLH4nQz/Accessories-for-Airport-Travel.jpg",
+    "width": 1200,
+    "height": 800,
+    "hint": "travel protection"
+  },
+  "corporateHero": {
+    "url": "https://i.postimg.cc/GHrY0Vh3/beautiful-girl-standing-airport.jpg",
+    "width": 1200,
+    "height": 800,
+    "hint": "business traveler"
+  },
+  "logisticsHero": {
+    "url": "https://i.postimg.cc/rKcW63FF/beautiful-girl-standing-airport-(1).jpg",
+    "width": 1200,
+    "height": 800,
+    "hint": "global travel"
+  },
+  "worldToday": {
+    "url": "https://i.postimg.cc/30jv4C9w/c72b449de7a0faa15cc09dd379038c9a.jpg",
+    "width": 1200,
+    "height": 800,
+    "hint": "cultural scene"
+  },
+  "lifestyle1": {
+    "url": "https://i.postimg.cc/GTPy8Jzm/partire-1024x683.webp",
+    "width": 1024,
+    "height": 683,
+    "hint": "travel moment"
+  },
+  "lifestyle2": {
+    "url": "https://i.postimg.cc/2VmvpMjg/woman-leather-jacket-airport.jpg",
+    "width": 1200,
+    "height": 800,
+    "hint": "solo traveler"
   }
 }

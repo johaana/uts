@@ -52,7 +52,7 @@ export function Header() {
                 <span className="sr-only">Toggle menu</span>
               </button>
             </SheetTrigger>
-            <SheetContent side="right" className="p-0 border-none w-full max-w-[300px]">
+            <SheetContent side="right" className="p-0 border-none w-full max-w-[300px] bg-[#0F1428]">
               <MobileNav setOpen={setOpen} />
             </SheetContent>
           </Sheet>

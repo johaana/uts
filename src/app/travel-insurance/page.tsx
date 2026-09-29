@@ -12,10 +12,23 @@ import {
   HeartPulse
 } from "lucide-react";
 import type { Metadata } from 'next';
+import Image from 'next/image';
+import placeholderImages from '@/app/lib/placeholder-images.json';
 
 export const metadata: Metadata = {
-  title: "Partner with Utsavs for International Travel Protection.",
+  title: "Partner with Utsavs for Travel Insurance Protection.",
   description: "Integrate verified calendar intelligence and travel protection into your platform — for universities, corporates, and booking engines.",
+  openGraph: {
+    title: "Partner with Utsavs for Travel Insurance Protection.",
+    description: "Integrate verified calendar intelligence and travel protection into your platform — for universities, corporates, and booking engines.",
+    images: [placeholderImages.insuranceHero.url],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: "Partner with Utsavs for Travel Insurance Protection.",
+    description: "Integrate verified calendar intelligence and travel protection into your platform — for universities, corporates, and booking engines.",
+    images: [placeholderImages.insuranceHero.url],
+  }
 };
 
 export default function TravelInsurancePage() {
@@ -29,14 +42,32 @@ export default function TravelInsurancePage() {
         <div className="container mx-auto px-6 text-left">
           <div className="max-w-5xl mx-auto space-y-20">
             
-            <div className="space-y-6 text-center max-w-4xl mx-auto">
-              <h1 className="text-4xl md:text-6xl font-headline font-medium leading-tight tracking-tight">
-                Plan for what you can predict. <br/>
-                <span className="italic text-[#9AA1C0]">Protect against what you can't.</span>
-              </h1>
-              <p className="text-lg text-[#9AA1C0] leading-relaxed max-w-3xl mx-auto font-medium">
-                Because a holiday shouldn't be a liability.
-              </p>
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
+              <div className="space-y-6">
+                <h1 className="text-4xl md:text-6xl font-headline font-medium leading-tight tracking-tight">
+                  Plan for what you can predict. <br/>
+                  <span className="italic text-[#9AA1C0]">Protect against what you can't.</span>
+                </h1>
+                <p className="text-xl text-[#F4F1E8]/90 leading-relaxed font-medium">
+                  Because a holiday shouldn't be a liability.
+                </p>
+                <div className="pt-4">
+                  <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer">
+                    <Button className="bg-[#E8A33D] text-[#0F1428] hover:bg-[#F0C888] font-bold px-8 h-12 rounded-full shadow-lg uppercase tracking-widest text-xs">
+                      <MessageSquare className="w-4 h-4 mr-2" /> Message for Quote
+                    </Button>
+                  </a>
+                </div>
+              </div>
+              <div className="relative aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl">
+                <Image 
+                  src={placeholderImages.insuranceHero.url} 
+                  alt="Travel Insurance" 
+                  fill 
+                  className="object-cover"
+                  data-ai-hint="travel protection"
+                />
+              </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -123,9 +154,9 @@ export default function TravelInsurancePage() {
             </div>
 
             <section className="py-16 text-center space-y-8 bg-[#E8A33D]/5 rounded-[40px] border border-[#E8A33D]/20 animate-in fade-in slide-in-from-bottom-4 duration-1000">
-               <h2 className="text-3xl md:text-5xl font-headline font-bold">Get Your Custom Quote</h2>
+               <h2 className="text-3xl md:text-5xl font-headline font-bold">Secure Your Journey Today</h2>
                <p className="text-lg text-[#9AA1C0] max-w-2xl mx-auto font-medium">
-                  Ready to secure your journey? Speak with our experts for a plan tailored to your specific travel, study, or business requirements.
+                  Speak with our experts for a plan tailored to your specific travel, study, or business requirements.
                </p>
                <div className="pt-4">
                   <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer">
