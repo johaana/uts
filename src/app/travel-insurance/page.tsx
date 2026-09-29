@@ -6,7 +6,6 @@ import { Card } from "@/components/ui/card";
 import { 
   ShieldCheck, 
   Landmark, 
-  ShieldAlert,
   MessageSquare,
   School,
   Activity,
@@ -16,7 +15,7 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: "Partner with Utsavs for International Travel Protection.",
-  description: "Integrate verified calendar intelligence and travel protection into your platform — for universities, corporates, and booking engines.",
+  description: "Integrate verified calendar intelligence and travel protection into your platform — for universities, corporates, and booking engines. Comprehensive international travel insurance tailored for students, corporate teams, and global explorers.",
 };
 
 export default function TravelInsurancePage() {
@@ -37,7 +36,6 @@ export default function TravelInsurancePage() {
                 <span className="italic text-[#9AA1C0]">Protect against what you can't.</span>
               </h1>
               <p className="text-lg text-[#9AA1C0] leading-relaxed max-w-3xl mx-auto font-medium">
-                Comprehensive international travel insurance tailored for students, corporate teams, and global explorers. 
                 Because a holiday shouldn't be a liability.
               </p>
             </div>
@@ -162,12 +160,11 @@ export default function TravelInsurancePage() {
             </div>
 
             {/* REGULATORY DISCLOSURE */}
-            <div className="p-10 rounded-3xl border-2 border-dashed border-white/10 bg-white/5 space-y-8 text-left">
-              <h2 className="font-headline text-2xl font-medium flex items-center gap-3 text-paper tracking-tight">
-                <ShieldAlert className="w-6 h-6 text-[#E8A33D]" />
+            <div className="pt-8 mt-8 border-t border-white/10 space-y-4 text-left">
+              <span className="font-mono text-[10px] uppercase tracking-[0.1em] text-[#6E7495]">
                 Regulatory Disclosure
-              </h2>
-              <div className="space-y-4 text-[10px] text-[#9AA1C0] leading-relaxed font-medium uppercase tracking-wider">
+              </span>
+              <div className="space-y-4 text-[10px] text-[#9AA1C0] leading-relaxed normal-case tracking-normal">
                 <div className="space-y-1">
                   <p>Assistance services are facilitated by Asego Global Assistance Private Limited.</p>
                   <p>Insurance is underwritten by an IRDAI authorised underwriter and is a subject matter of solicitation.</p>
