@@ -178,7 +178,7 @@ export default function HomePage() {
                 <div className="hero-tracker-head py-3 md:py-2.5">
                   <div>
                     <span className="hero-tracker-kicker uppercase tracking-[0.25em] text-[#4FD1C5] font-mono text-[10px] font-bold">LIVE UPDATES</span>
-                    <strong className="text-lg md:text-[15px] font-headline">
+                    <strong className="text-xl md:text-[15px] font-headline">
                       {isMounted ? format(new Date(todayKey + 'T00:00:00'), 'EEEE, d MMMM yyyy') : 'Loading...'}
                     </strong>
                   </div>
@@ -199,13 +199,13 @@ export default function HomePage() {
                              onClick={() => setExpandedGlobal(expandedGlobal === item.id ? null : item.id)}
                              className="w-full flex items-center justify-between px-5 py-3 md:py-2.5 hover:bg-white/5 transition-all text-left group"
                            >
-                              <div className="space-y-0.5">
+                              <div className="space-y-0.5 flex-1 min-w-0 pr-4">
                                  <span className="block text-[14px] font-bold group-hover:text-[#4FD1C5] transition-colors">{item.name}</span>
                                  <span className="block text-[9px] font-bold text-muted-dim uppercase tracking-widest font-mono">
                                     {COUNTRY_LABELS[item.jurisdiction.country_code]} · {item.jurisdiction.scope.toUpperCase()}
                                  </span>
                               </div>
-                              {expandedGlobal === item.id ? <ChevronUp className="w-4 h-4 text-muted-dim" /> : <ChevronDown className="w-4 h-4 text-muted-dim" />}
+                              {expandedGlobal === item.id ? <ChevronUp className="w-4 h-4 text-muted-dim shrink-0" /> : <ChevronDown className="w-4 h-4 text-muted-dim shrink-0" />}
                            </button>
                            {expandedGlobal === item.id && (
                              <div className="px-5 pb-5 space-y-3 animate-in slide-in-from-top-2 duration-300">
@@ -234,18 +234,18 @@ export default function HomePage() {
                                    onClick={() => setShowNextAdvice(!showNextAdvice)}
                                    className="w-full flex items-center justify-between text-left group"
                                  >
-                                   <div className="space-y-0.5">
+                                   <div className="space-y-0.5 flex-1 min-w-0 pr-4">
                                       <span className="block text-[17px] font-bold text-paper/90 leading-tight group-hover:text-[#4FD1C5] transition-colors">{nextEvent.name}</span>
-                                      <div className="flex items-center gap-3">
-                                         <span className="text-[10px] font-mono font-bold text-[#4FD1C5] uppercase tracking-widest">
+                                      <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+                                         <span className="text-[10px] font-mono font-bold text-[#4FD1C5] uppercase tracking-widest whitespace-nowrap">
                                             {format(new Date(nextEvent.date + 'T00:00:00'), 'd MMMM yyyy')}
                                          </span>
-                                         <span className="text-[8px] font-bold px-1.5 py-0.5 rounded-sm uppercase tracking-widest bg-white/5 text-muted-dim border border-white/10">
+                                         <span className="text-[8px] font-bold px-1.5 py-0.5 rounded-sm uppercase tracking-widest bg-white/5 text-muted-dim border border-white/10 whitespace-nowrap">
                                             {COUNTRY_LABELS[nextEvent.jurisdiction.country_code]} · {nextEvent.jurisdiction.scope.toUpperCase()}
                                          </span>
                                       </div>
                                    </div>
-                                   {showNextAdvice ? <ChevronUp className="w-4 h-4 text-muted-dim" /> : <ChevronDown className="w-4 h-4 text-muted-dim" />}
+                                   {showNextAdvice ? <ChevronUp className="w-4 h-4 text-muted-dim shrink-0" /> : <ChevronDown className="w-4 h-4 text-muted-dim shrink-0" />}
                                  </button>
                                  
                                  {showNextAdvice && (
@@ -386,11 +386,11 @@ export default function HomePage() {
                           onClick={() => setExpandedRecord(expandedRecord === r.id ? null : r.id)}
                           className="w-full flex items-center justify-between py-6 md:py-4 hover:bg-white/[0.02] transition-all text-left"
                         >
-                           <div className="flex items-center gap-4 md:gap-5">
+                           <div className="flex items-center gap-4 md:gap-5 flex-1 min-w-0">
                               <div className="impact-date w-16 md:w-20 shrink-0 font-mono text-[10px] text-muted-dim uppercase text-left leading-tight">
                                 {format(new Date(r.date + 'T00:00:00'), 'EEE, dd MMM')}
                               </div>
-                              <div className="space-y-0.5 flex-1 min-w-0 pr-2">
+                              <div className="space-y-0.5 flex-1 min-w-0 pr-4">
                                  <span className="block font-bold text-[14px] group-hover:text-gold-soft transition-colors leading-snug break-words">{r.name}</span>
                                  <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
                                     <span className="text-[9px] font-mono font-bold text-muted-dim uppercase tracking-widest">
@@ -403,7 +403,7 @@ export default function HomePage() {
                                  </div>
                               </div>
                            </div>
-                           {expandedRecord === r.id ? <ChevronUp className="w-4 h-4 text-muted-dim" /> : <ChevronDown className="w-4 h-4 text-muted-dim" />}
+                           {expandedRecord === r.id ? <ChevronUp className="w-4 h-4 text-muted-dim shrink-0" /> : <ChevronDown className="w-4 h-4 text-muted-dim shrink-0" />}
                         </button>
                         {expandedRecord === r.id && (
                           <div className="pb-8 space-y-5 animate-in slide-in-from-top-2 duration-300 px-5 md:px-20">
