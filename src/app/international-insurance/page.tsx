@@ -12,8 +12,6 @@ import {
   HeartPulse
 } from "lucide-react";
 import type { Metadata } from 'next';
-import Image from 'next/image';
-import placeholderImages from '@/app/lib/placeholder-images.json';
 
 export const metadata: Metadata = {
   title: "Partner with Utsavs for International Insurance Protection.",
@@ -39,37 +37,21 @@ export default function InternationalInsurancePage() {
       <Header />
       
       <main className="py-12 md:py-24">
-        <div className="container mx-auto px-6 text-left">
+        <div className="container mx-auto px-6">
           <div className="max-w-5xl mx-auto space-y-20">
             
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
-              <div className="space-y-6">
-                <h1 className="text-4xl md:text-6xl font-headline font-medium leading-tight tracking-tight text-left">
-                  Plan for what you can predict. <br/>
-                  <span className="italic text-[#9AA1C0]">Protect against what you can't.</span>
-                </h1>
-                <p className="text-xl text-[#F4F1E8]/90 leading-relaxed font-medium text-left">
-                  Because a holiday shouldn't be a liability.
-                </p>
-                <div className="pt-4 text-left">
-                  <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer">
-                    <Button className="bg-[#E8A33D] text-[#0F1428] hover:bg-[#F0C888] font-bold px-8 h-12 rounded-full shadow-lg uppercase tracking-widest text-xs">
-                      <MessageSquare className="w-4 h-4 mr-2" /> Message for Quote
-                    </Button>
-                  </a>
-                </div>
-              </div>
-              <div className="relative aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl">
-                <Image 
-                  src="https://i.postimg.cc/xqLH4nQz/Accessories-for-Airport-Travel.jpg" 
-                  alt="International Insurance" 
-                  fill 
-                  className="object-cover"
-                  data-ai-hint="travel protection"
-                />
-              </div>
+            {/* Centered Hero Section */}
+            <div className="text-center space-y-6 max-w-3xl mx-auto">
+              <h1 className="text-4xl md:text-6xl font-headline font-medium leading-tight tracking-tight">
+                Plan for what you can predict. <br/>
+                <span className="italic text-[#9AA1C0]">Protect against what you can't.</span>
+              </h1>
+              <p className="text-xl text-[#F4F1E8]/90 leading-relaxed font-medium">
+                Because a holiday shouldn't be a liability.
+              </p>
             </div>
 
+            {/* Product Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                
                <Card className="bg-[#1E2650] border-white/10 p-10 rounded-[32px] space-y-8 relative overflow-hidden group hover:border-[#E8A33D]/40 transition-all text-left">
@@ -85,7 +67,7 @@ export default function InternationalInsurancePage() {
                   </div>
                   <ul className="space-y-3 relative z-10">
                      {["Compliant with US/UK/AU University Rules", "Mental Health & Wellness Support", "Inter-collegiate Sports Cover"].map(item => (
-                       <li key={item} className="flex items-start gap-3 text-sm font-bold text-paper/90">
+                       <li key={item} className="flex items-start gap-3 text-sm font-bold text-white/90">
                           <ShieldCheck className="w-4 h-4 text-[#4FD1C5]" /> {item}
                        </li>
                      ))}
@@ -105,7 +87,7 @@ export default function InternationalInsurancePage() {
                   </div>
                   <ul className="space-y-3">
                      {["Group Enrollment for Teams", "B2B Partnership Enquiries", "Institutional Liability Support"].map(item => (
-                       <li key={item} className="flex items-center gap-3 text-sm font-bold text-paper/90">
+                       <li key={item} className="flex items-center gap-3 text-sm font-bold text-white/90">
                           <ShieldCheck className="w-4 h-4 text-[#E8A33D]" /> {item}
                        </li>
                      ))}
@@ -125,7 +107,7 @@ export default function InternationalInsurancePage() {
                   </div>
                   <ul className="space-y-3">
                      {["Limits up to $1 Million USD", "Global Emergency Evacuation", "Medical Bill Discrepancy Review"].map(item => (
-                       <li key={item} className="flex items-center gap-3 text-sm font-bold text-paper/90">
+                       <li key={item} className="flex items-center gap-3 text-sm font-bold text-white/90">
                           <ShieldCheck className="w-4 h-4 text-[#4FD1C5]" /> {item}
                        </li>
                      ))}
@@ -145,7 +127,7 @@ export default function InternationalInsurancePage() {
                   </div>
                   <ul className="space-y-3">
                      {["Global Gadget & Laptop Cover", "Study Interruption Protection", "Mugging & Credit Card Fraud Shield"].map(item => (
-                       <li key={item} className="flex items-center gap-3 text-sm font-bold text-paper/90">
+                       <li key={item} className="flex items-center gap-3 text-sm font-bold text-white/90">
                           <ShieldCheck className="w-4 h-4 text-teal" /> {item}
                        </li>
                      ))}
@@ -153,7 +135,8 @@ export default function InternationalInsurancePage() {
                </Card>
             </div>
 
-            <section className="py-16 text-center space-y-8 bg-[#E8A33D]/5 rounded-[40px] border border-[#E8A33D]/20 animate-in fade-in slide-in-from-bottom-4 duration-1000">
+            {/* High-Impact CTA Section */}
+            <section className="py-16 text-center space-y-8 bg-[#E8A33D]/5 rounded-[40px] border border-[#E8A33D]/20">
                <h2 className="text-3xl md:text-5xl font-headline font-bold">Secure Your Journey Today</h2>
                <p className="text-lg text-[#9AA1C0] max-w-2xl mx-auto font-medium">
                   Speak with our experts for a plan tailored to your specific travel, study, or business requirements.
@@ -167,6 +150,7 @@ export default function InternationalInsurancePage() {
                </div>
             </section>
 
+            {/* Regulatory Disclosure */}
             <div className="pt-8 mt-8 border-t border-white/10 space-y-4 text-left">
               <span className="font-mono text-[10px] uppercase tracking-[0.1em] text-[#6E7495]">
                 Regulatory Disclosure
