@@ -83,7 +83,14 @@ export default function RootLayout({
         {/* Crisp Chat */}
         <Script id="crisp-chat" strategy="afterInteractive">
           {`
-            window.$crisp=[];window.CRISP_WEBSITE_ID="bddbc2df-e9be-4055-8157-00aa2a196901";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();
+            window.$crisp=[];
+            window.CRISP_WEBSITE_ID="bddbc2df-e9be-4055-8157-00aa2a196901";
+            (function(){
+              d=document;s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;
+              d.getElementsByTagName("head")[0].appendChild(s);
+            })();
+            window.$crisp.push(["set", "chat:color", "amber"]);
+            window.$crisp.push(["set", "chat:welcome:message", ["How can we help with your global planning? Ask us about our Intelligence API."]]);
           `}
         </Script>
         <FirebaseClientProvider>
