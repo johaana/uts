@@ -175,10 +175,10 @@ export default function HomePage() {
               <p className="sub !mb-4">A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.</p>
 
               <aside className="hero-tracker md:order-last !my-0" id="world">
-                <div className="hero-tracker-head py-2.5">
+                <div className="hero-tracker-head py-3 md:py-2.5">
                   <div>
-                    <span className="hero-tracker-kicker uppercase tracking-[0.25em] text-[#E8A33D] font-mono text-[10px] font-bold">LIVE UPDATES</span>
-                    <strong className="text-[15px] font-headline">
+                    <span className="hero-tracker-kicker uppercase tracking-[0.25em] text-[#4FD1C5] font-mono text-[10px] font-bold">LIVE UPDATES</span>
+                    <strong className="text-lg md:text-[15px] font-headline">
                       {isMounted ? format(new Date(todayKey + 'T00:00:00'), 'EEEE, d MMMM yyyy') : 'Loading...'}
                     </strong>
                   </div>
@@ -189,7 +189,7 @@ export default function HomePage() {
                 </div>
 
                 <div className="text-left bg-white/[0.01]">
-                   <div className="px-[20px] pt-3 pb-0 text-left border-b border-white/5">
+                   <div className="px-[20px] pt-4 md:pt-3 pb-0 text-left border-b border-white/5">
                       <span className="text-[10px] font-mono font-bold uppercase tracking-[0.25em] text-[#4FD1C5]">GLOBAL IMPACTS</span>
                    </div>
                    <div className="divide-y divide-white/5">
@@ -197,7 +197,7 @@ export default function HomePage() {
                         <div key={item.id} className="relative">
                            <button 
                              onClick={() => setExpandedGlobal(expandedGlobal === item.id ? null : item.id)}
-                             className="w-full flex items-center justify-between px-[18px] py-2.5 hover:bg-white/5 transition-all text-left group"
+                             className="w-full flex items-center justify-between px-[18px] py-3 md:py-2.5 hover:bg-white/5 transition-all text-left group"
                            >
                               <div className="space-y-0.5">
                                  <span className="block text-[14px] font-bold group-hover:text-[#4FD1C5] transition-colors">{item.name}</span>
@@ -223,7 +223,7 @@ export default function HomePage() {
                            )}
                         </div>
                       )) : nextEvent ? (
-                        <div className="px-[18px] py-4 text-left">
+                        <div className="px-[18px] py-5 md:py-4 text-left">
                            <div className="space-y-3">
                               <div className="flex items-center gap-2">
                                 <span className="text-[9px] font-mono font-bold uppercase tracking-[0.2em] text-[#E8A33D]">Next Up</span>
@@ -259,7 +259,7 @@ export default function HomePage() {
                            </div>
                         </div>
                       ) : (
-                        <div className="px-[18px] py-5 text-left">
+                        <div className="px-[18px] py-6 text-left">
                            <p className="text-[13px] font-medium text-paper/90 leading-relaxed max-w-lg italic font-display">
                               Standard Global business day. High-trust window for international meetings and cross-border office operations.
                            </p>
@@ -268,8 +268,8 @@ export default function HomePage() {
                    </div>
                 </div>
 
-                <div className="hero-tracker-feed !py-3.5 bg-[#1E2650]/40">
-                  <div className="px-[20px] mb-2 flex items-center gap-2">
+                <div className="hero-tracker-feed !py-4 bg-[#1E2650]/40">
+                  <div className="px-[20px] mb-3 flex items-center gap-2">
                      <span className="text-[9px] font-mono font-bold text-[#4FD1C5] uppercase tracking-[0.25em]">LOCAL SIGNALS</span>
                   </div>
                   <div className="marquee">
@@ -294,7 +294,7 @@ export default function HomePage() {
               </aside>
             </div>
 
-            <div className="checker text-left order-1 !p-6 md:!p-7">
+            <div className="checker text-left order-1 !p-5 md:!p-7">
               <div className="checker-top">
                 <h3 className="font-serif">Trip impact checker</h3>
                 <button 
@@ -384,15 +384,15 @@ export default function HomePage() {
                      <div key={r.id} className="border-b border-white/5 last:border-0 group">
                         <button 
                           onClick={() => setExpandedRecord(expandedRecord === r.id ? null : r.id)}
-                          className="w-full flex items-center justify-between py-4 hover:bg-white/[0.02] transition-all text-left"
+                          className="w-full flex items-center justify-between py-5 md:py-4 hover:bg-white/[0.02] transition-all text-left"
                         >
-                           <div className="flex items-center gap-5">
-                              <div className="impact-date w-20 shrink-0 font-mono text-[10px] text-muted-dim uppercase text-left">
+                           <div className="flex items-center gap-4 md:gap-5">
+                              <div className="impact-date w-14 md:w-20 shrink-0 font-mono text-[10px] text-muted-dim uppercase text-left">
                                 {format(new Date(r.date + 'T00:00:00'), 'EEE, dd MMM')}
                               </div>
-                              <div className="space-y-0.5">
-                                 <span className="block font-bold text-[14px] group-hover:text-gold-soft transition-colors leading-tight">{r.name}</span>
-                                 <div className="flex items-center gap-3">
+                              <div className="space-y-0.5 flex-1 min-w-0">
+                                 <span className="block font-bold text-[14px] group-hover:text-gold-soft transition-colors leading-tight break-words">{r.name}</span>
+                                 <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
                                     <span className="text-[9px] font-mono font-bold text-muted-dim uppercase tracking-widest">
                                        {r.jurisdiction.region ? r.jurisdiction.region + ' · ' : ''}{COUNTRY_LABELS[r.jurisdiction.country_code] || r.jurisdiction.country_code}
                                     </span>
@@ -406,7 +406,7 @@ export default function HomePage() {
                            {expandedRecord === r.id ? <ChevronUp className="w-4 h-4 text-muted-dim" /> : <ChevronDown className="w-4 h-4 text-muted-dim" />}
                         </button>
                         {expandedRecord === r.id && (
-                          <div className="pb-5 space-y-4 animate-in slide-in-from-top-2 duration-300 px-4 md:px-20">
+                          <div className="pb-6 space-y-4 animate-in slide-in-from-top-2 duration-300 px-4 md:px-20">
                              <div className="p-3.5 bg-white/5 border-l-2 border-gold-soft rounded-r-lg">
                                 <p className="text-[13px] font-medium leading-relaxed italic text-paper/90">
                                   "{r.consequences.implication}"
