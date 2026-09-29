@@ -1,3 +1,4 @@
+
 /**
  * @fileOverview Authoritative Holidays Data (2026–2028).
  * Contains high-fidelity rules for 92 jurisdictions restored from all 17 fragments.
@@ -41,13 +42,13 @@ const CIA_SOURCE = { source_name: "Authoritative Reference", source_url: "https:
 export const HOLIDAY_RULES: Record<string, any[]> = {
   IN: [
     fixed(1, 26, "Republic Day", "public", "high", 
-      { source_name: "DoPT Office Memorandum F.No.12/2/2023-JCA (3 Jul 2025)", source_url: "https://www.aiimsmangalagiri.edu.in/wp-content/uploads/2025/11/Holidays-Circular-2026-1.pdf" }
+      { source_name: "DoPT Office Memorandum F.No.12/2/2023-JCA (3 Jul 2025), “Holidays to be Observed in Central Government Offices During the Year 2026,” Annexure-I", source_url: "https://www.aiimsmangalagiri.edu.in/wp-content/uploads/2025/11/Holidays-Circular-2026-1.pdf" }
     ),
     fixed(8, 15, "Independence Day", "public", "high", 
-      { source_name: "DoPT Office Memorandum F.No.12/2/2023-JCA (3 Jul 2025)", source_url: "https://www.aiimsmangalagiri.edu.in/wp-content/uploads/2025/11/Holidays-Circular-2026-1.pdf" }
+      { source_name: "DoPT Office Memorandum F.No.12/2/2023-JCA (3 Jul 2025), Annexure-I — one of India's three National Holidays, compulsory for every establishment, public or private", source_url: "https://www.aiimsmangalagiri.edu.in/wp-content/uploads/2025/11/Holidays-Circular-2026-1.pdf" }
     ),
     fixed(10, 2, "Gandhi Jayanti", "public", "high", 
-      { source_name: "DoPT Office Memorandum F.No.12/2/2023-JCA (3 Jul 2025)", source_url: "https://www.aiimsmangalagiri.edu.in/wp-content/uploads/2025/11/Holidays-Circular-2026-1.pdf" }
+      { source_name: "DoPT Office Memorandum F.No.12/2/2023-JCA (3 Jul 2025), Annexure-I", source_url: "https://www.aiimsmangalagiri.edu.in/wp-content/uploads/2025/11/Holidays-Circular-2026-1.pdf" }
     ),
     dated({ 2026: "2026-09-04" }, "Janmashtami", "religious", "confirmed", "high", 
       { source_name: "CAG India", source_url: "https://cag.gov.in/uploads/media/Holiday-List-2026-06982ddd8e2f3c2-57681843.pdf" }
@@ -95,11 +96,16 @@ export const HOLIDAY_RULES: Record<string, any[]> = {
     fixed(12, 25, "Christmas Day", "public", "medium", CIA_SOURCE)
   ],
   CA: [
-    dated({ 2026: "2026-09-30" }, "National Day for Truth and Reconciliation", "public", "confirmed", "high", { source_name: "Gov Canada", source_url: "https://www.canada.ca/" }),
-    dated({ 2026: "2026-09-07" }, "Labour Day", "public", "confirmed", "high", { source_name: "Gov Canada", source_url: "https://www.canada.ca/en/revenue-agency/services/tax/public-holidays.html" }),
+    dated({ 2026: "2026-04-03" }, "Good Friday", "public", "confirmed", "high", { source_name: "Gov Canada", source_url: "https://www.canada.ca/" }),
+    dated({ 2026: "2026-05-18" }, "Victoria Day", "public", "confirmed", "high", { source_name: "Gov Canada", source_url: "https://www.canada.ca/" }),
     fixed(7, 1, "Canada Day", "public", "high", { source_name: "Gov Canada", source_url: "https://www.canada.ca/" }),
+    dated({ 2026: "2026-09-07" }, "Labour Day", "public", "confirmed", "high", { source_name: "Gov Canada", source_url: "https://www.canada.ca/en/revenue-agency/services/tax/public-holidays.html" }),
+    dated({ 2026: "2026-09-30" }, "National Day for Truth and Reconciliation", "public", "confirmed", "high", { source_name: "Gov Canada", source_url: "https://www.canada.ca/" }),
+    dated({ 2026: "2026-10-12" }, "Thanksgiving Day", "public", "confirmed", "high", { source_name: "Gov Canada", source_url: "https://www.canada.ca/" }),
+    dated({ 2026: "2026-11-11" }, "Remembrance Day", "public", "confirmed", "high", { source_name: "Gov Canada", source_url: "https://www.canada.ca/" }),
     fixed(1, 1, "New Year's Day", "public", "medium", CIA_SOURCE),
-    fixed(12, 25, "Christmas Day", "public", "medium", CIA_SOURCE)
+    fixed(12, 25, "Christmas Day", "public", "medium", CIA_SOURCE),
+    fixed(12, 26, "Boxing Day", "public", "medium", CIA_SOURCE)
   ],
   FR: [
     fixed(7, 14, "Bastille Day", "public", "medium", CIA_SOURCE),

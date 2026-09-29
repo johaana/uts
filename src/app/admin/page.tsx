@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -88,6 +89,21 @@ export default function AdminGatePage() {
       setSyncLoading(false);
       return;
     }
+
+    // Helper to remove undefined values for Firestore compatibility
+    const cleanObject = (obj: any): any => {
+      if (obj === undefined) return null;
+      if (obj === null || typeof obj !== 'object') return obj;
+      if (Array.isArray(obj)) return obj.map(cleanObject);
+      
+      const cleaned: any = {};
+      for (const key in obj) {
+        if (Object.prototype.hasOwnProperty.call(obj, key) && obj[key] !== undefined) {
+          cleaned[key] = cleanObject(obj[key]);
+        }
+      }
+      return cleaned;
+    };
     
     try {
       const rules = getCanonicalRules(); // Fetches the 416 baseline patterns
@@ -96,10 +112,14 @@ export default function AdminGatePage() {
       for (const rule of rules) {
         // Use rule_id as the document key to prevent duplicates
         const docRef = doc(db, "intelligence_records", rule.rule_id);
-        await setDoc(docRef, { 
+        
+        // Sanitize data to remove any 'undefined' fields which trigger Firebase errors
+        const cleanedRule = cleanObject({ 
           ...rule, 
           status: "published" // Force published status for verified baseline
-        }, { merge: true });
+        });
+
+        await setDoc(docRef, cleanedRule, { merge: true });
         count++;
       }
       
