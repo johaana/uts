@@ -1,12 +1,15 @@
+'use client';
 /**
  * @fileOverview Authoritative Source Aggregator.
  * 
- * PHASE 4: Provides expanded records for UI components like the Tracker/Marquee
- * while maintaining the canonical rule set for the evaluation engine.
+ * PHASE 4: Provides expanded records for UI components while maintaining 
+ * the governed Firestore layer as the production source of truth.
  */
 import { CanonicalRule, DateIntelligenceRecord } from './types';
 import { getCanonicalRules } from './normalize';
 import { expandRecurrence } from './engine';
+import { getFirestore } from '@/firebase';
+import { collection, query, where, getDocs } from 'firebase/firestore';
 
 class AuthoritativeEngine {
   private rules: CanonicalRule[] | null = null;
@@ -14,15 +17,32 @@ class AuthoritativeEngine {
 
   async getCanonicalRules(): Promise<CanonicalRule[]> {
     if (!this.rules) {
-      this.rules = getCanonicalRules();
+      // 1. Get Static Baselines
+      const staticRules = getCanonicalRules();
+      
+      // 2. Fetch Published Overrides/Additions from Firestore
+      let governedRules: CanonicalRule[] = [];
+      try {
+        const db = getFirestore();
+        if (db) {
+          const q = query(collection(db, 'intelligence_records'), where('status', '==', 'published'));
+          const snapshot = await getDocs(q);
+          governedRules = snapshot.docs.map(doc => doc.data() as CanonicalRule);
+        }
+      } catch (e) {
+        console.warn('Governance Layer unavailable, using static baseline only.', e);
+      }
+
+      // Merge (Governed rules with same ID override static ones)
+      const merged = new Map<string, CanonicalRule>();
+      staticRules.forEach(r => merged.set(r.rule_id, r));
+      governedRules.forEach(r => merged.set(r.rule_id, r));
+      
+      this.rules = Array.from(merged.values());
     }
     return this.rules;
   }
 
-  /**
-   * Provides a materialised expansion of all recurring rules for a 
-   * default horizon (2026-2029) to support the Global Tracker and Marquee.
-   */
   async getRecords(): Promise<DateIntelligenceRecord[]> {
     if (!this.expanded) {
       const canonical = await this.getCanonicalRules();
@@ -30,7 +50,7 @@ class AuthoritativeEngine {
       const years = [2026, 2027, 2028, 2029];
 
       canonical.forEach(rule => {
-        if (rule.temporal_kind === 'recurring') {
+        if (rule.temporal_kind === 'recurring' && rule.rule_definition) {
           years.forEach(y => {
             const date = expandRecurrence(rule.rule_definition!, y);
             if (date) {
@@ -41,23 +61,11 @@ class AuthoritativeEngine {
               });
             }
           });
-        } else if (rule.temporal_kind === 'event' || rule.temporal_kind === 'estimated') {
-          if (rule.valid_from) {
-            instances.push({ 
-              ...rule, 
-              id: `${rule.rule_id}__${rule.valid_from}`,
-              date: rule.valid_from 
-            });
-          }
-        }
-        // Standing and period records are handled dynamically by the adapter/engine
-        // during specific window queries, but we include them here if they have 
-        // a 'valid_from' anchor for the legacy list-based UI logic.
-        else if (rule.valid_from) {
+        } else if (rule.date) {
           instances.push({ 
             ...rule, 
-            id: `${rule.rule_id}__${rule.valid_from}`,
-            date: rule.valid_from 
+            id: `${rule.rule_id}__${rule.date}`,
+            date: rule.date 
           });
         }
       });
@@ -68,7 +76,7 @@ class AuthoritativeEngine {
   }
 
   async getStatus() {
-    return { available: true, version: "3.1.0-integrated" };
+    return { available: true, version: "4.0.0-governed" };
   }
 }
 

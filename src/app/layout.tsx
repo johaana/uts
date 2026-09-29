@@ -3,7 +3,7 @@ import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import { Fraunces, Inter, IBM_Plex_Mono } from 'next/font/google';
 import { ThemeProvider } from '@/components/ThemeProvider';
-import placeholderImages from '@/app/lib/placeholder-images.json';
+import { FirebaseClientProvider } from '@/firebase';
 
 const fraunces = Fraunces({
   subsets: ['latin'],
@@ -66,17 +66,19 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${fraunces.variable} ${inter.variable} ${plexMono.variable} font-sans antialiased`}>
-        <ThemeProvider
-            attribute="class"
-            defaultTheme="dark"
-            enableSystem={false}
-            disableTransitionOnChange
-          >
-          <div className="flex min-h-screen flex-col">
-            {children}
-          </div>
-          <Toaster />
-        </ThemeProvider>
+        <FirebaseClientProvider>
+          <ThemeProvider
+              attribute="class"
+              defaultTheme="dark"
+              enableSystem={false}
+              disableTransitionOnChange
+            >
+            <div className="flex min-h-screen flex-col">
+              {children}
+            </div>
+            <Toaster />
+          </ThemeProvider>
+        </FirebaseClientProvider>
       </body>
     </html>
   );

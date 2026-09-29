@@ -1,0 +1,66 @@
+{
+  "entities": {
+    "IntelligenceRecord": {
+      "title": "Intelligence Record",
+      "description": "A verified temporal record (holiday, policy, or operational signal).",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "date": { "type": "string", "format": "date" },
+        "end_date": { "type": "string", "format": "date" },
+        "status": { "type": "string", "enum": ["draft", "published", "archived"] },
+        "category": { "type": "string" },
+        "jurisdiction": {
+          "type": "object",
+          "properties": {
+            "country_code": { "type": "string" },
+            "country_name": { "type": "string" },
+            "region": { "type": "string" },
+            "scope": { "type": "string", "enum": ["national", "regional", "local", "institutional"] }
+          }
+        },
+        "purpose_relevance": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "temporal_kind": { "type": "string" },
+        "state": { "type": "string" },
+        "confidence": { "type": "string" },
+        "evidence": {
+          "type": "object",
+          "properties": {
+            "source_name": { "type": "string" },
+            "source_url": { "type": "string" },
+            "last_checked": { "type": "string" }
+          }
+        },
+        "consequences": {
+          "type": "object",
+          "properties": {
+            "implication": { "type": "string" },
+            "advice": {
+              "type": "object",
+              "properties": {
+                "traveler": { "type": "string" },
+                "study": { "type": "string" },
+                "corporate": { "type": "string" }
+              }
+            },
+            "affected_operations": { "type": "array", "items": { "type": "string" } },
+            "severity": { "type": "string", "enum": ["low", "medium", "high"] }
+          }
+        }
+      }
+    }
+  },
+  "auth": {
+    "providers": ["password"]
+  },
+  "firestore": {
+    "/intelligence_records/{recordId}": {
+      "schema": { "$ref": "#/backend/entities/IntelligenceRecord" },
+      "description": "Collection of all temporal and operational records."
+    }
+  }
+}

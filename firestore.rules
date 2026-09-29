@@ -1,0 +1,17 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Shared validation functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    match /intelligence_records/{recordId} {
+      // Public can see published records
+      allow read: if resource.data.status == 'published';
+      // Admin (authenticated) can manage everything
+      // Note: In development, we allow authenticated write access
+      allow write: if isAuthenticated();
+    }
+  }
+}
