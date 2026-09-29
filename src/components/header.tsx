@@ -8,10 +8,11 @@ import { Menu } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { MobileNav } from "./MobileNav";
 
-const navLinks = [
-  { href: "/date-intelligence", label: "Date Intelligence" },
-  { href: "/travel-insurance", label: "Travel Insurance" },
+export const NAV_LINKS = [
+  { href: "/built-for", label: "Built For" },
+  { href: "/api", label: "API" },
   { href: "/festivals", label: "Stories" },
+  { href: "/travel-insurance", label: "Travel Insurance" },
 ];
 
 export function Header() {
@@ -27,7 +28,7 @@ export function Header() {
         </Link>
         
         <div className="hidden md:flex gap-9 text-[11px] font-bold uppercase tracking-[0.2em] font-ui">
-          {navLinks.map((link) => (
+          {NAV_LINKS.map((link) => (
             <Link
               key={link.href}
               href={link.href}

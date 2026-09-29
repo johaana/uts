@@ -9,14 +9,8 @@ import { COUNTRY_LABELS } from '../calendar-intelligence';
 import { expandRecurrence } from './engine';
 
 function validateProvenance(rule: any) {
-  if (rule.confidence && rule.confidence !== 'unsourced' && rule.confidence !== 'listed') {
-    if (!rule.evidence || !rule.evidence.source_url) {
-      // For baseline purposes, provide a fallback if missing but tagged with high confidence
-      if (rule.evidence) {
-        rule.evidence.source_url = "https://www.cia.gov/the-world-factbook/";
-      }
-    }
-  }
+  // Provenance Hardening: We do NOT assign fallbacks. 
+  // Missing evidence is handled as 'unsourced' or 'listed' confidence.
 }
 
 function generateRuleId(cc: string, rule: HolidayRule): string {
@@ -67,7 +61,7 @@ export function getCanonicalRules(): CanonicalRule[] {
         temporal_kind: 'recurring',
         state: rule.status || 'confirmed',
         confidence: rule.confidence || 'unsourced',
-        evidence: rule.evidence || { source_name: "Authoritative Reference", source_url: "https://www.cia.gov/the-world-factbook/" },
+        evidence: rule.evidence || { source_name: null, source_url: "" },
         rule_definition: rule,
         date,
         consequences: { 
@@ -131,7 +125,7 @@ export function getCanonicalRules(): CanonicalRule[] {
         temporal_kind: obj.temporal_kind || 'standing',
         state: obj.state || 'confirmed',
         confidence: obj.confidence || 'high',
-        evidence: obj.evidence || { source_name: 'Authoritative Source', source_url: "https://utsavs.com/api" },
+        evidence: obj.evidence || { source_name: null, source_url: "" },
         consequences: {
           implication: baseText,
           advice,

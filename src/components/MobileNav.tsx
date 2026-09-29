@@ -5,12 +5,7 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Button } from "./ui/button";
 import { MessageSquare } from "lucide-react";
-
-const navLinks = [
-  { href: "/date-intelligence", label: "Date Intelligence" },
-  { href: "/travel-insurance", label: "Travel Insurance" },
-  { href: "/festivals", label: "Stories" },
-];
+import { NAV_LINKS } from "./header";
 
 export function MobileNav({ setOpen }: { setOpen: (open: boolean) => void }) {
   const pathname = usePathname();
@@ -25,7 +20,7 @@ export function MobileNav({ setOpen }: { setOpen: (open: boolean) => void }) {
         </Link>
       </div>
       <nav className="flex flex-col p-6 space-y-6">
-        {navLinks.map((link) => (
+        {NAV_LINKS.map((link) => (
           <Link
             key={link.href}
             href={link.href}

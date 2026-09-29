@@ -25,11 +25,10 @@ export default function TravelInsurancePage() {
     <div className="bg-[#0F1428] text-[#F4F1E8] min-h-screen font-sans selection:bg-[#E8A33D] selection:text-[#0F1428]">
       <Header />
       
-      <main className="py-4 md:py-10">
+      <main className="py-12 md:py-24">
         <div className="container mx-auto px-6 text-left">
           <div className="max-w-5xl mx-auto space-y-20">
             
-            {/* HERO */}
             <div className="space-y-6 text-center max-w-4xl mx-auto">
               <h1 className="text-4xl md:text-6xl font-headline font-medium leading-tight tracking-tight">
                 Plan for what you can predict. <br/>
@@ -40,10 +39,8 @@ export default function TravelInsurancePage() {
               </p>
             </div>
 
-            {/* PRODUCT OFFERINGS GRID */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                
-               {/* 01. STUDENT JOURNEY */}
                <Card className="bg-[#1E2650] border-white/10 p-10 rounded-[32px] space-y-8 relative overflow-hidden group hover:border-[#E8A33D]/40 transition-all">
                   <div className="space-y-4 relative z-10">
                      <div className="w-14 h-14 bg-[#E8A33D]/10 rounded-2xl flex items-center justify-center text-[#E8A33D]">
@@ -64,7 +61,6 @@ export default function TravelInsurancePage() {
                   </ul>
                </Card>
 
-               {/* 02. CORPORATE RISK */}
                <Card className="bg-[#171D3A] border-white/10 p-10 rounded-[32px] space-y-8 group hover:border-[#4FD1C5]/40 transition-all">
                   <div className="space-y-4">
                      <div className="w-14 h-14 bg-[#4FD1C5]/10 rounded-2xl flex items-center justify-center text-[#4FD1C5]">
@@ -85,7 +81,6 @@ export default function TravelInsurancePage() {
                   </ul>
                </Card>
 
-               {/* 03. INTERNATIONAL MEDICAL */}
                <Card className="bg-[#171D3A] border-white/10 p-10 rounded-[32px] space-y-8 group hover:border-[#4FD1C5]/40 transition-all">
                   <div className="space-y-4">
                      <div className="w-14 h-14 bg-red-500/10 rounded-2xl flex items-center justify-center text-red-400">
@@ -106,7 +101,6 @@ export default function TravelInsurancePage() {
                   </ul>
                </Card>
 
-               {/* 04. SPECIALTY ADD-ONS */}
                <Card className="bg-[#1E2650] border-white/10 p-10 rounded-[32px] space-y-8 group hover:border-[#E8A33D]/40 transition-all">
                   <div className="space-y-4">
                      <div className="w-14 h-14 bg-teal/10 rounded-2xl flex items-center justify-center text-teal">
@@ -128,7 +122,6 @@ export default function TravelInsurancePage() {
                </Card>
             </div>
 
-            {/* Decision CTA: Get Your Custom Quote */}
             <section className="py-16 text-center space-y-8 bg-[#E8A33D]/5 rounded-[40px] border border-[#E8A33D]/20 animate-in fade-in slide-in-from-bottom-4 duration-1000">
                <h2 className="text-3xl md:text-5xl font-headline font-bold">Get Your Custom Quote</h2>
                <p className="text-lg text-[#9AA1C0] max-w-2xl mx-auto font-medium">
@@ -143,23 +136,6 @@ export default function TravelInsurancePage() {
                </div>
             </section>
 
-            {/* B2B / PARTNERSHIPS */}
-            <div className="p-10 md:p-16 bg-[#171D3A] border border-white/5 rounded-[40px] text-center space-y-8">
-               <h3 className="text-3xl font-headline font-medium">Group Bookings & Partnerships</h3>
-               <p className="text-lg text-[#9AA1C0] max-w-2xl mx-auto font-medium">
-                  Integrate verified calendar intelligence and travel protection directly into your platform. 
-                  We support university blocks, corporate accounts, and API-led ancillary revenue streams.
-               </p>
-               <div className="pt-4">
-                 <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer">
-                   <Button variant="outline" className="border-white/20 hover:bg-white/5 font-bold rounded-full h-14 px-10 uppercase tracking-widest text-xs">
-                     Enquire about Partnership
-                   </Button>
-                 </a>
-               </div>
-            </div>
-
-            {/* REGULATORY DISCLOSURE */}
             <div className="pt-8 mt-8 border-t border-white/10 space-y-4 text-left">
               <span className="font-mono text-[10px] uppercase tracking-[0.1em] text-[#6E7495]">
                 Regulatory Disclosure
