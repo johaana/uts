@@ -44,7 +44,7 @@ export default function ApiPage() {
     document.getElementById('docs')?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const openCrisp = () => {
+  const openChat = () => {
     if (typeof window !== 'undefined' && (window as any).$crisp) {
       (window as any).$crisp.push(['do', 'chat:open']);
     }
@@ -69,7 +69,7 @@ export default function ApiPage() {
                   </p>
                   <div className="pt-4 flex flex-col sm:flex-row gap-4">
                     <Button 
-                      onClick={openCrisp}
+                      onClick={openChat}
                       className="bg-[#E8A33D] text-[#0F1428] hover:bg-[#F0C888] font-bold px-10 h-14 rounded-full shadow-2xl uppercase tracking-widest text-xs transition-all active:scale-95"
                     >
                       Request API Access
@@ -254,9 +254,9 @@ export default function ApiPage() {
                        <div className="bg-[#171D3A] rounded-2xl border border-white/10 overflow-hidden shadow-2xl">
                           <div className="px-6 py-4 bg-white/5 border-b border-white/5 flex items-center justify-between">
                              <div className="flex gap-1.5">
-                                <div className="w-2 h-2 rounded-full bg-white/20"></div>
-                                <div className="w-2 h-2 rounded-full bg-white/20"></div>
-                                <div className="w-2 h-2 rounded-full bg-white/20"></div>
+                                <div className="w-2.5 h-2.5 rounded-full bg-white/20"></div>
+                                <div className="w-2.5 h-2.5 rounded-full bg-white/20"></div>
+                                <div className="w-2.5 h-2.5 rounded-full bg-white/20"></div>
                              </div>
                              <span className="text-[10px] font-mono font-bold text-[#6E7495] uppercase">cURL Example</span>
                           </div>
@@ -272,7 +272,7 @@ export default function ApiPage() {
                        </div>
                        
                        <div 
-                         onClick={openCrisp}
+                         onClick={openChat}
                          className="p-6 bg-[#E8A33D]/5 border border-[#E8A33D]/20 rounded-2xl text-left cursor-pointer hover:bg-[#E8A33D]/10 transition-colors"
                         >
                           <div className="flex items-center gap-3 mb-3">

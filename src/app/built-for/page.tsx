@@ -46,6 +46,12 @@ export default function BuiltForPage() {
     }
   ];
 
+  const openChat = () => {
+    if (typeof window !== 'undefined' && (window as any).$crisp) {
+      (window as any).$crisp.push(['do', 'chat:open']);
+    }
+  };
+
   return (
     <div className="bg-[#0F1428] text-[#F4F1E8] min-h-screen font-sans selection:bg-[#E8A33D] selection:text-[#0F1428]">
       <Header />
@@ -119,10 +125,8 @@ export default function BuiltForPage() {
             <section className="py-24 border-t border-white/10 text-center space-y-10">
                <h2 className="text-4xl md:text-6xl font-headline font-medium tracking-tight text-center">Ready to understand your dates?</h2>
                <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-                  <Button asChild className="bg-[#E8A33D] text-[#0F1428] font-bold px-12 h-16 rounded-full shadow-2xl transition-all hover:scale-105 uppercase tracking-widest text-xs">
-                    <Link href="/">
-                      Start Planning <ArrowRight className="ml-2 w-5 h-5 text-[#0F1428]" />
-                    </Link>
+                  <Button onClick={openChat} className="bg-[#E8A33D] text-[#0F1428] font-bold px-12 h-16 rounded-full shadow-2xl transition-all hover:scale-105 uppercase tracking-widest text-xs">
+                    Start Planning <ArrowRight className="ml-2 w-5 h-5 text-[#0F1428]" />
                   </Button>
                   <Button asChild variant="ghost" className="px-10 h-16 font-bold border border-white/10 rounded-full hover:bg-white/5 transition-colors text-white">
                     <Link href="/api">

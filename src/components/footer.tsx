@@ -16,6 +16,12 @@ export function Footer() {
     setCurrentYear(format(now, "yyyy"));
   }, []);
 
+  const openChat = () => {
+    if (typeof window !== 'undefined' && (window as any).$crisp) {
+      (window as any).$crisp.push(['do', 'chat:open']);
+    }
+  };
+
   return (
     <footer className="bg-ink border-t border-white/5 py-20">
       <div className="wrap space-y-12">
@@ -31,11 +37,9 @@ export function Footer() {
               </p>
            </div>
            <div className="flex flex-col md:items-end gap-8 text-left">
-              <Link href="/api">
-                <Button className="bg-[#E8A33D] text-[#0F1428] font-bold h-12 px-8 rounded-full shadow-lg group active:scale-95 transition-all">
-                  Get API Access <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                </Button>
-              </Link>
+              <Button onClick={openChat} className="bg-[#E8A33D] text-[#0F1428] font-bold h-12 px-8 rounded-full shadow-lg group active:scale-95 transition-all">
+                Get API Access <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+              </Button>
               <div className="flex gap-8 text-sm font-bold text-muted uppercase tracking-widest">
                 <Link href="/date-intelligence" className="hover:text-white transition-colors">Explorer</Link>
                 <Link href="/international-insurance" className="hover:text-white transition-colors">Insurance</Link>
@@ -58,7 +62,7 @@ export function Footer() {
 
         <div className="text-[10px] text-muted-dim/60 leading-relaxed uppercase tracking-wider max-w-5xl mx-auto text-center border-t border-white/5 pt-8 space-y-4">
           <p>
-            Source-backed intelligence. Every data point is backed by an underlying source, with the source available to inspect. Human-verified where verification is required.
+            Source-backed intelligence. Every data point is backed by an underlying source, with the source available to inspect. Human-verified.
           </p>
           <p>
             Institutional closures are sourced separately from calendar events. Lunar and government-declared dates are subject to change; Utsavs maintains the source and verification status for all 1,091 deterministic rules.

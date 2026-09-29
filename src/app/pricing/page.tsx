@@ -1,11 +1,19 @@
+'use client';
+
+import React from 'react';
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Check, MessageSquare } from "lucide-react";
+import Link from 'next/link';
 
 export default function PricingPage() {
-  const WHATSAPP_LINK = "https://wa.me/919860997711";
+  const openChat = () => {
+    if (typeof window !== 'undefined' && (window as any).$crisp) {
+      (window as any).$crisp.push(['do', 'chat:open']);
+    }
+  };
 
   const plans = [
     {
@@ -32,7 +40,7 @@ export default function PricingPage() {
         "Custom Location Sets"
       ],
       cta: "Inquire Now",
-      link: WHATSAPP_LINK
+      isChat: true
     },
     {
       name: "Enterprise",
@@ -45,7 +53,7 @@ export default function PricingPage() {
         "Technical Integration Support"
       ],
       cta: "Chat with Sales",
-      link: WHATSAPP_LINK,
+      isChat: true,
       primary: true
     }
   ];
@@ -86,11 +94,19 @@ export default function PricingPage() {
                       </li>
                     ))}
                   </ul>
-                  <a href={plan.link} target={plan.link.startsWith('http') ? "_blank" : undefined} rel={plan.link.startsWith('http') ? "noopener noreferrer" : undefined}>
-                    <Button variant={plan.primary ? 'default' : 'outline'} className={`w-full font-bold h-12 rounded-full ${plan.primary ? 'bg-[#E8A33D] text-[#0F1428] hover:bg-[#F0C888]' : 'border-white/10 hover:bg-white/5'}`}>
+                  {plan.isChat ? (
+                    <Button 
+                      onClick={openChat}
+                      variant={plan.primary ? 'default' : 'outline'} 
+                      className={`w-full font-bold h-12 rounded-full ${plan.primary ? 'bg-[#E8A33D] text-[#0F1428] hover:bg-[#F0C888]' : 'border-white/10 hover:bg-white/5'}`}
+                    >
                       {plan.cta}
                     </Button>
-                  </a>
+                  ) : (
+                    <Button asChild variant="outline" className="w-full font-bold h-12 rounded-full border-white/10 hover:bg-white/5">
+                      <Link href={plan.link!}>{plan.cta}</Link>
+                    </Button>
+                  )}
                 </CardContent>
               </Card>
             ))}
@@ -102,9 +118,9 @@ export default function PricingPage() {
                Need specific jurisdictional sets or integration for a high-volume platform? 
                We provide custom deterministic data feeds and white-label assistance solutions.
              </p>
-             <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-[#E8A33D] font-bold hover:underline uppercase tracking-[0.2em] text-sm">
+             <button onClick={openChat} className="inline-flex items-center gap-2 text-[#E8A33D] font-bold hover:underline uppercase tracking-[0.2em] text-sm">
                <MessageSquare className="w-5 h-5" /> Speak with our Team
-             </a>
+             </button>
           </div>
         </div>
       </main>

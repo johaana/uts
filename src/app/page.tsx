@@ -155,6 +155,12 @@ export default function HomePage() {
     return { records: uniqueMatches, count, nextDays, longestRun: maxOffSequence, nextImplication };
   }, [country, compA, compB, startDate, endDate, canonicalRules, mode, todayKey, isComparing]);
 
+  const openChat = () => {
+    if (typeof window !== 'undefined' && (window as any).$crisp) {
+      (window as any).$crisp.push(['do', 'chat:open']);
+    }
+  };
+
   return (
     <div className="bg-ink text-paper min-h-screen font-sans">
       <Header />
@@ -486,9 +492,9 @@ export default function HomePage() {
                   Provide high-trust safety layers that enhance customer loyalty and operational precision.
                </p>
                <div className="pt-2">
-                 <a href="https://wa.me/919860997711" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-sm font-bold text-[#E8A33D] hover:underline uppercase tracking-[0.2em] group">
+                 <button onClick={openChat} className="inline-flex items-center gap-2 text-sm font-bold text-[#E8A33D] hover:underline uppercase tracking-[0.2em] group">
                     Inquire about partnership <Repeat className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
-                 </a>
+                 </button>
                </div>
             </div>
           </div>

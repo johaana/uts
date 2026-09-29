@@ -9,7 +9,13 @@ import { NAV_LINKS } from "./header";
 
 export function MobileNav({ setOpen }: { setOpen: (open: boolean) => void }) {
   const pathname = usePathname();
-  const WHATSAPP_LINK = "https://wa.me/919860997711";
+
+  const openChat = () => {
+    setOpen(false);
+    if (typeof window !== 'undefined' && (window as any).$crisp) {
+      (window as any).$crisp.push(['do', 'chat:open']);
+    }
+  };
 
   return (
     <div className="flex flex-col h-full bg-[#0F1428] text-left">
@@ -35,11 +41,9 @@ export function MobileNav({ setOpen }: { setOpen: (open: boolean) => void }) {
         ))}
       </nav>
       <div className="mt-auto p-6 border-t border-white/5 bg-white/[0.02]">
-        <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer">
-          <Button className="w-full font-bold h-12 rounded-full bg-[#E8A33D] text-[#0F1428] hover:bg-[#F0C888]">
-            <MessageSquare className="w-4 h-4 mr-2" /> WhatsApp Us
-          </Button>
-        </a>
+        <Button onClick={openChat} className="w-full font-bold h-12 rounded-full bg-[#E8A33D] text-[#0F1428] hover:bg-[#F0C888]">
+          <MessageSquare className="w-4 h-4 mr-2" /> Start Chat
+        </Button>
       </div>
     </div>
   );

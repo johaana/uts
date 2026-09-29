@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
@@ -11,26 +13,13 @@ import {
   Activity,
   HeartPulse
 } from "lucide-react";
-import type { Metadata } from 'next';
-
-export const metadata: Metadata = {
-  title: "Partner with Utsavs for International Insurance Protection.",
-  description: "Integrate verified calendar intelligence and international insurance into your platform — for universities, corporates, and booking engines.",
-  openGraph: {
-    title: "Partner with Utsavs for International Insurance Protection.",
-    description: "Integrate verified calendar intelligence and international insurance into your platform — for universities, corporates, and booking engines.",
-    images: ["https://i.postimg.cc/xqLH4nQz/Accessories-for-Airport-Travel.jpg"],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: "Partner with Utsavs for International Insurance Protection.",
-    description: "Integrate verified calendar intelligence and international insurance into your platform — for universities, corporates, and booking engines.",
-    images: ["https://i.postimg.cc/xqLH4nQz/Accessories-for-Airport-Travel.jpg"],
-  }
-};
 
 export default function InternationalInsurancePage() {
-  const WHATSAPP_LINK = "https://wa.me/919860997711";
+  const openChat = () => {
+    if (typeof window !== 'undefined' && (window as any).$crisp) {
+      (window as any).$crisp.push(['do', 'chat:open']);
+    }
+  };
 
   return (
     <div className="bg-[#0F1428] text-[#F4F1E8] min-h-screen font-sans selection:bg-[#E8A33D] selection:text-[#0F1428]">
@@ -142,11 +131,9 @@ export default function InternationalInsurancePage() {
                   Speak with our experts for a plan tailored to your specific travel, study, or business requirements.
                </p>
                <div className="pt-2 text-center">
-                  <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer">
-                    <Button className="bg-[#E8A33D] text-[#0F1428] hover:bg-[#F0C888] font-bold px-10 h-14 rounded-full shadow-2xl transition-transform hover:scale-105 uppercase tracking-widest text-xs">
-                      <MessageSquare className="w-5 h-5 text-[#0F1428] mr-2" /> Message for Quote
-                    </Button>
-                  </a>
+                  <Button onClick={openChat} className="bg-[#E8A33D] text-[#0F1428] hover:bg-[#F0C888] font-bold px-10 h-14 rounded-full shadow-2xl transition-transform hover:scale-105 uppercase tracking-widest text-xs">
+                    <MessageSquare className="w-5 h-5 text-[#0F1428] mr-2" /> Message for Quote
+                  </Button>
                </div>
             </section>
 
