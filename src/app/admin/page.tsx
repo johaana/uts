@@ -14,12 +14,12 @@ import {
   AlertCircle, 
   Clock, 
   CheckCircle2,
-  ExternalLink,
-  ChevronRight
+  RefreshCw,
+  Zap
 } from "lucide-react";
 import { getFirestore } from "@/firebase";
-import { collection, query, where, getDocs, doc, updateDoc } from "firebase/firestore";
-import { CanonicalRule } from "@/lib/operational/types";
+import { collection, query, where, getDocs, doc, updateDoc, setDoc } from "firebase/firestore";
+import { getCanonicalRules } from "@/lib/operational/normalize";
 import { COUNTRY_LABELS } from "@/lib/calendar-intelligence";
 
 export default function AdminGatePage() {
@@ -28,6 +28,7 @@ export default function AdminGatePage() {
   const [error, setError] = useState(false);
   const [drafts, setDrafts] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
+  const [syncLoading, setSyncLoading] = useState(false);
   const [stats, setStats] = useState({
     canonical: 416,
     deterministic: 1091,
@@ -73,9 +74,42 @@ export default function AdminGatePage() {
     try {
       const docRef = doc(db, "intelligence_records", firestoreId);
       await updateDoc(docRef, { status: "published" });
-      fetchDrafts(); // Refresh
+      fetchDrafts(); 
     } catch (e) {
       console.error("Error publishing:", e);
+    }
+  };
+
+  const syncCanonicalData = async () => {
+    setSyncLoading(true);
+    const db = getFirestore();
+    if (!db) {
+      alert("Database connection failed.");
+      setSyncLoading(false);
+      return;
+    }
+    
+    try {
+      const rules = getCanonicalRules(); // Fetches the 416 baseline patterns
+      let count = 0;
+      
+      for (const rule of rules) {
+        // Use rule_id as the document key to prevent duplicates
+        const docRef = doc(db, "intelligence_records", rule.rule_id);
+        await setDoc(docRef, { 
+          ...rule, 
+          status: "published" // Force published status for verified baseline
+        }, { merge: true });
+        count++;
+      }
+      
+      alert(`Data sync successful. ${count} canonical rules are now live in Firestore.`);
+      fetchDrafts();
+    } catch (e) {
+      console.error("Sync error:", e);
+      alert("Synchronization failed. Check developer console for details.");
+    } finally {
+      setSyncLoading(false);
     }
   };
 
@@ -91,7 +125,7 @@ export default function AdminGatePage() {
                 <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
                 <span className="text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-[#4FD1C5]">Operational Status: Active</span>
               </div>
-              <h1 className="text-4xl md:text-6xl font-serif font-bold">Utsavs Control Room</h1>
+              <h1 className="text-4xl md:text-6xl font-serif font-bold tracking-tight">Utsavs Control Room</h1>
               <p className="text-xl text-[#9AA1C0] leading-relaxed max-w-2xl">
                 Review and approve deterministic rule changes across 92 jurisdictions. 
                 Records stay in Draft until you publish them to the live API.
@@ -116,55 +150,88 @@ export default function AdminGatePage() {
                ))}
             </div>
 
-            <div className="max-w-4xl mx-auto space-y-6">
-                <div className="flex items-center justify-between border-b border-white/10 pb-4">
-                   <h3 className="text-xl font-bold font-serif flex items-center gap-2">
-                     <Clock className="w-5 h-5 text-[#F0C888]" /> Pending Review
-                   </h3>
-                   <span className="bg-white/5 border border-white/10 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest text-[#9AA1C0]">
-                     {drafts.length} items
-                   </span>
+            <div className="max-w-4xl mx-auto grid md:grid-cols-1 gap-12">
+                {/* Review Queue */}
+                <div className="space-y-6">
+                    <div className="flex items-center justify-between border-b border-white/10 pb-4">
+                       <h3 className="text-xl font-bold font-serif flex items-center gap-2">
+                         <Clock className="w-5 h-5 text-[#F0C888]" /> Pending Review
+                       </h3>
+                       <span className="bg-white/5 border border-white/10 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest text-[#9AA1C0]">
+                         {drafts.length} items
+                       </span>
+                    </div>
+
+                    {loading ? (
+                       <div className="py-20 text-center">
+                          <Activity className="w-8 h-8 animate-spin mx-auto text-[#E8A33D] opacity-40" />
+                       </div>
+                    ) : drafts.length > 0 ? (
+                       <div className="space-y-4">
+                          {drafts.map((record) => (
+                            <div key={record.firestoreId} className="bg-[#171D3A] border border-white/10 rounded-xl p-6 flex flex-col md:flex-row justify-between gap-6 hover:border-[#4FD1C5]/40 transition-colors">
+                               <div className="space-y-3">
+                                  <div className="flex items-center gap-3">
+                                     <span className="font-mono text-[10px] text-[#4FD1C5] font-bold uppercase tracking-widest">{record.date || 'Standing Policy'}</span>
+                                     <div className="w-1 h-1 rounded-full bg-white/20"></div>
+                                     <span className="text-[10px] font-bold uppercase tracking-widest text-[#6E7495]">{COUNTRY_LABELS[record.jurisdiction?.country_code] || 'Global'}</span>
+                                  </div>
+                                  <h4 className="text-xl font-bold font-serif">{record.name}</h4>
+                                  <p className="text-sm text-[#9AA1C0] italic leading-relaxed">"{record.consequences?.implication}"</p>
+                               </div>
+                               <div className="flex items-center gap-3 shrink-0">
+                                  <Button variant="ghost" className="text-xs font-bold uppercase tracking-widest border border-white/10 hover:bg-white/5 rounded-lg">Details</Button>
+                                  <Button 
+                                    onClick={() => publishRecord(record.firestoreId)}
+                                    className="bg-[#4FD1C5] text-[#0F1428] hover:bg-[#F4F1E8] font-bold text-xs uppercase tracking-widest h-10 px-6 rounded-lg shadow-lg"
+                                  >
+                                    Publish →
+                                  </Button>
+                               </div>
+                            </div>
+                          ))}
+                       </div>
+                    ) : (
+                      <div className="p-20 border-2 border-dashed border-white/10 rounded-[32px] text-center space-y-6 bg-white/5">
+                          <CheckCircle2 className="w-12 h-12 text-[#9AA1C0] mx-auto opacity-40" />
+                          <div className="space-y-2">
+                            <h3 className="text-2xl font-bold font-serif">No pending data changes.</h3>
+                            <p className="text-[#9AA1C0] max-w-sm mx-auto">The production dataset is currently synchronized with the authoritative source registry.</p>
+                          </div>
+                          <Button variant="ghost" onClick={fetchDrafts} className="text-[10px] font-bold uppercase tracking-widest text-[#4FD1C5]">Refresh Registry</Button>
+                      </div>
+                    )}
                 </div>
 
-                {loading ? (
-                   <div className="py-20 text-center">
-                      <Activity className="w-8 h-8 animate-spin mx-auto text-[#E8A33D] opacity-40" />
-                   </div>
-                ) : drafts.length > 0 ? (
-                   <div className="space-y-4">
-                      {drafts.map((record) => (
-                        <div key={record.firestoreId} className="bg-[#171D3A] border border-white/10 rounded-xl p-6 flex flex-col md:flex-row justify-between gap-6 hover:border-[#4FD1C5]/40 transition-colors">
-                           <div className="space-y-3">
-                              <div className="flex items-center gap-3">
-                                 <span className="font-mono text-[10px] text-[#4FD1C5] font-bold uppercase tracking-widest">{record.date || 'Standing Policy'}</span>
-                                 <div className="w-1 h-1 rounded-full bg-white/20"></div>
-                                 <span className="text-[10px] font-bold uppercase tracking-widest text-[#6E7495]">{COUNTRY_LABELS[record.jurisdiction?.country_code] || 'Global'}</span>
-                              </div>
-                              <h4 className="text-xl font-bold font-serif">{record.name}</h4>
-                              <p className="text-sm text-[#9AA1C0] italic leading-relaxed">"{record.consequences?.implication}"</p>
-                           </div>
-                           <div className="flex items-center gap-3 shrink-0">
-                              <Button variant="ghost" className="text-xs font-bold uppercase tracking-widest border border-white/10 hover:bg-white/5 rounded-lg">Details</Button>
-                              <Button 
-                                onClick={() => publishRecord(record.firestoreId)}
-                                className="bg-[#4FD1C5] text-[#0F1428] hover:bg-[#F4F1E8] font-bold text-xs uppercase tracking-widest h-10 px-6 rounded-lg shadow-lg"
-                              >
-                                Publish →
-                              </Button>
-                           </div>
-                        </div>
-                      ))}
-                   </div>
-                ) : (
-                  <div className="p-20 border-2 border-dashed border-white/10 rounded-[32px] text-center space-y-6 bg-white/5">
-                      <CheckCircle2 className="w-12 h-12 text-[#9AA1C0] mx-auto opacity-40" />
-                      <div className="space-y-2">
-                        <h3 className="text-2xl font-bold font-serif">No pending data changes.</h3>
-                        <p className="text-[#9AA1C0] max-w-sm mx-auto">The production dataset is currently synchronized with the authoritative source registry.</p>
-                      </div>
-                      <Button variant="ghost" onClick={fetchDrafts} className="text-[10px] font-bold uppercase tracking-widest text-[#4FD1C5]">Refresh Registry</Button>
-                  </div>
-                )}
+                {/* System Maintenance */}
+                <div className="pt-12 border-t border-white/10 space-y-6">
+                    <h3 className="text-xl font-bold font-serif flex items-center gap-2">
+                      <Zap className="w-5 h-5 text-[#E8A33D]" /> System Utilities
+                    </h3>
+                    <Card className="bg-[#171D3A] border-dashed border-white/10">
+                        <CardContent className="p-10 flex flex-col md:flex-row items-center justify-between gap-8">
+                            <div className="space-y-2 text-left">
+                                <h4 className="font-bold text-lg">Sync Canonical Base</h4>
+                                <p className="text-sm text-[#9AA1C0] max-w-md">
+                                    Pushes the 416 verified code patterns into Firestore as published records. 
+                                    This ensures the cloud database matches the engine's verified baseline.
+                                </p>
+                            </div>
+                            <Button 
+                                onClick={syncCanonicalData}
+                                disabled={syncLoading}
+                                className="bg-white text-[#0F1428] hover:bg-[#F4F1E8] font-bold h-12 px-10 rounded-full uppercase tracking-widest text-xs min-w-[200px]"
+                            >
+                                {syncLoading ? (
+                                    <RefreshCw className="w-4 h-4 animate-spin mr-2" />
+                                ) : (
+                                    <Database className="w-4 h-4 mr-2" />
+                                )}
+                                {syncLoading ? "Syncing..." : "Sync to Cloud"}
+                            </Button>
+                        </CardContent>
+                    </Card>
+                </div>
             </div>
           </div>
         </main>
@@ -197,7 +264,7 @@ export default function AdminGatePage() {
                 />
               </div>
               {error && (
-                <div className="flex items-center gap-2 text-red-400 text-xs font-bold justify-center animate-shake">
+                <div className="flex items-center gap-2 text-red-400 text-xs font-bold justify-center">
                    <AlertCircle className="w-3 h-3" /> Invalid Authorization
                 </div>
               )}
