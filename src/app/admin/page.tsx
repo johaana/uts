@@ -91,6 +91,7 @@ export default function AdminGatePage() {
     }
 
     // Helper to remove undefined values for Firestore compatibility
+    // This resolves the "FirebaseError: Unsupported field value: undefined"
     const cleanObject = (obj: any): any => {
       if (obj === undefined) return null;
       if (obj === null || typeof obj !== 'object') return obj;
