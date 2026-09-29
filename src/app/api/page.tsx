@@ -18,7 +18,8 @@ import {
   MessageSquare,
   BookOpen,
   Eye,
-  ArrowDown
+  ArrowDown,
+  Info
 } from "lucide-react";
 
 export default function ApiPage() {
@@ -273,7 +274,7 @@ export default function ApiPage() {
                              <Info className="w-5 h-5 text-[#E8A33D]" />
                              <h4 className="font-bold text-sm uppercase tracking-widest">Enterprise Support</h4>
                           </div>
-                          <p className="text-sm text-[#9AA1C0] leading-relaxed font-medium">
+                          <p className="text-sm text-[#9AA1C0] font-medium leading-relaxed">
                              Need to export bulk deterministic data sets or integrate real-time change alerts into your ERP/HR system? Contact us for Enterprise integration support.
                           </p>
                        </div>
