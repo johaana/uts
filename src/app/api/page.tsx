@@ -119,7 +119,7 @@ export default function ApiPage() {
               <div className="space-y-6 text-left">
                 <div className="text-[11px] font-mono text-[#4FD1C5] font-bold uppercase tracking-[0.4em]">The Core Philosophy</div>
                 <h2 className="text-3xl md:text-5xl font-headline font-medium">Actionable Intelligence, not just security risk.</h2>
-                <div className="space-y-6 text-lg text-[#9AA1C0] leading-relaxed font-medium">
+                <div className="space-y-6 text-lg text-[#9AA1C0] leading-relaxed font-medium text-left">
                   <p>
                     Traditional security intelligence focuses on the 1% of extreme events — crime, kidnapping, or war. But 99% of professional journeys are paralyzed by <strong>Temporal Friction</strong>: the unannounced bank closure, the 4-hour urban delay, or the institutional deadline mismatch.
                   </p>
@@ -134,7 +134,7 @@ export default function ApiPage() {
                    { label: "Logical", val: "Rule-Driven" },
                    { label: "Transparent", val: "Every answer has a trail" }
                  ].map(item => (
-                   <div key={item.label} className="p-6 bg-[#0F1428] border border-white/10 rounded-2xl w-full lg:w-64 space-y-1">
+                   <div key={item.label} className="p-6 bg-[#0F1428] border border-white/10 rounded-2xl w-full lg:w-64 space-y-1 text-left">
                       <span className="text-[10px] font-bold uppercase tracking-widest text-[#E8A33D]">{item.label}</span>
                       <p className="text-sm font-bold text-white">{item.val}</p>
                    </div>
@@ -260,8 +260,8 @@ export default function ApiPage() {
                              </div>
                              <span className="text-[10px] font-mono font-bold text-[#6E7495] uppercase">cURL Example</span>
                           </div>
-                          <div className="p-6 md:p-8 font-mono text-[13px] text-zinc-300 bg-[#0F1428]/50 text-left">
-                             <code className="block leading-relaxed">
+                          <div className="p-6 md:p-8 font-mono text-[13px] text-zinc-300 bg-[#0F1428]/50 text-left overflow-x-auto">
+                             <code className="block leading-relaxed whitespace-pre-wrap break-all">
                                 <span className="text-teal">curl</span> -X GET <span className="text-white">"https://api.utsavs.com/v1/intelligence"</span> \<br/>
                                 &nbsp;&nbsp;-H <span className="text-white">"X-API-KEY: YOUR_KEY"</span> \<br/>
                                 &nbsp;&nbsp;-G \<br/>

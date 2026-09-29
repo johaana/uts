@@ -365,7 +365,7 @@ export default function HomePage() {
 
                 <div className="pt-2 space-y-1 border-b border-white/10 pb-2 text-center">
                   <div className="text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-[#4FD1C5]">FOR YOUR JOURNEY</div>
-                  <div className="flex flex-row items-center justify-center gap-10 md:gap-32">
+                  <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-10 md:gap-32">
                     <div className="flex flex-col items-center">
                       <b className="font-serif text-[32px] text-gold-soft">{checkerData.count}</b>
                       <span className="text-[11.5px] text-muted-dim block font-bold uppercase tracking-widest mt-0.5">days affected</span>
@@ -387,7 +387,7 @@ export default function HomePage() {
                           className="w-full flex items-center justify-between py-4 hover:bg-white/[0.02] transition-all text-left"
                         >
                            <div className="flex items-center gap-5">
-                              <div className="impact-date w-20 shrink-0 font-mono text-[10px] text-muted-dim uppercase">
+                              <div className="impact-date w-20 shrink-0 font-mono text-[10px] text-muted-dim uppercase text-left">
                                 {format(new Date(r.date + 'T00:00:00'), 'EEE, dd MMM')}
                               </div>
                               <div className="space-y-0.5">
@@ -440,8 +440,8 @@ export default function HomePage() {
           <div className="wrap text-left">
             <div className="mb-10 space-y-3">
                <span className="text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-[#E8A33D]">Global Coverage · Extensive jurisdictional rules</span>
-               <h2 className="font-headline text-3xl md:text-5xl font-medium">Built for technical planning.</h2>
-               <p className="text-[#9AA1C0] text-lg max-w-2xl">Reconciling deterministic rules across multiple jurisdictions for high-stakes operational assessment.</p>
+               <h2 className="font-headline text-3xl md:text-5xl font-medium text-left">Built for technical planning.</h2>
+               <p className="text-[#9AA1C0] text-lg max-w-2xl text-left">Reconciling deterministic rules across multiple jurisdictions for high-stakes operational assessment.</p>
             </div>
             <div className="grid md:grid-cols-3 gap-6">
                {[
@@ -451,8 +451,8 @@ export default function HomePage() {
                ].map(uc => (
                  <div key={uc.t} className="p-8 bg-[#171D3A] border border-white/10 rounded-2xl space-y-4 group hover:border-gold-soft transition-colors">
                     <uc.icon className="w-8 h-8 text-[#E8A33D]" />
-                    <h4 className="font-headline text-2xl font-bold">{uc.t}</h4>
-                    <p className="text-sm text-[#9AA1C0] leading-relaxed font-medium">{uc.d}</p>
+                    <h4 className="font-headline text-2xl font-bold text-left">{uc.t}</h4>
+                    <p className="text-sm text-[#9AA1C0] leading-relaxed font-medium text-left">{uc.d}</p>
                  </div>
                ))}
             </div>
@@ -466,8 +466,8 @@ export default function HomePage() {
                    <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#4FD1C5]/10 border border-[#4FD1C5]/20 rounded-full">
                       <span className="text-[10px] font-bold uppercase tracking-widest text-[#4FD1C5]">Verified Date Intelligence</span>
                    </div>
-                   <h2 className="font-headline text-3xl md:text-5xl font-medium">Source-backed intelligence. Human-verified.</h2>
-                   <p className="text-[#9AA1C0] text-lg max-w-2xl font-medium">
+                   <h2 className="font-headline text-3xl md:text-5xl font-medium text-left">Source-backed intelligence. Human-verified.</h2>
+                   <p className="text-[#9AA1C0] text-lg max-w-2xl font-medium text-left">
                       See where the information comes from and, where applicable, whether it has been reviewed or confirmed. Utsavs keeps the underlying source and verification status visible so you can inspect the evidence behind a result.
                    </p>
                 </div>
@@ -486,12 +486,12 @@ export default function HomePage() {
                <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#4FD1C5]/10 border border-[#4FD1C5]/20 rounded-full">
                  <span className="text-[9px] font-bold uppercase tracking-widest text-[#4FD1C5]">B2B Opportunity</span>
                </div>
-               <h3 className="headline text-3xl md:text-4xl font-medium">Drive ancillary revenue.</h3>
-               <p className="text-[#9AA1C0] leading-relaxed text-lg font-medium">
+               <h3 className="headline text-3xl md:text-4xl font-medium text-left">Drive ancillary revenue.</h3>
+               <p className="text-[#9AA1C0] leading-relaxed text-lg font-medium text-left">
                   Work with Utsavs to integrate travel protection and verified calendar intelligence into your booking engines. 
                   Provide high-trust safety layers that enhance customer loyalty and operational precision.
                </p>
-               <div className="pt-2">
+               <div className="pt-2 text-left">
                  <button onClick={openChat} className="inline-flex items-center gap-2 text-sm font-bold text-[#E8A33D] hover:underline uppercase tracking-[0.2em] group">
                     Inquire about partnership <Repeat className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
                  </button>

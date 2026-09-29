@@ -147,10 +147,10 @@ export default function DateIntelligencePage() {
                     key={key}
                     onClick={() => setActiveLens(key)}
                     className={cn(
-                      "px-4 py-2 text-[11.5px] font-bold uppercase tracking-wider rounded-full transition-all border",
+                      "px-3 md:px-4 py-2 text-[10px] md:text-[11.5px] font-bold uppercase tracking-wider rounded-full transition-all border",
                       activeLens === key 
                         ? "bg-[#E8A33D] text-[#0F1428] border-[#E8A33D]" 
-                        : "bg-transparent text-[#9AA1C0] border-white/10 border-white/30"
+                        : "bg-transparent text-[#9AA1C0] border-white/10"
                     )}
                   >
                     {label}
@@ -159,12 +159,12 @@ export default function DateIntelligencePage() {
               </div>
 
               {/* Body */}
-              <div className="grid md:grid-cols-2 text-left">
+              <div className="grid grid-cols-1 md:grid-cols-2 text-left">
                 {/* Left: Date context */}
-                <div className="p-8 space-y-6 border-b md:border-b-0 md:border-r border-white/10">
+                <div className="p-6 md:p-8 space-y-6 border-b md:border-b-0 md:border-r border-white/10">
                    <div className="space-y-1">
                       <p className="text-[10.5px] font-mono text-[#4FD1C5] uppercase tracking-widest">Date context</p>
-                      <h2 className="text-3xl font-headline font-medium text-[#F4F1E8] flex items-baseline gap-3">
+                      <h2 className="text-2xl md:text-3xl font-headline font-medium text-[#F4F1E8] flex items-baseline gap-3">
                         {new Date(query.startDate + 'T00:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
                         {query.startDate === '2026-09-29' && (
                           <span className="text-[10px] font-mono text-[#4FD1C5] border border-[#4FD1C5]/30 rounded-full px-2 py-0.5 uppercase">Today</span>
@@ -175,7 +175,7 @@ export default function DateIntelligencePage() {
                       </p>
                    </div>
 
-                   <div className="grid grid-cols-3 gap-px bg-white/10 border border-white/10 rounded-xl overflow-hidden">
+                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-px bg-white/10 border border-white/10 rounded-xl overflow-hidden">
                       <div className="bg-[#1E2650] p-4 space-y-1">
                         <span className="text-[10px] font-mono text-[#6E7495] uppercase">Calendar</span>
                         <p className="text-sm font-headline font-medium">
@@ -202,7 +202,7 @@ export default function DateIntelligencePage() {
                         </div>
                       ) : result && result.records.length > 0 ? (
                         <div className="p-6 border border-primary/20 bg-primary/5 rounded-xl">
-                          <p className="text-sm font-medium leading-relaxed">
+                          <p className="text-sm font-medium leading-relaxed text-left">
                             We found {result.records.length} record(s) that may affect your planning for this date and location.
                           </p>
                         </div>
@@ -217,7 +217,7 @@ export default function DateIntelligencePage() {
                 </div>
 
                 {/* Right: Operational signals */}
-                <div className="p-8 space-y-6 bg-white/5 text-left">
+                <div className="p-6 md:p-8 space-y-6 bg-white/5 text-left">
                    <div className="space-y-1">
                       <p className="text-[10.5px] font-mono text-[#4FD1C5] uppercase tracking-widest">What affects this date?</p>
                    </div>
