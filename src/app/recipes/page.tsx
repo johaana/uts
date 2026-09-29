@@ -9,6 +9,7 @@ import { Search, RotateCcw, Utensils } from "lucide-react";
 import Link from "next/link";
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
+import { Badge } from '@/components/ui/badge';
 
 const allRecipes = [
     { name: "Meethe Chawal (Zarda Pulao)", festival: "Vasant Panchami", region: "North", description: "Fragrant sweet rice with saffron and nuts, celebrating spring's arrival.", link: "/recipes/meethe-chawal" },
@@ -62,19 +63,16 @@ const allRecipes = [
 ].sort((a, b) => a.name.localeCompare(b.name));
 
 const festivals = [...new Set(allRecipes.map(r => r.festival))].sort();
-const regions = [...new Set(allRecipes.map(r => r.region))].sort();
 const sortOptions = ["Name (A-Z)", "Name (Z-A)"];
 
 export default function RecipesPage() {
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedFestival, setSelectedFestival] = useState('all');
-    const [selectedRegion, setSelectedRegion] = useState('all');
     const [sortOrder, setSortOrder] = useState(sortOptions[0]);
 
     const resetFilters = () => {
         setSearchTerm('');
         setSelectedFestival('all');
-        setSelectedRegion('all');
         setSortOrder(sortOptions[0]);
     };
 
@@ -82,8 +80,7 @@ export default function RecipesPage() {
         let recipes = allRecipes.filter(recipe => {
             const nameMatch = recipe.name.toLowerCase().includes(searchTerm.toLowerCase());
             const festivalMatch = selectedFestival === 'all' || recipe.festival === selectedFestival;
-            const regionMatch = selectedRegion === 'all' || recipe.region === selectedRegion;
-            return nameMatch && festivalMatch && regionMatch;
+            return nameMatch && festivalMatch;
         });
 
         if (sortOrder === "Name (A-Z)") {
@@ -93,7 +90,7 @@ export default function RecipesPage() {
         }
         
         return recipes;
-    }, [searchTerm, selectedFestival, selectedRegion, sortOrder]);
+    }, [searchTerm, selectedFestival, sortOrder]);
 
     return (
         <div className="bg-[#F4F1E8] text-[#17151A] min-h-screen font-sans">
