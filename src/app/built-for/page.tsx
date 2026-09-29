@@ -112,7 +112,7 @@ export default function BuiltForPage() {
                 <div className="space-y-4 text-center">
                   <h2 className="text-3xl md:text-4xl font-headline font-medium">Verified Deterministic Data</h2>
                   <p className="text-lg text-[#9AA1C0] leading-relaxed max-w-2xl mx-auto font-medium">
-                    Generic AI hallucinates dates. Utsavs uses a deterministic engine verified against 
+                    Generic AI hallucinations cause date errors. Utsavs uses a deterministic engine verified against 
                     named authoritative sources, making it safe for high-stakes operational risk assessment.
                   </p>
                 </div>
@@ -128,16 +128,16 @@ export default function BuiltForPage() {
             <section className="py-24 border-t border-white/10 text-center space-y-10">
                <h2 className="text-4xl md:text-6xl font-headline font-medium tracking-tight text-center">Ready to understand your dates?</h2>
                <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-                  <Link href="/" asChild>
-                    <Button className="bg-[#E8A33D] text-[#0F1428] font-bold px-12 h-16 rounded-full shadow-2xl transition-all hover:scale-105 uppercase tracking-widest text-xs">
+                  <Button asChild className="bg-[#E8A33D] text-[#0F1428] font-bold px-12 h-16 rounded-full shadow-2xl transition-all hover:scale-105 uppercase tracking-widest text-xs">
+                    <Link href="/">
                       Start Planning <ArrowRight className="ml-2 w-5 h-5 text-[#0F1428]" />
-                    </Button>
-                  </Link>
-                  <Link href="/api" asChild>
-                    <Button variant="ghost" className="px-10 h-16 font-bold border border-white/10 rounded-full hover:bg-white/5 transition-colors">
+                    </Link>
+                  </Button>
+                  <Button asChild variant="ghost" className="px-10 h-16 font-bold border border-white/10 rounded-full hover:bg-white/5 transition-colors">
+                    <Link href="/api">
                       Explore the API →
-                    </Button>
-                  </Link>
+                    </Link>
+                  </Button>
                </div>
             </section>
 
