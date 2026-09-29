@@ -1,55 +1,23 @@
-
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import Image from 'next/image';
-import { cn } from '@/lib/utils';
-
-const images = [
-  { src: 'https://i.postimg.cc/rmVJnj2w/Pushkar-Camel-Fair.avif', alt: 'Pushkar Camel Fair', hint: 'pushkar camel fair' },
-  { src: 'https://i.postimg.cc/SNGxJ8VJ/ganesh-chaturthi-festival.jpg', alt: 'Ganesh Chaturthi', hint: 'ganesha idol' },
-  { src: 'https://i.postimg.cc/4xZYzGsQ/Goa-Carnival.jpg', alt: 'Goa Carnival', hint: 'carnival parade float' },
-  { src: 'https://i.postimg.cc/nL3Jwd9d/East-India-festivals.webp', alt: 'Durga Puja Pandal', hint: 'durga idol' },
-  { src: 'https://i.postimg.cc/1tMsX8bp/eid-al-fitr.avif', alt: 'Eid al-Fitr', hint: 'eid family' },
-  { src: 'https://i.postimg.cc/6pL9wGsd/Hornbill-Festival.webp', alt: 'Hornbill Festival', hint: 'naga festival' },
-  { src: 'https://i.postimg.cc/kGQ9w7QS/north-india-festivals.webp', alt: 'Teej festival', hint: 'teej swings' },
-  { src: 'https://i.postimg.cc/kXC7f44W/rath-yatra.jpg', alt: 'Rath Yatra', hint: 'chariot festival' },
-  { src: 'https://i.postimg.cc/J4JFtVYT/navratri1.jpg', alt: 'Navratri Garba Dance', hint: 'garba dance' },
-  { src: 'https://i.postimg.cc/MZCMpRL4/hareli.png', alt: 'Hareli Festival', hint: 'tribal festival' },
-  { src: 'https://i.postimg.cc/1tQKkPvr/central-india-fest-maha-kumbh.avif', alt: 'Central India Festival', hint: 'maha kumbh' },
-  { src: 'https://i.postimg.cc/52MbHQMm/North-East-festivals.jpg', alt: 'Northeast India Festival', hint: 'naga festival dancers' },
-  { src: 'https://i.postimg.cc/50vMmdWP/Wangala.webp', alt: 'Wangala Festival', hint: 'garo dance' },
-  { src: 'https://i.postimg.cc/bvmpScwr/pongal.jpg', alt: 'Pongal', hint: 'pongal dish' },
-];
+import React from 'react';
 
 export function HeroCarousel() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 5000); // Change image every 5 seconds
-
-    return () => clearInterval(interval);
-  }, []);
-
   return (
-    <div className="w-full aspect-[4/3.2] md:aspect-[16/7] lg:aspect-[21/9] relative overflow-hidden">
-      {images.map((image, index) => (
-        <Image
-          key={index}
-          src={image.src}
-          alt={image.alt}
-          layout="fill"
-          objectFit="cover"
-          data-ai-hint={image.hint}
-          priority
-          className={cn(
-            'absolute inset-0 transition-opacity duration-1000 ease-in-out',
-            index === currentIndex ? 'opacity-100' : 'opacity-0'
-          )}
-        />
-      ))}
+    <div className="w-full bg-[#171D3A] border-y border-white/5 py-12 md:py-24 relative overflow-hidden">
+       {/* Background Decoration */}
+       <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle, #F4F1E8 1px, transparent 1px)', backgroundSize: '40px 40px' }}></div>
+       
+       <div className="container mx-auto px-6 relative z-10 text-center space-y-4">
+          <span className="font-mono text-[10px] font-bold text-[#E8A33D] uppercase tracking-[0.4em]">Intelligence Layer v4.2</span>
+          <h2 className="font-headline text-3xl md:text-6xl font-bold text-white tracking-tighter leading-tight max-w-4xl mx-auto">
+             World Class Date Precision. <br />
+             <span className="italic text-[#9AA1C0]">Source-backed. Rule-driven.</span>
+          </h2>
+          <p className="text-lg text-[#9AA1C0] font-medium max-w-2xl mx-auto">
+             We reconcile complex global calendars into structured planning intelligence.
+          </p>
+       </div>
     </div>
   );
 }

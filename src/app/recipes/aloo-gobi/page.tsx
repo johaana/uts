@@ -1,57 +1,48 @@
-
 'use client';
 import { ShareButtons } from "@/components/ShareButtons";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Check } from "lucide-react";
-import Image from "next/image";
+import { Check, Utensils } from "lucide-react";
 
 export default function AlooGobiPage() {
     return (
-        <div className="container mx-auto px-4 py-12">
-            <Card>
-                <CardHeader className="p-6 md:p-10">
-                    <CardTitle className="font-headline text-4xl mb-4">Aloo Gobi</CardTitle>
-                    <div className="flex flex-col md:flex-row gap-6">
-                        <div className="md:w-2/3">
-                            <p className="text-lg text-muted-foreground">A classic and comforting North Indian dish made with potatoes (aloo) and cauliflower (gobi). It's a simple, staple dish often served in Langars.</p>
-                        </div>
-                        <div className="md:w-1/3">
-                            <Image src="https://i.postimg.cc/VNj91wmS/Aloo-Gobi.webp" alt="Aloo Gobi" width={400} height={250} className="rounded-lg shadow-lg" data-ai-hint="potato cauliflower" />
-                        </div>
-                    </div>
-                </CardHeader>
-                <CardContent className="p-6 md:p-10 pt-0">
-                     <div className="border-b-2 border-dashed border-border pb-6 mb-6">
-                        <div className="grid md:grid-cols-3 gap-8">
-                            <div className="md:col-span-1">
-                                <h3 className="font-headline text-2xl font-bold mb-4">Ingredients</h3>
-                                <ul className="space-y-2">
-                                    <li className="flex items-center gap-2"><Check className="text-primary w-5 h-5" />1 medium Cauliflower, cut into florets</li>
-                                    <li className="flex items-center gap-2"><Check className="text-primary w-5 h-5" />2 large Potatoes, peeled and cubed</li>
-                                    <li className="flex items-center gap-2"><Check className="text-primary w-5 h-5" />1 Onion, finely chopped</li>
-                                    <li className="flex items-center gap-2"><Check className="text-primary w-5 h-5" />1 Tomato, chopped</li>
-                                    <li className="flex items-center gap-2"><Check className="text-primary w-5 h-5" />1 tbsp Ginger-garlic paste</li>
-                                    <li className="flex items-center gap-2"><Check className="text-primary w-5 h-5" />1 tsp Turmeric powder</li>
-                                    <li className="flex items-center gap-2"><Check className="text-primary w-5 h-5" />1 tsp Cumin seeds</li>
-                                    <li className="flex items-center gap-2"><Check className="text-primary w-5 h-5" />1 tsp Coriander powder</li>
-                                    <li className="flex items-center gap-2"><Check className="text-primary w-5 h-5" />1/2 tsp Garam masala</li>
-                                    <li className="flex items-center gap-2"><Check className="text-primary w-5 h-5" />2 tbsp Oil</li>
-                                    <li className="flex items-center gap-2"><Check className="text-primary w-5 h-5" />Salt to taste</li>
-                                    <li className="flex items-center gap-2"><Check className="text-primary w-5 h-5" />Fresh coriander for garnish</li>
+        <div className="container mx-auto px-6 py-12">
+            <div className="mb-10 text-left space-y-4">
+                <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
+                    <Utensils className="w-6 h-6" />
+                </div>
+                <h1 className="font-headline text-4xl md:text-6xl font-bold tracking-tighter">Aloo Gobi</h1>
+                <p className="text-xl text-muted-foreground font-medium max-w-2xl">
+                    A classic and comforting North Indian dish made with potatoes (aloo) and cauliflower (gobi). A staple of traditional community kitchens.
+                </p>
+            </div>
+
+            <Card className="rounded-sm border-[#17151A]/5 shadow-sm">
+                <CardContent className="p-8 md:p-12">
+                     <div className="border-b border-[#17151A]/5 pb-12 mb-12">
+                        <div className="grid md:grid-cols-3 gap-16 text-left">
+                            <div className="md:col-span-1 space-y-6">
+                                <h3 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#E94368]">Ingredients</h3>
+                                <ul className="space-y-3 text-sm font-medium text-[#6D6870]">
+                                    <li className="flex items-start gap-3"><Check className="text-primary w-4 h-4 shrink-0 mt-0.5" /> 1 medium Cauliflower</li>
+                                    <li className="flex items-start gap-3"><Check className="text-primary w-4 h-4 shrink-0 mt-0.5" /> 2 large Potatoes</li>
+                                    <li className="flex items-start gap-3"><Check className="text-primary w-4 h-4 shrink-0 mt-0.5" /> 1 Onion, finely chopped</li>
+                                    <li className="flex items-start gap-3"><Check className="text-primary w-4 h-4 shrink-0 mt-0.5" /> 1 Tomato, chopped</li>
+                                    <li className="flex items-start gap-3"><Check className="text-primary w-4 h-4 shrink-0 mt-0.5" /> 1 tbsp Ginger-garlic paste</li>
+                                    <li className="flex items-start gap-3"><Check className="text-primary w-4 h-4 shrink-0 mt-0.5" /> Turmeric, Cumin, Coriander</li>
+                                    <li className="flex items-start gap-3"><Check className="text-primary w-4 h-4 shrink-0 mt-0.5" /> 2 tbsp Oil, Salt to taste</li>
                                 </ul>
                             </div>
-                            <div className="md:col-span-2">
-                                <h3 className="font-headline text-2xl font-bold mb-4">Instructions</h3>
-                                <ol className="space-y-4 list-decimal list-inside text-foreground/80 prose">
+                            <div className="md:col-span-2 space-y-6">
+                                <h3 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#E94368]">Instructions</h3>
+                                <ol className="space-y-6 list-decimal list-inside text-[#17151A] font-medium leading-relaxed">
                                     <li>Heat oil in a pan. Add cumin seeds and let them splutter.</li>
                                     <li>Add the chopped onions and sauté until golden brown.</li>
                                     <li>Add ginger-garlic paste and cook for another minute until the raw smell disappears.</li>
                                     <li>Add the chopped tomatoes and cook until they become soft.</li>
                                     <li>Add all the spice powders: turmeric, coriander powder, and salt. Mix well.</li>
                                     <li>Add the potato cubes and cauliflower florets. Stir well to coat them with the spices.</li>
-                                    <li>Cover the pan and cook on a low to medium flame for 15-20 minutes, or until the vegetables are tender. Stir occasionally to prevent sticking.</li>
-                                    <li>Once cooked, sprinkle garam masala on top and mix gently.</li>
-                                    <li>Garnish with fresh coriander leaves and serve hot with rotis or rice.</li>
+                                    <li>Cover the pan and cook on a low to medium flame for 15-20 minutes, or until tender.</li>
+                                    <li>Garnish with fresh coriander leaves and serve hot.</li>
                                 </ol>
                             </div>
                         </div>

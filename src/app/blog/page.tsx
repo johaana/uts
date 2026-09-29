@@ -2,12 +2,10 @@
 
 import { useState, useMemo } from 'react';
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Search, RotateCcw } from "lucide-react";
 import Link from "next/link";
-import Image from "next/image";
 import { blogPosts } from "@/lib/blog-data";
 import { Badge } from '@/components/ui/badge';
 import { Header } from '@/components/header';
@@ -109,20 +107,22 @@ export default function BlogPage() {
                         </Button>
                     </aside>
 
-                    <main className="space-y-8">
+                    <main className="space-y-4">
                         {filteredAndSortedPosts.length > 0 ? filteredAndSortedPosts.map((post) => (
                             <Link href={`/blog/${post.slug}`} key={post.slug} className="group block">
-                                <div className="bg-white border border-[#17151A]/5 rounded-sm overflow-hidden flex flex-col md:flex-row gap-0 md:gap-8 hover:border-[#17151A]/20 hover:shadow-xl transition-all duration-500">
-                                    <div className="relative aspect-[16/9] md:aspect-square w-full md:w-64 shrink-0 bg-[#17151A]/5">
-                                        <Image src={post.image!} alt={post.title} layout="fill" objectFit="cover" data-ai-hint={post.hint} className="group-hover:scale-105 transition-transform duration-700" />
-                                    </div>
-                                    <div className="p-6 md:p-8 flex flex-col justify-center text-left">
-                                        <Badge className={cn("w-fit mb-4 text-[9px] font-bold uppercase tracking-widest", getCategoryBadgeClass(post.category))}>
-                                            {post.category}
-                                        </Badge>
-                                        <h2 className="font-headline text-2xl md:text-4xl font-bold tracking-tight text-[#17151A] mb-3 group-hover:text-[#E94368] transition-colors">{post.title}</h2>
-                                        <p className="text-sm text-[#6D6870] font-medium leading-relaxed line-clamp-3 mb-4">{post.excerpt}</p>
-                                        <p className="text-[10px] font-mono font-bold text-[#6D6870]/60 uppercase tracking-widest">By {post.author} · {post.date}</p>
+                                <div className="bg-white border border-[#17151A]/5 rounded-sm p-6 md:p-10 hover:border-[#17151A]/20 hover:shadow-xl transition-all duration-500 text-left">
+                                    <div className="flex flex-col gap-4">
+                                        <div className="flex items-center justify-between">
+                                            <Badge className={cn("w-fit text-[9px] font-bold uppercase tracking-widest", getCategoryBadgeClass(post.category))}>
+                                                {post.category}
+                                            </Badge>
+                                            <p className="text-[10px] font-mono font-bold text-[#6D6870]/60 uppercase tracking-widest">{post.date}</p>
+                                        </div>
+                                        <h2 className="font-headline text-2xl md:text-4xl font-bold tracking-tight text-[#17151A] group-hover:text-[#E94368] transition-colors">{post.title}</h2>
+                                        <p className="text-sm text-[#6D6870] font-medium leading-relaxed line-clamp-3">{post.excerpt}</p>
+                                        <div className="flex items-center gap-2 pt-2 border-t border-[#17151A]/5">
+                                            <span className="text-[10px] font-bold text-[#17151A] uppercase tracking-widest">Read Story →</span>
+                                        </div>
                                     </div>
                                 </div>
                             </Link>
