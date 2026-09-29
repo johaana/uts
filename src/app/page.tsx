@@ -8,7 +8,7 @@ import {
   COUNTRY_LABELS, 
 } from '@/lib/calendar-intelligence';
 import { getSource } from '@/lib/operational/source';
-import { evaluateQuery, resolveNow } from '@/lib/operational/engine';
+import { evaluateQuery } from '@/lib/operational/engine';
 import { DateIntelligenceRecord, CanonicalRule } from '@/lib/operational/types';
 import { format, addDays, differenceInDays, isAfter, isSameDay, parseISO } from 'date-fns';
 import { ChevronDown, ChevronUp, ShieldCheck, Clock, ExternalLink, Repeat } from 'lucide-react';
@@ -189,7 +189,7 @@ export default function HomePage() {
                 </div>
 
                 <div className="text-left bg-white/[0.01]">
-                   <div className="px-[20px] pt-4 md:pt-3 pb-0 text-left border-b border-white/5">
+                   <div className="px-5 py-4 md:py-3 space-y-6 text-left border-b border-white/5">
                       <span className="text-[10px] font-mono font-bold uppercase tracking-[0.25em] text-[#4FD1C5]">GLOBAL IMPACTS</span>
                    </div>
                    <div className="divide-y divide-white/5">
@@ -197,7 +197,7 @@ export default function HomePage() {
                         <div key={item.id} className="relative">
                            <button 
                              onClick={() => setExpandedGlobal(expandedGlobal === item.id ? null : item.id)}
-                             className="w-full flex items-center justify-between px-[18px] py-3 md:py-2.5 hover:bg-white/5 transition-all text-left group"
+                             className="w-full flex items-center justify-between px-5 py-3 md:py-2.5 hover:bg-white/5 transition-all text-left group"
                            >
                               <div className="space-y-0.5">
                                  <span className="block text-[14px] font-bold group-hover:text-[#4FD1C5] transition-colors">{item.name}</span>
@@ -208,7 +208,7 @@ export default function HomePage() {
                               {expandedGlobal === item.id ? <ChevronUp className="w-4 h-4 text-muted-dim" /> : <ChevronDown className="w-4 h-4 text-muted-dim" />}
                            </button>
                            {expandedGlobal === item.id && (
-                             <div className="px-[18px] pb-4 space-y-3 animate-in slide-in-from-top-2 duration-300">
+                             <div className="px-5 pb-5 space-y-3 animate-in slide-in-from-top-2 duration-300">
                                 <p className="text-[12.5px] text-[#9AA1C0] leading-snug font-medium border-l border-[#4FD1C5]/30 pl-3 italic">
                                    "{item.consequences.implication}"
                                 </p>
@@ -223,10 +223,10 @@ export default function HomePage() {
                            )}
                         </div>
                       )) : nextEvent ? (
-                        <div className="px-[18px] py-5 md:py-4 text-left">
+                        <div className="px-5 py-5 md:py-4 text-left">
                            <div className="space-y-3">
                               <div className="flex items-center gap-2">
-                                <span className="text-[9px] font-mono font-bold uppercase tracking-[0.2em] text-[#E8A33D]">Next Up</span>
+                                <span className="text-[9px] font-mono font-bold uppercase tracking-[0.2em] text-[#E8A33D]">NEXT UP</span>
                                 <div className="h-px flex-1 bg-white/5"></div>
                               </div>
                               <div className="space-y-1">
@@ -259,7 +259,7 @@ export default function HomePage() {
                            </div>
                         </div>
                       ) : (
-                        <div className="px-[18px] py-6 text-left">
+                        <div className="px-5 py-6 text-left">
                            <p className="text-[13px] font-medium text-paper/90 leading-relaxed max-w-lg italic font-display">
                               Standard Global business day. High-trust window for international meetings and cross-border office operations.
                            </p>
@@ -269,7 +269,7 @@ export default function HomePage() {
                 </div>
 
                 <div className="hero-tracker-feed !py-4 bg-[#1E2650]/40">
-                  <div className="px-[20px] mb-3 flex items-center gap-2">
+                  <div className="px-5 mb-3 flex items-center gap-2">
                      <span className="text-[9px] font-mono font-bold text-[#4FD1C5] uppercase tracking-[0.25em]">LOCAL SIGNALS</span>
                   </div>
                   <div className="marquee">
@@ -384,14 +384,14 @@ export default function HomePage() {
                      <div key={r.id} className="border-b border-white/5 last:border-0 group">
                         <button 
                           onClick={() => setExpandedRecord(expandedRecord === r.id ? null : r.id)}
-                          className="w-full flex items-center justify-between py-5 md:py-4 hover:bg-white/[0.02] transition-all text-left"
+                          className="w-full flex items-center justify-between py-6 md:py-4 hover:bg-white/[0.02] transition-all text-left"
                         >
                            <div className="flex items-center gap-4 md:gap-5">
-                              <div className="impact-date w-14 md:w-20 shrink-0 font-mono text-[10px] text-muted-dim uppercase text-left">
+                              <div className="impact-date w-16 md:w-20 shrink-0 font-mono text-[10px] text-muted-dim uppercase text-left leading-tight">
                                 {format(new Date(r.date + 'T00:00:00'), 'EEE, dd MMM')}
                               </div>
-                              <div className="space-y-0.5 flex-1 min-w-0">
-                                 <span className="block font-bold text-[14px] group-hover:text-gold-soft transition-colors leading-tight break-words">{r.name}</span>
+                              <div className="space-y-0.5 flex-1 min-w-0 pr-2">
+                                 <span className="block font-bold text-[14px] group-hover:text-gold-soft transition-colors leading-snug break-words">{r.name}</span>
                                  <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
                                     <span className="text-[9px] font-mono font-bold text-muted-dim uppercase tracking-widest">
                                        {r.jurisdiction.region ? r.jurisdiction.region + ' · ' : ''}{COUNTRY_LABELS[r.jurisdiction.country_code] || r.jurisdiction.country_code}
@@ -406,13 +406,13 @@ export default function HomePage() {
                            {expandedRecord === r.id ? <ChevronUp className="w-4 h-4 text-muted-dim" /> : <ChevronDown className="w-4 h-4 text-muted-dim" />}
                         </button>
                         {expandedRecord === r.id && (
-                          <div className="pb-6 space-y-4 animate-in slide-in-from-top-2 duration-300 px-4 md:px-20">
-                             <div className="p-3.5 bg-white/5 border-l-2 border-gold-soft rounded-r-lg">
+                          <div className="pb-8 space-y-5 animate-in slide-in-from-top-2 duration-300 px-5 md:px-20">
+                             <div className="p-4 bg-white/5 border-l-2 border-gold-soft rounded-r-lg">
                                 <p className="text-[13px] font-medium leading-relaxed italic text-paper/90">
                                   "{r.consequences.implication}"
                                 </p>
                              </div>
-                             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-[9.5px] font-bold text-muted-dim uppercase tracking-[0.2em] pt-2 border-t border-white/5">
+                             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-[9.5px] font-bold text-muted-dim uppercase tracking-[0.2em] pt-3 border-t border-white/5">
                                 <div className="flex items-center gap-1.5">
                                    <span>Source: {r.evidence.source_name || 'Authoritative Source'}</span>
                                    {r.evidence.source_url && (
