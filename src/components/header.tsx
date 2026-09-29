@@ -9,11 +9,9 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { MobileNav } from "./MobileNav";
 
 const navLinks = [
-  { href: "/built-for", label: "Built For" },
-  { href: "/api", label: "API" },
-  { href: "/pricing", label: "Pricing" },
-  { href: "/festivals", label: "Stories" },
+  { href: "/date-intelligence", label: "Date Intelligence" },
   { href: "/travel-insurance", label: "Travel Insurance" },
+  { href: "/festivals", label: "Stories" },
 ];
 
 export function Header() {
