@@ -10,7 +10,7 @@ import {
 import { getSource } from '@/lib/operational/source';
 import { evaluateQuery, resolveNow } from '@/lib/operational/engine';
 import { DateIntelligenceRecord, CanonicalRule } from '@/lib/operational/types';
-import { format, addDays, differenceInDays, isAfter, startOfToday, isSameDay, parseISO } from 'date-fns';
+import { format, addDays, differenceInDays, isAfter, isSameDay, parseISO } from 'date-fns';
 import { ChevronDown, ChevronUp, ShieldCheck, Clock, ExternalLink, Repeat } from 'lucide-react';
 import Link from 'next/link';
 
@@ -39,10 +39,12 @@ export default function HomePage() {
     const end = addDays(new Date(tKey + 'T00:00:00'), 60); 
     setEndDate(format(end, 'yyyy-MM-dd'));
 
-    getSource().getRecords().then(records => {
+    // Immediate hydration from the Static-First engine
+    const engine = getSource();
+    engine.getRecords().then(records => {
       setAllRecords(records);
     });
-    getSource().getCanonicalRules().then(rules => {
+    engine.getCanonicalRules().then(rules => {
       setCanonicalRules(rules);
     });
   }, []);

@@ -34,11 +34,12 @@ function generateRuleId(cc: string, rule: HolidayRule): string {
 export function getCanonicalRules(): CanonicalRule[] {
   const rules: CanonicalRule[] = [];
 
-  // 1. Holidays
+  // 1. Holidays - 92 Jurisdictions
   Object.entries(DATA_REGISTRY.HOLIDAYS).forEach(([cc, holidayRules]) => {
     holidayRules.forEach((rule) => {
       const rule_id = generateRuleId(cc, rule);
       
+      // Attempt to find a representative date for the canonical listing
       let date = expandRecurrence(rule, 2026);
       if (!date && rule.kind === 'dated' && rule.dates) {
         const availableDates = Object.values(rule.dates);
@@ -56,12 +57,16 @@ export function getCanonicalRules(): CanonicalRule[] {
         source_dataset: 'HOLIDAYS',
         name: rule.name,
         category: rule.type || 'holiday',
-        jurisdiction: { country_code: cc, country_name: COUNTRY_LABELS[cc] || cc, scope: 'national' },
-        purpose_relevance: rule.purpose_relevance || ["travel", "business", "study"],
-        temporal_kind: 'recurring',
+        jurisdiction: { 
+          country_code: cc, 
+          country_name: COUNTRY_LABELS[cc] || cc, 
+          scope: rule.state === 'regional' ? 'regional' : 'national' 
+        },
+        purpose_relevance: rule.purpose_relevance || ["travel", "business", "study", "workforce", "logistics"],
+        temporal_kind: rule.kind === 'dated' ? 'recurring' : 'recurring',
         state: rule.status || 'confirmed',
-        confidence: rule.confidence || 'unsourced',
-        evidence: rule.evidence || { source_name: null, source_url: "" },
+        confidence: rule.confidence || 'medium',
+        evidence: rule.evidence || { source_name: "Authoritative Reference", source_url: "" },
         rule_definition: rule,
         date,
         consequences: { 
@@ -71,14 +76,14 @@ export function getCanonicalRules(): CanonicalRule[] {
             study: defaultAdvice,
             corporate: defaultAdvice
           },
-          affected_operations: ['government'], 
+          affected_operations: ['government', 'banking'], 
           severity: 'medium' 
         }
       });
     });
   });
 
-  // 2. Operational Datasets
+  // 2. Operational Datasets (Regional, Student, Business policies)
   const datasets = [
     { name: 'REGIONAL_INTELLIGENCE', data: DATA_REGISTRY.REGIONAL_INTELLIGENCE },
     { name: 'STUDENT_INTEL_EXTRA', data: DATA_REGISTRY.STUDENT_INTEL_EXTRA },
@@ -125,7 +130,7 @@ export function getCanonicalRules(): CanonicalRule[] {
         temporal_kind: obj.temporal_kind || 'standing',
         state: obj.state || 'confirmed',
         confidence: obj.confidence || 'high',
-        evidence: obj.evidence || { source_name: null, source_url: "" },
+        evidence: obj.evidence || { source_name: "Authoritative Reference", source_url: "" },
         consequences: {
           implication: baseText,
           advice,

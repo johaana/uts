@@ -5,9 +5,8 @@
  * PHASE 4: Provides expanded records for UI components while maintaining 
  * the governed Firestore layer as the production source of truth.
  * 
- * IMPROVEMENT: Implements a "Static-First" strategy to ensure the baseline 
- * 416 verified rules are available immediately, even if Firestore is 
- * disconnected or using placeholder configurations.
+ * STRATEGY: Static-First Resiliency. The engine initializes with the verified 
+ * code baseline immediately, then merges live published overrides in the background.
  */
 import { CanonicalRule, DateIntelligenceRecord } from './types';
 import { getCanonicalRules } from './normalize';
@@ -16,56 +15,62 @@ import { getFirestore } from '@/firebase';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 
 class AuthoritativeEngine {
-  private rules: CanonicalRule[] | null = null;
-  private expanded: DateIntelligenceRecord[] | null = null;
-  private isInitializing = false;
+  private rules: CanonicalRule[] = [];
+  private expanded: DateIntelligenceRecord[] = [];
+  private hasInitialized = false;
+
+  constructor() {
+    // Synchronously load the 416 verified patterns from the code baseline
+    // This guarantees the UI is NEVER empty.
+    this.rules = getCanonicalRules();
+  }
 
   /**
    * Returns the canonical rules. 
-   * Returns the static baseline immediately if live data is still loading.
+   * Triggers a background sync if not already done.
    */
   async getCanonicalRules(): Promise<CanonicalRule[]> {
-    // If we already have a merged set, return it.
-    if (this.rules) return this.rules;
+    if (this.hasInitialized) return this.rules;
 
-    // 1. Get Static Baselines synchronously (always available)
-    const staticRules = getCanonicalRules();
-    
-    // If we are already initializing (fetching from Firestore), return the baseline for now.
-    if (this.isInitializing) return staticRules;
-
-    this.isInitializing = true;
-
-    // 2. Attempt to fetch Published Overrides from Firestore
-    let governedRules: CanonicalRule[] = [];
-    try {
-      const db = getFirestore();
-      if (db) {
-        // We don't use a long-hanging await here to prevent blocking the UI
-        const q = query(collection(db, 'intelligence_records'), where('status', '==', 'published'));
-        const snapshot = await getDocs(q);
-        governedRules = snapshot.docs.map(doc => doc.data() as CanonicalRule);
-      }
-    } catch (e) {
-      console.warn('Governance Layer unavailable or unauthorized. Falling back to static baseline.', e);
-    }
-
-    // Merge logic: Governed rules with same ID override static ones
-    const merged = new Map<string, CanonicalRule>();
-    staticRules.forEach(r => merged.set(r.rule_id, r));
-    governedRules.forEach(r => merged.set(r.rule_id, r));
-    
-    this.rules = Array.from(merged.values());
-    this.isInitializing = false;
+    // Perform background sync from Firestore
+    this.syncFromGovernance();
     
     return this.rules;
+  }
+
+  /**
+   * Attempts to fetch published overrides from Firestore without blocking.
+   */
+  private async syncFromGovernance() {
+    try {
+      const db = getFirestore();
+      if (!db) return;
+
+      const q = query(collection(db, 'intelligence_records'), where('status', '==', 'published'));
+      const snapshot = await getDocs(q);
+      const governedRules = snapshot.docs.map(doc => doc.data() as CanonicalRule);
+
+      if (governedRules.length > 0) {
+        const merged = new Map<string, CanonicalRule>();
+        // Add static rules first
+        this.rules.forEach(r => merged.set(r.rule_id, r));
+        // Overwrite with governed rules
+        governedRules.forEach(r => merged.set(r.rule_id, r));
+        this.rules = Array.from(merged.values());
+      }
+    } catch (e) {
+      console.warn('Governance Layer sync skipped (using verified baseline).', e);
+    } finally {
+      this.hasInitialized = true;
+    }
   }
 
   /**
    * Returns fully expanded date instances (2026-2029).
    */
   async getRecords(): Promise<DateIntelligenceRecord[]> {
-    const canonical = await this.getCanonicalRules();
+    // Ensure we have at least the static rules
+    const canonical = this.rules.length > 0 ? this.rules : getCanonicalRules();
     const instances: DateIntelligenceRecord[] = [];
     const years = [2026, 2027, 2028, 2029];
 
@@ -95,7 +100,7 @@ class AuthoritativeEngine {
   }
 
   async getStatus() {
-    return { available: true, version: "4.1.0-static-resilient" };
+    return { available: true, version: "4.2.0-static-first" };
   }
 }
 

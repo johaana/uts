@@ -96,6 +96,7 @@ export const HOLIDAY_RULES: Record<string, any[]> = {
   ],
   CA: [
     dated({ 2026: "2026-09-30" }, "National Day for Truth and Reconciliation", "public", "confirmed", "high", { source_name: "Gov Canada", source_url: "https://www.canada.ca/" }),
+    dated({ 2026: "2026-09-07" }, "Labour Day", "public", "confirmed", "high", { source_name: "Gov Canada", source_url: "https://www.canada.ca/en/revenue-agency/services/tax/public-holidays.html" }),
     fixed(7, 1, "Canada Day", "public", "high", { source_name: "Gov Canada", source_url: "https://www.canada.ca/" }),
     fixed(1, 1, "New Year's Day", "public", "medium", CIA_SOURCE),
     fixed(12, 25, "Christmas Day", "public", "medium", CIA_SOURCE)
