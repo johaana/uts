@@ -5,6 +5,7 @@ import { Fraunces, Inter, IBM_Plex_Mono } from 'next/font/google';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import { FirebaseClientProvider } from '@/firebase';
 import Script from 'next/script';
+import { CrispProvider } from '@/components/CrispProvider';
 
 const fraunces = Fraunces({
   subsets: ['latin'],
@@ -90,7 +91,6 @@ export default function RootLayout({
               d.getElementsByTagName("head")[0].appendChild(s);
             })();
             window.$crisp.push(["set", "chat:color", "amber"]);
-            window.$crisp.push(["set", "chat:welcome:message", ["How can we help with your global planning? Ask us about our Intelligence API."]]);
           `}
         </Script>
         <FirebaseClientProvider>
@@ -101,6 +101,7 @@ export default function RootLayout({
               disableTransitionOnChange
             >
             <div className="flex min-h-screen flex-col">
+              <CrispProvider />
               {children}
             </div>
             <Toaster />
