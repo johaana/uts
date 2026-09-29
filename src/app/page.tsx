@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
@@ -357,7 +358,7 @@ export default function HomePage() {
 
                 <div className="pt-2 space-y-1 border-b border-white/10 pb-2 text-center">
                   <div className="text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-[#4FD1C5]">FOR YOUR JOURNEY</div>
-                  <div className="flex flex-row items-center justify-center gap-20 md:gap-32">
+                  <div className="flex flex-row items-center justify-center gap-10 md:gap-32">
                     <div className="flex flex-col items-center">
                       <b className="font-serif text-[32px] text-gold-soft">{checkerData.count}</b>
                       <span className="text-[11.5px] text-muted-dim block font-bold uppercase tracking-widest mt-0.5">days affected</span>
@@ -398,7 +399,7 @@ export default function HomePage() {
                            {expandedRecord === r.id ? <ChevronUp className="w-4 h-4 text-muted-dim" /> : <ChevronDown className="w-4 h-4 text-muted-dim" />}
                         </button>
                         {expandedRecord === r.id && (
-                          <div className="pb-5 space-y-4 animate-in slide-in-from-top-2 duration-300 px-[80px]">
+                          <div className="pb-5 space-y-4 animate-in slide-in-from-top-2 duration-300 px-4 md:px-20">
                              <div className="p-3.5 bg-white/5 border-l-2 border-gold-soft rounded-r-lg">
                                 <p className="text-[13px] font-medium leading-relaxed italic text-paper/90">
                                   "{r.consequences.implication}"

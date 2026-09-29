@@ -1,3 +1,4 @@
+
 import { ImageResponse } from 'next/og'
 
 // Route segment config
@@ -24,94 +25,71 @@ export default function Image() {
           display: 'flex',
           flexDirection: 'column',
           position: 'relative',
+          alignItems: 'center',
+          justifyContent: 'center',
         }}
       >
-        {/* Background Image */}
-        <img
-          src="https://i.postimg.cc/05BfryHW/d747e23cb49deff051147f1657027da2.jpg"
-          width="1200"
-          height="630"
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            objectFit: 'cover',
-          }}
-        />
-        
-        {/* Subtle Vignette Overlay */}
         <div
           style={{
             position: 'absolute',
             inset: 0,
-            background: 'linear-gradient(to bottom, rgba(15, 20, 40, 0.2), rgba(15, 20, 40, 0.8))',
+            background: 'linear-gradient(to bottom, #171D3A, #0F1428)',
           }}
         />
 
-        {/* Branding Bar at the bottom */}
+        {/* Branding */}
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '12px',
+          }}
+        >
+          <span
+            style={{
+              fontSize: '120px',
+              fontFamily: 'serif',
+              color: '#F4F1E8',
+              fontWeight: 'bold',
+              letterSpacing: '-0.04em',
+            }}
+          >
+            Utsavs
+          </span>
+          <span
+            style={{
+              fontSize: '32px',
+              fontFamily: 'serif',
+              fontStyle: 'italic',
+              color: '#9AA1C0',
+            }}
+          >
+            from occasion to impact
+          </span>
+        </div>
+
+        {/* Footer Bar */}
         <div
           style={{
             position: 'absolute',
-            bottom: 0,
-            left: 0,
-            right: 0,
-            height: '180px',
-            background: 'linear-gradient(to bottom, transparent, #0F1428)',
+            bottom: '40px',
             display: 'flex',
-            alignItems: 'flex-end',
-            padding: '40px 60px',
-            justifyContent: 'space-between',
+            alignItems: 'center',
+            gap: '16px',
           }}
         >
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '4px',
-            }}
-          >
-            <span
+           <div
               style={{
-                fontSize: '48px',
-                fontFamily: 'serif',
-                color: '#F4F1E8',
-                fontWeight: 'bold',
-                letterSpacing: '-0.02em',
-              }}
-            >
-              Utsavs
-            </span>
-            <span
-              style={{
-                fontSize: '18px',
-                fontFamily: 'serif',
-                fontStyle: 'italic',
-                color: '#9AA1C0',
-              }}
-            >
-              from occasion to impact
-            </span>
-          </div>
-
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '12px',
-              marginBottom: '10px',
-            }}
-          >
-            <div
-              style={{
-                width: '12px',
-                height: '12px',
+                width: '14px',
+                height: '14px',
                 borderRadius: '50%',
                 background: '#E8A33D',
               }}
             />
             <span
               style={{
-                fontSize: '18px',
+                fontSize: '20px',
                 fontWeight: 'bold',
                 color: '#E8A33D',
                 letterSpacing: '0.2em',
@@ -120,7 +98,6 @@ export default function Image() {
             >
               GLOBAL HOLIDAY INTELLIGENCE
             </span>
-          </div>
         </div>
       </div>
     ),

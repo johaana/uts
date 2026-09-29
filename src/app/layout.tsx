@@ -1,3 +1,4 @@
+
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
@@ -22,7 +23,7 @@ const plexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:9002'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://utsavs.com'),
   title: "Know before you plan. Not after.",
   description: "A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.",
   openGraph: {

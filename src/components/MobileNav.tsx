@@ -1,11 +1,11 @@
 
 "use client";
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { cn } from '@/lib/utils';
-import { Button } from './ui/button';
-import { MessageSquare } from 'lucide-react';
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
+import { Button } from "./ui/button";
+import { MessageSquare } from "lucide-react";
 
 const navLinks = [
   { href: "/travel-insurance", label: "International Insurance" },
@@ -34,7 +34,7 @@ export function MobileNav({ setOpen }: { setOpen: (open: boolean) => void }) {
             onClick={() => setOpen(false)}
             className={cn(
               "text-lg font-bold transition-colors",
-              pathname === link.href ? "text-white" : "text-[#9AA1C0] hover:text-white"
+              (pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href))) ? "text-white" : "text-[#9AA1C0] hover:text-white"
             )}
           >
             {link.label}

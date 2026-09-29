@@ -46,7 +46,7 @@ export function Header() {
         <div className="md:hidden">
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
-              <button className="p-2 transition-colors text-muted" aria-label="Toggle menu">
+              <button className="p-2 transition-colors text-paper" aria-label="Toggle menu">
                 <Menu className="w-6 h-6" />
                 <span className="sr-only">Toggle menu</span>
               </button>
