@@ -36,17 +36,17 @@ export default function InternationalInsurancePage() {
     <div className="bg-[#0F1428] text-[#F4F1E8] min-h-screen font-sans selection:bg-[#E8A33D] selection:text-[#0F1428]">
       <Header />
       
-      <main className="py-12 md:py-24">
+      <main className="py-8 md:py-16">
         <div className="container mx-auto px-6">
-          <div className="max-w-5xl mx-auto space-y-20">
+          <div className="max-w-5xl mx-auto space-y-12 md:space-y-16">
             
             {/* Centered Hero Section */}
-            <div className="text-center space-y-6 max-w-3xl mx-auto">
-              <h1 className="text-4xl md:text-6xl font-headline font-medium leading-tight tracking-tight">
+            <div className="text-center space-y-4 max-w-4xl mx-auto">
+              <h1 className="text-3xl md:text-5xl lg:text-6xl font-headline font-medium leading-[1.1] tracking-tight">
                 Plan for what you can predict. <br/>
                 <span className="italic text-[#9AA1C0]">Protect against what you can't.</span>
               </h1>
-              <p className="text-xl text-[#F4F1E8]/90 leading-relaxed font-medium">
+              <p className="text-lg md:text-xl text-[#F4F1E8]/90 leading-relaxed font-medium">
                 Because a holiday shouldn't be a liability.
               </p>
             </div>
@@ -136,14 +136,14 @@ export default function InternationalInsurancePage() {
             </div>
 
             {/* High-Impact CTA Section */}
-            <section className="py-16 text-center space-y-8 bg-[#E8A33D]/5 rounded-[40px] border border-[#E8A33D]/20">
-               <h2 className="text-3xl md:text-5xl font-headline font-bold">Secure Your Journey Today</h2>
-               <p className="text-lg text-[#9AA1C0] max-w-2xl mx-auto font-medium">
+            <section className="py-12 text-center space-y-6 bg-[#E8A33D]/5 rounded-[40px] border border-[#E8A33D]/20">
+               <h2 className="text-2xl md:text-4xl font-headline font-bold">Secure Your Journey Today</h2>
+               <p className="text-base text-[#9AA1C0] max-w-2xl mx-auto font-medium px-4">
                   Speak with our experts for a plan tailored to your specific travel, study, or business requirements.
                </p>
-               <div className="pt-4 text-center">
+               <div className="pt-2 text-center">
                   <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer">
-                    <Button className="bg-[#E8A33D] text-[#0F1428] hover:bg-[#F0C888] font-bold px-12 h-16 rounded-full shadow-2xl transition-transform hover:scale-105 uppercase tracking-widest text-xs">
+                    <Button className="bg-[#E8A33D] text-[#0F1428] hover:bg-[#F0C888] font-bold px-10 h-14 rounded-full shadow-2xl transition-transform hover:scale-105 uppercase tracking-widest text-xs">
                       <MessageSquare className="w-5 h-5 text-[#0F1428] mr-2" /> Message for Quote
                     </Button>
                   </a>
@@ -151,7 +151,7 @@ export default function InternationalInsurancePage() {
             </section>
 
             {/* Regulatory Disclosure */}
-            <div className="pt-8 mt-8 border-t border-white/10 space-y-4 text-left">
+            <div className="pt-8 border-t border-white/10 space-y-4 text-left">
               <span className="font-mono text-[10px] uppercase tracking-[0.1em] text-[#6E7495]">
                 Regulatory Disclosure
               </span>
