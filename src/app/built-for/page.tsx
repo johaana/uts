@@ -15,8 +15,6 @@ import {
 } from "lucide-react";
 import Link from 'next/link';
 import { Button } from "@/components/ui/button";
-import Image from 'next/image';
-import placeholderImages from '@/app/lib/placeholder-images.json';
 
 export default function BuiltForPage() {
   const useCases = [
@@ -24,33 +22,37 @@ export default function BuiltForPage() {
       title: "Travelers",
       subtitle: "When to go",
       icon: Plane,
-      image: "https://i.postimg.cc/5j8vRbJz/45f462f5dba1896b43862b940c3ae998.jpg",
       description: "Understand the cultural intensity and operational state of your destination. Flag festivals that drive high-density migration or unexpected closures.",
-      impact: "A holiday is a signal for crowds and immersion, not just a day off."
+      impact: "A holiday is a signal for crowds and immersion, not just a day off.",
+      theme: "from-blue-500/10 to-transparent",
+      iconColor: "text-blue-400"
     },
     {
       title: "International Students",
       subtitle: "When to arrive",
       icon: Globe,
-      image: "https://i.postimg.cc/7J12GMXx/a4aad4afd29215eb038e5716fd3d47d0.jpg",
       description: "Put institutional calendars and arrival timing around your dates. Align visa interviews and orientation with verified host-country intelligence.",
-      impact: "A holiday can mean a university admissions office is offline for 48 hours."
+      impact: "A holiday can mean a university admissions office is offline for 48 hours.",
+      theme: "from-purple-500/10 to-transparent",
+      iconColor: "text-purple-400"
     },
     {
       title: "Corporate & HR",
       subtitle: "When to operate",
       icon: Clock,
-      image: "https://i.postimg.cc/GHrY0Vh3/beautiful-girl-standing-airport.jpg",
       description: "Manage global workforce calendars with precision. Identify local regional holidays that affect payroll, meetings, and office availability.",
-      impact: "A holiday means cross-border settlement latency and modified office hours."
+      impact: "A holiday means cross-border settlement latency and modified office hours.",
+      theme: "from-gold/10 to-transparent",
+      iconColor: "text-gold"
     },
     {
       title: "Global Logistics",
       subtitle: "When to move",
       icon: Landmark,
-      image: "https://i.postimg.cc/rKcW63FF/beautiful-girl-standing-airport-(1).jpg",
       description: "Avoid demurrage and detention. Track port and customs operational status across multiple jurisdictions simultaneously.",
-      impact: "A holiday is a documented operational shift in port and terminal throughput."
+      impact: "A holiday is a documented operational shift in port and terminal throughput.",
+      theme: "from-teal/10 to-transparent",
+      iconColor: "text-teal"
     }
   ];
 
@@ -75,13 +77,16 @@ export default function BuiltForPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {useCases.map((uc, i) => (
                 <Card key={i} className="bg-[#171D3A] border-white/10 rounded-2xl overflow-hidden group hover:border-white/20 transition-all shadow-xl text-left">
-                  <div className="relative h-64 w-full">
-                    <Image src={uc.image} alt={uc.title} fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#171D3A] to-transparent"></div>
+                  {/* Stylized Icon Panel instead of Image */}
+                  <div className={`relative h-64 w-full bg-gradient-to-br ${uc.theme} flex items-center justify-center overflow-hidden`}>
+                    <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)', backgroundSize: '32px 32px' }}></div>
+                    <uc.icon className={`w-32 h-32 ${uc.iconColor} opacity-20 transform -rotate-12 group-hover:scale-110 transition-transform duration-700`} />
+                    <uc.icon className={`absolute w-16 h-16 ${uc.iconColor} drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]`} />
                   </div>
+                  
                   <CardContent className="p-10 space-y-8 pt-6">
                     <div className="flex justify-between items-start">
-                      <div className="w-14 h-14 bg-[#E8A33D]/10 rounded-2xl flex items-center justify-center text-[#E8A33D]">
+                      <div className="w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center text-white/40">
                         <uc.icon className="w-7 h-7" />
                       </div>
                       <div className="text-right">
@@ -124,7 +129,7 @@ export default function BuiltForPage() {
                <h2 className="text-4xl md:text-6xl font-headline font-medium tracking-tight text-center">Ready to understand your dates?</h2>
                <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
                   <Link href="/" asChild>
-                    <Button className="bg-[#E8A33D] text-[#0F1428] hover:bg-[#F0C888] font-bold px-12 h-16 rounded-full shadow-2xl transition-all hover:scale-105 uppercase tracking-widest text-xs">
+                    <Button className="bg-[#E8A33D] text-[#0F1428] font-bold px-12 h-16 rounded-full shadow-2xl transition-all hover:scale-105 uppercase tracking-widest text-xs">
                       Start Planning <ArrowRight className="ml-2 w-5 h-5 text-[#0F1428]" />
                     </Button>
                   </Link>
