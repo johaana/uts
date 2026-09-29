@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BookOpen, Utensils, Sparkles, MessageSquareQuote, Leaf, Wind, Droplets, Share } from "lucide-react";
 import Link from "next/link";
-import Image from "next/image";
 import { ShareButtons } from "@/components/ShareButtons";
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
 import { ProductCard } from "@/components/ProductCard";
@@ -14,10 +13,10 @@ export const metadata: Metadata = {
 };
 
 const recipes = [
-    { name: "Gujiya", link: "/recipes/gujiya", image: "https://i.postimg.cc/zv9X7ZTt/Gujiya.jpg", hint: "fried dumplings" },
-    { name: "Thandai", link: "/recipes/thandai", image: "https://i.postimg.cc/Y04CQqLL/Thandai.webp", hint: "holi drink" },
-    { name: "Ras Malai", link: "/recipes/ras-malai", image: "https://i.postimg.cc/d1pWt42P/Rasmalai.webp", hint: "milk sweet" },
-    { name: "Malpua", link: "/recipes/malpua", image: "https://i.postimg.cc/TwLLHn3W/malpua.jpg", hint: "sweet pancake" },
+    { name: "Gujiya", link: "/recipes/gujiya" },
+    { name: "Thandai", link: "/recipes/thandai" },
+    { name: "Ras Malai", link: "/recipes/ras-malai" },
+    { name: "Malpua", link: "/recipes/malpua" },
 ]
 
 const relatedContent: RelatedItem[] = [
@@ -58,165 +57,100 @@ const pageSections = [
 export default function HoliPage() {
     return (
         <div className="bg-background">
-            <section className="relative h-[50vh] flex items-center justify-center bg-primary/10">
-                <div className="absolute inset-0 z-0 opacity-30">
-                    <Image src="https://i.postimg.cc/0276MjRN/Holi.jpg" alt="Holi festival of colors" layout="fill" objectFit="cover" data-ai-hint="holi celebration" />
-                </div>
-                <div className="relative text-center text-primary-foreground z-10 p-4">
-                    <h1 className="font-headline text-5xl md:text-7xl font-bold text-primary shadow-lg">Holi</h1>
-                    <p className="text-xl md:text-2xl mt-4 text-primary/90 shadow-md">The Festival of Colors</p>
+            <section className="relative py-20 flex items-center justify-center bg-primary/5">
+                <div className="relative text-center z-10 p-4 space-y-4">
+                    <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-2">
+                        <Sparkles className="w-8 h-8 text-primary" />
+                    </div>
+                    <h1 className="font-headline text-5xl md:text-8xl font-bold text-primary">Holi</h1>
+                    <p className="text-xl md:text-3xl text-muted-foreground font-medium max-w-2xl mx-auto italic">The Festival of Colors</p>
                 </div>
             </section>
             
-            <div className="container mx-auto px-4 py-12 md:-mt-24">
-                <Card className="mb-12">
-                    <CardContent className="p-6 md:p-10">
-                        <div className="mb-10 p-4 border-l-4 border-primary bg-primary/5">
+            <div className="container mx-auto px-4 py-12">
+                <Card className="mb-12 border-none shadow-none bg-transparent">
+                    <CardContent className="p-0">
+                        <div className="mb-10 p-6 border-l-4 border-primary bg-primary/5 rounded-r-lg max-w-3xl">
                             <h2 className="font-headline text-2xl font-bold mb-4">In This Article</h2>
-                            <ul className="space-y-2">
+                            <div className="flex flex-wrap gap-x-8 gap-y-4">
                                 {pageSections.map(section => (
-                                    <li key={section.id}>
-                                        <a href={`#${section.id}`} className="flex items-center gap-3 text-foreground/80 hover:text-primary transition-colors">
-                                            <section.icon className="w-5 h-5 text-accent" />
-                                            <span className="font-semibold">{section.title}</span>
-                                        </a>
-                                    </li>
+                                    <a key={section.id} href={`#${section.id}`} className="flex items-center gap-3 text-foreground/80 hover:text-primary transition-colors">
+                                        <section.icon className="w-5 h-5 text-accent" />
+                                        <span className="font-bold uppercase tracking-widest text-xs">{section.title}</span>
+                                    </a>
                                 ))}
-                            </ul>
+                            </div>
                         </div>
-                        <article className="space-y-12">
-                            <section id="overview">
-                                <div className="grid md:grid-cols-3 gap-8 items-start">
-                                    <div className="md:col-span-1">
-                                        <p className="text-lg italic text-muted-foreground leading-relaxed border-l-4 border-accent pl-4">
-                                            An exuberant festival of love and spring, where social barriers dissolve in a riot of color. Holi celebrates the victory of good over evil, the arrival of spring, and the playful love of Radha and Krishna.
-                                        </p>
-                                    </div>
-                                    <div className="md:col-span-2">
-                                         <div className="space-y-4 text-foreground/80 prose max-w-none">
-                                            <p>Holi, the world-renowned Festival of Colors, is an exuberant and cathartic celebration of life, love, and the arrival of spring. It's a day when social norms are joyfully suspended, and people from all walks of life come together to douse each other in vibrant powders ('gulal') and colored water. The festival is steeped in rich mythology, with two major legends forming its spiritual core. The most prominent is the story of Prahlada and Holika. The demon king Hiranyakashipu, blessed with near-invincibility, demanded that all in his kingdom worship him. His devout son, Prahlada, however, remained an ardent follower of Lord Vishnu. Enraged, the king conspired with his sister, Holika, who was immune to fire, to kill Prahlada. She tricked the boy into sitting on a pyre with her, but by Vishnu's divine intervention, Prahlada emerged unharmed while Holika was consumed by the flames. The Holika Dahan bonfire, lit on the eve of Holi, commemorates this powerful victory of devotion and righteousness over evil.</p>
-                                            <p>The second legend, particularly celebrated in the Braj region of North India, is rooted in the divine love story of Radha and Krishna. The young, dark-skinned Krishna was said to be playfully jealous of Radha's fair complexion. On his mother Yashoda's suggestion, he cheekily applied color to Radha's face, a playful act of love that is joyfully reenacted to this day. Beyond the legends, Holi's true power lies in its social significance. It is a day of immense catharsis, a time to let go of past inhibitions and grievances. The act of coloring one another serves as a great equalizer, dissolving distinctions of caste, class, age, and gender, even if just for a day. It is a festival of forgiveness, of mending broken relationships, and of celebrating the universal spirit of brotherhood, joy, and the promise of new beginnings that comes with spring.</p>
-                                        </div>
-                                    </div>
+                        <article className="space-y-16">
+                            <section id="overview" className="scroll-mt-20">
+                                <div className="space-y-8 prose max-w-none text-foreground/80 text-lg leading-relaxed">
+                                    <p className="text-2xl font-serif italic text-muted-foreground border-l-4 border-accent pl-8 py-2">
+                                        An exuberant festival of love and spring, where social barriers dissolve in a riot of color. Holi celebrates the victory of good over evil, the arrival of spring, and the playful love of Radha and Krishna.
+                                    </p>
+                                    <p>Holi, the world-renowned Festival of Colors, is an exuberant and cathartic celebration of life, love, and the arrival of spring. It's a day when social norms are joyfully suspended, and people from all walks of life come together to douse each other in vibrant powders ('gulal') and colored water.</p>
+                                    <p>The festival is steeped in rich mythology, with the most prominent being the story of Prahlada and Holika. The victory of devotion and righteousness over evil is commemorated with the Holika Dahan bonfire. Beyond the legends, Holi's true power lies in its social significance—it is a day of immense catharsis, a festival of forgiveness, and a celebration of universal brotherhood.</p>
                                 </div>
                             </section>
                             
-                            <section id="traditions">
-                                <h2 className="font-headline text-3xl font-bold mb-4">How to Celebrate Holi</h2>
-                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-                                    <Card className="p-6">
-                                        <Wind className="w-12 h-12 mx-auto text-accent mb-4"/>
-                                        <h4 className="font-headline text-xl font-bold">Holika Dahan</h4>
-                                        <p className="text-foreground/80 text-sm mt-2">On the eve of Holi, light a bonfire to commemorate the burning of the demoness Holika and the triumph of good over evil.</p>
+                            <section id="traditions" className="scroll-mt-20">
+                                <h2 className="font-headline text-3xl md:text-5xl font-bold mb-10">Celebration Essentials</h2>
+                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                                    <Card className="p-10 border-none bg-secondary/20">
+                                        <Wind className="w-12 h-12 mx-auto text-accent mb-6"/>
+                                        <h4 className="font-headline text-2xl font-bold mb-4">Holika Dahan</h4>
+                                        <p className="text-foreground/80 text-sm leading-relaxed">Light a bonfire on the eve of Holi to commemorate the triumph of good over evil.</p>
                                     </Card>
-                                     <Card className="p-6">
-                                        <Droplets className="w-12 h-12 mx-auto text-accent mb-4"/>
-                                        <h4 className="font-headline text-xl font-bold">Play with Colors</h4>
-                                        <p className="text-foreground/80 text-sm mt-2">The main event is the joyous throwing of colored powders (gulal) and water, a fun-filled frolic for all ages.</p>
+                                     <Card className="p-10 border-none bg-secondary/20">
+                                        <Droplets className="w-12 h-12 mx-auto text-accent mb-6"/>
+                                        <h4 className="font-headline text-2xl font-bold mb-4">Color Play</h4>
+                                        <p className="text-foreground/80 text-sm leading-relaxed">The main event: a joyous, fun-filled frolic for all ages throwing colored powders and water.</p>
                                     </Card>
-                                     <Card className="p-6">
-                                        <Share className="w-12 h-12 mx-auto text-accent mb-4"/>
-                                        <h4 className="font-headline text-xl font-bold">Share Sweets & Thandai</h4>
-                                        <p className="text-foreground/80 text-sm mt-2">No Holi is complete without sharing traditional sweets like 'gujiya' and enjoying refreshing 'thandai' with friends and family.</p>
+                                     <Card className="p-10 border-none bg-secondary/20">
+                                        <Share className="w-12 h-12 mx-auto text-accent mb-6"/>
+                                        <h4 className="font-headline text-2xl font-bold mb-4">Feasting</h4>
+                                        <p className="text-foreground/80 text-sm leading-relaxed">Indulge in traditional sweets like gujiya and enjoy refreshing thandai with loved ones.</p>
                                     </Card>
                                 </div>
                             </section>
 
                             <section id="recipes" className="scroll-mt-20">
-                                <h2 className="font-headline text-3xl font-bold mb-4">Holi Delicacies</h2>
-                                <p className="mb-6 text-foreground/80 prose max-w-none">Holi is a time for indulgence. Sweet and savory treats are prepared in abundance to share with everyone who comes to play.</p>
-                                <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+                                <h2 className="font-headline text-3xl md:text-5xl font-bold mb-8">Holi Delicacies</h2>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                                     {recipes.map(recipe => (
-                                       <Link href={recipe.link} key={recipe.name} className="group">
-                                            <Card className="overflow-hidden h-full hover:shadow-xl transition-shadow duration-300">
-                                                <div className="relative h-40">
-                                                    <Image src={recipe.image} alt={recipe.name} layout="fill" objectFit="cover" data-ai-hint={recipe.hint} />
-                                                </div>
-                                                <CardContent className="p-4">
-                                                    <h3 className="font-headline text-lg font-bold text-center text-primary group-hover:text-accent transition-colors">{recipe.name}</h3>
+                                       <Link href={recipe.link} key={recipe.name}>
+                                            <Card className="overflow-hidden h-full hover:shadow-xl transition-all hover:-translate-y-1">
+                                                <CardContent className="p-8 flex items-center justify-center">
+                                                    <h3 className="font-headline text-xl font-bold text-center text-primary">{recipe.name}</h3>
                                                 </CardContent>
                                             </Card>
                                         </Link>
                                     ))}
                                 </div>
-                                 <div className="text-center mt-8">
-                                    <Link href="/recipes" className="text-accent hover:underline font-semibold text-lg">
-                                        Discover more festive recipes &rarr;
-                                    </Link>
-                                </div>
                             </section>
 
-                             <section id="chants">
-                                <h2 className="font-headline text-3xl font-bold mb-4">Songs and Prayers for Holi</h2>
-                                <div className="space-y-6">
-                                    <Card>
-                                        <CardHeader>
-                                            <CardTitle>Holika Dahan Prayers</CardTitle>
-                                        </CardHeader>
-                                        <CardContent>
-                                            <p className="text-foreground/80">During the Holika Dahan ritual, people offer prayers to the fire god, Agni, seeking blessings and the destruction of evil forces. A common prayer involves requesting protection for the family and the triumph of good.</p>
-                                        </CardContent>
-                                    </Card>
-                                     <Card>
-                                        <CardHeader>
-                                            <CardTitle>Krishna Bhajans & Holi Geet</CardTitle>
-                                        </CardHeader>
-                                        <CardContent>
-                                            <p className="text-foreground/80">Holi is filled with music. Devotional songs (bhajans) celebrating the divine and playful love of Radha and Krishna are sung with great enthusiasm. A popular example is "Rang Barse Bheege Chunar Wali," a folk song that captures the spirit of the festival.</p>
-                                        </CardContent>
+                             <section id="chants" className="scroll-mt-20">
+                                <h2 className="font-headline text-3xl md:text-5xl font-bold mb-8 text-center">Ritual Prayers</h2>
+                                <div className="max-w-4xl mx-auto space-y-6">
+                                    <Card className="bg-primary/5 p-8">
+                                        <h4 className="text-primary font-bold text-xl mb-4">Holika Dahan Prayers</h4>
+                                        <p className="text-foreground/80 text-lg italic leading-relaxed">Devotees offer prayers to the fire god, Agni, seeking the destruction of inner evils and the well-being of the family.</p>
                                     </Card>
                                 </div>
                             </section>
-                            <section id="eco-friendly">
-                                <h2 className="font-headline text-3xl font-bold mb-4 text-center">How to Make Natural Holi Colors at Home</h2>
-                                <div className="flex flex-col md:flex-row gap-8 items-center mt-6">
-                                    <div className="md:w-2/3">
-                                        <div className="space-y-4 text-foreground/80 prose max-w-none">
-                                            <p>Celebrate a truly vibrant and safe Holi by making your own colors from simple, non-toxic kitchen ingredients. Commercial colors often contain harmful chemicals, but these natural alternatives are gentle on your skin and the environment.</p>
-                                            <ul className="space-y-6 pl-4">
-                                                <li className="flex items-start">
-                                                    <div className="w-8 h-8 rounded-full bg-yellow-400 mr-4 mt-1 shrink-0"></div>
-                                                    <div>
-                                                        <h4 className="font-bold">Radiant Yellow</h4>
-                                                        <p>For a beautiful sunny yellow, mix turmeric powder (haldi) with an equal amount of gram flour (besan) or rice flour. This not only gives a lovely color but is also great for your skin. For a wet yellow, boil marigold flowers in water, let it cool, and your natural pichkari color is ready.</p>
-                                                    </div>
-                                                </li>
-                                                <li className="flex items-start">
-                                                    <div className="w-8 h-8 rounded-full bg-red-500 mr-4 mt-1 shrink-0"></div>
-                                                    <div>
-                                                        <h4 className="font-bold">Brilliant Red</h4>
-                                                        <p>Create a striking red by using red sandalwood powder (Raktachandan). For a deeper shade, dry some hibiscus flowers in the sun until crisp and grind them into a fine powder. For a liquid red, soak dried hibiscus flowers or slices of beetroot in water overnight.</p>
-                                                    </div>
-                                                </li>
-                                                <li className="flex items-start">
-                                                    <div className="w-8 h-8 rounded-full bg-green-500 mr-4 mt-1 shrink-0"></div>
-                                                    <div>
-                                                        <h4 className="font-bold">Verdant Green</h4>
-                                                        <p>For a dry green, use pure henna (mehendi) powder mixed with flour to achieve the desired shade. You can also make a paste from spinach, mint, or coriander leaves.</p>
-                                                    </div>
-                                                </li>
-                                                 <li className="flex items-start">
-                                                    <div className="w-8 h-8 rounded-full bg-pink-500 mr-4 mt-1 shrink-0"></div>
-                                                    <div>
-                                                        <h4 className="font-bold">Lovely Magenta</h4>
-                                                        <p>Grate or slice a beetroot and soak it in water. For a more intense color, boil the beetroot slices in water and then let it cool. This creates a beautiful, deep pinkish-red color that is completely safe.</p>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                         <div className="text-center mt-6">
-                                            <Link href="/blog/guide-to-natural-holi-colors" className="text-accent hover:underline font-semibold">
-                                                Read the full guide &rarr;
+                            
+                            <section id="eco-friendly" className="scroll-mt-20">
+                                <h2 className="font-headline text-3xl md:text-5xl font-bold mb-10 text-center">The Sustainable Holi</h2>
+                                <div className="max-w-4xl mx-auto grid gap-8">
+                                    <div className="p-10 bg-green-600/5 border-l-4 border-green-600 space-y-4">
+                                        <h4 className="font-bold text-2xl text-green-800">Natural Gulal</h4>
+                                        <p className="text-foreground/80 leading-relaxed">Make your own safe, skin-loving colors at home. Use turmeric for yellow, beetroot for magenta, and hibiscus for red.</p>
+                                        <div className="pt-4">
+                                            <Link href="/blog/guide-to-natural-holi-colors" className="text-green-700 font-bold hover:underline">
+                                                Read the full DIY guide &rarr;
                                             </Link>
                                         </div>
                                     </div>
-                                    <div className="md:w-1/3">
-                                        <Image src="https://i.postimg.cc/qvxZXcTy/natural-holi-colors.webp" alt="Natural Holi Colors" width={400} height={400} className="rounded-lg shadow-lg" data-ai-hint="natural colors"/>
-                                    </div>
-                                </div>
-                                <div className="not-prose my-10 bg-secondary/30 p-6 rounded-lg">
-                                    <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Get in the Festive Spirit (Shop on Amazon)</h3>
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-md mx-auto">
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                                         <ProductCard product={products.phoolHoliColours} />
                                         <ProductCard product={products.rangoliPowder} />
                                     </div>

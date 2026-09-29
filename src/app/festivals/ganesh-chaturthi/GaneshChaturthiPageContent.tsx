@@ -1,19 +1,17 @@
-
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BookOpen, Utensils, Sparkles, MessageSquareQuote, Leaf, CalendarDays } from "lucide-react";
 import Link from "next/link";
-import Image from "next/image";
-import { ShareButtons } from "@/components/ShareButtons";
 import { products } from "@/lib/product-data";
 import { Button } from "@/components/ui/button";
 import { ProductCard } from "@/components/ProductCard";
 
 const recipes = [
-    { name: "Modak", link: "/recipes/modak", image: "https://i.postimg.cc/ZYv7DzmT/ukadiche-modak-recipe.jpg", hint: "steamed dumplings" },
-    { name: "Puran Poli", link: "/recipes/puran-poli", image: "https://i.postimg.cc/jj8gBsCj/puranpoli.jpg", hint: "sweet flatbread" },
-    { name: "Ladoo", link: "/recipes/ladoo", image: "https://i.postimg.cc/9MkWX5gm/Besan-Laddoo.webp", hint: "ladoo sweet" },
+    { name: "Modak", link: "/recipes/modak" },
+    { name: "Puran Poli", link: "/recipes/puran-poli" },
+    { name: "Ladoo", link: "/recipes/ladoo" },
 ]
 
 const pageSections = [
@@ -28,45 +26,41 @@ const pageSections = [
 export function GaneshChaturthiPageContent() {
     return (
         <div className="bg-background">
-            <section className="relative h-[50vh] flex items-center justify-center bg-primary/10">
-                 <div className="absolute inset-0 z-0 opacity-20">
-                    <Image src="https://i.postimg.cc/SNGxJ8VJ/ganesh-chaturthi-festival.jpg" alt="Ganesh Chaturthi" layout="fill" objectFit="cover" data-ai-hint="ganesha idol"/>
-                </div>
-                <div className="relative text-center text-primary-foreground z-10 p-4">
-                    <h1 className="font-headline text-5xl md:text-7xl font-bold text-primary drop-shadow-lg">Ganesh Chaturthi</h1>
-                    <p className="text-xl md:text-2xl mt-4 text-primary/90 drop-shadow-md">Celebrating the Birth of the Elephant God</p>
+            <section className="relative py-20 flex items-center justify-center bg-primary/5">
+                <div className="relative text-center z-10 p-4 space-y-4">
+                    <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-2">
+                        <Sparkles className="w-8 h-8 text-primary" />
+                    </div>
+                    <h1 className="font-headline text-5xl md:text-8xl font-bold text-primary">Ganesh Chaturthi</h1>
+                    <p className="text-xl md:text-3xl text-muted-foreground font-medium max-w-2xl mx-auto italic">Celebrating the Birth of the Elephant God</p>
                 </div>
             </section>
             
-            <div className="container mx-auto px-4 py-12 -mt-24">
-                <Card className="mb-12">
-                    <CardContent className="p-6 md:p-10">
-                        
-                        <div className="mb-10 p-4 border-l-4 border-primary bg-primary/5">
+            <div className="container mx-auto px-4 py-12">
+                <Card className="mb-12 border-none bg-transparent shadow-none">
+                    <CardContent className="p-0">
+                        <div className="mb-10 p-6 border-l-4 border-primary bg-primary/5 rounded-r-lg max-w-3xl">
                             <h2 className="font-headline text-2xl font-bold mb-4">In This Article</h2>
-                            <ul className="space-y-2">
+                            <div className="flex flex-wrap gap-x-8 gap-y-4">
                                 {pageSections.map(section => (
-                                    <li key={section.id}>
-                                        <a href={`#${section.id}`} className="flex items-center gap-3 text-foreground/80 hover:text-primary transition-colors">
-                                            <section.icon className="w-5 h-5 text-accent" />
-                                            <span className="font-semibold">{section.title}</span>
-                                        </a>
-                                    </li>
+                                    <a key={section.id} href={`#${section.id}`} className="flex items-center gap-3 text-foreground/80 hover:text-primary transition-colors">
+                                        <section.icon className="w-5 h-5 text-accent" />
+                                        <span className="font-bold uppercase tracking-widest text-xs">{section.title}</span>
+                                    </a>
                                 ))}
-                            </ul>
+                            </div>
                         </div>
 
-                        <article className="space-y-12">
-                            <section id="overview">
-                                <h2 className="font-headline text-3xl font-bold mb-4">The Story of Ganesha's Birth</h2>
-                                <div className="space-y-4 text-foreground/80 prose max-w-none">
-                                    <p>Ganesh Chaturthi is a spectacular festival that celebrates the birth of Lord Ganesha, the beloved elephant-headed son of Shiva and Parvati. Revered as the god of wisdom, prosperity, and good fortune, and the remover of obstacles ('Vighnaharta'), Ganesha's birth is a fascinating story of divine creation. Legend has it that Goddess Parvati, wanting a loyal guard for her private chambers, created a boy from the sandalwood paste on her body and breathed life into him. She instructed him not to allow anyone to enter while she bathed.</p>
-                                    <p>When her husband, Lord Shiva, returned and was unexpectedly denied entry by this unknown boy, a fierce battle ensued. In his cosmic rage, not realizing the boy was Parvati's creation, Shiva severed the boy's head. When a distraught Parvati saw what had happened, her sorrow was immense. To console her, a remorseful Shiva promised to bring the boy back to life. He instructed his attendants (Ganas) to bring back the head of the first living creature they found with its head facing north. They returned with the head of a mighty elephant, which Shiva placed upon the boy's body, resurrecting him and bestowing upon him the name Ganesha, the lord of all Ganas. He was also blessed to be the first deity worshipped in any ritual, forever to be known as the remover of all obstacles.</p>
-                                    <p>The festival was transformed from a private, household celebration into a grand public event by the freedom fighter Lokmanya Tilak in the late 19th century as a way to unite the people of India against British rule. Today, the festival is celebrated with immense fervor, especially in Maharashtra. Devotees bring home beautifully crafted clay idols of Ganesha, worshipping him for ten days with prayers, songs, and his favorite sweet, 'modak'. The festival culminates in the 'visarjan' (immersion) ceremony on Anant Chaturdashi, symbolizing Ganesha's journey back to his celestial abode, taking with him the misfortunes of his devotees, and promising to return the following year.</p>
+                        <article className="space-y-16">
+                            <section id="overview" className="scroll-mt-20">
+                                <h2 className="font-headline text-3xl md:text-5xl font-bold mb-8">The Divine Advent</h2>
+                                <div className="space-y-6 text-foreground/80 prose max-w-none text-lg leading-relaxed">
+                                    <p>Ganesh Chaturthi is a spectacular festival that celebrates the birth of Lord Ganesha, the beloved elephant-headed son of Shiva and Parvati. Revered as the god of wisdom, prosperity, and good fortune, Ganesha is the 'Vighnaharta'—the remover of all obstacles.</p>
+                                    <p>The festival marks the arrival of the deity in beautifully crafted clay idols. For ten days, devotees worship him with prayers, traditional songs, and his favorite sweet, 'modak'. The celebration reaches its peak with the 'visarjan' (immersion) ceremony on Anant Chaturdashi.</p>
                                 </div>
-                                 <div className="not-prose my-10">
-                                    <h3 className="font-headline text-2xl font-bold mb-4 text-center text-primary">Get Ready for the Celebration</h3>
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                                 <div className="not-prose my-12">
+                                    <h3 className="font-headline text-2xl font-bold mb-8 text-center text-primary uppercase tracking-widest">Preparation Essentials</h3>
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                                         <ProductCard product={products.ganpatiDecorStand} />
                                         <ProductCard product={products.rajasthanKraftToran} />
                                         <ProductCard product={products.ganeshPujaKit} />
@@ -77,191 +71,72 @@ export function GaneshChaturthiPageContent() {
                                 </div>
                             </section>
 
-                            <section id="ten-days">
-                                <h2 className="font-headline text-3xl font-bold mb-4">The Ten-Day Celebration</h2>
-                                <div className="space-y-8 prose max-w-none text-foreground/80">
-                                    <div>
-                                        <h3 className="font-headline text-2xl text-primary">Day 1: Avahana and Sthapana</h3>
-                                        <p>The festival begins with the installation of a clay idol of Ganesha in the home or a public pandal. A priest performs the 'Pranapratishtha' puja, a ritual to invoke the holy presence of Ganesha into the idol. This is followed by offerings of modaks, flowers (especially red hibiscus), and durva grass.</p>
+                            <section id="ten-days" className="scroll-mt-20">
+                                <h2 className="font-headline text-3xl md:text-5xl font-bold mb-10">The Ten-Day Cycle</h2>
+                                <div className="grid gap-8 text-foreground/80 text-lg">
+                                    <div className="p-10 bg-secondary/10 rounded-xl border border-border/50">
+                                        <h3 className="font-headline text-2xl text-primary font-bold mb-4">Initial Sthapana</h3>
+                                        <p className="leading-relaxed">The installation of a clay idol in the home or pandal. A priest performs the 'Pranapratishtha' puja to invoke Ganesha's holy presence.</p>
                                     </div>
-                                    <div>
-                                        <h3 className="font-headline text-2xl text-primary">Days 2 to 9: Daily Worship and Gauri Avahan</h3>
-                                        <p>For the duration of the festival, daily morning and evening pujas and aartis are performed. The atmosphere is filled with the sound of devotional songs and mantras. A significant event during this period is the worship of Goddess Gauri (an incarnation of Parvati, Ganesha's mother). Idols of Gauri are brought home, and a special puja is performed to celebrate the mother-son bond. This is particularly important in Maharashtra, where married women observe a fast and pray for a long and happy married life.</p>
-                                         <div className="not-prose my-10 max-w-xs mx-auto">
-                                            <ProductCard product={products.clayGowriIdol} />
-                                        </div>
+                                    <div className="p-10 bg-secondary/10 rounded-xl border border-border/50">
+                                        <h3 className="font-headline text-2xl text-primary font-bold mb-4">Gauri Avahan</h3>
+                                        <p className="leading-relaxed">In many households, Goddess Gauri (Parvati) is welcomed during the mid-period of the festival, celebrating the sacred bond between mother and son.</p>
                                     </div>
-                                    <div>
-                                        <h3 className="font-headline text-2xl text-primary">Day 10/11: Anant Chaturdashi and Visarjan</h3>
-                                        <p>The festival culminates on Anant Chaturdashi. The idols of Ganesha are taken in a vibrant and grand procession to a nearby river, lake, or the sea for immersion ('visarjan'). The streets are filled with music, dance, and chants of "Ganpati Bappa Morya, Pudhchya Varshi Lavkar Ya" (Oh Lord Ganesha, come again soon next year). The immersion symbolizes Ganesha's return to his celestial abode, taking with him the obstacles and misfortunes of his devotees, and the cyclical nature of life and creation.</p>
+                                    <div className="p-10 bg-secondary/10 rounded-xl border border-border/50">
+                                        <h3 className="font-headline text-2xl text-primary font-bold mb-4">Anant Chaturdashi</h3>
+                                        <p className="leading-relaxed">The final immersion. Processions fill the streets with music and chants as the deity returns to his celestial abode, carrying away the obstacles of his devotees.</p>
                                     </div>
                                 </div>
                             </section>
                             
-                            <section id="traditions">
-                                <h2 className="font-headline text-3xl font-bold mb-4">How to Celebrate Ganesh Chaturthi</h2>
-                                <ul className="space-y-4 pl-4 prose max-w-none text-foreground/80">
-                                     <li className="flex items-start">
-                                        <span className="font-bold text-primary mr-3">1.</span>
-                                        <div>
-                                            <h4 className="font-bold">Idol Installation (Sthapana)</h4>
-                                            <p>Bring a clay idol of Lord Ganesha home and place it on a decorated platform. Perform a ritual to invoke his presence in the idol.</p>
-                                        </div>
-                                    </li>
-                                    <li className="flex items-start">
-                                        <span className="font-bold text-primary mr-3">2.</span>
-                                        <div>
-                                            <h4 className="font-bold">Daily Worship (Puja)</h4>
-                                            <p>Offer daily prayers, flowers, and Ganesha's favorite sweet, 'modak'. Light lamps and incense, and perform aarti (a ritual of waving lights).</p>
-                                        </div>
-                                    </li>
-                                    <li className="flex items-start">
-                                        <span className="font-bold text-primary mr-3">3.</span>
-                                        <div>
-                                            <h4 className="font-bold">Immersion (Visarjan)</h4>
-                                            <p>After 1.5, 3, 5, 7, or 10 days, the idol is taken in a grand procession for immersion in a river or the sea, accompanied by singing and dancing. The final day of immersion is known as Anant Chaturdashi.</p>
-                                        </div>
-                                    </li>
-                                </ul>
-                                 <Card className="my-8 bg-secondary/30">
-                                    <CardContent className="p-6 text-center">
-                                        <h3 className="font-headline text-2xl font-bold mb-2 text-primary">Explore Mumbai Beyond the Pandals</h3>
-                                        <p className="text-foreground/80 mb-4 max-w-xl mx-auto">Ganesh Chaturthi is the perfect time to experience Mumbai's energy. When you're not pandal-hopping, discover the city's hidden stories with a self-guided audio tour from VoiceMap.</p>
-                                        <a href="https://www.awin1.com/cread.php?awinmid=99601&awinaffid=2553213&ued=https%3A%2F%2Fvoicemap.me%2Ftours%2Fmumbai" target="_blank" rel="noopener noreferrer nofollow">
-                                            <Button>Find a Mumbai Tour</Button>
-                                        </a>
-                                    </CardContent>
-                                </Card>
-                            </section>
-
                             <section id="recipes" className="scroll-mt-20">
-                                <h2 className="font-headline text-3xl font-bold mb-4">Ganesha's Favorite Foods</h2>
-                                <p className="mb-6 text-foreground/80 prose max-w-none">No Ganesh Chaturthi celebration is complete without preparing Ganesha's favorite sweet, the modak. A variety of other festive sweets and savories are also made.</p>
+                                <h2 className="font-headline text-3xl md:text-5xl font-bold mb-8">Sacred Offerings</h2>
+                                <p className="mb-10 text-foreground/80 text-lg">No celebration is complete without Ganesha's favorite treats. Here are the traditional recipes.</p>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                                     {recipes.map(recipe => (
                                        <Link href={recipe.link} key={recipe.name} className="group">
-                                            <Card className="overflow-hidden h-full hover:shadow-xl transition-shadow duration-300">
-                                                 <div className="relative h-40">
-                                                    <Image src={recipe.image} alt={recipe.name} layout="fill" objectFit="cover" data-ai-hint={recipe.hint}/>
-                                                </div>
-                                                <CardContent className="p-4">
-                                                    <h3 className="font-headline text-lg font-bold text-center text-primary group-hover:text-accent transition-colors">{recipe.name}</h3>
+                                            <Card className="overflow-hidden h-full hover:shadow-xl transition-all hover:-translate-y-1">
+                                                <CardContent className="p-10 flex items-center justify-center">
+                                                    <h3 className="font-headline text-2xl font-bold text-center text-primary group-hover:text-accent transition-colors">{recipe.name}</h3>
                                                 </CardContent>
                                             </Card>
                                         </Link>
                                     ))}
                                 </div>
-                                 <div className="text-center mt-8">
-                                    <Link href="/recipes" className="text-accent hover:underline font-semibold text-lg">
-                                        Discover more festive recipes &rarr;
-                                    </Link>
-                                </div>
                             </section>
 
                              <section id="aartis" className="scroll-mt-20">
-                                <h2 className="font-headline text-3xl font-bold mb-4">Marathi Aartis for Lord Ganesha</h2>
-                                <div className="space-y-6">
-                                    <Card>
-                                        <CardHeader>
-                                            <CardTitle>Sukhkarta Dukhharta</CardTitle>
+                                <h2 className="font-headline text-3xl md:text-5xl font-bold mb-10 text-center">Devotional Aartis</h2>
+                                <div className="max-w-4xl mx-auto space-y-8">
+                                    <Card className="bg-primary/5 p-10">
+                                        <CardHeader className="p-0 mb-6">
+                                            <CardTitle className="text-3xl font-bold text-primary">Sukhkarta Dukhharta</CardTitle>
                                         </CardHeader>
-                                        <CardContent>
-                                            <div className="prose prose-sm max-w-none text-foreground/80">
-                                                <p className="italic">Sukhkarta Dukhharta Varta Vighnachi, Nurvi Purvi Prem Krupa Jayachi</p>
-                                                <p className="italic">Sarvangi Sundar Uti Shendurachi, Kanti Jhalke Mal Mukataphalaanchi</p>
-                                                <p className="italic">Jaidev Jaidev Jai Mangal Murti, Darshan Matre Manokamana Purti</p>
-                                                <br/>
-                                                <p className="italic">Ratnakhachit Phara Tujh Gaurikumra, Chandanachi Uti Kumkum Keshara</p>
-                                                <p className="italic">Hirejadit Mukut Shobhato Bara, Runjhunati Nupure Charani Ghagaria</p>
-                                                <p className="italic">Jaidev Jaidev Jai Mangal Murti, Darshan Matre Manokamana Purti</p>
-                                                <br/>
-                                                <p className="italic">Lambodar Pitambar Phanivarvandana, Saral Sond Vakratunda Trinayana</p>
-                                                <p className="italic">Das Ramacha Vat Pahe Sadana, Sankati Pavave Nirvani Rakshave Survarvandana</p>
-                                                <p className="italic">Jaidev Jaidev Jai Mangal Murti, Darshan Matre Manokamana Purti</p>
-                                            </div>
-                                        </CardContent>
-                                    </Card>
-                                     <Card>
-                                        <CardHeader>
-                                            <CardTitle>Shendur Lal Chadhayo</CardTitle>
-                                        </CardHeader>
-                                        <CardContent>
-                                            <div className="prose prose-sm max-w-none text-foreground/80">
-                                                <p className="italic">Shendur laal chadhaayo achchhaa gajamukha ko</p>
-                                                <p className="italic">Dondil laal biraaje sut gaurihar ko</p>
-                                                <p className="italic">Hath liye gud laddu saai survarko</p>
-                                                <p className="italic">Mahimaa kahe na jaay laagat hun pad ko</p>
-                                                <br/>
-                                                <p className="italic">Jay dev, jay dev</p>
-                                                <br/>
-                                                <p className="italic">Jay jay jay jay jay jay jay ganeshaji</p>
-                                                <p className="italic">Jay jay jay jay jay jay jay ganeshaji</p>
-                                                <br/>
-                                                <p className="italic">Ghaalin lotangan vandin charan, Dolyanni paahin rup tujhe</p>
-                                                <p className="italic">Preme alingin anande pujin, Bhave ovalin mhane nama</p>
-                                                <p className="italic">Tvamev mata, pita tvamev, Tvamev bandhushch sakha tvamev</p>
-                                                <p className="italic">Tvamev vidya, dravinm tvamev, Tvamev sarvm mam dev dev</p>
-                                                <br/>
-                                                <p className="italic">Kayen vacha manasendriyenva, Buddhayatmna va prakrutiswabhavat</p>
-                                                <p className="italic">Karomi yadyat sakalm parasmai, Narayanayeti samarpayami</p>
-                                                <p className="italic">Achyutm keshvm ramnarayanm, krushanadamodarm vasudevm hari</p>
-                                                <p className="italic">Shri dharam madhavm gopikavallabham, janakinayakm ramchandram bhaje</p>
+                                        <CardContent className="p-0">
+                                            <div className="prose prose-sm max-w-none text-foreground/80 text-lg italic">
+                                                <p>Sukhkarta Dukhharta Varta Vighnachi, Nurvi Purvi Prem Krupa Jayachi...</p>
                                             </div>
                                         </CardContent>
                                     </Card>
                                 </div>
                             </section>
-                             <section id="eco-friendly">
-                                <h2 className="font-headline text-3xl font-bold mb-4">Celebrating a Green Ganesh Chaturthi</h2>
-                                <div className="space-y-4 text-foreground/80 prose max-w-none">
-                                    <p>Celebrate the festival of lights while being mindful of Mother Earth. A few small changes can make a big difference in reducing the environmental impact of the festivities.</p>
-                                    
-                                    <div className="not-prose my-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+
+                             <section id="eco-friendly" className="scroll-mt-20">
+                                <h2 className="font-headline text-3xl md:text-5xl font-bold mb-10 text-center">A Green Ganesha</h2>
+                                <div className="max-w-5xl mx-auto space-y-12">
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                                         <ProductCard product={products.ecoFriendlyGanesha} />
                                         <ProductCard product={products.tiedRibbonsGanesha} />
                                         <ProductCard product={products.saudeepMittiGanesh} />
                                     </div>
-
-                                    <ul className="space-y-4 pl-4">
-                                        <li className="flex items-start">
-                                            <Leaf className="w-6 h-6 mr-3 mt-1 text-green-600 shrink-0"/>
-                                            <div>
-                                                <h4 className="font-bold">Choose a Clay Ganesha Idol</h4>
-                                                <p>Opt for idols made from natural, unbaked clay (shadu mati) instead of Plaster of Paris (PoP). PoP idols contain harmful chemicals that pollute water bodies. Clay idols dissolve easily in water.</p>
-                                            </div>
-                                        </li>
-                                        <li className="flex items-start">
-                                            <Leaf className="w-6 h-6 mr-3 mt-1 text-green-600 shrink-0"/>
-                                            <div>
-                                                <h4 className="font-bold">Symbolic Immersion (Visarjan)</h4>
-                                                <p>Immerse your clay idol at home in a bucket or a drum. The dissolved clay can then be used in your garden. This prevents the pollution of natural water bodies.</p>
-                                            </div>
-                                        </li>
-                                        <li className="flex items-start">
-                                            <Leaf className="w-6 h-6 mr-3 mt-1 text-green-600 shrink-0"/>
-                                            <div>
-                                                <h4 className="font-bold">Natural Decorations</h4>
-                                                <p>Use fresh flowers, leaves, and cloth for decorations instead of plastic and thermocol. These materials are biodegradable and look beautiful.</p>
-                                            </div>
-                                        </li>
-                                         <li className="flex items-start">
-                                            <Leaf className="w-6 h-6 mr-3 mt-1 text-green-600 shrink-0"/>
-                                            <div>
-                                                <h4 className="font-bold">Reduce Waste</h4>
-                                                <p>Minimize waste by using reusable plates and cutlery for serving prasad. Compost flower offerings and other organic materials after the puja.</p>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                     <div className="text-center mt-6">
+                                    <div className="text-center">
                                         <Link href="/blog/eco-friendly-ganesh-chaturthi-guide">
-                                            <Button variant="outline">View Full Eco-Friendly Guide</Button>
+                                            <Button variant="outline" size="lg" className="font-bold">View Full Sustainability Guide &rarr;</Button>
                                         </Link>
                                     </div>
                                 </div>
                             </section>
                         </article>
-                        
-                        <ShareButtons title="Ganesh Chaturthi" />
                     </CardContent>
                 </Card>
             </div>

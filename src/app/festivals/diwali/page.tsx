@@ -3,7 +3,7 @@ import { DiwaliPageContent } from './DiwaliPageContent';
 import { Card, CardContent } from '@/components/ui/card';
 import { ShareButtons } from '@/components/ShareButtons';
 import { RelatedContent, RelatedItem } from "@/components/RelatedContent";
-import Image from 'next/image';
+import { Sparkles } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: "Diwali: Know before you plan.",
@@ -41,15 +41,19 @@ export default function DiwaliPage() {
     return (
         <div className="bg-background">
             <div className="container mx-auto px-4 py-12">
-                <Card className="mb-12 overflow-hidden">
-                    <Image src="https://i.postimg.cc/SjF8HhM1/Diwali2.jpg" alt="Diwali" width={1200} height={400} className="w-full h-48 md:h-64 object-cover" data-ai-hint="diwali celebration" />
-                    <div className="p-6 md:p-10 text-center">
-                        <h1 className="font-headline text-4xl md:text-7xl font-bold text-primary">Diwali</h1>
-                        <p className="text-xl md:text-2xl mt-2 text-muted-foreground">The Festival of Lights: A Triumph of Good Over Evil</p>
+                <Card className="mb-12 overflow-hidden border-none shadow-none bg-transparent">
+                    <div className="py-12 md:py-20 text-center space-y-6">
+                        <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <Sparkles className="w-8 h-8 text-primary" />
+                        </div>
+                        <h1 className="font-headline text-4xl md:text-8xl font-bold text-primary tracking-tight">Diwali</h1>
+                        <p className="text-xl md:text-3xl mt-2 text-muted-foreground max-w-3xl mx-auto italic">
+                            The Festival of Lights: A Triumph of Good Over Evil
+                        </p>
                     </div>
-                    <CardContent className="p-6 md:p-10 pt-0">
+                    <CardContent className="p-0">
                         <div className="grid md:grid-cols-12 gap-8 lg:gap-12">
-                             <aside className="md:col-span-4 lg:col-span-3 -ml-2 hidden md:block">
+                             <aside className="md:col-span-4 lg:col-span-3 hidden md:block">
                                 <div className="sticky top-24">
                                    <DiwaliPageContent />
                                 </div>
