@@ -8,7 +8,6 @@ import {
   Plane, 
   Globe, 
   Clock, 
-  Landmark, 
   CheckCircle2,
   ArrowRight,
   ShieldAlert
@@ -44,15 +43,6 @@ export default function BuiltForPage() {
       impact: "A holiday means cross-border settlement latency and modified office hours.",
       theme: "from-gold/10 to-transparent",
       iconColor: "text-gold"
-    },
-    {
-      title: "Global Logistics",
-      subtitle: "When to move",
-      icon: Landmark,
-      description: "Avoid demurrage and detention. Track port and customs operational status across multiple jurisdictions simultaneously.",
-      impact: "A holiday is a documented operational shift in port and terminal throughput.",
-      theme: "from-teal/10 to-transparent",
-      iconColor: "text-teal"
     }
   ];
 
@@ -62,7 +52,7 @@ export default function BuiltForPage() {
       
       <main className="py-12 md:py-24">
         <div className="container mx-auto px-6 text-left">
-          <div className="max-w-5xl mx-auto space-y-24">
+          <div className="max-w-6xl mx-auto space-y-24">
             
             <div className="space-y-6 max-w-3xl">
               <div className="text-[12.5px] font-mono text-[#4FD1C5] tracking-[0.3em] uppercase">The Intelligence Layer</div>
@@ -74,33 +64,33 @@ export default function BuiltForPage() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {useCases.map((uc, i) => (
-                <Card key={i} className="bg-[#171D3A] border-white/10 rounded-2xl overflow-hidden group hover:border-white/20 transition-all shadow-xl text-left">
-                  {/* Stylized Icon Panel instead of Image */}
-                  <div className={`relative h-64 w-full bg-gradient-to-br ${uc.theme} flex items-center justify-center overflow-hidden`}>
+                <Card key={i} className="bg-[#171D3A] border-white/10 rounded-2xl overflow-hidden group hover:border-white/20 transition-all shadow-xl text-left flex flex-col">
+                  {/* Stylized Icon Panel */}
+                  <div className={`relative h-48 w-full bg-gradient-to-br ${uc.theme} flex items-center justify-center overflow-hidden shrink-0`}>
                     <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)', backgroundSize: '32px 32px' }}></div>
-                    <uc.icon className={`w-32 h-32 ${uc.iconColor} opacity-20 transform -rotate-12 group-hover:scale-110 transition-transform duration-700`} />
-                    <uc.icon className={`absolute w-16 h-16 ${uc.iconColor} drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]`} />
+                    <uc.icon className={`w-24 h-24 ${uc.iconColor} opacity-20 transform -rotate-12 group-hover:scale-110 transition-transform duration-700`} />
+                    <uc.icon className={`absolute w-12 h-12 ${uc.iconColor} drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]`} />
                   </div>
                   
-                  <CardContent className="p-10 space-y-8 pt-6">
-                    <div className="flex justify-between items-start">
-                      <div className="w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center text-white/40">
-                        <uc.icon className="w-7 h-7" />
-                      </div>
-                      <div className="text-right">
-                         <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#E8A33D]">{uc.subtitle}</span>
-                         <h3 className="text-3xl font-headline font-medium mt-1">{uc.title}</h3>
-                      </div>
-                    </div>
-                    <div className="space-y-4">
-                        <p className="text-lg text-[#F4F1E8] font-medium leading-relaxed">
-                          {uc.description}
-                        </p>
-                        <div className="p-4 bg-white/5 border-l-2 border-[#4FD1C5] rounded-r-lg">
-                           <p className="text-sm text-[#4FD1C5] italic">"{uc.impact}"</p>
+                  <CardContent className="p-8 space-y-6 pt-6 flex-grow flex flex-col justify-between">
+                    <div className="space-y-6">
+                      <div className="flex justify-between items-start">
+                        <div className="w-12 h-12 bg-white/5 rounded-xl flex items-center justify-center text-white/40">
+                          <uc.icon className="w-6 h-6" />
                         </div>
+                        <div className="text-right">
+                           <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#E8A33D]">{uc.subtitle}</span>
+                           <h3 className="text-2xl font-headline font-medium mt-1">{uc.title}</h3>
+                        </div>
+                      </div>
+                      <p className="text-base text-[#F4F1E8]/80 font-medium leading-relaxed">
+                        {uc.description}
+                      </p>
+                    </div>
+                    <div className="p-4 bg-white/5 border-l-2 border-[#4FD1C5] rounded-r-lg mt-auto">
+                       <p className="text-xs text-[#4FD1C5] italic">"{uc.impact}"</p>
                     </div>
                   </CardContent>
                 </Card>
