@@ -439,7 +439,7 @@ export default function HomePage() {
         <section className="py-20 border-t border-white/5" id="built-for">
           <div className="wrap text-left">
             <div className="mb-10 space-y-3">
-               <span className="text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-[#E8A33D]">Global Coverage · Everywhere we track</span>
+               <span className="text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-[#E8A33D]">Global Coverage · Extensive jurisdictional rules</span>
                <h2 className="font-headline text-3xl md:text-5xl font-medium">Built for technical planning.</h2>
                <p className="text-[#9AA1C0] text-lg max-w-2xl">Reconciling deterministic rules across multiple jurisdictions for high-stakes operational assessment.</p>
             </div>
@@ -464,11 +464,11 @@ export default function HomePage() {
              <div className="grid lg:grid-cols-[1fr_auto] gap-12 items-center">
                 <div className="space-y-6 text-left">
                    <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#4FD1C5]/10 border border-[#4FD1C5]/20 rounded-full">
-                      <span className="text-[10px] font-bold uppercase tracking-widest text-[#4FD1C5]">The Intelligence Layer</span>
+                      <span className="text-[10px] font-bold uppercase tracking-widest text-[#4FD1C5]">Verified Date Intelligence</span>
                    </div>
-                   <h2 className="font-headline text-3xl md:text-5xl font-medium">Global Date Intelligence.</h2>
+                   <h2 className="font-headline text-3xl md:text-5xl font-medium">Source-backed intelligence. Human-verified.</h2>
                    <p className="text-[#9AA1C0] text-lg max-w-2xl font-medium">
-                      See where the information comes from and, where applicable, whether it has been reviewed or confirmed. Utsavs keeps the underlying source and verification status visible so you can inspect the evidence behind the result.
+                      See where the information comes from and, where applicable, whether it has been reviewed or confirmed. Utsavs keeps the underlying source and verification status visible so you can inspect the evidence behind a result.
                    </p>
                 </div>
                 <Link href="/date-intelligence">

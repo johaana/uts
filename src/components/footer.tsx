@@ -51,21 +51,17 @@ export function Footer() {
         <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 text-[11px] text-muted-dim font-bold uppercase tracking-widest">
           <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4 text-center md:text-left">
              <span>&copy; {currentYear} UTSAVS</span>
-             <span className="flex items-center gap-2">
-                <div className="w-1 h-1 rounded-full bg-teal shadow-[0_0_5px_var(--teal)]"></div>
-                NOMINAL OPERATIONAL STATUS
-             </span>
-             <span>ISO 3166-1 alpha-2 / ISO-8601 COMPLIANCE</span>
+             <span>GLOBAL DATA HUB</span>
+             <span>CURATED DATA LAST REVIEWED {reviewDate}</span>
           </div>
-          <div>CURATED DATA LAST REVIEWED {reviewDate}</div>
         </div>
 
         <div className="text-[10px] text-muted-dim/60 leading-relaxed uppercase tracking-wider max-w-5xl mx-auto text-center border-t border-white/5 pt-8 space-y-4">
           <p>
-            Source-backed intelligence. Every data point is backed by an underlying source, with the source available to inspect. Human-verified.
+            Source-backed intelligence. We independently verify institutional closures and government-declared dates. Every record is traceable to its authoritative source.
           </p>
           <p>
-            Institutional closures are sourced separately from calendar events. Lunar and government-declared dates are subject to change; Utsavs maintains the source and verification status for all 1,091 deterministic rules.
+            Lunar and government-declared dates are subject to change; Utsavs maintains the source and verification status for our comprehensive global database.
           </p>
         </div>
       </div>

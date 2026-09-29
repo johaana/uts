@@ -9,7 +9,7 @@ export function HeroCarousel() {
        <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle, #F4F1E8 1px, transparent 1px)', backgroundSize: '40px 40px' }}></div>
        
        <div className="container mx-auto px-6 relative z-10 text-center space-y-4">
-          <span className="font-mono text-[10px] font-bold text-[#E8A33D] uppercase tracking-[0.4em]">Intelligence Layer v4.2</span>
+          <span className="font-mono text-[10px] font-bold text-[#E8A33D] uppercase tracking-[0.4em]">Global Intelligence Hub</span>
           <h2 className="font-headline text-3xl md:text-6xl font-bold text-white tracking-tighter leading-tight max-w-4xl mx-auto">
              World Class Date Precision. <br />
              <span className="italic text-[#9AA1C0]">Source-backed. Rule-driven.</span>

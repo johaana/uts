@@ -158,7 +158,7 @@ export default function ApiPage() {
                     {[
                       { 
                         title: "Temporal Fact", 
-                        desc: "Deterministic event identification across 92+ jurisdictions. Name, classification, and duration.",
+                        desc: "Deterministic event identification across our verified jurisdictions. Name, classification, and duration.",
                         icon: Database 
                       },
                       { 
@@ -183,7 +183,7 @@ export default function ApiPage() {
                       },
                       { 
                         title: "Machine Ready", 
-                        desc: "Standardized JSON output. ISO 8601 and ISO 3166 compliant for seamless system integration.",
+                        desc: "Standardized JSON output. ISO 3166-1 alpha-2 and ISO 8601 compliant for seamless system integration.",
                         icon: Code 
                       }
                     ].map(layer => (
@@ -301,7 +301,7 @@ export default function ApiPage() {
             </div>
             <div className="flex items-center gap-2 grayscale hover:grayscale-0 transition-all cursor-default">
               <Code className="w-5 h-5 text-white" />
-              <span className="font-mono text-[10px] font-bold uppercase tracking-widest">System Ready</span>
+              <span className="font-mono text-[10px] font-bold uppercase tracking-widest">ISO 3166-1 / ISO 8601</span>
             </div>
         </div>
 
