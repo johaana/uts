@@ -1,4 +1,3 @@
-
 "use client";
 
 import Link from "next/link";
@@ -8,10 +7,9 @@ import { Button } from "./ui/button";
 import { MessageSquare } from "lucide-react";
 
 const navLinks = [
+  { href: "/date-intelligence", label: "Date Intelligence" },
   { href: "/travel-insurance", label: "International Insurance" },
   { href: "/festivals", label: "Stories" },
-  { href: "/api", label: "API" },
-  { href: "/built-for", label: "Built For" },
 ];
 
 export function MobileNav({ setOpen }: { setOpen: (open: boolean) => void }) {

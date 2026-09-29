@@ -1,5 +1,3 @@
-'use client';
-
 import React from 'react';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
@@ -14,6 +12,12 @@ import {
   Activity,
   HeartPulse
 } from "lucide-react";
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: "Partner with Utsavs for International Travel Protection.",
+  description: "Integrate verified calendar intelligence and travel protection into your platform — for universities, corporates, and booking engines.",
+};
 
 export default function TravelInsurancePage() {
   const WHATSAPP_LINK = "https://wa.me/919860997711";
@@ -34,7 +38,7 @@ export default function TravelInsurancePage() {
               </h1>
               <p className="text-lg text-[#9AA1C0] leading-relaxed max-w-3xl mx-auto font-medium">
                 Comprehensive international travel insurance tailored for students, corporate teams, and global explorers. 
-                Move with certainty across 1.4 million providers worldwide.
+                Because a holiday shouldn't be a liability.
               </p>
             </div>
 

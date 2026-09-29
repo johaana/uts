@@ -1,4 +1,3 @@
-
 "use client";
 
 import Link from "next/link";
@@ -10,6 +9,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { MobileNav } from "./MobileNav";
 
 const navLinks = [
+  { href: "/date-intelligence", label: "Date Intelligence" },
   { href: "/travel-insurance", label: "International Insurance" },
   { href: "/festivals", label: "Stories" },
 ];

@@ -1,11 +1,10 @@
-
 import { ImageResponse } from 'next/og'
 
 // Route segment config
 export const runtime = 'edge'
 
 // Image metadata
-export const alt = 'Utsavs: Know before you plan. Not after.'
+export const alt = 'Utsavs: Know before you fly. Know before you schedule.'
 export const size = {
   width: 1200,
   height: 630,
