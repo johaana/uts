@@ -1,4 +1,3 @@
-
 "use client";
 
 import Link from "next/link";
@@ -23,7 +22,7 @@ export function Footer() {
         <div className="grid md:grid-cols-2 gap-12 items-start">
            <div className="space-y-6 text-left">
               <div className="flex flex-col">
-                <span className="font-headline text-3xl font-bold tracking-tight">Utsavs</span>
+                <span className="font-headline text-3xl font-bold tracking-tight text-white">Utsavs</span>
                 <span className="text-[10px] font-mono font-bold text-gold uppercase tracking-[0.3em] mt-1">GLOBAL HOLIDAY INTELLIGENCE</span>
               </div>
               <p className="text-muted leading-relaxed max-w-sm font-medium">
@@ -39,7 +38,7 @@ export function Footer() {
               </Link>
               <div className="flex gap-8 text-sm font-bold text-muted uppercase tracking-widest">
                 <Link href="/date-intelligence" className="hover:text-white transition-colors">Explorer</Link>
-                <Link href="/travel-insurance" className="hover:text-white transition-colors">Insurance</Link>
+                <Link href="/international-insurance" className="hover:text-white transition-colors">Insurance</Link>
                 <Link href="/festivals" className="hover:text-white transition-colors">Stories</Link>
               </div>
            </div>
@@ -57,8 +56,13 @@ export function Footer() {
           <div>CURATED DATA LAST REVIEWED {reviewDate}</div>
         </div>
 
-        <div className="text-[10px] text-muted-dim/60 leading-relaxed uppercase tracking-wider max-w-5xl mx-auto text-center border-t border-white/5 pt-8">
-          Each record carries a date state and a named source. Institutional closures are sourced separately from calendar events. Lunar and government-declared dates are subject to change; Utsavs maintains the source and verification status for all 1,091 deterministic rules.
+        <div className="text-[10px] text-muted-dim/60 leading-relaxed uppercase tracking-wider max-w-5xl mx-auto text-center border-t border-white/5 pt-8 space-y-4">
+          <p>
+            Source-backed intelligence. Every data point is backed by an underlying source, with the source available to inspect. Human-verified where verification is required.
+          </p>
+          <p>
+            Institutional closures are sourced separately from calendar events. Lunar and government-declared dates are subject to change; Utsavs maintains the source and verification status for all 1,091 deterministic rules.
+          </p>
         </div>
       </div>
     </footer>

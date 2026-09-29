@@ -10,7 +10,7 @@ import {
   Clock, 
   CheckCircle2,
   ArrowRight,
-  ShieldAlert
+  ShieldCheck
 } from "lucide-react";
 import Link from 'next/link';
 import { Button } from "@/components/ui/button";
@@ -68,10 +68,10 @@ export default function BuiltForPage() {
               {useCases.map((uc, i) => (
                 <Card key={i} className="bg-[#171D3A] border-white/10 rounded-2xl overflow-hidden group hover:border-white/20 transition-all shadow-xl text-left flex flex-col">
                   {/* Stylized Icon Panel */}
-                  <div className={`relative h-48 w-full bg-gradient-to-br ${uc.theme} flex items-center justify-center overflow-hidden shrink-0`}>
+                  <div className={`relative h-40 w-full bg-gradient-to-br ${uc.theme} flex items-center justify-center overflow-hidden shrink-0`}>
                     <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)', backgroundSize: '32px 32px' }}></div>
-                    <uc.icon className={`w-24 h-24 ${uc.iconColor} opacity-20 transform -rotate-12 group-hover:scale-110 transition-transform duration-700`} />
-                    <uc.icon className={`absolute w-12 h-12 ${uc.iconColor} drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]`} />
+                    <uc.icon className={`w-20 h-20 ${uc.iconColor} opacity-20 transform -rotate-12 group-hover:scale-110 transition-transform duration-700`} />
+                    <uc.icon className={`absolute w-10 h-10 ${uc.iconColor} drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]`} />
                   </div>
                   
                   <CardContent className="p-8 space-y-6 pt-6 flex-grow flex flex-col justify-between">
@@ -98,16 +98,17 @@ export default function BuiltForPage() {
             </div>
 
             <div className="p-10 md:p-16 rounded-[40px] border-2 border-dashed border-white/10 bg-white/5 space-y-8 text-center max-w-4xl mx-auto">
-                <ShieldAlert className="w-10 h-10 text-[#E8A33D] mx-auto" />
+                <ShieldCheck className="w-10 h-10 text-[#E8A33D] mx-auto" />
                 <div className="space-y-4 text-center">
-                  <h2 className="text-3xl md:text-4xl font-headline font-medium">Verified Deterministic Data</h2>
+                  <h2 className="text-3xl md:text-4xl font-headline font-medium">Source-backed intelligence.</h2>
                   <p className="text-lg text-[#9AA1C0] leading-relaxed max-w-2xl mx-auto font-medium">
-                    Generic AI hallucinations cause date errors. Utsavs uses a deterministic engine verified against 
-                    named authoritative sources, making it safe for high-stakes operational risk assessment.
+                    Every data point is backed by an underlying source, with the source available to inspect. Human-verified. 
+                    Unlike generic AI, Utsavs uses a deterministic engine cross-checked by our research team to ensure 
+                    accuracy for high-stakes operational risk assessment.
                   </p>
                 </div>
                 <div className="flex flex-wrap justify-center gap-6 pt-4">
-                   {["Sourced", "Regional", "Institutional", "Policy-Aware"].map(tag => (
+                   {["Source-Backed", "Human-Verified", "Institutional", "Policy-Aware"].map(tag => (
                      <div key={tag} className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#F4F1E8]">
                         <CheckCircle2 className="w-4 h-4 text-[#4FD1C5]" /> {tag}
                      </div>
@@ -123,7 +124,7 @@ export default function BuiltForPage() {
                       Start Planning <ArrowRight className="ml-2 w-5 h-5 text-[#0F1428]" />
                     </Link>
                   </Button>
-                  <Button asChild variant="ghost" className="px-10 h-16 font-bold border border-white/10 rounded-full hover:bg-white/5 transition-colors">
+                  <Button asChild variant="ghost" className="px-10 h-16 font-bold border border-white/10 rounded-full hover:bg-white/5 transition-colors text-white">
                     <Link href="/api">
                       Explore the API →
                     </Link>

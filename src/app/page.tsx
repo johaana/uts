@@ -462,7 +462,7 @@ export default function HomePage() {
                    </div>
                    <h2 className="font-headline text-3xl md:text-5xl font-medium">Global Date Intelligence.</h2>
                    <p className="text-[#9AA1C0] text-lg max-w-2xl font-medium">
-                      One place for the calendar fact, travel signals and institution-specific evidence around a date — with the scope and source kept visible.
+                      See where the information comes from and, where applicable, whether it has been reviewed or confirmed. Utsavs keeps the underlying source and verification status visible so you can inspect the evidence behind the result.
                    </p>
                 </div>
                 <Link href="/date-intelligence">
