@@ -61,10 +61,10 @@ export default function ApiPage() {
           <div className="container mx-auto px-6 relative z-10">
             <div className="max-w-6xl mx-auto grid lg:grid-cols-[1.1fr_0.9fr] gap-12 lg:gap-24 items-center">
                <div className="space-y-8 text-left">
-                  <h1 className="text-4xl md:text-7xl font-headline font-medium leading-[1.05] tracking-tighter">
+                  <h1 className="text-4xl md:text-7xl font-headline font-medium leading-[1.05] tracking-tighter text-left">
                     Data you <br/>can trace.
                   </h1>
-                  <p className="text-xl text-[#9AA1C0] leading-relaxed font-medium">
+                  <p className="text-xl text-[#9AA1C0] leading-relaxed font-medium text-left">
                     The Utsavs API reconciles public calendars with institutional closures and regional rules. Built for technical systems that require high-stakes date precision.
                   </p>
                   <div className="pt-4 flex flex-col sm:flex-row gap-4">
