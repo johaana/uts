@@ -15,7 +15,7 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: "Partner with Utsavs for International Travel Protection.",
-  description: "Integrate verified calendar intelligence and travel protection into your platform — for universities, corporates, and booking engines. Comprehensive international travel insurance tailored for students, corporate teams, and global explorers.",
+  description: "Integrate verified calendar intelligence and travel protection into your platform — for universities, corporates, and booking engines.",
 };
 
 export default function TravelInsurancePage() {
@@ -52,7 +52,7 @@ export default function TravelInsurancePage() {
                      <h3 className="text-3xl font-headline font-bold">Student Journey Plans</h3>
                      <p className="text-[#9AA1C0] leading-relaxed font-medium">
                         Specialized coverage meeting leading university and visa requirements for F1, J1, and M1 students. 
-                        Includes 67,000+ pharmacies and 24/7 campus-aligned assistance.
+                        Includes comprehensive provider access and 24/7 campus-aligned assistance.
                      </p>
                   </div>
                   <ul className="space-y-3 relative z-10">

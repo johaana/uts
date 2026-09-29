@@ -21,14 +21,32 @@ const plexMono = IBM_Plex_Mono({
   variable: '--font-mono',
 });
 
+const siteTitle = "Know before you fly. Know before you schedule.";
+const siteDescription = "A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.";
+const ogImage = "https://i.postimg.cc/3W2pcYhm/d747e23cb49deff051147f1657027da2.jpg";
+
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://utsavs.com'),
-  title: "Know before you fly. Know before you schedule.",
-  description: "A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.",
+  metadataBase: new URL('https://utsavs.com'),
+  title: siteTitle,
+  description: siteDescription,
   openGraph: {
-    title: "Know before you fly. Know before you schedule.",
-    description: "A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.",
+    title: siteTitle,
+    description: siteDescription,
     type: 'website',
+    images: [
+      {
+        url: ogImage,
+        width: 1200,
+        height: 630,
+        alt: siteTitle,
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: siteTitle,
+    description: siteDescription,
+    images: [ogImage],
   }
 };
 

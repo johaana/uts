@@ -7,9 +7,11 @@ import { Button } from "./ui/button";
 import { MessageSquare } from "lucide-react";
 
 const navLinks = [
-  { href: "/date-intelligence", label: "Date Intelligence" },
-  { href: "/travel-insurance", label: "International Insurance" },
+  { href: "/built-for", label: "Built For" },
+  { href: "/api", label: "API" },
+  { href: "/pricing", label: "Pricing" },
   { href: "/festivals", label: "Stories" },
+  { href: "/travel-insurance", label: "Travel Insurance" },
 ];
 
 export function MobileNav({ setOpen }: { setOpen: (open: boolean) => void }) {
