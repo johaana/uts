@@ -30,6 +30,8 @@ import {
   validateAsegoPolicy,
   createAsegoPolicy,
   cancelAsegoPolicy,
+  asegoEncrypt,
+  asegoDecrypt,
   NormalizedPlan, 
   AsegoCredentials 
 } from '@/app/international-insurance/actions';
@@ -67,7 +69,7 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
   const [hasSearched, setHasSearched] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<NormalizedPlan | null>(null);
   
-  // 3. DIAGNOSTICS
+  // 3. DIAGNOSTICS (THE TERMINAL)
   const [showTrace, setShowTrace] = useState(false);
   const [lastTrace, setLastTrace] = useState<any>(null);
 
@@ -124,6 +126,7 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
     setHydratingPlanId(plan.planId);
     try {
       const res = await getAsegoPlanDetails(plan.planId, searchParams.age, isDebug ? creds : undefined);
+      setLastTrace(res);
       if (res.success && res.data) {
         const hydrated = res.data;
         setSelectedPlan(prev => {
@@ -149,7 +152,7 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
 
   const runLifecycleTest = async () => {
     if (!selectedPlan?.detailId) {
-      toast({ title: "Hydration Required", description: "Select a plan to resolve its Detail ID before testing creation.", variant: "destructive" });
+      toast({ title: "Hydration Required", description: "Select a plan to resolve its Detail ID first.", variant: "destructive" });
       return;
     }
     
@@ -178,28 +181,43 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
     };
 
     try {
-      // 1. Validate
-      toast({ title: "UAT Step 1/3", description: "Validating encrypted payload..." });
-      const valRes = await validateAsegoPolicy(fakePolicy, isDebug ? creds : undefined);
-      if (!valRes.success) throw new Error(valRes.error || "Validation failed");
+      // 1. Encryption Standalone Test
+      toast({ title: "Forensic Step 1", description: "Standalone Encryption Round-trip..." });
+      const testVal = "Utsavs_Forensic_Test_2026";
+      const encRes = await asegoEncrypt(testVal, isDebug ? creds : undefined);
+      setLastTrace(encRes);
+      if (!encRes.success) throw new Error("Encrypt failed: " + encRes.error);
 
-      // 2. Create
-      toast({ title: "UAT Step 2/3", description: "Creating test policy..." });
+      const decRes = await asegoDecrypt(encRes.data, isDebug ? creds : undefined);
+      setLastTrace(decRes);
+      if (!decRes.success || decRes.data !== testVal) throw new Error("Decrypt failed or mismatch");
+      toast({ title: "Step 1 Pass", description: "Round-trip confirmed." });
+
+      // 2. Validate
+      toast({ title: "Forensic Step 2", description: "Validating policy payload..." });
+      const valRes = await validateAsegoPolicy(fakePolicy, isDebug ? creds : undefined);
+      setLastTrace(valRes);
+      if (!valRes.success) throw new Error(valRes.error || "Validation failed");
+      toast({ title: "Step 2 Pass", description: "Schema validated." });
+
+      // 3. Create
+      toast({ title: "Forensic Step 3", description: "Creating UAT policy..." });
       const createRes = await createAsegoPolicy(fakePolicy, isDebug ? creds : undefined);
       setLastTrace(createRes);
       if (!createRes.success) throw new Error(createRes.error || "Creation failed");
-
+      
       const policyNumber = createRes.data.policyNumber;
-      toast({ title: "Creation Success", description: `Policy ${policyNumber} created.` });
+      toast({ title: "Step 3 Pass", description: `Policy ${policyNumber} created.` });
 
-      // 3. Cancel (Cleanup)
-      toast({ title: "UAT Step 3/3", description: "Cleaning up test policy..." });
+      // 4. Cancel
+      toast({ title: "Forensic Step 4", description: "Purging UAT policy..." });
       const cancelRes = await cancelAsegoPolicy(policyNumber, "UAT Forensic Test Cleanup", isDebug ? creds : undefined);
+      setLastTrace(cancelRes);
       if (!cancelRes.success) throw new Error(cancelRes.error || "Cancellation failed");
-
-      toast({ title: "Lifecycle Complete", description: "Test policy created and purged successfully." });
+      
+      toast({ title: "Lifecycle Complete", description: "Clean end-to-end pass." });
     } catch (e: any) {
-      toast({ title: "Lifecycle Failed", description: e.message, variant: "destructive" });
+      toast({ title: "Test Failed", description: e.message, variant: "destructive" });
     } finally {
       setIsTesting(false);
     }
@@ -348,20 +366,28 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
          {isDebug && showTrace && lastTrace && (
            <Card className="bg-[#0B0F22] border-[#4FD1C5]/40 p-8 rounded-none text-left font-mono text-[11px] animate-in fade-in slide-in-from-top-4 ring-1 ring-[#4FD1C5]/20">
               <div className="flex items-center justify-between mb-6 pb-2 border-b border-white/10">
-                  <span className="text-[9px] font-bold uppercase tracking-[0.4em] text-[#4FD1C5]">Forensic_Trace_v4.5.log</span>
-                  <span className={cn("font-bold", lastTrace.success ? "text-green-500" : "text-red-500")}>STATUS: {lastTrace.success ? "200_OK" : "FAILURE"}</span>
+                  <span className="text-[9px] font-bold uppercase tracking-[0.4em] text-[#4FD1C5]">Forensic_Trace_v5.0.raw</span>
+                  <span className={cn("font-bold", lastTrace.success ? "text-green-500" : "text-red-500")}>
+                    {lastTrace.method} {lastTrace.status ? `[${lastTrace.status}]` : ''} {lastTrace.success ? "200_OK" : "FAILURE"}
+                  </span>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div className="space-y-4">
                      <div className="space-y-1">
-                          <p className="text-[#6E7495] uppercase font-bold">Materialized Endpoint</p>
+                          <p className="text-[#6E7495] uppercase font-bold text-[9px]">Materialized Endpoint</p>
                           <p className="text-white break-all bg-white/5 p-2">{lastTrace.endpoint}</p>
+                     </div>
+                     <div className="space-y-1">
+                          <p className="text-[#6E7495] uppercase font-bold text-[9px]">Headers Sent (Masked)</p>
+                          <pre className="text-white/40 bg-white/5 p-2 overflow-auto">
+                            {JSON.stringify(lastTrace.headersSent, null, 2)}
+                          </pre>
                      </div>
                   </div>
                   <div className="space-y-1">
-                     <p className="text-[#6E7495] uppercase font-bold">Normalized Model View</p>
-                     <pre className="text-[#4FD1C5] bg-white/5 p-2 overflow-auto max-h-[300px] custom-scrollbar">
-                       {JSON.stringify(plans, null, 2)}
+                     <p className="text-[#6E7495] uppercase font-bold text-[9px]">Verbatim Response Body</p>
+                     <pre className="text-[#4FD1C5] bg-white/5 p-4 overflow-auto max-h-[500px] custom-scrollbar text-[12px] leading-relaxed">
+                       {JSON.stringify(lastTrace.raw || lastTrace.data, null, 2)}
                      </pre>
                   </div>
               </div>
@@ -534,4 +560,3 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
     </div>
   );
 }
-

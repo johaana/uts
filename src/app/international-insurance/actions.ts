@@ -3,6 +3,7 @@
 /**
  * @fileOverview Asego API Implementation - Phase 2
  * Implements Encryption utility, Policy Validation, Creation, and Cancellation.
+ * VERIFICATION MODE: Returns raw response data for forensic auditing.
  */
 
 const BASE_URL = "https://dolphin.asego.in/api";
@@ -33,7 +34,9 @@ interface ActionResponse {
   data: any;
   error?: string;
   endpoint: string;
+  method: string;
   headersSent: Record<string, any>;
+  raw?: any;
 }
 
 /**
@@ -86,10 +89,10 @@ async function asegoRequest(
 
   let pId, sgn, ref;
 
-  if (isDebug) {
-    pId = (providedCreds?.partnerId || process.env.UTSAVS_PARTNER_ID || '').trim();
-    sgn = (providedCreds?.sign || process.env.UTSAVS_SIGN || '').trim();
-    ref = (providedCreds?.reference || process.env.UTSAVS_REFERENCE || '').trim();
+  if (isDebug && providedCreds?.partnerId) {
+    pId = providedCreds.partnerId.trim();
+    sgn = providedCreds.sign.trim();
+    ref = providedCreds.reference.trim();
   } else {
     pId = (process.env.UTSAVS_PARTNER_ID || '').trim();
     sgn = (process.env.UTSAVS_SIGN || '').trim();
@@ -102,12 +105,12 @@ async function asegoRequest(
       data: null,
       error: "Authentication credentials not configured.",
       endpoint: path,
+      method,
       headersSent: {}
     };
   }
 
   const endpoint = `${BASE_URL}${path}`;
-  
   const headers: Record<string, string> = {
     'Accept': 'application/json',
     'User-Agent': 'External API/1.0',
@@ -128,21 +131,21 @@ async function asegoRequest(
     }
 
     const response = await fetch(endpoint, options);
-    
-    let data;
     const contentType = response.headers.get('content-type');
+    let data;
+    
     if (contentType && contentType.includes('application/json')) {
       data = await response.json();
     } else {
       data = await response.text();
     }
 
-    const extractedData = data?.data ?? data;
-
     return {
       success: response.ok,
-      data: extractedData,
+      data: data?.data ?? data,
       endpoint,
+      method,
+      raw: data, // Verbatim response body for verification
       headersSent: {
         ...headers,
         'Sign': '********',
@@ -155,6 +158,7 @@ async function asegoRequest(
       data: null,
       error: error.message || "Network request failed",
       endpoint,
+      method,
       headersSent: headers
     };
   }
@@ -163,29 +167,27 @@ async function asegoRequest(
 /**
  * Encryption Wrapper
  */
-export async function asegoEncrypt(value: string, creds?: AsegoCredentials): Promise<string | null> {
+export async function asegoEncrypt(value: string, creds?: AsegoCredentials) {
   const payload = {
     value,
     key: process.env.UTSAVS_SECRET_KEY,
     initVector: process.env.UTSAVS_INIT_VECTOR
   };
   
-  const res = await asegoRequest('/ext/b2b/v1/encryption/encrypt', creds, 'POST', payload);
-  return res.success ? res.data : null;
+  return asegoRequest('/ext/b2b/v1/encryption/encrypt', creds, 'POST', payload);
 }
 
 /**
  * Decryption Wrapper
  */
-export async function asegoDecrypt(value: string, creds?: AsegoCredentials): Promise<string | null> {
+export async function asegoDecrypt(value: string, creds?: AsegoCredentials) {
   const payload = {
     value,
     key: process.env.UTSAVS_SECRET_KEY,
     initVector: process.env.UTSAVS_INIT_VECTOR
   };
   
-  const res = await asegoRequest('/ext/b2b/v1/encryption/decrypt', creds, 'POST', payload);
-  return res.success ? res.data : null;
+  return asegoRequest('/ext/b2b/v1/encryption/decrypt', creds, 'POST', payload);
 }
 
 export async function getAsegoCategories(creds?: AsegoCredentials) {
@@ -218,7 +220,8 @@ export async function getAsegoPlanDetails(planId: string, targetAge: string, cre
   if (res.success && res.data) {
     return {
       success: true,
-      data: normalizeAsegoPlan(res.data, Number(targetAge))
+      data: normalizeAsegoPlan(res.data, Number(targetAge)),
+      raw: res.raw
     };
   }
   
@@ -233,34 +236,34 @@ export async function validateAsegoPolicy(policyData: any, creds?: AsegoCredenti
   const pId = (isDebug && creds?.partnerId ? creds.partnerId : process.env.UTSAVS_PARTNER_ID || '').trim();
 
   const rawString = JSON.stringify(policyData);
-  const encrypted = await asegoEncrypt(rawString, creds);
+  const encRes = await asegoEncrypt(rawString, creds);
 
-  if (!encrypted) {
-    return { success: false, error: "Encryption failed." };
+  if (!encRes.success || !encRes.data) {
+    return { success: false, error: "Encryption failed.", raw: encRes.raw };
   }
 
-  return asegoRequest(`/ext/b2b/v1/createPolicy/validate/${pId}`, creds, 'POST', { policyData: encrypted });
+  return asegoRequest(`/ext/b2b/v1/createPolicy/validate/${pId}`, creds, 'POST', { policyData: encRes.data });
 }
 
 /**
- * Policy Creation (UAT TEST ONLY)
+ * Policy Creation
  */
 export async function createAsegoPolicy(policyData: any, creds?: AsegoCredentials) {
   const isDebug = process.env.UTSAVS_INTERNAL_DEBUG === 'true';
   const pId = (isDebug && creds?.partnerId ? creds.partnerId : process.env.UTSAVS_PARTNER_ID || '').trim();
 
   const rawString = JSON.stringify(policyData);
-  const encrypted = await asegoEncrypt(rawString, creds);
+  const encRes = await asegoEncrypt(rawString, creds);
 
-  if (!encrypted) {
-    return { success: false, error: "Encryption failed." };
+  if (!encRes.success || !encRes.data) {
+    return { success: false, error: "Encryption failed.", raw: encRes.raw };
   }
 
-  return asegoRequest(`/ext/b2b/v1/createPolicy/${pId}`, creds, 'POST', { policyData: encrypted });
+  return asegoRequest(`/ext/b2b/v1/createPolicy/${pId}`, creds, 'POST', { policyData: encRes.data });
 }
 
 /**
- * Policy Cancellation (UAT TEST ONLY)
+ * Policy Cancellation
  */
 export async function cancelAsegoPolicy(policyNumber: string, remarks: string = "UAT Test Cancellation", creds?: AsegoCredentials) {
   const isDebug = process.env.UTSAVS_INTERNAL_DEBUG === 'true';
