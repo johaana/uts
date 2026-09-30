@@ -618,7 +618,7 @@ ASEGO UAT DISCOVERY STATUS:
                                   <p className="text-sm font-mono text-white">{selectedPlan.detailId}</p>
                                </div>
                             </div>
-                            <div className="flex flex-col items-center justify-center p-8 bg-green-500/10 border border-green-500/20 text-center gap-4">
+                            <div className="flex flex-col items-center justify-center p-8 bg-green-50/10 border border-green-500/20 text-center gap-4">
                                <CheckCircle2 className="w-12 h-12 text-green-500" />
                                <div className="space-y-1">
                                   <p className="text-xs font-bold uppercase text-green-500">Ready for Validation</p>
