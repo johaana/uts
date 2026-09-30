@@ -22,7 +22,7 @@ export interface NormalizedPlan {
   ineligible?: boolean;
 }
 
-interface AsegoCredentials {
+export interface AsegoCredentials {
   partnerId: string;
   sign: string;
   reference: string;
@@ -38,16 +38,13 @@ interface ActionResponse {
 
 /**
  * Normalization Helper
- * Distinguishes between search-phase (flat) and hydration-phase (matrix) data.
  */
 function normalizeAsegoPlan(raw: any, targetAge?: number): NormalizedPlan {
   const targetAgeNum = targetAge !== undefined ? Number(targetAge) : NaN;
   
-  // 1. Identify data shape
   const details = raw.sellingPlanDetailsList;
   const hasFullBandData = Array.isArray(details);
 
-  // 2. Perform age-matching if full band data is available
   const matchedDetail = (hasFullBandData && Number.isFinite(targetAgeNum))
     ? details.find((d: any) => 
         targetAgeNum >= Number(d.minAge ?? 0) && 
@@ -55,12 +52,8 @@ function normalizeAsegoPlan(raw: any, targetAge?: number): NormalizedPlan {
       )
     : undefined;
 
-  // 3. Determine ineligibility
-  // ONLY true if we have the full list and genuinely found no match for the age.
-  // If we don't have the list (search phase), we are NOT ineligible yet.
   const ineligible = hasFullBandData && !matchedDetail;
 
-  // 4. Extract values (matched detail takes priority over top-level fallback)
   const source = matchedDetail || {};
   
   const rawPremium = source.total ?? source.total_premium ?? raw.total_premium ?? raw.totalPremium;
@@ -74,8 +67,8 @@ function normalizeAsegoPlan(raw: any, targetAge?: number): NormalizedPlan {
     currency: raw.currency ?? 'INR',
     minAge: Number(source.minAge ?? raw.min_age ?? raw.minAge ?? 0),
     maxAge: Number(source.maxAge ?? raw.max_age ?? raw.maxAge ?? 100),
-    minDays: Number(source.minDays ?? raw.min_days ?? raw.minDays ?? 0),
-    maxDays: Number(source.maxDays ?? raw.max_days ?? raw.maxDays ?? 365),
+    minDays: Number(source.minDays ?? raw.min_days ?? raw.min_days ?? 0),
+    maxDays: Number(source.maxDays ?? raw.max_days ?? raw.max_days ?? 365),
     benefits: raw.benefits ?? [],
     detailId: source.sellingPlanDetailId ?? source.detailId ?? raw.detailId,
     ineligible
@@ -87,16 +80,26 @@ function normalizeAsegoPlan(raw: any, targetAge?: number): NormalizedPlan {
  */
 async function asegoRequest(
   path: string, 
-  creds: AsegoCredentials,
+  providedCreds?: AsegoCredentials,
   method: string = 'GET',
   body: any = null
 ): Promise<ActionResponse> {
-  const pId = creds.partnerId.trim();
-  const sgn = creds.sign.trim();
-  const ref = creds.reference.trim();
+  const isDebug = process.env.UTSAVS_INTERNAL_DEBUG === 'true';
+
+  // Secure derivation of credentials:
+  // In debug mode, prioritize passed creds. In standard mode, strictly use env vars.
+  const pId = (isDebug && providedCreds?.partnerId ? providedCreds.partnerId : process.env.UTSAVS_PARTNER_ID || '').trim();
+  const sgn = (isDebug && providedCreds?.sign ? providedCreds.sign : process.env.UTSAVS_SIGN || '').trim();
+  const ref = (isDebug && providedCreds?.reference ? providedCreds.reference : process.env.UTSAVS_REFERENCE || '').trim();
 
   if (!pId || !sgn || !ref) {
-    throw new Error("Missing UAT Credentials");
+    return {
+      success: false,
+      data: null,
+      error: "Authentication credentials not configured.",
+      endpoint: path,
+      headersSent: {}
+    };
   }
 
   const endpoint = `${BASE_URL}${path}`;
@@ -153,15 +156,13 @@ async function asegoRequest(
   }
 }
 
-export async function getAsegoCategories(creds: AsegoCredentials) {
+export async function getAsegoCategories(creds?: AsegoCredentials) {
   return asegoRequest('/ext/b2b/v1/category', creds);
 }
 
-/**
- * SEARCH: Returns normalized plans from /plan
- */
-export async function getAsegoPlans(creds: AsegoCredentials, params: { age: string, duration: string, categoryId: string }) {
-  const pId = creds.partnerId.trim();
+export async function getAsegoPlans(params: { age: string, duration: string, categoryId: string }, creds?: AsegoCredentials) {
+  const isDebug = process.env.UTSAVS_INTERNAL_DEBUG === 'true';
+  const pId = (isDebug && creds?.partnerId ? creds.partnerId : process.env.UTSAVS_PARTNER_ID || '').trim();
   const path = `/ext/b2b/v1/plan/${pId}?duration=${params.duration}&age=${params.age}&category=${params.categoryId}`;
   
   const res = await asegoRequest(path, creds);
@@ -179,11 +180,9 @@ export async function getAsegoPlans(creds: AsegoCredentials, params: { age: stri
   return res;
 }
 
-/**
- * HYDRATION: Returns detailed plan with matched age band
- */
-export async function getAsegoPlanDetails(creds: AsegoCredentials, planId: string, targetAge: string) {
-  const pId = creds.partnerId.trim();
+export async function getAsegoPlanDetails(planId: string, targetAge: string, creds?: AsegoCredentials) {
+  const isDebug = process.env.UTSAVS_INTERNAL_DEBUG === 'true';
+  const pId = (isDebug && creds?.partnerId ? creds.partnerId : process.env.UTSAVS_PARTNER_ID || '').trim();
   const path = `/ext/b2b/v1/plan/masterDetails/${pId}?planId=${planId}`;
   
   const res = await asegoRequest(path, creds);
