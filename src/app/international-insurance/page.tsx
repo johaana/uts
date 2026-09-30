@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge";
 import { 
   ShieldCheck, 
   Landmark, 
@@ -23,7 +24,9 @@ import {
   AlertCircle,
   RefreshCw,
   RotateCcw,
-  Key
+  Terminal,
+  Eye,
+  EyeOff
 } from "lucide-react";
 import { getAsegoCategories, getAsegoPlans } from './actions';
 import { cn } from '@/lib/utils';
@@ -52,8 +55,12 @@ export default function InternationalInsurancePage() {
   const [isConnecting, setIsConnecting] = useState(false);
   const [hasSearched, setHasSearched] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<any>(null);
+  
+  // 3. DEBUG STATE
+  const [showTrace, setShowTrace] = useState(false);
+  const [lastTrace, setLastTrace] = useState<any>(null);
 
-  // 3. INITIALIZATION
+  // 4. INITIALIZATION
   useEffect(() => {
     if (creds.partnerId && creds.sign && creds.reference) {
       fetchCategories();
@@ -63,14 +70,15 @@ export default function InternationalInsurancePage() {
   const fetchCategories = async () => {
     setIsConnecting(true);
     try {
-      const data = await getAsegoCategories(creds);
-      const categoryList = Array.isArray(data) ? data : [];
-      setCategories(categoryList);
-      if (categoryList.length > 0) {
-        toast({ title: "UAT Connected", description: `Discovered ${categoryList.length} destination categories.` });
+      const res = await getAsegoCategories(creds);
+      if (res.success && Array.isArray(res.data)) {
+        setCategories(res.data);
+        toast({ title: "UAT Connected", description: `Discovered ${res.data.length} destination categories.` });
+      } else {
+        toast({ title: "Connection Failed", description: "Metadata retrieval failed.", variant: "destructive" });
       }
     } catch (e) {
-      toast({ title: "Connection Failed", description: "Please check your UAT credentials.", variant: "destructive" });
+      toast({ title: "Connection Error", variant: "destructive" });
     } finally {
       setIsConnecting(false);
     }
@@ -93,22 +101,21 @@ export default function InternationalInsurancePage() {
     setPlans([]);
     try {
       const res = await getAsegoPlans(creds, searchParams);
-      // Asego returns plans in the sellingPlanDto array
-      const foundPlans = res?.sellingPlanDto || [];
-      setPlans(foundPlans);
-      if (foundPlans.length === 0) {
-        toast({ title: "No Plans Found", description: "The UAT catalogue returned an empty result for these parameters." });
+      setLastTrace(res);
+      
+      if (res.success) {
+        const foundPlans = res.data?.sellingPlanDto || [];
+        setPlans(foundPlans);
+        if (foundPlans.length === 0) {
+          toast({ title: "No Plans Found", description: "The UAT catalogue returned an empty result for these parameters." });
+        }
+      } else {
+        toast({ title: "API Error", description: res.error || "Request failed", variant: "destructive" });
       }
     } catch (e) {
-      toast({ title: "Search Error", description: "Unable to retrieve plans from Asego UAT.", variant: "destructive" });
+      toast({ title: "Search Error", variant: "destructive" });
     } finally {
       setIsLoading(false);
-    }
-  };
-
-  const openChat = () => {
-    if (typeof window !== 'undefined' && (window as any).$crisp) {
-      (window as any).$crisp.push(['do', 'chat:open']);
     }
   };
 
@@ -139,8 +146,16 @@ export default function InternationalInsurancePage() {
                     </p>
                 </div>
                 <div className="flex gap-3 pt-2">
-                    <Button variant="ghost" size="sm" onClick={() => { setHasSearched(false); setPlans([]); setSelectedPlan(null); }} className="text-[9px] uppercase tracking-widest font-bold border border-white/10 h-8 rounded-none">
-                        <RotateCcw className="w-3 h-3 mr-2" /> Reset
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      onClick={() => setShowTrace(!showTrace)} 
+                      className={cn(
+                        "text-[9px] uppercase tracking-widest font-bold border h-8 rounded-none transition-all",
+                        showTrace ? "bg-white text-black border-white" : "border-white/10 text-white/40"
+                      )}
+                    >
+                        <Terminal className="w-3 h-3 mr-2" /> {showTrace ? "Hide Trace" : "Show Trace"}
                     </Button>
                     <div className={cn(
                         "flex items-center gap-2 px-4 h-8 border rounded-none transition-all",
@@ -209,7 +224,7 @@ export default function InternationalInsurancePage() {
                   <div className="flex justify-between items-baseline">
                     <Label className="text-[10px] font-bold uppercase tracking-widest text-[#9AA1C0]">Destination Region</Label>
                     {searchParams.categoryId && (
-                        <span className="text-[8px] font-mono text-white/30 truncate max-w-[100px]">ID: {searchParams.categoryId.slice(0,8)}...</span>
+                        <span className="text-[8px] font-mono text-[#E8A33D] truncate max-w-[100px] font-bold">ID: {searchParams.categoryId.slice(0,8)}...</span>
                     )}
                   </div>
                   <select 
@@ -263,6 +278,36 @@ export default function InternationalInsurancePage() {
 
             {/* RESULTS VIEW */}
             <div className="space-y-12">
+               {/* 1. FORENSIC TRACE PANEL */}
+               {showTrace && lastTrace && (
+                 <Card className="bg-[#0B0F22] border-[#4FD1C5]/40 p-8 rounded-none text-left font-mono text-[11px] animate-in fade-in slide-in-from-top-4 duration-500 ring-1 ring-[#4FD1C5]/20">
+                    <div className="flex items-center justify-between mb-6 pb-2 border-b border-white/10">
+                        <span className="text-[9px] font-bold uppercase tracking-[0.4em] text-[#4FD1C5]">Forensic_Trace_v4.log</span>
+                        <div className="flex gap-4">
+                            <span className={cn("font-bold", lastTrace.success ? "text-green-500" : "text-red-500")}>STATUS: {lastTrace.success ? "200_OK" : "FAILURE"}</span>
+                        </div>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div className="space-y-4">
+                           <div className="space-y-1">
+                                <p className="text-[#6E7495] uppercase font-bold">Materialized Endpoint</p>
+                                <p className="text-white break-all bg-white/5 p-2">{lastTrace.endpoint}</p>
+                           </div>
+                           <div className="space-y-1">
+                                <p className="text-[#6E7495] uppercase font-bold">Headers Dispatched (Masked)</p>
+                                <pre className="text-white/60 bg-white/5 p-2">{JSON.stringify(lastTrace.headersSent, null, 2)}</pre>
+                           </div>
+                        </div>
+                        <div className="space-y-1">
+                           <p className="text-[#6E7495] uppercase font-bold">Raw Response Payload</p>
+                           <pre className="text-white/80 bg-white/5 p-2 max-h-[400px] overflow-auto custom-scrollbar">
+                             {JSON.stringify(lastTrace.data, null, 2)}
+                           </pre>
+                        </div>
+                    </div>
+                 </Card>
+               )}
+
                {isLoading && (
                  <div className="py-32 text-center space-y-6">
                     <Activity className="w-12 h-12 animate-spin text-[#E8A33D] mx-auto opacity-40" />
@@ -366,7 +411,7 @@ export default function InternationalInsurancePage() {
                     </div>
                     <div className="flex gap-4 justify-center">
                        <Button onClick={() => setCreds({...creds, showGate: true})} variant="outline" className="font-bold border-white/10 h-12 px-10 rounded-none uppercase text-[10px] tracking-widest">
-                         {isSessionActive ? "Reset UAT Session" : "Connect UAT Session"}
+                         {isSessionActive ? "Update UAT Session" : "Connect UAT Session"}
                        </Button>
                        {isSessionActive && (
                          <Button onClick={fetchCategories} disabled={isConnecting} variant="ghost" className="text-primary font-bold uppercase text-[10px] tracking-widest h-12">
@@ -404,7 +449,7 @@ export default function InternationalInsurancePage() {
                        </div>
                     </div>
                  </div>
-                 <Button onClick={openChat} className="bg-white text-[#0F1428] hover:bg-[#F4F1E8] font-bold h-14 px-12 rounded-none uppercase tracking-[0.2em] text-[10px] shadow-2xl transition-all hover:scale-105 active:scale-95">
+                 <Button onClick={() => window.open('https://client.crisp.chat/l.js', '_blank')} className="bg-white text-[#0F1428] hover:bg-[#F4F1E8] font-bold h-14 px-12 rounded-none uppercase tracking-[0.2em] text-[10px] shadow-2xl transition-all hover:scale-105 active:scale-95">
                     Verify Policy <ChevronRight className="w-4 h-4 ml-2" />
                  </Button>
               </div>

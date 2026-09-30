@@ -13,6 +13,14 @@ interface AsegoCredentials {
   reference: string;
 }
 
+interface ActionResponse {
+  success: boolean;
+  data: any;
+  error?: string;
+  endpoint: string;
+  headersSent: Record<string, any>;
+}
+
 /**
  * Generic Fetch Wrapper for Customer Flow
  * Exactly matches the successful 'custom_both' strategy from the sandbox.
@@ -20,7 +28,7 @@ interface AsegoCredentials {
 async function asegoRequest(
   path: string, 
   creds: AsegoCredentials
-) {
+): Promise<ActionResponse> {
   if (!creds.partnerId || !creds.sign || !creds.reference) {
     throw new Error("Missing UAT Credentials");
   }
@@ -36,8 +44,6 @@ async function asegoRequest(
     'Reference': creds.reference,
   };
 
-  console.log(`[Asego UAT] Querying: ${endpoint}`);
-
   try {
     const response = await fetch(endpoint, {
       method: 'GET',
@@ -45,15 +51,32 @@ async function asegoRequest(
       cache: 'no-store'
     });
 
-    if (!response.ok) {
-      throw new Error(`Asego API Error: ${response.status}`);
+    let data;
+    const contentType = response.headers.get('content-type');
+    if (contentType && contentType.includes('application/json')) {
+      data = await response.json();
+    } else {
+      data = await response.text();
     }
 
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error("Asego Action Failure:", error);
-    throw error;
+    return {
+      success: response.ok,
+      data,
+      endpoint,
+      headersSent: {
+        ...headers,
+        'Sign': '********',
+        'Reference': '********'
+      }
+    };
+  } catch (error: any) {
+    return {
+      success: false,
+      data: null,
+      error: error.message || "Network request failed",
+      endpoint,
+      headersSent: headers
+    };
   }
 }
 
