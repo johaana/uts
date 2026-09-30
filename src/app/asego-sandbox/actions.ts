@@ -7,6 +7,9 @@
 
 import crypto from 'crypto';
 
+/**
+ * Test the Plan Lookup endpoint
+ */
 export async function testAsegoConnection(formData: FormData) {
   const partnerId = formData.get('partnerId') as string;
   const duration = formData.get('duration') as string || "30";
@@ -18,6 +21,7 @@ export async function testAsegoConnection(formData: FormData) {
   }
 
   const baseUrl = "https://dolphin.asego.in/api";
+  // Ensuring we follow the Swagger spec for query params
   const endpoint = `${baseUrl}/ext/b2b/v1/plan/${partnerId}?duration=${duration}&age=${age}&category=${category}`;
 
   try {
@@ -59,6 +63,9 @@ export async function testAsegoConnection(formData: FormData) {
   }
 }
 
+/**
+ * Fetch master categories to prove general connectivity
+ */
 export async function fetchAsegoCategories() {
   const endpoint = "https://dolphin.asego.in/api/ext/b2b/v1/category";
   try {
@@ -69,9 +76,12 @@ export async function fetchAsegoCategories() {
       },
       cache: 'no-store'
     });
+    
+    if (!response.ok) throw new Error("Server rejected master data request");
+    
     return await response.json();
   } catch (e) {
-    return { error: "Failed to fetch categories" };
+    return { error: "Failed to fetch categories. Your Partner ID might need 'Master Read' permissions." };
   }
 }
 
@@ -83,7 +93,7 @@ export async function testEncryption(text: string, secretKey: string, iv: string
   try {
     if (!text || !secretKey || !iv) return { error: "All fields required for encryption test." };
     
-    // Ensure key and IV are correct lengths (Asego usually expects 16/32 byte buffers)
+    // Normalize key and IV lengths
     const key = Buffer.from(secretKey.padEnd(32, '0')).slice(0, 32);
     const ivBuffer = Buffer.from(iv.padEnd(16, '0')).slice(0, 16);
     
@@ -95,8 +105,7 @@ export async function testEncryption(text: string, secretKey: string, iv: string
       success: true, 
       original: text,
       encrypted,
-      algorithm: 'aes-256-cbc',
-      note: "This is a local simulation. Asego's exact implementation may vary (e.g., PKCS7 padding)."
+      algorithm: 'aes-256-cbc'
     };
   } catch (e: any) {
     return { error: e.message };
