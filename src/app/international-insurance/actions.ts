@@ -1,3 +1,4 @@
+
 'use server';
 
 /**
@@ -29,6 +30,7 @@ async function asegoRequest(
   
   const headers: Record<string, string> = {
     'Accept': 'application/json',
+    'User-Agent': 'External API/1.0',
     'Content-Type': 'application/json',
     'Sign': creds.sign,
     'Reference': creds.reference,

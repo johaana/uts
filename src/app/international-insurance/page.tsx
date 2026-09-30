@@ -21,7 +21,8 @@ import {
   Globe,
   Info,
   Clock,
-  AlertCircle
+  AlertCircle,
+  RefreshCw
 } from "lucide-react";
 import { getAsegoCategories, getAsegoPlans } from './actions';
 import { cn } from '@/lib/utils';
@@ -48,10 +49,10 @@ export default function InternationalInsurancePage() {
   const [plans, setPlans] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isConnecting, setIsConnecting] = useState(false);
+  const [hasSearched, setHasSearched] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<any>(null);
 
   // 3. INITIALIZATION
-  // Watch all 3 credentials to trigger category fetch
   useEffect(() => {
     if (creds.partnerId && creds.sign && creds.reference) {
       fetchCategories();
@@ -87,6 +88,7 @@ export default function InternationalInsurancePage() {
     }
 
     setIsLoading(true);
+    setHasSearched(true);
     setPlans([]);
     try {
       const res = await getAsegoPlans(creds, searchParams);
@@ -323,15 +325,28 @@ export default function InternationalInsurancePage() {
                {!isLoading && plans.length === 0 && (
                  <div className="py-32 text-center space-y-8 border-2 border-dashed border-white/5 rounded-[48px] bg-white/[0.01]">
                     <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mx-auto">
-                       <Globe className="w-10 h-10 text-[#6E7495] opacity-20" />
+                       {hasSearched ? <AlertCircle className="w-10 h-10 text-[#E8A33D] opacity-40" /> : <Globe className="w-10 h-10 text-[#6E7495] opacity-20" />}
                     </div>
                     <div className="space-y-2">
-                       <h3 className="text-2xl font-headline font-bold text-[#6E7495]">No plans discovered yet.</h3>
-                       <p className="text-[#6E7495] max-w-sm mx-auto font-medium">Enter your trip details and connect your UAT session to explore the insurance catalogue.</p>
+                       <h3 className="text-2xl font-headline font-bold text-[#6E7495]">
+                         {hasSearched ? "No matching plans found." : "No plans discovered yet."}
+                       </h3>
+                       <p className="text-[#6E7495] max-w-sm mx-auto font-medium">
+                         {hasSearched 
+                           ? "The current trip parameters returned no results from the UAT catalogue. Try a different duration or age." 
+                           : "Enter your trip details and connect your UAT session to explore the insurance catalogue."}
+                       </p>
                     </div>
-                    <Button onClick={() => setCreds({...creds, showGate: true})} variant="outline" className="font-bold border-white/10 h-12 px-8 rounded-full">
-                      {isSessionActive ? "Reset UAT Session" : "Connect UAT Session"}
-                    </Button>
+                    <div className="flex gap-4 justify-center">
+                       <Button onClick={() => setCreds({...creds, showGate: true})} variant="outline" className="font-bold border-white/10 h-12 px-8 rounded-full">
+                         {isSessionActive ? "Reset UAT Session" : "Connect UAT Session"}
+                       </Button>
+                       {isSessionActive && !categories.length && (
+                         <Button onClick={fetchCategories} disabled={isConnecting} variant="ghost" className="text-primary font-bold">
+                            {isConnecting ? <Loader2 className="w-4 h-4 animate-spin" /> : <><RefreshCw className="w-4 h-4 mr-2" /> Load Regions</>}
+                         </Button>
+                       )}
+                    </div>
                  </div>
                )}
             </div>
