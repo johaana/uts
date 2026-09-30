@@ -11,7 +11,7 @@ export interface NormalizedPlan {
   planId: string;
   name: string;
   insurer: string;
-  premium: number;
+  premium: number | undefined;
   currency: string;
   minAge: number;
   maxAge: number;
@@ -37,17 +37,21 @@ interface ActionResponse {
 
 /**
  * Normalization Helper
- * Hardened with nullish coalescing to prevent valid '0' values from failing.
+ * Hardened to handle both flattened snake_case (/plan) and nested camelCase (/masterDetails).
  */
 function normalizeAsegoPlan(raw: any): NormalizedPlan {
   // Extract detail list if available (Master/Hydration response)
   const detail = raw.sellingPlanDetailsList?.[0] || {};
   
+  // Honesty Principle: No hardcoded fallback values for names or premiums.
+  // Use nullish coalescing for cross-schema mapping, but allow undefined if absent.
+  const rawPremium = raw.total_premium ?? raw.totalPremium ?? detail.total ?? detail.total_premium;
+  
   return {
     planId: raw.plan_id ?? raw.planId ?? raw.id ?? '',
-    name: raw.plan_name ?? raw.planName ?? 'Insurance Plan',
+    name: raw.plan_name ?? raw.planName ?? undefined,
     insurer: raw.insurer_name ?? raw.insurerName ?? 'ICICI Lombard',
-    premium: Number(raw.total_premium ?? raw.totalPremium ?? detail.total ?? 0),
+    premium: (rawPremium !== null && rawPremium !== undefined) ? Number(rawPremium) : undefined,
     currency: raw.currency ?? 'INR',
     minAge: Number(raw.min_age ?? raw.minAge ?? detail.minAge ?? 0),
     maxAge: Number(raw.max_age ?? raw.maxAge ?? detail.maxAge ?? 100),
@@ -106,7 +110,7 @@ async function asegoRequest(
       data = await response.text();
     }
 
-    // Handle Asego "Envelope" Duality
+    // Handle Asego "Envelope" Duality (recursive unwrap would be overkill, simple check is safer)
     const extractedData = data?.data ?? data;
 
     return {
@@ -166,15 +170,9 @@ export async function getAsegoPlanDetails(creds: AsegoCredentials, planId: strin
   const res = await asegoRequest(path, creds);
   
   if (res.success && res.data) {
-    const raw = res.data;
-    const detailId = raw.sellingPlanDetailsList?.[0]?.detailId ?? null;
-    
     return {
       success: true,
-      data: {
-        ...normalizeAsegoPlan(raw),
-        detailId
-      }
+      data: normalizeAsegoPlan(res.data)
     };
   }
   

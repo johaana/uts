@@ -331,7 +331,7 @@ export default function InternationalInsurancePage() {
                            >
                               <div className="p-8 border-b border-white/5 flex justify-between items-start shrink-0">
                                  <div className="space-y-1">
-                                    <h3 className="font-bold text-xl leading-tight">{plan.name ?? "Insurance Plan"}</h3>
+                                    <h3 className="font-bold text-xl leading-tight">{plan.name ?? "—"}</h3>
                                     <p className="text-[10px] font-bold uppercase tracking-widest text-[#4FD1C5]">{plan.insurer}</p>
                                  </div>
                               </div>
@@ -402,7 +402,7 @@ export default function InternationalInsurancePage() {
                     </div>
                     <div className="space-y-2">
                        <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#4FD1C5]">TRANSACTION READY</p>
-                       <h4 className="text-3xl font-bold font-headline leading-none">{selectedPlan.name}</h4>
+                       <h4 className="text-3xl font-bold font-headline leading-none">{selectedPlan.name ?? '—'}</h4>
                        <div className="flex flex-wrap items-center gap-6 pt-1">
                           <div className="flex flex-col">
                              <span className="text-[8px] font-bold text-[#6E7495] uppercase tracking-widest">Plan Identifier</span>
@@ -419,7 +419,7 @@ export default function InternationalInsurancePage() {
                  </div>
                  <div className="text-right space-y-2">
                     <p className="text-[10px] font-bold text-[#6E7495] uppercase tracking-widest">UAT Estimated Total</p>
-                    <p className="text-4xl font-bold font-headline">₹{selectedPlan.premium}</p>
+                    <p className="text-4xl font-bold font-headline">₹{selectedPlan.premium ?? '0'}</p>
                  </div>
               </div>
             )}
@@ -436,7 +436,7 @@ export default function InternationalInsurancePage() {
                 </div>
                 <p>The content expressed in this platform is for information purposes only and it does not accept any liability of any sort unless confirmed by an authorized representative. All Insurance policies are sold under the Corporate Agency of Asego Global Assistance Private Limited bearing IRDAI registration no. Ca0776.</p>
                 <div className="h-px bg-white/10 w-full" />
-                <p className="italic text-[#6E7495] normal-case tracking-normal">Note: Assistance provided by Asego Travel LLP. Student Journey plans meet leading U.S. university and visa requirements for F1, J1, and M1 students. Insurance underwritten by an IRDAI authorised underwriter – ICICI Lombard General Insurance Company Ltd or International Medical Group Inc. (IMG).</p>
+                <p className="italic normal-case tracking-normal">Note: Assistance provided by Asego Travel LLP. Student Journey plans meet leading U.S. university and visa requirements for F1, J1, and M1 students. Insurance underwritten by an IRDAI authorised underwriter – ICICI Lombard General Insurance Company Ltd or International Medical Group Inc. (IMG).</p>
               </div>
             </div>
 
