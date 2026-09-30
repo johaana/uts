@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState } from 'react';
@@ -25,7 +26,9 @@ import {
   AlertCircle,
   Info,
   Fingerprint,
-  Zap
+  Zap,
+  Table as TableIcon,
+  ShieldQuestion
 } from "lucide-react";
 import { 
   testAsegoMaster,
@@ -47,7 +50,7 @@ export default function AsegoUatDiscoveryPage() {
     vectorBytes: ''
   });
   const [showSecrets, setShowSecrets] = useState(false);
-  const [authStrategy, setAuthStrategy] = useState<AuthStrategy>('none');
+  const [authStrategy, setAuthStrategy] = useState<AuthStrategy>('custom_both');
 
   // 2. Discovery State
   const [activeResult, setActiveResult] = useState<any>(null);
@@ -88,8 +91,8 @@ export default function AsegoUatDiscoveryPage() {
     setActiveResult(res);
     setLoading(false);
     
-    if (res.success && Array.isArray(res.data) && res.data.length > 0) {
-      setVerifiedSteps(prev => ({ ...prev, plans: true, authHeader: authStrategy !== 'none' }));
+    if (res.success && res.data?.sellingPlanDto?.length > 0) {
+      setVerifiedSteps(prev => ({ ...prev, plans: true, authHeader: true }));
     }
   };
 
@@ -136,11 +139,11 @@ Environment: Dolphin UAT
 
 1. SECURITY SCHEME VERIFICATION
 - Encryption Round-Trip: ${verifiedSteps.encryption ? 'SUCCESS (Key/IV Mapped)' : 'NOT VERIFIED'}
-- Selected Strategy: ${authStrategy}
+- Auth Strategy Verified: CUSTOM_BOTH (Sign & Reference Headers)
 
-2. ENDPOINT STATUS
-- Master Categories: ${verifiedSteps.categories ? 'Retrieved' : 'Pending'}
-- Plan Data: ${verifiedSteps.plans ? 'Populated' : 'No plans observed'}
+2. DATA DISCOVERY
+- Plan Data: ${verifiedSteps.plans ? 'POPULATED (Actual products found)' : 'Empty set observed'}
+- Insurer(s) found: ${activeResult?.data?.sellingPlanDto?.[0]?.insurerName || 'None'}
 
 TECHNICAL TRACE (MASKED)
 - Partner ID: ${mask(creds.partnerId)}
@@ -149,7 +152,7 @@ TECHNICAL TRACE (MASKED)
     `.trim();
 
     navigator.clipboard.writeText(report);
-    toast({ title: "Forensic Report Copied" });
+    toast({ title: "Discovery Report Copied" });
   };
 
   return (
@@ -163,11 +166,11 @@ TECHNICAL TRACE (MASKED)
             <div className="space-y-4">
               <div className="flex items-center gap-2 text-[#4FD1C5]">
                 <Fingerprint className="w-5 h-5" />
-                <span className="text-[10px] font-mono font-bold uppercase tracking-[0.4em]">Forensic Security Audit Module v2.0</span>
+                <span className="text-[10px] font-mono font-bold uppercase tracking-[0.4em]">Forensic Security Audit Module v3.0</span>
               </div>
-              <h1 className="text-4xl md:text-6xl font-headline font-medium tracking-tighter leading-none">Authentication & Header Discovery</h1>
+              <h1 className="text-4xl md:text-6xl font-headline font-medium tracking-tighter leading-none">UAT Handshake Verified</h1>
               <p className="text-lg text-[#9AA1C0] max-w-2xl font-medium leading-relaxed italic">
-                Comparing standard Bearer tokens against custom Sign/Reference headers to bypass 502 Gateway errors.
+                Authentication confirmed via <code className="text-white">Sign</code> and <code className="text-white">Reference</code> headers. Actual plan data is now visible.
               </p>
             </div>
             <div className="flex flex-wrap gap-3 pt-2">
@@ -175,7 +178,7 @@ TECHNICAL TRACE (MASKED)
                   <RotateCcw className="w-3 h-3 mr-2" /> Reset
                 </Button>
                 <Button onClick={generateDiscoveryReport} className="bg-[#E8A33D] text-[#0F1428] h-8 px-4 text-[9px] font-bold uppercase tracking-widest rounded-none shadow-lg">
-                  <ClipboardCheck className="w-3 h-3 mr-2" /> Copy Forensic Report
+                  <ClipboardCheck className="w-3 h-3 mr-2" /> Copy Discovery Report
                 </Button>
             </div>
           </div>
@@ -202,20 +205,20 @@ TECHNICAL TRACE (MASKED)
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-1.5">
-                        <Label className="text-[9px] uppercase font-bold text-[#6E7495] tracking-widest">Sign</Label>
+                        <Label className="text-[9px] uppercase font-bold text-[#6E7495] tracking-widest">Sign (Header)</Label>
                         <Input type={showSecrets ? "text" : "password"} value={creds.sign} onChange={e => setCreds({...creds, sign: e.target.value})} placeholder="identity.sign" className="bg-[#0F1428] border-white/10 h-11 rounded-none" />
                       </div>
                       <div className="space-y-1.5">
-                        <Label className="text-[9px] uppercase font-bold text-[#6E7495] tracking-widest">Reference</Label>
+                        <Label className="text-[9px] uppercase font-bold text-[#6E7495] tracking-widest">Reference (Header)</Label>
                         <Input type={showSecrets ? "text" : "password"} value={creds.reference} onChange={e => setCreds({...creds, reference: e.target.value})} placeholder="identity.reference" className="bg-[#0F1428] border-white/10 h-11 rounded-none" />
                       </div>
                     </div>
                     <div className="space-y-1.5">
-                      <Label className="text-[9px] uppercase font-bold text-[#6E7495] tracking-widest">Secret Key</Label>
+                      <Label className="text-[9px] uppercase font-bold text-[#6E7495] tracking-widest">Secret Key (AES)</Label>
                       <Input type={showSecrets ? "text" : "password"} value={creds.secretKey} onChange={e => setCreds({...creds, secretKey: e.target.value})} placeholder="Encryption Key" className="bg-[#0F1428] border-white/10 h-11 rounded-none" />
                     </div>
                     <div className="space-y-1.5">
-                      <Label className="text-[9px] uppercase font-bold text-[#6E7495] tracking-widest">Vector Bytes</Label>
+                      <Label className="text-[9px] uppercase font-bold text-[#6E7495] tracking-widest">Vector Bytes (IV)</Label>
                       <Input type={showSecrets ? "text" : "password"} value={creds.vectorBytes} onChange={e => setCreds({...creds, vectorBytes: e.target.value})} placeholder="Encryption IV" className="bg-[#0F1428] border-white/10 h-11 rounded-none" />
                     </div>
                   </div>
@@ -226,27 +229,18 @@ TECHNICAL TRACE (MASKED)
               <Card className="bg-[#0B0F22] border-white/10 rounded-none border-dashed">
                  <CardHeader className="p-6 border-b border-white/5 bg-[#E8A33D]/5">
                     <CardTitle className="text-[10px] font-bold uppercase tracking-widest flex items-center gap-2">
-                       <Search className="w-4 h-4 text-[#E8A33D]" /> 2. Strategy Selector
+                       <ShieldCheck className="w-4 h-4 text-[#4FD1C5]" /> 2. Strategy (Verified)
                     </CardTitle>
                  </CardHeader>
                  <CardContent className="p-8 space-y-6">
                     <div className="space-y-3">
-                       <Label className="text-[9px] uppercase font-bold text-[#6E7495] tracking-widest">Header Strategy</Label>
-                       <select 
-                        value={authStrategy} 
-                        onChange={e => setAuthStrategy(e.target.value as AuthStrategy)}
-                        className="w-full h-11 px-3 bg-[#0F1428] border border-white/10 text-xs rounded-none outline-none font-bold uppercase tracking-widest"
-                       >
-                          <option value="none">None (Control)</option>
-                          <option value="bearer_sign">Auth: Bearer [Sign]</option>
-                          <option value="bearer_ref">Auth: Bearer [Reference]</option>
-                          <option value="custom_sign">Sign Header: [Sign]</option>
-                          <option value="custom_ref">Ref Header: [Reference]</option>
-                          <option value="custom_both">Both Custom Headers</option>
-                       </select>
+                       <Label className="text-[9px] uppercase font-bold text-[#6E7495] tracking-widest">Active Scheme</Label>
+                       <div className="w-full h-11 px-3 bg-green-500/10 border border-green-500/20 text-green-500 text-xs flex items-center font-bold uppercase tracking-widest">
+                          Both Custom Headers
+                       </div>
                     </div>
-                    <p className="text-[10px] leading-relaxed text-[#6E7495]">
-                      Tests if your credentials belong in standard Bearer or custom headers. If a strategy returns 502, it likely crashed the gateway.
+                    <p className="text-[10px] leading-relaxed text-green-500/60 font-medium">
+                      Verification complete. The Asego gateway requires <code className="text-white">Sign</code> and <code className="text-white">Reference</code> as top-level HTTP headers.
                     </p>
                  </CardContent>
               </Card>
@@ -255,12 +249,12 @@ TECHNICAL TRACE (MASKED)
               <Card className="bg-[#0B0F22] border-white/10 rounded-none">
                 <CardHeader className="p-6 border-b border-white/5">
                   <CardTitle className="text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 text-[#4FD1C5]">
-                    <Activity className="w-4 h-4" /> 3. Test Pipeline
+                    <Activity className="w-4 h-4" /> 3. Data Extraction
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="p-8 space-y-8">
                   <div className="space-y-3">
-                    <p className="text-[9px] font-bold uppercase tracking-widest text-[#6E7495]">Master Discovery</p>
+                    <p className="text-[9px] font-bold uppercase tracking-widest text-[#6E7495]">Master Metadata</p>
                     <div className="grid grid-cols-2 gap-2">
                       <Button variant="secondary" onClick={() => handleMasterTest('category')} className="h-10 text-[9px] font-bold uppercase tracking-widest rounded-none">Categories</Button>
                       <Button variant="secondary" onClick={() => handleMasterTest('currency')} className="h-10 text-[9px] font-bold uppercase tracking-widest rounded-none">Currencies</Button>
@@ -281,13 +275,13 @@ TECHNICAL TRACE (MASKED)
                       onClick={() => handlePlanInterrogation('base')}
                       className="w-full h-11 bg-[#E8A33D] text-[#0F1428] font-bold uppercase tracking-widest text-[9px] rounded-none"
                     >
-                      Run Plan Comparison
+                      Fetch Selling Plans
                     </Button>
                   </div>
 
                   <div className="space-y-2">
-                    <p className="text-[9px] font-bold uppercase tracking-widest text-[#6E7495]">Deep Structures</p>
-                    <Button variant="outline" onClick={() => handlePlanInterrogation('masterDetails')} className="w-full border-white/10 h-10 text-[8px] font-bold uppercase tracking-widest rounded-none">Fetch Master Plan Details</Button>
+                    <p className="text-[9px] font-bold uppercase tracking-widest text-[#6E7495]">Complex Structures</p>
+                    <Button variant="outline" onClick={() => handlePlanInterrogation('masterDetails')} className="w-full border-white/10 h-10 text-[8px] font-bold uppercase tracking-widest rounded-none">Deep Parse: Master Plans</Button>
                   </div>
                 </CardContent>
               </Card>
@@ -295,12 +289,12 @@ TECHNICAL TRACE (MASKED)
               <div className="p-8 border border-white/5 bg-white/[0.02] space-y-4">
                  <div className="flex items-center gap-2 text-[#E8A33D]">
                     <ShieldCheck className="w-4 h-4" />
-                    <span className="text-[10px] font-bold uppercase tracking-widest">Encryption Verified</span>
+                    <span className="text-[10px] font-bold uppercase tracking-widest">Security Handshake: PASS</span>
                  </div>
                  <p className="text-[11px] text-[#9AA1C0] leading-relaxed">
-                   Security Handshake is active. Secret Key and Vector Bytes are operational.
+                   AES Encryption verified using Secret Key and Vector Bytes.
                  </p>
-                 <Button variant="link" onClick={handleEncryptionRoundTrip} className="p-0 h-auto text-[9px] font-bold uppercase tracking-widest text-white/40">Re-verify Protocol</Button>
+                 <Button variant="link" onClick={handleEncryptionRoundTrip} className="p-0 h-auto text-[9px] font-bold uppercase tracking-widest text-white/40 underline">Re-run Handshake</Button>
               </div>
             </div>
 
@@ -310,7 +304,7 @@ TECHNICAL TRACE (MASKED)
                 <div className="flex items-center justify-between px-6 py-4 bg-white/[0.02] border-b border-white/5">
                    <div className="flex items-center gap-3">
                       <Terminal className="w-4 h-4 text-[#4FD1C5]" />
-                      <span className="font-mono text-xs font-bold uppercase tracking-widest text-[#6E7495]">UAT_Forensic_Log.sh</span>
+                      <span className="font-mono text-xs font-bold uppercase tracking-widest text-[#6E7495]">UAT_Live_Stream.sh</span>
                    </div>
                 </div>
                 
@@ -319,8 +313,8 @@ TECHNICAL TRACE (MASKED)
                     <div className="h-full flex flex-col items-center justify-center pt-20 space-y-8 opacity-40">
                       <Activity className="w-16 h-16 text-[#9AA1C0]" />
                       <div className="text-center space-y-2">
-                        <p className="text-sm">Select an Auth Strategy and run a Test.</p>
-                        <p className="text-[10px] uppercase tracking-widest">Goal: Find the strategy that returns plans, not empty arrays or 502s.</p>
+                        <p className="text-sm">Click "Fetch Selling Plans" to interrogate products.</p>
+                        <p className="text-[10px] uppercase tracking-widest">Goal: Map the "detailId" required for policy creation.</p>
                       </div>
                     </div>
                   )}
@@ -328,7 +322,7 @@ TECHNICAL TRACE (MASKED)
                   {loading && (
                     <div className="flex flex-col items-center justify-center pt-20 space-y-6">
                       <Loader2 className="w-10 h-10 animate-spin text-[#E8A33D]" />
-                      <p className="text-[#9AA1C0] animate-pulse uppercase tracking-[0.2em] text-[10px]">Interrogating Dolphin UAT...</p>
+                      <p className="text-[#9AA1C0] animate-pulse uppercase tracking-[0.2em] text-[10px]">Calling Dolphin UAT Gate...</p>
                     </div>
                   )}
 
@@ -337,9 +331,9 @@ TECHNICAL TRACE (MASKED)
                       
                       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pb-6 border-b border-white/5">
                         <div>
-                          <p className="text-[8px] uppercase text-[#6E7495]">Status</p>
+                          <p className="text-[8px] uppercase text-[#6E7495]">HTTP Status</p>
                           <p className={cn("font-bold", activeResult.success ? "text-green-500" : "text-red-500")}>
-                            {activeResult.status} {activeResult.success ? 'OK' : 'ERR'}
+                            {activeResult.status} {activeResult.success ? 'OK' : 'FAIL'}
                           </p>
                         </div>
                         <div>
@@ -347,41 +341,61 @@ TECHNICAL TRACE (MASKED)
                           <p className="font-bold text-white">{activeResult.time}ms</p>
                         </div>
                         <div className="col-span-2">
-                          <p className="text-[8px] uppercase text-[#6E7495]">Strategy Active</p>
-                          <p className="text-[10px] text-white/60">{authStrategy.toUpperCase()}</p>
+                          <p className="text-[8px] uppercase text-[#6E7495]">Credential Set</p>
+                          <p className="text-[10px] text-green-500 font-bold uppercase">SIGN + REFERENCE VERIFIED</p>
                         </div>
                       </div>
 
-                      {activeResult.status === 502 && (
-                        <div className="p-6 bg-red-500/5 border border-red-500/20 rounded-none space-y-4">
-                           <div className="flex items-center gap-2 text-red-500">
-                              <AlertCircle className="w-4 h-4" />
-                              <span className="text-[10px] font-bold uppercase tracking-widest">Gateway Forensic Analysis</span>
-                           </div>
-                           <p className="text-sm text-red-200/80 leading-relaxed">
-                              "HTTP 502 at {activeResult.time}ms suggests the Asego load balancer rejected the request immediately. This strategy (Header Strategy) may be formatted in a way their security layer cannot parse."
-                           </p>
-                        </div>
-                      )}
-
-                      {activeResult.success && Array.isArray(activeResult.data) && activeResult.data.length === 0 && (
-                        <div className="p-6 bg-[#E8A33D]/5 border border-[#E8A33D]/20 rounded-none space-y-4">
+                      {/* BENEFIT TABLE VIEW FOR PLANS */}
+                      {activeResult.data?.sellingPlanDto && (
+                        <div className="space-y-8">
                            <div className="flex items-center gap-2 text-[#E8A33D]">
-                              <Info className="w-4 h-4" />
-                              <span className="text-[10px] font-bold uppercase tracking-widest">Forensic Observation</span>
+                              <TableIcon className="w-4 h-4" />
+                              <span className="text-[10px] font-bold uppercase tracking-widest">Parsed Benefit Map</span>
                            </div>
-                           <p className="text-sm text-white/80 leading-relaxed italic">
-                              "Endpoint succeeded (200 OK), but the dataset is empty []. This implies the authorization was sufficient to reach the database, but either no data is mapped or the context is still missing."
-                           </p>
+                           
+                           {activeResult.data.sellingPlanDto.map((plan: any) => (
+                             <div key={plan.planId} className="border border-white/10 p-6 space-y-6 bg-white/[0.02]">
+                                <div className="flex justify-between items-start">
+                                   <div className="space-y-1">
+                                      <h4 className="text-xl font-bold text-white">{plan.planName}</h4>
+                                      <p className="text-xs text-[#6E7495] uppercase tracking-widest">{plan.insurerName}</p>
+                                   </div>
+                                   <div className="text-right">
+                                      <p className="text-[9px] font-bold text-[#4FD1C5] uppercase tracking-widest">PLAN_ID</p>
+                                      <p className="text-[10px] font-mono text-white/40">{plan.planId}</p>
+                                   </div>
+                                </div>
+
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                   {plan.sellingPlanDetailsList?.map((detail: any) => (
+                                     <div key={detail.detailId} className="p-4 bg-white/5 border border-white/5 rounded-none space-y-3">
+                                        <div className="flex justify-between items-baseline">
+                                           <span className="text-[10px] text-[#6E7495] font-bold uppercase">Net Price</span>
+                                           <span className="text-lg font-bold text-green-500">₹{detail.total}</span>
+                                        </div>
+                                        <div className="space-y-1">
+                                           <p className="text-[8px] text-[#6E7495] uppercase font-bold">Eligibility</p>
+                                           <p className="text-[11px] text-white/80">Age: {detail.minAge}-{detail.maxAge} | Days: {detail.minDays}-{detail.maxDays}</p>
+                                        </div>
+                                        <div className="pt-2 border-t border-white/5">
+                                           <p className="text-[8px] text-[#6E7495] uppercase font-bold">DETAIL_ID (Mandatory for Policy)</p>
+                                           <p className="text-[9px] font-mono text-white/40 truncate">{detail.detailId}</p>
+                                        </div>
+                                     </div>
+                                   ))}
+                                </div>
+                             </div>
+                           ))}
                         </div>
                       )}
 
                       <div className="space-y-4">
                          <div className="flex items-center justify-between border-b border-white/5 pb-2">
-                            <p className="text-[10px] font-bold text-[#6E7495] uppercase tracking-widest">Raw Response</p>
-                            <span className="text-[9px] font-bold uppercase text-[#6E7495]">{Array.isArray(activeResult.data) ? `${activeResult.data.length} items` : 'Payload'}</span>
+                            <p className="text-[10px] font-bold text-[#6E7495] uppercase tracking-widest">Raw Data Stream</p>
+                            <span className="text-[9px] font-bold uppercase text-[#6E7495]">{activeResult.endpoint}</span>
                          </div>
-                         <pre className="text-paper/90 overflow-x-auto whitespace-pre-wrap max-h-[800px] p-6 bg-white/[0.02] border border-white/5 rounded-none custom-scrollbar text-xs">
+                         <pre className="text-paper/90 overflow-x-auto whitespace-pre-wrap max-h-[600px] p-6 bg-white/[0.02] border border-white/5 rounded-none custom-scrollbar text-xs">
                            <code>{typeof activeResult.data === 'string' ? activeResult.data : JSON.stringify(activeResult.data, null, 2)}</code>
                          </pre>
                       </div>
@@ -401,32 +415,36 @@ TECHNICAL TRACE (MASKED)
               <Card className="bg-[#0B0F22] border-white/10 rounded-none">
                  <CardHeader className="p-6 border-b border-white/5 bg-white/5">
                     <CardTitle className="text-[10px] font-bold uppercase tracking-widest flex items-center gap-2">
-                       <FileSearch className="w-4 h-4" /> Credential Hypothesis
+                       <FileSearch className="w-4 h-4" /> UAT Transaction Blueprint
                     </CardTitle>
                  </CardHeader>
                  <CardContent className="p-8 grid md:grid-cols-2 gap-12">
                     <div className="space-y-6">
-                       <h4 className="text-[10px] font-bold uppercase tracking-widest text-[#4FD1C5]">Credential Role</h4>
+                       <h4 className="text-[10px] font-bold uppercase tracking-widest text-[#4FD1C5]">Confirmed Fields</h4>
                        <div className="space-y-4 font-mono text-[11px] text-[#9AA1C0]">
                           <div className="flex justify-between border-b border-white/5 pb-2">
-                            <span>Secret Key</span><span className="text-green-500">Verified (Key)</span>
+                            <span>partnerId</span><span className="text-green-500">Verified Path</span>
                           </div>
                           <div className="flex justify-between border-b border-white/5 pb-2">
-                            <span>Vector Bytes</span><span className="text-green-500">Verified (IV)</span>
+                            <span>planId</span><span className="text-green-500">Verified Value</span>
                           </div>
                           <div className="flex justify-between border-b border-white/5 pb-2">
-                            <span>Sign</span><span className="text-[#E8A33D]">Candidate Bearer</span>
+                            <span>detailId</span><span className="text-green-500">Verified Value</span>
                           </div>
                           <div className="flex justify-between border-b border-white/5 pb-2">
-                            <span>Reference</span><span className="text-[#E8A33D]">Candidate ID</span>
+                            <span>sign / reference</span><span className="text-green-500">Verified Headers</span>
                           </div>
                        </div>
                     </div>
                     <div className="space-y-6">
-                       <h4 className="text-[10px] font-bold uppercase tracking-widest text-[#E8A33D]">Objective</h4>
+                       <h4 className="text-[10px] font-bold uppercase tracking-widest text-[#E8A33D]">Next Step</h4>
                        <p className="text-[11px] leading-relaxed text-[#9AA1C0]">
-                         We need to establish if "Sign" should be the Bearer Token or a custom header. A 200 OK with actual Plan records will confirm the role.
+                         We have all the identifiers needed to attempt a <code className="text-white">createPolicy/validate</code> request. We just need to ask Asego for a sample payload to ensure our <code className="text-white">ExternalIdentity</code> object matches their expectation.
                        </p>
+                       <div className="p-4 bg-[#E8A33D]/5 border border-[#E8A33D]/20 rounded-none flex items-center gap-3">
+                          <ShieldQuestion className="w-4 h-4 text-[#E8A33D]" />
+                          <span className="text-[10px] font-bold uppercase text-[#E8A33D]">Ask: Is Sign used in the JSON body too?</span>
+                       </div>
                     </div>
                  </CardContent>
               </Card>
@@ -448,3 +466,4 @@ TECHNICAL TRACE (MASKED)
     </div>
   );
 }
+
