@@ -3,6 +3,8 @@
 /**
  * @fileOverview Asego API Implementation
  * Implements a Normalization Layer to map Asego schema to Utsavs stable model.
+ * 
+ * SECURITY: Credentials (Sign/Reference) are strictly gated by UTSAVS_INTERNAL_DEBUG.
  */
 
 const BASE_URL = "https://dolphin.asego.in/api";
@@ -38,6 +40,7 @@ interface ActionResponse {
 
 /**
  * Normalization Helper
+ * Maps various Asego UAT response shapes to the Utsavs internal model.
  */
 function normalizeAsegoPlan(raw: any, targetAge?: number): NormalizedPlan {
   const targetAgeNum = targetAge !== undefined ? Number(targetAge) : NaN;
@@ -53,17 +56,16 @@ function normalizeAsegoPlan(raw: any, targetAge?: number): NormalizedPlan {
     : undefined;
 
   const ineligible = hasFullBandData && !matchedDetail;
-
   const source = matchedDetail || {};
   
-  const rawPremium = source.total ?? source.total_premium ?? raw.total_premium ?? raw.totalPremium;
-  const premium = (rawPremium !== null && rawPremium !== undefined) ? Number(rawPremium) : undefined;
+  // Use nullish coalescing to preserve actual 0 values from UAT
+  const premium = source.total ?? source.total_premium ?? raw.total_premium ?? raw.totalPremium;
 
   return {
     planId: raw.plan_id ?? raw.planId ?? raw.id ?? '',
     name: raw.plan_name ?? raw.planName,
     insurer: raw.insurer_name ?? raw.insurerName ?? 'ICICI Lombard',
-    premium,
+    premium: premium !== null && premium !== undefined ? Number(premium) : undefined,
     currency: raw.currency ?? 'INR',
     minAge: Number(source.minAge ?? raw.min_age ?? raw.minAge ?? 0),
     maxAge: Number(source.maxAge ?? raw.max_age ?? raw.maxAge ?? 100),
@@ -77,6 +79,7 @@ function normalizeAsegoPlan(raw: any, targetAge?: number): NormalizedPlan {
 
 /**
  * Secure Server-Side Relay
+ * Strictly enforces environment-variable priority unless internal debug mode is active.
  */
 async function asegoRequest(
   path: string, 
@@ -86,11 +89,19 @@ async function asegoRequest(
 ): Promise<ActionResponse> {
   const isDebug = process.env.UTSAVS_INTERNAL_DEBUG === 'true';
 
-  // Secure derivation of credentials:
-  // In debug mode, prioritize passed creds. In standard mode, strictly use env vars.
-  const pId = (isDebug && providedCreds?.partnerId ? providedCreds.partnerId : process.env.UTSAVS_PARTNER_ID || '').trim();
-  const sgn = (isDebug && providedCreds?.sign ? providedCreds.sign : process.env.UTSAVS_SIGN || '').trim();
-  const ref = (isDebug && providedCreds?.reference ? providedCreds.reference : process.env.UTSAVS_REFERENCE || '').trim();
+  let pId, sgn, ref;
+
+  // SECURITY: Only use client-provided keys if server-side debug mode is enabled.
+  // Otherwise, strictly use secure environment variables.
+  if (isDebug) {
+    pId = (providedCreds?.partnerId || process.env.UTSAVS_PARTNER_ID || '').trim();
+    sgn = (providedCreds?.sign || process.env.UTSAVS_SIGN || '').trim();
+    ref = (providedCreds?.reference || process.env.UTSAVS_REFERENCE || '').trim();
+  } else {
+    pId = (process.env.UTSAVS_PARTNER_ID || '').trim();
+    sgn = (process.env.UTSAVS_SIGN || '').trim();
+    ref = (process.env.UTSAVS_REFERENCE || '').trim();
+  }
 
   if (!pId || !sgn || !ref) {
     return {
@@ -181,11 +192,7 @@ export async function getAsegoPlans(params: { age: string, duration: string, cat
 }
 
 export async function getAsegoPlanDetails(planId: string, targetAge: string, creds?: AsegoCredentials) {
-  const isDebug = process.env.UTSAVS_INTERNAL_DEBUG === 'true';
-  const pId = (isDebug && creds?.partnerId ? creds.partnerId : process.env.UTSAVS_PARTNER_ID || '').trim();
-  const path = `/ext/b2b/v1/plan/masterDetails/${pId}?planId=${planId}`;
-  
-  const res = await asegoRequest(path, creds);
+  const res = await asegoRequest(`/ext/b2b/v1/plan/masterDetails/${planId}?planId=${planId}`, creds);
   
   if (res.success && res.data) {
     return {
