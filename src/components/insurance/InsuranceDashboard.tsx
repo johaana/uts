@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
@@ -144,7 +143,7 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
         setCategories(res.data);
         toast({ title: "Connection Successful", description: `Loaded regions from Asego.` });
       } else {
-        toast({ title: "Connection Failed", variant: "destructive" });
+        toast({ title: "Connection Failed", variant: "destructive", description: res.error });
       }
     } catch (e) {
       console.error(e);
@@ -262,22 +261,6 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
     }
   };
 
-  const handleRunLifecycleTest = async () => {
-    setIsConnecting(true);
-    const orderId = `UTS-LIFE-${Math.floor(Date.now() / 1000)}`;
-    const testData = { ...formData, planId: "UAT-TEST-PLAN", detailId: "UAT-DETAIL", orderId };
-    
-    try {
-      const enc = await validateAsegoPolicy(testData, creds);
-      setLastTrace(enc);
-      toast({ title: "Lifecycle Step 1", description: "Encryption & Validation complete." });
-    } catch (e) {
-      toast({ title: "Lifecycle Error", variant: "destructive" });
-    } finally {
-      setIsConnecting(false);
-    }
-  };
-
   return (
     <div className="space-y-12">
       
@@ -317,7 +300,7 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
           </div>
       </div>
 
-      {/* VIEW SWITCHER (Simulated for Journey Control) */}
+      {/* VIEW SWITCHER */}
       <div className="flex bg-[#0B0F22] p-1 rounded-none border border-white/10 w-fit relative z-10">
         <button 
           onClick={() => setViewMode('journey')}
@@ -349,14 +332,21 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
               </div>
               <span className="text-white/20">{lastTrace.method} {lastTrace.endpoint}</span>
            </div>
+           
            <div className="space-y-6">
+              {lastTrace.error && (
+                <div className="p-4 bg-red-500/10 border border-red-500/20 text-red-400 rounded-sm">
+                  <p className="font-bold uppercase text-[9px] mb-1">Diagnostic Error:</p>
+                  <p>{lastTrace.error}</p>
+                </div>
+              )}
               <div>
                 <div className="flex items-center justify-between mb-2">
                   <p className="text-[#6E7495] font-bold uppercase text-[9px]">Verbatim Response Body:</p>
                   <Button variant="ghost" size="sm" onClick={() => { navigator.clipboard.writeText(JSON.stringify(lastTrace.raw || lastTrace.data, null, 2)); toast({ title: "JSON Copied" }); }} className="h-6 text-[8px] uppercase font-bold text-[#4FD1C5] hover:bg-[#4FD1C5]/10">Copy JSON</Button>
                 </div>
                 <pre className="text-[#4FD1C5] overflow-auto max-h-[400px] leading-relaxed custom-scrollbar bg-white/[0.02] p-6 border border-white/5 shadow-inner">
-                  {JSON.stringify(lastTrace.raw || lastTrace.data, null, 2)}
+                  {lastTrace.raw || lastTrace.data ? JSON.stringify(lastTrace.raw || lastTrace.data, null, 2) : "No response body received."}
                 </pre>
               </div>
            </div>

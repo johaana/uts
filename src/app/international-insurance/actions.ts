@@ -81,6 +81,7 @@ function normalizeAsegoPlan(raw: any, targetAge?: number): NormalizedPlan {
 
 /**
  * Secure Server-Side Relay
+ * PRIORITIZATION: Uses providedCreds if they exist, otherwise falls back to ENV.
  */
 async function asegoRequest(
   path: string, 
@@ -88,21 +89,17 @@ async function asegoRequest(
   method: string = 'GET',
   body: any = null
 ): Promise<ActionResponse> {
-  const isDebug = process.env.UTSAVS_INTERNAL_DEBUG === 'true';
-  
-  // Authorization Logic:
-  // If debug is true, prioritize providedCreds (from the UI form).
-  // Otherwise, fallback to env vars.
-  const pId = (isDebug && providedCreds?.partnerId ? providedCreds.partnerId : process.env.UTSAVS_PARTNER_ID || '').trim();
-  const sgn = (isDebug && providedCreds?.sign ? providedCreds.sign : process.env.UTSAVS_SIGN || '').trim();
-  const ref = (isDebug && providedCreds?.reference ? providedCreds.reference : process.env.UTSAVS_REFERENCE || '').trim();
+  // Use provided credentials if they have content, otherwise fallback to system env
+  const pId = (providedCreds?.partnerId || process.env.UTSAVS_PARTNER_ID || '').trim();
+  const sgn = (providedCreds?.sign || process.env.UTSAVS_SIGN || '').trim();
+  const ref = (providedCreds?.reference || process.env.UTSAVS_REFERENCE || '').trim();
 
   if (!pId || !sgn || !ref) {
     return {
       success: false,
       status: 0,
       data: null,
-      error: "Authentication credentials not configured.",
+      error: "Authentication credentials not configured. Please enter them in the CONFIG panel.",
       endpoint: path,
       method,
       headersSent: {}
@@ -157,7 +154,7 @@ async function asegoRequest(
       success: false,
       status: 0,
       data: null,
-      error: error.message || "Network request failed",
+      error: error.message || "Network request failed. Verify endpoint connectivity.",
       endpoint,
       method,
       headersSent: headers
@@ -169,10 +166,21 @@ async function asegoRequest(
  * Encryption Wrapper
  */
 export async function asegoEncrypt(value: string, creds?: AsegoCredentials) {
-  const isDebug = process.env.UTSAVS_INTERNAL_DEBUG === 'true';
-  const key = (isDebug && creds?.secretKey ? creds.secretKey : process.env.UTSAVS_SECRET_KEY || '').trim();
-  const initVector = (isDebug && creds?.vectorBytes ? creds.vectorBytes : process.env.UTSAVS_INIT_VECTOR || '').trim();
+  const key = (creds?.secretKey || process.env.UTSAVS_SECRET_KEY || '').trim();
+  const initVector = (creds?.vectorBytes || process.env.UTSAVS_INIT_VECTOR || '').trim();
   
+  if (!key || !initVector) {
+    return {
+      success: false,
+      status: 0,
+      data: null,
+      error: "Encryption keys (Secret Key / Vector Bytes) missing.",
+      endpoint: '/encryption/encrypt',
+      method: 'POST',
+      headersSent: {}
+    };
+  }
+
   const payload = { value, key, initVector };
   return asegoRequest('/ext/b2b/v1/encryption/encrypt', creds, 'POST', payload);
 }
@@ -181,9 +189,20 @@ export async function asegoEncrypt(value: string, creds?: AsegoCredentials) {
  * Decryption Wrapper
  */
 export async function asegoDecrypt(value: string, creds?: AsegoCredentials) {
-  const isDebug = process.env.UTSAVS_INTERNAL_DEBUG === 'true';
-  const key = (isDebug && creds?.secretKey ? creds.secretKey : process.env.UTSAVS_SECRET_KEY || '').trim();
-  const initVector = (isDebug && creds?.vectorBytes ? creds.vectorBytes : process.env.UTSAVS_INIT_VECTOR || '').trim();
+  const key = (creds?.secretKey || process.env.UTSAVS_SECRET_KEY || '').trim();
+  const initVector = (creds?.vectorBytes || process.env.UTSAVS_INIT_VECTOR || '').trim();
+
+  if (!key || !initVector) {
+    return {
+      success: false,
+      status: 0,
+      data: null,
+      error: "Encryption keys (Secret Key / Vector Bytes) missing.",
+      endpoint: '/encryption/decrypt',
+      method: 'POST',
+      headersSent: {}
+    };
+  }
 
   const payload = { value, key, initVector };
   return asegoRequest('/ext/b2b/v1/encryption/decrypt', creds, 'POST', payload);
@@ -194,8 +213,7 @@ export async function getAsegoCategories(creds?: AsegoCredentials) {
 }
 
 export async function getAsegoPlans(params: { age: string, duration: string, categoryId: string }, creds?: AsegoCredentials) {
-  const isDebug = process.env.UTSAVS_INTERNAL_DEBUG === 'true';
-  const pId = (isDebug && creds?.partnerId ? creds.partnerId : process.env.UTSAVS_PARTNER_ID || '').trim();
+  const pId = (creds?.partnerId || process.env.UTSAVS_PARTNER_ID || '').trim();
   const path = `/ext/b2b/v1/plan/${pId}?duration=${params.duration}&age=${params.age}&category=${params.categoryId}`;
   
   const res = await asegoRequest(path, creds);
@@ -235,8 +253,7 @@ export async function getAsegoPlanDetails(planId: string, targetAge: string, cre
  * Interrogation Helpers for UAT Discovery
  */
 export async function interrogateAsegoEndpoint(type: 'standalone' | 'vasRider' | 'masterDetails', creds?: AsegoCredentials) {
-  const isDebug = process.env.UTSAVS_INTERNAL_DEBUG === 'true';
-  const pId = (isDebug && creds?.partnerId ? creds.partnerId : process.env.UTSAVS_PARTNER_ID || '').trim();
+  const pId = (creds?.partnerId || process.env.UTSAVS_PARTNER_ID || '').trim();
   let path = '';
   switch(type) {
     case 'standalone': path = `/ext/b2b/v1/plan/standalone/${pId}/`; break;
@@ -250,14 +267,13 @@ export async function interrogateAsegoEndpoint(type: 'standalone' | 'vasRider' |
  * Policy Validation (Dry-run)
  */
 export async function validateAsegoPolicy(policyData: any, creds?: AsegoCredentials) {
-  const isDebug = process.env.UTSAVS_INTERNAL_DEBUG === 'true';
-  const pId = (isDebug && creds?.partnerId ? creds.partnerId : process.env.UTSAVS_PARTNER_ID || '').trim();
+  const pId = (creds?.partnerId || process.env.UTSAVS_PARTNER_ID || '').trim();
 
   const rawString = JSON.stringify(policyData);
   const encRes = await asegoEncrypt(rawString, creds);
 
   if (!encRes.success || !encRes.data) {
-    return { success: false, status: encRes.status, error: "Encryption failed.", raw: encRes.raw, endpoint: encRes.endpoint, method: encRes.method, headersSent: encRes.headersSent };
+    return { success: false, status: encRes.status, error: encRes.error || "Encryption failed.", raw: encRes.raw, endpoint: encRes.endpoint, method: encRes.method, headersSent: encRes.headersSent };
   }
 
   return asegoRequest(`/ext/b2b/v1/createPolicy/validate/${pId}`, creds, 'POST', { policyData: encRes.data });
@@ -267,14 +283,13 @@ export async function validateAsegoPolicy(policyData: any, creds?: AsegoCredenti
  * Policy Creation
  */
 export async function createAsegoPolicy(policyData: any, creds?: AsegoCredentials) {
-  const isDebug = process.env.UTSAVS_INTERNAL_DEBUG === 'true';
-  const pId = (isDebug && creds?.partnerId ? creds.partnerId : process.env.UTSAVS_PARTNER_ID || '').trim();
+  const pId = (creds?.partnerId || process.env.UTSAVS_PARTNER_ID || '').trim();
 
   const rawString = JSON.stringify(policyData);
   const encRes = await asegoEncrypt(rawString, creds);
 
   if (!encRes.success || !encRes.data) {
-    return { success: false, status: encRes.status, error: "Encryption failed.", raw: encRes.raw, endpoint: encRes.endpoint, method: encRes.method, headersSent: encRes.headersSent };
+    return { success: false, status: encRes.status, error: encRes.error || "Encryption failed.", raw: encRes.raw, endpoint: encRes.endpoint, method: encRes.method, headersSent: encRes.headersSent };
   }
 
   return asegoRequest(`/ext/b2b/v1/createPolicy/${pId}`, creds, 'POST', { policyData: encRes.data });
@@ -284,8 +299,7 @@ export async function createAsegoPolicy(policyData: any, creds?: AsegoCredential
  * Policy Cancellation
  */
 export async function cancelAsegoPolicy(policyNumber: string, remarks: string = "UAT Test Cancellation", creds?: AsegoCredentials) {
-  const isDebug = process.env.UTSAVS_INTERNAL_DEBUG === 'true';
-  const pId = (isDebug && creds?.partnerId ? creds.partnerId : process.env.UTSAVS_PARTNER_ID || '').trim();
+  const pId = (creds?.partnerId || process.env.UTSAVS_PARTNER_ID || '').trim();
 
   return asegoRequest(`/ext/b2b/v1/policy/cancel/${pId}`, creds, 'POST', { policyNumber, remarks });
 }
