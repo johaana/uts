@@ -24,7 +24,8 @@ import {
   Zap,
   RefreshCw,
   Copy,
-  ChevronRight
+  ChevronRight,
+  Info
 } from "lucide-react";
 import { testAsegoConnection, fetchAsegoCategories, testEncryption } from './actions';
 import { useToast } from '@/hooks/use-toast';
@@ -89,22 +90,23 @@ export default function AsegoSandboxPage() {
   };
 
   const copySupportSnippet = () => {
+    const partnerId = result?.endpoint?.split('/plan/')[1]?.split('?')[0] || 'd5e591b7-46dd-4d7e-8264-7a30b16cec8d';
+    const category = result?.endpoint?.split('category=')[1]?.split('&')[0] || '1';
+    
     const snippet = `
 Hi Asego Team,
 
-We are validating our B2B integration via Partner ID: ${result?.endpoint?.split('/plan/')[1]?.split('?')[0] || 'd5e591b7-46dd-4d7e-8264-7a30b16cec8d'}
+We are validating our B2B integration for Utsavs.com. Our technical handshake is successful (HTTP 200 OK), but the plan response is currently empty.
+
+Partner ID: ${partnerId}
+Environment: Dolphin UAT
 
 Current Status:
-- Connectivity: HTTP 200 OK (Verified Success)
+- Connectivity: Verified Success (200 OK)
 - Response Body: Empty Array []
-- Purpose: Automated Quote Integration for Utsavs.com
+- Testing Category: ${category}
 
-Technical Context:
-- Environment: Dolphin UAT
-- Endpoint: ${result?.endpoint || 'GET /v1/plan'}
-- Timestamp: ${new Date().toISOString()}
-
-Could you please confirm if active insurance plans (especially Student/Leisure) are mapped to our Partner ID for Category ${result?.endpoint?.split('category=')[1]?.split('&')[0] || '1'}?
+Could you please map the active insurance products for this Category to our Partner ID so we can proceed with the transactional integration?
     `.trim();
     copyToClipboard(snippet, "Diagnostic Report");
   };
@@ -121,11 +123,11 @@ Could you please confirm if active insurance plans (especially Student/Leisure) 
             <div className="space-y-4">
               <div className="flex items-center gap-2 text-[#4FD1C5]">
                 <Zap className="w-5 h-5 animate-pulse" />
-                <span className="text-[10px] font-mono font-bold uppercase tracking-[0.4em]">API Integration Lab v3.5</span>
+                <span className="text-[10px] font-mono font-bold uppercase tracking-[0.4em]">API Integration Lab v3.6</span>
               </div>
               <h1 className="text-4xl md:text-7xl font-headline font-medium tracking-tighter leading-none">Dolphin Connectivity</h1>
               <p className="text-xl text-[#9AA1C0] max-w-2xl font-medium leading-relaxed">
-                Your handshake is verified. Use the Encryption Lab below to test transactional payloads while waiting for Asego to map your plans.
+                Auth is verified. Once Asego maps your plans, real data will appear in the console. Use the Encryption Lab to prepare for policy creation.
               </p>
             </div>
             <div className="flex gap-4 shrink-0">
@@ -136,7 +138,7 @@ Could you please confirm if active insurance plans (especially Student/Leisure) 
                 className="border-white/10 hover:bg-white/5 font-bold uppercase tracking-widest text-[10px] h-12 px-6 rounded-none"
               >
                 {catLoading ? <Loader2 className="w-3 h-3 animate-spin mr-2" /> : <Layers className="w-3 h-3 mr-2" />}
-                Fetch Metadata
+                Fetch Master Metadata
               </Button>
                <Button 
                 variant="ghost" 
@@ -275,7 +277,7 @@ Could you please confirm if active insurance plans (especially Student/Leisure) 
                    <div className="flex items-center gap-4">
                       {result?.isEmpty && (
                         <button onClick={copySupportSnippet} className="text-[10px] font-bold text-[#E8A33D] hover:text-white flex items-center gap-2 transition-colors">
-                          <MessageSquare className="w-3.5 h-3.5" /> Copy Request for Asego Manager
+                          <MessageSquare className="w-3.5 h-3.5" /> Generate Support Ticket
                         </button>
                       )}
                       <span className="font-mono text-[9px] text-[#6E7495] uppercase tracking-widest">Dolphin UAT v2.1</span>
@@ -323,13 +325,13 @@ Could you please confirm if active insurance plans (especially Student/Leisure) 
                             <div className="h-px bg-white/5" />
                             <div className="flex gap-4 text-[11px]">
                                <span className="text-green-500 font-bold">STATUS</span>
-                               <span className="text-white/40">{result.status} OK</span>
+                               <span className="text-white/40">{result.status} OK (Authorized)</span>
                             </div>
                          </div>
                       </div>
 
                       {result.isEmpty && (
-                        <div className="p-8 bg-[#E8A33D]/5 border border-[#E8A33D]/20 rounded-sm space-y-4 shadow-xl">
+                        <div className="p-8 bg-[#E8A33D]/5 border border-[#E8A33D]/20 rounded-sm space-y-6 shadow-xl">
                            <div className="flex items-center gap-3 text-[#E8A33D]">
                               <AlertTriangle className="w-6 h-6" />
                               <h4 className="text-lg font-bold font-headline">Outcome: Authorized, but Unmapped</h4>
@@ -337,6 +339,18 @@ Could you please confirm if active insurance plans (especially Student/Leisure) 
                            <p className="text-[#9AA1C0] leading-relaxed font-medium">
                               Your <b>Partner ID</b> is valid and the server responded correctly. The empty array `[]` indicates that no active insurance products are currently mapped to your ID for this category.
                            </p>
+                           
+                           <div className="space-y-4 pt-4 border-t border-[#E8A33D]/20">
+                              <p className="text-xs font-bold uppercase tracking-widest text-white flex items-center gap-2">
+                                <Info className="w-4 h-4" /> Next Steps:
+                              </p>
+                              <ol className="text-sm text-[#9AA1C0] space-y-2 list-decimal pl-5">
+                                <li>Click <b>"Copy Support Ticket"</b> below.</li>
+                                <li>Send the generated text to your Asego Account Manager.</li>
+                                <li>Once they map the plans to your ID, refresh this page and run the handshake again.</li>
+                              </ol>
+                           </div>
+
                            <div className="pt-2">
                               <Button onClick={copySupportSnippet} className="bg-white text-[#0F1428] hover:bg-[#F4F1E8] font-bold text-[10px] uppercase tracking-widest h-11 px-8 rounded-none shadow-lg">
                                 <ClipboardCheck className="w-4 h-4 mr-2" /> Copy Support Ticket
