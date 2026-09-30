@@ -31,7 +31,7 @@ export function Footer() {
                 <span className="font-headline text-3xl font-bold tracking-tight text-white">Utsavs</span>
                 <span className="text-[10px] font-mono font-bold text-gold uppercase tracking-[0.3em] mt-1">GLOBAL HOLIDAY INTELLIGENCE</span>
               </div>
-              <p className="text-muted leading-relaxed max-w-sm font-medium">
+              <p className="text-muted leading-relaxed max-sm font-medium">
                 The world's structured, verified holiday and observance intelligence engine. 
                 Built for technical systems and professional planning.
               </p>
@@ -42,8 +42,8 @@ export function Footer() {
               </Button>
               <div className="flex gap-8 text-sm font-bold text-muted uppercase tracking-widest">
                 <Link href="/date-intelligence" className="hover:text-white transition-colors">Explorer</Link>
-                <Link href="/international-insurance" className="hover:text-white transition-colors">Insurance</Link>
                 <Link href="/festivals" className="hover:text-white transition-colors">Stories</Link>
+                <Link href="/api" className="hover:text-white transition-colors">API</Link>
               </div>
            </div>
         </div>

@@ -12,7 +12,6 @@ export const NAV_LINKS = [
   { href: "/built-for", label: "Built For" },
   { href: "/api", label: "API" },
   { href: "/festivals", label: "Stories" },
-  { href: "/international-insurance", label: "International Insurance" },
 ];
 
 export function Header() {
