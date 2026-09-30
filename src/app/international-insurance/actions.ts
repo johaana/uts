@@ -1,7 +1,7 @@
 'use server';
 
 /**
- * @fileOverview Asego API Implementation - Phase 2
+ * @fileOverview Asego API Implementation - Phase 2 (Hardened Forensic Edition)
  * Implements Encryption utility, Policy Validation, Creation, and Cancellation.
  * VERIFICATION MODE: Returns raw response data for forensic auditing.
  */
@@ -88,15 +88,18 @@ async function asegoRequest(
   method: string = 'GET',
   body: any = null
 ): Promise<ActionResponse> {
+  // SERVER-SIDE ENFORCEMENT: Strictly check debug flag before accepting client creds
   const isDebug = process.env.UTSAVS_INTERNAL_DEBUG === 'true';
 
   let pId, sgn, ref;
 
   if (isDebug && providedCreds?.partnerId) {
+    // If in debug mode, use the credentials typed into the form
     pId = providedCreds.partnerId.trim();
     sgn = providedCreds.sign.trim();
     ref = providedCreds.reference.trim();
   } else {
+    // If NOT in debug mode, strictly use server environment variables
     pId = (process.env.UTSAVS_PARTNER_ID || '').trim();
     sgn = (process.env.UTSAVS_SIGN || '').trim();
     ref = (process.env.UTSAVS_REFERENCE || '').trim();
@@ -107,7 +110,7 @@ async function asegoRequest(
       success: false,
       status: 0,
       data: null,
-      error: "Authentication credentials not configured.",
+      error: "Authentication credentials not configured or session inactive.",
       endpoint: path,
       method,
       headersSent: {}
@@ -136,21 +139,21 @@ async function asegoRequest(
 
     const response = await fetch(endpoint, options);
     const contentType = response.headers.get('content-type');
-    let data;
+    let rawData;
     
     if (contentType && contentType.includes('application/json')) {
-      data = await response.json();
+      rawData = await response.json();
     } else {
-      data = await response.text();
+      rawData = await response.text();
     }
 
     return {
       success: response.ok,
       status: response.status,
-      data: data?.data ?? data,
+      data: rawData?.data ?? rawData,
       endpoint,
       method,
-      raw: data, // Verbatim response body for verification
+      raw: rawData, // VERBATIM response body from fetch result
       headersSent: {
         ...headers,
         'Sign': '********',

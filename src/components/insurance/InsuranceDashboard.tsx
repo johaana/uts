@@ -75,7 +75,7 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
   const [showTrace, setShowTrace] = useState(false);
   const [lastTrace, setLastTrace] = useState<any>(null);
 
-  const isSessionActive = isDebug ? !!(creds.partnerId.trim() && creds.sign.trim() && creds.reference.trim() && creds.secretKey?.trim() && creds.vectorBytes?.trim()) : true;
+  const isSessionActive = !!(creds.partnerId.trim() && creds.sign.trim() && creds.reference.trim());
 
   // Connection logic
   useEffect(() => {
@@ -271,7 +271,7 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
       </div>
 
       {/* UAT CREDENTIAL GATE */}
-      {isDebug && showGate && (
+      {isDebug && (showGate || !isSessionActive) && (
         <Card className="bg-[#171D3A] border-dashed border-[#E8A33D]/40 p-8 rounded-none shadow-2xl animate-in fade-in zoom-in-95 text-left ring-1 ring-[#E8A33D]/20">
            <div className="flex items-center justify-between mb-8">
               <div className="flex items-center gap-3">
