@@ -23,7 +23,9 @@ import {
   AlertTriangle,
   Plus,
   Calendar as CalendarIcon,
-  Info
+  Check,
+  Search,
+  Activity
 } from "lucide-react";
 import { 
   getAsegoCategories, 
@@ -32,6 +34,7 @@ import {
   validateAsegoPolicy,
   createAsegoPolicy,
   cancelAsegoPolicy,
+  interrogateAsegoEndpoint,
   AsegoCredentials,
   NormalizedPlan 
 } from '@/app/international-insurance/actions';
@@ -63,11 +66,11 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
 
   // 2. PORTAL FORM STATE (Mirrors Asego Partner Portal)
   const [portalForm, setPortalForm] = useState({
-    tripType: 'single', // single, multi, student, group, special, flexi, a2a
-    categoryId: '',     // Travel Region
-    destinations: [],   // Select Countries
+    tripType: 'single', 
+    categoryId: '',     
+    destinations: [],   
     postDepart: false,
-    durationTier: '180', // 180, 365
+    durationTier: '180', 
     startDate: '',
     endDate: '',
     travelers: [{ dob: '' }]
@@ -111,8 +114,6 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
     pincode: "400001",
     nomineeName: "Jane Doe",
     nomineeRelation: "Spouse",
-    departureDate: portalForm.startDate,
-    returnDate: portalForm.endDate
   });
 
   // 4. TRANSACTION STATE
@@ -120,7 +121,6 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
   const [issuedPolicy, setIssuedPolicy] = useState<any>(null);
   const [lastTrace, setLastTrace] = useState<any>(null);
   const [showTrace, setShowTrace] = useState(false);
-  const [isTestingLifecycle, setIsTestingLifecycle] = useState(false);
 
   const isSessionActive = !!(creds.partnerId.trim() && creds.sign.trim() && creds.reference.trim());
 
@@ -158,16 +158,31 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
       }, creds);
       
       setLastTrace(res);
-      if (res.success && Array.isArray(res.data)) {
+      if (res.success && Array.isArray(res.data) && res.data.length > 0) {
         setPlans(res.data);
         setStep('selection');
       } else {
-        toast({ title: "No Plans Found", description: "Try adjusting dates or traveler age.", variant: "destructive" });
+        setPlans([]);
+        setStep('selection');
+        toast({ title: "Empty Result", description: "The server returned 200 OK but no plans match these filters.", variant: "default" });
       }
     } catch (e) {
       toast({ title: "Search Error", variant: "destructive" });
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleInterrogate = async (type: 'standalone' | 'vasRider' | 'masterDetails') => {
+    setIsConnecting(true);
+    try {
+      const res = await interrogateAsegoEndpoint(type, creds);
+      setLastTrace(res);
+      toast({ title: `Discovery: ${type}`, description: res.success ? "Received data from Asego." : "Endpoint failed." });
+    } catch (e) {
+      toast({ title: "Interrogation Error", variant: "destructive" });
+    } finally {
+      setIsConnecting(false);
     }
   };
 
@@ -218,6 +233,23 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
     }
   };
 
+  const handleRunLifecycleTest = async () => {
+    setIsConnecting(true);
+    const orderId = `UTS-LIFE-${Math.floor(Date.now() / 1000)}`;
+    const testData = { ...formData, planId: "UAT-TEST-PLAN", detailId: "UAT-DETAIL", orderId };
+    
+    try {
+      // 1. Encrypt Test
+      const enc = await validateAsegoPolicy(testData, creds);
+      setLastTrace(enc);
+      toast({ title: "Lifecycle Step 1", description: "Encryption & Validation complete." });
+    } catch (e) {
+      toast({ title: "Lifecycle Error", variant: "destructive" });
+    } finally {
+      setIsConnecting(false);
+    }
+  };
+
   return (
     <div className="space-y-12">
       
@@ -237,26 +269,24 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
               </h1>
           </div>
           
-          {isDebug && (
-            <div className="flex gap-3">
-               <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  onClick={() => setShowTrace(!showTrace)} 
-                  className={cn("text-[9px] uppercase tracking-widest font-bold border h-8 rounded-none", showTrace ? "bg-white text-black" : "text-white/40 border-white/10")}
-               >
-                  <Terminal className="w-3 h-3 mr-2" /> Trace
-               </Button>
-               <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  onClick={() => setShowGate(!showGate)} 
-                  className={cn("text-[9px] uppercase tracking-widest font-bold border h-8 rounded-none", isSessionActive ? "text-green-500 border-green-500/20" : "text-[#E8A33D] border-[#E8A33D]/20")}
-               >
-                  <Lock className="w-3 h-3 mr-2" /> Config
-               </Button>
-            </div>
-          )}
+          <div className="flex gap-3">
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={() => setShowTrace(!showTrace)} 
+                className={cn("text-[9px] uppercase tracking-widest font-bold border h-8 rounded-none", showTrace ? "bg-white text-black" : "text-white/40 border-white/10")}
+              >
+                <Terminal className="w-3 h-3 mr-2" /> Trace
+              </Button>
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={() => setShowGate(!showGate)} 
+                className={cn("text-[9px] uppercase tracking-widest font-bold border h-8 rounded-none", isSessionActive ? "text-green-500 border-green-500/20" : "text-[#E8A33D] border-[#E8A33D]/20")}
+              >
+                <Lock className="w-3 h-3 mr-2" /> Config
+              </Button>
+          </div>
       </div>
 
       {/* VERBATIM TRACE PANEL */}
@@ -267,6 +297,9 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
               <span className="text-white/20">{lastTrace.method} {lastTrace.endpoint}</span>
            </div>
            <div className="space-y-4">
+              <div className="flex gap-4 mb-4">
+                 <Badge variant="outline" className="text-[9px] border-white/10 uppercase">{lastTrace.status} STATUS</Badge>
+              </div>
               <div>
                 <p className="text-[#6E7495] mb-1 font-bold uppercase text-[9px]">Verbatim Response Body:</p>
                 <pre className="text-[#4FD1C5] overflow-auto max-h-[300px] leading-relaxed custom-scrollbar bg-white/[0.02] p-4">
@@ -288,7 +321,7 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
                    {showSecrets ? "Hide Keys" : "Reveal Keys"}
                 </button>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-10">
                 {[
                   { k: 'partnerId', l: 'Partner ID' },
                   { k: 'sign', l: 'Sign' },
@@ -307,22 +340,45 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
                   </div>
                 ))}
             </div>
-            <div className="flex gap-4">
-              <Button onClick={fetchCategories} disabled={isConnecting} className="bg-white/10 hover:bg-white/20 text-white font-bold rounded-none uppercase text-[10px] tracking-widest">
-                  {isConnecting ? <Loader2 className="w-4 h-4 animate-spin" /> : <><RefreshCw className="w-3.5 h-3.5 mr-2" /> Test Connection</>}
-              </Button>
-              <Button onClick={() => setShowGate(false)} className="px-8 border border-white/10 text-white font-bold rounded-none uppercase text-[10px] tracking-widest">
-                  Close
-              </Button>
+
+            <div className="space-y-8">
+              <div className="space-y-4">
+                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#6E7495] border-b border-white/5 pb-2">1. Initialization</p>
+                <div className="flex gap-4">
+                   <Button onClick={fetchCategories} disabled={isConnecting} className="bg-white/10 hover:bg-white/20 text-white font-bold rounded-none uppercase text-[10px] tracking-widest h-12 px-8">
+                      {isConnecting ? <Loader2 className="w-4 h-4 animate-spin" /> : <><RefreshCw className="w-3.5 h-3.5 mr-2" /> Test Connection & Load Regions</>}
+                   </Button>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#6E7495] border-b border-white/5 pb-2">2. Interrogation & Discovery (Search Workaround)</p>
+                <div className="flex flex-wrap gap-4">
+                   <Button variant="outline" onClick={() => handleInterrogate('masterDetails')} disabled={isConnecting} className="border-white/10 text-white font-bold rounded-none uppercase text-[9px] tracking-widest h-10 px-6">Interrogate Master Details</Button>
+                   <Button variant="outline" onClick={() => handleInterrogate('standalone')} disabled={isConnecting} className="border-white/10 text-white font-bold rounded-none uppercase text-[9px] tracking-widest h-10 px-6">Interrogate Standalone</Button>
+                   <Button variant="outline" onClick={() => handleInterrogate('vasRider')} disabled={isConnecting} className="border-white/10 text-white font-bold rounded-none uppercase text-[9px] tracking-widest h-10 px-6">Interrogate VAS/Rider</Button>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#E8A33D] border-b border-[#E8A33D]/20 pb-2">3. End-to-End Logic Verification</p>
+                <Button onClick={handleRunLifecycleTest} disabled={isConnecting} className="bg-[#E8A33D] text-[#0F1428] font-bold rounded-none uppercase text-[10px] tracking-widest h-12 px-10 shadow-xl">
+                   Run End-to-End Lifecycle Test
+                </Button>
+              </div>
+
+              <div className="pt-8 flex justify-end">
+                <Button onClick={() => setShowGate(false)} variant="ghost" className="text-[10px] font-bold uppercase tracking-widest text-[#6E7495]">Close Control Panel</Button>
+              </div>
             </div>
         </Card>
       )}
 
       {/* MAIN PORTAL JOURNEY */}
-      <div className="relative">
+      <div className="relative min-h-[800px]">
         
           {step === 'search' && (
-            <div className="relative min-h-[700px] flex items-center justify-center py-12">
+            <div className="relative min-h-[700px] flex items-center justify-center py-12 animate-in fade-in duration-700">
                {/* Portal Background */}
                <div className="absolute inset-0 z-0 rounded-[40px] overflow-hidden grayscale-[30%] opacity-60">
                  <Image 
@@ -363,7 +419,6 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
                      </div>
 
                      <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-                        {/* Column 1: Regions & Options */}
                         <div className="space-y-8">
                            <div className="space-y-3">
                               <Label className="text-[11px] font-bold uppercase tracking-widest text-[#9AA1C0]">Travel Region</Label>
@@ -379,7 +434,7 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
 
                            <div className="space-y-3">
                               <Label className="text-[11px] font-bold uppercase tracking-widest text-[#9AA1C0]">Destination</Label>
-                              <div className="w-full h-14 px-4 bg-[#0F1428]/60 border border-white/10 rounded-xl flex items-center text-[#6E7495] text-sm">
+                              <div className="w-full h-14 px-4 bg-[#0F1428]/60 border border-white/10 rounded-xl flex items-center text-[#6E7495] text-sm italic">
                                  Select Countries
                               </div>
                            </div>
@@ -396,7 +451,6 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
                            </div>
                         </div>
 
-                        {/* Column 2: Dates & Travelers */}
                         <div className="space-y-8">
                            <div className="flex gap-4">
                               <label className="flex-1 flex items-center gap-3 cursor-pointer group">
@@ -418,27 +472,21 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
                            <div className="grid grid-cols-[1.5fr_1.5fr_0.8fr] gap-4">
                               <div className="space-y-2">
                                  <Label className="text-[10px] font-bold uppercase text-[#9AA1C0]">Start Date</Label>
-                                 <div className="relative">
-                                    <Input 
-                                      type="date" 
-                                      value={portalForm.startDate} 
-                                      onChange={e => setPortalForm({...portalForm, startDate: e.target.value})}
-                                      className="h-14 bg-[#0F1428]/60 border-white/10 rounded-xl text-white font-bold" 
-                                    />
-                                    <CalendarIcon className="absolute right-4 top-4 w-5 h-5 text-[#6E7495] pointer-events-none" />
-                                 </div>
+                                 <Input 
+                                    type="date" 
+                                    value={portalForm.startDate} 
+                                    onChange={e => setPortalForm({...portalForm, startDate: e.target.value})}
+                                    className="h-14 bg-[#0F1428]/60 border-white/10 rounded-xl text-white font-bold" 
+                                 />
                               </div>
                               <div className="space-y-2">
                                  <Label className="text-[10px] font-bold uppercase text-[#9AA1C0]">End Date</Label>
-                                 <div className="relative">
-                                    <Input 
-                                      type="date" 
-                                      value={portalForm.endDate} 
-                                      onChange={e => setPortalForm({...portalForm, endDate: e.target.value})}
-                                      className="h-14 bg-[#0F1428]/60 border-white/10 rounded-xl text-white font-bold" 
-                                    />
-                                    <CalendarIcon className="absolute right-4 top-4 w-5 h-5 text-[#6E7495] pointer-events-none" />
-                                 </div>
+                                 <Input 
+                                    type="date" 
+                                    value={portalForm.endDate} 
+                                    onChange={e => setPortalForm({...portalForm, endDate: e.target.value})}
+                                    className="h-14 bg-[#0F1428]/60 border-white/10 rounded-xl text-white font-bold" 
+                                 />
                               </div>
                               <div className="space-y-2">
                                  <Label className="text-[10px] font-bold uppercase text-[#9AA1C0]">Days</Label>
@@ -451,20 +499,17 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
                            <div className="space-y-3">
                               <Label className="text-[11px] font-bold uppercase tracking-widest text-[#9AA1C0]">Travellers DOB</Label>
                               <div className="flex gap-4">
-                                 <div className="relative flex-1">
-                                    <Input 
-                                       type="date" 
-                                       value={portalForm.travelers[0].dob}
-                                       onChange={e => {
-                                          const newTravs = [...portalForm.travelers];
-                                          newTravs[0].dob = e.target.value;
-                                          setPortalForm({...portalForm, travelers: newTravs});
-                                       }}
-                                       className="h-14 bg-[#0F1428]/60 border-white/10 rounded-xl text-white font-bold" 
-                                    />
-                                    <CalendarIcon className="absolute right-4 top-4 w-5 h-5 text-[#6E7495] pointer-events-none" />
-                                 </div>
-                                 <div className="flex items-center gap-1 bg-[#0F1428]/60 border border-white/10 rounded-xl px-4 h-14">
+                                 <Input 
+                                    type="date" 
+                                    value={portalForm.travelers[0].dob}
+                                    onChange={e => {
+                                       const newTravs = [...portalForm.travelers];
+                                       newTravs[0].dob = e.target.value;
+                                       setPortalForm({...portalForm, travelers: newTravs});
+                                    }}
+                                    className="h-14 bg-[#0F1428]/60 border-white/10 rounded-xl text-white font-bold flex-1" 
+                                 />
+                                 <div className="flex items-center gap-3 bg-[#0F1428]/60 border border-white/10 rounded-xl px-4 h-14">
                                     <span className="text-white font-bold pr-2">{portalForm.travelers.length}</span>
                                     <button className="w-8 h-8 rounded-lg bg-[#E8A33D] flex items-center justify-center text-[#0F1428] hover:bg-white transition-all">
                                        <Plus className="w-5 h-5" />
@@ -481,7 +526,7 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
                           disabled={isLoading}
                           className="w-full h-16 bg-[#F15A24] text-white hover:bg-white hover:text-black font-bold uppercase text-lg tracking-[0.1em] rounded-2xl shadow-2xl transition-all active:scale-95"
                         >
-                           {isLoading ? <Loader2 className="w-6 h-6 animate-spin" /> : "GET QUOTE"}
+                           {isLoading ? <Loader2 className="w-6 h-6 animate-spin" /> : <><Search className="w-5 h-5 mr-3" /> GET QUOTE</>}
                         </Button>
                      </div>
 
@@ -495,49 +540,61 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
                <div className="flex items-center justify-between border-b border-white/5 pb-4">
                   <div className="space-y-1">
                     <h2 className="text-3xl font-headline font-bold text-white">Compare Plans</h2>
-                    <p className="text-sm text-[#9AA1C0]">{plans.length} products found for your {calculatedDays}-day trip.</p>
+                    <p className="text-sm text-[#9AA1C0]">Displaying products for <strong>Age {primaryAge}</strong> and <strong>Duration {calculatedDays} days</strong>.</p>
                   </div>
                   <Button variant="ghost" size="sm" onClick={() => setStep('search')} className="text-[10px] uppercase font-bold text-[#6E7495]">← Modify Search</Button>
                </div>
-               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {plans.map((plan, i) => (
-                    <Card key={i} className="bg-[#171D3A]/60 backdrop-blur-xl border-white/10 rounded-3xl flex flex-col hover:border-[#E8A33D]/40 transition-all group overflow-hidden shadow-2xl">
-                       <div className="p-8 border-b border-white/5 bg-white/5">
-                          <div className="flex justify-between items-start mb-2">
-                             <h3 className="font-bold text-xl text-white leading-tight">{plan.name}</h3>
-                             <ShieldCheck className="w-6 h-6 text-[#E8A33D] opacity-40" />
-                          </div>
-                          <p className="text-[10px] font-bold uppercase tracking-widest text-[#4FD1C5]">{plan.insurer}</p>
-                       </div>
-                       <div className="p-8 space-y-8 flex-grow flex flex-col justify-between">
-                          <div className="space-y-4">
-                             <div className="flex justify-between items-baseline">
-                                <p className="text-[10px] font-bold text-[#6E7495] uppercase">Total Premium</p>
-                                <p className="text-4xl font-bold font-headline text-white">₹{plan.premium}</p>
-                             </div>
-                             <div className="h-px bg-white/5 w-full" />
-                             <ul className="space-y-2">
-                                {['Emergency Medical', 'Trip Cancellation', 'Lost Baggage'].map(b => (
-                                  <li key={b} className="flex items-center gap-2 text-xs text-[#9AA1C0]">
-                                    <div className="w-1 h-1 rounded-full bg-[#E8A33D]" /> {b}
-                                  </li>
-                                ))}
-                             </ul>
-                          </div>
-                          <Button 
-                            onClick={() => handleSelectPlan(plan)}
-                            disabled={!!hydratingPlanId || plan.ineligible}
-                            className={cn(
-                              "w-full h-14 font-bold uppercase text-[11px] tracking-[0.2em] rounded-2xl transition-all shadow-xl",
-                              plan.ineligible ? "bg-red-500/10 text-red-400 border border-red-500/20" : "bg-[#E8A33D] text-[#0F1428] hover:bg-white"
-                            )}
-                          >
-                             {hydratingPlanId === plan.planId ? <Loader2 className="w-4 h-4 animate-spin" /> : plan.ineligible ? "Not Available" : "Choose Plan"}
-                          </Button>
-                       </div>
-                    </Card>
-                  ))}
-               </div>
+
+               {plans.length === 0 ? (
+                 <div className="py-32 text-center space-y-8 bg-[#171D3A]/40 border border-dashed border-white/10 rounded-[32px]">
+                    <Activity className="w-16 h-16 mx-auto text-[#E8A33D] opacity-40" />
+                    <div className="space-y-2">
+                       <h3 className="text-2xl font-headline text-white">No plans discovered for these criteria.</h3>
+                       <p className="text-[#9AA1C0] max-w-sm mx-auto">Try adjusting the duration (max 365) or region. Use the interrogation tools in the Config panel to discover valid IDs.</p>
+                    </div>
+                    <Button variant="outline" onClick={() => setShowGate(true)} className="border-[#E8A33D]/20 text-[#E8A33D] hover:bg-[#E8A33D] hover:text-[#0F1428] rounded-none px-10">Open Interrogator</Button>
+                 </div>
+               ) : (
+                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {plans.map((plan, i) => (
+                      <Card key={i} className="bg-[#171D3A]/60 backdrop-blur-xl border-white/10 rounded-3xl flex flex-col hover:border-[#E8A33D]/40 transition-all group overflow-hidden shadow-2xl">
+                         <div className="p-8 border-b border-white/5 bg-white/5">
+                            <div className="flex justify-between items-start mb-2">
+                               <h3 className="font-bold text-xl text-white leading-tight">{plan.name}</h3>
+                               <ShieldCheck className="w-6 h-6 text-[#E8A33D] opacity-40" />
+                            </div>
+                            <p className="text-[10px] font-bold uppercase tracking-widest text-[#4FD1C5]">{plan.insurer}</p>
+                         </div>
+                         <div className="p-8 space-y-8 flex-grow flex flex-col justify-between">
+                            <div className="space-y-4">
+                               <div className="flex justify-between items-baseline">
+                                  <p className="text-[10px] font-bold text-[#6E7495] uppercase">Total Premium</p>
+                                  <p className="text-4xl font-bold font-headline text-white">₹{plan.premium}</p>
+                               </div>
+                               <div className="h-px bg-white/5 w-full" />
+                               <ul className="space-y-2">
+                                  {['Emergency Medical', 'Trip Cancellation', 'Lost Baggage'].map(b => (
+                                    <li key={b} className="flex items-center gap-2 text-xs text-[#9AA1C0]">
+                                      <div className="w-1 h-1 rounded-full bg-[#E8A33D]" /> {b}
+                                    </li>
+                                  ))}
+                               </ul>
+                            </div>
+                            <Button 
+                              onClick={() => handleSelectPlan(plan)}
+                              disabled={!!hydratingPlanId || plan.ineligible}
+                              className={cn(
+                                "w-full h-14 font-bold uppercase text-[11px] tracking-[0.2em] rounded-2xl transition-all shadow-xl",
+                                plan.ineligible ? "bg-red-500/10 text-red-400 border border-red-500/20" : "bg-[#E8A33D] text-[#0F1428] hover:bg-white"
+                              )}
+                            >
+                               {hydratingPlanId === plan.planId ? <Loader2 className="w-4 h-4 animate-spin" /> : plan.ineligible ? "Not Available" : "Choose Plan"}
+                            </Button>
+                         </div>
+                      </Card>
+                    ))}
+                 </div>
+               )}
             </div>
           )}
 
@@ -565,7 +622,7 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
 
                <div className="grid lg:grid-cols-[1fr_420px] gap-12">
                   <div className="space-y-10">
-                     <section className="p-10 bg-[#171D3A]/40 border border-white/10 rounded-[32px] space-y-8">
+                     <section className="p-10 bg-[#171D3A]/40 border border-white/10 rounded-[32px] space-y-8 shadow-xl">
                         <h4 className="text-lg font-bold uppercase tracking-widest flex items-center gap-4 text-white">
                            <div className="w-8 h-8 rounded-lg bg-[#4FD1C5]/10 flex items-center justify-center"><User className="w-5 h-5 text-[#4FD1C5]" /></div>
                            1. Identity & Passport
@@ -594,7 +651,7 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
                         </div>
                      </section>
 
-                     <section className="p-10 bg-[#171D3A]/40 border border-white/10 rounded-[32px] space-y-8">
+                     <section className="p-10 bg-[#171D3A]/40 border border-white/10 rounded-[32px] space-y-8 shadow-xl">
                         <h4 className="text-lg font-bold uppercase tracking-widest flex items-center gap-4 text-white">
                            <div className="w-8 h-8 rounded-lg bg-[#4FD1C5]/10 flex items-center justify-center"><MapPin className="w-5 h-5 text-[#4FD1C5]" /></div>
                            2. Contact & Nominee
@@ -648,7 +705,10 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
                             >
                                {isIssuing ? <Loader2 className="w-5 h-5 animate-spin" /> : <><Zap className="w-4 h-4 mr-2" /> Complete Issuance</>}
                             </Button>
-                            <p className="text-[9px] text-center text-[#6E7495] uppercase tracking-widest px-4">By continuing, you agree to the regulatory disclosures listed below.</p>
+                            {!selectedPlan.detailId && (
+                               <p className="text-[10px] text-red-400 font-bold text-center italic">detailId missing: Check Config Interrogator</p>
+                            )}
+                            <p className="text-[9px] text-center text-[#6E7495] uppercase tracking-widest px-4 leading-relaxed">By continuing, you agree to the Asego UAT regulatory disclosures.</p>
                          </div>
                       </Card>
 
