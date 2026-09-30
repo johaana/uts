@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
@@ -25,7 +26,9 @@ import {
   Calendar as CalendarIcon,
   Check,
   Search,
-  Activity
+  Activity,
+  ClipboardCheck,
+  MessageSquare
 } from "lucide-react";
 import { 
   getAsegoCategories, 
@@ -64,9 +67,9 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
   const [showGate, setShowGate] = useState(false);
   const [showSecrets, setShowSecrets] = useState(false);
 
-  // 2. PORTAL FORM STATE (Mirrors Asego Partner Portal)
+  // 2. PORTAL FORM STATE
   const [portalForm, setPortalForm] = useState({
-    tripType: 'single', 
+    tripType: 'single trip', 
     categoryId: '',     
     destinations: [],   
     postDepart: false,
@@ -99,7 +102,7 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
   const [hydratingPlanId, setHydratingPlanId] = useState<string | null>(null);
   const [selectedPlan, setSelectedPlan] = useState<NormalizedPlan | null>(null);
   
-  // 3. POLICY FORM STATE (For Issuance)
+  // 3. POLICY FORM STATE
   const [formData, setFormData] = useState({
     firstName: "John",
     lastName: "Doe",
@@ -164,7 +167,7 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
       } else {
         setPlans([]);
         setStep('selection');
-        toast({ title: "Empty Result", description: "The server returned 200 OK but no plans match these filters.", variant: "default" });
+        toast({ title: "Empty Result", description: "Query succeeded but no plans match these filters." });
       }
     } catch (e) {
       toast({ title: "Search Error", variant: "destructive" });
@@ -239,7 +242,6 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
     const testData = { ...formData, planId: "UAT-TEST-PLAN", detailId: "UAT-DETAIL", orderId };
     
     try {
-      // 1. Encrypt Test
       const enc = await validateAsegoPolicy(testData, creds);
       setLastTrace(enc);
       toast({ title: "Lifecycle Step 1", description: "Encryption & Validation complete." });
@@ -274,7 +276,7 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
                 variant="ghost" 
                 size="sm" 
                 onClick={() => setShowTrace(!showTrace)} 
-                className={cn("text-[9px] uppercase tracking-widest font-bold border h-8 rounded-none", showTrace ? "bg-white text-black" : "text-white/40 border-white/10")}
+                className={cn("text-[9px] uppercase tracking-widest font-bold border h-8 rounded-none transition-all", showTrace ? "bg-white text-black" : "text-white/40 border-white/10 hover:border-[#4FD1C5]/40")}
               >
                 <Terminal className="w-3 h-3 mr-2" /> Trace
               </Button>
@@ -282,7 +284,7 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
                 variant="ghost" 
                 size="sm" 
                 onClick={() => setShowGate(!showGate)} 
-                className={cn("text-[9px] uppercase tracking-widest font-bold border h-8 rounded-none", isSessionActive ? "text-green-500 border-green-500/20" : "text-[#E8A33D] border-[#E8A33D]/20")}
+                className={cn("text-[9px] uppercase tracking-widest font-bold border h-8 rounded-none transition-all", isSessionActive ? "text-green-500 border-green-500/20" : "text-[#E8A33D] border-[#E8A33D]/20")}
               >
                 <Lock className="w-3 h-3 mr-2" /> Config
               </Button>
@@ -291,20 +293,36 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
 
       {/* VERBATIM TRACE PANEL */}
       {showTrace && lastTrace && (
-        <Card className="bg-[#0B0F22] border-[#4FD1C5]/40 p-8 rounded-none font-mono text-[11px] animate-in fade-in slide-in-from-top-4 text-left relative z-20">
+        <Card className="bg-[#0B0F22] border-[#4FD1C5]/40 p-8 rounded-none font-mono text-[11px] animate-in fade-in slide-in-from-top-4 text-left relative z-20 shadow-2xl">
            <div className="flex items-center justify-between mb-4 border-b border-white/5 pb-2">
-              <span className="text-[9px] font-bold uppercase text-[#4FD1C5]">Forensic_Trace_v4.8.log</span>
+              <div className="flex items-center gap-3">
+                 <span className="text-[9px] font-bold uppercase text-[#4FD1C5]">Forensic_Trace_v4.8.log</span>
+                 <Badge variant="outline" className="text-[9px] border-white/10 uppercase py-0">{lastTrace.status} {lastTrace.success ? 'OK' : 'ERROR'}</Badge>
+              </div>
               <span className="text-white/20">{lastTrace.method} {lastTrace.endpoint}</span>
            </div>
-           <div className="space-y-4">
-              <div className="flex gap-4 mb-4">
-                 <Badge variant="outline" className="text-[9px] border-white/10 uppercase">{lastTrace.status} STATUS</Badge>
-              </div>
+           <div className="space-y-6">
               <div>
-                <p className="text-[#6E7495] mb-1 font-bold uppercase text-[9px]">Verbatim Response Body:</p>
-                <pre className="text-[#4FD1C5] overflow-auto max-h-[300px] leading-relaxed custom-scrollbar bg-white/[0.02] p-4">
+                <div className="flex items-center justify-between mb-2">
+                  <p className="text-[#6E7495] font-bold uppercase text-[9px]">Verbatim Response Body:</p>
+                  <Button variant="ghost" size="sm" onClick={() => { navigator.clipboard.writeText(JSON.stringify(lastTrace.raw || lastTrace.data, null, 2)); toast({ title: "JSON Copied" }); }} className="h-6 text-[8px] uppercase font-bold text-[#4FD1C5] hover:bg-[#4FD1C5]/10">Copy JSON</Button>
+                </div>
+                <pre className="text-[#4FD1C5] overflow-auto max-h-[400px] leading-relaxed custom-scrollbar bg-white/[0.02] p-6 border border-white/5 shadow-inner">
                   {JSON.stringify(lastTrace.raw || lastTrace.data, null, 2)}
                 </pre>
+              </div>
+              <div className="pt-4 border-t border-white/5">
+                 <p className="text-[#6E7495] font-bold uppercase text-[9px] mb-2">Internal Relay Diagnostics:</p>
+                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div className="space-y-1">
+                       <span className="text-[8px] text-[#6E7495] block">SUCCESS_FLAG</span>
+                       <span className={cn("text-[10px] font-bold", lastTrace.success ? "text-green-500" : "text-red-500")}>{String(lastTrace.success).toUpperCase()}</span>
+                    </div>
+                    <div className="space-y-1">
+                       <span className="text-[8px] text-[#6E7495] block">STATUS_CODE</span>
+                       <span className="text-[10px] font-bold text-white">{lastTrace.status}</span>
+                    </div>
+                 </div>
               </div>
            </div>
         </Card>
@@ -317,9 +335,12 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
                 <h3 className="text-xl font-bold font-headline flex items-center gap-3 text-white">
                   <Lock className="w-5 h-5 text-[#E8A33D]" /> Asego Session Activation
                 </h3>
-                <button onClick={() => setShowSecrets(!showSecrets)} className="text-xs font-bold text-[#6E7495] hover:text-white transition-colors">
-                   {showSecrets ? "Hide Keys" : "Reveal Keys"}
-                </button>
+                <div className="flex gap-4">
+                  <button onClick={() => setShowSecrets(!showSecrets)} className="text-xs font-bold text-[#6E7495] hover:text-white transition-colors flex items-center gap-2">
+                    {showSecrets ? <><EyeOff className="w-3.5 h-3.5" /> Hide Keys</> : <><Eye className="w-3.5 h-3.5" /> Reveal Keys</>}
+                  </button>
+                  <Button variant="ghost" size="sm" onClick={() => setShowGate(false)} className="h-6 text-[9px] uppercase font-bold text-[#6E7495] hover:text-white">Close</Button>
+                </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-10">
                 {[
@@ -335,40 +356,43 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
                       type={showSecrets ? "text" : "password"} 
                       value={(creds as any)[f.k]} 
                       onChange={e => setCreds({...creds, [f.k]: e.target.value})}
-                      className="bg-[#0F1428] border-white/10 h-11 text-xs rounded-none font-mono text-white"
+                      className="bg-[#0F1428] border-white/10 h-11 text-xs rounded-none font-mono text-white focus:border-[#E8A33D] transition-colors"
                     />
                   </div>
                 ))}
             </div>
 
-            <div className="space-y-8">
+            <div className="space-y-10">
               <div className="space-y-4">
                 <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#6E7495] border-b border-white/5 pb-2">1. Initialization</p>
                 <div className="flex gap-4">
-                   <Button onClick={fetchCategories} disabled={isConnecting} className="bg-white/10 hover:bg-white/20 text-white font-bold rounded-none uppercase text-[10px] tracking-widest h-12 px-8">
+                   <Button onClick={fetchCategories} disabled={isConnecting} className="bg-white/10 hover:bg-white/20 text-white font-bold rounded-none uppercase text-[10px] tracking-widest h-12 px-8 transition-all">
                       {isConnecting ? <Loader2 className="w-4 h-4 animate-spin" /> : <><RefreshCw className="w-3.5 h-3.5 mr-2" /> Test Connection & Load Regions</>}
                    </Button>
                 </div>
               </div>
 
               <div className="space-y-4">
-                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#6E7495] border-b border-white/5 pb-2">2. Interrogation & Discovery (Search Workaround)</p>
+                <div className="flex items-center justify-between border-b border-white/5 pb-2">
+                   <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#6E7495]">2. Interrogation & Discovery (Search Workaround)</p>
+                   <span className="text-[9px] text-[#4FD1C5] font-bold uppercase">Use this to find working IDs if Search is empty</span>
+                </div>
                 <div className="flex flex-wrap gap-4">
-                   <Button variant="outline" onClick={() => handleInterrogate('masterDetails')} disabled={isConnecting} className="border-white/10 text-white font-bold rounded-none uppercase text-[9px] tracking-widest h-10 px-6">Interrogate Master Details</Button>
-                   <Button variant="outline" onClick={() => handleInterrogate('standalone')} disabled={isConnecting} className="border-white/10 text-white font-bold rounded-none uppercase text-[9px] tracking-widest h-10 px-6">Interrogate Standalone</Button>
-                   <Button variant="outline" onClick={() => handleInterrogate('vasRider')} disabled={isConnecting} className="border-white/10 text-white font-bold rounded-none uppercase text-[9px] tracking-widest h-10 px-6">Interrogate VAS/Rider</Button>
+                   <Button variant="outline" onClick={() => handleInterrogate('masterDetails')} disabled={isConnecting} className="border-white/10 text-white font-bold rounded-none uppercase text-[9px] tracking-widest h-10 px-6 hover:border-[#4FD1C5]/40 hover:bg-[#4FD1C5]/5 transition-all">Interrogate Master Details</Button>
+                   <Button variant="outline" onClick={() => handleInterrogate('standalone')} disabled={isConnecting} className="border-white/10 text-white font-bold rounded-none uppercase text-[9px] tracking-widest h-10 px-6 hover:border-[#4FD1C5]/40 hover:bg-[#4FD1C5]/5 transition-all">Interrogate Standalone</Button>
+                   <Button variant="outline" onClick={() => handleInterrogate('vasRider')} disabled={isConnecting} className="border-white/10 text-white font-bold rounded-none uppercase text-[9px] tracking-widest h-10 px-6 hover:border-[#4FD1C5]/40 hover:bg-[#4FD1C5]/5 transition-all">Interrogate VAS/Rider</Button>
                 </div>
               </div>
 
               <div className="space-y-4">
                 <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#E8A33D] border-b border-[#E8A33D]/20 pb-2">3. End-to-End Logic Verification</p>
-                <Button onClick={handleRunLifecycleTest} disabled={isConnecting} className="bg-[#E8A33D] text-[#0F1428] font-bold rounded-none uppercase text-[10px] tracking-widest h-12 px-10 shadow-xl">
+                <Button onClick={handleRunLifecycleTest} disabled={isConnecting} className="bg-[#E8A33D] text-[#0F1428] font-bold rounded-none uppercase text-[10px] tracking-widest h-12 px-10 shadow-xl hover:bg-white transition-all active:scale-95">
                    Run End-to-End Lifecycle Test
                 </Button>
               </div>
 
-              <div className="pt-8 flex justify-end">
-                <Button onClick={() => setShowGate(false)} variant="ghost" className="text-[10px] font-bold uppercase tracking-widest text-[#6E7495]">Close Control Panel</Button>
+              <div className="pt-4 text-center">
+                 <p className="text-[10px] text-[#6E7495] italic">Note: Handshake results are captured in the <strong>TRACE</strong> panel.</p>
               </div>
             </div>
         </Card>
@@ -550,9 +574,18 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
                     <Activity className="w-16 h-16 mx-auto text-[#E8A33D] opacity-40" />
                     <div className="space-y-2">
                        <h3 className="text-2xl font-headline text-white">No plans discovered for these criteria.</h3>
-                       <p className="text-[#9AA1C0] max-w-sm mx-auto">Try adjusting the duration (max 365) or region. Use the interrogation tools in the Config panel to discover valid IDs.</p>
+                       <p className="text-[#9AA1C0] max-w-sm mx-auto">This usually means the combination of region, age, and duration has no matches in the UAT database.</p>
                     </div>
-                    <Button variant="outline" onClick={() => setShowGate(true)} className="border-[#E8A33D]/20 text-[#E8A33D] hover:bg-[#E8A33D] hover:text-[#0F1428] rounded-none px-10">Open Interrogator</Button>
+                    <div className="p-8 bg-[#E8A33D]/5 border border-[#E8A33D]/20 rounded-2xl max-w-xl mx-auto space-y-4">
+                       <div className="flex items-center gap-3 text-[#E8A33D]">
+                          <Search className="w-5 h-5" />
+                          <h4 className="font-bold uppercase text-[11px] tracking-widest">How to find data:</h4>
+                       </div>
+                       <p className="text-xs text-[#9AA1C0] leading-relaxed">
+                          Click <strong>CONFIG (Lock icon)</strong> and run <strong>Interrogate Master Details</strong>. This bypasses the search and fetches all available UAT plans. Then, click <strong>TRACE</strong> to see the <code>planId</code> and <code>detailId</code> returned.
+                       </p>
+                       <Button variant="outline" onClick={() => setShowGate(true)} className="w-full border-[#E8A33D]/20 text-[#E8A33D] hover:bg-[#E8A33D] hover:text-[#0F1428] rounded-xl font-bold uppercase text-[10px] tracking-widest h-11">Open Interrogator</Button>
+                    </div>
                  </div>
                ) : (
                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -701,9 +734,9 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
                             <Button 
                               onClick={handleIssuePolicy}
                               disabled={isIssuing || !selectedPlan.detailId}
-                              className="w-full h-16 bg-[#4FD1C5] text-[#0F1428] hover:bg-white font-bold uppercase text-[11px] tracking-[0.2em] rounded-2xl shadow-xl transition-all"
+                              className="w-full h-16 bg-[#4FD1C5] text-[#0F1428] hover:bg-white font-bold uppercase text-[11px] tracking-[0.2em] rounded-2xl shadow-xl transition-all active:scale-95"
                             >
-                               {isIssuing ? <Loader2 className="w-5 h-5 animate-spin" /> : <><Zap className="w-4 h-4 mr-2" /> Complete Issuance</>}
+                               {isIssuing ? <Loader2 className="w-4 h-4 animate-spin" /> : <><Zap className="w-4 h-4 mr-2" /> Complete Issuance</>}
                             </Button>
                             {!selectedPlan.detailId && (
                                <p className="text-[10px] text-red-400 font-bold text-center italic">detailId missing: Check Config Interrogator</p>
@@ -744,7 +777,7 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
 
                   <div className="pt-6 space-y-4">
                      <a href={issuedPolicy.policyFilePath} target="_blank" rel="noopener noreferrer">
-                        <Button className="w-full h-16 bg-white text-black hover:bg-[#4FD1C5] font-bold uppercase tracking-[0.2em] text-[11px] rounded-2xl shadow-2xl">
+                        <Button className="w-full h-16 bg-white text-black hover:bg-[#4FD1C5] font-bold uppercase tracking-[0.2em] text-[11px] rounded-2xl shadow-2xl transition-all active:scale-95">
                            <Download className="w-5 h-5 mr-3" /> Download Certificate (PDF)
                         </Button>
                      </a>
