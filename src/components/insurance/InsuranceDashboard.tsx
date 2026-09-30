@@ -19,9 +19,20 @@ import {
   AlertCircle,
   Terminal,
   Eye,
-  EyeOff
+  EyeOff,
+  Zap,
+  RotateCcw
 } from "lucide-react";
-import { getAsegoCategories, getAsegoPlans, getAsegoPlanDetails, NormalizedPlan, AsegoCredentials } from '@/app/international-insurance/actions';
+import { 
+  getAsegoCategories, 
+  getAsegoPlans, 
+  getAsegoPlanDetails, 
+  validateAsegoPolicy,
+  createAsegoPolicy,
+  cancelAsegoPolicy,
+  NormalizedPlan, 
+  AsegoCredentials 
+} from '@/app/international-insurance/actions';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
 
@@ -52,6 +63,7 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [isConnecting, setIsConnecting] = useState(false);
   const [hydratingPlanId, setHydratingPlanId] = useState<string | null>(null);
+  const [isTesting, setIsTesting] = useState(false);
   const [hasSearched, setHasSearched] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<NormalizedPlan | null>(null);
   
@@ -132,6 +144,64 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
       toast({ title: "Selection Error", variant: "destructive" });
     } finally {
       setHydratingPlanId(null);
+    }
+  };
+
+  const runLifecycleTest = async () => {
+    if (!selectedPlan?.detailId) {
+      toast({ title: "Hydration Required", description: "Select a plan to resolve its Detail ID before testing creation.", variant: "destructive" });
+      return;
+    }
+    
+    setIsTesting(true);
+    const orderId = `UTS-TEST-${Math.floor(Date.now() / 1000)}`;
+
+    const fakePolicy = {
+      orderId,
+      planId: selectedPlan.planId,
+      detailId: selectedPlan.detailId,
+      firstName: "John",
+      lastName: "Doe",
+      dob: "1990-01-01",
+      gender: "Male",
+      passportNo: "P1234567",
+      email: "test@utsavs.com",
+      mobile: "9999999999",
+      address: "123 Test St",
+      city: "Mumbai",
+      state: "Maharashtra",
+      pincode: "400001",
+      departureDate: "2026-10-25",
+      returnDate: "2026-11-05",
+      nomineeName: "Jane Doe",
+      nomineeRelation: "Spouse"
+    };
+
+    try {
+      // 1. Validate
+      toast({ title: "UAT Step 1/3", description: "Validating encrypted payload..." });
+      const valRes = await validateAsegoPolicy(fakePolicy, isDebug ? creds : undefined);
+      if (!valRes.success) throw new Error(valRes.error || "Validation failed");
+
+      // 2. Create
+      toast({ title: "UAT Step 2/3", description: "Creating test policy..." });
+      const createRes = await createAsegoPolicy(fakePolicy, isDebug ? creds : undefined);
+      setLastTrace(createRes);
+      if (!createRes.success) throw new Error(createRes.error || "Creation failed");
+
+      const policyNumber = createRes.data.policyNumber;
+      toast({ title: "Creation Success", description: `Policy ${policyNumber} created.` });
+
+      // 3. Cancel (Cleanup)
+      toast({ title: "UAT Step 3/3", description: "Cleaning up test policy..." });
+      const cancelRes = await cancelAsegoPolicy(policyNumber, "UAT Forensic Test Cleanup", isDebug ? creds : undefined);
+      if (!cancelRes.success) throw new Error(cancelRes.error || "Cancellation failed");
+
+      toast({ title: "Lifecycle Complete", description: "Test policy created and purged successfully." });
+    } catch (e: any) {
+      toast({ title: "Lifecycle Failed", description: e.message, variant: "destructive" });
+    } finally {
+      setIsTesting(false);
     }
   };
 
@@ -400,39 +470,68 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
          )}
       </div>
 
-      {/* SELECTION SUMMARY FLOATER */}
+      {/* SELECTION SUMMARY & TEST TOOL */}
       {selectedPlan && (
-        <div className="p-10 bg-[#4FD1C5]/10 border border-[#4FD1C5]/30 rounded-none flex flex-col md:flex-row items-center justify-between gap-8 animate-in slide-in-from-bottom-12 duration-700 shadow-3xl ring-1 ring-[#4FD1C5]/20">
-           <div className="flex items-center gap-8 text-left">
-              <div className="w-20 h-20 bg-[#4FD1C5]/20 rounded-none flex items-center justify-center text-[#4FD1C5] border border-[#4FD1C5]/30">
-                 <Plane className="w-10 h-10" />
+        <div className="space-y-6 animate-in slide-in-from-bottom-12 duration-700">
+           <div className="p-10 bg-[#4FD1C5]/10 border border-[#4FD1C5]/30 rounded-none flex flex-col md:flex-row items-center justify-between gap-8 shadow-3xl ring-1 ring-[#4FD1C5]/20">
+              <div className="flex items-center gap-8 text-left">
+                 <div className="w-20 h-20 bg-[#4FD1C5]/20 rounded-none flex items-center justify-center text-[#4FD1C5] border border-[#4FD1C5]/30">
+                    <Plane className="w-10 h-10" />
+                 </div>
+                 <div className="space-y-2">
+                    <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#4FD1C5]">TRANSACTION READY</p>
+                    <h4 className="text-3xl font-bold font-headline leading-none">{selectedPlan.name ?? '—'}</h4>
+                    
+                    {isDebug && (
+                       <div className="flex flex-wrap items-center gap-6 pt-1">
+                         <div className="flex flex-col">
+                             <span className="text-[8px] font-bold text-[#6E7495] uppercase tracking-widest">Plan Identifier</span>
+                             <span className="font-mono text-xs text-white/60">{selectedPlan.planId}</span>
+                         </div>
+                         <div className="flex flex-col">
+                             <span className="text-[8px] font-bold text-[#6E7495] uppercase tracking-widest">Detail Identifier</span>
+                             <span className={cn("font-mono text-xs", selectedPlan.detailId ? "text-white/80" : "text-amber-500")}>
+                               {selectedPlan.detailId || 'PENDING_HYDRATION'}
+                             </span>
+                         </div>
+                       </div>
+                    )}
+                 </div>
               </div>
-              <div className="space-y-2">
-                 <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#4FD1C5]">TRANSACTION READY</p>
-                 <h4 className="text-3xl font-bold font-headline leading-none">{selectedPlan.name ?? '—'}</h4>
-                 
-                 {isDebug && (
-                    <div className="flex flex-wrap items-center gap-6 pt-1">
-                      <div className="flex flex-col">
-                          <span className="text-[8px] font-bold text-[#6E7495] uppercase tracking-widest">Plan Identifier</span>
-                          <span className="font-mono text-xs text-white/60">{selectedPlan.planId}</span>
-                      </div>
-                      <div className="flex flex-col">
-                          <span className="text-[8px] font-bold text-[#6E7495] uppercase tracking-widest">Detail Identifier</span>
-                          <span className={cn("font-mono text-xs", selectedPlan.detailId ? "text-white/80" : "text-amber-500")}>
-                            {selectedPlan.detailId || 'PENDING_HYDRATION'}
-                          </span>
-                      </div>
-                    </div>
-                 )}
+              <div className="text-right space-y-2">
+                 <p className="text-[10px] font-bold text-[#6E7495] uppercase tracking-widest">UAT Estimated Total</p>
+                 <p className="text-4xl font-bold font-headline">₹{selectedPlan.premium ?? '0'}</p>
               </div>
            </div>
-           <div className="text-right space-y-2">
-              <p className="text-[10px] font-bold text-[#6E7495] uppercase tracking-widest">UAT Estimated Total</p>
-              <p className="text-4xl font-bold font-headline">₹{selectedPlan.premium ?? '0'}</p>
-           </div>
+
+           {isDebug && (
+             <Card className="bg-[#0B0F22] border-dashed border-[#4FD1C5]/40 p-8 rounded-none flex flex-col md:flex-row items-center justify-between gap-8 ring-1 ring-[#4FD1C5]/10">
+                <div className="text-left space-y-1">
+                   <p className="text-[10px] font-bold uppercase tracking-widest text-[#4FD1C5]">Lifecycle Test Harness</p>
+                   <p className="text-xs text-[#9AA1C0]">Runs encrypted <strong>Validate → Create → Cancel</strong> cycle using fake data.</p>
+                </div>
+                <div className="flex gap-4">
+                    <Button 
+                      disabled={isTesting}
+                      onClick={runLifecycleTest}
+                      className="bg-white text-black hover:bg-[#4FD1C5] font-bold text-[10px] uppercase tracking-widest h-12 px-8 rounded-none transition-all shadow-xl"
+                    >
+                      {isTesting ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <Zap className="w-4 h-4 mr-2" />}
+                      {isTesting ? "Executing Sequence..." : "Run Lifecycle Test (UAT)"}
+                    </Button>
+                    <Button 
+                      variant="ghost" 
+                      onClick={() => setSelectedPlan(null)}
+                      className="text-[10px] font-bold uppercase tracking-widest border border-white/10 h-12 rounded-none px-6"
+                    >
+                      <RotateCcw className="w-4 h-4 mr-2" /> Reset
+                    </Button>
+                </div>
+             </Card>
+           )}
         </div>
       )}
     </div>
   );
 }
+

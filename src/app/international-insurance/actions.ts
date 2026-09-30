@@ -1,9 +1,8 @@
-
 'use server';
 
 /**
  * @fileOverview Asego API Implementation - Phase 2
- * Implements Encryption utility and Policy Validation.
+ * Implements Encryption utility, Policy Validation, Creation, and Cancellation.
  */
 
 const BASE_URL = "https://dolphin.asego.in/api";
@@ -233,16 +232,39 @@ export async function validateAsegoPolicy(policyData: any, creds?: AsegoCredenti
   const isDebug = process.env.UTSAVS_INTERNAL_DEBUG === 'true';
   const pId = (isDebug && creds?.partnerId ? creds.partnerId : process.env.UTSAVS_PARTNER_ID || '').trim();
 
-  // 1. Stringify the full policy payload
   const rawString = JSON.stringify(policyData);
-
-  // 2. Encrypt the payload
   const encrypted = await asegoEncrypt(rawString, creds);
 
   if (!encrypted) {
     return { success: false, error: "Encryption failed." };
   }
 
-  // 3. Send to validation endpoint
   return asegoRequest(`/ext/b2b/v1/createPolicy/validate/${pId}`, creds, 'POST', { policyData: encrypted });
+}
+
+/**
+ * Policy Creation (UAT TEST ONLY)
+ */
+export async function createAsegoPolicy(policyData: any, creds?: AsegoCredentials) {
+  const isDebug = process.env.UTSAVS_INTERNAL_DEBUG === 'true';
+  const pId = (isDebug && creds?.partnerId ? creds.partnerId : process.env.UTSAVS_PARTNER_ID || '').trim();
+
+  const rawString = JSON.stringify(policyData);
+  const encrypted = await asegoEncrypt(rawString, creds);
+
+  if (!encrypted) {
+    return { success: false, error: "Encryption failed." };
+  }
+
+  return asegoRequest(`/ext/b2b/v1/createPolicy/${pId}`, creds, 'POST', { policyData: encrypted });
+}
+
+/**
+ * Policy Cancellation (UAT TEST ONLY)
+ */
+export async function cancelAsegoPolicy(policyNumber: string, remarks: string = "UAT Test Cancellation", creds?: AsegoCredentials) {
+  const isDebug = process.env.UTSAVS_INTERNAL_DEBUG === 'true';
+  const pId = (isDebug && creds?.partnerId ? creds.partnerId : process.env.UTSAVS_PARTNER_ID || '').trim();
+
+  return asegoRequest(`/ext/b2b/v1/policy/cancel/${pId}`, creds, 'POST', { policyNumber, remarks });
 }
