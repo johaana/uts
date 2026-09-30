@@ -331,7 +331,7 @@ export default function InternationalInsurancePage() {
                            >
                               <div className="p-8 border-b border-white/5 flex justify-between items-start shrink-0">
                                  <div className="space-y-1">
-                                    <h3 className="font-bold text-xl leading-tight">{plan.name}</h3>
+                                    <h3 className="font-bold text-xl leading-tight">{plan.name ?? "Insurance Plan"}</h3>
                                     <p className="text-[10px] font-bold uppercase tracking-widest text-[#4FD1C5]">{plan.insurer}</p>
                                  </div>
                               </div>
@@ -339,7 +339,7 @@ export default function InternationalInsurancePage() {
                                  <div className="p-6 bg-white/5 rounded-none space-y-3">
                                     <div className="flex justify-between items-baseline">
                                        <span className="text-[10px] font-bold uppercase text-[#6E7495] tracking-widest">Premium Total</span>
-                                       <span className="text-3xl font-bold text-white font-headline">₹{plan.premium || '—'}</span>
+                                       <span className="text-3xl font-bold text-white font-headline">₹{plan.premium ?? '—'}</span>
                                     </div>
                                     <p className="text-[9px] text-[#6E7495] uppercase font-bold tracking-widest">{plan.currency}</p>
                                  </div>
@@ -380,7 +380,7 @@ export default function InternationalInsurancePage() {
                        <h3 className="text-2xl font-headline font-bold text-[#6E7495]">
                          {hasSearched ? "No matching plans found." : "Discovery Passive"}
                        </h3>
-                       <p className="text-[#6E7495] max-w-sm mx-auto font-medium leading-relaxed">
+                       <p className="text-[#6E7495] max-sm mx-auto font-medium leading-relaxed">
                          {hasSearched 
                            ? "The current trip parameters returned an empty result in UAT. Try a different duration or age." 
                            : "Connect your UAT Session and enter trip parameters to interrogate the catalogue."}
@@ -423,6 +423,22 @@ export default function InternationalInsurancePage() {
                  </div>
               </div>
             )}
+
+            {/* REGULATORY DISCLOSURE */}
+            <div className="pt-8 mt-8 border-t border-white/10 space-y-4 text-left">
+              <span className="font-mono text-[10px] uppercase tracking-[0.1em] text-[#6E7495]">
+                Regulatory Disclosure
+              </span>
+              <div className="space-y-4 text-[10px] text-[#9AA1C0] leading-relaxed normal-case tracking-normal">
+                <div className="space-y-1">
+                  <p>Assistance services are facilitated by Asego Global Assistance Private Limited.</p>
+                  <p>Insurance is underwritten by an IRDAI authorised underwriter and is a subject matter of solicitation.</p>
+                </div>
+                <p>The content expressed in this platform is for information purposes only and it does not accept any liability of any sort unless confirmed by an authorized representative. All Insurance policies are sold under the Corporate Agency of Asego Global Assistance Private Limited bearing IRDAI registration no. Ca0776.</p>
+                <div className="h-px bg-white/10 w-full" />
+                <p className="italic text-[#6E7495] normal-case tracking-normal">Note: Assistance provided by Asego Travel LLP. Student Journey plans meet leading U.S. university and visa requirements for F1, J1, and M1 students. Insurance underwritten by an IRDAI authorised underwriter – ICICI Lombard General Insurance Company Ltd or International Medical Group Inc. (IMG).</p>
+              </div>
+            </div>
 
           </div>
         </div>
