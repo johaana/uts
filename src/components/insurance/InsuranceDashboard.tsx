@@ -2,33 +2,25 @@
 
 import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Badge } from "@/components/ui/badge";
 import { 
   ShieldCheck, 
-  Activity, 
   Search, 
   Loader2, 
-  Check, 
   Plane, 
-  ChevronRight, 
   Lock,
-  Globe,
-  AlertCircle,
   Terminal,
   Eye,
   EyeOff,
   Zap,
-  RotateCcw,
   User,
   MapPin,
   Heart,
-  Calendar,
-  FileText,
   Download,
-  ArrowLeft
+  RefreshCw,
+  AlertTriangle
 } from "lucide-react";
 import { 
   getAsegoCategories, 
@@ -37,10 +29,8 @@ import {
   validateAsegoPolicy,
   createAsegoPolicy,
   cancelAsegoPolicy,
-  asegoEncrypt,
-  asegoDecrypt,
-  NormalizedPlan, 
-  AsegoCredentials 
+  AsegoCredentials,
+  NormalizedPlan 
 } from '@/app/international-insurance/actions';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
@@ -104,21 +94,24 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
   const [issuedPolicy, setIssuedPolicy] = useState<any>(null);
   const [lastTrace, setLastTrace] = useState<any>(null);
   const [showTrace, setShowTrace] = useState(false);
+  const [isTestingLifecycle, setIsTestingLifecycle] = useState(false);
 
   const isSessionActive = !!(creds.partnerId.trim() && creds.sign.trim() && creds.reference.trim());
 
-  useEffect(() => {
-    if (isSessionActive || isDebug) {
-      fetchCategories();
-    }
-  }, [creds.partnerId, isDebug]);
-
   const fetchCategories = async () => {
+    if (!isSessionActive && isDebug) {
+      toast({ title: "Configuration Required", description: "Please enter your 5 Asego credentials in the Config panel first.", variant: "destructive" });
+      return;
+    }
     setIsConnecting(true);
     try {
       const res = await getAsegoCategories(isDebug ? creds : undefined);
+      setLastTrace(res);
       if (res.success && Array.isArray(res.data)) {
         setCategories(res.data);
+        toast({ title: "Connection Successful", description: `Loaded ${res.data.length} regions from Asego.` });
+      } else {
+        toast({ title: "Connection Failed", description: res.error || "Check your credentials in the Config panel.", variant: "destructive" });
       }
     } catch (e) {
       console.error(e);
@@ -142,12 +135,46 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
         setPlans(res.data);
         setStep('selection');
       } else {
-        toast({ title: "API Failure", description: res.error || "No plans returned", variant: "destructive" });
+        toast({ title: "Search Failed", description: res.error || "No plans returned for these parameters.", variant: "destructive" });
       }
     } catch (e) {
-      toast({ title: "Search Error", variant: "destructive" });
+      toast({ title: "Internal Error", variant: "destructive" });
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const runLifecycleTest = async () => {
+    if (!isSessionActive) return setShowGate(true);
+    setIsTestingLifecycle(true);
+    
+    try {
+      // 1. Create
+      const orderId = `UTS-TEST-${Math.floor(Date.now() / 1000)}`;
+      const payload = { ...formData, planId: "d5e591b7-46dd-4d7e-8264-7a30b16cec8d", detailId: "test-detail-id", orderId };
+      
+      const createRes = await createAsegoPolicy(payload, creds);
+      setLastTrace(createRes);
+      
+      if (!createRes.success) {
+        toast({ title: "Creation Failed", description: createRes.error, variant: "destructive" });
+        return;
+      }
+
+      const policyNo = createRes.data.policyNumber;
+      toast({ title: "Created", description: `Policy ${policyNo} generated.` });
+
+      // 2. Cancel
+      const cancelRes = await cancelAsegoPolicy(policyNo, "UAT Forensic Test Cleanup", creds);
+      setLastTrace(cancelRes);
+      
+      if (cancelRes.success) {
+        toast({ title: "Test Complete", description: "Policy created and successfully cancelled in UAT." });
+      }
+    } catch (e) {
+      toast({ title: "Lifecycle Error", variant: "destructive" });
+    } finally {
+      setIsTestingLifecycle(false);
     }
   };
 
@@ -170,26 +197,6 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
     }
   };
 
-  const handleValidate = async () => {
-    setIsValidating(true);
-    const orderId = `UTS-VAL-${Math.floor(Date.now() / 1000)}`;
-    const payload = { ...formData, planId: selectedPlan?.planId, detailId: selectedPlan?.detailId, orderId };
-    
-    try {
-      const res = await validateAsegoPolicy(payload, isDebug ? creds : undefined);
-      setLastTrace(res);
-      if (res.success) {
-        toast({ title: "Validation Pass", description: "The policy payload is correctly formatted for Asego." });
-      } else {
-        toast({ title: "Validation Error", description: res.error || "Schema check failed", variant: "destructive" });
-      }
-    } catch (e) {
-      toast({ title: "Internal Error", variant: "destructive" });
-    } finally {
-      setIsValidating(false);
-    }
-  };
-
   const handleIssuePolicy = async () => {
     setIsIssuing(true);
     const orderId = `UTS-ISS-${Math.floor(Date.now() / 1000)}`;
@@ -201,22 +208,14 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
       if (res.success) {
         setIssuedPolicy(res.data);
         setStep('success');
-        toast({ title: "Policy Issued", description: `Record ${res.data.policyNumber} created in UAT.` });
       } else {
-        toast({ title: "Issuance Failed", description: res.error || "Asego rejected the request", variant: "destructive" });
+        toast({ title: "Issuance Failed", description: res.error, variant: "destructive" });
       }
     } catch (e) {
       toast({ title: "Internal Error", variant: "destructive" });
     } finally {
       setIsIssuing(false);
     }
-  };
-
-  const resetJourney = () => {
-    setStep('search');
-    setSelectedPlan(null);
-    setIssuedPolicy(null);
-    setPlans([]);
   };
 
   return (
@@ -260,29 +259,37 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
 
       {/* 2. FORENSIC TRACE TERMINAL */}
       {showTrace && lastTrace && (
-        <Card className="bg-[#0B0F22] border-[#4FD1C5]/40 p-8 rounded-none font-mono text-[11px] animate-in fade-in slide-in-from-top-4">
+        <Card className="bg-[#0B0F22] border-[#4FD1C5]/40 p-8 rounded-none font-mono text-[11px] animate-in fade-in slide-in-from-top-4 text-left">
            <div className="flex items-center justify-between mb-4 border-b border-white/5 pb-2">
-              <span className="text-[9px] font-bold uppercase text-[#4FD1C5]">Forensic_Trace.raw</span>
+              <span className="text-[9px] font-bold uppercase text-[#4FD1C5]">Forensic_Trace_v4.5.log</span>
               <span className="text-white/20">{lastTrace.method} {lastTrace.endpoint}</span>
            </div>
-           <pre className="text-[#4FD1C5] overflow-auto max-h-[300px] leading-relaxed custom-scrollbar">
-              {JSON.stringify(lastTrace.raw || lastTrace.data, null, 2)}
-           </pre>
+           <div className="space-y-4">
+              <div>
+                <p className="text-[#6E7495] mb-1 font-bold uppercase text-[9px]">Verbatim Response Body:</p>
+                <pre className="text-[#4FD1C5] overflow-auto max-h-[300px] leading-relaxed custom-scrollbar bg-white/[0.02] p-4">
+                  {JSON.stringify(lastTrace.raw || lastTrace.data, null, 2)}
+                </pre>
+              </div>
+              <div className="pt-4 border-t border-white/5">
+                <p className="text-[#6E7495] mb-1 font-bold uppercase text-[9px]">Status: {lastTrace.status} {lastTrace.success ? 'OK' : 'ERROR'}</p>
+              </div>
+           </div>
         </Card>
       )}
 
       {/* 3. CONFIGURATION GATE */}
       {showGate && (
-        <Card className="bg-[#171D3A] border border-[#E8A33D]/40 p-8 rounded-none shadow-2xl text-left">
-            <div className="flex items-center justify-between mb-6">
-                <h3 className="text-lg font-bold font-headline flex items-center gap-2">
-                  <Lock className="w-4 h-4 text-[#E8A33D]" /> Session Credentials
+        <Card className="bg-[#171D3A] border border-[#E8A33D]/40 p-8 rounded-none shadow-2xl text-left animate-in slide-in-from-right-4">
+            <div className="flex items-center justify-between mb-8">
+                <h3 className="text-xl font-bold font-headline flex items-center gap-3">
+                  <Lock className="w-5 h-5 text-[#E8A33D]" /> Asego Session Activation
                 </h3>
                 <button onClick={() => setShowSecrets(!showSecrets)} className="text-xs font-bold text-[#6E7495] hover:text-white transition-colors">
-                   {showSecrets ? "Hide Values" : "Show Values"}
+                   {showSecrets ? "Hide Keys" : "Reveal Keys"}
                 </button>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8">
                 {[
                   { k: 'partnerId', l: 'Partner ID' },
                   { k: 'sign', l: 'Sign' },
@@ -296,51 +303,66 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
                       type={showSecrets ? "text" : "password"} 
                       value={(creds as any)[f.k]} 
                       onChange={e => setCreds({...creds, [f.k]: e.target.value})}
-                      className="bg-[#0F1428] border-white/10 h-10 text-xs rounded-none font-mono"
+                      className="bg-[#0F1428] border-white/10 h-11 text-xs rounded-none font-mono"
                     />
                   </div>
                 ))}
             </div>
-            <Button onClick={() => setShowGate(false)} className="w-full bg-[#E8A33D] text-[#0F1428] font-bold h-10 rounded-none uppercase text-[10px] tracking-widest">
-                Save & Close
-            </Button>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Button onClick={fetchCategories} disabled={isConnecting} className="flex-1 h-12 bg-white/10 hover:bg-white/20 text-white font-bold rounded-none uppercase text-[10px] tracking-widest">
+                  {isConnecting ? <Loader2 className="w-4 h-4 animate-spin" /> : <><RefreshCw className="w-3.5 h-3.5 mr-2" /> Test Connection</>}
+              </Button>
+              <Button onClick={runLifecycleTest} disabled={isTestingLifecycle} className="flex-1 h-12 bg-[#E8A33D] text-[#0F1428] font-bold rounded-none uppercase text-[10px] tracking-widest">
+                  {isTestingLifecycle ? <Loader2 className="w-4 h-4 animate-spin" /> : <><Zap className="w-3.5 h-3.5 mr-2" /> Run Lifecycle Test</>}
+              </Button>
+              <Button onClick={() => setShowGate(false)} className="px-8 h-12 border border-white/10 text-white font-bold rounded-none uppercase text-[10px] tracking-widest">
+                  Close
+              </Button>
+            </div>
         </Card>
       )}
 
       {/* 4. JOURNEY STEPS */}
       <div className="space-y-12">
           
-          {/* STEP 1: SEARCH */}
           {step === 'search' && (
             <Card className="bg-[#171D3A] border-white/10 p-1 rounded-none shadow-3xl">
-              <form onSubmit={handleSearch} className="bg-[#1E2650] p-10 rounded-none grid grid-cols-1 md:grid-cols-4 gap-8 items-end text-left">
-                  <div className="space-y-2">
-                      <Label className="text-[10px] font-bold uppercase tracking-widest text-[#9AA1C0]">Destination</Label>
-                      <select 
-                          value={searchParams.categoryId} 
-                          onChange={e => setSearchParams({...searchParams, categoryId: e.target.value})}
-                          className="w-full h-14 px-4 bg-[#0F1428] border border-white/10 rounded-none outline-none text-sm font-medium"
-                      >
-                          <option value="">Select Region</option>
-                          {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
-                      </select>
+              <div className="bg-[#1E2650] p-10 rounded-none">
+                {categories.length === 0 && !isConnecting && (
+                  <div className="mb-8 p-4 bg-amber-500/10 border border-amber-500/20 text-amber-500 text-xs flex items-center gap-3">
+                    <AlertTriangle className="w-4 h-4" />
+                    <span>No regions loaded. Click the <strong>Config</strong> button (Lock icon) and <strong>Test Connection</strong> to initialize.</span>
                   </div>
-                  <div className="space-y-2">
-                      <Label className="text-[10px] font-bold uppercase tracking-widest text-[#9AA1C0]">Traveler Age</Label>
-                      <Input type="number" value={searchParams.age} onChange={e => setSearchParams({...searchParams, age: e.target.value})} className="h-14 bg-[#0F1428] border-white/10 rounded-none font-bold text-center" />
-                  </div>
-                  <div className="space-y-2">
-                      <Label className="text-[10px] font-bold uppercase tracking-widest text-[#9AA1C0]">Duration (Days)</Label>
-                      <Input type="number" value={searchParams.duration} onChange={e => setSearchParams({...searchParams, duration: e.target.value})} className="h-14 bg-[#0F1428] border-white/10 rounded-none font-bold text-center" />
-                  </div>
-                  <Button type="submit" disabled={isLoading} className="h-14 bg-[#E8A33D] text-[#0F1428] font-bold rounded-none shadow-xl hover:bg-white transition-all">
-                      {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : "Search Plans"}
-                  </Button>
-              </form>
+                )}
+                <form onSubmit={handleSearch} className="grid grid-cols-1 md:grid-cols-4 gap-8 items-end text-left">
+                    <div className="space-y-2">
+                        <Label className="text-[10px] font-bold uppercase tracking-widest text-[#9AA1C0]">Destination</Label>
+                        <select 
+                            value={searchParams.categoryId} 
+                            onChange={e => setSearchParams({...searchParams, categoryId: e.target.value})}
+                            className="w-full h-14 px-4 bg-[#0F1428] border border-white/10 rounded-none outline-none text-sm font-medium disabled:opacity-50"
+                            disabled={categories.length === 0}
+                        >
+                            <option value="">{isConnecting ? "Loading..." : categories.length > 0 ? "Select Region" : "Configure to load..."}</option>
+                            {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+                        </select>
+                    </div>
+                    <div className="space-y-2">
+                        <Label className="text-[10px] font-bold uppercase tracking-widest text-[#9AA1C0]">Traveler Age</Label>
+                        <Input type="number" value={searchParams.age} onChange={e => setSearchParams({...searchParams, age: e.target.value})} className="h-14 bg-[#0F1428] border-white/10 rounded-none font-bold text-center" />
+                    </div>
+                    <div className="space-y-2">
+                        <Label className="text-[10px] font-bold uppercase tracking-widest text-[#9AA1C0]">Duration (Days)</Label>
+                        <Input type="number" value={searchParams.duration} onChange={e => setSearchParams({...searchParams, duration: e.target.value})} className="h-14 bg-[#0F1428] border-white/10 rounded-none font-bold text-center" />
+                    </div>
+                    <Button type="submit" disabled={isLoading || categories.length === 0} className="h-14 bg-[#E8A33D] text-[#0F1428] font-bold rounded-none shadow-xl hover:bg-white transition-all">
+                        {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : "Search Plans"}
+                    </Button>
+                </form>
+              </div>
             </Card>
           )}
 
-          {/* STEP 2: SELECTION */}
           {step === 'selection' && (
             <div className="space-y-8 animate-in fade-in duration-500 text-left">
                <div className="flex items-center justify-between border-b border-white/5 pb-4">
@@ -373,7 +395,6 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
             </div>
           )}
 
-          {/* STEP 3: TRAVELER DETAILS FORM */}
           {step === 'form' && selectedPlan && (
             <div className="space-y-10 animate-in fade-in duration-700 text-left">
                <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 bg-white/[0.02] border border-white/10 p-8">
@@ -440,20 +461,6 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
                               <Label className="text-[9px] font-bold uppercase text-[#6E7495]">Street Address</Label>
                               <Input value={formData.address} onChange={e => setFormData({...formData, address: e.target.value})} className="bg-white/5 border-white/10 h-11 rounded-none" />
                            </div>
-                           <div className="grid grid-cols-3 md:col-span-2 gap-4">
-                              <div className="space-y-1.5">
-                                 <Label className="text-[8px] font-bold uppercase text-[#6E7495]">City</Label>
-                                 <Input value={formData.city} onChange={e => setFormData({...formData, city: e.target.value})} className="bg-white/5 border-white/10 h-10 rounded-none text-xs" />
-                              </div>
-                              <div className="space-y-1.5">
-                                 <Label className="text-[8px] font-bold uppercase text-[#6E7495]">State</Label>
-                                 <Input value={formData.state} onChange={e => setFormData({...formData, state: e.target.value})} className="bg-white/5 border-white/10 h-10 rounded-none text-xs" />
-                              </div>
-                              <div className="space-y-1.5">
-                                 <Label className="text-[8px] font-bold uppercase text-[#6E7495]">Pincode</Label>
-                                 <Input value={formData.pincode} onChange={e => setFormData({...formData, pincode: e.target.value})} className="bg-white/5 border-white/10 h-10 rounded-none text-xs" />
-                              </div>
-                           </div>
                         </div>
                      </section>
 
@@ -482,7 +489,7 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
                   <div className="space-y-6 sticky top-28 h-fit">
                       <div className="p-8 bg-[#171D3A] border border-white/10 rounded-none space-y-8">
                          <div className="space-y-4">
-                            <h4 className="text-[10px] font-bold uppercase tracking-widest text-white border-b border-white/5 pb-2">Final Review</h4>
+                            <h4 className="text-[10px] font-bold uppercase tracking-widest text-white border-b border-white/5 pb-2">Issuance Summary</h4>
                             <div className="space-y-3">
                                <div className="flex justify-between text-xs">
                                   <span className="text-[#6E7495]">Premium</span>
@@ -492,22 +499,10 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
                                   <span className="text-[#6E7495]">Traveler</span>
                                   <span className="font-bold">{formData.firstName} {formData.lastName}</span>
                                </div>
-                               <div className="flex justify-between text-xs">
-                                  <span className="text-[#6E7495]">Trip Duration</span>
-                                  <span className="font-bold">{searchParams.duration} Days</span>
-                               </div>
                             </div>
                          </div>
 
                          <div className="space-y-3">
-                            <Button 
-                              onClick={handleValidate}
-                              disabled={isValidating}
-                              variant="outline" 
-                              className="w-full h-12 font-bold uppercase text-[9px] tracking-widest rounded-none border-white/10 hover:bg-white/5"
-                            >
-                               {isValidating ? <Loader2 className="w-4 h-4 animate-spin" /> : "Validate Schema"}
-                            </Button>
                             <Button 
                               onClick={handleIssuePolicy}
                               disabled={isIssuing || !selectedPlan.detailId}
@@ -515,13 +510,10 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
                             >
                                {isIssuing ? <Loader2 className="w-4 h-4 animate-spin" /> : <><Zap className="w-3.5 h-3.5 mr-2" /> Complete Issuance</>}
                             </Button>
-                            {!selectedPlan.detailId && (
-                               <p className="text-[8px] text-amber-500 font-bold uppercase text-center mt-2">Waiting for Detail Identifier...</p>
-                            )}
                          </div>
                       </div>
 
-                      <button onClick={resetJourney} className="w-full text-[9px] font-bold uppercase tracking-widest text-[#6E7495] hover:text-white transition-colors">
+                      <button onClick={() => setStep('search')} className="w-full text-[9px] font-bold uppercase tracking-widest text-[#6E7495] hover:text-white transition-colors">
                          Discard & Start Over
                       </button>
                   </div>
@@ -529,37 +521,36 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
             </div>
           )}
 
-          {/* STEP 4: SUCCESS / CONFIRMATION */}
           {step === 'success' && issuedPolicy && (
             <div className="max-w-2xl mx-auto py-12 animate-in zoom-in-95 duration-500">
-               <div className="bg-[#171D3A] border border-[#4FD1C5]/40 p-12 rounded-none text-center space-y-8 shadow-3xl ring-1 ring-[#4FD1C5]/20">
+               <div className="bg-[#171D3A] border border-[#4FD1C5]/40 p-12 rounded-none text-center space-y-8 shadow-3xl">
                   <div className="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4 border border-green-500/30">
                      <ShieldCheck className="w-10 h-10 text-green-500" />
                   </div>
                   <div className="space-y-2">
-                     <h2 className="text-3xl font-bold font-headline">Policy Successfully Issued</h2>
+                     <h2 className="text-3xl font-bold font-headline text-white">Policy Issued Successfully</h2>
                      <p className="text-[#9AA1C0] font-medium">UAT transaction complete. Your test document is ready.</p>
                   </div>
 
                   <div className="grid grid-cols-2 gap-px bg-white/10 border border-white/10">
                      <div className="bg-white/5 p-6 space-y-1">
                         <p className="text-[9px] font-bold text-[#6E7495] uppercase tracking-widest">Policy Number</p>
-                        <p className="text-xl font-bold font-mono">{issuedPolicy.policyNumber}</p>
+                        <p className="text-xl font-bold font-mono text-white">{issuedPolicy.policyNumber}</p>
                      </div>
                      <div className="bg-white/5 p-6 space-y-1">
-                        <p className="text-[9px] font-bold text-[#6E7495] uppercase tracking-widest">Order Identifier</p>
-                        <p className="text-xl font-bold font-mono">{issuedPolicy.orderId}</p>
+                        <p className="text-[9px] font-bold text-[#6E7495] uppercase tracking-widest">Order ID</p>
+                        <p className="text-xl font-bold font-mono text-white">{issuedPolicy.orderId}</p>
                      </div>
                   </div>
 
                   <div className="pt-6 space-y-4">
                      <a href={issuedPolicy.policyFilePath} target="_blank" rel="noopener noreferrer">
                         <Button className="w-full h-14 bg-white text-black hover:bg-[#4FD1C5] font-bold uppercase tracking-[0.2em] text-[10px] rounded-none shadow-xl">
-                           <Download className="w-4 h-4 mr-2" /> Download Certificate (UAT)
+                           <Download className="w-4 h-4 mr-2" /> Download Certificate
                         </Button>
                      </a>
-                     <Button variant="ghost" onClick={resetJourney} className="text-[9px] font-bold uppercase tracking-widest text-[#6E7495] hover:text-white">
-                        Issue Another Policy
+                     <Button variant="ghost" onClick={() => setStep('search')} className="text-[9px] font-bold uppercase tracking-widest text-[#6E7495] hover:text-white">
+                        Issue Another
                      </Button>
                   </div>
                </div>
