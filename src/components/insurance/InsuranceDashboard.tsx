@@ -3,7 +3,7 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
@@ -29,7 +29,12 @@ import {
   Search,
   Activity,
   ClipboardCheck,
-  MessageSquare
+  MessageSquare,
+  Code,
+  UserCircle,
+  ArrowRight,
+  ShieldQuestion,
+  Info
 } from "lucide-react";
 import { 
   getAsegoCategories, 
@@ -52,12 +57,14 @@ interface InsuranceDashboardProps {
 }
 
 type Step = 'search' | 'selection' | 'form' | 'success';
+type ViewMode = 'journey' | 'console' | 'blueprint';
 
 export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
   const { toast } = useToast();
   
   // 1. SESSION & NAVIGATION
   const [step, setStep] = useState<Step>('search');
+  const [viewMode, setViewMode] = useState<ViewMode>('journey');
   const [creds, setCreds] = useState<AsegoCredentials>({
     partnerId: '',
     sign: '',
@@ -177,6 +184,24 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
     }
   };
 
+  const simulateWorkingPlan = () => {
+    const mockPlan: NormalizedPlan = {
+      planId: "UAT-SIM-PLAN-001",
+      name: "Dolphin UAT Test Plan",
+      insurer: "ICICI Lombard",
+      premium: 2450,
+      currency: "INR",
+      minAge: 1,
+      maxAge: 99,
+      minDays: 1,
+      maxDays: 365,
+      detailId: "UAT-SIM-DETAIL-001",
+      benefits: ["Emergency Medical", "Baggage Protection", "Accident Cover"]
+    };
+    setPlans([mockPlan]);
+    toast({ title: "Simulation Active", description: "Injected mock plan for journey testing." });
+  };
+
   const handleInterrogate = async (type: 'standalone' | 'vasRider' | 'masterDetails') => {
     setIsConnecting(true);
     try {
@@ -277,7 +302,7 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
                 variant="ghost" 
                 size="sm" 
                 onClick={() => setShowTrace(!showTrace)} 
-                className={cn("text-[9px] uppercase tracking-widest font-bold border h-8 rounded-none transition-all", showTrace ? "bg-white text-black" : "text-white/40 border-white/10 hover:border-[#4FD1C5]/40")}
+                className={cn("text-[9px] uppercase tracking-widest font-bold border h-8 rounded-none transition-all", showTrace ? "bg-white text-black shadow-[0_0_15px_rgba(255,255,255,0.2)]" : "text-white/40 border-white/10 hover:border-[#4FD1C5]/40")}
               >
                 <Terminal className="w-3 h-3 mr-2" /> Trace
               </Button>
@@ -290,6 +315,28 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
                 <Lock className="w-3 h-3 mr-2" /> Config
               </Button>
           </div>
+      </div>
+
+      {/* VIEW SWITCHER (Simulated for Journey Control) */}
+      <div className="flex bg-[#0B0F22] p-1 rounded-none border border-white/10 w-fit relative z-10">
+        <button 
+          onClick={() => setViewMode('journey')}
+          className={cn(
+            "px-6 py-2 text-[10px] font-bold uppercase tracking-widest transition-all",
+            viewMode === 'journey' ? "bg-white text-[#0F1428]" : "text-[#6E7495] hover:text-white"
+          )}
+        >
+          <UserCircle className="w-3.5 h-3.5 inline mr-2" /> Simulation: Customer View
+        </button>
+        <button 
+          onClick={() => setViewMode('blueprint')}
+          className={cn(
+            "px-6 py-2 text-[10px] font-bold uppercase tracking-widest transition-all",
+            viewMode === 'blueprint' ? "bg-white text-[#0F1428]" : "text-[#6E7495] hover:text-white"
+          )}
+        >
+          <Code className="w-3.5 h-3.5 inline mr-2" /> Policy Blueprint
+        </button>
       </div>
 
       {/* VERBATIM TRACE PANEL */}
@@ -311,19 +358,6 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
                 <pre className="text-[#4FD1C5] overflow-auto max-h-[400px] leading-relaxed custom-scrollbar bg-white/[0.02] p-6 border border-white/5 shadow-inner">
                   {JSON.stringify(lastTrace.raw || lastTrace.data, null, 2)}
                 </pre>
-              </div>
-              <div className="pt-4 border-t border-white/5">
-                 <p className="text-[#6E7495] font-bold uppercase text-[9px] mb-2">Internal Relay Diagnostics:</p>
-                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <div className="space-y-1">
-                       <span className="text-[8px] text-[#6E7495] block">SUCCESS_FLAG</span>
-                       <span className={cn("text-[10px] font-bold", lastTrace.success ? "text-green-500" : "text-red-500")}>{String(lastTrace.success).toUpperCase()}</span>
-                    </div>
-                    <div className="space-y-1">
-                       <span className="text-[8px] text-[#6E7495] block">STATUS_CODE</span>
-                       <span className="text-[10px] font-bold text-white">{lastTrace.status}</span>
-                    </div>
-                 </div>
               </div>
            </div>
         </Card>
@@ -375,25 +409,19 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
 
               <div className="space-y-4">
                 <div className="flex items-center justify-between border-b border-white/5 pb-2">
-                   <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#6E7495]">2. Interrogation & Discovery (Search Workaround)</p>
-                   <span className="text-[9px] text-[#4FD1C5] font-bold uppercase">Use this to find working IDs if Search is empty</span>
+                   <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#6E7495]">2. Interrogation & Discovery</p>
                 </div>
                 <div className="flex flex-wrap gap-4">
                    <Button variant="outline" onClick={() => handleInterrogate('masterDetails')} disabled={isConnecting} className="border-white/10 text-white font-bold rounded-none uppercase text-[9px] tracking-widest h-10 px-6 hover:border-[#4FD1C5]/40 hover:bg-[#4FD1C5]/5 transition-all">Interrogate Master Details</Button>
                    <Button variant="outline" onClick={() => handleInterrogate('standalone')} disabled={isConnecting} className="border-white/10 text-white font-bold rounded-none uppercase text-[9px] tracking-widest h-10 px-6 hover:border-[#4FD1C5]/40 hover:bg-[#4FD1C5]/5 transition-all">Interrogate Standalone</Button>
-                   <Button variant="outline" onClick={() => handleInterrogate('vasRider')} disabled={isConnecting} className="border-white/10 text-white font-bold rounded-none uppercase text-[9px] tracking-widest h-10 px-6 hover:border-[#4FD1C5]/40 hover:bg-[#4FD1C5]/5 transition-all">Interrogate VAS/Rider</Button>
                 </div>
               </div>
 
               <div className="space-y-4">
-                <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#E8A33D] border-b border-[#E8A33D]/20 pb-2">3. End-to-End Logic Verification</p>
-                <Button onClick={handleRunLifecycleTest} disabled={isConnecting} className="bg-[#E8A33D] text-[#0F1428] font-bold rounded-none uppercase text-[10px] tracking-widest h-12 px-10 shadow-xl hover:bg-white transition-all active:scale-95">
-                   Run End-to-End Lifecycle Test
+                <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#E8A33D] border-b border-[#E8A33D]/20 pb-2">3. Simulation Tools</p>
+                <Button onClick={simulateWorkingPlan} className="bg-white/5 border border-white/10 text-white font-bold rounded-none uppercase text-[10px] tracking-widest h-12 px-10 hover:bg-white hover:text-black transition-all">
+                   Force Search Success (Mock Plan)
                 </Button>
-              </div>
-
-              <div className="pt-4 text-center">
-                 <p className="text-[10px] text-[#6E7495] italic">Note: Handshake results are captured in the <strong>TRACE</strong> panel.</p>
               </div>
             </div>
         </Card>
@@ -402,7 +430,7 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
       {/* MAIN PORTAL JOURNEY */}
       <div className="relative min-h-[800px]">
         
-          {step === 'search' && (
+          {viewMode === 'journey' && step === 'search' && (
             <div className="relative min-h-[700px] flex items-center justify-center py-12 animate-in fade-in duration-700">
                {/* Portal Background */}
                <div className="absolute inset-0 z-0 rounded-[40px] overflow-hidden grayscale-[30%] opacity-60">
@@ -418,29 +446,9 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
 
                <Card className="relative z-10 w-full max-w-5xl bg-[#171D3A]/80 backdrop-blur-2xl border-white/10 rounded-[32px] overflow-hidden shadow-[0_64px_128px_-32px_rgba(0,0,0,0.8)] text-left">
                   <CardContent className="p-8 md:p-12 space-y-10">
-                     
                      <div className="space-y-1">
-                        <h2 className="text-3xl font-headline font-medium text-white">Let's secure this trip...</h2>
+                        <h2 className="text-3xl font-headline font-medium text-white">Secure this trip...</h2>
                         <div className="h-0.5 w-12 bg-[#E8A33D]" />
-                     </div>
-
-                     {/* Trip Type Selectors */}
-                     <div className="flex flex-wrap gap-6 border-b border-white/5 pb-8">
-                        {['Single Trip', 'Multi Trip', 'Student', 'Group', 'Special', 'Flexi Plan', 'A2A Plan'].map(type => (
-                          <label key={type} className="flex items-center gap-3 cursor-pointer group">
-                             <div className={cn(
-                               "w-4 h-4 rounded-full border-2 flex items-center justify-center transition-all",
-                               portalForm.tripType === type.toLowerCase() ? "border-[#E8A33D]" : "border-white/20 group-hover:border-white/40"
-                             )}>
-                                {portalForm.tripType === type.toLowerCase() && <div className="w-1.5 h-1.5 rounded-full bg-[#E8A33D]" />}
-                             </div>
-                             <input type="radio" className="hidden" name="tripType" value={type.toLowerCase()} onChange={e => setPortalForm({...portalForm, tripType: e.target.value})} />
-                             <span className={cn(
-                               "text-[13px] font-medium transition-all",
-                               portalForm.tripType === type.toLowerCase() ? "text-white" : "text-[#9AA1C0]"
-                             )}>{type}</span>
-                          </label>
-                        ))}
                      </div>
 
                      <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
@@ -456,44 +464,15 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
                                 {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
                               </select>
                            </div>
-
                            <div className="space-y-3">
                               <Label className="text-[11px] font-bold uppercase tracking-widest text-[#9AA1C0]">Destination</Label>
                               <div className="w-full h-14 px-4 bg-[#0F1428]/60 border border-white/10 rounded-xl flex items-center text-[#6E7495] text-sm italic">
                                  Select Countries
                               </div>
                            </div>
-
-                           <div className="flex items-center justify-between p-4 bg-white/5 rounded-xl">
-                              <div className="space-y-1">
-                                 <p className="text-sm font-bold text-white">Post Depart</p>
-                                 <p className="text-[10px] text-[#9AA1C0]">Buying after start of journey?</p>
-                              </div>
-                              <Switch 
-                                checked={portalForm.postDepart} 
-                                onCheckedChange={val => setPortalForm({...portalForm, postDepart: val})}
-                              />
-                           </div>
                         </div>
 
                         <div className="space-y-8">
-                           <div className="flex gap-4">
-                              <label className="flex-1 flex items-center gap-3 cursor-pointer group">
-                                <div className={cn("w-4 h-4 rounded-full border-2 flex items-center justify-center", portalForm.durationTier === '180' ? "border-[#E8A33D]" : "border-white/20")}>
-                                   {portalForm.durationTier === '180' && <div className="w-1.5 h-1.5 rounded-full bg-[#E8A33D]" />}
-                                </div>
-                                <input type="radio" className="hidden" name="durationTier" checked={portalForm.durationTier === '180'} onChange={() => setPortalForm({...portalForm, durationTier: '180'})} />
-                                <span className="text-sm font-bold text-white">Upto 180 Days</span>
-                              </label>
-                              <label className="flex-1 flex items-center gap-3 cursor-pointer group">
-                                <div className={cn("w-4 h-4 rounded-full border-2 flex items-center justify-center", portalForm.durationTier === '365' ? "border-[#E8A33D]" : "border-white/20")}>
-                                   {portalForm.durationTier === '365' && <div className="w-1.5 h-1.5 rounded-full bg-[#E8A33D]" />}
-                                </div>
-                                <input type="radio" className="hidden" name="durationTier" checked={portalForm.durationTier === '365'} onChange={() => setPortalForm({...portalForm, durationTier: '365'})} />
-                                <span className="text-sm font-bold text-white">365 Days</span>
-                              </label>
-                           </div>
-
                            <div className="grid grid-cols-[1.5fr_1.5fr_0.8fr] gap-4">
                               <div className="space-y-2">
                                  <Label className="text-[10px] font-bold uppercase text-[#9AA1C0]">Start Date</Label>
@@ -520,28 +499,6 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
                                  </div>
                               </div>
                            </div>
-
-                           <div className="space-y-3">
-                              <Label className="text-[11px] font-bold uppercase tracking-widest text-[#9AA1C0]">Travellers DOB</Label>
-                              <div className="flex gap-4">
-                                 <Input 
-                                    type="date" 
-                                    value={portalForm.travelers[0].dob}
-                                    onChange={e => {
-                                       const newTravs = [...portalForm.travelers];
-                                       newTravs[0].dob = e.target.value;
-                                       setPortalForm({...portalForm, travelers: newTravs});
-                                    }}
-                                    className="h-14 bg-[#0F1428]/60 border-white/10 rounded-xl text-white font-bold flex-1" 
-                                 />
-                                 <div className="flex items-center gap-3 bg-[#0F1428]/60 border border-white/10 rounded-xl px-4 h-14">
-                                    <span className="text-white font-bold pr-2">{portalForm.travelers.length}</span>
-                                    <button className="w-8 h-8 rounded-lg bg-[#E8A33D] flex items-center justify-center text-[#0F1428] hover:bg-white transition-all">
-                                       <Plus className="w-5 h-5" />
-                                    </button>
-                                 </div>
-                              </div>
-                           </div>
                         </div>
                      </div>
 
@@ -554,13 +511,12 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
                            {isLoading ? <Loader2 className="w-6 h-6 animate-spin" /> : <><Search className="w-5 h-5 mr-3" /> GET QUOTE</>}
                         </Button>
                      </div>
-
                   </CardContent>
                </Card>
             </div>
           )}
 
-          {step === 'selection' && (
+          {viewMode === 'journey' && step === 'selection' && (
             <div className="space-y-10 animate-in fade-in duration-500 text-left relative z-10">
                <div className="flex items-center justify-between border-b border-white/5 pb-4">
                   <div className="space-y-1">
@@ -577,15 +533,15 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
                        <h3 className="text-2xl font-headline text-white">No plans discovered for these criteria.</h3>
                        <p className="text-[#9AA1C0] max-sm mx-auto">This usually means the combination of region, age, and duration has no matches in the UAT database.</p>
                     </div>
-                    <div className="p-8 bg-[#E8A33D]/5 border border-[#E8A33D]/20 rounded-2xl max-w-xl mx-auto space-y-4">
+                    <div className="p-8 bg-[#E8A33D]/5 border border-[#E8A33D]/20 rounded-2xl max-w-xl mx-auto space-y-6">
                        <div className="flex items-center gap-3 text-[#E8A33D]">
                           <Search className="w-5 h-5" />
-                          <h4 className="font-bold uppercase text-[11px] tracking-widest">How to find data:</h4>
+                          <h4 className="font-bold uppercase text-[11px] tracking-widest">Testing Bypass:</h4>
                        </div>
                        <p className="text-xs text-[#9AA1C0] leading-relaxed">
-                          Click <strong>CONFIG (Lock icon)</strong> and run <strong>Interrogate Master Details</strong>. This bypasses the search and fetches all available UAT plans. Then, click <strong>TRACE</strong> to see the <code>planId</code> and <code>detailId</code> returned.
+                          The UAT environment can have empty sets for certain dates. Click below to inject a mock plan to test the rest of the issuance journey.
                        </p>
-                       <Button variant="outline" onClick={() => setShowGate(true)} className="w-full border-[#E8A33D]/20 text-[#E8A33D] hover:bg-[#E8A33D] hover:text-[#0F1428] rounded-xl font-bold uppercase text-[10px] tracking-widest h-11">Open Interrogator</Button>
+                       <Button onClick={simulateWorkingPlan} className="w-full bg-[#E8A33D] text-[#0F1428] rounded-xl font-bold uppercase text-[10px] tracking-widest h-11">Simulate a working plan for testing</Button>
                     </div>
                  </div>
                ) : (
@@ -632,7 +588,7 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
             </div>
           )}
 
-          {step === 'form' && selectedPlan && (
+          {viewMode === 'journey' && step === 'form' && selectedPlan && (
             <div className="space-y-10 animate-in fade-in duration-700 text-left relative z-10">
                <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 bg-[#171D3A]/60 backdrop-blur-xl border border-white/10 p-10 rounded-[32px] shadow-3xl">
                   <div className="flex items-center gap-8">
@@ -657,10 +613,13 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
                <div className="grid lg:grid-cols-[1fr_420px] gap-12">
                   <div className="space-y-10">
                      <section className="p-10 bg-[#171D3A]/40 border border-white/10 rounded-[32px] space-y-8 shadow-xl">
-                        <h4 className="text-lg font-bold uppercase tracking-widest flex items-center gap-4 text-white">
-                           <div className="w-8 h-8 rounded-lg bg-[#4FD1C5]/10 flex items-center justify-center"><User className="w-5 h-5 text-[#4FD1C5]" /></div>
-                           1. Identity & Passport
-                        </h4>
+                        <div className="flex items-center justify-between">
+                           <h4 className="text-lg font-bold uppercase tracking-widest flex items-center gap-4 text-white">
+                              <div className="w-8 h-8 rounded-lg bg-[#4FD1C5]/10 flex items-center justify-center"><User className="w-5 h-5 text-[#4FD1C5]" /></div>
+                              1. Identity & Passport
+                           </h4>
+                           <Button variant="ghost" size="sm" onClick={() => setFormData({...formData, firstName: 'Aditi', lastName: 'Test', passportNo: 'UAT-999'})} className="text-[9px] uppercase font-bold text-[#4FD1C5] hover:bg-[#4FD1C5]/10">Fill with Test Data</Button>
+                        </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                            <div className="space-y-2">
                               <Label className="text-[10px] font-bold uppercase tracking-widest text-[#6E7495]">First Name</Label>
@@ -673,14 +632,6 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
                            <div className="space-y-2">
                               <Label className="text-[10px] font-bold uppercase tracking-widest text-[#6E7495]">Passport Number</Label>
                               <Input value={formData.passportNo} onChange={e => setFormData({...formData, passportNo: e.target.value})} className="bg-[#0F1428]/40 border-white/10 h-14 rounded-xl text-white font-bold font-mono" />
-                           </div>
-                           <div className="space-y-2">
-                              <Label className="text-[10px] font-bold uppercase tracking-widest text-[#6E7495]">Gender</Label>
-                              <select value={formData.gender} onChange={e => setFormData({...formData, gender: e.target.value})} className="w-full h-14 bg-[#0F1428]/40 border border-white/10 px-4 rounded-xl text-white font-bold outline-none">
-                                 <option value="Male">Male</option>
-                                 <option value="Female">Female</option>
-                                 <option value="Other">Other</option>
-                              </select>
                            </div>
                         </div>
                      </section>
@@ -696,16 +647,8 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
                               <Input value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} className="bg-[#0F1428]/40 border-white/10 h-14 rounded-xl text-white font-bold" />
                            </div>
                            <div className="space-y-2">
-                              <Label className="text-[10px] font-bold uppercase tracking-widest text-[#6E7495]">Mobile Number</Label>
-                              <Input value={formData.mobile} onChange={e => setFormData({...formData, mobile: e.target.value})} className="bg-[#0F1428]/40 border-white/10 h-14 rounded-xl text-white font-bold" />
-                           </div>
-                           <div className="space-y-2">
                               <Label className="text-[10px] font-bold uppercase tracking-widest text-[#6E7495]">Nominee Name</Label>
                               <Input value={formData.nomineeName} onChange={e => setFormData({...formData, nomineeName: e.target.value})} className="bg-[#0F1428]/40 border-white/10 h-14 rounded-xl text-white font-bold" />
-                           </div>
-                           <div className="space-y-2">
-                              <Label className="text-[10px] font-bold uppercase tracking-widest text-[#6E7495]">Nominee Relation</Label>
-                              <Input value={formData.nomineeRelation} onChange={e => setFormData({...formData, nomineeRelation: e.target.value})} className="bg-[#0F1428]/40 border-white/10 h-14 rounded-xl text-white font-bold" />
                            </div>
                         </div>
                      </section>
@@ -713,59 +656,29 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
 
                   <div className="space-y-6 sticky top-28 h-fit">
                       <Card className="p-8 bg-[#171D3A] border-white/10 rounded-[32px] space-y-10 shadow-3xl">
-                         <div className="space-y-6">
-                            <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#E8A33D] border-b border-white/5 pb-3">Review Transaction</h4>
-                            <div className="space-y-4">
-                               <div className="flex justify-between items-center text-sm font-medium">
-                                  <span className="text-[#6E7495]">Premium</span>
-                                  <span className="text-white">₹{selectedPlan.premium}</span>
-                               </div>
-                               <div className="flex justify-between items-center text-sm font-medium">
-                                  <span className="text-[#6E7495]">Duration</span>
-                                  <span className="text-white">{calculatedDays} Days</span>
-                               </div>
-                               <div className="flex justify-between items-center text-sm font-medium">
-                                  <span className="text-[#6E7495]">Tax / GST</span>
-                                  <span className="text-white">Included</span>
-                               </div>
-                            </div>
-                         </div>
-
                          <div className="space-y-4">
                             <Button 
                               onClick={handleIssuePolicy}
-                              disabled={isIssuing || !selectedPlan.detailId}
+                              disabled={isIssuing}
                               className="w-full h-16 bg-[#4FD1C5] text-[#0F1428] hover:bg-white font-bold uppercase text-[11px] tracking-[0.2em] rounded-2xl shadow-xl transition-all active:scale-95"
                             >
                                {isIssuing ? <Loader2 className="w-4 h-4 animate-spin" /> : <><Zap className="w-4 h-4 mr-2" /> Complete Issuance</>}
                             </Button>
-                            {!selectedPlan.detailId && (
-                               <p className="text-[10px] text-red-400 font-bold text-center italic">detailId missing: Check Config Interrogator</p>
-                            )}
-                            <p className="text-[9px] text-center text-[#6E7495] uppercase tracking-widest px-4 leading-relaxed">By continuing, you agree to the Asego UAT regulatory disclosures.</p>
                          </div>
                       </Card>
-
-                      <button onClick={() => setStep('selection')} className="w-full text-[10px] font-bold uppercase tracking-widest text-[#6E7495] hover:text-white transition-colors">
-                         ← Change Selected Plan
-                      </button>
                   </div>
                </div>
             </div>
           )}
 
-          {step === 'success' && issuedPolicy && (
+          {viewMode === 'journey' && step === 'success' && issuedPolicy && (
             <div className="max-w-2xl mx-auto py-12 animate-in zoom-in-95 duration-500 relative z-10">
                <div className="bg-[#171D3A]/80 backdrop-blur-2xl border border-[#4FD1C5]/40 p-12 rounded-[40px] text-center space-y-8 shadow-3xl">
                   <div className="w-24 h-24 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4 border border-green-500/30">
                      <ShieldCheck className="w-12 h-12 text-green-500" />
                   </div>
-                  <div className="space-y-2">
-                     <h2 className="text-4xl font-bold font-headline text-white">Issuance Successful</h2>
-                     <p className="text-[#9AA1C0] font-medium text-lg italic">Your Utsavs travel protection is now active.</p>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/10 border border-white/10 rounded-2xl overflow-hidden">
+                  <h2 className="text-4xl font-bold font-headline text-white">Issuance Successful</h2>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/10 border border-white/10 rounded-2xl overflow-hidden text-left">
                      <div className="bg-white/5 p-8 space-y-1">
                         <p className="text-[10px] font-bold text-[#6E7495] uppercase tracking-widest">Policy Number</p>
                         <p className="text-2xl font-bold font-mono text-white">{issuedPolicy.policyNumber}</p>
@@ -775,18 +688,50 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
                         <p className="text-2xl font-bold font-mono text-white">{issuedPolicy.orderId}</p>
                      </div>
                   </div>
-
-                  <div className="pt-6 space-y-4">
-                     <a href={issuedPolicy.policyFilePath} target="_blank" rel="noopener noreferrer">
-                        <Button className="w-full h-16 bg-white text-black hover:bg-[#4FD1C5] font-bold uppercase tracking-[0.2em] text-[11px] rounded-2xl shadow-2xl transition-all active:scale-95">
-                           <Download className="w-5 h-5 mr-3" /> Download Certificate (PDF)
-                        </Button>
-                     </a>
-                     <Button variant="ghost" onClick={() => setStep('search')} className="text-[11px] font-bold uppercase tracking-widest text-[#6E7495] hover:text-white">
-                        Plan Another Journey
-                     </Button>
+                  <div className="pt-6">
+                     <Button variant="ghost" onClick={() => setStep('search')} className="text-[11px] font-bold uppercase tracking-widest text-[#6E7495] hover:text-white">Plan Another Journey</Button>
                   </div>
                </div>
+            </div>
+          )}
+
+          {viewMode === 'blueprint' && (
+            <div className="p-8 space-y-12 animate-in fade-in duration-500 text-left relative z-10 bg-[#0B0F22] border border-white/10 rounded-3xl min-h-[800px]">
+               <div className="space-y-4 text-center max-w-2xl mx-auto">
+                 <h2 className="text-3xl font-headline font-bold text-white">Policy Transaction Blueprint</h2>
+                 <p className="text-sm text-[#9AA1C0]">Mapping confirmed UAT requirements for <code>createPolicy/validate</code>.</p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                 <div className="p-6 bg-white/5 rounded-2xl space-y-6">
+                    <h4 className="text-[10px] font-bold uppercase tracking-widest text-[#4FD1C5] border-b border-[#4FD1C5]/20 pb-2">Confirmed</h4>
+                    <ul className="space-y-3 text-xs font-mono">
+                       <li className="flex items-center gap-2 text-white/80"><Check className="w-3 h-3 text-[#4FD1C5]" /> Auth Headers (Sign/Ref)</li>
+                       <li className="flex items-center gap-2 text-white/80"><Check className="w-3 h-3 text-[#4FD1C5]" /> Encryption Key/IV</li>
+                       <li className="flex items-center gap-2 text-white/80"><Check className="w-3 h-3 text-[#4FD1C5]" /> Partner ID Integration</li>
+                    </ul>
+                 </div>
+                 <div className="p-6 bg-white/5 rounded-2xl space-y-6">
+                    <h4 className="text-[10px] font-bold uppercase tracking-widest text-[#E8A33D] border-b border-[#E8A33D]/20 pb-2">Gaps / Risks</h4>
+                    <ul className="space-y-3 text-xs font-mono">
+                       <li className="flex items-center gap-2 text-white/60"><ShieldQuestion className="w-3 h-3 text-[#E8A33D]" /> Nominee Data Model</li>
+                       <li className="flex items-center gap-2 text-white/60"><ShieldQuestion className="w-3 h-3 text-[#E8A33D]" /> orderId uniqueness</li>
+                    </ul>
+                 </div>
+                 <div className="p-6 bg-[#E8A33D]/5 rounded-2xl space-y-6">
+                    <h4 className="text-[10px] font-bold uppercase tracking-widest text-[#E8A33D]">Inquiry</h4>
+                    <p className="text-xs text-[#9AA1C0] leading-relaxed italic">"Handshake is verified. We now need exact JSON sample for the creation payload to finalise the 1:1 mapping."</p>
+                 </div>
+              </div>
+
+              <div className="p-10 border-2 border-dashed border-white/5 rounded-3xl text-center space-y-6">
+                 <Terminal className="w-12 h-12 mx-auto text-[#6E7495] opacity-30" />
+                 <div className="space-y-2">
+                    <p className="text-lg font-bold text-white">Internal Relay Diagnostics</p>
+                    <p className="text-sm text-[#6E7495] max-w-md mx-auto leading-relaxed">The TRACE panel provides a verbatim dump of every interaction with Asego's UAT gateway.</p>
+                 </div>
+                 <Button variant="outline" onClick={() => setShowTrace(true)} className="border-white/10 text-white font-bold uppercase text-[10px] tracking-widest h-10 px-8">Open Log Viewer</Button>
+              </div>
             </div>
           )}
       </div>
