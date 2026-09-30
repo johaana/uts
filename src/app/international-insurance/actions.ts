@@ -88,29 +88,18 @@ async function asegoRequest(
   method: string = 'GET',
   body: any = null
 ): Promise<ActionResponse> {
-  // SERVER-SIDE ENFORCEMENT: Strictly check debug flag before accepting client creds
-  const isDebug = process.env.UTSAVS_INTERNAL_DEBUG === 'true';
-
-  let pId, sgn, ref;
-
-  if (isDebug && providedCreds?.partnerId) {
-    // If in debug mode, use the credentials typed into the form
-    pId = providedCreds.partnerId.trim();
-    sgn = providedCreds.sign.trim();
-    ref = providedCreds.reference.trim();
-  } else {
-    // If NOT in debug mode, strictly use server environment variables
-    pId = (process.env.UTSAVS_PARTNER_ID || '').trim();
-    sgn = (process.env.UTSAVS_SIGN || '').trim();
-    ref = (process.env.UTSAVS_REFERENCE || '').trim();
-  }
+  // If credentials are provided directly (from the debug form), use them.
+  // Otherwise, fallback to secure environment variables.
+  const pId = (providedCreds?.partnerId || process.env.UTSAVS_PARTNER_ID || '').trim();
+  const sgn = (providedCreds?.sign || process.env.UTSAVS_SIGN || '').trim();
+  const ref = (providedCreds?.reference || process.env.UTSAVS_REFERENCE || '').trim();
 
   if (!pId || !sgn || !ref) {
     return {
       success: false,
       status: 0,
       data: null,
-      error: "Authentication credentials not configured or session inactive.",
+      error: "Authentication credentials not configured. Please open Config and enter your Asego keys.",
       endpoint: path,
       method,
       headersSent: {}
@@ -177,14 +166,10 @@ async function asegoRequest(
  * Encryption Wrapper
  */
 export async function asegoEncrypt(value: string, creds?: AsegoCredentials) {
-  const isDebug = process.env.UTSAVS_INTERNAL_DEBUG === 'true';
+  const key = creds?.secretKey || process.env.UTSAVS_SECRET_KEY;
+  const initVector = creds?.vectorBytes || process.env.UTSAVS_INIT_VECTOR;
   
-  const payload = {
-    value,
-    key: (isDebug && creds?.secretKey) ? creds.secretKey : process.env.UTSAVS_SECRET_KEY,
-    initVector: (isDebug && creds?.vectorBytes) ? creds.vectorBytes : process.env.UTSAVS_INIT_VECTOR
-  };
-  
+  const payload = { value, key, initVector };
   return asegoRequest('/ext/b2b/v1/encryption/encrypt', creds, 'POST', payload);
 }
 
@@ -192,14 +177,10 @@ export async function asegoEncrypt(value: string, creds?: AsegoCredentials) {
  * Decryption Wrapper
  */
 export async function asegoDecrypt(value: string, creds?: AsegoCredentials) {
-  const isDebug = process.env.UTSAVS_INTERNAL_DEBUG === 'true';
+  const key = creds?.secretKey || process.env.UTSAVS_SECRET_KEY;
+  const initVector = creds?.vectorBytes || process.env.UTSAVS_INIT_VECTOR;
 
-  const payload = {
-    value,
-    key: (isDebug && creds?.secretKey) ? creds.secretKey : process.env.UTSAVS_SECRET_KEY,
-    initVector: (isDebug && creds?.vectorBytes) ? creds.vectorBytes : process.env.UTSAVS_INIT_VECTOR
-  };
-  
+  const payload = { value, key, initVector };
   return asegoRequest('/ext/b2b/v1/encryption/decrypt', creds, 'POST', payload);
 }
 
@@ -208,8 +189,7 @@ export async function getAsegoCategories(creds?: AsegoCredentials) {
 }
 
 export async function getAsegoPlans(params: { age: string, duration: string, categoryId: string }, creds?: AsegoCredentials) {
-  const isDebug = process.env.UTSAVS_INTERNAL_DEBUG === 'true';
-  const pId = (isDebug && creds?.partnerId ? creds.partnerId : process.env.UTSAVS_PARTNER_ID || '').trim();
+  const pId = (creds?.partnerId || process.env.UTSAVS_PARTNER_ID || '').trim();
   const path = `/ext/b2b/v1/plan/${pId}?duration=${params.duration}&age=${params.age}&category=${params.categoryId}`;
   
   const res = await asegoRequest(path, creds);
@@ -249,8 +229,7 @@ export async function getAsegoPlanDetails(planId: string, targetAge: string, cre
  * Policy Validation (Dry-run)
  */
 export async function validateAsegoPolicy(policyData: any, creds?: AsegoCredentials) {
-  const isDebug = process.env.UTSAVS_INTERNAL_DEBUG === 'true';
-  const pId = (isDebug && creds?.partnerId ? creds.partnerId : process.env.UTSAVS_PARTNER_ID || '').trim();
+  const pId = (creds?.partnerId || process.env.UTSAVS_PARTNER_ID || '').trim();
 
   const rawString = JSON.stringify(policyData);
   const encRes = await asegoEncrypt(rawString, creds);
@@ -266,8 +245,7 @@ export async function validateAsegoPolicy(policyData: any, creds?: AsegoCredenti
  * Policy Creation
  */
 export async function createAsegoPolicy(policyData: any, creds?: AsegoCredentials) {
-  const isDebug = process.env.UTSAVS_INTERNAL_DEBUG === 'true';
-  const pId = (isDebug && creds?.partnerId ? creds.partnerId : process.env.UTSAVS_PARTNER_ID || '').trim();
+  const pId = (creds?.partnerId || process.env.UTSAVS_PARTNER_ID || '').trim();
 
   const rawString = JSON.stringify(policyData);
   const encRes = await asegoEncrypt(rawString, creds);
@@ -283,8 +261,7 @@ export async function createAsegoPolicy(policyData: any, creds?: AsegoCredential
  * Policy Cancellation
  */
 export async function cancelAsegoPolicy(policyNumber: string, remarks: string = "UAT Test Cancellation", creds?: AsegoCredentials) {
-  const isDebug = process.env.UTSAVS_INTERNAL_DEBUG === 'true';
-  const pId = (isDebug && creds?.partnerId ? creds.partnerId : process.env.UTSAVS_PARTNER_ID || '').trim();
+  const pId = (creds?.partnerId || process.env.UTSAVS_PARTNER_ID || '').trim();
 
   return asegoRequest(`/ext/b2b/v1/policy/cancel/${pId}`, creds, 'POST', { policyNumber, remarks });
 }

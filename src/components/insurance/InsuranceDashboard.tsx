@@ -127,7 +127,7 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
   const fetchCategories = async () => {
     setIsConnecting(true);
     try {
-      const res = await getAsegoCategories(isDebug ? creds : undefined);
+      const res = await getAsegoCategories(creds);
       setLastTrace(res);
       if (res.success && Array.isArray(res.data)) {
         setCategories(res.data);
@@ -155,7 +155,7 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
         age: primaryAge.toString(),
         duration: calculatedDays.toString() || '30',
         categoryId: portalForm.categoryId
-      }, isDebug ? creds : undefined);
+      }, creds);
       
       setLastTrace(res);
       if (res.success && Array.isArray(res.data)) {
@@ -174,7 +174,7 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
   const handleSelectPlan = async (plan: NormalizedPlan) => {
     setHydratingPlanId(plan.planId);
     try {
-      const res = await getAsegoPlanDetails(plan.planId, primaryAge.toString(), isDebug ? creds : undefined);
+      const res = await getAsegoPlanDetails(plan.planId, primaryAge.toString(), creds);
       setLastTrace(res);
       if (res.success && res.data) {
         setSelectedPlan({ ...plan, ...res.data });
@@ -203,7 +203,7 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
     };
 
     try {
-      const res = await createAsegoPolicy(payload, isDebug ? creds : undefined);
+      const res = await createAsegoPolicy(payload, creds);
       setLastTrace(res);
       if (res.success) {
         setIssuedPolicy(res.data);
