@@ -125,7 +125,7 @@ export default function InternationalInsurancePage() {
         
         setPlans(foundPlans);
         if (foundPlans.length === 0) {
-          toast({ title: "No Plans Found", description: "UAT returned an empty set for these specific parameters." });
+          toast({ title: "No Plans Found", description: "The UAT catalogue returned an empty result for these specific parameters." });
         }
       } else {
         toast({ title: "API Error", description: res.error || "Request failed", variant: "destructive" });
@@ -261,7 +261,7 @@ export default function InternationalInsurancePage() {
                     ) : (
                       <>
                         <option value="">Select Region</option>
-                        {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+                        {categories.map(c => <option key={c.id || c.name} value={c.id}>{c.name}</option>)}
                       </>
                     )}
                   </select>
@@ -351,13 +351,13 @@ export default function InternationalInsurancePage() {
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                       {plans.map((plan) => {
+                       {plans.map((plan, index) => {
                          const detail = plan.sellingPlanDetailsList?.[0];
                          const isSelected = selectedPlan?.detailId === detail?.detailId;
 
                          return (
                            <Card 
-                             key={plan.planId} 
+                             key={plan.planId || `plan-${index}`} 
                              className={cn(
                                "bg-[#171D3A] border-white/10 rounded-none overflow-hidden transition-all duration-300 text-left flex flex-col h-full",
                                isSelected ? "ring-2 ring-[#4FD1C5] border-transparent shadow-[0_40px_80px_-20px_rgba(79,209,197,0.2)]" : "hover:border-white/20 hover:shadow-xl"
@@ -365,8 +365,8 @@ export default function InternationalInsurancePage() {
                            >
                               <div className="p-8 border-b border-white/5 flex justify-between items-start shrink-0">
                                  <div className="space-y-1">
-                                    <h3 className="font-bold text-xl leading-tight">{plan.planName}</h3>
-                                    <p className="text-[10px] font-bold uppercase tracking-widest text-[#4FD1C5]">{plan.insurerName}</p>
+                                    <h3 className="font-bold text-xl leading-tight">{plan.planName || 'Insurance Plan'}</h3>
+                                    <p className="text-[10px] font-bold uppercase tracking-widest text-[#4FD1C5]">{plan.insurerName || 'ICICI Lombard'}</p>
                                  </div>
                                  {isSelected && <div className="w-6 h-6 bg-[#4FD1C5] rounded-full flex items-center justify-center"><Check className="w-4 h-4 text-[#0F1428]" /></div>}
                               </div>
@@ -374,11 +374,11 @@ export default function InternationalInsurancePage() {
                                  <div className="p-6 bg-white/5 rounded-none space-y-3 border border-white/5">
                                     <div className="flex justify-between items-baseline">
                                        <span className="text-[10px] font-bold uppercase text-[#6E7495] tracking-widest">Premium Total</span>
-                                       <span className="text-3xl font-bold text-white font-headline">₹{detail?.total}</span>
+                                       <span className="text-3xl font-bold text-white font-headline">₹{detail?.total || '—'}</span>
                                     </div>
                                     <div className="flex justify-between text-[9px] text-[#6E7495] uppercase font-bold tracking-widest pt-3 border-t border-white/5">
-                                       <span>Base: ₹{detail?.basicRates}</span>
-                                       <span>GST: ₹{detail?.gst}</span>
+                                       <span>Base: ₹{detail?.basicRates || '—'}</span>
+                                       <span>GST: ₹{detail?.gst || '—'}</span>
                                     </div>
                                  </div>
                                  <div className="space-y-4">
@@ -388,16 +388,20 @@ export default function InternationalInsurancePage() {
                                     </div>
                                     <div className="flex items-center gap-3 text-sm font-medium text-[#9AA1C0]">
                                        <Clock className="w-4 h-4 text-[#E8A33D]" />
-                                       <span>{detail?.minDays}-{detail?.maxDays} Days Eligibility</span>
+                                       <span>{detail?.minDays || '0'}-{detail?.maxDays || '—'} Days Eligibility</span>
                                     </div>
                                  </div>
                                  <Button 
                                    onClick={() => {
+                                      if (!detail?.detailId) {
+                                          toast({ title: "Plan Detail Error", description: "This plan does not have a valid detail identifier in UAT.", variant: "destructive" });
+                                          return;
+                                      }
                                       setSelectedPlan({ 
                                         planId: plan.planId, 
-                                        detailId: detail?.detailId, 
-                                        name: plan.planName,
-                                        total: detail?.total
+                                        detailId: detail.detailId, 
+                                        name: plan.planName || 'Selected Plan',
+                                        total: detail.total
                                       });
                                       toast({ title: "Plan Selected", description: plan.planName });
                                    }}
@@ -427,7 +431,7 @@ export default function InternationalInsurancePage() {
                        </h3>
                        <p className="text-[#6E7495] max-w-sm mx-auto font-medium leading-relaxed">
                          {hasSearched 
-                           ? "The current trip parameters returned no results from the UAT catalogue. Try a different duration or traveler age." 
+                           ? "The current trip parameters returned an empty result for these specific parameters. Try a different duration or traveler age." 
                            : "Connect your UAT Session and enter trip parameters to interrogate the ICICI Lombard catalogue."}
                        </p>
                     </div>
