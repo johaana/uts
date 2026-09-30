@@ -37,23 +37,24 @@ interface ActionResponse {
 
 /**
  * Normalization Helper
- * Intelligently handles both flattened snake_case and nested camelCase schemas.
+ * Hardened with nullish coalescing to prevent valid '0' values from failing.
  */
 function normalizeAsegoPlan(raw: any): NormalizedPlan {
   // Extract detail list if available (Master/Hydration response)
   const detail = raw.sellingPlanDetailsList?.[0] || {};
   
   return {
-    planId: raw.plan_id || raw.planId || raw.id || '',
-    name: raw.plan_name || raw.planName || 'Insurance Plan',
-    insurer: raw.insurer_name || raw.insurerName || 'ICICI Lombard',
-    premium: raw.total_premium || raw.totalPremium || detail.total || 0,
-    currency: raw.currency || 'INR',
+    planId: raw.plan_id ?? raw.planId ?? raw.id ?? '',
+    name: raw.plan_name ?? raw.planName ?? 'Insurance Plan',
+    insurer: raw.insurer_name ?? raw.insurerName ?? 'ICICI Lombard',
+    premium: Number(raw.total_premium ?? raw.totalPremium ?? detail.total ?? 0),
+    currency: raw.currency ?? 'INR',
     minAge: Number(raw.min_age ?? raw.minAge ?? detail.minAge ?? 0),
     maxAge: Number(raw.max_age ?? raw.maxAge ?? detail.maxAge ?? 100),
     minDays: Number(raw.min_days ?? raw.minDays ?? detail.minDays ?? 0),
     maxDays: Number(raw.max_days ?? raw.maxDays ?? detail.maxDays ?? 365),
-    benefits: raw.benefits || []
+    benefits: raw.benefits ?? [],
+    detailId: detail.detailId ?? raw.detailId ?? undefined
   };
 }
 
@@ -106,7 +107,7 @@ async function asegoRequest(
     }
 
     // Handle Asego "Envelope" Duality
-    const extractedData = data?.data || data;
+    const extractedData = data?.data ?? data;
 
     return {
       success: response.ok,
@@ -166,7 +167,7 @@ export async function getAsegoPlanDetails(creds: AsegoCredentials, planId: strin
   
   if (res.success && res.data) {
     const raw = res.data;
-    const detailId = raw.sellingPlanDetailsList?.[0]?.detailId || null;
+    const detailId = raw.sellingPlanDetailsList?.[0]?.detailId ?? null;
     
     return {
       success: true,
