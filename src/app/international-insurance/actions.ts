@@ -1,9 +1,8 @@
-
 'use server';
 
 /**
  * @fileOverview Asego API Customer-Facing Server Actions
- * Handles verified custom header strategy for read-only plan discovery.
+ * Hardened to match the verified Sandbox forensic strategy.
  */
 
 const BASE_URL = "https://dolphin.asego.in/api";
@@ -16,7 +15,7 @@ interface AsegoCredentials {
 
 /**
  * Generic Fetch Wrapper for Customer Flow
- * Ensures all credential-bearing requests remain server-side.
+ * Exactly matches the successful 'custom_both' strategy from the sandbox.
  */
 async function asegoRequest(
   path: string, 
@@ -28,6 +27,7 @@ async function asegoRequest(
 
   const endpoint = `${BASE_URL}${path}`;
   
+  // Exact headers from successful sandbox forensic test
   const headers: Record<string, string> = {
     'Accept': 'application/json',
     'User-Agent': 'External API/1.0',
@@ -35,6 +35,8 @@ async function asegoRequest(
     'Sign': creds.sign,
     'Reference': creds.reference,
   };
+
+  console.log(`[Asego UAT] Querying: ${endpoint}`);
 
   try {
     const response = await fetch(endpoint, {
@@ -47,7 +49,8 @@ async function asegoRequest(
       throw new Error(`Asego API Error: ${response.status}`);
     }
 
-    return await response.json();
+    const data = await response.json();
+    return data;
   } catch (error) {
     console.error("Asego Action Failure:", error);
     throw error;
@@ -65,6 +68,7 @@ export async function getAsegoCategories(creds: AsegoCredentials) {
  * Fetches specific plans based on trip parameters
  */
 export async function getAsegoPlans(creds: AsegoCredentials, params: { age: string, duration: string, categoryId: string }) {
+  // Use the verified base plan endpoint format
   const path = `/ext/b2b/v1/plan/${creds.partnerId}?duration=${params.duration}&age=${params.age}&category=${params.categoryId}`;
   return asegoRequest(path, creds);
 }
