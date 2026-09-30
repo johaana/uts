@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
@@ -21,7 +21,14 @@ import {
   Eye,
   EyeOff,
   Zap,
-  RotateCcw
+  RotateCcw,
+  User,
+  MapPin,
+  Heart,
+  Calendar,
+  FileText,
+  Download,
+  ArrowLeft
 } from "lucide-react";
 import { 
   getAsegoCategories, 
@@ -42,10 +49,13 @@ interface InsuranceDashboardProps {
   isDebug: boolean;
 }
 
+type Step = 'search' | 'selection' | 'form' | 'success';
+
 export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
   const { toast } = useToast();
   
-  // 1. SESSION STATE
+  // 1. SESSION & NAVIGATION
+  const [step, setStep] = useState<Step>('search');
   const [creds, setCreds] = useState<AsegoCredentials>({
     partnerId: '',
     sign: '',
@@ -56,7 +66,7 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
   const [showGate, setShowGate] = useState(false);
   const [showSecrets, setShowSecrets] = useState(false);
 
-  // 2. SEARCH & DATA STATE
+  // 2. DATA STATE
   const [searchParams, setSearchParams] = useState({
     age: '25',
     duration: '30',
@@ -67,22 +77,41 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [isConnecting, setIsConnecting] = useState(false);
   const [hydratingPlanId, setHydratingPlanId] = useState<string | null>(null);
-  const [isTesting, setIsTesting] = useState(false);
-  const [hasSearched, setHasSearched] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<NormalizedPlan | null>(null);
   
-  // 3. DIAGNOSTICS (THE TERMINAL)
-  const [showTrace, setShowTrace] = useState(false);
+  // 3. FORM STATE (For Whole Journey Testing)
+  const [formData, setFormData] = useState({
+    firstName: "John",
+    lastName: "Doe",
+    dob: "1990-01-01",
+    gender: "Male",
+    passportNo: "P1234567",
+    email: "test@utsavs.com",
+    mobile: "9999999999",
+    address: "123 Test Street",
+    city: "Mumbai",
+    state: "Maharashtra",
+    pincode: "400001",
+    nomineeName: "Jane Doe",
+    nomineeRelation: "Spouse",
+    departureDate: "2026-10-25",
+    returnDate: "2026-11-24"
+  });
+
+  // 4. TRANSACTION STATE
+  const [isValidating, setIsValidating] = useState(false);
+  const [isIssuing, setIsIssuing] = useState(false);
+  const [issuedPolicy, setIssuedPolicy] = useState<any>(null);
   const [lastTrace, setLastTrace] = useState<any>(null);
+  const [showTrace, setShowTrace] = useState(false);
 
   const isSessionActive = !!(creds.partnerId.trim() && creds.sign.trim() && creds.reference.trim());
 
-  // Connection logic
   useEffect(() => {
-    if (isSessionActive || !isDebug) {
+    if (isSessionActive || isDebug) {
       fetchCategories();
     }
-  }, [creds.partnerId, creds.sign, creds.reference, creds.secretKey, creds.vectorBytes]);
+  }, [creds.partnerId, isDebug]);
 
   const fetchCategories = async () => {
     setIsConnecting(true);
@@ -106,18 +135,14 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
     }
 
     setIsLoading(true);
-    setHasSearched(true);
-    setPlans([]);
-    setSelectedPlan(null);
-
     try {
       const res = await getAsegoPlans(searchParams, isDebug ? creds : undefined);
       setLastTrace(res);
-      
       if (res.success && Array.isArray(res.data)) {
         setPlans(res.data);
+        setStep('selection');
       } else {
-        toast({ title: "API Failure", description: res.error || "UAT result empty", variant: "destructive" });
+        toast({ title: "API Failure", description: res.error || "No plans returned", variant: "destructive" });
       }
     } catch (e) {
       toast({ title: "Search Error", variant: "destructive" });
@@ -132,20 +157,11 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
       const res = await getAsegoPlanDetails(plan.planId, searchParams.age, isDebug ? creds : undefined);
       setLastTrace(res);
       if (res.success && res.data) {
-        const hydrated = res.data;
-        setSelectedPlan(prev => {
-          if (!prev) return hydrated;
-          return {
-            ...prev,
-            ...Object.fromEntries(
-              Object.entries(hydrated).filter(([, v]) => v !== undefined && v !== null)
-            ),
-          };
-        });
-        toast({ title: "Plan Ready", description: "Detail identifier resolved successfully." });
+        setSelectedPlan({ ...plan, ...res.data });
+        setStep('form');
       } else {
         setSelectedPlan(plan);
-        toast({ title: "Partial Selection", description: "Using base parameters (Detail ID pending)." });
+        setStep('form');
       }
     } catch (e) {
       toast({ title: "Selection Error", variant: "destructive" });
@@ -154,431 +170,403 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
     }
   };
 
-  const runLifecycleTest = async () => {
-    if (!selectedPlan?.detailId) {
-      toast({ title: "Hydration Required", description: "Select a plan to resolve its Detail ID first.", variant: "destructive" });
-      return;
-    }
+  const handleValidate = async () => {
+    setIsValidating(true);
+    const orderId = `UTS-VAL-${Math.floor(Date.now() / 1000)}`;
+    const payload = { ...formData, planId: selectedPlan?.planId, detailId: selectedPlan?.detailId, orderId };
     
-    setIsTesting(true);
-    const orderId = `UTS-TEST-${Math.floor(Date.now() / 1000)}`;
-
-    const fakePolicy = {
-      orderId,
-      planId: selectedPlan.planId,
-      detailId: selectedPlan.detailId,
-      firstName: "John",
-      lastName: "Doe",
-      dob: "1990-01-01",
-      gender: "Male",
-      passportNo: "P1234567",
-      email: "test@utsavs.com",
-      mobile: "9999999999",
-      address: "123 Test St",
-      city: "Mumbai",
-      state: "Maharashtra",
-      pincode: "400001",
-      departureDate: "2026-10-25",
-      returnDate: "2026-11-05",
-      nomineeName: "Jane Doe",
-      nomineeRelation: "Spouse"
-    };
-
     try {
-      // 1. Encryption Standalone Test
-      toast({ title: "Forensic Step 1", description: "Standalone Encryption Round-trip..." });
-      const testVal = "Utsavs_Forensic_Test_2026";
-      const encRes = await asegoEncrypt(testVal, isDebug ? creds : undefined);
-      setLastTrace(encRes);
-      if (!encRes.success) throw new Error("Encrypt failed: " + encRes.error);
-
-      const decRes = await asegoDecrypt(encRes.data, isDebug ? creds : undefined);
-      setLastTrace(decRes);
-      if (!decRes.success || decRes.data !== testVal) throw new Error("Decrypt failed or mismatch");
-      toast({ title: "Step 1 Pass", description: "Round-trip confirmed." });
-
-      // 2. Validate
-      toast({ title: "Forensic Step 2", description: "Validating policy payload..." });
-      const valRes = await validateAsegoPolicy(fakePolicy, isDebug ? creds : undefined);
-      setLastTrace(valRes);
-      if (!valRes.success) throw new Error(valRes.error || "Validation failed");
-      toast({ title: "Step 2 Pass", description: "Schema validated." });
-
-      // 3. Create
-      toast({ title: "Forensic Step 3", description: "Creating UAT policy..." });
-      const createRes = await createAsegoPolicy(fakePolicy, isDebug ? creds : undefined);
-      setLastTrace(createRes);
-      if (!createRes.success) throw new Error(createRes.error || "Creation failed");
-      
-      const policyNumber = createRes.data.policyNumber;
-      toast({ title: "Step 3 Pass", description: `Policy ${policyNumber} created.` });
-
-      // 4. Cancel
-      toast({ title: "Forensic Step 4", description: "Purging UAT policy..." });
-      const cancelRes = await cancelAsegoPolicy(policyNumber, "UAT Forensic Test Cleanup", isDebug ? creds : undefined);
-      setLastTrace(cancelRes);
-      if (!cancelRes.success) throw new Error(cancelRes.error || "Cancellation failed");
-      
-      toast({ title: "Lifecycle Complete", description: "Clean end-to-end pass." });
-    } catch (e: any) {
-      toast({ title: "Test Failed", description: e.message, variant: "destructive" });
+      const res = await validateAsegoPolicy(payload, isDebug ? creds : undefined);
+      setLastTrace(res);
+      if (res.success) {
+        toast({ title: "Validation Pass", description: "The policy payload is correctly formatted for Asego." });
+      } else {
+        toast({ title: "Validation Error", description: res.error || "Schema check failed", variant: "destructive" });
+      }
+    } catch (e) {
+      toast({ title: "Internal Error", variant: "destructive" });
     } finally {
-      setIsTesting(false);
+      setIsValidating(false);
     }
   };
 
+  const handleIssuePolicy = async () => {
+    setIsIssuing(true);
+    const orderId = `UTS-ISS-${Math.floor(Date.now() / 1000)}`;
+    const payload = { ...formData, planId: selectedPlan?.planId, detailId: selectedPlan?.detailId, orderId };
+
+    try {
+      const res = await createAsegoPolicy(payload, isDebug ? creds : undefined);
+      setLastTrace(res);
+      if (res.success) {
+        setIssuedPolicy(res.data);
+        setStep('success');
+        toast({ title: "Policy Issued", description: `Record ${res.data.policyNumber} created in UAT.` });
+      } else {
+        toast({ title: "Issuance Failed", description: res.error || "Asego rejected the request", variant: "destructive" });
+      }
+    } catch (e) {
+      toast({ title: "Internal Error", variant: "destructive" });
+    } finally {
+      setIsIssuing(false);
+    }
+  };
+
+  const resetJourney = () => {
+    setStep('search');
+    setSelectedPlan(null);
+    setIssuedPolicy(null);
+    setPlans([]);
+  };
+
   return (
-    <div className="max-w-6xl mx-auto space-y-16">
+    <div className="space-y-12">
       
-      {/* HERO SECTION */}
+      {/* 1. HEADER & FORENSIC UTILS */}
       <div className="flex flex-col lg:flex-row justify-between items-start gap-8">
-          <div className="text-left space-y-6 max-w-3xl">
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#4FD1C5]/10 border border-[#4FD1C5]/20 rounded-full">
-                  <ShieldCheck className="w-3 h-3 text-[#4FD1C5]" />
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-[#4FD1C5]">Dolphin UAT Environment</span>
+          <div className="text-left space-y-4 max-w-2xl">
+              <div className="flex items-center gap-3">
+                <div className="px-3 py-1 bg-[#4FD1C5]/10 border border-[#4FD1C5]/20 rounded-full flex items-center gap-2">
+                   <div className="w-1.5 h-1.5 rounded-full bg-[#4FD1C5] animate-pulse"></div>
+                   <span className="text-[9px] font-bold uppercase tracking-widest text-[#4FD1C5]">UAT ACTIVE</span>
+                </div>
+                <p className="text-[10px] font-bold text-[#6E7495] uppercase tracking-widest">Asego Dolphin Integration</p>
               </div>
-              <h1 className="text-4xl md:text-7xl font-headline font-medium leading-[1.05] tracking-tighter">
+              <h1 className="text-4xl md:text-7xl font-headline font-medium tracking-tighter leading-[1.05]">
                   Plan the occasion.<br/>
                   <span className="italic text-[#9AA1C0]">Protect the impact.</span>
               </h1>
-              <p className="text-xl text-[#9AA1C0] leading-relaxed font-medium max-w-2xl">
-                  Real-time travel protection powered by Asego. 
-                  Reconciling global dates with comprehensive institutional coverage.
-              </p>
           </div>
-          {isDebug && (
-            <div className="flex gap-3 pt-2">
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  onClick={() => setShowTrace(!showTrace)} 
-                  className={cn(
-                    "text-[9px] uppercase tracking-widest font-bold border h-8 rounded-none transition-all",
-                    showTrace ? "bg-white text-black border-white" : "border-white/10 text-white/40"
-                  )}
-                >
-                    <Terminal className="w-3 h-3 mr-2" /> {showTrace ? "Hide Trace" : "Show Trace"}
-                </Button>
-                <div className={cn(
-                    "flex items-center gap-2 px-4 h-8 border rounded-none transition-all",
-                    isSessionActive ? "bg-green-500/10 border-green-500/30 text-green-500" : "bg-amber-500/10 border-amber-500/30 text-amber-500"
-                )}>
-                    <div className={cn("w-1.5 h-1.5 rounded-full", isSessionActive ? "bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.4)]" : "bg-amber-500 animate-pulse")}></div>
-                    <span className="text-[9px] font-bold uppercase tracking-widest">{isSessionActive ? "UAT Active" : "UAT Disconnected"}</span>
-                </div>
+          
+          <div className="flex gap-3">
+             <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={() => setShowTrace(!showTrace)} 
+                className={cn("text-[9px] uppercase tracking-widest font-bold border h-8 rounded-none", showTrace ? "bg-white text-black" : "text-white/40 border-white/10")}
+             >
+                <Terminal className="w-3 h-3 mr-2" /> Trace
+             </Button>
+             <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={() => setShowGate(!showGate)} 
+                className={cn("text-[9px] uppercase tracking-widest font-bold border h-8 rounded-none", isSessionActive ? "text-green-500 border-green-500/20" : "text-[#E8A33D] border-[#E8A33D]/20")}
+             >
+                <Lock className="w-3 h-3 mr-2" /> Config
+             </Button>
+          </div>
+      </div>
+
+      {/* 2. FORENSIC TRACE TERMINAL */}
+      {showTrace && lastTrace && (
+        <Card className="bg-[#0B0F22] border-[#4FD1C5]/40 p-8 rounded-none font-mono text-[11px] animate-in fade-in slide-in-from-top-4">
+           <div className="flex items-center justify-between mb-4 border-b border-white/5 pb-2">
+              <span className="text-[9px] font-bold uppercase text-[#4FD1C5]">Forensic_Trace.raw</span>
+              <span className="text-white/20">{lastTrace.method} {lastTrace.endpoint}</span>
+           </div>
+           <pre className="text-[#4FD1C5] overflow-auto max-h-[300px] leading-relaxed custom-scrollbar">
+              {JSON.stringify(lastTrace.raw || lastTrace.data, null, 2)}
+           </pre>
+        </Card>
+      )}
+
+      {/* 3. CONFIGURATION GATE */}
+      {showGate && (
+        <Card className="bg-[#171D3A] border border-[#E8A33D]/40 p-8 rounded-none shadow-2xl text-left">
+            <div className="flex items-center justify-between mb-6">
+                <h3 className="text-lg font-bold font-headline flex items-center gap-2">
+                  <Lock className="w-4 h-4 text-[#E8A33D]" /> Session Credentials
+                </h3>
+                <button onClick={() => setShowSecrets(!showSecrets)} className="text-xs font-bold text-[#6E7495] hover:text-white transition-colors">
+                   {showSecrets ? "Hide Values" : "Show Values"}
+                </button>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
+                {[
+                  { k: 'partnerId', l: 'Partner ID' },
+                  { k: 'sign', l: 'Sign' },
+                  { k: 'reference', l: 'Reference' },
+                  { k: 'secretKey', l: 'Secret Key' },
+                  { k: 'vectorBytes', l: 'Vector Bytes' }
+                ].map(f => (
+                  <div key={f.k} className="space-y-1.5">
+                    <Label className="text-[8px] font-bold uppercase tracking-widest text-[#6E7495]">{f.l}</Label>
+                    <Input 
+                      type={showSecrets ? "text" : "password"} 
+                      value={(creds as any)[f.k]} 
+                      onChange={e => setCreds({...creds, [f.k]: e.target.value})}
+                      className="bg-[#0F1428] border-white/10 h-10 text-xs rounded-none font-mono"
+                    />
+                  </div>
+                ))}
+            </div>
+            <Button onClick={() => setShowGate(false)} className="w-full bg-[#E8A33D] text-[#0F1428] font-bold h-10 rounded-none uppercase text-[10px] tracking-widest">
+                Save & Close
+            </Button>
+        </Card>
+      )}
+
+      {/* 4. JOURNEY STEPS */}
+      <div className="space-y-12">
+          
+          {/* STEP 1: SEARCH */}
+          {step === 'search' && (
+            <Card className="bg-[#171D3A] border-white/10 p-1 rounded-none shadow-3xl">
+              <form onSubmit={handleSearch} className="bg-[#1E2650] p-10 rounded-none grid grid-cols-1 md:grid-cols-4 gap-8 items-end text-left">
+                  <div className="space-y-2">
+                      <Label className="text-[10px] font-bold uppercase tracking-widest text-[#9AA1C0]">Destination</Label>
+                      <select 
+                          value={searchParams.categoryId} 
+                          onChange={e => setSearchParams({...searchParams, categoryId: e.target.value})}
+                          className="w-full h-14 px-4 bg-[#0F1428] border border-white/10 rounded-none outline-none text-sm font-medium"
+                      >
+                          <option value="">Select Region</option>
+                          {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+                      </select>
+                  </div>
+                  <div className="space-y-2">
+                      <Label className="text-[10px] font-bold uppercase tracking-widest text-[#9AA1C0]">Traveler Age</Label>
+                      <Input type="number" value={searchParams.age} onChange={e => setSearchParams({...searchParams, age: e.target.value})} className="h-14 bg-[#0F1428] border-white/10 rounded-none font-bold text-center" />
+                  </div>
+                  <div className="space-y-2">
+                      <Label className="text-[10px] font-bold uppercase tracking-widest text-[#9AA1C0]">Duration (Days)</Label>
+                      <Input type="number" value={searchParams.duration} onChange={e => setSearchParams({...searchParams, duration: e.target.value})} className="h-14 bg-[#0F1428] border-white/10 rounded-none font-bold text-center" />
+                  </div>
+                  <Button type="submit" disabled={isLoading} className="h-14 bg-[#E8A33D] text-[#0F1428] font-bold rounded-none shadow-xl hover:bg-white transition-all">
+                      {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : "Search Plans"}
+                  </Button>
+              </form>
+            </Card>
+          )}
+
+          {/* STEP 2: SELECTION */}
+          {step === 'selection' && (
+            <div className="space-y-8 animate-in fade-in duration-500 text-left">
+               <div className="flex items-center justify-between border-b border-white/5 pb-4">
+                  <h2 className="text-2xl font-headline font-bold">Available Plans</h2>
+                  <Button variant="ghost" size="sm" onClick={() => setStep('search')} className="text-[10px] uppercase font-bold text-[#6E7495]">← Back to search</Button>
+               </div>
+               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {plans.map((plan, i) => (
+                    <Card key={i} className="bg-[#171D3A] border-white/10 rounded-none flex flex-col hover:border-white/20 transition-all group">
+                       <div className="p-8 border-b border-white/5">
+                          <h3 className="font-bold text-xl mb-1">{plan.name}</h3>
+                          <p className="text-[10px] font-bold uppercase tracking-widest text-[#4FD1C5]">{plan.insurer}</p>
+                       </div>
+                       <div className="p-8 space-y-6 flex-grow flex flex-col justify-between">
+                          <div className="p-4 bg-white/5 space-y-1">
+                             <p className="text-[9px] font-bold text-[#6E7495] uppercase">Premium Total</p>
+                             <p className="text-3xl font-bold font-headline">₹{plan.premium}</p>
+                          </div>
+                          <Button 
+                            onClick={() => handleSelectPlan(plan)}
+                            disabled={!!hydratingPlanId}
+                            className="w-full h-14 bg-white/5 text-white hover:bg-[#E8A33D] hover:text-[#0F1428] font-bold uppercase text-[10px] tracking-[0.2em] rounded-none transition-all"
+                          >
+                             {hydratingPlanId === plan.planId ? <Loader2 className="w-4 h-4 animate-spin" /> : "Select Plan"}
+                          </Button>
+                       </div>
+                    </Card>
+                  ))}
+               </div>
+            </div>
+          )}
+
+          {/* STEP 3: TRAVELER DETAILS FORM */}
+          {step === 'form' && selectedPlan && (
+            <div className="space-y-10 animate-in fade-in duration-700 text-left">
+               <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 bg-white/[0.02] border border-white/10 p-8">
+                  <div className="flex items-center gap-6">
+                     <div className="w-16 h-16 bg-[#E8A33D]/10 flex items-center justify-center border border-[#E8A33D]/20">
+                        <Plane className="w-8 h-8 text-[#E8A33D]" />
+                     </div>
+                     <div>
+                        <p className="text-[10px] font-bold uppercase tracking-widest text-[#6E7495]">Selected Product</p>
+                        <h3 className="text-2xl font-bold font-headline">{selectedPlan.name}</h3>
+                        <p className="text-xs text-[#9AA1C0] mt-1 font-mono uppercase">ID: {selectedPlan.planId} · Detail: {selectedPlan.detailId || 'PENDING'}</p>
+                     </div>
+                  </div>
+                  <div className="text-right">
+                     <p className="text-[10px] font-bold text-[#6E7495] uppercase mb-1">Total Payable</p>
+                     <p className="text-4xl font-bold font-headline">₹{selectedPlan.premium}</p>
+                  </div>
+               </div>
+
+               <div className="grid lg:grid-cols-[1fr_400px] gap-12">
+                  <div className="space-y-10">
+                     <section className="space-y-6">
+                        <h4 className="text-sm font-bold uppercase tracking-widest flex items-center gap-3 border-b border-white/5 pb-2">
+                           <User className="w-4 h-4 text-[#4FD1C5]" /> 1. Identity & Passport
+                        </h4>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                           <div className="space-y-1.5">
+                              <Label className="text-[9px] font-bold uppercase text-[#6E7495]">First Name</Label>
+                              <Input value={formData.firstName} onChange={e => setFormData({...formData, firstName: e.target.value})} className="bg-white/5 border-white/10 h-11 rounded-none" />
+                           </div>
+                           <div className="space-y-1.5">
+                              <Label className="text-[9px] font-bold uppercase text-[#6E7495]">Last Name</Label>
+                              <Input value={formData.lastName} onChange={e => setFormData({...formData, lastName: e.target.value})} className="bg-white/5 border-white/10 h-11 rounded-none" />
+                           </div>
+                           <div className="space-y-1.5">
+                              <Label className="text-[9px] font-bold uppercase text-[#6E7495]">Passport Number</Label>
+                              <Input value={formData.passportNo} onChange={e => setFormData({...formData, passportNo: e.target.value})} className="bg-white/5 border-white/10 h-11 rounded-none font-mono" />
+                           </div>
+                           <div className="space-y-1.5">
+                              <Label className="text-[9px] font-bold uppercase text-[#6E7495]">Gender</Label>
+                              <select value={formData.gender} onChange={e => setFormData({...formData, gender: e.target.value})} className="w-full h-11 bg-white/5 border border-white/10 px-3 rounded-none text-sm outline-none">
+                                 <option value="Male">Male</option>
+                                 <option value="Female">Female</option>
+                                 <option value="Other">Other</option>
+                              </select>
+                           </div>
+                        </div>
+                     </section>
+
+                     <section className="space-y-6">
+                        <h4 className="text-sm font-bold uppercase tracking-widest flex items-center gap-3 border-b border-white/5 pb-2">
+                           <MapPin className="w-4 h-4 text-[#4FD1C5]" /> 2. Contact & Residence
+                        </h4>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                           <div className="space-y-1.5">
+                              <Label className="text-[9px] font-bold uppercase text-[#6E7495]">Email Address</Label>
+                              <Input value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} className="bg-white/5 border-white/10 h-11 rounded-none" />
+                           </div>
+                           <div className="space-y-1.5">
+                              <Label className="text-[9px] font-bold uppercase text-[#6E7495]">Mobile Number</Label>
+                              <Input value={formData.mobile} onChange={e => setFormData({...formData, mobile: e.target.value})} className="bg-white/5 border-white/10 h-11 rounded-none" />
+                           </div>
+                           <div className="md:col-span-2 space-y-1.5">
+                              <Label className="text-[9px] font-bold uppercase text-[#6E7495]">Street Address</Label>
+                              <Input value={formData.address} onChange={e => setFormData({...formData, address: e.target.value})} className="bg-white/5 border-white/10 h-11 rounded-none" />
+                           </div>
+                           <div className="grid grid-cols-3 md:col-span-2 gap-4">
+                              <div className="space-y-1.5">
+                                 <Label className="text-[8px] font-bold uppercase text-[#6E7495]">City</Label>
+                                 <Input value={formData.city} onChange={e => setFormData({...formData, city: e.target.value})} className="bg-white/5 border-white/10 h-10 rounded-none text-xs" />
+                              </div>
+                              <div className="space-y-1.5">
+                                 <Label className="text-[8px] font-bold uppercase text-[#6E7495]">State</Label>
+                                 <Input value={formData.state} onChange={e => setFormData({...formData, state: e.target.value})} className="bg-white/5 border-white/10 h-10 rounded-none text-xs" />
+                              </div>
+                              <div className="space-y-1.5">
+                                 <Label className="text-[8px] font-bold uppercase text-[#6E7495]">Pincode</Label>
+                                 <Input value={formData.pincode} onChange={e => setFormData({...formData, pincode: e.target.value})} className="bg-white/5 border-white/10 h-10 rounded-none text-xs" />
+                              </div>
+                           </div>
+                        </div>
+                     </section>
+
+                     <section className="space-y-6">
+                        <h4 className="text-sm font-bold uppercase tracking-widest flex items-center gap-3 border-b border-white/5 pb-2">
+                           <Heart className="w-4 h-4 text-[#4FD1C5]" /> 3. Nominee Details
+                        </h4>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                           <div className="space-y-1.5">
+                              <Label className="text-[9px] font-bold uppercase text-[#6E7495]">Full Name</Label>
+                              <Input value={formData.nomineeName} onChange={e => setFormData({...formData, nomineeName: e.target.value})} className="bg-white/5 border-white/10 h-11 rounded-none" />
+                           </div>
+                           <div className="space-y-1.5">
+                              <Label className="text-[9px] font-bold uppercase text-[#6E7495]">Relationship</Label>
+                              <select value={formData.nomineeRelation} onChange={e => setFormData({...formData, nomineeRelation: e.target.value})} className="w-full h-11 bg-white/5 border border-white/10 px-3 rounded-none text-sm outline-none">
+                                 <option value="Spouse">Spouse</option>
+                                 <option value="Parent">Parent</option>
+                                 <option value="Child">Child</option>
+                                 <option value="Other">Other</option>
+                              </select>
+                           </div>
+                        </div>
+                     </section>
+                  </div>
+
+                  <div className="space-y-6 sticky top-28 h-fit">
+                      <div className="p-8 bg-[#171D3A] border border-white/10 rounded-none space-y-8">
+                         <div className="space-y-4">
+                            <h4 className="text-[10px] font-bold uppercase tracking-widest text-white border-b border-white/5 pb-2">Final Review</h4>
+                            <div className="space-y-3">
+                               <div className="flex justify-between text-xs">
+                                  <span className="text-[#6E7495]">Premium</span>
+                                  <span className="font-bold">₹{selectedPlan.premium}</span>
+                               </div>
+                               <div className="flex justify-between text-xs">
+                                  <span className="text-[#6E7495]">Traveler</span>
+                                  <span className="font-bold">{formData.firstName} {formData.lastName}</span>
+                               </div>
+                               <div className="flex justify-between text-xs">
+                                  <span className="text-[#6E7495]">Trip Duration</span>
+                                  <span className="font-bold">{searchParams.duration} Days</span>
+                               </div>
+                            </div>
+                         </div>
+
+                         <div className="space-y-3">
+                            <Button 
+                              onClick={handleValidate}
+                              disabled={isValidating}
+                              variant="outline" 
+                              className="w-full h-12 font-bold uppercase text-[9px] tracking-widest rounded-none border-white/10 hover:bg-white/5"
+                            >
+                               {isValidating ? <Loader2 className="w-4 h-4 animate-spin" /> : "Validate Schema"}
+                            </Button>
+                            <Button 
+                              onClick={handleIssuePolicy}
+                              disabled={isIssuing || !selectedPlan.detailId}
+                              className="w-full h-12 bg-[#4FD1C5] text-[#0F1428] hover:bg-white font-bold uppercase text-[9px] tracking-[0.2em] rounded-none shadow-xl"
+                            >
+                               {isIssuing ? <Loader2 className="w-4 h-4 animate-spin" /> : <><Zap className="w-3.5 h-3.5 mr-2" /> Complete Issuance</>}
+                            </Button>
+                            {!selectedPlan.detailId && (
+                               <p className="text-[8px] text-amber-500 font-bold uppercase text-center mt-2">Waiting for Detail Identifier...</p>
+                            )}
+                         </div>
+                      </div>
+
+                      <button onClick={resetJourney} className="w-full text-[9px] font-bold uppercase tracking-widest text-[#6E7495] hover:text-white transition-colors">
+                         Discard & Start Over
+                      </button>
+                  </div>
+               </div>
+            </div>
+          )}
+
+          {/* STEP 4: SUCCESS / CONFIRMATION */}
+          {step === 'success' && issuedPolicy && (
+            <div className="max-w-2xl mx-auto py-12 animate-in zoom-in-95 duration-500">
+               <div className="bg-[#171D3A] border border-[#4FD1C5]/40 p-12 rounded-none text-center space-y-8 shadow-3xl ring-1 ring-[#4FD1C5]/20">
+                  <div className="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4 border border-green-500/30">
+                     <ShieldCheck className="w-10 h-10 text-green-500" />
+                  </div>
+                  <div className="space-y-2">
+                     <h2 className="text-3xl font-bold font-headline">Policy Successfully Issued</h2>
+                     <p className="text-[#9AA1C0] font-medium">UAT transaction complete. Your test document is ready.</p>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-px bg-white/10 border border-white/10">
+                     <div className="bg-white/5 p-6 space-y-1">
+                        <p className="text-[9px] font-bold text-[#6E7495] uppercase tracking-widest">Policy Number</p>
+                        <p className="text-xl font-bold font-mono">{issuedPolicy.policyNumber}</p>
+                     </div>
+                     <div className="bg-white/5 p-6 space-y-1">
+                        <p className="text-[9px] font-bold text-[#6E7495] uppercase tracking-widest">Order Identifier</p>
+                        <p className="text-xl font-bold font-mono">{issuedPolicy.orderId}</p>
+                     </div>
+                  </div>
+
+                  <div className="pt-6 space-y-4">
+                     <a href={issuedPolicy.policyFilePath} target="_blank" rel="noopener noreferrer">
+                        <Button className="w-full h-14 bg-white text-black hover:bg-[#4FD1C5] font-bold uppercase tracking-[0.2em] text-[10px] rounded-none shadow-xl">
+                           <Download className="w-4 h-4 mr-2" /> Download Certificate (UAT)
+                        </Button>
+                     </a>
+                     <Button variant="ghost" onClick={resetJourney} className="text-[9px] font-bold uppercase tracking-widest text-[#6E7495] hover:text-white">
+                        Issue Another Policy
+                     </Button>
+                  </div>
+               </div>
             </div>
           )}
       </div>
 
-      {/* UAT CREDENTIAL GATE */}
-      {isDebug && (showGate || !isSessionActive) && (
-        <Card className="bg-[#171D3A] border-dashed border-[#E8A33D]/40 p-8 rounded-none shadow-2xl animate-in fade-in zoom-in-95 text-left ring-1 ring-[#E8A33D]/20">
-           <div className="flex items-center justify-between mb-8">
-              <div className="flex items-center gap-3">
-                 <Lock className="w-5 h-5 text-[#E8A33D]" />
-                 <h3 className="text-xl font-bold font-headline">Session Activation</h3>
-              </div>
-              <button onClick={() => setShowSecrets(!showSecrets)} className="text-[#6E7495] hover:text-white transition-colors">
-                  {showSecrets ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-              </button>
-           </div>
-           <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8">
-              <div className="space-y-1.5">
-                 <Label className="text-[9px] uppercase font-bold text-[#6E7495] tracking-widest">Partner ID</Label>
-                 <Input 
-                   value={creds.partnerId} 
-                   onChange={e => setCreds({...creds, partnerId: e.target.value})}
-                   className="bg-[#0F1428] border-white/10 h-11 rounded-none font-mono text-xs" 
-                 />
-              </div>
-              <div className="space-y-1.5">
-                 <Label className="text-[9px] uppercase font-bold text-[#6E7495] tracking-widest">Sign</Label>
-                 <Input 
-                   type={showSecrets ? "text" : "password"}
-                   value={creds.sign} 
-                   onChange={e => setCreds({...creds, sign: e.target.value})}
-                   className="bg-[#0F1428] border-white/10 h-11 rounded-none text-xs" 
-                 />
-              </div>
-              <div className="space-y-1.5">
-                 <Label className="text-[9px] uppercase font-bold text-[#6E7495] tracking-widest">Reference</Label>
-                 <Input 
-                   type={showSecrets ? "text" : "password"}
-                   value={creds.reference} 
-                   onChange={e => setCreds({...creds, reference: e.target.value})}
-                   className="bg-[#0F1428] border-white/10 h-11 rounded-none text-xs" 
-                 />
-              </div>
-              <div className="space-y-1.5">
-                 <Label className="text-[9px] uppercase font-bold text-[#6E7495] tracking-widest">Secret Key</Label>
-                 <Input 
-                   type={showSecrets ? "text" : "password"}
-                   value={creds.secretKey} 
-                   onChange={e => setCreds({...creds, secretKey: e.target.value})}
-                   className="bg-[#0F1428] border-white/10 h-11 rounded-none text-xs" 
-                 />
-              </div>
-              <div className="space-y-1.5">
-                 <Label className="text-[9px] uppercase font-bold text-[#6E7495] tracking-widest">Vector Bytes</Label>
-                 <Input 
-                   type={showSecrets ? "text" : "password"}
-                   value={creds.vectorBytes} 
-                   onChange={e => setCreds({...creds, vectorBytes: e.target.value})}
-                   className="bg-[#0F1428] border-white/10 h-11 rounded-none text-xs" 
-                 />
-              </div>
-           </div>
-           <Button onClick={() => setShowGate(false)} className="w-full bg-[#E8A33D] text-[#0F1428] font-bold h-12 rounded-none uppercase text-xs tracking-widest">
-              Update UAT Session
-           </Button>
-        </Card>
-      )}
-
-      {/* SEARCH FORM */}
-      <Card className="bg-[#171D3A] border-white/10 p-1 rounded-none shadow-3xl">
-        <form onSubmit={handleSearch} className="bg-[#1E2650] p-8 md:p-10 rounded-none grid grid-cols-1 md:grid-cols-4 gap-8 items-end text-left">
-          <div className="space-y-2">
-            <Label className="text-[10px] font-bold uppercase tracking-widest text-[#9AA1C0]">Destination</Label>
-            <select 
-              disabled={isConnecting}
-              value={searchParams.categoryId}
-              onChange={e => setSearchParams({...searchParams, categoryId: e.target.value})}
-              className="w-full h-14 px-4 bg-[#0F1428] border border-white/10 rounded-none outline-none transition-all text-sm font-medium"
-            >
-              {isConnecting ? (
-                <option>Loading...</option>
-              ) : (
-                <>
-                  <option value="">Select Region</option>
-                  {categories.map(c => <option key={c.id || c.name} value={c.id}>{c.name}</option>)}
-                </>
-              )}
-            </select>
-          </div>
-          <div className="space-y-2">
-            <Label className="text-[10px] font-bold uppercase tracking-widest text-[#9AA1C0]">Traveler Age</Label>
-            <Input 
-              type="number" 
-              value={searchParams.age}
-              onChange={e => setSearchParams({...searchParams, age: e.target.value})}
-              className="h-14 bg-[#0F1428] border-white/10 rounded-none font-bold text-center"
-            />
-          </div>
-          <div className="space-y-2">
-            <Label className="text-[10px] font-bold uppercase tracking-widest text-[#9AA1C0]">Duration (Days)</Label>
-            <Input 
-              type="number" 
-              value={searchParams.duration}
-              onChange={e => setSearchParams({...searchParams, duration: e.target.value})}
-              className="h-14 bg-[#0F1428] border-white/10 rounded-none font-bold text-center"
-            />
-          </div>
-          <Button 
-            type="submit" 
-            disabled={isLoading || !searchParams.categoryId} 
-            className="h-14 bg-[#E8A33D] text-[#0F1428] font-bold rounded-none shadow-xl hover:bg-white transition-all disabled:opacity-40"
-          >
-            {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <><Search className="w-4 h-4 mr-2" /> Search Plans</>}
-          </Button>
-        </form>
-      </Card>
-
-      {/* RESULTS VIEW */}
-      <div className="space-y-12">
-         {isDebug && showTrace && lastTrace && (
-           <Card className="bg-[#0B0F22] border-[#4FD1C5]/40 p-8 rounded-none text-left font-mono text-[11px] animate-in fade-in slide-in-from-top-4 ring-1 ring-[#4FD1C5]/20">
-              <div className="flex items-center justify-between mb-6 pb-2 border-b border-white/10">
-                  <span className="text-[9px] font-bold uppercase tracking-[0.4em] text-[#4FD1C5]">Forensic_Trace_v5.0.raw</span>
-                  <span className={cn("font-bold", lastTrace.success ? "text-green-500" : "text-red-500")}>
-                    {lastTrace.method} {lastTrace.status ? `[${lastTrace.status}]` : ''} {lastTrace.success ? "200_OK" : "FAILURE"}
-                  </span>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <div className="space-y-4">
-                     <div className="space-y-1">
-                          <p className="text-[#6E7495] uppercase font-bold text-[9px]">Materialized Endpoint</p>
-                          <p className="text-white break-all bg-white/5 p-2">{lastTrace.endpoint}</p>
-                     </div>
-                     <div className="space-y-1">
-                          <p className="text-[#6E7495] uppercase font-bold text-[9px]">Headers Sent (Masked)</p>
-                          <pre className="text-white/40 bg-white/5 p-2 overflow-auto">
-                            {JSON.stringify(lastTrace.headersSent, null, 2)}
-                          </pre>
-                     </div>
-                  </div>
-                  <div className="space-y-1">
-                     <p className="text-[#6E7495] uppercase font-bold text-[9px]">Verbatim Response Body</p>
-                     <pre className="text-[#4FD1C5] bg-white/5 p-4 overflow-auto max-h-[500px] custom-scrollbar text-[12px] leading-relaxed">
-                       {JSON.stringify(lastTrace.raw || lastTrace.data, null, 2)}
-                     </pre>
-                  </div>
-              </div>
-           </Card>
-         )}
-
-         {isLoading && (
-           <div className="py-32 text-center space-y-6">
-              <Activity className="w-12 h-12 animate-spin text-[#E8A33D] mx-auto opacity-40" />
-              <p className="font-mono text-[10px] font-bold uppercase tracking-[0.4em] text-[#E8A33D]">Interrogating UAT Catalogue...</p>
-           </div>
-         )}
-
-         {!isLoading && plans.length > 0 && (
-           <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
-              <div className="flex justify-between items-baseline border-b border-white/5 pb-4 text-left">
-                 <h2 className="text-3xl font-headline font-bold">Insurance Catalogue</h2>
-                 <Badge variant="outline" className="text-[9px] font-bold border-white/10 text-white/40">{plans.length} PRODUCTS DISCOVERED</Badge>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                 {plans.map((plan, index) => {
-                   const isSelected = selectedPlan?.planId === plan.planId;
-                   const isHydrating = hydratingPlanId === plan.planId;
-
-                   return (
-                     <Card 
-                       key={`${plan.planId}-${index}`} 
-                       className={cn(
-                         "bg-[#171D3A] border-white/10 rounded-none transition-all flex flex-col h-full",
-                         isSelected ? "ring-2 ring-[#4FD1C5] border-transparent" : "hover:border-white/20"
-                       )}
-                     >
-                        <div className="p-8 border-b border-white/5 flex justify-between items-start shrink-0">
-                           <div className="space-y-1">
-                              <h3 className="font-bold text-xl leading-tight">{plan.name ?? "—"}</h3>
-                              <p className="text-[10px] font-bold uppercase tracking-widest text-[#4FD1C5]">{plan.insurer}</p>
-                           </div>
-                        </div>
-                        <div className="p-8 space-y-8 flex-grow flex flex-col justify-between">
-                           <div className="p-6 bg-white/5 rounded-none space-y-3">
-                              {plan.ineligible ? (
-                                <div className="flex items-center gap-2 text-amber-500 font-bold uppercase tracking-widest text-[10px]">
-                                  <AlertCircle className="w-4 h-4" />
-                                  <span>Not available for age {searchParams.age}</span>
-                                </div>
-                              ) : (
-                                <>
-                                  <div className="flex justify-between items-baseline">
-                                     <span className="text-[10px] font-bold uppercase text-[#6E7495] tracking-widest">Premium Total</span>
-                                     <span className="text-3xl font-bold text-white font-headline">₹{plan.premium ?? '—'}</span>
-                                  </div>
-                                  <p className="text-[9px] text-[#6E7495] uppercase font-bold tracking-widest">{plan.currency}</p>
-                                </>
-                              )}
-                           </div>
-                           <div className="space-y-2">
-                              <div className="flex items-center gap-2 text-xs text-[#9AA1C0]">
-                                 <Activity className="w-3.5 h-3.5 text-[#E8A33D]" />
-                                 <span>Age: {plan.minAge}-{plan.maxAge}</span>
-                              </div>
-                              <div className="flex items-center gap-2 text-xs text-[#9AA1C0]">
-                                 <ChevronRight className="w-3.5 h-3.5 text-[#E8A33D]" />
-                                 <span>Duration: {plan.minDays}-{plan.maxDays} Days</span>
-                              </div>
-                           </div>
-                           <Button 
-                             disabled={!!hydratingPlanId || plan.ineligible}
-                             onClick={() => handleSelectPlan(plan)}
-                             className={cn(
-                               "w-full h-14 font-bold uppercase tracking-[0.2em] text-[10px] rounded-none transition-all",
-                               isSelected ? "bg-[#4FD1C5] text-[#0F1428]" : "bg-white/5 hover:bg-white/10 text-white border border-white/10"
-                             )}
-                           >
-                             {isSelected ? "Plan Selected" : isHydrating ? <Loader2 className="w-4 h-4 animate-spin" /> : "Choose Plan"}
-                           </Button>
-                        </div>
-                     </Card>
-                   );
-                 })}
-              </div>
-           </div>
-         )}
-
-         {!isLoading && plans.length === 0 && (
-           <div className="py-32 text-center space-y-10 border-2 border-dashed border-white/5 rounded-none bg-white/[0.01]">
-              <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mx-auto ring-1 ring-white/10">
-                 {hasSearched ? <AlertCircle className="w-10 h-10 text-[#E8A33D] opacity-40" /> : <Globe className="w-10 h-10 text-[#6E7495] opacity-20" />}
-              </div>
-              <div className="space-y-3">
-                 <h3 className="text-2xl font-headline font-bold text-[#6E7495]">
-                   {hasSearched ? "No matching plans found." : "Discovery Passive"}
-                 </h3>
-                 <p className="text-[#6E7495] max-sm mx-auto font-medium leading-relaxed">
-                   {hasSearched 
-                     ? "The current trip parameters returned an empty result in UAT. Try a different duration or age." 
-                     : "Trip parameters are required to interrogate the catalogue."}
-                 </p>
-              </div>
-              {isDebug && (
-                <Button onClick={() => setShowGate(true)} variant="outline" className="font-bold border-white/10 h-12 px-10 rounded-none uppercase text-[10px] tracking-widest">
-                  Configure UAT Session
-                </Button>
-              )}
-           </div>
-         )}
-      </div>
-
-      {/* SELECTION SUMMARY & TEST TOOL */}
-      {selectedPlan && (
-        <div className="space-y-6 animate-in slide-in-from-bottom-12 duration-700">
-           <div className="p-10 bg-[#4FD1C5]/10 border border-[#4FD1C5]/30 rounded-none flex flex-col md:flex-row items-center justify-between gap-8 shadow-3xl ring-1 ring-[#4FD1C5]/20">
-              <div className="flex items-center gap-8 text-left">
-                 <div className="w-20 h-20 bg-[#4FD1C5]/20 rounded-none flex items-center justify-center text-[#4FD1C5] border border-[#4FD1C5]/30">
-                    <Plane className="w-10 h-10" />
-                 </div>
-                 <div className="space-y-2">
-                    <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#4FD1C5]">TRANSACTION READY</p>
-                    <h4 className="text-3xl font-bold font-headline leading-none">{selectedPlan.name ?? '—'}</h4>
-                    
-                    {isDebug && (
-                       <div className="flex flex-wrap items-center gap-6 pt-1">
-                         <div className="flex flex-col">
-                             <span className="text-[8px] font-bold text-[#6E7495] uppercase tracking-widest">Plan Identifier</span>
-                             <span className="font-mono text-xs text-white/60">{selectedPlan.planId}</span>
-                         </div>
-                         <div className="flex flex-col">
-                             <span className="text-[8px] font-bold text-[#6E7495] uppercase tracking-widest">Detail Identifier</span>
-                             <span className={cn("font-mono text-xs", selectedPlan.detailId ? "text-white/80" : "text-amber-500")}>
-                               {selectedPlan.detailId || 'PENDING_HYDRATION'}
-                             </span>
-                         </div>
-                       </div>
-                    )}
-                 </div>
-              </div>
-              <div className="text-right space-y-2">
-                 <p className="text-[10px] font-bold text-[#6E7495] uppercase tracking-widest">UAT Estimated Total</p>
-                 <p className="text-4xl font-bold font-headline">₹{selectedPlan.premium ?? '0'}</p>
-              </div>
-           </div>
-
-           {isDebug && (
-             <Card className="bg-[#0B0F22] border-dashed border-[#4FD1C5]/40 p-8 rounded-none flex flex-col md:flex-row items-center justify-between gap-8 ring-1 ring-[#4FD1C5]/10">
-                <div className="text-left space-y-1">
-                   <p className="text-[10px] font-bold uppercase tracking-widest text-[#4FD1C5]">Lifecycle Test Harness</p>
-                   <p className="text-xs text-[#9AA1C0]">Runs encrypted <strong>Validate → Create → Cancel</strong> cycle using fake data.</p>
-                </div>
-                <div className="flex gap-4">
-                    <Button 
-                      disabled={isTesting}
-                      onClick={runLifecycleTest}
-                      className="bg-white text-black hover:bg-[#4FD1C5] font-bold text-[10px] uppercase tracking-widest h-12 px-8 rounded-none transition-all shadow-xl"
-                    >
-                      {isTesting ? <Loader2 className="animate-spin w-4 h-4 mr-2" /> : <Zap className="w-4 h-4 mr-2" />}
-                      {isTesting ? "Executing Sequence..." : "Run Lifecycle Test (UAT)"}
-                    </Button>
-                    <Button 
-                      variant="ghost" 
-                      onClick={() => setSelectedPlan(null)}
-                      className="text-[10px] font-bold uppercase tracking-widest border border-white/10 h-12 rounded-none px-6"
-                    >
-                      <RotateCcw className="w-4 h-4 mr-2" /> Reset
-                    </Button>
-                </div>
-             </Card>
-           )}
-        </div>
-      )}
     </div>
   );
 }
