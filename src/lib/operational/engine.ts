@@ -1,3 +1,4 @@
+
 /**
  * @fileOverview Phase 3A Temporal Engine.
  * Implements Purpose-Aware Advice and Canonical Logic.
@@ -17,12 +18,16 @@ import {
   getDay, 
   lastDayOfMonth, 
   parseISO,
-  getYear,
-  startOfToday
+  getYear
 } from 'date-fns';
 
+/**
+ * Returns a UTC-deterministic Date object representing today.
+ * Fixes timezone drift in metadata and relative filtering.
+ */
 export function resolveNow(): Date {
-  return startOfToday();
+  const now = new Date();
+  return new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
 }
 
 export function getEaster(year: number): Date {

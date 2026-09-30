@@ -5,21 +5,14 @@ import React from 'react';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { 
-  Database, 
   ShieldCheck, 
   Globe, 
   Terminal,
   Code,
   Link as LinkIcon,
-  ChevronRight,
   Zap,
   Activity,
-  MessageSquare,
-  BookOpen,
-  Eye,
-  ArrowDown,
   Info
 } from "lucide-react";
 
@@ -28,37 +21,40 @@ export default function ApiPage() {
   "status": "success",
   "query": {
     "jurisdiction": "IN",
-    "date": "2026-09-15",
+    "date": "2026-11-08",
     "purpose": "travel"
+  },
+  "metadata": {
+    "timestamp": "2026-10-01T00:00:00.000Z",
+    "source_connected": true,
+    "version": "4.2.0-static-first",
+    "now_resolved": "2026-10-01"
   },
   "records": [
     {
-      "id": "RULE_IN_Ganesh_Chaturthi_fixed_9_15__2026-09-15",
-      "name": "Ganesh Chaturthi",
-      "category": "religious",
+      "id": "RULE_IN_Diwali_dated_2026__2026-11-08",
+      "rule_id": "RULE_IN_Diwali_dated_2026",
+      "name": "Diwali",
+      "category": "public",
       "jurisdiction": {
         "country_code": "IN",
         "country_name": "India",
-        "scope": "regional"
+        "scope": "national"
       },
+      "temporal_kind": "recurring",
       "state": "confirmed",
       "confidence": "high",
-      "consequences": {
-        "implication": "Full commercial shutdown in Mumbai/Pune. Add 3-hour buffer for airport transfers.",
-        "affected_operations": ["banking", "government"],
-        "severity": "high"
-      },
       "evidence": {
-        "source_name": "Gazette of Maharashtra",
-        "source_url": "https://gazette.maharashtra.gov.in/..."
+        "source_name": "DoPT OM F.No.12/2/2023-JCA",
+        "source_url": "https://example.com/holidays.pdf",
+        "last_checked": "2026-09-05"
+      },
+      "consequences": {
+        "implication": "National Holiday. Mandatory commercial shutdown in most states.",
+        "severity": "high"
       }
     }
-  ],
-  "metadata": {
-    "timestamp": "2026-09-09T14:30:00Z",
-    "source_connected": true,
-    "version": "4.2.0-static-first"
-  }
+  ]
 }`;
 
   const scrollToDocs = () => {
@@ -76,7 +72,7 @@ export default function ApiPage() {
       <Header />
       
       <main className="relative">
-        {/* HERO: Blueprint Style */}
+        {/* HERO */}
         <section className="py-12 md:py-24 border-b border-white/5 relative overflow-hidden">
           <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#F4F1E8 1px, transparent 1px)', backgroundSize: '40px 40px' }}></div>
           <div className="container mx-auto px-6 relative z-10">
@@ -115,13 +111,13 @@ export default function ApiPage() {
                         <div className="w-2.5 h-2.5 rounded-full bg-green-500/50"></div>
                       </div>
                       <div className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#4FD1C5]/40 flex items-center gap-2">
-                        <Terminal className="w-3 h-3" /> response_materialized.json
+                        <Terminal className="w-3 h-3" /> response_example.json
                       </div>
                     </div>
                     <div className="space-y-4">
                       <div className="flex items-center gap-3 text-[#4FD1C5] font-bold">
                         <span className="bg-[#4FD1C5]/10 px-2 py-0.5 rounded text-[10px]">GET</span>
-                        <span>/api/v1/intelligence?jurisdiction=IN&date=2026-09-15</span>
+                        <span>/api/v1/intelligence?jurisdiction=IN&date=2026-11-08</span>
                       </div>
                       <pre className="whitespace-pre-wrap leading-relaxed overflow-x-auto text-left border-l border-white/5 pl-4 py-2">
                         <code className="text-[#F4F1E8]">{jsonCode}</code>
@@ -133,95 +129,7 @@ export default function ApiPage() {
           </div>
         </section>
 
-        {/* POSITIONING: The Utsavs Gap */}
-        <section className="py-24 bg-[#171D3A]/30">
-          <div className="container mx-auto px-6">
-            <div className="max-w-4xl mx-auto grid lg:grid-cols-[1fr_auto] gap-16 items-center">
-              <div className="space-y-6 text-left">
-                <div className="text-[11px] font-mono text-[#4FD1C5] font-bold uppercase tracking-[0.4em]">The Core Philosophy</div>
-                <h2 className="text-3xl md:text-5xl font-headline font-medium">Actionable Intelligence, not just security risk.</h2>
-                <div className="space-y-6 text-lg text-[#9AA1C0] leading-relaxed font-medium text-left">
-                  <p>
-                    Traditional security intelligence focuses on the 1% of extreme events — crime, kidnapping, or war. But 99% of professional journeys are paralyzed by <strong>Temporal Friction</strong>: the unannounced bank closure, the 4-hour urban delay, or the institutional deadline mismatch.
-                  </p>
-                  <p>
-                    Utsavs addresses this gap by turning complex calendars into structured planning signals. We don't just tell you a holiday is happening; we tell you what it means for your specific purpose.
-                  </p>
-                </div>
-              </div>
-              <div className="flex flex-col gap-4">
-                 {[
-                   { label: "Predictable", val: "Source-Backed" },
-                   { label: "Logical", val: "Rule-Driven" },
-                   { label: "Transparent", val: "Every answer has a trail" }
-                 ].map(item => (
-                   <div key={item.label} className="p-6 bg-[#0F1428] border border-white/10 rounded-2xl w-full lg:w-64 space-y-1 text-left">
-                      <span className="text-[10px] font-bold uppercase tracking-widest text-[#E8A33D]">{item.label}</span>
-                      <p className="text-sm font-bold text-white">{item.val}</p>
-                   </div>
-                 ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* DATA LAYERS: The Product Value */}
-        <section className="py-24">
-           <div className="container mx-auto px-6">
-              <div className="max-w-6xl mx-auto space-y-16">
-                <div className="max-w-3xl text-left space-y-4">
-                    <span className="text-[11px] font-mono text-[#4FD1C5] font-bold uppercase tracking-[0.4em]">Architecture</span>
-                    <h2 className="text-3xl md:text-5xl font-headline font-medium">Five layers of precision.</h2>
-                    <p className="text-xl text-[#9AA1C0] font-medium">We normalize complex date information into structured data units.</p>
-                </div>
-                
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-16 text-left">
-                    {[
-                      { 
-                        title: "Temporal Fact", 
-                        desc: "Deterministic event identification across our verified jurisdictions. Name, classification, and duration.",
-                        icon: Database 
-                      },
-                      { 
-                        title: "Jurisdictional Scope", 
-                        desc: "Granular mapping. Distinguish between National holidays and Regional rules that override the baseline.",
-                        icon: Globe 
-                      },
-                      { 
-                        title: "Date State", 
-                        desc: "Verification status. Clearly differentiate between Officially Confirmed dates and Lunisolar Estimates.",
-                        icon: Activity 
-                      },
-                      { 
-                        title: "Planning Implication", 
-                        desc: "Human-verified impact. Specific advice for banking, logistics, travel, and institutional attendance.",
-                        icon: Zap 
-                      },
-                      { 
-                        title: "The Trail (Evidence)", 
-                        desc: "Provenance transparency. Every record is cited with a direct link to the authoritative source document.",
-                        icon: LinkIcon 
-                      },
-                      { 
-                        title: "Machine Ready", 
-                        desc: "Standardized JSON output. ISO 3166-1 alpha-2 and ISO 8601 compliant for seamless system integration.",
-                        icon: Code 
-                      }
-                    ].map(layer => (
-                      <div key={layer.title} className="space-y-4 group">
-                        <div className="w-10 h-10 border border-white/10 rounded-xl flex items-center justify-center text-[#E8A33D] group-hover:bg-[#E8A33D]/10 transition-colors">
-                            <layer.icon className="w-5 h-5" />
-                        </div>
-                        <h3 className="text-xl font-bold font-headline">{layer.title}</h3>
-                        <p className="text-sm text-[#9AA1C0] leading-relaxed font-medium">{layer.desc}</p>
-                      </div>
-                    ))}
-                </div>
-              </div>
-           </div>
-        </section>
-
-        {/* DOCUMENTATION SECTION */}
+        {/* DOCUMENTATION */}
         <section id="docs" className="py-24 bg-[#0B0F22] border-t border-white/5">
            <div className="container mx-auto px-6">
               <div className="max-w-6xl mx-auto space-y-16">
@@ -231,14 +139,13 @@ export default function ApiPage() {
                  </div>
 
                  <div className="grid lg:grid-cols-[1fr_1.2fr] gap-12 lg:gap-24">
-                    {/* DOCS CONTENT */}
                     <div className="space-y-12 text-left">
                        <div className="space-y-6">
                           <h3 className="text-2xl font-bold font-headline flex items-center gap-3">
                              <ShieldCheck className="w-6 h-6 text-[#4FD1C5]" /> 01. Authentication
                           </h3>
                           <p className="text-[#9AA1C0] font-medium leading-relaxed">
-                            Access to the Utsavs API is restricted to authorized partners. Every request must include an <code className="text-[#F4F1E8] bg-white/10 px-1.5 rounded">X-API-KEY</code> header. You can request an evaluation key via the support chat.
+                            Every request must include an <code className="text-[#F4F1E8] bg-white/10 px-1.5 rounded">X-API-KEY</code> header. Access is restricted to authorized partners.
                           </p>
                        </div>
 
@@ -248,9 +155,9 @@ export default function ApiPage() {
                           </h3>
                           <div className="space-y-4">
                              {[
-                               { p: "jurisdiction", d: "ISO 3166-1 alpha-2 country code (e.g., IN, JP, US)." },
-                               { p: "date", d: "Target ISO-8601 date string (e.g., 2026-11-08)." },
-                               { p: "purpose", d: "Context filter: travel, business, study, workforce, or logistics." }
+                               { p: "jurisdiction", d: "Required. ISO 3166-1 alpha-2 country code (e.g., IN, JP, US)." },
+                               { p: "date", d: "Required. ISO-8601 date string (YYYY-MM-DD)." },
+                               { p: "purpose", d: "Optional. Context filter: travel, business, study, workforce, or logistics. Default: travel." }
                              ].map(param => (
                                <div key={param.p} className="flex gap-4 items-start">
                                   <code className="text-[#E8A33D] font-bold min-w-[100px]">{param.p}</code>
@@ -265,12 +172,11 @@ export default function ApiPage() {
                              <Zap className="w-6 h-6 text-[#4FD1C5]" /> 03. Response Schema
                           </h3>
                           <p className="text-[#9AA1C0] font-medium leading-relaxed">
-                             Our engine returns a <code className="text-[#F4F1E8] bg-white/10 px-1.5 rounded">materialized_record</code>. This is not just a holiday name; it is a computed result based on the intersection of the date, jurisdiction-specific rules, and the chosen user purpose.
+                             Our engine returns a <code className="text-[#F4F1E8] bg-white/10 px-1.5 rounded">materialized_record</code>. This is a computed result based on the intersection of the date, jurisdiction-specific rules, and the chosen user purpose.
                           </p>
                        </div>
                     </div>
 
-                    {/* CODE PANEL */}
                     <div className="space-y-6">
                        <div className="bg-[#171D3A] rounded-2xl border border-white/10 overflow-hidden shadow-2xl">
                           <div className="px-6 py-4 bg-white/5 border-b border-white/5 flex items-center justify-between">
@@ -298,34 +204,20 @@ export default function ApiPage() {
                         >
                           <div className="flex items-center gap-3 mb-3">
                              <Info className="w-5 h-5 text-[#E8A33D]" />
-                             <h4 className="font-bold text-sm uppercase tracking-widest">Enterprise Support</h4>
+                             <h4 className="font-bold text-sm uppercase tracking-widest">Status Codes</h4>
                           </div>
-                          <p className="text-sm text-[#9AA1C0] font-medium leading-relaxed">
-                             Need to export bulk deterministic data sets or integrate real-time change alerts into your ERP/HR system? Chat with us for Enterprise integration support.
-                          </p>
+                          <div className="space-y-2 text-sm text-[#9AA1C0] font-medium leading-relaxed">
+                             <p><code className="text-white">200</code> — Successful query</p>
+                             <p><code className="text-white">400</code> — Invalid request parameters (Date/Jurisdiction/Purpose)</p>
+                             <p><code className="text-white">401</code> — Missing or invalid API key</p>
+                             <p><code className="text-white">500</code> — Server configuration failure</p>
+                          </div>
                        </div>
                     </div>
                  </div>
               </div>
            </div>
         </section>
-
-        {/* TRUST BANNER */}
-        <div className="py-12 border-y border-white/5 text-center flex flex-col md:flex-row items-center justify-center gap-8 md:gap-24 opacity-60">
-            <div className="flex items-center gap-2 grayscale hover:grayscale-0 transition-all cursor-default">
-              <ShieldCheck className="w-5 h-5 text-[#4FD1C5]" />
-              <span className="font-mono text-[10px] font-bold uppercase tracking-widest">Deterministic Logic</span>
-            </div>
-            <div className="flex items-center gap-2 grayscale hover:grayscale-0 transition-all cursor-default">
-              <Database className="w-5 h-5 text-[#E8A33D]" />
-              <span className="font-mono text-[10px] font-bold uppercase tracking-widest">Sourced Evidence</span>
-            </div>
-            <div className="flex items-center gap-2 grayscale hover:grayscale-0 transition-all cursor-default">
-              <Code className="w-5 h-5 text-white" />
-              <span className="font-mono text-[10px] font-bold uppercase tracking-widest">ISO 3166-1 / ISO 8601</span>
-            </div>
-        </div>
-
       </main>
 
       <Footer />
