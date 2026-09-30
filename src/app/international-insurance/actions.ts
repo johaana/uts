@@ -27,10 +27,13 @@ export interface AsegoCredentials {
   partnerId: string;
   sign: string;
   reference: string;
+  secretKey?: string;
+  vectorBytes?: string;
 }
 
 interface ActionResponse {
   success: boolean;
+  status: number;
   data: any;
   error?: string;
   endpoint: string;
@@ -102,6 +105,7 @@ async function asegoRequest(
   if (!pId || !sgn || !ref) {
     return {
       success: false,
+      status: 0,
       data: null,
       error: "Authentication credentials not configured.",
       endpoint: path,
@@ -142,6 +146,7 @@ async function asegoRequest(
 
     return {
       success: response.ok,
+      status: response.status,
       data: data?.data ?? data,
       endpoint,
       method,
@@ -155,6 +160,7 @@ async function asegoRequest(
   } catch (error: any) {
     return {
       success: false,
+      status: 0,
       data: null,
       error: error.message || "Network request failed",
       endpoint,
@@ -168,10 +174,12 @@ async function asegoRequest(
  * Encryption Wrapper
  */
 export async function asegoEncrypt(value: string, creds?: AsegoCredentials) {
+  const isDebug = process.env.UTSAVS_INTERNAL_DEBUG === 'true';
+  
   const payload = {
     value,
-    key: process.env.UTSAVS_SECRET_KEY,
-    initVector: process.env.UTSAVS_INIT_VECTOR
+    key: (isDebug && creds?.secretKey) ? creds.secretKey : process.env.UTSAVS_SECRET_KEY,
+    initVector: (isDebug && creds?.vectorBytes) ? creds.vectorBytes : process.env.UTSAVS_INIT_VECTOR
   };
   
   return asegoRequest('/ext/b2b/v1/encryption/encrypt', creds, 'POST', payload);
@@ -181,10 +189,12 @@ export async function asegoEncrypt(value: string, creds?: AsegoCredentials) {
  * Decryption Wrapper
  */
 export async function asegoDecrypt(value: string, creds?: AsegoCredentials) {
+  const isDebug = process.env.UTSAVS_INTERNAL_DEBUG === 'true';
+
   const payload = {
     value,
-    key: process.env.UTSAVS_SECRET_KEY,
-    initVector: process.env.UTSAVS_INIT_VECTOR
+    key: (isDebug && creds?.secretKey) ? creds.secretKey : process.env.UTSAVS_SECRET_KEY,
+    initVector: (isDebug && creds?.vectorBytes) ? creds.vectorBytes : process.env.UTSAVS_INIT_VECTOR
   };
   
   return asegoRequest('/ext/b2b/v1/encryption/decrypt', creds, 'POST', payload);
@@ -220,8 +230,12 @@ export async function getAsegoPlanDetails(planId: string, targetAge: string, cre
   if (res.success && res.data) {
     return {
       success: true,
+      status: res.status,
       data: normalizeAsegoPlan(res.data, Number(targetAge)),
-      raw: res.raw
+      raw: res.raw,
+      endpoint: res.endpoint,
+      method: res.method,
+      headersSent: res.headersSent
     };
   }
   
@@ -239,7 +253,7 @@ export async function validateAsegoPolicy(policyData: any, creds?: AsegoCredenti
   const encRes = await asegoEncrypt(rawString, creds);
 
   if (!encRes.success || !encRes.data) {
-    return { success: false, error: "Encryption failed.", raw: encRes.raw };
+    return { success: false, status: encRes.status, error: "Encryption failed.", raw: encRes.raw, endpoint: encRes.endpoint, method: encRes.method, headersSent: encRes.headersSent };
   }
 
   return asegoRequest(`/ext/b2b/v1/createPolicy/validate/${pId}`, creds, 'POST', { policyData: encRes.data });
@@ -256,7 +270,7 @@ export async function createAsegoPolicy(policyData: any, creds?: AsegoCredential
   const encRes = await asegoEncrypt(rawString, creds);
 
   if (!encRes.success || !encRes.data) {
-    return { success: false, error: "Encryption failed.", raw: encRes.raw };
+    return { success: false, status: encRes.status, error: "Encryption failed.", raw: encRes.raw, endpoint: encRes.endpoint, method: encRes.method, headersSent: encRes.headersSent };
   }
 
   return asegoRequest(`/ext/b2b/v1/createPolicy/${pId}`, creds, 'POST', { policyData: encRes.data });

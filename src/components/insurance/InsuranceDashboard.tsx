@@ -49,7 +49,9 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
   const [creds, setCreds] = useState<AsegoCredentials>({
     partnerId: '',
     sign: '',
-    reference: ''
+    reference: '',
+    secretKey: '',
+    vectorBytes: ''
   });
   const [showGate, setShowGate] = useState(false);
   const [showSecrets, setShowSecrets] = useState(false);
@@ -73,12 +75,14 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
   const [showTrace, setShowTrace] = useState(false);
   const [lastTrace, setLastTrace] = useState<any>(null);
 
-  const isSessionActive = isDebug ? !!(creds.partnerId.trim() && creds.sign.trim() && creds.reference.trim()) : true;
+  const isSessionActive = isDebug ? !!(creds.partnerId.trim() && creds.sign.trim() && creds.reference.trim() && creds.secretKey?.trim() && creds.vectorBytes?.trim()) : true;
 
   // Connection logic
   useEffect(() => {
-    fetchCategories();
-  }, [creds.partnerId, creds.sign, creds.reference]);
+    if (isSessionActive || !isDebug) {
+      fetchCategories();
+    }
+  }, [creds.partnerId, creds.sign, creds.reference, creds.secretKey, creds.vectorBytes]);
 
   const fetchCategories = async () => {
     setIsConnecting(true);
@@ -278,35 +282,53 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
                   {showSecrets ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
               </button>
            </div>
-           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+           <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8">
               <div className="space-y-1.5">
-                 <Label className="text-[10px] uppercase font-bold text-[#6E7495] tracking-widest">Partner ID</Label>
+                 <Label className="text-[9px] uppercase font-bold text-[#6E7495] tracking-widest">Partner ID</Label>
                  <Input 
                    value={creds.partnerId} 
                    onChange={e => setCreds({...creds, partnerId: e.target.value})}
-                   className="bg-[#0F1428] border-white/10 h-12 rounded-none font-mono" 
+                   className="bg-[#0F1428] border-white/10 h-11 rounded-none font-mono text-xs" 
                  />
               </div>
               <div className="space-y-1.5">
-                 <Label className="text-[10px] uppercase font-bold text-[#6E7495] tracking-widest">Sign</Label>
+                 <Label className="text-[9px] uppercase font-bold text-[#6E7495] tracking-widest">Sign</Label>
                  <Input 
                    type={showSecrets ? "text" : "password"}
                    value={creds.sign} 
                    onChange={e => setCreds({...creds, sign: e.target.value})}
-                   className="bg-[#0F1428] border-white/10 h-12 rounded-none" 
+                   className="bg-[#0F1428] border-white/10 h-11 rounded-none text-xs" 
                  />
               </div>
               <div className="space-y-1.5">
-                 <Label className="text-[10px] uppercase font-bold text-[#6E7495] tracking-widest">Reference</Label>
+                 <Label className="text-[9px] uppercase font-bold text-[#6E7495] tracking-widest">Reference</Label>
                  <Input 
                    type={showSecrets ? "text" : "password"}
                    value={creds.reference} 
                    onChange={e => setCreds({...creds, reference: e.target.value})}
-                   className="bg-[#0F1428] border-white/10 h-12 rounded-none" 
+                   className="bg-[#0F1428] border-white/10 h-11 rounded-none text-xs" 
+                 />
+              </div>
+              <div className="space-y-1.5">
+                 <Label className="text-[9px] uppercase font-bold text-[#6E7495] tracking-widest">Secret Key</Label>
+                 <Input 
+                   type={showSecrets ? "text" : "password"}
+                   value={creds.secretKey} 
+                   onChange={e => setCreds({...creds, secretKey: e.target.value})}
+                   className="bg-[#0F1428] border-white/10 h-11 rounded-none text-xs" 
+                 />
+              </div>
+              <div className="space-y-1.5">
+                 <Label className="text-[9px] uppercase font-bold text-[#6E7495] tracking-widest">Vector Bytes</Label>
+                 <Input 
+                   type={showSecrets ? "text" : "password"}
+                   value={creds.vectorBytes} 
+                   onChange={e => setCreds({...creds, vectorBytes: e.target.value})}
+                   className="bg-[#0F1428] border-white/10 h-11 rounded-none text-xs" 
                  />
               </div>
            </div>
-           <Button onClick={() => setShowGate(false)} className="w-full bg-[#E8A33D] text-[#0F1428] font-bold h-12 rounded-none">
+           <Button onClick={() => setShowGate(false)} className="w-full bg-[#E8A33D] text-[#0F1428] font-bold h-12 rounded-none uppercase text-xs tracking-widest">
               Update UAT Session
            </Button>
         </Card>
@@ -542,7 +564,7 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
                       onClick={runLifecycleTest}
                       className="bg-white text-black hover:bg-[#4FD1C5] font-bold text-[10px] uppercase tracking-widest h-12 px-8 rounded-none transition-all shadow-xl"
                     >
-                      {isTesting ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <Zap className="w-4 h-4 mr-2" />}
+                      {isTesting ? <Loader2 className="animate-spin w-4 h-4 mr-2" /> : <Zap className="w-4 h-4 mr-2" />}
                       {isTesting ? "Executing Sequence..." : "Run Lifecycle Test (UAT)"}
                     </Button>
                     <Button 
