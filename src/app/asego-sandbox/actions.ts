@@ -154,6 +154,90 @@ export async function runMasterPlanTest(partnerId: string): Promise<ActionRespon
 }
 
 /**
+ * Standalone Plan Action
+ */
+export async function runStandalonePlanTest(partnerId: string): Promise<ActionResponse> {
+  const start = performance.now();
+  const endpoint = `${BASE_URL}/ext/b2b/v1/plan/standalone/${partnerId}/`;
+
+  try {
+    const response = await fetch(endpoint, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'User-Agent': 'External API/1.0',
+      },
+      cache: 'no-store'
+    });
+
+    const end = performance.now();
+    const data = await response.json().catch(() => ([]));
+
+    return {
+      success: response.ok,
+      status: response.status,
+      time: Math.round(end - start),
+      data,
+      endpoint,
+      method: 'GET'
+    };
+  } catch (error: any) {
+    const end = performance.now();
+    return {
+      success: false,
+      status: 0,
+      time: Math.round(end - start),
+      data: null,
+      error: error.message || "Standalone plan lookup failed",
+      endpoint,
+      method: 'GET'
+    };
+  }
+}
+
+/**
+ * VAS Rider Plan Action
+ */
+export async function runVasRiderPlanTest(partnerId: string): Promise<ActionResponse> {
+  const start = performance.now();
+  const endpoint = `${BASE_URL}/ext/b2b/v1/plan/vasRider/${partnerId}/`;
+
+  try {
+    const response = await fetch(endpoint, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'User-Agent': 'External API/1.0',
+      },
+      cache: 'no-store'
+    });
+
+    const end = performance.now();
+    const data = await response.json().catch(() => ([]));
+
+    return {
+      success: response.ok,
+      status: response.status,
+      time: Math.round(end - start),
+      data,
+      endpoint,
+      method: 'GET'
+    };
+  } catch (error: any) {
+    const end = performance.now();
+    return {
+      success: false,
+      status: 0,
+      time: Math.round(end - start),
+      data: null,
+      error: error.message || "VAS Rider plan lookup failed",
+      endpoint,
+      method: 'GET'
+    };
+  }
+}
+
+/**
  * Encryption/Decryption Action (Phased Proxy)
  */
 export async function runEncryptionTest(type: 'encrypt' | 'decrypt', payload: {

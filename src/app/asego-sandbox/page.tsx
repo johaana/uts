@@ -7,7 +7,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { cn } from '@/lib/utils';
 import { 
@@ -16,24 +15,22 @@ import {
   Loader2, 
   ShieldAlert, 
   Database, 
-  Key, 
   Lock, 
   Activity, 
   ClipboardCheck, 
-  Code,
-  FileSearch,
   History,
   Info,
-  ShieldCheck,
   FlaskConical,
   Zap,
-  Globe
+  RotateCcw
 } from "lucide-react";
 import { 
   testAsegoEndpoint, 
   runPlanTest, 
   runMasterPlanTest, 
-  runEncryptionTest 
+  runEncryptionTest,
+  runStandalonePlanTest,
+  runVasRiderPlanTest
 } from './actions';
 import { useToast } from '@/hooks/use-toast';
 
@@ -104,6 +101,24 @@ export default function AsegoSandboxPage() {
     setLoading(false);
   };
 
+  const handleStandaloneLookup = async () => {
+    if (!partnerId) return toast({ title: "Partner ID required", variant: "destructive" });
+    setLoading(true);
+    const res = await runStandalonePlanTest(partnerId);
+    setActiveResult(res);
+    addToHistory(res);
+    setLoading(false);
+  };
+
+  const handleVasRiderLookup = async () => {
+    if (!partnerId) return toast({ title: "Partner ID required", variant: "destructive" });
+    setLoading(true);
+    const res = await runVasRiderPlanTest(partnerId);
+    setActiveResult(res);
+    addToHistory(res);
+    setLoading(false);
+  };
+
   const handleEncryption = async (type: 'encrypt' | 'decrypt') => {
     if (!encKey || !encIV || !encValue) return toast({ title: "Key, IV, and Value required", variant: "destructive" });
     setLoading(true);
@@ -150,15 +165,18 @@ ${JSON.stringify(activeResult.data, null, 2)}
             <div className="space-y-4">
               <div className="flex items-center gap-2 text-[#E8A33D]">
                 <FlaskConical className="w-5 h-5" />
-                <span className="text-[10px] font-mono font-bold uppercase tracking-[0.4em]">API Diagnostic Console v4.0</span>
+                <span className="text-[10px] font-mono font-bold uppercase tracking-[0.4em]">API Diagnostic Console v4.2</span>
               </div>
               <h1 className="text-4xl md:text-6xl font-headline font-medium tracking-tighter leading-none">Dolphin UAT Lab</h1>
               <p className="text-lg text-[#9AA1C0] max-w-2xl font-medium leading-relaxed">
-                A secure, isolated environment for interrogating the Asego B2B logic layer. 
-                Credentials remain transient and server-side only.
+                A secure environment for interrogating the Asego B2B logic layer. 
+                Phase 1-4: Master Data & selling plan discovery.
               </p>
             </div>
             <div className="flex flex-wrap gap-3 pt-2">
+                <Button variant="ghost" size="sm" onClick={() => { setActiveResult(null); setTestHistory([]); }} className="text-[9px] uppercase tracking-widest font-bold border border-white/10 h-8">
+                  <RotateCcw className="w-3 h-3 mr-2" /> Reset Session
+                </Button>
                 <Badge variant="outline" className="border-white/10 text-[#6E7495] font-mono">DOLPHIN_UAT</Badge>
                 <Badge variant="outline" className="border-green-500/20 text-green-500 font-mono flex items-center gap-1.5">
                   <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div> API_ONLINE
@@ -202,13 +220,13 @@ ${JSON.stringify(activeResult.data, null, 2)}
                     </div>
 
                     <div className="space-y-2">
-                      <Label className="text-[9px] uppercase font-bold text-[#6E7495] tracking-widest">Category</Label>
+                      <Label className="text-[9px] uppercase font-bold text-[#6E7495] tracking-widest">Category (Select from Master)</Label>
                       <select 
                         value={category} 
                         onChange={e => setCategory(e.target.value)}
                         className="w-full h-11 px-3 bg-[#0F1428] border border-white/10 rounded-sm text-sm text-white focus:ring-1 focus:ring-[#E8A33D] outline-none"
                       >
-                        <option value="">Select Category (from Master API)</option>
+                        <option value="">{categories.length > 0 ? "Choose Category" : "Run 'Test Categories' first"}</option>
                         {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
                       </select>
                     </div>
@@ -223,11 +241,29 @@ ${JSON.stringify(activeResult.data, null, 2)}
                       {loading ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <Play className="w-4 h-4 mr-2" />}
                       Run Plan Test
                     </Button>
+                    <div className="grid grid-cols-2 gap-2">
+                      <Button 
+                        variant="outline"
+                        onClick={handleStandaloneLookup}
+                        disabled={loading}
+                        className="h-10 border-white/10 hover:bg-white/5 font-bold uppercase tracking-[0.2em] text-[8px] rounded-none"
+                      >
+                        Standalone
+                      </Button>
+                      <Button 
+                        variant="outline"
+                        onClick={handleVasRiderLookup}
+                        disabled={loading}
+                        className="h-10 border-white/10 hover:bg-white/5 font-bold uppercase tracking-[0.2em] text-[8px] rounded-none"
+                      >
+                        VAS Rider
+                      </Button>
+                    </div>
                     <Button 
                       variant="outline"
                       onClick={handleMasterPlanLookup}
                       disabled={loading}
-                      className="w-full h-12 border-white/10 hover:bg-white/5 font-bold uppercase tracking-[0.2em] text-[10px] rounded-none"
+                      className="w-full h-11 border-white/10 hover:bg-white/5 font-bold uppercase tracking-[0.2em] text-[9px] rounded-none"
                     >
                       Run Master Plan Details
                     </Button>
@@ -239,7 +275,7 @@ ${JSON.stringify(activeResult.data, null, 2)}
               <Card className="bg-[#0B0F22] border-white/10 rounded-sm">
                 <CardHeader className="p-6 border-b border-white/5">
                   <CardTitle className="text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 text-[#4FD1C5]">
-                    <Zap className="w-4 h-4" /> Master Data Suite
+                    <Zap className="w-4 h-4" /> 1. Master Data Tests
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="p-6 grid grid-cols-1 gap-3">
@@ -253,10 +289,15 @@ ${JSON.stringify(activeResult.data, null, 2)}
               <Card className="bg-[#0B0F22] border-dashed border-white/10 rounded-sm">
                  <CardHeader className="p-6 border-b border-white/5">
                     <CardTitle className="text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 text-white/40">
-                       <Lock className="w-4 h-4" /> Encryption Test — UAT ONLY
+                       <Lock className="w-4 h-4" /> Encryption Lab — Phased Test
                     </CardTitle>
                  </CardHeader>
                  <CardContent className="p-6 space-y-4 text-left">
+                    <div className="p-4 bg-white/5 border-l-2 border-[#E8A33D] rounded-r-sm mb-4">
+                      <p className="text-[9px] leading-relaxed text-[#9AA1C0]">
+                        <b>Note:</b> Encryption protocol details not specified in the Swagger. Requires confirmation from Asego.
+                      </p>
+                    </div>
                     <div className="space-y-4">
                        <div className="space-y-1">
                           <Label className="text-[8px] uppercase text-[#6E7495]">Test Plaintext</Label>
@@ -268,7 +309,7 @@ ${JSON.stringify(activeResult.data, null, 2)}
                             <Input value={encKey} onChange={e => setEncKey(e.target.value)} type="password" placeholder="Key" className="h-10 bg-white/5 border-white/10 text-xs" />
                           </div>
                           <div className="space-y-1">
-                            <Label className="text-[8px] uppercase text-[#6E7495]">Init Vector</Label>
+                            <Label className="text-[8px] uppercase text-[#6E7495]">Init Vector (IV)</Label>
                             <Input value={encIV} onChange={e => setEncIV(e.target.value)} placeholder="IV" className="h-10 bg-white/5 border-white/10 text-xs" />
                           </div>
                        </div>
@@ -276,7 +317,6 @@ ${JSON.stringify(activeResult.data, null, 2)}
                           <Button onClick={() => handleEncryption('encrypt')} variant="ghost" disabled={loading} className="border border-white/10 text-[9px] font-bold uppercase tracking-widest h-10 hover:bg-[#4FD1C5]/10 rounded-none">Encrypt</Button>
                           <Button onClick={() => handleEncryption('decrypt')} variant="ghost" disabled={loading} className="border border-white/10 text-[9px] font-bold uppercase tracking-widest h-10 hover:bg-[#E8A33D]/10 rounded-none">Decrypt</Button>
                        </div>
-                       <p className="text-[8px] text-[#6E7495] italic text-center">Note: Encryption parameters (AES mode/padding) require Asego confirmation.</p>
                     </div>
                  </CardContent>
               </Card>
@@ -291,7 +331,7 @@ ${JSON.stringify(activeResult.data, null, 2)}
                  <CardContent className="p-6 space-y-4">
                     <div className="p-4 bg-white/5 border border-white/10 rounded-sm">
                       <p className="text-[10px] leading-relaxed text-[#9AA1C0] text-left">
-                        <b>Create Policy</b> testing is intentionally blocked until the UAT request structure has been confirmed. Requires valid plan IDs and verified sign/hash logic.
+                        Create Policy testing is intentionally blocked until the UAT request structure has been confirmed. Requires valid plan IDs and verified sign/hash logic.
                       </p>
                     </div>
                     <Button disabled className="w-full text-[9px] font-bold uppercase tracking-[0.2em] rounded-none bg-white/5">Validation Not Enabled</Button>
@@ -363,7 +403,7 @@ ${JSON.stringify(activeResult.data, null, 2)}
                               <h4 className="font-bold uppercase tracking-widest text-xs">Empty Result Notification</h4>
                            </div>
                            <p className="text-sm text-[#9AA1C0] leading-relaxed">
-                              API returned HTTP 200 with an empty result. This confirms that the request received a valid HTTP response, but does not by itself establish the reason for the empty dataset.
+                              UAT endpoint returned successfully, but no plan records were returned for these parameters. The reason is not established.
                            </p>
                            <p className="text-[10px] text-[#6E7495] font-mono">
                              Params: age={age}, duration={duration}, category={category}
