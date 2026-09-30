@@ -1,9 +1,8 @@
-
 'use server';
 
 /**
- * @fileOverview Asego API Customer-Facing Server Actions
- * Implements a Normalization Layer to map Asego snake_case to Utsavs camelCase.
+ * @fileOverview Asego API Implementation
+ * Implements a Normalization Layer to map Asego schema to Utsavs stable model.
  */
 
 const BASE_URL = "https://dolphin.asego.in/api";
@@ -38,25 +37,28 @@ interface ActionResponse {
 
 /**
  * Normalization Helper
- * Maps Asego's raw snake_case response to a stable Utsavs model.
+ * Intelligently handles both flattened snake_case and nested camelCase schemas.
  */
 function normalizeAsegoPlan(raw: any): NormalizedPlan {
+  // Extract detail list if available (Master/Hydration response)
+  const detail = raw.sellingPlanDetailsList?.[0] || {};
+  
   return {
-    planId: raw.plan_id || raw.planId || '',
+    planId: raw.plan_id || raw.planId || raw.id || '',
     name: raw.plan_name || raw.planName || 'Insurance Plan',
     insurer: raw.insurer_name || raw.insurerName || 'ICICI Lombard',
-    premium: raw.total_premium || raw.totalPremium || (raw.sellingPlanDetailsList?.[0]?.total) || 0,
+    premium: raw.total_premium || raw.totalPremium || detail.total || 0,
     currency: raw.currency || 'INR',
-    minAge: raw.min_age ?? raw.minAge ?? (raw.sellingPlanDetailsList?.[0]?.minAge) ?? 0,
-    maxAge: raw.max_age ?? raw.maxAge ?? (raw.sellingPlanDetailsList?.[0]?.maxAge) ?? 100,
-    minDays: raw.min_days ?? raw.minDays ?? (raw.sellingPlanDetailsList?.[0]?.minDays) ?? 0,
-    maxDays: raw.max_days ?? raw.maxDays ?? (raw.sellingPlanDetailsList?.[0]?.maxDays) ?? 365,
+    minAge: Number(raw.min_age ?? raw.minAge ?? detail.minAge ?? 0),
+    maxAge: Number(raw.max_age ?? raw.maxAge ?? detail.maxAge ?? 100),
+    minDays: Number(raw.min_days ?? raw.minDays ?? detail.minDays ?? 0),
+    maxDays: Number(raw.max_days ?? raw.maxDays ?? detail.maxDays ?? 365),
     benefits: raw.benefits || []
   };
 }
 
 /**
- * Generic Fetch Wrapper for Customer Flow
+ * Secure Server-Side Relay
  */
 async function asegoRequest(
   path: string, 
@@ -103,9 +105,12 @@ async function asegoRequest(
       data = await response.text();
     }
 
+    // Handle Asego "Envelope" Duality
+    const extractedData = data?.data || data;
+
     return {
       success: response.ok,
-      data,
+      data: extractedData,
       endpoint,
       headersSent: {
         ...headers,
@@ -124,15 +129,12 @@ async function asegoRequest(
   }
 }
 
-/**
- * Fetches available regions/categories for the partner
- */
 export async function getAsegoCategories(creds: AsegoCredentials) {
   return asegoRequest('/ext/b2b/v1/category', creds);
 }
 
 /**
- * Fetches specific plans based on trip parameters (Search Layer)
+ * SEARCH: Returns normalized plans from /plan
  */
 export async function getAsegoPlans(creds: AsegoCredentials, params: { age: string, duration: string, categoryId: string }) {
   const pId = creds.partnerId.trim();
@@ -147,8 +149,6 @@ export async function getAsegoPlans(creds: AsegoCredentials, params: { age: stri
     } else if (Array.isArray(res.data)) {
       rawPlans = res.data;
     }
-    
-    // Apply normalization to the search results
     res.data = rawPlans.map(normalizeAsegoPlan);
   }
   
@@ -156,7 +156,7 @@ export async function getAsegoPlans(creds: AsegoCredentials, params: { age: stri
 }
 
 /**
- * Fetches specific plan details including detailId (Hydration Layer)
+ * HYDRATION: Returns detailed plan with detailId
  */
 export async function getAsegoPlanDetails(creds: AsegoCredentials, planId: string) {
   const pId = creds.partnerId.trim();
@@ -165,7 +165,6 @@ export async function getAsegoPlanDetails(creds: AsegoCredentials, planId: strin
   const res = await asegoRequest(path, creds);
   
   if (res.success && res.data) {
-    // Extract detailId from the first item in the details list if available
     const raw = res.data;
     const detailId = raw.sellingPlanDetailsList?.[0]?.detailId || null;
     
@@ -173,8 +172,7 @@ export async function getAsegoPlanDetails(creds: AsegoCredentials, planId: strin
       success: true,
       data: {
         ...normalizeAsegoPlan(raw),
-        detailId,
-        raw // Keep raw for debugging trace if needed
+        detailId
       }
     };
   }
