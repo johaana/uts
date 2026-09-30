@@ -20,23 +20,20 @@ import {
   ChevronRight, 
   Lock,
   Globe,
-  Info,
-  Clock,
   AlertCircle,
   RefreshCw,
-  RotateCcw,
   Terminal,
   Eye,
   EyeOff
 } from "lucide-react";
-import { getAsegoCategories, getAsegoPlans } from './actions';
+import { getAsegoCategories, getAsegoPlans, getAsegoPlanDetails, NormalizedPlan } from './actions';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
 
 export default function InternationalInsurancePage() {
   const { toast } = useToast();
   
-  // 1. UAT SESSION CREDENTIALS (In-Memory Only)
+  // 1. UAT SESSION CREDENTIALS
   const [creds, setCreds] = useState({
     partnerId: '',
     sign: '',
@@ -51,19 +48,22 @@ export default function InternationalInsurancePage() {
     categoryId: ''
   });
   const [categories, setCategories] = useState<any[]>([]);
-  const [plans, setPlans] = useState<any[]>([]);
+  const [plans, setPlans] = useState<NormalizedPlan[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isConnecting, setIsConnecting] = useState(false);
+  const [isHydrating, setIsHydrating] = useState(false);
   const [hasSearched, setHasSearched] = useState(false);
-  const [selectedPlan, setSelectedPlan] = useState<any>(null);
+  const [selectedPlan, setSelectedPlan] = useState<NormalizedPlan | null>(null);
   
   // 3. DEBUG STATE
   const [showTrace, setShowTrace] = useState(false);
   const [lastTrace, setLastTrace] = useState<any>(null);
 
   // 4. INITIALIZATION
+  const isSessionActive = !!(creds.partnerId.trim() && creds.sign.trim() && creds.reference.trim());
+
   useEffect(() => {
-    if (creds.partnerId.trim() && creds.sign.trim() && creds.reference.trim()) {
+    if (isSessionActive) {
       fetchCategories();
     }
   }, [creds.partnerId, creds.sign, creds.reference]);
@@ -71,17 +71,12 @@ export default function InternationalInsurancePage() {
   const fetchCategories = async () => {
     setIsConnecting(true);
     try {
-      const sanitizedCreds = {
-        partnerId: creds.partnerId.trim(),
-        sign: creds.sign.trim(),
-        reference: creds.reference.trim()
-      };
-      const res = await getAsegoCategories(sanitizedCreds);
+      const res = await getAsegoCategories(creds);
       if (res.success && Array.isArray(res.data)) {
         setCategories(res.data);
         toast({ title: "UAT Connected", description: `Discovered ${res.data.length} destination categories.` });
       } else {
-        toast({ title: "Connection Failed", description: "Metadata retrieval failed. Check credentials.", variant: "destructive" });
+        toast({ title: "Connection Failed", description: "Could not retrieve categories. Check credentials.", variant: "destructive" });
       }
     } catch (e) {
       toast({ title: "Connection Error", variant: "destructive" });
@@ -92,43 +87,27 @@ export default function InternationalInsurancePage() {
 
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (!creds.partnerId.trim() || !creds.sign.trim() || !creds.reference.trim()) {
+    if (!isSessionActive) {
       setCreds(prev => ({ ...prev, showGate: true }));
       return;
-    }
-
-    if (!searchParams.categoryId) {
-        return toast({ title: "Selection Required", description: "Please select your destination region." });
     }
 
     setIsLoading(true);
     setHasSearched(true);
     setPlans([]);
+    setSelectedPlan(null);
+
     try {
-      const sanitizedCreds = {
-        partnerId: creds.partnerId.trim(),
-        sign: creds.sign.trim(),
-        reference: creds.reference.trim()
-      };
-      const res = await getAsegoPlans(sanitizedCreds, searchParams);
+      const res = await getAsegoPlans(creds, searchParams);
       setLastTrace(res);
       
-      if (res.success) {
-        // Resilient Parsing: Check for sellingPlanDto wrapper OR direct array
-        let foundPlans = [];
-        if (res.data?.sellingPlanDto && Array.isArray(res.data.sellingPlanDto)) {
-            foundPlans = res.data.sellingPlanDto;
-        } else if (Array.isArray(res.data)) {
-            foundPlans = res.data;
-        }
-        
-        setPlans(foundPlans);
-        if (foundPlans.length === 0) {
-          toast({ title: "No Plans Found", description: "The UAT catalogue returned an empty result for these specific parameters." });
+      if (res.success && Array.isArray(res.data)) {
+        setPlans(res.data);
+        if (res.data.length === 0) {
+          toast({ title: "No Plans Found", description: "The UAT catalogue returned an empty result for these parameters." });
         }
       } else {
-        toast({ title: "API Error", description: res.error || "Request failed", variant: "destructive" });
+        toast({ title: "API Error", description: res.error || "Search failed", variant: "destructive" });
       }
     } catch (e) {
       toast({ title: "Search Error", variant: "destructive" });
@@ -137,7 +116,22 @@ export default function InternationalInsurancePage() {
     }
   };
 
-  const isSessionActive = !!(creds.partnerId.trim() && creds.sign.trim() && creds.reference.trim());
+  const handleSelectPlan = async (plan: NormalizedPlan) => {
+    setIsHydrating(true);
+    try {
+      const res = await getAsegoPlanDetails(creds, plan.planId);
+      if (res.success && res.data) {
+        setSelectedPlan(res.data);
+        toast({ title: "Plan Hydrated", description: "detailId and benefits retrieved." });
+      } else {
+        toast({ title: "Hydration Failed", description: "Could not retrieve plan details.", variant: "destructive" });
+      }
+    } catch (e) {
+      toast({ title: "Hydration Error", variant: "destructive" });
+    } finally {
+      setIsHydrating(false);
+    }
+  };
 
   return (
     <div className="bg-[#0F1428] text-[#F4F1E8] min-h-screen font-sans selection:bg-[#E8A33D] selection:text-[#0F1428]">
@@ -206,7 +200,7 @@ export default function InternationalInsurancePage() {
                        />
                     </div>
                     <div className="space-y-1.5">
-                       <Label className="text-[10px] uppercase font-bold text-[#6E7495] tracking-widest">Sign (Custom Header)</Label>
+                       <Label className="text-[10px] uppercase font-bold text-[#6E7495] tracking-widest">Sign</Label>
                        <Input 
                          type="password"
                          value={creds.sign} 
@@ -216,7 +210,7 @@ export default function InternationalInsurancePage() {
                        />
                     </div>
                     <div className="space-y-1.5">
-                       <Label className="text-[10px] uppercase font-bold text-[#6E7495] tracking-widest">Reference (Custom Header)</Label>
+                       <Label className="text-[10px] uppercase font-bold text-[#6E7495] tracking-widest">Reference</Label>
                        <Input 
                          type="password"
                          value={creds.reference} 
@@ -226,12 +220,9 @@ export default function InternationalInsurancePage() {
                        />
                     </div>
                  </div>
-                 <div className="flex flex-col md:flex-row items-center justify-between gap-4 pt-4 border-t border-white/5">
-                    <p className="text-xs text-[#6E7495] italic">Credentials are sanitized and processed via secure Server Actions.</p>
-                    <Button onClick={() => setCreds({...creds, showGate: false})} className="bg-[#E8A33D] text-[#0F1428] font-bold h-12 px-10 rounded-none shadow-lg">
-                      Confirm & Initialize Session
-                    </Button>
-                 </div>
+                 <Button onClick={() => setCreds({...creds, showGate: false})} className="w-full bg-[#E8A33D] text-[#0F1428] font-bold h-12 rounded-none shadow-lg">
+                    Initialize UAT Session
+                 </Button>
               </Card>
             )}
 
@@ -289,21 +280,18 @@ export default function InternationalInsurancePage() {
                   disabled={isLoading || !isSessionActive || !searchParams.categoryId} 
                   className="h-14 bg-[#E8A33D] text-[#0F1428] font-bold rounded-none shadow-xl hover:bg-white transition-all active:scale-95 disabled:opacity-40"
                 >
-                  {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <><Search className="w-4 h-4 mr-2" /> Search Selling Plans</>}
+                  {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <><Search className="w-4 h-4 mr-2" /> Search Plans</>}
                 </Button>
               </form>
             </Card>
 
             {/* RESULTS VIEW */}
             <div className="space-y-12">
-               {/* 1. FORENSIC TRACE PANEL */}
                {showTrace && lastTrace && (
-                 <Card className="bg-[#0B0F22] border-[#4FD1C5]/40 p-8 rounded-none text-left font-mono text-[11px] animate-in fade-in slide-in-from-top-4 duration-500 ring-1 ring-[#4FD1C5]/20">
+                 <Card className="bg-[#0B0F22] border-[#4FD1C5]/40 p-8 rounded-none text-left font-mono text-[11px] animate-in fade-in slide-in-from-top-4 ring-1 ring-[#4FD1C5]/20">
                     <div className="flex items-center justify-between mb-6 pb-2 border-b border-white/10">
-                        <span className="text-[9px] font-bold uppercase tracking-[0.4em] text-[#4FD1C5]">Forensic_Trace_v4.log</span>
-                        <div className="flex gap-4">
-                            <span className={cn("font-bold", lastTrace.success ? "text-green-500" : "text-red-500")}>STATUS: {lastTrace.success ? "200_OK" : "FAILURE"}</span>
-                        </div>
+                        <span className="text-[9px] font-bold uppercase tracking-[0.4em] text-[#4FD1C5]">Forensic_Trace_v4.2.log</span>
+                        <span className={cn("font-bold", lastTrace.success ? "text-green-500" : "text-red-500")}>STATUS: {lastTrace.success ? "200_OK" : "FAILURE"}</span>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div className="space-y-4">
@@ -312,18 +300,16 @@ export default function InternationalInsurancePage() {
                                 <p className="text-white break-all bg-white/5 p-2">{lastTrace.endpoint}</p>
                            </div>
                            <div className="space-y-1">
-                                <p className="text-[#6E7495] uppercase font-bold">Query Parameters</p>
-                                <pre className="text-[#4FD1C5] bg-white/5 p-2">{JSON.stringify(searchParams, null, 2)}</pre>
-                           </div>
-                           <div className="space-y-1">
-                                <p className="text-[#6E7495] uppercase font-bold">Headers Dispatched (Masked)</p>
-                                <pre className="text-white/60 bg-white/5 p-2">{JSON.stringify(lastTrace.headersSent, null, 2)}</pre>
+                                <p className="text-[#6E7495] uppercase font-bold">Raw Response Payload</p>
+                                <pre className="text-white/80 bg-white/5 p-2 max-h-[300px] overflow-auto custom-scrollbar">
+                                  {JSON.stringify(lastTrace.data, null, 2)}
+                                </pre>
                            </div>
                         </div>
                         <div className="space-y-1">
-                           <p className="text-[#6E7495] uppercase font-bold">Raw Response Payload</p>
-                           <pre className="text-white/80 bg-white/5 p-2 max-h-[400px] overflow-auto custom-scrollbar">
-                             {JSON.stringify(lastTrace.data, null, 2)}
+                           <p className="text-[#6E7495] uppercase font-bold">Normalized Model View</p>
+                           <pre className="text-[#4FD1C5] bg-white/5 p-2 overflow-auto">
+                             {JSON.stringify(plans, null, 2)}
                            </pre>
                         </div>
                     </div>
@@ -333,84 +319,62 @@ export default function InternationalInsurancePage() {
                {isLoading && (
                  <div className="py-32 text-center space-y-6">
                     <Activity className="w-12 h-12 animate-spin text-[#E8A33D] mx-auto opacity-40" />
-                    <div className="space-y-2">
-                        <p className="font-mono text-[10px] font-bold uppercase tracking-[0.4em] text-[#E8A33D]">Interrogating Dolphin UAT...</p>
-                        <p className="text-xs text-[#6E7495] italic">Retrieving ICICI Lombard sell-sheets for current parameters.</p>
-                    </div>
+                    <p className="font-mono text-[10px] font-bold uppercase tracking-[0.4em] text-[#E8A33D]">Searching UAT Catalogue...</p>
                  </div>
                )}
 
                {!isLoading && plans.length > 0 && (
-                 <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-1000">
+                 <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
                     <div className="flex justify-between items-baseline border-b border-white/5 pb-4 text-left">
                        <h2 className="text-3xl font-headline font-bold">Insurance Catalogue</h2>
-                       <div className="flex items-center gap-4">
-                            <Badge variant="outline" className="text-[9px] font-bold border-white/10 text-white/40">{plans.length} PRODUCTS FOUND</Badge>
-                            <span className="text-[10px] font-mono text-[#4FD1C5] font-bold uppercase tracking-widest">LIVE DATA ACTIVE</span>
-                       </div>
+                       <Badge variant="outline" className="text-[9px] font-bold border-white/10 text-white/40">{plans.length} PRODUCTS FOUND</Badge>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                        {plans.map((plan, index) => {
-                         const detail = plan.sellingPlanDetailsList?.[0];
-                         const isSelected = selectedPlan?.detailId === detail?.detailId;
+                         const isSelected = selectedPlan?.planId === plan.planId;
 
                          return (
                            <Card 
-                             key={plan.planId || `plan-${index}`} 
+                             key={`${plan.planId}-${index}`} 
                              className={cn(
-                               "bg-[#171D3A] border-white/10 rounded-none overflow-hidden transition-all duration-300 text-left flex flex-col h-full",
-                               isSelected ? "ring-2 ring-[#4FD1C5] border-transparent shadow-[0_40px_80px_-20px_rgba(79,209,197,0.2)]" : "hover:border-white/20 hover:shadow-xl"
+                               "bg-[#171D3A] border-white/10 rounded-none overflow-hidden transition-all flex flex-col h-full",
+                               isSelected ? "ring-2 ring-[#4FD1C5] border-transparent" : "hover:border-white/20"
                              )}
                            >
                               <div className="p-8 border-b border-white/5 flex justify-between items-start shrink-0">
                                  <div className="space-y-1">
-                                    <h3 className="font-bold text-xl leading-tight">{plan.planName || 'Insurance Plan'}</h3>
-                                    <p className="text-[10px] font-bold uppercase tracking-widest text-[#4FD1C5]">{plan.insurerName || 'ICICI Lombard'}</p>
+                                    <h3 className="font-bold text-xl leading-tight">{plan.name}</h3>
+                                    <p className="text-[10px] font-bold uppercase tracking-widest text-[#4FD1C5]">{plan.insurer}</p>
                                  </div>
-                                 {isSelected && <div className="w-6 h-6 bg-[#4FD1C5] rounded-full flex items-center justify-center"><Check className="w-4 h-4 text-[#0F1428]" /></div>}
                               </div>
                               <div className="p-8 space-y-8 flex-grow flex flex-col justify-between">
-                                 <div className="p-6 bg-white/5 rounded-none space-y-3 border border-white/5">
+                                 <div className="p-6 bg-white/5 rounded-none space-y-3">
                                     <div className="flex justify-between items-baseline">
                                        <span className="text-[10px] font-bold uppercase text-[#6E7495] tracking-widest">Premium Total</span>
-                                       <span className="text-3xl font-bold text-white font-headline">₹{detail?.total || '—'}</span>
+                                       <span className="text-3xl font-bold text-white font-headline">₹{plan.premium || '—'}</span>
                                     </div>
-                                    <div className="flex justify-between text-[9px] text-[#6E7495] uppercase font-bold tracking-widest pt-3 border-t border-white/5">
-                                       <span>Base: ₹{detail?.basicRates || '—'}</span>
-                                       <span>GST: ₹{detail?.gst || '—'}</span>
-                                    </div>
+                                    <p className="text-[9px] text-[#6E7495] uppercase font-bold tracking-widest">{plan.currency}</p>
                                  </div>
-                                 <div className="space-y-4">
-                                    <div className="flex items-center gap-3 text-sm font-medium text-[#9AA1C0]">
-                                       <Activity className="w-4 h-4 text-[#E8A33D]" />
-                                       <span>Benefit Limit: {detail?.sumInsured || 'Standard'}</span>
+                                 <div className="space-y-2">
+                                    <div className="flex items-center gap-2 text-xs text-[#9AA1C0]">
+                                       <Activity className="w-3.5 h-3.5 text-[#E8A33D]" />
+                                       <span>Age: {plan.minAge}-{plan.maxAge}</span>
                                     </div>
-                                    <div className="flex items-center gap-3 text-sm font-medium text-[#9AA1C0]">
-                                       <Clock className="w-4 h-4 text-[#E8A33D]" />
-                                       <span>{detail?.minDays || '0'}-{detail?.maxDays || '—'} Days Eligibility</span>
+                                    <div className="flex items-center gap-2 text-xs text-[#9AA1C0]">
+                                       <ChevronRight className="w-3.5 h-3.5 text-[#E8A33D]" />
+                                       <span>Duration: {plan.minDays}-{plan.maxDays} Days</span>
                                     </div>
                                  </div>
                                  <Button 
-                                   onClick={() => {
-                                      if (!detail?.detailId) {
-                                          toast({ title: "Plan Detail Error", description: "This plan does not have a valid detail identifier in UAT.", variant: "destructive" });
-                                          return;
-                                      }
-                                      setSelectedPlan({ 
-                                        planId: plan.planId, 
-                                        detailId: detail.detailId, 
-                                        name: plan.planName || 'Selected Plan',
-                                        total: detail.total
-                                      });
-                                      toast({ title: "Plan Selected", description: plan.planName });
-                                   }}
+                                   disabled={isHydrating}
+                                   onClick={() => handleSelectPlan(plan)}
                                    className={cn(
                                      "w-full h-14 font-bold uppercase tracking-[0.2em] text-[10px] rounded-none",
                                      isSelected ? "bg-[#4FD1C5] text-[#0F1428]" : "bg-white/5 hover:bg-white/10 text-white border border-white/10"
                                    )}
                                  >
-                                   {isSelected ? "Plan Selected" : "Choose Plan"}
+                                   {isSelected ? "Plan Selected" : isHydrating ? <Loader2 className="w-4 h-4 animate-spin" /> : "Choose Plan"}
                                  </Button>
                               </div>
                            </Card>
@@ -431,20 +395,13 @@ export default function InternationalInsurancePage() {
                        </h3>
                        <p className="text-[#6E7495] max-w-sm mx-auto font-medium leading-relaxed">
                          {hasSearched 
-                           ? "The current trip parameters returned an empty result for these specific parameters. Try a different duration or traveler age." 
+                           ? "The current trip parameters returned an empty result in UAT. Try a different duration or age." 
                            : "Connect your UAT Session and enter trip parameters to interrogate the ICICI Lombard catalogue."}
                        </p>
                     </div>
-                    <div className="flex gap-4 justify-center">
-                       <Button onClick={() => setCreds({...creds, showGate: true})} variant="outline" className="font-bold border-white/10 h-12 px-10 rounded-none uppercase text-[10px] tracking-widest">
-                         {isSessionActive ? "Update UAT Session" : "Connect UAT Session"}
-                       </Button>
-                       {isSessionActive && (
-                         <Button onClick={fetchCategories} disabled={isConnecting} variant="ghost" className="text-primary font-bold uppercase text-[10px] tracking-widest h-12">
-                            {isConnecting ? <Loader2 className="w-4 h-4 animate-spin" /> : <><RefreshCw className="w-4 h-4 mr-2" /> Sync Regions</>}
-                         </Button>
-                       )}
-                    </div>
+                    <Button onClick={() => setCreds({...creds, showGate: true})} variant="outline" className="font-bold border-white/10 h-12 px-10 rounded-none uppercase text-[10px] tracking-widest">
+                      {isSessionActive ? "Update UAT Session" : "Connect UAT Session"}
+                    </Button>
                  </div>
                )}
             </div>
@@ -453,11 +410,11 @@ export default function InternationalInsurancePage() {
             {selectedPlan && (
               <div className="p-10 bg-[#4FD1C5]/10 border border-[#4FD1C5]/30 rounded-none flex flex-col md:flex-row items-center justify-between gap-8 animate-in slide-in-from-bottom-12 duration-700 shadow-3xl ring-1 ring-[#4FD1C5]/20">
                  <div className="flex items-center gap-8 text-left">
-                    <div className="w-20 h-20 bg-[#4FD1C5]/20 rounded-none flex items-center justify-center text-[#4FD1C5] shadow-inner border border-[#4FD1C5]/30">
+                    <div className="w-20 h-20 bg-[#4FD1C5]/20 rounded-none flex items-center justify-center text-[#4FD1C5] border border-[#4FD1C5]/30">
                        <Plane className="w-10 h-10" />
                     </div>
                     <div className="space-y-2">
-                       <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#4FD1C5]">READY FOR VALIDATION</p>
+                       <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#4FD1C5]">TRANSACTION READY</p>
                        <h4 className="text-3xl font-bold font-headline leading-none">{selectedPlan.name}</h4>
                        <div className="flex flex-wrap items-center gap-6 pt-1">
                           <div className="flex flex-col">
@@ -466,75 +423,17 @@ export default function InternationalInsurancePage() {
                           </div>
                           <div className="flex flex-col">
                              <span className="text-[8px] font-bold text-[#6E7495] uppercase tracking-widest">Detail Identifier</span>
-                             <span className="font-mono text-xs text-white/60">{selectedPlan.detailId}</span>
-                          </div>
-                          <div className="flex flex-col">
-                             <span className="text-[8px] font-bold text-[#6E7495] uppercase tracking-widest">UAT Premium</span>
-                             <span className="font-bold text-white">₹{selectedPlan.total}</span>
+                             <span className="font-mono text-xs text-white/80">{selectedPlan.detailId || 'PENDING_HYDRATION'}</span>
                           </div>
                        </div>
                     </div>
                  </div>
-                 <Button onClick={() => window.open('https://client.crisp.chat/l.js', '_blank')} className="bg-white text-[#0F1428] hover:bg-[#F4F1E8] font-bold h-14 px-12 rounded-none uppercase tracking-[0.2em] text-[10px] shadow-2xl transition-all hover:scale-105 active:scale-95">
-                    Verify Policy <ChevronRight className="w-4 h-4 ml-2" />
-                 </Button>
+                 <div className="text-right space-y-2">
+                    <p className="text-[10px] font-bold text-[#6E7495] uppercase tracking-widest">Estimated UAT Premium</p>
+                    <p className="text-4xl font-bold font-headline">₹{selectedPlan.premium}</p>
+                 </div>
               </div>
             )}
-
-            {/* VALUE PROPOSITION */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 pt-12">
-               <Card className="bg-[#171D3A] border-white/10 p-12 rounded-none space-y-10 text-left border-l-4 border-l-[#E8A33D]">
-                  <div className="space-y-6">
-                     <div className="w-16 h-16 bg-[#E8A33D]/10 rounded-none flex items-center justify-center text-[#E8A33D] ring-1 ring-[#E8A33D]/30">
-                        <Landmark className="w-8 h-8" />
-                     </div>
-                     <h3 className="text-3xl font-headline font-bold">Source Awareness</h3>
-                     <p className="text-lg text-[#9AA1C0] leading-relaxed font-medium">
-                        We don't just calculate risk. We reconcile it against official government notices, regional observances, and institutional schedules.
-                     </p>
-                  </div>
-               </Card>
-
-               <Card className="bg-[#171D3A] border-white/10 p-12 rounded-none space-y-10 text-left border-l-4 border-l-[#4FD1C5]">
-                  <div className="space-y-6">
-                     <div className="w-16 h-16 bg-[#4FD1C5]/10 rounded-none flex items-center justify-center text-[#4FD1C5] ring-1 ring-[#4FD1C5]/30">
-                        <ShieldCheck className="w-8 h-8" />
-                     </div>
-                     <h3 className="text-3xl font-headline font-bold">Verified Coverage</h3>
-                     <p className="text-lg text-[#9AA1C0] leading-relaxed font-medium">
-                        UAT-verified integration ensures that your policy aligns with your actual travel dates and local jurisdictional rules.
-                     </p>
-                  </div>
-               </Card>
-            </div>
-
-            {/* REGULATORY DISCLOSURE */}
-            <div className="pt-20 border-t border-white/10 space-y-10 text-left">
-              <div className="flex items-center gap-4">
-                 <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-[#6E7495] font-bold">Regulatory Disclosure</span>
-                 <div className="h-px flex-1 bg-white/5"></div>
-              </div>
-              <div className="grid lg:grid-cols-[1.5fr_1fr] gap-16">
-                <div className="space-y-6 text-[11px] text-[#6E7495] leading-relaxed font-medium uppercase tracking-wider">
-                  <p>Assistance services are facilitated by Asego Global Assistance Private Limited. Insurance is underwritten by an IRDAI authorised underwriter and is a subject matter of solicitation.</p>
-                  <p>The content expressed in this platform is for information purposes only. Insurance underwritten by ICICI Lombard General Insurance Company Ltd or International Medical Group Inc. (IMG).</p>
-                </div>
-                <div className="p-8 bg-white/[0.02] border border-white/5 rounded-none flex flex-col justify-between gap-6">
-                   <div className="flex items-center gap-4">
-                      <div className={cn(
-                        "w-2 h-2 rounded-full",
-                        isSessionActive ? "bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.4)]" : "bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.4)]"
-                      )}></div>
-                      <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-white/40">
-                        {isSessionActive ? "UAT Discovery Session active" : "UAT Connection Pending"}
-                      </span>
-                   </div>
-                   <button onClick={() => setCreds({...creds, showGate: true})} className="text-[10px] font-bold text-[#E8A33D] uppercase tracking-[0.2em] hover:underline text-left">
-                      {isSessionActive ? "UPDATE UAT CREDENTIALS →" : "ENTER UAT CREDENTIALS →"}
-                   </button>
-                </div>
-              </div>
-            </div>
 
           </div>
         </div>
