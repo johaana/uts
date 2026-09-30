@@ -7,8 +7,8 @@
 
 export async function testAsegoConnection(formData: FormData) {
   const partnerId = formData.get('partnerId') as string;
-  const duration = formData.get('duration') as string || "10";
-  const age = formData.get('age') as string || "30";
+  const duration = formData.get('duration') as string || "30";
+  const age = formData.get('age') as string || "20";
   const category = formData.get('category') as string || "1";
 
   if (!partnerId) {
@@ -23,7 +23,8 @@ export async function testAsegoConnection(formData: FormData) {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
-        'User-Agent': 'Utsavs-Sandbox/1.0',
+        // Exact User-Agent as specified in Asego Swagger documentation
+        'User-Agent': 'External API/1.0',
       },
       cache: 'no-store'
     });
@@ -60,7 +61,10 @@ export async function fetchAsegoCategories() {
   const endpoint = "https://dolphin.asego.in/api/ext/b2b/v1/category";
   try {
     const response = await fetch(endpoint, {
-      headers: { 'Accept': 'application/json' },
+      headers: { 
+        'Accept': 'application/json',
+        'User-Agent': 'External API/1.0'
+      },
       cache: 'no-store'
     });
     return await response.json();
