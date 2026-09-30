@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { cn } from '@/lib/utils';
 import { 
   ShieldAlert, 
@@ -16,7 +17,9 @@ import {
   CheckCircle2, 
   XCircle,
   Info,
-  Key
+  Key,
+  AlertTriangle,
+  Code
 } from "lucide-react";
 import { testAsegoConnection } from './actions';
 
@@ -41,24 +44,23 @@ export default function AsegoSandboxPage() {
       <Header />
       
       <main className="py-12 md:py-24">
-        <div className="container mx-auto px-6 max-w-5xl space-y-12">
+        <div className="container mx-auto px-6 max-w-6xl space-y-12">
           
           <div className="space-y-4 text-left">
             <div className="flex items-center gap-2 text-[#E8A33D]">
               <ShieldAlert className="w-5 h-5" />
               <span className="text-xs font-mono font-bold uppercase tracking-[0.3em]">B2B API Sandbox</span>
             </div>
-            <h1 className="text-4xl md:text-6xl font-headline font-medium tracking-tight">Connectivity Test</h1>
+            <h1 className="text-4xl md:text-6xl font-headline font-medium tracking-tight">Asego Connectivity</h1>
             <p className="text-xl text-[#9AA1C0] max-w-2xl font-medium">
-              Validate your Asego UAT credentials and view live plan data. 
-              This environment is isolated from the production site.
+              Validate your Partner ID and view live plan data from the Dolphin UAT Server.
             </p>
           </div>
 
-          <div className="grid lg:grid-cols-[400px_1fr] gap-12 items-start">
+          <div className="grid lg:grid-cols-[380px_1fr] gap-8 items-start">
             
             {/* Control Panel */}
-            <Card className="bg-[#171D3A] border-white/10 shadow-2xl">
+            <Card className="bg-[#171D3A] border-white/10 shadow-2xl sticky top-32">
               <CardHeader className="border-b border-white/5 bg-white/5">
                 <CardTitle className="text-sm font-bold uppercase tracking-widest flex items-center gap-2">
                   <Key className="w-4 h-4 text-[#E8A33D]" /> Test Parameters
@@ -66,28 +68,34 @@ export default function AsegoSandboxPage() {
               </CardHeader>
               <CardContent className="p-6">
                 <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="space-y-4">
+                  <div className="space-y-5">
                     <div className="space-y-2 text-left">
-                      <Label className="text-[10px] uppercase font-bold text-[#6E7495]">Partner ID (Required)</Label>
+                      <Label className="text-[10px] uppercase font-bold text-[#6E7495]">Partner ID</Label>
                       <Input 
                         name="partnerId" 
                         placeholder="Enter your partnerId" 
                         className="bg-[#0F1428] border-white/10 text-white"
                         required
+                        defaultValue="d5e591b7-46dd-4d7e-8264-7a30b16cec8d"
                       />
                     </div>
+
                     <div className="space-y-2 text-left">
-                      <Label className="text-[10px] uppercase font-bold text-[#6E7495]">Secret Key (Optional for GET)</Label>
-                      <Input 
-                        name="secretKey" 
-                        type="password" 
-                        placeholder="••••••••" 
-                        className="bg-[#0F1428] border-white/10 text-white"
-                      />
+                      <Label className="text-[10px] uppercase font-bold text-[#6E7495]">Plan Category</Label>
+                      <select name="category" className="w-full h-10 px-3 bg-[#0F1428] border border-white/10 rounded-md text-sm text-white outline-none focus:border-[#E8A33D] transition-colors">
+                        <option value="1">Leisure (International)</option>
+                        <option value="2">Student Journey</option>
+                        <option value="3">Inbound (To India)</option>
+                        <option value="4">Domestic (India)</option>
+                        <option value="5">Corporate</option>
+                        <option value="6">Schengen Specific</option>
+                      </select>
+                      <p className="text-[9px] text-muted-foreground italic">Note: Your Partner ID must be authorized for the selected category.</p>
                     </div>
+
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-2 text-left">
-                        <Label className="text-[10px] uppercase font-bold text-[#6E7495]">Trip Duration</Label>
+                        <Label className="text-[10px] uppercase font-bold text-[#6E7495]">Duration (Days)</Label>
                         <Input 
                           name="duration" 
                           type="number" 
@@ -121,7 +129,7 @@ export default function AsegoSandboxPage() {
 
             {/* Response Console */}
             <div className="space-y-6">
-              <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <Terminal className="w-5 h-5 text-[#4FD1C5]" />
                   <span className="font-mono text-xs font-bold uppercase tracking-widest text-[#6E7495]">Console Output</span>
@@ -137,11 +145,18 @@ export default function AsegoSandboxPage() {
                 )}
               </div>
 
-              <div className="bg-[#0B0F22] border border-white/10 rounded-2xl min-h-[400px] p-8 relative overflow-hidden group">
+              <div className="bg-[#0B0F22] border border-white/10 rounded-2xl min-h-[500px] flex flex-col shadow-inner">
                 {/* Visual grid background */}
-                <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: 'radial-gradient(#F4F1E8 1px, transparent 1px)', backgroundSize: '24px 24px' }}></div>
+                <div className="flex items-center justify-between px-6 py-4 bg-white/5 border-b border-white/5 rounded-t-2xl">
+                   <div className="flex gap-1.5">
+                      <div className="w-2.5 h-2.5 rounded-full bg-red-500/20"></div>
+                      <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/20"></div>
+                      <div className="w-2.5 h-2.5 rounded-full bg-green-500/20"></div>
+                   </div>
+                   <span className="font-mono text-[9px] text-[#6E7495] uppercase tracking-widest">uat_response_stream.log</span>
+                </div>
                 
-                <div className="relative z-10">
+                <div className="p-8 flex-1 overflow-auto custom-scrollbar">
                   {!result && !loading && (
                     <div className="h-full flex flex-col items-center justify-center pt-20 space-y-4 opacity-40">
                       <Terminal className="w-12 h-12 text-[#9AA1C0]" />
@@ -157,15 +172,41 @@ export default function AsegoSandboxPage() {
                   )}
 
                   {result && (
-                    <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-500">
-                      <div className="flex items-center justify-between border-b border-white/5 pb-4">
-                         <span className="font-mono text-[10px] text-[#4FD1C5]">UAT_RESPONSE_LOG</span>
-                         <span className="font-mono text-[10px] text-gray-500">{new Date().toLocaleTimeString()}</span>
-                      </div>
+                    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-500 text-left">
+                      {result.endpoint && (
+                        <div className="space-y-2">
+                           <p className="text-[10px] font-bold text-[#4FD1C5] uppercase tracking-widest flex items-center gap-2">
+                              <Code className="w-3 h-3" /> Endpoint Called
+                           </p>
+                           <code className="block bg-[#0F1428] p-3 rounded text-[11px] text-[#9AA1C0] break-all border border-white/5">
+                              {result.endpoint}
+                           </code>
+                        </div>
+                      )}
+
+                      {result.isEmpty && (
+                        <div className="p-6 bg-yellow-500/5 border border-yellow-500/20 rounded-xl space-y-3">
+                           <div className="flex items-center gap-2 text-yellow-500">
+                              <AlertTriangle className="w-5 h-5" />
+                              <h4 className="font-bold text-sm uppercase tracking-widest">No Plans Returned</h4>
+                           </div>
+                           <p className="text-sm text-[#9AA1C0] leading-relaxed">
+                              The connection was successful (200 OK), but the response is an empty array. This usually means:
+                           </p>
+                           <ul className="text-xs text-[#9AA1C0] list-disc list-inside space-y-1 pl-2">
+                              <li>The Partner ID is not yet assigned plans in this Category.</li>
+                              <li>The age/duration combination has no active insurance mapping.</li>
+                              <li>Try switching to <b>Category 2 (Student)</b> or <b>Category 5 (Corporate)</b>.</li>
+                           </ul>
+                        </div>
+                      )}
                       
-                      <pre className="text-left font-mono text-[13px] leading-relaxed text-[#F4F1E8] overflow-x-auto whitespace-pre-wrap max-h-[600px] custom-scrollbar">
-                        <code>{JSON.stringify(result.data || result, null, 2)}</code>
-                      </pre>
+                      <div className="space-y-2">
+                         <p className="text-[10px] font-bold text-[#E8A33D] uppercase tracking-widest">JSON Response Body</p>
+                         <pre className="text-left font-mono text-[13px] leading-relaxed text-[#F4F1E8] overflow-x-auto whitespace-pre-wrap max-h-[600px]">
+                           <code>{JSON.stringify(result.data || result, null, 2)}</code>
+                         </pre>
+                      </div>
                     </div>
                   )}
                 </div>
@@ -174,9 +215,9 @@ export default function AsegoSandboxPage() {
               <div className="p-6 bg-[#E8A33D]/5 border border-[#E8A33D]/20 rounded-2xl flex items-start gap-4 text-left">
                 <Info className="w-5 h-5 text-[#E8A33D] shrink-0 mt-0.5" />
                 <div className="space-y-1">
-                  <p className="text-sm font-bold uppercase tracking-widest text-[#F0C888]">Developer Note</p>
+                  <p className="text-sm font-bold uppercase tracking-widest text-[#F0C888]">Troubleshooting Note</p>
                   <p className="text-xs text-[#9AA1C0] leading-relaxed font-medium">
-                    This test calls the <code className="text-white">/v1/plan</code> endpoint. A successful response (200 OK) will return an array of available insurance plans. If you receive an error, double-check your Partner ID and ensure your IP is whitelisted if Asego requires it for UAT.
+                    If you consistently get `[]`, please contact your Asego account manager to ensure your Partner ID is mapped to plans in the <b>Dolphin UAT</b> environment. Encryption is only required for Policy Creation (POST), not for fetching plans (GET).
                   </p>
                 </div>
               </div>

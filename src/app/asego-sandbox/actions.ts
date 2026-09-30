@@ -7,7 +7,6 @@
 
 export async function testAsegoConnection(formData: FormData) {
   const partnerId = formData.get('partnerId') as string;
-  const secretKey = formData.get('secretKey') as string; // Future-proofing for encryption
   const duration = formData.get('duration') as string || "10";
   const age = formData.get('age') as string || "30";
   const category = formData.get('category') as string || "1";
@@ -35,14 +34,37 @@ export async function testAsegoConnection(formData: FormData) {
         success: false, 
         status: response.status, 
         message: `API Error: ${response.statusText}`,
+        endpoint,
         raw: errorText 
       };
     }
 
     const data = await response.json();
-    return { success: true, data };
+    return { 
+      success: true, 
+      data, 
+      endpoint,
+      isEmpty: Array.isArray(data) && data.length === 0 
+    };
 
   } catch (error: any) {
-    return { success: false, message: error.message || "Connection failed." };
+    return { 
+      success: false, 
+      message: error.message || "Connection failed.",
+      endpoint 
+    };
+  }
+}
+
+export async function fetchAsegoCategories() {
+  const endpoint = "https://dolphin.asego.in/api/ext/b2b/v1/category";
+  try {
+    const response = await fetch(endpoint, {
+      headers: { 'Accept': 'application/json' },
+      cache: 'no-store'
+    });
+    return await response.json();
+  } catch (e) {
+    return { error: "Failed to fetch categories" };
   }
 }
