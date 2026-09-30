@@ -1,10 +1,9 @@
+
 'use server';
 
 /**
- * @fileOverview Asego API Implementation
- * Implements a Normalization Layer to map Asego schema to Utsavs stable model.
- * 
- * SECURITY: Credentials (Sign/Reference) are strictly gated by UTSAVS_INTERNAL_DEBUG.
+ * @fileOverview Asego API Implementation - Phase 2
+ * Implements Encryption utility and Policy Validation.
  */
 
 const BASE_URL = "https://dolphin.asego.in/api";
@@ -40,7 +39,6 @@ interface ActionResponse {
 
 /**
  * Normalization Helper
- * Maps various Asego UAT response shapes to the Utsavs internal model.
  */
 function normalizeAsegoPlan(raw: any, targetAge?: number): NormalizedPlan {
   const targetAgeNum = targetAge !== undefined ? Number(targetAge) : NaN;
@@ -58,7 +56,6 @@ function normalizeAsegoPlan(raw: any, targetAge?: number): NormalizedPlan {
   const ineligible = hasFullBandData && !matchedDetail;
   const source = matchedDetail || {};
   
-  // Use nullish coalescing to preserve actual 0 values from UAT
   const premium = source.total ?? source.total_premium ?? raw.total_premium ?? raw.totalPremium;
 
   return {
@@ -79,7 +76,6 @@ function normalizeAsegoPlan(raw: any, targetAge?: number): NormalizedPlan {
 
 /**
  * Secure Server-Side Relay
- * Strictly enforces environment-variable priority unless internal debug mode is active.
  */
 async function asegoRequest(
   path: string, 
@@ -91,8 +87,6 @@ async function asegoRequest(
 
   let pId, sgn, ref;
 
-  // SECURITY: Only use client-provided keys if server-side debug mode is enabled.
-  // Otherwise, strictly use secure environment variables.
   if (isDebug) {
     pId = (providedCreds?.partnerId || process.env.UTSAVS_PARTNER_ID || '').trim();
     sgn = (providedCreds?.sign || process.env.UTSAVS_SIGN || '').trim();
@@ -167,6 +161,34 @@ async function asegoRequest(
   }
 }
 
+/**
+ * Encryption Wrapper
+ */
+export async function asegoEncrypt(value: string, creds?: AsegoCredentials): Promise<string | null> {
+  const payload = {
+    value,
+    key: process.env.UTSAVS_SECRET_KEY,
+    initVector: process.env.UTSAVS_INIT_VECTOR
+  };
+  
+  const res = await asegoRequest('/ext/b2b/v1/encryption/encrypt', creds, 'POST', payload);
+  return res.success ? res.data : null;
+}
+
+/**
+ * Decryption Wrapper
+ */
+export async function asegoDecrypt(value: string, creds?: AsegoCredentials): Promise<string | null> {
+  const payload = {
+    value,
+    key: process.env.UTSAVS_SECRET_KEY,
+    initVector: process.env.UTSAVS_INIT_VECTOR
+  };
+  
+  const res = await asegoRequest('/ext/b2b/v1/encryption/decrypt', creds, 'POST', payload);
+  return res.success ? res.data : null;
+}
+
 export async function getAsegoCategories(creds?: AsegoCredentials) {
   return asegoRequest('/ext/b2b/v1/category', creds);
 }
@@ -202,4 +224,25 @@ export async function getAsegoPlanDetails(planId: string, targetAge: string, cre
   }
   
   return res;
+}
+
+/**
+ * Policy Validation (Dry-run)
+ */
+export async function validateAsegoPolicy(policyData: any, creds?: AsegoCredentials) {
+  const isDebug = process.env.UTSAVS_INTERNAL_DEBUG === 'true';
+  const pId = (isDebug && creds?.partnerId ? creds.partnerId : process.env.UTSAVS_PARTNER_ID || '').trim();
+
+  // 1. Stringify the full policy payload
+  const rawString = JSON.stringify(policyData);
+
+  // 2. Encrypt the payload
+  const encrypted = await asegoEncrypt(rawString, creds);
+
+  if (!encrypted) {
+    return { success: false, error: "Encryption failed." };
+  }
+
+  // 3. Send to validation endpoint
+  return asegoRequest(`/ext/b2b/v1/createPolicy/validate/${pId}`, creds, 'POST', { policyData: encrypted });
 }
