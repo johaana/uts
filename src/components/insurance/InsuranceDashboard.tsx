@@ -7,6 +7,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
+import { Badge } from "@/components/ui/badge";
 import { 
   ShieldCheck, 
   Loader2, 
@@ -574,7 +575,7 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
                     <Activity className="w-16 h-16 mx-auto text-[#E8A33D] opacity-40" />
                     <div className="space-y-2">
                        <h3 className="text-2xl font-headline text-white">No plans discovered for these criteria.</h3>
-                       <p className="text-[#9AA1C0] max-w-sm mx-auto">This usually means the combination of region, age, and duration has no matches in the UAT database.</p>
+                       <p className="text-[#9AA1C0] max-sm mx-auto">This usually means the combination of region, age, and duration has no matches in the UAT database.</p>
                     </div>
                     <div className="p-8 bg-[#E8A33D]/5 border border-[#E8A33D]/20 rounded-2xl max-w-xl mx-auto space-y-4">
                        <div className="flex items-center gap-3 text-[#E8A33D]">
