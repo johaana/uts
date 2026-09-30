@@ -72,7 +72,7 @@ export async function GET(req: NextRequest) {
       { 
         status: "error",
         error: {
-          code: "INVALID_JURISDICTION", 
+          code: "MISSING_JURISDICTION", 
           message: "Parameter 'jurisdiction' is required." 
         }
       }, 
@@ -85,7 +85,7 @@ export async function GET(req: NextRequest) {
       { 
         status: "error",
         error: {
-          code: "INVALID_DATE", 
+          code: "MISSING_DATE", 
           message: "Parameter 'date' is required." 
         }
       }, 
@@ -138,7 +138,7 @@ export async function GET(req: NextRequest) {
   const purpose = rawPurpose as UserPurpose;
 
   try {
-    // 6. Query the Temporal Engine
+    // 6. Query the Temporal Engine (Single Source of Truth)
     const result = await getOperationalImpact({
       destination: jurisdiction,
       startDate: date,
@@ -157,6 +157,7 @@ export async function GET(req: NextRequest) {
       ...result
     }, { status: 200 });
 
+    // private cache ensures data is not shared across different API key owners at the edge
     response.headers.set(
       "Cache-Control",
       "private, max-age=300, stale-while-revalidate=600"
