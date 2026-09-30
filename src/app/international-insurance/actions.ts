@@ -1,3 +1,4 @@
+
 'use server';
 
 /**
@@ -29,7 +30,11 @@ async function asegoRequest(
   path: string, 
   creds: AsegoCredentials
 ): Promise<ActionResponse> {
-  if (!creds.partnerId || !creds.sign || !creds.reference) {
+  const pId = creds.partnerId.trim();
+  const sgn = creds.sign.trim();
+  const ref = creds.reference.trim();
+
+  if (!pId || !sgn || !ref) {
     throw new Error("Missing UAT Credentials");
   }
 
@@ -40,8 +45,8 @@ async function asegoRequest(
     'Accept': 'application/json',
     'User-Agent': 'External API/1.0',
     'Content-Type': 'application/json',
-    'Sign': creds.sign,
-    'Reference': creds.reference,
+    'Sign': sgn,
+    'Reference': ref,
   };
 
   try {
@@ -91,7 +96,8 @@ export async function getAsegoCategories(creds: AsegoCredentials) {
  * Fetches specific plans based on trip parameters
  */
 export async function getAsegoPlans(creds: AsegoCredentials, params: { age: string, duration: string, categoryId: string }) {
+  const pId = creds.partnerId.trim();
   // Use the verified base plan endpoint format
-  const path = `/ext/b2b/v1/plan/${creds.partnerId}?duration=${params.duration}&age=${params.age}&category=${params.categoryId}`;
+  const path = `/ext/b2b/v1/plan/${pId}?duration=${params.duration}&age=${params.age}&category=${params.categoryId}`;
   return asegoRequest(path, creds);
 }

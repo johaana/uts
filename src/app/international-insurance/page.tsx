@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -62,7 +63,7 @@ export default function InternationalInsurancePage() {
 
   // 4. INITIALIZATION
   useEffect(() => {
-    if (creds.partnerId && creds.sign && creds.reference) {
+    if (creds.partnerId.trim() && creds.sign.trim() && creds.reference.trim()) {
       fetchCategories();
     }
   }, [creds.partnerId, creds.sign, creds.reference]);
@@ -70,12 +71,17 @@ export default function InternationalInsurancePage() {
   const fetchCategories = async () => {
     setIsConnecting(true);
     try {
-      const res = await getAsegoCategories(creds);
+      const sanitizedCreds = {
+        partnerId: creds.partnerId.trim(),
+        sign: creds.sign.trim(),
+        reference: creds.reference.trim()
+      };
+      const res = await getAsegoCategories(sanitizedCreds);
       if (res.success && Array.isArray(res.data)) {
         setCategories(res.data);
         toast({ title: "UAT Connected", description: `Discovered ${res.data.length} destination categories.` });
       } else {
-        toast({ title: "Connection Failed", description: "Metadata retrieval failed.", variant: "destructive" });
+        toast({ title: "Connection Failed", description: "Metadata retrieval failed. Check credentials.", variant: "destructive" });
       }
     } catch (e) {
       toast({ title: "Connection Error", variant: "destructive" });
@@ -87,7 +93,7 @@ export default function InternationalInsurancePage() {
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!creds.partnerId || !creds.sign || !creds.reference) {
+    if (!creds.partnerId.trim() || !creds.sign.trim() || !creds.reference.trim()) {
       setCreds(prev => ({ ...prev, showGate: true }));
       return;
     }
@@ -100,14 +106,26 @@ export default function InternationalInsurancePage() {
     setHasSearched(true);
     setPlans([]);
     try {
-      const res = await getAsegoPlans(creds, searchParams);
+      const sanitizedCreds = {
+        partnerId: creds.partnerId.trim(),
+        sign: creds.sign.trim(),
+        reference: creds.reference.trim()
+      };
+      const res = await getAsegoPlans(sanitizedCreds, searchParams);
       setLastTrace(res);
       
       if (res.success) {
-        const foundPlans = res.data?.sellingPlanDto || [];
+        // Resilient Parsing: Check for sellingPlanDto wrapper OR direct array
+        let foundPlans = [];
+        if (res.data?.sellingPlanDto && Array.isArray(res.data.sellingPlanDto)) {
+            foundPlans = res.data.sellingPlanDto;
+        } else if (Array.isArray(res.data)) {
+            foundPlans = res.data;
+        }
+        
         setPlans(foundPlans);
         if (foundPlans.length === 0) {
-          toast({ title: "No Plans Found", description: "The UAT catalogue returned an empty result for these parameters." });
+          toast({ title: "No Plans Found", description: "UAT returned an empty set for these specific parameters." });
         }
       } else {
         toast({ title: "API Error", description: res.error || "Request failed", variant: "destructive" });
@@ -119,7 +137,7 @@ export default function InternationalInsurancePage() {
     }
   };
 
-  const isSessionActive = !!(creds.partnerId && creds.sign && creds.reference);
+  const isSessionActive = !!(creds.partnerId.trim() && creds.sign.trim() && creds.reference.trim());
 
   return (
     <div className="bg-[#0F1428] text-[#F4F1E8] min-h-screen font-sans selection:bg-[#E8A33D] selection:text-[#0F1428]">
@@ -209,7 +227,7 @@ export default function InternationalInsurancePage() {
                     </div>
                  </div>
                  <div className="flex flex-col md:flex-row items-center justify-between gap-4 pt-4 border-t border-white/5">
-                    <p className="text-xs text-[#6E7495] italic">Credentials are held in memory for this session only and processed via secure Server Actions.</p>
+                    <p className="text-xs text-[#6E7495] italic">Credentials are sanitized and processed via secure Server Actions.</p>
                     <Button onClick={() => setCreds({...creds, showGate: false})} className="bg-[#E8A33D] text-[#0F1428] font-bold h-12 px-10 rounded-none shadow-lg">
                       Confirm & Initialize Session
                     </Button>
@@ -292,6 +310,10 @@ export default function InternationalInsurancePage() {
                            <div className="space-y-1">
                                 <p className="text-[#6E7495] uppercase font-bold">Materialized Endpoint</p>
                                 <p className="text-white break-all bg-white/5 p-2">{lastTrace.endpoint}</p>
+                           </div>
+                           <div className="space-y-1">
+                                <p className="text-[#6E7495] uppercase font-bold">Query Parameters</p>
+                                <pre className="text-[#4FD1C5] bg-white/5 p-2">{JSON.stringify(searchParams, null, 2)}</pre>
                            </div>
                            <div className="space-y-1">
                                 <p className="text-[#6E7495] uppercase font-bold">Headers Dispatched (Masked)</p>
