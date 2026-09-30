@@ -1,28 +1,80 @@
 'use server';
 
 /**
- * @fileOverview Asego API Server Actions
- * Handles secure communication and encryption testing for Asego UAT.
+ * @fileOverview Asego API Diagnostic Server Actions
+ * Handles secure communication with the Dolphin UAT server.
+ * Ensures credentials and encryption keys never reach the client.
  */
 
-import crypto from 'crypto';
+const BASE_URL = "https://dolphin.asego.in/api";
+
+interface ActionResponse {
+  success: boolean;
+  status: number;
+  time: number;
+  data: any;
+  error?: string;
+  endpoint: string;
+  method: string;
+  headers?: Record<string, string>;
+}
 
 /**
- * Test the Plan Lookup endpoint
+ * Generic GET helper for Master/Reference data
  */
-export async function testAsegoConnection(formData: FormData) {
-  const partnerId = formData.get('partnerId') as string;
-  const duration = formData.get('duration') as string || "30";
-  const age = formData.get('age') as string || "20";
-  const category = formData.get('category') as string || "1";
+export async function testAsegoEndpoint(path: string): Promise<ActionResponse> {
+  const start = performance.now();
+  const endpoint = `${BASE_URL}${path}`;
+  
+  try {
+    const response = await fetch(endpoint, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'User-Agent': 'External API/1.0',
+      },
+      cache: 'no-store'
+    });
 
-  if (!partnerId) {
-    return { error: "Partner ID is required for testing." };
+    const end = performance.now();
+    const data = await response.json().catch(() => ({}));
+
+    return {
+      success: response.ok,
+      status: response.status,
+      time: Math.round(end - start),
+      data,
+      endpoint,
+      method: 'GET'
+    };
+  } catch (error: any) {
+    const end = performance.now();
+    return {
+      success: false,
+      status: 0,
+      time: Math.round(end - start),
+      data: null,
+      error: error.message || "Network request failed",
+      endpoint,
+      method: 'GET'
+    };
   }
+}
 
-  const baseUrl = "https://dolphin.asego.in/api";
-  // Ensuring we follow the Swagger spec for query params
-  const endpoint = `${baseUrl}/ext/b2b/v1/plan/${partnerId}?duration=${duration}&age=${age}&category=${category}`;
+/**
+ * Specific Plan Lookup Action
+ */
+export async function runPlanTest(formData: {
+  partnerId: string;
+  age: string;
+  duration: string;
+  category: string;
+}): Promise<ActionResponse> {
+  const start = performance.now();
+  const { partnerId, age, duration, category } = formData;
+  
+  // Swagger: /ext/b2b/v1/plan/{partnerId}?duration={duration}&age={age}&category={category}
+  const endpoint = `${BASE_URL}/ext/b2b/v1/plan/${partnerId}?duration=${duration}&age=${age}&category=${category}`;
 
   try {
     const response = await fetch(endpoint, {
@@ -34,80 +86,117 @@ export async function testAsegoConnection(formData: FormData) {
       cache: 'no-store'
     });
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      return { 
-        success: false, 
-        status: response.status, 
-        message: `API Error: ${response.statusText}`,
-        endpoint,
-        raw: errorText 
-      };
-    }
+    const end = performance.now();
+    const data = await response.json().catch(() => ([]));
 
-    const data = await response.json();
-    return { 
-      success: true, 
-      data, 
+    return {
+      success: response.ok,
       status: response.status,
+      time: Math.round(end - start),
+      data,
       endpoint,
-      isEmpty: Array.isArray(data) && data.length === 0 
+      method: 'GET'
     };
-
   } catch (error: any) {
-    return { 
-      success: false, 
-      message: error.message || "Connection failed.",
-      endpoint 
+    const end = performance.now();
+    return {
+      success: false,
+      status: 0,
+      time: Math.round(end - start),
+      data: null,
+      error: error.message || "Plan lookup failed",
+      endpoint,
+      method: 'GET'
     };
   }
 }
 
 /**
- * Fetch master categories to prove general connectivity
+ * Master Plan Details Action
  */
-export async function fetchAsegoCategories() {
-  const endpoint = "https://dolphin.asego.in/api/ext/b2b/v1/category";
+export async function runMasterPlanTest(partnerId: string): Promise<ActionResponse> {
+  const start = performance.now();
+  const endpoint = `${BASE_URL}/ext/b2b/v1/plan/masterDetails/${partnerId}`;
+
   try {
     const response = await fetch(endpoint, {
-      headers: { 
+      method: 'GET',
+      headers: {
         'Accept': 'application/json',
-        'User-Agent': 'External API/1.0'
+        'User-Agent': 'External API/1.0',
       },
       cache: 'no-store'
     });
-    
-    if (!response.ok) throw new Error("Server rejected master data request");
-    
-    return await response.json();
-  } catch (e) {
-    return { error: "Failed to fetch categories. Your Partner ID might need 'Master Read' permissions." };
+
+    const end = performance.now();
+    const data = await response.json().catch(() => ({}));
+
+    return {
+      success: response.ok,
+      status: response.status,
+      time: Math.round(end - start),
+      data,
+      endpoint,
+      method: 'GET'
+    };
+  } catch (error: any) {
+    const end = performance.now();
+    return {
+      success: false,
+      status: 0,
+      time: Math.round(end - start),
+      data: null,
+      error: error.message || "Master plan details lookup failed",
+      endpoint,
+      method: 'GET'
+    };
   }
 }
 
 /**
- * Simulation of the Asego Encryption Requirement
- * Uses AES-256-CBC as per B2B insurance specs
+ * Encryption/Decryption Action (Phased Proxy)
  */
-export async function testEncryption(text: string, secretKey: string, iv: string) {
+export async function runEncryptionTest(type: 'encrypt' | 'decrypt', payload: {
+  value: string;
+  key: string;
+  initVector: string;
+}): Promise<ActionResponse> {
+  const start = performance.now();
+  const endpoint = `${BASE_URL}/ext/b2b/v1/encryption/${type}`;
+
   try {
-    if (!text || !secretKey || !iv) return { error: "All fields required for encryption test." };
-    
-    // Normalize key and IV lengths (AES-256 requires 32 byte key, 16 byte IV)
-    const key = Buffer.from(secretKey.padEnd(32, '0')).slice(0, 32);
-    const ivBuffer = Buffer.from(iv.padEnd(16, '0')).slice(0, 16);
-    
-    const cipher = crypto.createCipheriv('aes-256-cbc', key, ivBuffer);
-    let encrypted = cipher.update(text, 'utf8', 'base64');
-    encrypted += cipher.final('base64');
-    
-    return { 
-      success: true, 
-      original: text,
-      encrypted,
-      algorithm: 'aes-256-cbc'
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'text/plain',
+        'User-Agent': 'External API/1.0',
+      },
+      body: JSON.stringify(payload),
+      cache: 'no-store'
+    });
+
+    const end = performance.now();
+    const data = await response.text();
+
+    return {
+      success: response.ok,
+      status: response.status,
+      time: Math.round(end - start),
+      data,
+      endpoint,
+      method: 'POST'
     };
-  } catch (e: any) {
-    return { error: e.message };
+  } catch (error: any) {
+    const end = performance.now();
+    return {
+      success: false,
+      status: 0,
+      time: Math.round(end - start),
+      data: null,
+      error: error.message || `${type} request failed`,
+      endpoint,
+      method: 'POST'
+    };
   }
 }
