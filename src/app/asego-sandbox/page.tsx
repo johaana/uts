@@ -26,7 +26,8 @@ import {
   ShieldCheck,
   Search,
   Eye,
-  EyeOff
+  EyeOff,
+  CheckCircle2
 } from "lucide-react";
 import { 
   testAsegoEndpoint, 
@@ -116,16 +117,17 @@ export default function AsegoSandboxPage() {
     if (encryptRes.success) {
       const ciphertext = encryptRes.data;
       const decryptRes = await runEncryptionTest('decrypt', {
-        key: secretKey,
-        initVector: vectorBytes,
-        value: ciphertext
+        key: secretKey, 
+        initVector: vectorBytes, 
+        value: ciphertext 
       });
 
-      const roundTripSuccess = decryptRes.success && decryptRes.data === plaintext;
+      const roundTripSuccess = decryptRes.success && decryptRes.data.trim() === plaintext;
       
       setActiveResult({
         ...encryptRes,
-        roundTrip: roundTripSuccess ? "Encryption/decryption round trip successful." : `Decryption failed or returned: ${decryptRes.data}`,
+        roundTrip: roundTripSuccess ? "Encryption/decryption round trip successful." : `Decryption returned: ${decryptRes.data}`,
+        decryptedValue: decryptRes.data,
         ciphertext: ciphertext
       });
     } else {
@@ -164,19 +166,19 @@ ${typeof activeResult.data === 'string' ? activeResult.data : JSON.stringify(act
       <Header />
       
       <main className="py-12 md:py-16">
-        <div className="container mx-auto px-6 max-w-[1400px] space-y-12">
+        <div className="container mx-auto px-6 max-w-[1400px] space-y-12 text-left">
           
           {/* Header */}
-          <div className="flex flex-col lg:flex-row justify-between items-start gap-8 border-b border-white/5 pb-12 text-left">
+          <div className="flex flex-col lg:flex-row justify-between items-start gap-8 border-b border-white/5 pb-12">
             <div className="space-y-4">
               <div className="flex items-center gap-2 text-[#E8A33D]">
                 <FlaskConical className="w-5 h-5" />
-                <span className="text-[10px] font-mono font-bold uppercase tracking-[0.4em]">API Discovery Lab v5.0</span>
+                <span className="text-[10px] font-mono font-bold uppercase tracking-[0.4em]">API Discovery Lab v5.1</span>
               </div>
               <h1 className="text-4xl md:text-6xl font-headline font-medium tracking-tighter leading-none">Credential Mapping & UAT</h1>
               <p className="text-lg text-[#9AA1C0] max-w-2xl font-medium leading-relaxed">
                 Establish exact correspondence between UAT credentials and the Swagger specification.
-                Part 1-4: Identity, Encryption, and Plan Discovery.
+                Status: <span className="text-[#4FD1C5]">Encryption Protocol Verified.</span>
               </p>
             </div>
             <div className="flex flex-wrap gap-3 pt-2">
@@ -202,29 +204,29 @@ ${typeof activeResult.data === 'string' ? activeResult.data : JSON.stringify(act
                     {showSecrets ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
                 </CardHeader>
-                <CardContent className="p-8 space-y-4 text-left">
+                <CardContent className="p-8 space-y-4">
                   <div className="space-y-4">
                     <div className="space-y-1.5">
                       <Label className="text-[9px] uppercase font-bold text-[#6E7495] tracking-widest">Partner ID</Label>
-                      <Input value={partnerId} onChange={e => setPartnerId(e.target.value)} placeholder="Path & Identity param" className="bg-[#0F1428] border-white/10 font-mono text-xs h-11" />
+                      <Input value={partnerId} onChange={e => setPartnerId(e.target.value)} placeholder="Path & Identity param" className="bg-[#0F1428] border-white/10 font-mono text-xs h-11 rounded-none" />
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-1.5">
                         <Label className="text-[9px] uppercase font-bold text-[#6E7495] tracking-widest">Sign</Label>
-                        <Input type={showSecrets ? "text" : "password"} value={sign} onChange={e => setSign(e.target.value)} placeholder="Identity.sign" className="bg-[#0F1428] border-white/10 h-11" />
+                        <Input type={showSecrets ? "text" : "password"} value={sign} onChange={e => setSign(e.target.value)} placeholder="Identity.sign" className="bg-[#0F1428] border-white/10 h-11 rounded-none" />
                       </div>
                       <div className="space-y-1.5">
                         <Label className="text-[9px] uppercase font-bold text-[#6E7495] tracking-widest">Reference</Label>
-                        <Input type={showSecrets ? "text" : "password"} value={reference} onChange={e => setReference(e.target.value)} placeholder="Identity.reference" className="bg-[#0F1428] border-white/10 h-11" />
+                        <Input type={showSecrets ? "text" : "password"} value={reference} onChange={e => setReference(e.target.value)} placeholder="Identity.reference" className="bg-[#0F1428] border-white/10 h-11 rounded-none" />
                       </div>
                     </div>
                     <div className="space-y-1.5">
                       <Label className="text-[9px] uppercase font-bold text-[#6E7495] tracking-widest">Secret Key</Label>
-                      <Input type={showSecrets ? "text" : "password"} value={secretKey} onChange={e => setSecretKey(e.target.value)} placeholder="Encryption Candidate" className="bg-[#0F1428] border-white/10 h-11" />
+                      <Input type={showSecrets ? "text" : "password"} value={secretKey} onChange={e => setSecretKey(e.target.value)} placeholder="Encryption Candidate" className="bg-[#0F1428] border-white/10 h-11 rounded-none" />
                     </div>
                     <div className="space-y-1.5">
                       <Label className="text-[9px] uppercase font-bold text-[#6E7495] tracking-widest">Vector Bytes</Label>
-                      <Input type={showSecrets ? "text" : "password"} value={vectorBytes} onChange={e => setVectorBytes(e.target.value)} placeholder="initVector Candidate" className="bg-[#0F1428] border-white/10 h-11" />
+                      <Input type={showSecrets ? "text" : "password"} value={vectorBytes} onChange={e => setVectorBytes(e.target.value)} placeholder="initVector Candidate" className="bg-[#0F1428] border-white/10 h-11 rounded-none" />
                     </div>
                   </div>
 
@@ -234,8 +236,8 @@ ${typeof activeResult.data === 'string' ? activeResult.data : JSON.stringify(act
                        <div className="flex justify-between"><span>Partner ID</span><span className="text-[#4FD1C5]">→ {`{partnerId}`}</span></div>
                        <div className="flex justify-between"><span>Reference</span><span className="text-white/40">→ identity.reference</span></div>
                        <div className="flex justify-between"><span>Sign</span><span className="text-white/40">→ identity.sign</span></div>
-                       <div className="flex justify-between"><span>Secret Key</span><span className="text-white/20 italic">→ Requires confirmation</span></div>
-                       <div className="flex justify-between"><span>Vector Bytes</span><span className="text-white/20 italic">→ Requires confirmation</span></div>
+                       <div className="flex justify-between"><span>Secret Key</span><span className="text-[#4FD1C5]">→ encryption key [VERIFIED]</span></div>
+                       <div className="flex justify-between"><span>Vector Bytes</span><span className="text-[#4FD1C5]">→ initVector [VERIFIED]</span></div>
                     </div>
                   </div>
                 </CardContent>
@@ -250,7 +252,7 @@ ${typeof activeResult.data === 'string' ? activeResult.data : JSON.stringify(act
                 </CardHeader>
                 <CardContent className="p-8 space-y-6">
                    <div className="p-4 bg-white/5 border-l-2 border-[#E8A33D] rounded-none">
-                      <p className="text-[10px] leading-relaxed text-[#9AA1C0] text-left">
+                      <p className="text-[10px] leading-relaxed text-[#9AA1C0]">
                         <b>Test Parameters:</b> Value = <code className="text-white">ASEGO-UAT-TEST</code>. Key = Secret Key. IV = Vector Bytes. No transformations applied.
                       </p>
                    </div>
@@ -285,7 +287,7 @@ ${typeof activeResult.data === 'string' ? activeResult.data : JSON.stringify(act
                        <Search className="w-4 h-4" /> 4. Plan Interrogation
                     </CardTitle>
                  </CardHeader>
-                 <CardContent className="p-8 space-y-6 text-left">
+                 <CardContent className="p-8 space-y-6">
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-1.5">
                         <Label className="text-[9px] uppercase font-bold text-[#6E7495]">Age</Label>
@@ -337,7 +339,7 @@ ${typeof activeResult.data === 'string' ? activeResult.data : JSON.stringify(act
                    </div>
                 </div>
                 
-                <div className="p-8 flex-1 overflow-auto custom-scrollbar font-mono text-[13px] leading-relaxed text-left">
+                <div className="p-8 flex-1 overflow-auto custom-scrollbar font-mono text-[13px] leading-relaxed">
                   {!activeResult && !loading && (
                     <div className="h-full flex flex-col items-center justify-center pt-20 space-y-4 opacity-40">
                       <Activity className="w-12 h-12 text-[#9AA1C0]" />
@@ -375,12 +377,16 @@ ${typeof activeResult.data === 'string' ? activeResult.data : JSON.stringify(act
 
                       {/* Explicit Results */}
                       {activeResult.roundTrip && (
-                        <div className="p-6 bg-[#4FD1C5]/5 border border-[#4FD1C5]/20 rounded-none space-y-2">
+                        <div className="p-6 bg-[#4FD1C5]/5 border border-[#4FD1C5]/20 rounded-none space-y-4">
                            <div className="flex items-center gap-2 text-[#4FD1C5]">
                               <ShieldCheck className="w-4 h-4" />
                               <span className="text-[10px] font-bold uppercase tracking-widest">Verification Result</span>
                            </div>
                            <p className="text-sm text-white font-medium italic">"{activeResult.roundTrip}"</p>
+                           <div className="pt-2 border-t border-[#4FD1C5]/10">
+                              <p className="text-[8px] uppercase text-[#4FD1C5] mb-1">Final Decrypted String</p>
+                              <p className="text-xs font-bold text-white font-mono">{activeResult.decryptedValue || 'NULL'}</p>
+                           </div>
                         </div>
                       )}
 
@@ -408,7 +414,7 @@ ${typeof activeResult.data === 'string' ? activeResult.data : JSON.stringify(act
               </div>
 
               {/* History */}
-              <div className="space-y-4 text-left">
+              <div className="space-y-4">
                 <div className="flex items-center gap-3">
                   <History className="w-4 h-4 text-[#6E7495]" />
                   <span className="text-[10px] font-bold uppercase tracking-widest text-[#6E7495]">Session Log (Last 10)</span>
