@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
@@ -18,19 +19,27 @@ import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { OperationalResultCard } from '@/components/operational/OperationalResultCard';
 import { COUNTRY_LABELS } from '@/lib/calendar-intelligence';
+import { format, startOfToday, addDays } from 'date-fns';
 
 export default function V2Page() {
   const [canonicalRules, setCanonicalRules] = useState<CanonicalRule[]>([]);
   const [query, setQuery] = useState<OperationalQuery>({
     destination: 'IN',
-    startDate: '2026-11-01',
-    endDate: '2026-11-15',
+    startDate: '',
+    endDate: '',
     purpose: 'travel'
   });
   const [result, setResult] = useState<OperationalResult | null>(null);
   const [isSearching, setIsSearching] = useState(false);
 
   useEffect(() => {
+    const today = startOfToday();
+    setQuery(prev => ({
+      ...prev,
+      startDate: format(today, 'yyyy-MM-dd'),
+      endDate: format(addDays(today, 14), 'yyyy-MM-dd')
+    }));
+
     getSource().getCanonicalRules().then(rules => {
       setCanonicalRules(rules);
     });
@@ -58,6 +67,7 @@ export default function V2Page() {
   }, [canonicalRules]);
 
   const handleCheckImpact = async () => {
+    if (!query.startDate || !query.endDate) return;
     setIsSearching(true);
     setTimeout(async () => {
       try {

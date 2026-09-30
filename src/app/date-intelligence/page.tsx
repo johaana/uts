@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
@@ -17,6 +18,7 @@ import { OperationalQuery, OperationalResult, CanonicalRule } from '@/lib/operat
 import { cn } from '@/lib/utils';
 import { OperationalResultCard } from '@/components/operational/OperationalResultCard';
 import { COUNTRY_LABELS } from '@/lib/calendar-intelligence';
+import { format, startOfToday, addDays } from 'date-fns';
 
 const LENS_LABELS = {
   all: "All intelligence",
@@ -37,8 +39,8 @@ export default function DateIntelligencePage() {
   const [canonicalRules, setCanonicalRules] = useState<CanonicalRule[]>([]);
   const [query, setQuery] = useState<OperationalQuery>({
     destination: 'IN',
-    startDate: '2026-09-29',
-    endDate: '2026-09-29',
+    startDate: format(startOfToday(), 'yyyy-MM-dd'),
+    endDate: format(startOfToday(), 'yyyy-MM-dd'),
     purpose: 'travel'
   });
   const [result, setResult] = useState<OperationalResult | null>(null);
@@ -76,16 +78,17 @@ export default function DateIntelligencePage() {
   }, []);
 
   const changeDate = (days: number) => {
+    // Force interpretation as local time
     const current = new Date(query.startDate + 'T00:00:00');
-    current.setDate(current.getDate() + days);
-    const dateStr = current.toISOString().split('T')[0];
+    const target = addDays(current, days);
+    const dateStr = format(target, 'yyyy-MM-dd');
     const newQuery = { ...query, startDate: dateStr, endDate: dateStr };
     setQuery(newQuery);
     handleSearch(newQuery);
   };
 
   const setToday = () => {
-    const dateStr = '2026-09-29';
+    const dateStr = format(startOfToday(), 'yyyy-MM-dd');
     const newQuery = { ...query, startDate: dateStr, endDate: dateStr };
     setQuery(newQuery);
     handleSearch(newQuery);
@@ -111,7 +114,7 @@ export default function DateIntelligencePage() {
               {/* Controls */}
               <div className="grid grid-cols-1 md:grid-cols-[1fr_1fr_auto] gap-4 p-6 bg-[#1E2650] border-b border-white/10 items-end">
                 <div className="space-y-2">
-                  <label className="block text-[10.5px] font-mono text-[#6E7495] uppercase tracking-wider">Date · live prototype anchor</label>
+                  <label className="block text-[10.5px] font-mono text-[#6E7495] uppercase tracking-wider">Date</label>
                   <Input 
                     type="date" 
                     value={query.startDate} 
@@ -166,7 +169,7 @@ export default function DateIntelligencePage() {
                       <p className="text-[10.5px] font-mono text-[#4FD1C5] uppercase tracking-widest">Date context</p>
                       <h2 className="text-2xl md:text-3xl font-headline font-medium text-[#F4F1E8] flex items-baseline gap-3">
                         {new Date(query.startDate + 'T00:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
-                        {query.startDate === '2026-09-29' && (
+                        {query.startDate === format(startOfToday(), 'yyyy-MM-dd') && (
                           <span className="text-[10px] font-mono text-[#4FD1C5] border border-[#4FD1C5]/30 rounded-full px-2 py-0.5 uppercase">Today</span>
                         )}
                       </h2>

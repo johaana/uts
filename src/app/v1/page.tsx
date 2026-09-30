@@ -1,6 +1,7 @@
+
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -26,6 +27,7 @@ import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { OperationalResultCard } from '@/components/operational/OperationalResultCard';
 import { UpcomingFestivalsCarousel } from '@/components/UpcomingFestivalsCarousel';
+import { format, startOfToday, addDays } from 'date-fns';
 
 function TripAdvisory({ result }: { result: OperationalResult }) {
   const hasImpacts = result.records.length > 0;
@@ -58,14 +60,24 @@ function TripAdvisory({ result }: { result: OperationalResult }) {
 export default function V1Page() {
   const [query, setQuery] = useState<OperationalQuery>({
     destination: 'IN',
-    startDate: '2026-11-01',
-    endDate: '2026-11-15',
+    startDate: '',
+    endDate: '',
     purpose: 'travel'
   });
   const [result, setResult] = useState<OperationalResult | null>(null);
   const [isSearching, setIsSearching] = useState(false);
 
+  useEffect(() => {
+    const today = startOfToday();
+    setQuery(prev => ({
+      ...prev,
+      startDate: format(today, 'yyyy-MM-dd'),
+      endDate: format(addDays(today, 14), 'yyyy-MM-dd')
+    }));
+  }, []);
+
   const handleCheckImpact = async () => {
+    if (!query.startDate || !query.endDate) return;
     setIsSearching(true);
     setTimeout(async () => {
       try {

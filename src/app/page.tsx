@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
@@ -10,7 +11,7 @@ import {
 import { getSource } from '@/lib/operational/source';
 import { evaluateQuery } from '@/lib/operational/engine';
 import { DateIntelligenceRecord, CanonicalRule } from '@/lib/operational/types';
-import { format, addDays, differenceInDays, isAfter, isSameDay, parseISO } from 'date-fns';
+import { format, addDays, differenceInDays, isAfter, isSameDay, parseISO, startOfToday } from 'date-fns';
 import { ChevronDown, ChevronUp, ShieldCheck, Clock, ExternalLink, Repeat } from 'lucide-react';
 import Link from 'next/link';
 
@@ -32,11 +33,12 @@ export default function HomePage() {
   
   useEffect(() => {
     setIsMounted(true);
-    // Anchor prototype to Sept 29, 2026 for consistent context
-    const tKey = '2026-09-29';
+    // Use actual system today
+    const now = startOfToday();
+    const tKey = format(now, 'yyyy-MM-dd');
     setTodayKey(tKey);
     setStartDate(tKey);
-    const end = addDays(new Date(tKey + 'T00:00:00'), 60); 
+    const end = addDays(now, 60); 
     setEndDate(format(end, 'yyyy-MM-dd'));
 
     // Immediate hydration from the Static-First engine
@@ -76,6 +78,7 @@ export default function HomePage() {
 
   const nextEvent = useMemo(() => {
     if (!isMounted || !todayKey || allRecords.length === 0) return null;
+    // Ensure anchor date is treated as local time
     const anchorDate = new Date(todayKey + 'T00:00:00');
     return allRecords.find(r => {
       const d = new Date(r.date + 'T00:00:00');
@@ -179,7 +182,7 @@ export default function HomePage() {
                   <div>
                     <span className="hero-tracker-kicker uppercase tracking-[0.25em] text-[#4FD1C5] font-mono text-[10px] font-bold">LIVE UPDATES</span>
                     <strong className="text-xl md:text-[15px] font-headline">
-                      {isMounted ? format(new Date(todayKey + 'T00:00:00'), 'EEEE, d MMMM yyyy') : 'Loading...'}
+                      {isMounted && todayKey ? format(new Date(todayKey + 'T00:00:00'), 'EEEE, d MMMM yyyy') : 'Loading...'}
                     </strong>
                   </div>
                   <span className="hero-tracker-live flex items-center gap-1.5 opacity-60">

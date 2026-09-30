@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useMemo, useEffect } from 'react';
@@ -16,7 +17,7 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { allEvents, internationalEvents } from '@/lib/festival-data';
-import { format, addDays, startOfDay, differenceInDays, isSameDay, parse, isValid } from 'date-fns';
+import { format, addDays, startOfDay, differenceInDays, isSameDay, parse, isValid, startOfToday } from 'date-fns';
 
 // --------------------------------------------------------------------------------
 // DATA REGISTRY (2026-2027 Baseline)
@@ -93,30 +94,35 @@ export default function GlobalHolidayIntelligencePage() {
   const [isClient, setIsClient] = useState(false);
   const [mode, setMode] = useState<'traveler' | 'study' | 'corporate' | 'compare'>('compare');
   
-  // States
-  const [country, setCountry] = useState('IN');
-  const [startDate, setStartDate] = useState('2026-09-04');
-  const [endDate, setEndDate] = useState('2026-10-31');
+  // States - Default to current day
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
   const [compA, setCompA] = useState('IN');
   const [compB, setCompB] = useState('JP');
   const [compC, setCompC] = useState('US');
+  const [country, setCountry] = useState('IN');
   const [thirdCountryOn, setThirdCountryOn] = useState(false);
   const [compareFilter, setCompareFilter] = useState<'all' | 'mismatch' | 'overlap'>('all');
 
-  useEffect(() => setIsClient(true), []);
+  useEffect(() => {
+    setIsClient(true);
+    const today = startOfToday();
+    setStartDate(format(today, 'yyyy-MM-dd'));
+    setEndDate(format(addDays(today, 60), 'yyyy-MM-dd'));
+  }, []);
 
   // --- Logic: Impact Checker ---
   const impactData = useMemo(() => {
-    if (!isClient) return { inRange: [], longest: 0, nextDays: '—', publicCount: 0 };
+    if (!isClient || !startDate || !endDate) return { inRange: [], longest: 0, nextDays: '—', publicCount: 0 };
     
-    const start = startOfDay(new Date(startDate));
-    const end = startOfDay(new Date(endDate));
+    const start = startOfDay(new Date(startDate + 'T00:00:00'));
+    const end = startOfDay(new Date(endDate + 'T00:00:00'));
     const all = (HOLIDAYS_REGISTRY[country] || [])
-      .map(h => ({ ...h, d: startOfDay(new Date(h.date)) }))
+      .map(h => ({ ...h, d: startOfDay(new Date(h.date + 'T00:00:00')) }))
       .sort((a, b) => a.d.getTime() - b.d.getTime());
     
     const inRange = all.filter(h => h.d >= start && h.d <= end);
-    const upcoming = all.find(h => h.d >= startOfDay(new Date('2026-09-04')));
+    const upcoming = all.find(h => h.d >= startOfDay(new Date()));
 
     let longest = 0, currentRun = 0, prevD: Date | null = null;
     inRange.forEach(h => {
@@ -129,7 +135,7 @@ export default function GlobalHolidayIntelligencePage() {
       prevD = h.d;
     });
 
-    const nextDays = upcoming ? differenceInDays(upcoming.d, startOfDay(new Date('2026-09-04'))) : '—';
+    const nextDays = upcoming ? differenceInDays(upcoming.d, startOfDay(new Date())) : '—';
     const publicCount = inRange.filter(h => h.type === 'public').length;
 
     return { inRange, longest, nextDays, publicCount };
@@ -137,16 +143,16 @@ export default function GlobalHolidayIntelligencePage() {
 
   // --- Logic: Comparison Engine ---
   const compareData = useMemo(() => {
-    if (!isClient) return { rows: [], mismatchRows: [], overlapRows: [], visible: [], nextMismatchDays: '—', selectedCountries: [] };
+    if (!isClient || !startDate || !endDate) return { rows: [], mismatchRows: [], overlapRows: [], visible: [], nextMismatchDays: '—', selectedCountries: [] };
     
-    const start = startOfDay(new Date(startDate));
-    const end = startOfDay(new Date(endDate));
+    const start = startOfDay(new Date(startDate + 'T00:00:00'));
+    const end = startOfDay(new Date(endDate + 'T00:00:00'));
     const selectedCountries = thirdCountryOn ? [compA, compB, compC] : [compA, compB];
 
     const byDate: Record<string, Record<string, any>> = {};
     selectedCountries.forEach(code => {
       (HOLIDAYS_REGISTRY[code] || []).forEach(h => {
-        const d = startOfDay(new Date(h.date));
+        const d = startOfDay(new Date(h.date + 'T00:00:00'));
         if (d >= start && d <= end) {
           byDate[h.date] = byDate[h.date] || {};
           byDate[h.date][code] = h;
@@ -159,7 +165,7 @@ export default function GlobalHolidayIntelligencePage() {
       const isOverlap = affected.length === selectedCountries.length;
       return { 
         date, 
-        d: startOfDay(new Date(date)), 
+        d: startOfDay(new Date(date + 'T00:00:00')), 
         affected, 
         kind: isOverlap ? 'overlap' : 'mismatch' as const,
         data: byDate[date]
@@ -170,8 +176,8 @@ export default function GlobalHolidayIntelligencePage() {
     const overlapRows = rows.filter(r => r.kind === 'overlap');
     const visible = compareFilter === 'mismatch' ? mismatchRows : compareFilter === 'overlap' ? overlapRows : rows;
 
-    const nextMismatch = mismatchRows.find(r => r.d >= start);
-    const nextMismatchDays = nextMismatch ? differenceInDays(nextMismatch.d, startOfDay(new Date('2026-09-04'))) : '—';
+    const nextMismatch = mismatchRows.find(r => r.d >= startOfDay(new Date()));
+    const nextMismatchDays = nextMismatch ? differenceInDays(nextMismatch.d, startOfDay(new Date())) : '—';
 
     return { rows, mismatchRows, overlapRows, visible, nextMismatchDays, selectedCountries };
   }, [isClient, compA, compB, compC, thirdCountryOn, startDate, endDate, compareFilter]);

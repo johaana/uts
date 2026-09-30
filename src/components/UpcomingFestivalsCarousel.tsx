@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -8,7 +9,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel"
-import { parse, startOfDay } from 'date-fns';
+import { parse, startOfDay, startOfToday } from 'date-fns';
 import { allEvents } from '@/lib/festival-data';
 import Link from 'next/link';
 import { Card, CardContent } from './ui/card';
@@ -30,7 +31,8 @@ export function UpcomingFestivalsCarousel() {
 
     useEffect(() => {
         setIsClient(true);
-        const now = startOfDay(new Date('2026-09-29'));
+        // Start from actual current day
+        const now = startOfToday();
         const eventsWithParsedDates = allEvents
             .map(event => ({ ...event, parsedDate: parseFestivalDate(event.date) }))
             .filter(event => event.parsedDate && event.link);
