@@ -15,11 +15,16 @@ interface AsegoCredentials {
 
 /**
  * Generic Fetch Wrapper for Customer Flow
+ * Ensures all credential-bearing requests remain server-side.
  */
 async function asegoRequest(
   path: string, 
   creds: AsegoCredentials
 ) {
+  if (!creds.partnerId || !creds.sign || !creds.reference) {
+    throw new Error("Missing UAT Credentials");
+  }
+
   const endpoint = `${BASE_URL}${path}`;
   
   const headers: Record<string, string> = {
@@ -47,10 +52,16 @@ async function asegoRequest(
   }
 }
 
+/**
+ * Fetches available regions/categories for the partner
+ */
 export async function getAsegoCategories(creds: AsegoCredentials) {
   return asegoRequest('/ext/b2b/v1/category', creds);
 }
 
+/**
+ * Fetches specific plans based on trip parameters
+ */
 export async function getAsegoPlans(creds: AsegoCredentials, params: { age: string, duration: string, categoryId: string }) {
   const path = `/ext/b2b/v1/plan/${creds.partnerId}?duration=${params.duration}&age=${params.age}&category=${params.categoryId}`;
   return asegoRequest(path, creds);
