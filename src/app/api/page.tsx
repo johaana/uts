@@ -1,3 +1,4 @@
+
 'use client';
 
 import React from 'react';
@@ -24,19 +25,39 @@ import {
 
 export default function ApiPage() {
   const jsonCode = `{
-  "event": "Ganesh Chaturthi",
-  "date": "2026-09-15",
-  "jurisdiction": {
-    "country_code": "IN",
-    "region": "Maharashtra",
-    "scope": "regional"
+  "status": "success",
+  "query": {
+    "jurisdiction": "IN",
+    "date": "2026-09-15",
+    "purpose": "travel"
   },
-  "status": "CONFIRMED",
-  "determination": "Lunisolar Calculation",
-  "planning_implication": "Full commercial shutdown in Mumbai/Pune. Add 3-hour buffer for airport transfers.",
-  "evidence": {
-    "source": "Gazette of Maharashtra",
-    "url": "https://gazette.maharashtra.gov.in/..."
+  "records": [
+    {
+      "id": "RULE_IN_Ganesh_Chaturthi_fixed_9_15__2026-09-15",
+      "name": "Ganesh Chaturthi",
+      "category": "religious",
+      "jurisdiction": {
+        "country_code": "IN",
+        "country_name": "India",
+        "scope": "regional"
+      },
+      "state": "confirmed",
+      "confidence": "high",
+      "consequences": {
+        "implication": "Full commercial shutdown in Mumbai/Pune. Add 3-hour buffer for airport transfers.",
+        "affected_operations": ["banking", "government"],
+        "severity": "high"
+      },
+      "evidence": {
+        "source_name": "Gazette of Maharashtra",
+        "source_url": "https://gazette.maharashtra.gov.in/..."
+      }
+    }
+  ],
+  "metadata": {
+    "timestamp": "2026-09-09T14:30:00Z",
+    "source_connected": true,
+    "version": "4.2.0-static-first"
   }
 }`;
 
@@ -100,7 +121,7 @@ export default function ApiPage() {
                     <div className="space-y-4">
                       <div className="flex items-center gap-3 text-[#4FD1C5] font-bold">
                         <span className="bg-[#4FD1C5]/10 px-2 py-0.5 rounded text-[10px]">GET</span>
-                        <span>/v1/intelligence?jurisdiction=IN-MH&date=2026-09-15</span>
+                        <span>/api/v1/intelligence?jurisdiction=IN&date=2026-09-15</span>
                       </div>
                       <pre className="whitespace-pre-wrap leading-relaxed overflow-x-auto text-left border-l border-white/5 pl-4 py-2">
                         <code className="text-[#F4F1E8]">{jsonCode}</code>
@@ -229,7 +250,7 @@ export default function ApiPage() {
                              {[
                                { p: "jurisdiction", d: "ISO 3166-1 alpha-2 country code (e.g., IN, JP, US)." },
                                { p: "date", d: "Target ISO-8601 date string (e.g., 2026-11-08)." },
-                               { p: "purpose", d: "Context filter: travel, study, workforce, or operations." }
+                               { p: "purpose", d: "Context filter: travel, business, study, workforce, or logistics." }
                              ].map(param => (
                                <div key={param.p} className="flex gap-4 items-start">
                                   <code className="text-[#E8A33D] font-bold min-w-[100px]">{param.p}</code>
@@ -262,7 +283,7 @@ export default function ApiPage() {
                           </div>
                           <div className="p-6 md:p-8 font-mono text-[13px] text-zinc-300 bg-[#0F1428]/50 text-left overflow-x-auto">
                              <code className="block leading-relaxed whitespace-pre-wrap break-all">
-                                <span className="text-teal">curl</span> -X GET <span className="text-white">"https://api.utsavs.com/v1/intelligence"</span> \<br/>
+                                <span className="text-teal">curl</span> -X GET <span className="text-white">"https://utsavs.com/api/v1/intelligence"</span> \<br/>
                                 &nbsp;&nbsp;-H <span className="text-white">"X-API-KEY: YOUR_KEY"</span> \<br/>
                                 &nbsp;&nbsp;-G \<br/>
                                 &nbsp;&nbsp;--data-urlencode <span className="text-white">"jurisdiction=IN"</span> \<br/>
