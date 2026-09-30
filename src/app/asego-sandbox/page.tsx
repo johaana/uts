@@ -24,7 +24,6 @@ import {
   Zap,
   RefreshCw,
   Copy,
-  ChevronRight,
   Info
 } from "lucide-react";
 import { testAsegoConnection, fetchAsegoCategories, testEncryption } from './actions';
@@ -96,17 +95,15 @@ export default function AsegoSandboxPage() {
     const snippet = `
 Hi Asego Team,
 
-We are validating our B2B integration for Utsavs.com. Our technical handshake is successful (HTTP 200 OK), but the plan response is currently empty.
+We are validating our B2B integration for Utsavs.com in the UAT environment. 
+
+Our technical handshake is successful (HTTP 200 OK), but the plan response is currently returning an empty array [].
 
 Partner ID: ${partnerId}
-Environment: Dolphin UAT
+Environment: Dolphin UAT (https://dolphin.asego.in/api)
+Endpoint Tested: /ext/b2b/v1/plan/${partnerId}?category=${category}
 
-Current Status:
-- Connectivity: Verified Success (200 OK)
-- Response Body: Empty Array []
-- Testing Category: ${category}
-
-Could you please map the active insurance products for this Category to our Partner ID so we can proceed with the transactional integration?
+Could you please map the active insurance products for this category to our Partner ID in the UAT database? This will allow us to finalize our UI mapping and proceed with transaction testing.
     `.trim();
     copyToClipboard(snippet, "Diagnostic Report");
   };
@@ -123,11 +120,11 @@ Could you please map the active insurance products for this Category to our Part
             <div className="space-y-4">
               <div className="flex items-center gap-2 text-[#4FD1C5]">
                 <Zap className="w-5 h-5 animate-pulse" />
-                <span className="text-[10px] font-mono font-bold uppercase tracking-[0.4em]">API Integration Lab v3.6</span>
+                <span className="text-[10px] font-mono font-bold uppercase tracking-[0.4em]">API Integration Lab v3.8</span>
               </div>
               <h1 className="text-4xl md:text-7xl font-headline font-medium tracking-tighter leading-none">Dolphin Connectivity</h1>
               <p className="text-xl text-[#9AA1C0] max-w-2xl font-medium leading-relaxed">
-                Auth is verified. Once Asego maps your plans, real data will appear in the console. Use the Encryption Lab to prepare for policy creation.
+                Auth is verified. Once Asego maps your plans in the <b>UAT environment</b>, real data will appear in the console. 
               </p>
             </div>
             <div className="flex gap-4 shrink-0">
@@ -161,9 +158,9 @@ Could you please map the active insurance products for this Category to our Part
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="p-8">
-                  <form onSubmit={handleSubmit} className="space-y-6">
+                  <form onSubmit={handleSubmit} className="space-y-6 text-left">
                     <div className="space-y-6">
-                      <div className="space-y-2 text-left">
+                      <div className="space-y-2">
                         <Label className="text-[9px] uppercase font-bold text-[#6E7495] tracking-widest">Partner ID (Authoritative)</Label>
                         <Input 
                           name="partnerId" 
@@ -173,7 +170,7 @@ Could you please map the active insurance products for this Category to our Part
                         />
                       </div>
 
-                      <div className="space-y-2 text-left">
+                      <div className="space-y-2">
                         <Label className="text-[9px] uppercase font-bold text-[#6E7495] tracking-widest">Target Category</Label>
                         <select name="category" className="w-full h-12 px-4 bg-[#0F1428] border border-white/10 rounded-sm text-sm text-white outline-none focus:border-[#E8A33D] transition-colors font-medium">
                           <option value="1">1 — Leisure (International)</option>
@@ -185,11 +182,11 @@ Could you please map the active insurance products for this Category to our Part
                       </div>
 
                       <div className="grid grid-cols-2 gap-4">
-                        <div className="space-y-2 text-left">
+                        <div className="space-y-2">
                           <Label className="text-[9px] uppercase font-bold text-[#6E7495] tracking-widest">Duration (Days)</Label>
                           <Input name="duration" type="number" defaultValue="30" className="bg-[#0F1428] border-white/10 text-white h-12" />
                         </div>
-                        <div className="space-y-2 text-left">
+                        <div className="space-y-2">
                           <Label className="text-[9px] uppercase font-bold text-[#6E7495] tracking-widest">Traveler Age</Label>
                           <Input name="age" type="number" defaultValue="20" className="bg-[#0F1428] border-white/10 text-white h-12" />
                         </div>
@@ -337,7 +334,7 @@ Could you please map the active insurance products for this Category to our Part
                               <h4 className="text-lg font-bold font-headline">Outcome: Authorized, but Unmapped</h4>
                            </div>
                            <p className="text-[#9AA1C0] leading-relaxed font-medium">
-                              Your <b>Partner ID</b> is valid and the server responded correctly. The empty array `[]` indicates that no active insurance products are currently mapped to your ID for this category.
+                              Your <b>Partner ID</b> is valid and the server responded correctly. The empty array `[]` indicates that no active insurance products are currently mapped to your ID for this category in the <b>UAT environment</b>.
                            </p>
                            
                            <div className="space-y-4 pt-4 border-t border-[#E8A33D]/20">
