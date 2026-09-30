@@ -9,7 +9,7 @@ const BASE_URL = "https://dolphin.asego.in/api";
 
 export interface NormalizedPlan {
   planId: string;
-  name: string;
+  name: string | undefined;
   insurer: string;
   premium: number | undefined;
   currency: string;
@@ -19,6 +19,7 @@ export interface NormalizedPlan {
   maxDays: number;
   detailId?: string;
   benefits?: string[];
+  ineligible?: boolean;
 }
 
 interface AsegoCredentials {
@@ -39,26 +40,44 @@ interface ActionResponse {
  * Normalization Helper
  * Hardened to handle both flattened snake_case (/plan) and nested camelCase (/masterDetails).
  */
-function normalizeAsegoPlan(raw: any): NormalizedPlan {
-  // Extract detail list if available (Master/Hydration response)
-  const detail = raw.sellingPlanDetailsList?.[0] || {};
+function normalizeAsegoPlan(raw: any, targetAge?: number): NormalizedPlan {
+  // 1. Locate the correct age band if a details list is present
+  const details = raw.sellingPlanDetailsList;
+  const targetAgeNum = targetAge !== undefined ? Number(targetAge) : undefined;
   
-  // Honesty Principle: No hardcoded fallback values for names or premiums.
-  // Use nullish coalescing for cross-schema mapping, but allow undefined if absent.
-  const rawPremium = raw.total_premium ?? raw.totalPremium ?? detail.total ?? detail.total_premium;
+  let matchedDetail: any = undefined;
+  let hasDetailsArray = Array.isArray(details) && details.length > 0;
+
+  if (hasDetailsArray && targetAgeNum !== undefined && !isNaN(targetAgeNum)) {
+    matchedDetail = details.find(d => 
+      targetAgeNum >= Number(d.minAge ?? 0) && 
+      targetAgeNum <= Number(d.maxAge ?? 100)
+    );
+  }
+
+  // 2. Identify ineligibility: If there's an array but no match was found for the target age
+  const ineligible = hasDetailsArray && targetAgeNum !== undefined && !matchedDetail;
+
+  // 3. Extract values using the matched detail as the primary source, falling back to top-level
+  const source = matchedDetail || {};
   
+  // Premium must be a number or undefined (never 0 as a default if missing)
+  const rawPremium = source.total ?? source.total_premium ?? raw.total_premium ?? raw.totalPremium;
+  const premium = (rawPremium !== null && rawPremium !== undefined) ? Number(rawPremium) : undefined;
+
   return {
     planId: raw.plan_id ?? raw.planId ?? raw.id ?? '',
-    name: raw.plan_name ?? raw.planName ?? undefined,
+    name: raw.plan_name ?? raw.planName,
     insurer: raw.insurer_name ?? raw.insurerName ?? 'ICICI Lombard',
-    premium: (rawPremium !== null && rawPremium !== undefined) ? Number(rawPremium) : undefined,
+    premium,
     currency: raw.currency ?? 'INR',
-    minAge: Number(raw.min_age ?? raw.minAge ?? detail.minAge ?? 0),
-    maxAge: Number(raw.max_age ?? raw.maxAge ?? detail.maxAge ?? 100),
-    minDays: Number(raw.min_days ?? raw.minDays ?? detail.minDays ?? 0),
-    maxDays: Number(raw.max_days ?? raw.maxDays ?? detail.maxDays ?? 365),
+    minAge: Number(source.minAge ?? raw.min_age ?? raw.minAge ?? 0),
+    maxAge: Number(source.maxAge ?? raw.max_age ?? raw.maxAge ?? 100),
+    minDays: Number(source.minDays ?? raw.min_days ?? raw.minDays ?? 0),
+    maxDays: Number(source.maxDays ?? raw.max_days ?? raw.maxDays ?? 365),
     benefits: raw.benefits ?? [],
-    detailId: detail.detailId ?? raw.detailId ?? undefined
+    detailId: source.sellingPlanDetailId ?? source.detailId ?? raw.detailId,
+    ineligible
   };
 }
 
@@ -110,7 +129,6 @@ async function asegoRequest(
       data = await response.text();
     }
 
-    // Handle Asego "Envelope" Duality (recursive unwrap would be overkill, simple check is safer)
     const extractedData = data?.data ?? data;
 
     return {
@@ -154,16 +172,16 @@ export async function getAsegoPlans(creds: AsegoCredentials, params: { age: stri
     } else if (Array.isArray(res.data)) {
       rawPlans = res.data;
     }
-    res.data = rawPlans.map(normalizeAsegoPlan);
+    res.data = rawPlans.map((p: any) => normalizeAsegoPlan(p, Number(params.age)));
   }
   
   return res;
 }
 
 /**
- * HYDRATION: Returns detailed plan with detailId
+ * HYDRATION: Returns detailed plan with matched age band
  */
-export async function getAsegoPlanDetails(creds: AsegoCredentials, planId: string) {
+export async function getAsegoPlanDetails(creds: AsegoCredentials, planId: string, targetAge: string) {
   const pId = creds.partnerId.trim();
   const path = `/ext/b2b/v1/plan/masterDetails/${pId}?planId=${planId}`;
   
@@ -172,7 +190,7 @@ export async function getAsegoPlanDetails(creds: AsegoCredentials, planId: strin
   if (res.success && res.data) {
     return {
       success: true,
-      data: normalizeAsegoPlan(res.data)
+      data: normalizeAsegoPlan(res.data, Number(targetAge))
     };
   }
   

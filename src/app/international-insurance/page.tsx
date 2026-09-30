@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -113,11 +112,12 @@ export default function InternationalInsurancePage() {
   const handleSelectPlan = async (plan: NormalizedPlan) => {
     setHydratingPlanId(plan.planId);
     try {
-      const res = await getAsegoPlanDetails(creds, plan.planId);
+      const res = await getAsegoPlanDetails(creds, plan.planId, searchParams.age);
       if (res.success && res.data) {
         const hydrated = res.data;
         setSelectedPlan(prev => {
           if (!prev) return hydrated;
+          // Non-clobbering merge: preserve prev fields unless hydration provides non-null replacements
           return {
             ...prev,
             ...Object.fromEntries(
@@ -346,11 +346,20 @@ export default function InternationalInsurancePage() {
                               </div>
                               <div className="p-8 space-y-8 flex-grow flex flex-col justify-between">
                                  <div className="p-6 bg-white/5 rounded-none space-y-3">
-                                    <div className="flex justify-between items-baseline">
-                                       <span className="text-[10px] font-bold uppercase text-[#6E7495] tracking-widest">Premium Total</span>
-                                       <span className="text-3xl font-bold text-white font-headline">₹{plan.premium ?? '—'}</span>
-                                    </div>
-                                    <p className="text-[9px] text-[#6E7495] uppercase font-bold tracking-widest">{plan.currency}</p>
+                                    {plan.ineligible ? (
+                                      <div className="flex items-center gap-2 text-amber-500 font-bold uppercase tracking-widest text-[10px]">
+                                        <AlertCircle className="w-4 h-4" />
+                                        <span>Not available for age {searchParams.age}</span>
+                                      </div>
+                                    ) : (
+                                      <>
+                                        <div className="flex justify-between items-baseline">
+                                           <span className="text-[10px] font-bold uppercase text-[#6E7495] tracking-widest">Premium Total</span>
+                                           <span className="text-3xl font-bold text-white font-headline">₹{plan.premium ?? '—'}</span>
+                                        </div>
+                                        <p className="text-[9px] text-[#6E7495] uppercase font-bold tracking-widest">{plan.currency}</p>
+                                      </>
+                                    )}
                                  </div>
                                  <div className="space-y-2">
                                     <div className="flex items-center gap-2 text-xs text-[#9AA1C0]">
@@ -363,7 +372,7 @@ export default function InternationalInsurancePage() {
                                     </div>
                                  </div>
                                  <Button 
-                                   disabled={!!hydratingPlanId}
+                                   disabled={!!hydratingPlanId || plan.ineligible}
                                    onClick={() => handleSelectPlan(plan)}
                                    className={cn(
                                      "w-full h-14 font-bold uppercase tracking-[0.2em] text-[10px] rounded-none transition-all",
