@@ -2,10 +2,18 @@
 
 /**
  * @fileOverview Asego API UAT Discovery Server Actions
- * Handles read-only interrogation of the Dolphin UAT server with Header support.
+ * Handles multi-strategy header injection for forensic testing.
  */
 
 const BASE_URL = "https://dolphin.asego.in/api";
+
+export type AuthStrategy = 
+  | 'none' 
+  | 'bearer_sign' 
+  | 'bearer_ref' 
+  | 'custom_sign' 
+  | 'custom_ref' 
+  | 'custom_both';
 
 interface ActionResponse {
   success: boolean;
@@ -19,13 +27,14 @@ interface ActionResponse {
 }
 
 /**
- * Generic Fetch Wrapper for Asego UAT
+ * Generic Fetch Wrapper with Strategy Support
  */
 async function asegoFetch(
   path: string, 
   method: string = 'GET', 
   body: any = null,
-  bearerToken?: string
+  strategy: AuthStrategy = 'none',
+  creds?: { sign: string, reference: string }
 ): Promise<ActionResponse> {
   const start = performance.now();
   const endpoint = `${BASE_URL}${path}`;
@@ -36,8 +45,26 @@ async function asegoFetch(
     'Content-Type': 'application/json',
   };
 
-  if (bearerToken) {
-    headers['Authorization'] = `Bearer ${bearerToken}`;
+  // Forensic Header Injection based on Strategy
+  if (creds) {
+    switch (strategy) {
+      case 'bearer_sign':
+        headers['Authorization'] = `Bearer ${creds.sign}`;
+        break;
+      case 'bearer_ref':
+        headers['Authorization'] = `Bearer ${creds.reference}`;
+        break;
+      case 'custom_sign':
+        headers['Sign'] = creds.sign;
+        break;
+      case 'custom_ref':
+        headers['Reference'] = creds.reference;
+        break;
+      case 'custom_both':
+        headers['Sign'] = creds.sign;
+        headers['Reference'] = creds.reference;
+        break;
+    }
   }
 
   try {
@@ -71,8 +98,10 @@ async function asegoFetch(
       method,
       headersSent: {
         ...headers,
-        'Authorization': bearerToken ? 'Bearer ********' : 'None'
-      }
+        'Authorization': headers['Authorization'] ? 'Bearer ********' : 'None',
+        'Sign': headers['Sign'] ? '********' : undefined,
+        'Reference': headers['Reference'] ? '********' : undefined,
+      } as any
     };
   } catch (error: any) {
     const end = performance.now();
@@ -89,16 +118,21 @@ async function asegoFetch(
   }
 }
 
-export async function testAsegoMaster(type: 'category' | 'currency' | 'reasons', subType?: string) {
-  const path = `/ext/b2b/v1/${type}${subType ? `/${subType}` : ''}`;
-  return asegoFetch(path);
+export async function testAsegoMaster(
+  type: 'category' | 'currency' | 'reasons', 
+  strategy: AuthStrategy = 'none',
+  creds?: any
+) {
+  const path = `/ext/b2b/v1/${type}`;
+  return asegoFetch(path, 'GET', null, strategy, creds);
 }
 
 export async function testAsegoPlans(
   type: 'base' | 'standalone' | 'vasRider' | 'masterDetails', 
   partnerId: string, 
-  params?: any,
-  bearerToken?: string
+  params: any,
+  strategy: AuthStrategy = 'none',
+  creds?: any
 ) {
   let path = '';
   switch(type) {
@@ -115,11 +149,10 @@ export async function testAsegoPlans(
       path = `/ext/b2b/v1/plan/masterDetails/${partnerId}`;
       break;
   }
-  return asegoFetch(path, 'GET', null, bearerToken);
+  return asegoFetch(path, 'GET', null, strategy, creds);
 }
 
 export async function runEncryptionStep(type: 'encrypt' | 'decrypt', payload: { value: string, key: string, initVector: string }) {
   const path = `/ext/b2b/v1/encryption/${type}`;
-  // Encryption endpoints usually do not require the Bearer token in Swagger
   return asegoFetch(path, 'POST', payload);
 }
