@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -114,10 +115,18 @@ export default function InternationalInsurancePage() {
     try {
       const res = await getAsegoPlanDetails(creds, plan.planId);
       if (res.success && res.data) {
-        setSelectedPlan(res.data);
+        const hydrated = res.data;
+        setSelectedPlan(prev => {
+          if (!prev) return hydrated;
+          return {
+            ...prev,
+            ...Object.fromEntries(
+              Object.entries(hydrated).filter(([, v]) => v !== undefined && v !== null)
+            ),
+          };
+        });
         toast({ title: "Plan Ready", description: "Detail identifier resolved successfully." });
       } else {
-        // Fallback: select using base search data if hydration fails in UAT
         setSelectedPlan(plan);
         toast({ title: "Partial Selection", description: "Using base parameters (Detail ID pending)." });
       }
@@ -436,7 +445,7 @@ export default function InternationalInsurancePage() {
                 </div>
                 <p>The content expressed in this platform is for information purposes only and it does not accept any liability of any sort unless confirmed by an authorized representative. All Insurance policies are sold under the Corporate Agency of Asego Global Assistance Private Limited bearing IRDAI registration no. Ca0776.</p>
                 <div className="h-px bg-white/10 w-full" />
-                <p className="italic normal-case tracking-normal">Note: Assistance provided by Asego Travel LLP. Student Journey plans meet leading U.S. university and visa requirements for F1, J1, and M1 students. Insurance underwritten by an IRDAI authorised underwriter – ICICI Lombard General Insurance Company Ltd or International Medical Group Inc. (IMG).</p>
+                <p className="italic text-[#9AA1C0] normal-case tracking-normal">Note: Assistance provided by Asego Travel LLP. Student Journey plans meet leading U.S. university and visa requirements for F1, J1, and M1 students. Insurance underwritten by an IRDAI authorised underwriter – ICICI Lombard General Insurance Company Ltd or International Medical Group Inc. (IMG).</p>
               </div>
             </div>
 
