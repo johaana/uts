@@ -14,7 +14,6 @@ import {
   Play, 
   Loader2, 
   CheckCircle2, 
-  Info,
   Key,
   AlertTriangle,
   Code,
@@ -23,7 +22,9 @@ import {
   MessageSquare,
   ClipboardCheck,
   Zap,
-  RefreshCw
+  RefreshCw,
+  Copy,
+  ChevronRight
 } from "lucide-react";
 import { testAsegoConnection, fetchAsegoCategories, testEncryption } from './actions';
 import { useToast } from '@/hooks/use-toast';
@@ -77,6 +78,14 @@ export default function AsegoSandboxPage() {
     const res = await testEncryption(text, key, iv);
     setEncryptionResult(res);
     setEncLoading(false);
+    if (res.success) {
+      toast({ title: "Ciphertext Generated", description: "AES-256-CBC encryption logic verified." });
+    }
+  };
+
+  const copyToClipboard = (text: string, label: string) => {
+    navigator.clipboard.writeText(text);
+    toast({ title: `${label} Copied` });
   };
 
   const copySupportSnippet = () => {
@@ -86,19 +95,18 @@ Hi Asego Team,
 We are validating our B2B integration via Partner ID: ${result?.endpoint?.split('/plan/')[1]?.split('?')[0] || 'd5e591b7-46dd-4d7e-8264-7a30b16cec8d'}
 
 Current Status:
-- Connectivity: HTTP 200 OK (Verified)
-- Response: Empty Array []
-- Category Requested: ${result?.endpoint?.split('category=')[1] || 'Unknown'}
+- Connectivity: HTTP 200 OK (Verified Success)
+- Response Body: Empty Array []
+- Purpose: Automated Quote Integration for Utsavs.com
 
 Technical Context:
-- Endpoint: ${result?.endpoint}
-- User-Agent: External API/1.0
+- Environment: Dolphin UAT
+- Endpoint: ${result?.endpoint || 'GET /v1/plan'}
 - Timestamp: ${new Date().toISOString()}
 
-Could you please confirm if active plans are mapped to our ID for this category in the UAT/Dolphin environment?
+Could you please confirm if active insurance plans (especially Student/Leisure) are mapped to our Partner ID for Category ${result?.endpoint?.split('category=')[1]?.split('&')[0] || '1'}?
     `.trim();
-    navigator.clipboard.writeText(snippet);
-    toast({ title: "Diagnostic Snippet Copied", description: "Paste this into your email to Asego Support." });
+    copyToClipboard(snippet, "Diagnostic Report");
   };
 
   return (
@@ -109,15 +117,15 @@ Could you please confirm if active plans are mapped to our ID for this category 
         <div className="container mx-auto px-6 max-w-7xl space-y-16">
           
           {/* Header Diagnostics */}
-          <div className="flex flex-col lg:flex-row justify-between items-start gap-8 border-b border-white/5 pb-12">
-            <div className="space-y-4 text-left">
+          <div className="flex flex-col lg:flex-row justify-between items-start gap-8 border-b border-white/5 pb-12 text-left">
+            <div className="space-y-4">
               <div className="flex items-center gap-2 text-[#4FD1C5]">
                 <Zap className="w-5 h-5 animate-pulse" />
-                <span className="text-[10px] font-mono font-bold uppercase tracking-[0.4em]">API Integration Lab v3.2</span>
+                <span className="text-[10px] font-mono font-bold uppercase tracking-[0.4em]">API Integration Lab v3.5</span>
               </div>
               <h1 className="text-4xl md:text-7xl font-headline font-medium tracking-tighter leading-none">Dolphin Connectivity</h1>
               <p className="text-xl text-[#9AA1C0] max-w-2xl font-medium leading-relaxed">
-                Your handshake is successful. Use this space to diagnose mapping issues and test the encryption logic required for transactional endpoints.
+                Your handshake is verified. Use the Encryption Lab below to test transactional payloads while waiting for Asego to map your plans.
               </p>
             </div>
             <div className="flex gap-4 shrink-0">
@@ -128,7 +136,7 @@ Could you please confirm if active plans are mapped to our ID for this category 
                 className="border-white/10 hover:bg-white/5 font-bold uppercase tracking-widest text-[10px] h-12 px-6 rounded-none"
               >
                 {catLoading ? <Loader2 className="w-3 h-3 animate-spin mr-2" /> : <Layers className="w-3 h-3 mr-2" />}
-                Fetch Master Categories
+                Fetch Metadata
               </Button>
                <Button 
                 variant="ghost" 
@@ -171,7 +179,6 @@ Could you please confirm if active plans are mapped to our ID for this category 
                           <option value="3">3 — Inbound (To India)</option>
                           <option value="4">4 — Domestic (India)</option>
                           <option value="5">5 — Corporate</option>
-                          <option value="6">6 — Schengen Specific</option>
                         </select>
                       </div>
 
@@ -200,21 +207,30 @@ Could you please confirm if active plans are mapped to our ID for this category 
               </Card>
 
               {/* Security/Encryption Lab */}
-              <Card className="bg-[#0B0F22] border-dashed border-white/10 opacity-80 hover:opacity-100 transition-opacity rounded-sm">
+              <Card className="bg-[#0B0F22] border-dashed border-white/10 rounded-sm">
                  <CardHeader className="p-6 border-b border-white/5">
                     <CardTitle className="text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 text-[#4FD1C5]">
                        <Lock className="w-3.5 h-3.5" /> Transactional Security Lab
                     </CardTitle>
                  </CardHeader>
-                 <CardContent className="p-6 space-y-6">
+                 <CardContent className="p-6 space-y-6 text-left">
                     <p className="text-[11px] text-[#9AA1C0] leading-relaxed">
-                      Transactional calls like <b>/createPolicy</b> require an encrypted payload. Test your AES-256-CBC logic here.
+                      Testing the AES-256-CBC logic required for <b>/createPolicy</b>.
                     </p>
                     <form onSubmit={handleEncryptionTest} className="space-y-4">
-                       <Input name="plainText" placeholder="JSON to encrypt" className="h-10 bg-white/5 border-white/10 text-xs font-mono" defaultValue='{"orderId": "REQ-001"}' />
+                       <div className="space-y-1">
+                          <Label className="text-[8px] uppercase text-[#6E7495]">Payload (JSON)</Label>
+                          <Input name="plainText" placeholder="JSON to encrypt" className="h-10 bg-white/5 border-white/10 text-xs font-mono" defaultValue='{"orderId": "REQ-001"}' />
+                       </div>
                        <div className="grid grid-cols-2 gap-2">
-                          <Input name="secretKey" placeholder="Secret Key" className="h-10 bg-white/5 border-white/10 text-xs" />
-                          <Input name="iv" placeholder="IV" className="h-10 bg-white/5 border-white/10 text-xs" />
+                          <div className="space-y-1">
+                            <Label className="text-[8px] uppercase text-[#6E7495]">Secret Key</Label>
+                            <Input name="secretKey" type="password" placeholder="Key" className="h-10 bg-white/5 border-white/10 text-xs" />
+                          </div>
+                          <div className="space-y-1">
+                            <Label className="text-[8px] uppercase text-[#6E7495]">IV</Label>
+                            <Input name="iv" placeholder="IV" className="h-10 bg-white/5 border-white/10 text-xs" />
+                          </div>
                        </div>
                        <Button type="submit" variant="ghost" disabled={encLoading} className="w-full border border-white/10 text-[9px] font-bold uppercase tracking-widest h-10 hover:bg-[#4FD1C5]/10 rounded-none">
                           {encLoading ? <Loader2 className="w-3 h-3 animate-spin mr-2" /> : "Test Encryption Logic"}
@@ -222,7 +238,12 @@ Could you please confirm if active plans are mapped to our ID for this category 
                     </form>
                     {encryptionResult && (
                        <div className="p-4 bg-white/5 rounded-sm font-mono text-[10px] text-[#4FD1C5] break-all leading-relaxed border border-[#4FD1C5]/20 animate-in fade-in duration-300">
-                          <p className="text-[8px] text-[#6E7495] mb-2 uppercase tracking-widest">Generated Ciphertext:</p>
+                          <div className="flex justify-between items-center mb-2">
+                            <p className="text-[8px] text-[#6E7495] uppercase tracking-widest">Ciphertext:</p>
+                            <button onClick={() => copyToClipboard(encryptionResult.encrypted, "Ciphertext")} className="text-[#E8A33D] hover:text-white transition-colors">
+                              <Copy className="w-3 h-3" />
+                            </button>
+                          </div>
                           {encryptionResult.encrypted}
                        </div>
                     )}
@@ -239,7 +260,7 @@ Could you please confirm if active plans are mapped to our ID for this category 
                 </div>
                 {result?.success && (
                   <div className="flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase border bg-green-500/10 text-green-500 border-green-500/20 shadow-[0_0_15px_rgba(34,197,94,0.2)]">
-                    <CheckCircle2 className="w-3 h-3" /> Connectivity OK
+                    <CheckCircle2 className="w-3 h-3" /> Authorization Confirmed
                   </div>
                 )}
               </div>
@@ -254,30 +275,30 @@ Could you please confirm if active plans are mapped to our ID for this category 
                    <div className="flex items-center gap-4">
                       {result?.isEmpty && (
                         <button onClick={copySupportSnippet} className="text-[10px] font-bold text-[#E8A33D] hover:text-white flex items-center gap-2 transition-colors">
-                          <MessageSquare className="w-3.5 h-3.5" /> Generate Diagnostic Report
+                          <MessageSquare className="w-3.5 h-3.5" /> Copy Request for Asego Manager
                         </button>
                       )}
                       <span className="font-mono text-[9px] text-[#6E7495] uppercase tracking-widest">Dolphin UAT v2.1</span>
                    </div>
                 </div>
                 
-                <div className="p-8 flex-1 overflow-auto custom-scrollbar font-mono text-[13px] leading-relaxed">
+                <div className="p-8 flex-1 overflow-auto custom-scrollbar font-mono text-[13px] leading-relaxed text-left">
                   {!result && !categories && !loading && (
                     <div className="h-full flex flex-col items-center justify-center pt-20 space-y-4 opacity-40">
                       <Terminal className="w-12 h-12 text-[#9AA1C0]" />
-                      <p className="text-sm">Awaiting connectivity test...</p>
+                      <p className="text-sm">Awaiting connectivity handshake...</p>
                     </div>
                   )}
 
                   {loading && (
                     <div className="flex flex-col items-center justify-center pt-20 space-y-6">
                       <Loader2 className="w-10 h-10 animate-spin text-[#E8A33D]" />
-                      <p className="text-[#9AA1C0] animate-pulse">Requesting from dolphin.asego.in...</p>
+                      <p className="text-[#9AA1C0] animate-pulse">Handshaking with dolphin.asego.in...</p>
                     </div>
                   )}
 
                   {categories && !loading && (
-                    <div className="mb-10 space-y-4 animate-in fade-in slide-in-from-top-4 duration-500 text-left">
+                    <div className="mb-10 space-y-4 animate-in fade-in slide-in-from-top-4 duration-500">
                        <p className="text-[10px] font-bold text-[#4FD1C5] uppercase tracking-widest flex items-center gap-2">
                           <Layers className="w-3 h-3" /> Master Metadata [Authorized]
                        </p>
@@ -288,7 +309,7 @@ Could you please confirm if active plans are mapped to our ID for this category 
                   )}
 
                   {result && (
-                    <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-500 text-left">
+                    <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-500">
                       
                       <div className="space-y-3">
                          <p className="text-[10px] font-bold text-[#4FD1C5] uppercase tracking-widest flex items-center gap-2">
@@ -318,7 +339,7 @@ Could you please confirm if active plans are mapped to our ID for this category 
                            </p>
                            <div className="pt-2">
                               <Button onClick={copySupportSnippet} className="bg-white text-[#0F1428] hover:bg-[#F4F1E8] font-bold text-[10px] uppercase tracking-widest h-11 px-8 rounded-none shadow-lg">
-                                <ClipboardCheck className="w-4 h-4 mr-2" /> Copy Request for Asego Manager
+                                <ClipboardCheck className="w-4 h-4 mr-2" /> Copy Support Ticket
                               </Button>
                            </div>
                         </div>
@@ -336,8 +357,8 @@ Could you please confirm if active plans are mapped to our ID for this category 
               </div>
 
               {/* Status Icons */}
-              <div className="grid md:grid-cols-2 gap-6">
-                <div className="p-8 bg-[#1E2650] border border-white/10 rounded-sm flex items-start gap-5 text-left group hover:border-[#4FD1C5]/40 transition-colors">
+              <div className="grid md:grid-cols-2 gap-6 text-left">
+                <div className="p-8 bg-[#1E2650] border border-white/10 rounded-sm flex items-start gap-5 group hover:border-[#4FD1C5]/40 transition-colors">
                   <div className="w-10 h-10 bg-[#4FD1C5]/10 rounded-sm flex items-center justify-center text-[#4FD1C5] shrink-0 group-hover:scale-110 transition-transform">
                     <CheckCircle2 className="w-6 h-6" />
                   </div>
@@ -349,7 +370,7 @@ Could you please confirm if active plans are mapped to our ID for this category 
                   </div>
                 </div>
 
-                <div className="p-8 bg-[#171D3A] border border-white/10 rounded-sm flex items-start gap-5 text-left group hover:border-[#E8A33D]/40 transition-colors">
+                <div className="p-8 bg-[#171D3A] border border-white/10 rounded-sm flex items-start gap-5 group hover:border-[#E8A33D]/40 transition-colors">
                   <div className="w-10 h-10 bg-[#E8A33D]/10 rounded-sm flex items-center justify-center text-[#E8A33D] shrink-0 group-hover:scale-110 transition-transform">
                     <ShieldAlert className="w-6 h-6" />
                   </div>
@@ -365,7 +386,7 @@ Could you please confirm if active plans are mapped to our ID for this category 
 
           </div>
 
-          <div className="pt-12 border-t border-white/10 text-center">
+          <div className="pt-12 border-t border-white/5 text-center">
              <Button variant="ghost" onClick={() => window.location.href = '/'} className="text-[10px] font-bold uppercase tracking-widest text-[#6E7495] hover:text-white transition-colors">
                ← Return to Utsavs Platform
              </Button>

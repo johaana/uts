@@ -87,13 +87,13 @@ export async function fetchAsegoCategories() {
 
 /**
  * Simulation of the Asego Encryption Requirement
- * Uses AES-256-CBC as per typical B2B insurance specs
+ * Uses AES-256-CBC as per B2B insurance specs
  */
 export async function testEncryption(text: string, secretKey: string, iv: string) {
   try {
     if (!text || !secretKey || !iv) return { error: "All fields required for encryption test." };
     
-    // Normalize key and IV lengths
+    // Normalize key and IV lengths (AES-256 requires 32 byte key, 16 byte IV)
     const key = Buffer.from(secretKey.padEnd(32, '0')).slice(0, 32);
     const ivBuffer = Buffer.from(iv.padEnd(16, '0')).slice(0, 16);
     
