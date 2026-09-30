@@ -38,30 +38,31 @@ interface ActionResponse {
 
 /**
  * Normalization Helper
- * Hardened to handle both flattened snake_case (/plan) and nested camelCase (/masterDetails).
+ * Distinguishes between search-phase (flat) and hydration-phase (matrix) data.
  */
 function normalizeAsegoPlan(raw: any, targetAge?: number): NormalizedPlan {
-  // 1. Locate the correct age band if a details list is present
-  const details = raw.sellingPlanDetailsList;
-  const targetAgeNum = targetAge !== undefined ? Number(targetAge) : undefined;
+  const targetAgeNum = targetAge !== undefined ? Number(targetAge) : NaN;
   
-  let matchedDetail: any = undefined;
-  let hasDetailsArray = Array.isArray(details) && details.length > 0;
+  // 1. Identify data shape
+  const details = raw.sellingPlanDetailsList;
+  const hasFullBandData = Array.isArray(details);
 
-  if (hasDetailsArray && targetAgeNum !== undefined && !isNaN(targetAgeNum)) {
-    matchedDetail = details.find(d => 
-      targetAgeNum >= Number(d.minAge ?? 0) && 
-      targetAgeNum <= Number(d.maxAge ?? 100)
-    );
-  }
+  // 2. Perform age-matching if full band data is available
+  const matchedDetail = (hasFullBandData && Number.isFinite(targetAgeNum))
+    ? details.find((d: any) => 
+        targetAgeNum >= Number(d.minAge ?? 0) && 
+        targetAgeNum <= Number(d.maxAge ?? 100)
+      )
+    : undefined;
 
-  // 2. Identify ineligibility: If there's an array but no match was found for the target age
-  const ineligible = hasDetailsArray && targetAgeNum !== undefined && !matchedDetail;
+  // 3. Determine ineligibility
+  // ONLY true if we have the full list and genuinely found no match for the age.
+  // If we don't have the list (search phase), we are NOT ineligible yet.
+  const ineligible = hasFullBandData && !matchedDetail;
 
-  // 3. Extract values using the matched detail as the primary source, falling back to top-level
+  // 4. Extract values (matched detail takes priority over top-level fallback)
   const source = matchedDetail || {};
   
-  // Premium must be a number or undefined (never 0 as a default if missing)
   const rawPremium = source.total ?? source.total_premium ?? raw.total_premium ?? raw.totalPremium;
   const premium = (rawPremium !== null && rawPremium !== undefined) ? Number(rawPremium) : undefined;
 
