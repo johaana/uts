@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -19,7 +20,8 @@ import {
   Lock,
   Globe,
   Info,
-  Clock
+  Clock,
+  AlertCircle
 } from "lucide-react";
 import { getAsegoCategories, getAsegoPlans } from './actions';
 import { cn } from '@/lib/utils';
@@ -45,21 +47,30 @@ export default function InternationalInsurancePage() {
   const [categories, setCategories] = useState<any[]>([]);
   const [plans, setPlans] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isConnecting, setIsConnecting] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<any>(null);
 
   // 3. INITIALIZATION
+  // Watch all 3 credentials to trigger category fetch
   useEffect(() => {
     if (creds.partnerId && creds.sign && creds.reference) {
       fetchCategories();
     }
-  }, [creds.partnerId]);
+  }, [creds.partnerId, creds.sign, creds.reference]);
 
   const fetchCategories = async () => {
+    setIsConnecting(true);
     try {
       const data = await getAsegoCategories(creds);
-      setCategories(Array.isArray(data) ? data : []);
+      const categoryList = Array.isArray(data) ? data : [];
+      setCategories(categoryList);
+      if (categoryList.length > 0) {
+        toast({ title: "UAT Connected", description: `Discovered ${categoryList.length} destination categories.` });
+      }
     } catch (e) {
       toast({ title: "Connection Failed", description: "Please check your UAT credentials.", variant: "destructive" });
+    } finally {
+      setIsConnecting(false);
     }
   };
 
@@ -79,8 +90,9 @@ export default function InternationalInsurancePage() {
     setPlans([]);
     try {
       const res = await getAsegoPlans(creds, searchParams);
-      setPlans(res?.sellingPlanDto || []);
-      if (!res?.sellingPlanDto?.length) {
+      const foundPlans = res?.sellingPlanDto || [];
+      setPlans(foundPlans);
+      if (foundPlans.length === 0) {
         toast({ title: "No Plans Available", description: "Try adjusting the duration or age requirements." });
       }
     } catch (e) {
@@ -95,6 +107,8 @@ export default function InternationalInsurancePage() {
       (window as any).$crisp.push(['do', 'chat:open']);
     }
   };
+
+  const isSessionActive = !!(creds.partnerId && creds.sign && creds.reference);
 
   return (
     <div className="bg-[#0F1428] text-[#F4F1E8] min-h-screen font-sans selection:bg-[#E8A33D] selection:text-[#0F1428]">
@@ -161,10 +175,10 @@ export default function InternationalInsurancePage() {
                        />
                     </div>
                  </div>
-                 <div className="flex items-center justify-between pt-4 border-t border-white/5">
-                    <p className="text-xs text-[#6E7495] italic">Credentials are held in memory for this session only.</p>
+                 <div className="flex flex-col md:flex-row items-center justify-between gap-4 pt-4 border-t border-white/5">
+                    <p className="text-xs text-[#6E7495] italic">Credentials are held in memory for this session only and processed via secure Server Actions.</p>
                     <Button onClick={() => setCreds({...creds, showGate: false})} className="bg-[#E8A33D] text-[#0F1428] font-bold h-12 px-10 rounded-full shadow-lg">
-                      Confirm Session
+                      Confirm & Initialize
                     </Button>
                  </div>
               </Card>
@@ -176,12 +190,24 @@ export default function InternationalInsurancePage() {
                 <div className="space-y-2">
                   <Label className="text-[10px] font-bold uppercase tracking-widest text-[#9AA1C0]">Destination Category</Label>
                   <select 
+                    disabled={!isSessionActive}
                     value={searchParams.categoryId}
                     onChange={e => setSearchParams({...searchParams, categoryId: e.target.value})}
-                    className="w-full h-14 px-4 bg-[#0F1428] border border-white/10 rounded-2xl outline-none focus:ring-2 focus:ring-[#E8A33D] transition-all text-sm font-medium"
+                    className={cn(
+                      "w-full h-14 px-4 bg-[#0F1428] border border-white/10 rounded-2xl outline-none transition-all text-sm font-medium",
+                      !isSessionActive ? "opacity-50 cursor-not-allowed" : "focus:ring-2 focus:ring-[#E8A33D]"
+                    )}
                   >
-                    <option value="">{categories.length ? "Select Region" : "Connect UAT to load..."}</option>
-                    {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+                    {!isSessionActive ? (
+                      <option>Connect UAT to load...</option>
+                    ) : isConnecting ? (
+                      <option>Fetching regions...</option>
+                    ) : (
+                      <>
+                        <option value="">Select Region</option>
+                        {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+                      </>
+                    )}
                   </select>
                 </div>
                 <div className="space-y-2">
@@ -202,7 +228,11 @@ export default function InternationalInsurancePage() {
                     className="h-14 bg-[#0F1428] border-white/10 rounded-2xl font-bold"
                   />
                 </div>
-                <Button type="submit" disabled={isLoading} className="h-14 bg-[#E8A33D] text-[#0F1428] font-bold rounded-2xl shadow-xl hover:bg-white transition-all active:scale-95">
+                <Button 
+                  type="submit" 
+                  disabled={isLoading || !isSessionActive} 
+                  className="h-14 bg-[#E8A33D] text-[#0F1428] font-bold rounded-2xl shadow-xl hover:bg-white transition-all active:scale-95 disabled:opacity-50"
+                >
                   {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <><Search className="w-4 h-4 mr-2" /> Search Plans</>}
                 </Button>
               </form>
@@ -299,11 +329,9 @@ export default function InternationalInsurancePage() {
                        <h3 className="text-2xl font-headline font-bold text-[#6E7495]">No plans discovered yet.</h3>
                        <p className="text-[#6E7495] max-w-sm mx-auto font-medium">Enter your trip details and connect your UAT session to explore the insurance catalogue.</p>
                     </div>
-                    {!creds.partnerId && (
-                      <Button onClick={() => setCreds({...creds, showGate: true})} variant="outline" className="font-bold border-white/10 h-12 px-8 rounded-full">
-                        Connect UAT Session
-                      </Button>
-                    )}
+                    <Button onClick={() => setCreds({...creds, showGate: true})} variant="outline" className="font-bold border-white/10 h-12 px-8 rounded-full">
+                      {isSessionActive ? "Reset UAT Session" : "Connect UAT Session"}
+                    </Button>
                  </div>
                )}
             </div>
@@ -370,14 +398,17 @@ export default function InternationalInsurancePage() {
                 </div>
                 <div className="p-6 bg-white/[0.02] border border-white/5 rounded-2xl flex flex-col justify-between gap-4">
                    <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.4)]"></div>
-                      <span className="text-[10px] font-bold uppercase tracking-widest text-white/40">UAT Discovery Session active</span>
+                      <div className={cn(
+                        "w-2 h-2 rounded-full",
+                        isSessionActive ? "bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.4)]" : "bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.4)]"
+                      )}></div>
+                      <span className="text-[10px] font-bold uppercase tracking-widest text-white/40">
+                        {isSessionActive ? "UAT Discovery Session active" : "UAT Connection Pending"}
+                      </span>
                    </div>
-                   {!creds.partnerId && (
-                     <button onClick={() => setCreds({...creds, showGate: true})} className="text-[10px] font-bold text-[#E8A33D] uppercase tracking-widest hover:underline text-left">
-                        Enter UAT Credentials →
-                     </button>
-                   )}
+                   <button onClick={() => setCreds({...creds, showGate: true})} className="text-[10px] font-bold text-[#E8A33D] uppercase tracking-widest hover:underline text-left">
+                      {isSessionActive ? "Update UAT Credentials →" : "Enter UAT Credentials →"}
+                   </button>
                 </div>
               </div>
             </div>
