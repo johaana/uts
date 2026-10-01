@@ -13,20 +13,21 @@ import {
   Terminal,
   User,
   MapPin,
-  Search,
   Activity,
-  UserCircle,
-  Code,
   CheckCircle2,
   Eye,
   EyeOff,
   Check,
-  Package
+  Package,
+  ArrowRight,
+  FileText,
+  AlertCircle
 } from "lucide-react";
 import { 
   getAsegoCategories, 
   getAsegoPlans, 
   validateAsegoPolicy,
+  createAsegoPolicy,
   AsegoCredentials,
   NormalizedPlan 
 } from '@/app/international-insurance/actions';
@@ -36,15 +37,13 @@ import { parseISO, differenceInDays, differenceInYears } from 'date-fns';
 import Image from 'next/image';
 
 type Step = 'search' | 'selection' | 'form' | 'success';
-type ViewMode = 'journey' | 'blueprint';
 
 export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
   const { toast } = useToast();
   
   const [step, setStep] = useState<Step>('search');
-  const [viewMode, setViewMode] = useState<ViewMode>('journey');
   
-  // Baseline 5.2: Credentials start strictly empty. No stale plan-ID pollution.
+  // Baseline 5.2: Credentials sourced exclusively from CONFIG panel.
   const [creds, setCreds] = useState<AsegoCredentials>({
     partnerId: '',
     sign: '',
@@ -106,6 +105,8 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
 
   const [isValidating, setIsValidating] = useState(false);
   const [isValidated, setIsValidated] = useState(false);
+  const [isIssuing, setIsIssuing] = useState(false);
+  const [policyInfo, setPolicyInfo] = useState<any>(null);
   const [lastTrace, setLastTrace] = useState<any>(null);
   const [showTrace, setShowTrace] = useState(false);
 
@@ -139,21 +140,17 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
     setIsLoading(false);
   };
 
-  /**
-   * Baseline 5.2 Selection Handler
-   * Strictly consumes NormalizedPlan contract directly.
-   */
   const handleSelectPlan = (plan: NormalizedPlan) => {
     setSelectedPlan(plan);
     setStep('form');
+    setIsValidated(false);
     toast({ title: "Plan Selected", description: plan.name });
   };
 
-  const handleValidate = async () => {
-    if (!selectedPlan) return;
-    setIsValidating(true);
+  const buildPayload = () => {
+    if (!selectedPlan) return null;
     const orderId = `UTS-VAL-${Math.floor(Date.now() / 1000)}`;
-    const payload = { 
+    return { 
         ...formData,
         name: `${formData.firstName} ${formData.lastName}`.trim(),
         planId: selectedPlan.planId, 
@@ -166,7 +163,12 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
         endDate: portalForm.endDate,
         orderId
     };
+  };
 
+  const handleValidate = async () => {
+    const payload = buildPayload();
+    if (!payload) return;
+    setIsValidating(true);
     const res = await validateAsegoPolicy(payload, creds);
     setLastTrace(res);
     if (res.success) {
@@ -179,6 +181,22 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
     setIsValidating(false);
   };
 
+  const handleIssue = async () => {
+    const payload = buildPayload();
+    if (!payload) return;
+    setIsIssuing(true);
+    const res = await createAsegoPolicy(payload, creds);
+    setLastTrace(res);
+    if (res.success) {
+      setPolicyInfo(res.data);
+      setStep('success');
+      toast({ title: "Policy Issued Successfully" });
+    } else {
+      toast({ title: "Issuance Failed", description: res.error, variant: "destructive" });
+    }
+    setIsIssuing(false);
+  };
+
   return (
     <div className="space-y-12">
       <div className="flex flex-col lg:flex-row justify-between items-start gap-8 relative z-10">
@@ -188,7 +206,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
                    <div className="w-1.5 h-1.5 rounded-full bg-[#4FD1C5] animate-pulse"></div>
                    <span className="text-[9px] font-bold uppercase tracking-widest text-[#4FD1C5]">Forensic Hub v5.2</span>
                 </div>
-                <p className="text-[10px] font-bold text-[#6E7495] uppercase tracking-widest">Real-Flow Data Trace</p>
+                <p className="text-[10px] font-bold text-[#6E7495] uppercase tracking-widest">Transaction Trace</p>
               </div>
               <h1 className="text-4xl md:text-7xl font-headline font-medium tracking-tighter leading-[1.05] text-white">
                   Global Travel<br/>
@@ -217,28 +235,28 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
            
            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-8">
               <div className="space-y-6">
-                 <p className="text-[10px] font-bold uppercase tracking-widest text-[#E8A33D]">1. Request Context</p>
+                 <p className="text-[10px] font-bold uppercase tracking-widest text-[#E8A33D]">1. Diagnostic Checkpoint</p>
                  <div className="grid grid-cols-2 gap-4 bg-white/[0.02] p-4 border border-white/5">
                     <div><p className="text-[8px] text-[#6E7495] uppercase">Endpoint</p><p className="truncate">{lastTrace.diagnostics?.endpoint || lastTrace.endpoint}</p></div>
                     <div><p className="text-[8px] text-[#6E7495] uppercase">Class</p><p className="text-[#4FD1C5]">{lastTrace.diagnostics?.requestClass || 'PLAN_SEARCH'}</p></div>
-                    <div><p className="text-[8px] text-[#6E7495] uppercase">Data Check</p><p className={cn(lastTrace.diagnostics?.dataCheck === 'PASS' ? 'text-green-500' : 'text-red-500')}>{lastTrace.diagnostics?.dataCheck || 'N/A'}</p></div>
                     <div><p className="text-[8px] text-[#6E7495] uppercase">Partner ID</p><p className="text-white/60">{lastTrace.diagnostics?.partnerId || 'Sourced'}</p></div>
+                    <div><p className="text-[8px] text-[#6E7495] uppercase">Data Check</p><p className={cn(lastTrace.diagnostics?.dataCheck === 'PASS' ? 'text-green-500' : 'text-red-500')}>{lastTrace.diagnostics?.dataCheck || 'N/A'}</p></div>
                  </div>
               </div>
               <div className="space-y-6">
-                 <p className="text-[10px] font-bold uppercase tracking-widest text-[#E8A33D]">2. Payload Identifiers</p>
+                 <p className="text-[10px] font-bold uppercase tracking-widest text-[#E8A33D]">2. Transaction Context</p>
                  <div className="grid grid-cols-2 gap-4 bg-white/[0.02] p-4 border border-white/5">
                     <div><p className="text-[8px] text-[#6E7495] uppercase">Plan ID</p><p className="truncate text-white">{lastTrace.diagnostics?.planId || 'N/A'}</p></div>
                     <div><p className="text-[8px] text-[#6E7495] uppercase">Premium</p><p className="text-white">₹{lastTrace.diagnostics?.premium || '0'}</p></div>
-                    <div><p className="text-[8px] text-[#6E7495] uppercase">Response Shape</p><p className="text-white/40">{lastTrace.diagnostics?.responseShape || 'UNKNOWN'}</p></div>
-                    <div><p className="text-[8px] text-[#6E7495] uppercase">Contains Plans</p><p className="text-white/40">{lastTrace.diagnostics?.containsPlans ? 'YES' : 'NO'}</p></div>
+                    <div><p className="text-[8px] text-[#6E7495] uppercase">Res Shape</p><p className="text-white/40">{lastTrace.diagnostics?.responseShape || 'UNKNOWN'}</p></div>
+                    <div><p className="text-[8px] text-[#6E7495] uppercase">Policy Issued</p><p className={cn(lastTrace.diagnostics?.containsPolicy ? 'text-green-500' : 'text-white/40')}>{lastTrace.diagnostics?.containsPolicy ? 'YES' : 'NO'}</p></div>
                  </div>
               </div>
            </div>
 
            {lastTrace.plaintext && (
              <div className="mb-6 space-y-2">
-                <p className="text-[9px] font-bold uppercase text-[#6E7495] tracking-widest">Plaintext Payload Builder:</p>
+                <p className="text-[9px] font-bold uppercase text-[#6E7495] tracking-widest">Plaintext Payload Snapshot:</p>
                 <pre className="text-white/40 overflow-auto max-h-[300px] bg-white/[0.02] p-6 border border-white/5 text-[10px]">
                   {JSON.stringify(lastTrace.plaintext, null, 2)}
                 </pre>
@@ -246,7 +264,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
            )}
 
            <div className="space-y-2">
-              <p className="text-[9px] font-bold uppercase text-[#6E7495] tracking-widest">Raw Network Output:</p>
+              <p className="text-[9px] font-bold uppercase text-[#6E7495] tracking-widest">Raw Response body:</p>
               <pre className="text-[#4FD1C5] overflow-auto max-h-[400px] bg-white/[0.02] p-6 border border-white/5 text-[10px]">
                 {typeof (lastTrace.raw || lastTrace.data) === 'string' ? (lastTrace.raw || lastTrace.data) : JSON.stringify(lastTrace.raw || lastTrace.data, null, 2)}
               </pre>
@@ -282,7 +300,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
       )}
 
       <div className="relative min-h-[800px]">
-          {viewMode === 'journey' && step === 'search' && (
+          {step === 'search' && (
             <div className="relative min-h-[700px] flex items-center justify-center py-12 animate-in fade-in duration-700">
                <div className="absolute inset-0 z-0 rounded-[40px] overflow-hidden grayscale-[30%] opacity-60">
                  <Image src="https://i.postimg.cc/xqLH4nQz/Accessories-for-Airport-Travel.jpg" layout="fill" objectFit="cover" alt="Travel Background" />
@@ -336,7 +354,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
             </div>
           )}
 
-          {viewMode === 'journey' && step === 'selection' && (
+          {step === 'selection' && (
             <div className="space-y-10 animate-in fade-in duration-500 text-left relative z-10">
                <div className="flex items-center gap-4 mb-8">
                   <Button variant="ghost" onClick={() => setStep('search')} className="text-white hover:text-white hover:bg-white/5">← Back to Search</Button>
@@ -376,7 +394,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
             </div>
           )}
 
-          {viewMode === 'journey' && step === 'form' && selectedPlan && (
+          {step === 'form' && selectedPlan && (
             <div className="space-y-10 animate-in fade-in duration-700 text-left relative z-10">
                <div className="flex items-center justify-between mb-4">
                   <Button variant="ghost" onClick={() => setStep('selection')} className="text-white hover:text-white hover:bg-white/5">← Back to Selection</Button>
@@ -432,21 +450,83 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
                          <div className="space-y-3 pt-6 border-t border-white/5">
                             <Button 
                               onClick={handleValidate} 
-                              disabled={isValidating} 
+                              disabled={isValidating || isIssuing} 
                               className={cn(
                                 "w-full h-14 font-bold uppercase text-[10px] tracking-[0.2em] rounded-2xl transition-all",
                                 isValidated ? "bg-green-600 text-white" : "bg-white text-[#0F1428] hover:bg-[#E8A33D]"
                               )}
                             >
-                               {isValidating ? <Loader2 className="w-4 h-4 animate-spin" /> : isValidated ? <><CheckCircle2 className="w-4 h-4 mr-2" /> Validated</> : "VALIDATE SCHEMA"}
+                               {isValidating ? <Loader2 className="w-4 h-4 animate-spin" /> : isValidated ? <><CheckCircle2 className="w-4 h-4 mr-2" /> VALIDATED</> : "VALIDATE SCHEMA"}
                             </Button>
+                            
+                            {isValidated && (
+                              <Button 
+                                onClick={handleIssue}
+                                disabled={isIssuing}
+                                className="w-full h-14 bg-[#4FD1C5] text-[#0F1428] font-bold uppercase text-[10px] tracking-[0.2em] rounded-2xl shadow-xl animate-in zoom-in-95 duration-300"
+                              >
+                                 {isIssuing ? <Loader2 className="w-4 h-4 animate-spin" /> : "ISSUE POLICY →"}
+                              </Button>
+                            )}
                          </div>
                       </Card>
                   </div>
                </div>
             </div>
           )}
+
+          {step === 'success' && policyInfo && (
+            <div className="max-w-3xl mx-auto py-12 animate-in zoom-in-95 duration-700 text-center space-y-12 relative z-10">
+               <div className="w-24 h-24 bg-green-500/20 rounded-full flex items-center justify-center mx-auto ring-8 ring-green-500/5">
+                  <CheckCircle2 className="w-12 h-12 text-green-500" />
+               </div>
+               
+               <div className="space-y-4">
+                  <h2 className="text-5xl font-headline font-bold text-white">Issuance Successful</h2>
+                  <p className="text-xl text-[#9AA1C0] max-w-lg mx-auto">Asego has generated a real UAT policy for your journey.</p>
+               </div>
+
+               <Card className="bg-[#171D3A] border-white/10 p-10 rounded-[32px] shadow-2xl text-left space-y-10">
+                  <div className="flex justify-between items-start border-b border-white/5 pb-6">
+                     <div className="space-y-1">
+                        <p className="text-[10px] font-bold text-[#6E7495] uppercase tracking-[0.2em]">Policy Number</p>
+                        <p className="text-3xl font-bold font-mono text-[#4FD1C5]">{policyInfo.policyNumber || "UTS-123-TEST"}</p>
+                     </div>
+                     <Badge variant="outline" className="bg-white/5 text-white border-white/10 uppercase tracking-widest text-[9px]">UAT Mode</Badge>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-12">
+                     <div className="space-y-4">
+                        <div className="space-y-1">
+                           <p className="text-[10px] font-bold text-[#6E7495] uppercase">Insured</p>
+                           <p className="text-base font-bold text-white">{formData.firstName} {formData.lastName}</p>
+                        </div>
+                        <div className="space-y-1">
+                           <p className="text-[10px] font-bold text-[#6E7495] uppercase">Product</p>
+                           <p className="text-base font-bold text-white">{selectedPlan?.name}</p>
+                        </div>
+                     </div>
+                     <div className="space-y-4">
+                        <div className="space-y-1">
+                           <p className="text-[10px] font-bold text-[#6E7495] uppercase">Effective Date</p>
+                           <p className="text-base font-bold text-white">{portalForm.startDate}</p>
+                        </div>
+                        <div className="space-y-1">
+                           <p className="text-[10px] font-bold text-[#6E7495] uppercase">Premium Paid</p>
+                           <p className="text-base font-bold text-white">₹{selectedPlan?.premium}</p>
+                        </div>
+                     </div>
+                  </div>
+
+                  <div className="pt-8 border-t border-white/5 flex gap-4">
+                     <Button className="flex-1 h-12 bg-white text-ink font-bold uppercase text-[10px] tracking-widest rounded-xl">Download PDF</Button>
+                     <Button variant="outline" onClick={() => setStep('search')} className="flex-1 h-12 border-white/10 text-white hover:bg-white/5 font-bold uppercase text-[10px] tracking-widest rounded-xl">New Quote</Button>
+                  </div>
+               </Card>
+            </div>
+          )}
       </div>
     </div>
   );
 }
+
