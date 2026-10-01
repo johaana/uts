@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useMemo } from 'react';
@@ -45,7 +44,6 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
   const [step, setStep] = useState<Step>('search');
   const [viewMode, setViewMode] = useState<ViewMode>('journey');
   
-  // FIXED: Removed the hardcoded Plan ID that was masquerading as a Partner ID
   const [creds, setCreds] = useState<AsegoCredentials>({
     partnerId: '',
     sign: '',
@@ -142,7 +140,6 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
     setIsLoading(false);
   };
 
-  // TASK 1 & 4: Fixing the state selection gap and adding forensic log
   const handleSelectPlan = (plan: NormalizedPlan) => {
     console.log("UTSAVS_DEBUG_SELECTED_PLAN_OBJECT:", JSON.stringify(plan, null, 2));
     setSelectedPlan(plan);
