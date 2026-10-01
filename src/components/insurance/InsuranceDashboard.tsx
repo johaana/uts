@@ -234,7 +234,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
 
   const handleSimulate = () => {
     const mockPlan: NormalizedPlan = {
-      planId: "d5e591b7-46dd-4d7e-8264-7a30b16cec8d", // Example Plan ID
+      planId: "d5e591b7-46dd-4d7e-8264-7a30b16cec8d",
       name: "UAT Simulation Plan",
       insurer: "ICICI Lombard (SIM)",
       insurerId: "1",
@@ -492,7 +492,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
                   </div>
 
                   <div className="space-y-6">
-                      <Card className="sticky top-28 p-8 bg-[#171D3A] border-white/10 rounded-[32px] space-y-10 shadow-2xl">
+                      <Card className="sticky top-28 p-8 bg-[#171D3A] border-white/10 rounded-[32px] space-y-10 shadow-2xl text-left">
                          <div className="space-y-4">
                             <div className="space-y-1">
                                <p className="text-[10px] font-bold text-[#6E7495] uppercase tracking-widest">Selected Product</p>

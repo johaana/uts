@@ -44,7 +44,7 @@ interface ActionResponse {
 }
 
 /**
- * Normalization Helper - Corrects the ID and Premium mapping for the real flow.
+ * Normalization Helper
  */
 function normalizeAsegoPlan(raw: any, targetAge?: number): NormalizedPlan {
   const targetAgeNum = targetAge !== undefined ? Number(targetAge) : NaN;
@@ -61,7 +61,6 @@ function normalizeAsegoPlan(raw: any, targetAge?: number): NormalizedPlan {
   const ineligible = hasFullBandData && !matchedDetail;
   const source = matchedDetail || (hasFullBandData ? details[0] : {});
   
-  // Asego Swagger uses 'total' in the details list for premium
   const premium = source.total ?? source.total_premium ?? raw.total_premium ?? raw.totalPremium;
 
   return {
@@ -205,9 +204,11 @@ export async function getAsegoPlans(params: { age: string, duration: string, cat
 }
 
 /**
- * Payload Assembly - Final Verified Mapping
+ * Payload Assembly - Corrected for state mapping
  */
 function assembleAsegoPayload(payload: any, creds: AsegoCredentials) {
+  const premium = Number(payload.premium || payload.totalPremium || 0);
+  
   return [
     {
       identity: {
@@ -218,12 +219,12 @@ function assembleAsegoPayload(payload: any, creds: AsegoCredentials) {
       },
       selectedPlan: {
         insurerId: payload.insurerId || "1",
-        totalPremium: Number(payload.totalPremium),
+        totalPremium: premium,
         plan: {
           sellingPlanId: payload.planId,
           agePremiums: {
             age: Number(payload.age),
-            premium: Number(payload.totalPremium)
+            premium: premium
           }
         }
       },
@@ -245,7 +246,7 @@ function assembleAsegoPayload(payload: any, creds: AsegoCredentials) {
         state: payload.state,
         pincode: payload.pincode,
         country: payload.country,
-        finalPremium: Number(payload.totalPremium),
+        finalPremium: premium,
         age: Number(payload.age),
         gender: payload.gender,
         nominee: payload.nomineeName,
@@ -267,6 +268,8 @@ export async function validateAsegoPolicy(policyData: any, creds?: AsegoCredenti
   if (!creds) return { success: false, status: 0, data: null, error: "Credentials required", endpoint: '', method: '', headersSent: {} };
   
   const plaintext = assembleAsegoPayload(policyData, creds);
+  console.log("UTSAVS_FORENSIC_PLAINTEXT_PAYLOAD:", JSON.stringify(plaintext, null, 2));
+  
   const encRes = await asegoEncrypt(JSON.stringify(plaintext), creds);
   if (!encRes.success || !encRes.data) return encRes;
 
