@@ -169,13 +169,13 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
       }, creds);
       
       setLastTrace(res);
-      if (res.success && Array.isArray(res.data) && res.data.length > 0) {
+      if (res.success && Array.isArray(res.data)) {
         setPlans(res.data);
         setStep('selection');
       } else {
         setPlans([]);
         setStep('selection');
-        toast({ title: "Empty Result", description: "Query succeeded but no plans match these filters." });
+        toast({ title: "Search Error", variant: "destructive", description: res.error });
       }
     } catch (e) {
       toast({ title: "Search Error", variant: "destructive" });
@@ -347,7 +347,7 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
                   <Button variant="ghost" size="sm" onClick={() => { navigator.clipboard.writeText(JSON.stringify(lastTrace.raw || lastTrace.data, null, 2)); toast({ title: "JSON Copied" }); }} className="h-6 text-[8px] uppercase font-bold text-[#4FD1C5] hover:bg-[#4FD1C5]/10">Copy JSON</Button>
                 </div>
                 <pre className="text-[#4FD1C5] overflow-auto max-h-[400px] leading-relaxed custom-scrollbar bg-white/[0.02] p-6 border border-white/5 shadow-inner">
-                  {lastTrace.raw || lastTrace.data ? JSON.stringify(lastTrace.raw || lastTrace.data, null, 2) : (lastTrace.error ? `Trace captured error: ${lastTrace.error}` : "No response body received.")}
+                  {lastTrace.raw || lastTrace.data ? (typeof (lastTrace.raw || lastTrace.data) === 'string' ? (lastTrace.raw || lastTrace.data) : JSON.stringify(lastTrace.raw || lastTrace.data, null, 2)) : (lastTrace.error ? `Trace captured error: ${lastTrace.error}` : "No response body received.")}
                 </pre>
               </div>
            </div>

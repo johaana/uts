@@ -82,6 +82,10 @@ function normalizeAsegoPlan(raw: any, targetAge?: number): NormalizedPlan {
 
 /**
  * Secure Server-Side Relay
+ * 
+ * Aggressive Body Parsing: Some Asego endpoints return naked strings 
+ * even when headers specify application/json. We now read text first 
+ * and safely attempt to parse.
  */
 async function asegoRequest(
   path: string, 
@@ -126,22 +130,24 @@ async function asegoRequest(
     }
 
     const response = await fetch(endpoint, options);
-    const contentType = response.headers.get('content-type');
-    let rawData;
     
-    if (contentType && contentType.includes('application/json')) {
-      rawData = await response.json();
-    } else {
-      rawData = await response.text();
+    // Read verbatim text first to avoid JSON parse crashes
+    const responseText = await response.text();
+    let parsedData;
+    try {
+      parsedData = JSON.parse(responseText);
+    } catch (e) {
+      // It's not JSON (naked string/ciphertext)
+      parsedData = responseText;
     }
 
     return {
       success: response.ok,
       status: response.status,
-      data: rawData?.data ?? rawData,
+      data: parsedData?.data ?? parsedData,
       endpoint,
       method,
-      raw: rawData,
+      raw: parsedData,
       headersSent: {
         ...headers,
         'Sign': '********',
