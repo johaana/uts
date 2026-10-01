@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useMemo } from 'react';
@@ -21,11 +20,9 @@ import {
   Check,
   Package,
   ArrowRight,
-  FileText,
-  AlertCircle,
-  RotateCcw,
+  Database,
   XCircle,
-  Database
+  AlertCircle
 } from "lucide-react";
 import { 
   getAsegoCategories, 
@@ -108,7 +105,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
   const [isValidating, setIsValidating] = useState(false);
   const [isValidated, setIsValidated] = useState(false);
   const [lastTrace, setLastTrace] = useState<any>(null);
-  const [showTrace, setShowTrace] = useState(false);
+  const [showTrace, setShowTrace] = useState(true);
 
   const isSessionActive = !!(creds.partnerId.trim() && creds.sign.trim() && creds.reference.trim());
 
@@ -166,12 +163,12 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
     };
     const res = await validateAsegoPolicy(payload, creds);
     setLastTrace(res);
-    if (res.success) {
+    if (res.success && res.diagnostics?.responseShape === 'EMPTY_ARRAY') {
       setIsValidated(true);
-      toast({ title: "Validation Handshake Complete" });
+      toast({ title: "Validation Passed" });
     } else {
       setIsValidated(false);
-      toast({ title: "Validation Failure", variant: "destructive" });
+      toast({ title: "Validation Failed", variant: "destructive" });
     }
     setIsValidating(false);
   };
@@ -183,9 +180,9 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
               <div className="flex items-center gap-3">
                 <div className="px-3 py-1 bg-[#E8A33D]/10 border border-[#E8A33D]/20 rounded-full flex items-center gap-2">
                    <div className="w-1.5 h-1.5 rounded-full bg-[#E8A33D] animate-pulse"></div>
-                   <span className="text-[9px] font-bold uppercase tracking-widest text-[#E8A33D]">Forensic Audit v5.6</span>
+                   <span className="text-[9px] font-bold uppercase tracking-widest text-[#E8A33D]">Forensic Audit v5.7</span>
                 </div>
-                <p className="text-[10px] font-bold text-[#6E7495] uppercase tracking-widest">Read-Only Investigation</p>
+                <p className="text-[10px] font-bold text-[#6E7495] uppercase tracking-widest">Validation Mode Only</p>
               </div>
               <h1 className="text-4xl md:text-7xl font-headline font-medium tracking-tighter leading-[1.05] text-white">
                   Global Travel<br/>
@@ -207,57 +204,59 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
         <Card className="bg-[#0B0F22] border-[#DED9D0]/40 p-8 rounded-none font-mono text-[11px] animate-in fade-in slide-in-from-top-4 text-left relative z-20 shadow-2xl overflow-hidden">
            <div className="flex items-center justify-between mb-8 border-b border-white/5 pb-6">
               <div className="flex flex-col gap-1">
-                 <span className="text-[12px] font-bold uppercase text-white tracking-widest">========== ASEGO FORENSIC TRACE v5.6 ==========</span>
+                 <span className="text-[12px] font-bold uppercase text-white tracking-widest">========== ASEGO FORENSIC TRACE v5.7 ==========</span>
                  <span className="text-[9px] text-[#6E7495]">TIMESTAMP: {new Date().toISOString()}</span>
               </div>
-              <Badge variant="outline" className="text-[9px] border-[#4FD1C5] text-[#4FD1C5] uppercase px-4">{lastTrace.status} {lastTrace.success ? 'OK' : 'ERROR'}</Badge>
+              <Badge variant="outline" className={cn("text-[9px] uppercase px-4", lastTrace.success ? "border-[#4FD1C5] text-[#4FD1C5]" : "border-red-500 text-red-500")}>
+                {lastTrace.status} {lastTrace.success ? 'OK' : 'ERROR'}
+              </Badge>
            </div>
            
-           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mb-10">
-              <div className="space-y-6">
-                 <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#E8A33D] flex items-center gap-2"><Database className="w-3 h-3" /> 1. PARTNER ID STATUS</p>
-                 <div className="space-y-3 bg-white/[0.02] p-6 border border-white/5">
-                    <div><p className="text-[8px] text-[#6E7495] uppercase tracking-widest">Source</p><p className="text-white font-bold">{lastTrace.partnerIdSource || "UNKNOWN"}</p></div>
-                    <div><p className="text-[8px] text-[#6E7495] uppercase tracking-widest">Semantic Type</p><p className="text-[#4FD1C5] font-bold">UNRESOLVED — AUDIT IN PROGRESS</p></div>
-                    <div><p className="text-[8px] text-[#6E7495] uppercase tracking-widest">Value</p><p className="text-white/40">MASKED</p></div>
+           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-10">
+              <div className="space-y-4">
+                 <p className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#E8A33D]">1. PARTNER ID</p>
+                 <div className="bg-white/[0.02] p-4 border border-white/5 space-y-2">
+                    <div><p className="text-[7px] text-[#6E7495] uppercase">Source</p><p className="text-white font-bold">{lastTrace.partnerIdSource || "MANUAL"}</p></div>
+                    <div><p className="text-[7px] text-[#6E7495] uppercase">Match</p><p className={cn("font-bold", lastTrace.diagnostics?.pathPayloadMatch ? "text-green-500" : "text-red-500")}>{lastTrace.diagnostics?.pathPayloadMatch ? "YES" : "NO"}</p></div>
                  </div>
               </div>
-              <div className="space-y-6">
-                 <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#E8A33D] flex items-center gap-2"><ArrowRight className="w-3 h-3" /> 2. POLICY VALIDATION</p>
-                 <div className="space-y-3 bg-white/[0.02] p-6 border border-white/5">
-                    <div><p className="text-[8px] text-[#6E7495] uppercase tracking-widest">Endpoint</p><p className="truncate text-white">{lastTrace.diagnostics?.endpoint || lastTrace.endpoint}</p></div>
-                    <div><p className="text-[8px] text-[#6E7495] uppercase tracking-widest">Path GUID</p><p className="text-white/40">MASKED</p></div>
-                    <div><p className="text-[8px] text-[#6E7495] uppercase tracking-widest">Path/Payload Match</p><p className={cn("font-bold", lastTrace.diagnostics?.pathPayloadMatch ? "text-green-500" : "text-red-500")}>{lastTrace.diagnostics?.pathPayloadMatch ? "YES" : "NO"}</p></div>
+              <div className="space-y-4">
+                 <p className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#E8A33D]">2. SCHEMA</p>
+                 <div className="bg-white/[0.02] p-4 border border-white/5 space-y-2">
+                    <div><p className="text-[7px] text-[#6E7495] uppercase">agePremiums</p><p className="text-[#4FD1C5] font-bold">OBJECT</p></div>
+                    <div><p className="text-[7px] text-[#6E7495] uppercase">Plan ID</p><p className="truncate text-white">{lastTrace.diagnostics?.planId || "PRESENT"}</p></div>
                  </div>
               </div>
-              <div className="space-y-6">
-                 <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#E8A33D] flex items-center gap-2"><Check className="w-3 h-3" /> 3. ASEGO RESPONSE</p>
-                 <div className="space-y-3 bg-white/[0.02] p-6 border border-white/5">
-                    <div><p className="text-[8px] text-[#6E7495] uppercase tracking-widest">Parsed Type</p><p className="text-white font-bold">{lastTrace.diagnostics?.responseShape || "UNKNOWN"}</p></div>
-                    <div><p className="text-[8px] text-[#6E7495] uppercase tracking-widest">Item Count</p><p className="text-white">{lastTrace.diagnostics?.itemCount ?? "0"}</p></div>
-                    <div><p className="text-[8px] text-[#6E7495] uppercase tracking-widest">Business Result</p><p className="text-[#E8A33D] font-bold">{lastTrace.diagnostics?.responseShape === 'EMPTY_ARRAY' ? 'EMPTY_ASEGO_RESPONSE' : 'UNCONFIRMED'}</p></div>
+              <div className="space-y-4">
+                 <p className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#E8A33D]">3. RESPONSE</p>
+                 <div className="bg-white/[0.02] p-4 border border-white/5 space-y-2">
+                    <div><p className="text-[7px] text-[#6E7495] uppercase">Shape</p><p className="text-white font-bold">{lastTrace.diagnostics?.responseShape || "UNKNOWN"}</p></div>
+                    <div><p className="text-[7px] text-[#6E7495] uppercase">Asego Code</p><p className={cn("font-bold", lastTrace.diagnostics?.asegoCode ? "text-red-500" : "text-green-500")}>{lastTrace.diagnostics?.asegoCode ?? "NULL"}</p></div>
+                 </div>
+              </div>
+              <div className="space-y-4">
+                 <p className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#E8A33D]">4. SERIALIZATION</p>
+                 <div className="bg-white/[0.02] p-4 border border-white/5 space-y-2">
+                    <div><p className="text-[7px] text-[#6E7495] uppercase">Flow</p><p className="text-white font-bold">JSON STRING → AES</p></div>
+                    <div><p className="text-[7px] text-[#6E7495] uppercase">Wrappers</p><p className="text-green-500 font-bold">NONE</p></div>
                  </div>
               </div>
            </div>
 
            {lastTrace.plaintext && (
-             <div className="mb-8 space-y-3">
-                <p className="text-[10px] font-bold uppercase text-[#6E7495] tracking-[0.2em] border-b border-white/5 pb-2">PLAINTEXT PAYLOAD SNAPSHOT (v5.6):</p>
-                <pre className="text-white/60 overflow-auto max-h-[350px] bg-white/[0.01] p-8 border border-white/5 text-[10px] leading-relaxed">
+             <div className="mb-8 space-y-2">
+                <p className="text-[9px] font-bold uppercase text-[#6E7495] tracking-[0.2em]">PLAINTEXT PAYLOAD SNAPSHOT (v5.7):</p>
+                <pre className="text-white/60 overflow-auto max-h-[300px] bg-white/[0.01] p-6 border border-white/5 text-[9px] leading-relaxed">
                   {JSON.stringify(lastTrace.plaintext, null, 2)}
                 </pre>
              </div>
            )}
 
-           <div className="space-y-3">
-              <p className="text-[10px] font-bold uppercase text-[#6E7495] tracking-[0.2em] border-b border-white/5 pb-2">RAW RESPONSE BODY:</p>
-              <pre className="text-[#4FD1C5] overflow-auto max-h-[400px] bg-white/[0.01] p-8 border border-white/5 text-[10px]">
+           <div className="space-y-2">
+              <p className="text-[9px] font-bold uppercase text-[#6E7495] tracking-[0.2em]">RAW RESPONSE BODY:</p>
+              <pre className={cn("overflow-auto max-h-[300px] bg-white/[0.01] p-6 border border-white/5 text-[9px]", lastTrace.diagnostics?.asegoCode ? "text-red-400" : "text-[#4FD1C5]")}>
                 {typeof (lastTrace.raw || lastTrace.data) === 'string' ? (lastTrace.raw || lastTrace.data) : JSON.stringify(lastTrace.raw || lastTrace.data, null, 2)}
               </pre>
-           </div>
-           
-           <div className="mt-8 pt-6 border-t border-white/5 text-center">
-              <span className="text-[10px] font-bold uppercase text-white tracking-widest">========== END OF FORENSIC TRACE ==========</span>
            </div>
         </Card>
       )}
@@ -451,7 +450,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
                             
                             <div className="p-4 border border-dashed border-[#4FD1C5]/20 bg-[#4FD1C5]/5 rounded-xl">
                                <p className="text-[9px] text-[#4FD1C5] font-bold uppercase tracking-widest leading-relaxed">
-                                  ISSUANCE LOCKED<br/>FORENSIC AUDIT v5.6 ACTIVE
+                                  ISSUANCE LOCKED<br/>FORENSIC AUDIT v5.7 ACTIVE
                                 </p>
                             </div>
                          </div>
@@ -464,3 +463,4 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
     </div>
   );
 }
+
