@@ -19,7 +19,9 @@ import {
   Code,
   CheckCircle2,
   Trash2,
-  Download
+  Download,
+  Eye,
+  EyeOff
 } from "lucide-react";
 import { 
   getAsegoCategories, 
@@ -363,7 +365,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
                            </div>
                         </div>
                      </div>
-                     <Button onClick={handleSearch} disabled={isLoading} className="w-full h-16 bg-[#F15A24] text-white hover:bg-white hover:text-black font-bold uppercase text-lg tracking-[0.1em] rounded-2xl shadow-2xl transition-all active:scale-95">
+                     <Button onClick={handleSearch} disabled={isLoading} className="w-full h-16 bg-[#F15A24] text-white hover:bg-white hover:text-black font-bold uppercase text-lg tracking-[0.1em] rounded-2xl shadow-2xl transition-all active:scale-[0.98]">
                         {isLoading ? <Loader2 className="w-6 h-6 animate-spin" /> : "GET QUOTE"}
                      </Button>
                   </CardContent>
@@ -407,7 +409,12 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
                                   <span className="text-white font-bold">{plan.maxDays} Days</span>
                                </div>
                             </div>
-                            <Button onClick={() => handleSelectPlan(plan)} className="w-full h-14 bg-[#E8A33D] text-[#0F1428] font-bold uppercase text-[11px] tracking-[0.2em] rounded-2xl shadow-lg group-hover:bg-white transition-all">CHOOSE PLAN</Button>
+                            <Button 
+                              onClick={() => handleSelectPlan(plan)}
+                              className="w-full h-14 bg-[#E8A33D] text-[#0F1428] font-bold uppercase text-[11px] tracking-[0.2em] rounded-2xl shadow-lg group-hover:bg-white transition-all"
+                            >
+                                CHOOSE PLAN
+                            </Button>
                          </div>
                       </Card>
                     ))}
