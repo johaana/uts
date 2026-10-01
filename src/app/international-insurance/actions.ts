@@ -1,8 +1,8 @@
 'use server';
 
 /**
- * @fileOverview Asego API Implementation - Phase 2 (Hardened Forensic Edition)
- * Implements Encryption utility, Policy Validation, Creation, and Cancellation.
+ * @fileOverview Asego API Implementation - Phase 3 (Strict Schema Hardening)
+ * Implements Swagger-compliant payload construction.
  * VERIFICATION MODE: Returns raw response data for forensic auditing.
  */
 
@@ -81,10 +81,6 @@ function normalizeAsegoPlan(raw: any, targetAge?: number): NormalizedPlan {
 
 /**
  * Secure Server-Side Relay
- * 
- * Aggressive Body Parsing: Some Asego endpoints return naked strings 
- * even when headers specify application/json. We now read text first 
- * and safely attempt to parse.
  */
 async function asegoRequest(
   path: string, 
@@ -125,20 +121,15 @@ async function asegoRequest(
     };
 
     if (body) {
-      // FORBIDDEN WRAP: Asego Transaction endpoints (create/validate) require the body 
-      // to be the raw ciphertext string, NOT a JSON-encoded string.
       options.body = typeof body === 'string' ? body : JSON.stringify(body);
     }
 
     const response = await fetch(endpoint, options);
-    
-    // Read verbatim text first to avoid JSON parse crashes
     const responseText = await response.text();
     let parsedData;
     try {
       parsedData = JSON.parse(responseText);
     } catch (e) {
-      // It's not JSON (naked string/ciphertext)
       parsedData = responseText;
     }
 
@@ -255,9 +246,6 @@ export async function getAsegoPlanDetails(planId: string, targetAge: string, cre
   return res;
 }
 
-/**
- * Interrogation Helpers for UAT Discovery
- */
 export async function interrogateAsegoEndpoint(type: 'standalone' | 'vasRider' | 'masterDetails', creds?: AsegoCredentials) {
   const pId = (creds?.partnerId || process.env.UTSAVS_PARTNER_ID || '').trim();
   let path = '';
@@ -270,18 +258,78 @@ export async function interrogateAsegoEndpoint(type: 'standalone' | 'vasRider' |
 }
 
 /**
+ * Payload Assembly - Strict Swagger Implementation
+ */
+function assembleAsegoPayload(payload: any, creds: AsegoCredentials) {
+  const pId = (creds?.partnerId || process.env.UTSAVS_PARTNER_ID || '').trim();
+  const sgn = (creds?.sign || process.env.UTSAVS_SIGN || '').trim();
+  const ref = (creds?.reference || process.env.UTSAVS_REFERENCE || '').trim();
+
+  return [
+    {
+      identity: {
+        orderId: payload.orderId,
+        sign: sgn,
+        reference: ref,
+        partnerId: pId
+      },
+      selectedPlan: {
+        insurerId: "1", // Baseline for ICICI Lombard UAT
+        totalPremium: Number(payload.totalPremium),
+        plan: {
+          sellingPlanId: payload.planId,
+          agePremiums: {
+            age: Number(payload.age),
+            premium: Number(payload.totalPremium)
+          }
+        }
+      },
+      quotation: {
+        travelCategory: payload.categoryId,
+        startDate: payload.startDate,
+        duration: Number(payload.duration),
+        endDate: payload.endDate
+      },
+      traveler: {
+        name: `${payload.firstName} ${payload.lastName}`.trim(),
+        passport: payload.passportNo,
+        dob: payload.dob,
+        address: payload.address,
+        mobileNo: payload.mobile,
+        email: payload.email,
+        city: payload.city,
+        district: payload.district,
+        state: payload.state,
+        pincode: payload.pincode,
+        country: payload.country,
+        finalPremium: Number(payload.totalPremium),
+        age: Number(payload.age),
+        gender: payload.gender,
+        nominee: payload.nomineeName,
+        relation: payload.nomineeRelation
+      },
+      otherDetails: { 
+        policyComment: "", 
+        universityName: "", 
+        universityAddress: "" 
+      }
+    }
+  ];
+}
+
+/**
  * Policy Validation (Dry-run)
  */
 export async function validateAsegoPolicy(policyData: any, creds?: AsegoCredentials) {
   const pId = (creds?.partnerId || process.env.UTSAVS_PARTNER_ID || '').trim();
-  const rawString = JSON.stringify(policyData);
-  const encRes = await asegoEncrypt(rawString, creds);
+  const plaintext = assembleAsegoPayload(policyData, creds as AsegoCredentials);
+  
+  // TASK 1: Report plaintext payload
+  console.log("UTSAVS_FORENSIC_PLAINTEXT_PAYLOAD:", JSON.stringify(plaintext, null, 2));
 
-  if (!encRes.success || !encRes.data) {
-    return encRes;
-  }
+  const encRes = await asegoEncrypt(JSON.stringify(plaintext), creds);
+  if (!encRes.success || !encRes.data) return encRes;
 
-  // IMPORTANT: PASS RAW CIPHERTEXT STRING DIRECTLY
   return asegoRequest(`/ext/b2b/v1/createPolicy/validate/${pId}`, creds, 'POST', encRes.data);
 }
 
@@ -290,14 +338,11 @@ export async function validateAsegoPolicy(policyData: any, creds?: AsegoCredenti
  */
 export async function createAsegoPolicy(policyData: any, creds?: AsegoCredentials) {
   const pId = (creds?.partnerId || process.env.UTSAVS_PARTNER_ID || '').trim();
-  const rawString = JSON.stringify(policyData);
-  const encRes = await asegoEncrypt(rawString, creds);
+  const plaintext = assembleAsegoPayload(policyData, creds as AsegoCredentials);
+  
+  const encRes = await asegoEncrypt(JSON.stringify(plaintext), creds);
+  if (!encRes.success || !encRes.data) return encRes;
 
-  if (!encRes.success || !encRes.data) {
-    return encRes;
-  }
-
-  // IMPORTANT: PASS RAW CIPHERTEXT STRING DIRECTLY
   return asegoRequest(`/ext/b2b/v1/createPolicy/${pId}`, creds, 'POST', encRes.data);
 }
 
