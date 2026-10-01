@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
@@ -221,7 +220,14 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
       const res = await getAsegoPlanDetails(plan.planId, primaryAge.toString(), creds);
       setLastTrace(res);
       if (res.success && res.data) {
-        setSelectedPlan({ ...plan, ...res.data });
+        // MERGE HARDENING: If Master Details fetch returns less info, prioritize initial plan data
+        setSelectedPlan({ 
+          ...plan, 
+          ...res.data,
+          name: res.data.name || plan.name,
+          premium: res.data.premium || plan.premium,
+          detailId: res.data.detailId || plan.detailId
+        });
         setStep('form');
       } else {
         setSelectedPlan(plan);
@@ -253,7 +259,7 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
         setIssuedPolicy(res.data);
         setStep('success');
       } else {
-        toast({ title: "Issuance Failed", description: res.error, variant: "destructive" });
+        toast({ title: "Issuance Failed", description: res.error || (typeof res.raw === 'object' ? res.raw.msg : "Unknown error"), variant: "destructive" });
       }
     } catch (e) {
       toast({ title: "Internal Error", variant: "destructive" });
@@ -588,16 +594,16 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
                      </div>
                      <div>
                         <p className="text-[11px] font-bold uppercase tracking-widest text-[#6E7495] mb-1">Selected Product</p>
-                        <h3 className="text-3xl font-bold font-headline text-white">{selectedPlan.name}</h3>
+                        <h3 className="text-3xl font-bold font-headline text-white">{selectedPlan.name || "Selected Plan"}</h3>
                         <div className="flex gap-4 mt-2">
-                           <span className="text-[10px] text-[#4FD1C5] font-mono border border-[#4FD1C5]/20 px-2 py-0.5 rounded uppercase">ID: {selectedPlan.planId}</span>
+                           <span className="text-[10px] text-[#4FD1C5] font-mono border border-[#4FD1C5]/20 px-2 py-0.5 rounded uppercase">ID: {selectedPlan.planId || '—'}</span>
                            <span className="text-[10px] text-[#4FD1C5] font-mono border border-[#4FD1C5]/20 px-2 py-0.5 rounded uppercase">Age: {primaryAge}</span>
                         </div>
                      </div>
                   </div>
                   <div className="text-right">
                      <p className="text-[11px] font-bold text-[#6E7495] uppercase mb-1">Total Premium</p>
-                     <p className="text-5xl font-bold font-headline text-white">₹{selectedPlan.premium}</p>
+                     <p className="text-5xl font-bold font-headline text-white">₹{selectedPlan.premium ?? '—'}</p>
                   </div>
                </div>
 

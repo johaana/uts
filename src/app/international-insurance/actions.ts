@@ -1,4 +1,3 @@
-
 'use server';
 
 /**
@@ -126,7 +125,9 @@ async function asegoRequest(
     };
 
     if (body) {
-      options.body = JSON.stringify(body);
+      // FORBIDDEN WRAP: Asego Transaction endpoints (create/validate) require the body 
+      // to be the raw ciphertext string, NOT a JSON-encoded string.
+      options.body = typeof body === 'string' ? body : JSON.stringify(body);
     }
 
     const response = await fetch(endpoint, options);
@@ -159,7 +160,7 @@ async function asegoRequest(
       success: false,
       status: 0,
       data: null,
-      error: error.message || "Network request failed. Ensure dolphin.asego.in is reachable from the server.",
+      error: error.message || "Network request failed.",
       endpoint,
       method,
       headersSent: headers
@@ -179,7 +180,7 @@ export async function asegoEncrypt(value: string, creds?: AsegoCredentials) {
       success: false,
       status: 0,
       data: null,
-      error: "Encryption keys (Secret Key / Vector Bytes) missing in CONFIG.",
+      error: "Encryption keys missing in CONFIG.",
       endpoint: '/encryption/encrypt',
       method: 'POST',
       headersSent: {}
@@ -202,7 +203,7 @@ export async function asegoDecrypt(value: string, creds?: AsegoCredentials) {
       success: false,
       status: 0,
       data: null,
-      error: "Encryption keys (Secret Key / Vector Bytes) missing in CONFIG.",
+      error: "Encryption keys missing in CONFIG.",
       endpoint: '/encryption/decrypt',
       method: 'POST',
       headersSent: {}
@@ -273,15 +274,15 @@ export async function interrogateAsegoEndpoint(type: 'standalone' | 'vasRider' |
  */
 export async function validateAsegoPolicy(policyData: any, creds?: AsegoCredentials) {
   const pId = (creds?.partnerId || process.env.UTSAVS_PARTNER_ID || '').trim();
-
   const rawString = JSON.stringify(policyData);
   const encRes = await asegoEncrypt(rawString, creds);
 
   if (!encRes.success || !encRes.data) {
-    return { success: false, status: encRes.status, error: encRes.error || "Encryption failed.", raw: encRes.raw, endpoint: encRes.endpoint, method: encRes.method, headersSent: encRes.headersSent };
+    return encRes;
   }
 
-  return asegoRequest(`/ext/b2b/v1/createPolicy/validate/${pId}`, creds, 'POST', { policyData: encRes.data });
+  // IMPORTANT: PASS RAW CIPHERTEXT STRING DIRECTLY
+  return asegoRequest(`/ext/b2b/v1/createPolicy/validate/${pId}`, creds, 'POST', encRes.data);
 }
 
 /**
@@ -289,15 +290,15 @@ export async function validateAsegoPolicy(policyData: any, creds?: AsegoCredenti
  */
 export async function createAsegoPolicy(policyData: any, creds?: AsegoCredentials) {
   const pId = (creds?.partnerId || process.env.UTSAVS_PARTNER_ID || '').trim();
-
   const rawString = JSON.stringify(policyData);
   const encRes = await asegoEncrypt(rawString, creds);
 
   if (!encRes.success || !encRes.data) {
-    return { success: false, status: encRes.status, error: encRes.error || "Encryption failed.", raw: encRes.raw, endpoint: encRes.endpoint, method: encRes.method, headersSent: encRes.headersSent };
+    return encRes;
   }
 
-  return asegoRequest(`/ext/b2b/v1/createPolicy/${pId}`, creds, 'POST', { policyData: encRes.data });
+  // IMPORTANT: PASS RAW CIPHERTEXT STRING DIRECTLY
+  return asegoRequest(`/ext/b2b/v1/createPolicy/${pId}`, creds, 'POST', encRes.data);
 }
 
 /**
@@ -305,6 +306,5 @@ export async function createAsegoPolicy(policyData: any, creds?: AsegoCredential
  */
 export async function cancelAsegoPolicy(policyNumber: string, remarks: string = "UAT Test Cancellation", creds?: AsegoCredentials) {
   const pId = (creds?.partnerId || process.env.UTSAVS_PARTNER_ID || '').trim();
-
   return asegoRequest(`/ext/b2b/v1/policy/cancel/${pId}`, creds, 'POST', { policyNumber, remarks });
 }
