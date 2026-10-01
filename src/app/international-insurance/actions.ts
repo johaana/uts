@@ -40,6 +40,7 @@ interface ActionResponse {
   method: string;
   headersSent: Record<string, any>;
   raw?: any;
+  plaintext?: any; // Added for forensic audit
 }
 
 /**
@@ -270,7 +271,9 @@ export async function validateAsegoPolicy(policyData: any, creds?: AsegoCredenti
   const encRes = await asegoEncrypt(JSON.stringify(plaintext), creds);
   if (!encRes.success || !encRes.data) return encRes;
 
-  return asegoRequest(`/ext/b2b/v1/createPolicy/validate/${creds.partnerId}`, creds, 'POST', encRes.data);
+  const res = await asegoRequest(`/ext/b2b/v1/createPolicy/validate/${creds.partnerId}`, creds, 'POST', encRes.data);
+  res.plaintext = plaintext; // Surface for TRACE panel
+  return res;
 }
 
 /**
@@ -280,10 +283,14 @@ export async function createAsegoPolicy(policyData: any, creds?: AsegoCredential
   if (!creds) return { success: false, status: 0, data: null, error: "Credentials required", endpoint: '', method: '', headersSent: {} };
 
   const plaintext = assembleAsegoPayload(policyData, creds);
+  console.log("UTSAVS_FORENSIC_PLAINTEXT_PAYLOAD:", JSON.stringify(plaintext, null, 2));
+
   const encRes = await asegoEncrypt(JSON.stringify(plaintext), creds);
   if (!encRes.success || !encRes.data) return encRes;
 
-  return asegoRequest(`/ext/b2b/v1/createPolicy/${creds.partnerId}`, creds, 'POST', encRes.data);
+  const res = await asegoRequest(`/ext/b2b/v1/createPolicy/${creds.partnerId}`, creds, 'POST', encRes.data);
+  res.plaintext = plaintext; // Surface for TRACE panel
+  return res;
 }
 
 /**

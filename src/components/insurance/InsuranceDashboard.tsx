@@ -138,6 +138,12 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
     setIsLoading(false);
   };
 
+  const handleSelectPlan = (plan: NormalizedPlan) => {
+    console.log("UTSAVS_DEBUG_SELECTED_PLAN_OBJECT:", JSON.stringify(plan, null, 2));
+    setSelectedPlan(plan);
+    setStep('form');
+  };
+
   const handleValidate = async () => {
     setIsValidating(true);
     const orderId = `UTS-VAL-${Math.floor(Date.now() / 1000)}`;
@@ -262,9 +268,22 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
                  <Badge variant="outline" className="text-[9px] border-white/10 uppercase py-0">{lastTrace.status} {lastTrace.success ? 'OK' : 'ERROR'}</Badge>
               </div>
            </div>
-           <pre className="text-[#4FD1C5] overflow-auto max-h-[400px] bg-white/[0.02] p-6 border border-white/5">
-             {typeof (lastTrace.raw || lastTrace.data) === 'string' ? (lastTrace.raw || lastTrace.data) : JSON.stringify(lastTrace.raw || lastTrace.data, null, 2)}
-           </pre>
+           
+           {lastTrace.plaintext && (
+             <div className="mb-6 space-y-2">
+                <p className="text-[9px] font-bold uppercase text-[#6E7495] tracking-widest">Plaintext Payload (Task 2):</p>
+                <pre className="text-[#E8A33D] overflow-auto max-h-[300px] bg-white/[0.02] p-6 border border-white/5">
+                  {JSON.stringify(lastTrace.plaintext, null, 2)}
+                </pre>
+             </div>
+           )}
+
+           <div className="space-y-2">
+              <p className="text-[9px] font-bold uppercase text-[#6E7495] tracking-widest">Verbatim Response Body:</p>
+              <pre className="text-[#4FD1C5] overflow-auto max-h-[400px] bg-white/[0.02] p-6 border border-white/5">
+                {typeof (lastTrace.raw || lastTrace.data) === 'string' ? (lastTrace.raw || lastTrace.data) : JSON.stringify(lastTrace.raw || lastTrace.data, null, 2)}
+              </pre>
+           </div>
         </Card>
       )}
 
@@ -386,7 +405,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
                                   <span className="text-white font-bold">{plan.maxDays} Days</span>
                                </div>
                             </div>
-                            <Button onClick={() => { setSelectedPlan(plan); setStep('form'); }} className="w-full h-14 bg-[#E8A33D] text-[#0F1428] font-bold uppercase text-[11px] tracking-[0.2em] rounded-2xl shadow-lg group-hover:bg-white transition-all">CHOOSE PLAN</Button>
+                            <Button onClick={() => handleSelectPlan(plan)} className="w-full h-14 bg-[#E8A33D] text-[#0F1428] font-bold uppercase text-[11px] tracking-[0.2em] rounded-2xl shadow-lg group-hover:bg-white transition-all">CHOOSE PLAN</Button>
                          </div>
                       </Card>
                     ))}
