@@ -23,14 +23,13 @@ import {
   FileText,
   AlertCircle,
   RotateCcw,
-  XCircle
+  XCircle,
+  Database
 } from "lucide-react";
 import { 
   getAsegoCategories, 
   getAsegoPlans, 
   validateAsegoPolicy,
-  createAsegoPolicy,
-  cancelAsegoPolicy,
   AsegoCredentials,
   NormalizedPlan 
 } from '@/app/international-insurance/actions';
@@ -107,9 +106,6 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
 
   const [isValidating, setIsValidating] = useState(false);
   const [isValidated, setIsValidated] = useState(false);
-  const [isIssuing, setIsIssuing] = useState(false);
-  const [isCancelling, setIsCancelling] = useState(false);
-  const [policyInfo, setPolicyInfo] = useState<any>(null);
   const [lastTrace, setLastTrace] = useState<any>(null);
   const [showTrace, setShowTrace] = useState(false);
 
@@ -150,11 +146,10 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
     toast({ title: "Plan Selected", description: plan.name });
   };
 
-  const buildPayload = (isValidate: boolean) => {
-    if (!selectedPlan) return null;
-    const prefix = isValidate ? "UTS-VAL-" : "UTS-ISS-";
-    const orderId = `${prefix}${Math.floor(Date.now() / 1000)}`;
-    return { 
+  const handleValidate = async () => {
+    if (!selectedPlan) return;
+    setIsValidating(true);
+    const payload = { 
         ...formData,
         name: `${formData.firstName} ${formData.lastName}`.trim(),
         planId: selectedPlan.planId, 
@@ -165,59 +160,19 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
         categoryId: portalForm.categoryId,
         startDate: portalForm.startDate,
         endDate: portalForm.endDate,
-        orderId
+        partnerId: creds.partnerId,
+        orderId: `UTS-VAL-${Math.floor(Date.now() / 1000)}`
     };
-  };
-
-  const handleValidate = async () => {
-    const payload = buildPayload(true);
-    if (!payload) return;
-    setIsValidating(true);
     const res = await validateAsegoPolicy(payload, creds);
     setLastTrace(res);
     if (res.success) {
       setIsValidated(true);
-      toast({ title: "Validation Successful" });
+      toast({ title: "Validation Handshake Complete" });
     } else {
       setIsValidated(false);
-      toast({ title: "Validation Failed", variant: "destructive" });
+      toast({ title: "Validation Failure", variant: "destructive" });
     }
     setIsValidating(false);
-  };
-
-  const handleIssue = async () => {
-    const payload = buildPayload(false);
-    if (!payload) return;
-    setIsIssuing(true);
-    const res = await createAsegoPolicy(payload, creds);
-    setLastTrace(res);
-    if (res.success) {
-      const rawData = res.raw || res.data;
-      const pData = Array.isArray(rawData) ? rawData[0] : rawData;
-      setPolicyInfo(pData || { policyNumber: "UAT-SUCCESS" });
-      setStep('success');
-      toast({ title: "Policy Issued" });
-    } else {
-      toast({ title: "Issuance Failed", description: res.error, variant: "destructive" });
-    }
-    setIsIssuing(false);
-  };
-
-  const handleCancel = async () => {
-    const pNumber = policyInfo?.policyNumber;
-    if (!pNumber) return;
-    setIsCancelling(true);
-    const res = await cancelAsegoPolicy(pNumber, creds);
-    setLastTrace(res);
-    if (res.success) {
-      toast({ title: "Policy Cancelled" });
-      setStep('search');
-      setPolicyInfo(null);
-      setIsValidated(false);
-    } else {
-      toast({ title: "Cancellation Failed", variant: "destructive" });
-    }
-    setIsCancelling(false);
   };
 
   return (
@@ -225,11 +180,11 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
       <div className="flex flex-col lg:flex-row justify-between items-start gap-8 relative z-10">
           <div className="text-left space-y-4 max-w-2xl">
               <div className="flex items-center gap-3">
-                <div className="px-3 py-1 bg-[#4FD1C5]/10 border border-[#4FD1C5]/20 rounded-full flex items-center gap-2">
-                   <div className="w-1.5 h-1.5 rounded-full bg-[#4FD1C5] animate-pulse"></div>
-                   <span className="text-[9px] font-bold uppercase tracking-widest text-[#4FD1C5]">Forensic Hub v5.5</span>
+                <div className="px-3 py-1 bg-[#E8A33D]/10 border border-[#E8A33D]/20 rounded-full flex items-center gap-2">
+                   <div className="w-1.5 h-1.5 rounded-full bg-[#E8A33D] animate-pulse"></div>
+                   <span className="text-[9px] font-bold uppercase tracking-widest text-[#E8A33D]">Forensic Audit v5.6</span>
                 </div>
-                <p className="text-[10px] font-bold text-[#6E7495] uppercase tracking-widest">Transaction Trace</p>
+                <p className="text-[10px] font-bold text-[#6E7495] uppercase tracking-widest">Read-Only Investigation</p>
               </div>
               <h1 className="text-4xl md:text-7xl font-headline font-medium tracking-tighter leading-[1.05] text-white">
                   Global Travel<br/>
@@ -248,49 +203,60 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
       </div>
 
       {showTrace && lastTrace && (
-        <Card className="bg-[#0B0F22] border-[#4FD1C5]/40 p-8 rounded-none font-mono text-[11px] animate-in fade-in slide-in-from-top-4 text-left relative z-20 shadow-2xl">
-           <div className="flex items-center justify-between mb-6 border-b border-white/5 pb-4">
-              <div className="flex items-center gap-3">
-                 <span className="text-[10px] font-bold uppercase text-[#4FD1C5]">Forensic_Report_v5.5.log</span>
-                 <Badge variant="outline" className="text-[9px] border-white/10 uppercase py-0">{lastTrace.status} {lastTrace.success ? 'OK' : 'ERROR'}</Badge>
+        <Card className="bg-[#0B0F22] border-[#DED9D0]/40 p-8 rounded-none font-mono text-[11px] animate-in fade-in slide-in-from-top-4 text-left relative z-20 shadow-2xl overflow-hidden">
+           <div className="flex items-center justify-between mb-8 border-b border-white/5 pb-6">
+              <div className="flex flex-col gap-1">
+                 <span className="text-[12px] font-bold uppercase text-white tracking-widest">========== ASEGO FORENSIC TRACE v5.6 ==========</span>
+                 <span className="text-[9px] text-[#6E7495]">TIMESTAMP: {new Date().toISOString()}</span>
               </div>
+              <Badge variant="outline" className="text-[9px] border-[#4FD1C5] text-[#4FD1C5] uppercase px-4">{lastTrace.status} {lastTrace.success ? 'OK' : 'ERROR'}</Badge>
            </div>
            
-           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-8">
+           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mb-10">
               <div className="space-y-6">
-                 <p className="text-[10px] font-bold uppercase tracking-widest text-[#E8A33D]">1. Diagnostic Checkpoint</p>
-                 <div className="grid grid-cols-2 gap-4 bg-white/[0.02] p-4 border border-white/5">
-                    <div><p className="text-[8px] text-[#6E7495] uppercase">Endpoint</p><p className="truncate">{lastTrace.diagnostics?.endpoint || lastTrace.endpoint}</p></div>
-                    <div><p className="text-[8px] text-[#6E7495] uppercase">Class</p><p className="text-[#4FD1C5]">{lastTrace.diagnostics?.requestClass || 'PLAN_SEARCH'}</p></div>
-                    <div><p className="text-[8px] text-[#6E7495] uppercase">Partner ID</p><p className="text-white/60">{lastTrace.diagnostics?.partnerId || 'Sourced'}</p></div>
-                    <div><p className="text-[8px] text-[#6E7495] uppercase">Data Check</p><p className={cn(lastTrace.diagnostics?.dataCheck === 'PASS' ? 'text-green-500' : 'text-red-500')}>{lastTrace.diagnostics?.dataCheck || 'N/A'}</p></div>
+                 <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#E8A33D] flex items-center gap-2"><Database className="w-3 h-3" /> 1. PARTNER ID STATUS</p>
+                 <div className="space-y-3 bg-white/[0.02] p-6 border border-white/5">
+                    <div><p className="text-[8px] text-[#6E7495] uppercase tracking-widest">Source</p><p className="text-white font-bold">{lastTrace.partnerIdSource || "UNKNOWN"}</p></div>
+                    <div><p className="text-[8px] text-[#6E7495] uppercase tracking-widest">Semantic Type</p><p className="text-[#4FD1C5] font-bold">UNRESOLVED — AUDIT IN PROGRESS</p></div>
+                    <div><p className="text-[8px] text-[#6E7495] uppercase tracking-widest">Value</p><p className="text-white/40">MASKED</p></div>
                  </div>
               </div>
               <div className="space-y-6">
-                 <p className="text-[10px] font-bold uppercase tracking-widest text-[#E8A33D]">2. Transaction Context</p>
-                 <div className="grid grid-cols-2 gap-4 bg-white/[0.02] p-4 border border-white/5">
-                    <div><p className="text-[8px] text-[#6E7495] uppercase">Plan ID</p><p className="truncate text-white">{lastTrace.diagnostics?.planId || 'N/A'}</p></div>
-                    <div><p className="text-[8px] text-[#6E7495] uppercase">Premium</p><p className="text-white">₹{lastTrace.diagnostics?.premium || '0'}</p></div>
-                    <div><p className="text-[8px] text-[#6E7495] uppercase">Res Shape</p><p className="text-white/40">{lastTrace.diagnostics?.responseShape || 'UNKNOWN'}</p></div>
-                    <div><p className="text-[8px] text-[#6E7495] uppercase">Policy Issued</p><p className={cn(lastTrace.diagnostics?.containsPolicy ? 'text-green-500' : 'text-white/40')}>{lastTrace.diagnostics?.containsPolicy ? 'YES' : 'NO'}</p></div>
+                 <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#E8A33D] flex items-center gap-2"><ArrowRight className="w-3 h-3" /> 2. POLICY VALIDATION</p>
+                 <div className="space-y-3 bg-white/[0.02] p-6 border border-white/5">
+                    <div><p className="text-[8px] text-[#6E7495] uppercase tracking-widest">Endpoint</p><p className="truncate text-white">{lastTrace.diagnostics?.endpoint || lastTrace.endpoint}</p></div>
+                    <div><p className="text-[8px] text-[#6E7495] uppercase tracking-widest">Path GUID</p><p className="text-white/40">MASKED</p></div>
+                    <div><p className="text-[8px] text-[#6E7495] uppercase tracking-widest">Path/Payload Match</p><p className={cn("font-bold", lastTrace.diagnostics?.pathPayloadMatch ? "text-green-500" : "text-red-500")}>{lastTrace.diagnostics?.pathPayloadMatch ? "YES" : "NO"}</p></div>
+                 </div>
+              </div>
+              <div className="space-y-6">
+                 <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#E8A33D] flex items-center gap-2"><Check className="w-3 h-3" /> 3. ASEGO RESPONSE</p>
+                 <div className="space-y-3 bg-white/[0.02] p-6 border border-white/5">
+                    <div><p className="text-[8px] text-[#6E7495] uppercase tracking-widest">Parsed Type</p><p className="text-white font-bold">{lastTrace.diagnostics?.responseShape || "UNKNOWN"}</p></div>
+                    <div><p className="text-[8px] text-[#6E7495] uppercase tracking-widest">Item Count</p><p className="text-white">{lastTrace.diagnostics?.itemCount ?? "0"}</p></div>
+                    <div><p className="text-[8px] text-[#6E7495] uppercase tracking-widest">Business Result</p><p className="text-[#E8A33D] font-bold">{lastTrace.diagnostics?.responseShape === 'EMPTY_ARRAY' ? 'EMPTY_ASEGO_RESPONSE' : 'UNCONFIRMED'}</p></div>
                  </div>
               </div>
            </div>
 
            {lastTrace.plaintext && (
-             <div className="mb-6 space-y-2">
-                <p className="text-[9px] font-bold uppercase text-[#6E7495] tracking-widest">Plaintext Payload Snapshot:</p>
-                <pre className="text-white/40 overflow-auto max-h-[300px] bg-white/[0.02] p-6 border border-white/5 text-[10px]">
+             <div className="mb-8 space-y-3">
+                <p className="text-[10px] font-bold uppercase text-[#6E7495] tracking-[0.2em] border-b border-white/5 pb-2">PLAINTEXT PAYLOAD SNAPSHOT (v5.6):</p>
+                <pre className="text-white/60 overflow-auto max-h-[350px] bg-white/[0.01] p-8 border border-white/5 text-[10px] leading-relaxed">
                   {JSON.stringify(lastTrace.plaintext, null, 2)}
                 </pre>
              </div>
            )}
 
-           <div className="space-y-2">
-              <p className="text-[9px] font-bold uppercase text-[#6E7495] tracking-widest">Raw Response body:</p>
-              <pre className="text-[#4FD1C5] overflow-auto max-h-[400px] bg-white/[0.02] p-6 border border-white/5 text-[10px]">
+           <div className="space-y-3">
+              <p className="text-[10px] font-bold uppercase text-[#6E7495] tracking-[0.2em] border-b border-white/5 pb-2">RAW RESPONSE BODY:</p>
+              <pre className="text-[#4FD1C5] overflow-auto max-h-[400px] bg-white/[0.01] p-8 border border-white/5 text-[10px]">
                 {typeof (lastTrace.raw || lastTrace.data) === 'string' ? (lastTrace.raw || lastTrace.data) : JSON.stringify(lastTrace.raw || lastTrace.data, null, 2)}
               </pre>
+           </div>
+           
+           <div className="mt-8 pt-6 border-t border-white/5 text-center">
+              <span className="text-[10px] font-bold uppercase text-white tracking-widest">========== END OF FORENSIC TRACE ==========</span>
            </div>
         </Card>
       )}
@@ -473,7 +439,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
                          <div className="space-y-3 pt-6 border-t border-white/5">
                             <Button 
                               onClick={handleValidate} 
-                              disabled={isValidating || isIssuing} 
+                              disabled={isValidating} 
                               className={cn(
                                 "w-full h-14 font-bold uppercase text-[10px] tracking-[0.2em] rounded-2xl transition-all",
                                 isValidated ? "bg-green-600 text-white" : "bg-white text-[#0F1428] hover:bg-[#E8A33D]"
@@ -482,85 +448,15 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
                                {isValidating ? <Loader2 className="w-4 h-4 animate-spin" /> : isValidated ? <><CheckCircle2 className="w-4 h-4 mr-2" /> VALIDATED</> : "VALIDATE SCHEMA"}
                             </Button>
                             
-                            {isValidated && (
-                              <Button 
-                                onClick={handleIssue}
-                                disabled={isIssuing}
-                                className="w-full h-14 bg-[#4FD1C5] text-[#0F1428] font-bold uppercase text-[10px] tracking-[0.2em] rounded-2xl shadow-xl animate-in zoom-in-95 duration-300"
-                              >
-                                 {isIssuing ? <Loader2 className="w-4 h-4 animate-spin" /> : "ISSUE POLICY →"}
-                              </Button>
-                            )}
+                            <div className="p-4 border border-dashed border-[#4FD1C5]/20 bg-[#4FD1C5]/5 rounded-xl">
+                               <p className="text-[9px] text-[#4FD1C5] font-bold uppercase tracking-widest leading-relaxed">
+                                  ISSUANCE LOCKED<br/>FORENSIC AUDIT v5.6 ACTIVE
+                                </p>
+                            </div>
                          </div>
                       </Card>
                   </div>
                </div>
-            </div>
-          )}
-
-          {step === 'success' && policyInfo && (
-            <div className="max-w-3xl mx-auto py-12 animate-in zoom-in-95 duration-700 text-center space-y-12 relative z-10">
-               <div className="w-24 h-24 bg-green-500/20 rounded-full flex items-center justify-center mx-auto ring-8 ring-green-500/5">
-                  <CheckCircle2 className="w-12 h-12 text-green-500" />
-               </div>
-               
-               <div className="space-y-4">
-                  <h2 className="text-5xl font-headline font-bold text-white">Issuance Successful</h2>
-                  <p className="text-xl text-[#9AA1C0] max-w-lg mx-auto">Asego has generated a real UAT policy for your journey.</p>
-               </div>
-
-               <Card className="bg-[#171D3A] border-white/10 p-10 rounded-[32px] shadow-2xl text-left space-y-10">
-                  <div className="flex justify-between items-start border-b border-white/5 pb-6">
-                     <div className="space-y-1">
-                        <p className="text-[10px] font-bold text-[#6E7495] uppercase tracking-[0.2em]">Policy Number</p>
-                        <p className="text-3xl font-bold font-mono text-[#4FD1C5]">{policyInfo.policyNumber || "UAT-SUCCESS"}</p>
-                     </div>
-                     <div className="flex gap-2">
-                        <Badge variant="outline" className="bg-white/5 text-white border-white/10 uppercase tracking-widest text-[9px]">UAT Mode</Badge>
-                     </div>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-12">
-                     <div className="space-y-4">
-                        <div className="space-y-1">
-                           <p className="text-[10px] font-bold text-[#6E7495] uppercase">Insured</p>
-                           <p className="text-base font-bold text-white">{formData.firstName} {formData.lastName}</p>
-                        </div>
-                        <div className="space-y-1">
-                           <p className="text-[10px] font-bold text-[#6E7495] uppercase">Product</p>
-                           <p className="text-base font-bold text-white">{selectedPlan?.name}</p>
-                        </div>
-                     </div>
-                     <div className="space-y-4">
-                        <div className="space-y-1">
-                           <p className="text-[10px] font-bold text-[#6E7495] uppercase">Effective Date</p>
-                           <p className="text-base font-bold text-white">{portalForm.startDate}</p>
-                        </div>
-                        <div className="space-y-1">
-                           <p className="text-[10px] font-bold text-[#6E7495] uppercase">Premium Paid</p>
-                           <p className="text-base font-bold text-white">₹{selectedPlan?.premium}</p>
-                        </div>
-                     </div>
-                  </div>
-
-                  <div className="pt-8 border-t border-white/5 flex gap-4">
-                     <Button 
-                       onClick={handleCancel}
-                       disabled={isCancelling}
-                       variant="outline" 
-                       className="flex-1 h-12 border-red-500/20 text-red-500 hover:bg-red-500 hover:text-white font-bold uppercase text-[10px] tracking-widest rounded-xl transition-all"
-                     >
-                       {isCancelling ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <XCircle className="w-4 h-4 mr-2" />}
-                       VOID POLICY (UAT TEST)
-                     </Button>
-                     <Button 
-                       onClick={() => setStep('search')}
-                       className="flex-1 h-12 bg-white text-ink font-bold uppercase text-[10px] tracking-widest rounded-xl"
-                     >
-                       NEW QUOTE
-                     </Button>
-                  </div>
-               </Card>
             </div>
           )}
       </div>
