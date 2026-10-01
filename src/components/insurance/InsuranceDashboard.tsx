@@ -48,6 +48,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
   const [step, setStep] = useState<Step>('search');
   const [viewMode, setViewMode] = useState<ViewMode>('journey');
   
+  // FIX: Removed hardcoded Plan ID from partnerId default
   const [creds, setCreds] = useState<AsegoCredentials>({
     partnerId: '',
     sign: '',
@@ -145,6 +146,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
   };
 
   const handleSelectPlan = (plan: NormalizedPlan) => {
+    // FIX: Using the flat normalized plan object directly
     console.log("UTSAVS_DEBUG_SELECTED_PLAN_OBJECT:", JSON.stringify(plan, null, 2));
     setSelectedPlan(plan);
     setStep('form');
@@ -158,7 +160,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
         ...formData, 
         planId: selectedPlan.planId, 
         insurerId: selectedPlan.insurerId,
-        totalPremium: selectedPlan.premium,
+        premium: selectedPlan.premium,
         age: primaryAge,
         duration: calculatedDays,
         categoryId: portalForm.categoryId,
@@ -187,7 +189,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
         ...formData, 
         planId: selectedPlan.planId, 
         insurerId: selectedPlan.insurerId,
-        totalPremium: selectedPlan.premium,
+        premium: selectedPlan.premium,
         age: primaryAge,
         duration: calculatedDays,
         categoryId: portalForm.categoryId,
@@ -405,7 +407,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
                     <Search className="w-16 h-16 mx-auto text-[#6E7495] opacity-20" />
                     <div className="space-y-2">
                        <h3 className="text-2xl font-bold text-white">No plans discovered</h3>
-                       <p className="text-[#9AA1C0] max-w-sm mx-auto">Try adjusting the duration or checking a different region.</p>
+                       <p className="text-[#9AA1C0] max-sm mx-auto">Try adjusting the duration or checking a different region.</p>
                        <div className="pt-4">
                           <Button onClick={handleSimulate} variant="outline" className="border-white/10 text-white font-bold h-11 px-8 rounded-none">
                              <Package className="w-4 h-4 mr-2" /> Simulate a working plan for testing

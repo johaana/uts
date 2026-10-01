@@ -44,7 +44,7 @@ interface ActionResponse {
 }
 
 /**
- * Normalization Helper
+ * Normalization Helper - Hardened for Step 2 Capture
  */
 function normalizeAsegoPlan(raw: any, targetAge?: number): NormalizedPlan {
   const targetAgeNum = targetAge !== undefined ? Number(targetAge) : NaN;
@@ -61,6 +61,7 @@ function normalizeAsegoPlan(raw: any, targetAge?: number): NormalizedPlan {
   const ineligible = hasFullBandData && !matchedDetail;
   const source = matchedDetail || (hasFullBandData ? details[0] : {});
   
+  // Asego field name variance handling
   const premium = source.total ?? source.total_premium ?? raw.total_premium ?? raw.totalPremium;
 
   return {
@@ -81,7 +82,7 @@ function normalizeAsegoPlan(raw: any, targetAge?: number): NormalizedPlan {
 }
 
 /**
- * Secure Server-Side Relay with Naked Ciphertext Strategy
+ * Secure Server-Side Relay with Raw Ciphertext Strategy
  */
 async function asegoRequest(
   path: string, 
@@ -98,7 +99,7 @@ async function asegoRequest(
       success: false,
       status: 0,
       data: null,
-      error: "Session credentials missing. Please configure CONFIG panel.",
+      error: "Session credentials missing. Configure CONFIG panel.",
       endpoint: path,
       method,
       headersSent: {}
@@ -121,12 +122,15 @@ async function asegoRequest(
       cache: 'no-store'
     };
 
+    // RAW PAYLOAD STRATEGY: If body is string (ciphertext), send it naked.
     if (body) {
       options.body = typeof body === 'string' ? body : JSON.stringify(body);
     }
 
     const response = await fetch(endpoint, options);
     const responseText = await response.text();
+    
+    // AGGRESSIVE PARSING: Handle Asego returning strings with JSON headers
     let parsedData;
     try {
       parsedData = JSON.parse(responseText);
@@ -204,7 +208,7 @@ export async function getAsegoPlans(params: { age: string, duration: string, cat
 }
 
 /**
- * Payload Assembly - Corrected for state mapping
+ * Payload Assembly - Strict Swagger Alignment
  */
 function assembleAsegoPayload(payload: any, creds: AsegoCredentials) {
   const premium = Number(payload.premium || payload.totalPremium || 0);
@@ -268,8 +272,6 @@ export async function validateAsegoPolicy(policyData: any, creds?: AsegoCredenti
   if (!creds) return { success: false, status: 0, data: null, error: "Credentials required", endpoint: '', method: '', headersSent: {} };
   
   const plaintext = assembleAsegoPayload(policyData, creds);
-  console.log("UTSAVS_FORENSIC_PLAINTEXT_PAYLOAD:", JSON.stringify(plaintext, null, 2));
-  
   const encRes = await asegoEncrypt(JSON.stringify(plaintext), creds);
   if (!encRes.success || !encRes.data) return encRes;
 
