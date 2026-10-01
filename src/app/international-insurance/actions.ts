@@ -1,7 +1,7 @@
 'use server';
 
 /**
- * @fileOverview Asego API Implementation - Verified Final Sequence
+ * @fileOverview Asego API Implementation - Final Hardened Sequence
  * Implements strict Swagger-compliant payload construction using real user data.
  */
 
@@ -9,18 +9,16 @@ const BASE_URL = "https://dolphin.asego.in/api";
 
 export interface NormalizedPlan {
   planId: string;
-  name: string | undefined;
+  name: string;
   insurer: string;
   insurerId: string;
-  premium: number | undefined;
+  premium: number;
   currency: string;
   minAge: number;
   maxAge: number;
   minDays: number;
   maxDays: number;
   detailId?: string;
-  benefits?: string[];
-  ineligible?: boolean;
 }
 
 export interface AsegoCredentials {
@@ -44,45 +42,37 @@ interface ActionResponse {
 }
 
 /**
- * Normalization Helper - Hardened for Step 2 Capture
+ * Normalization Helper
  */
 function normalizeAsegoPlan(raw: any, targetAge?: number): NormalizedPlan {
-  const targetAgeNum = targetAge !== undefined ? Number(targetAge) : NaN;
-  const details = raw.sellingPlanDetailsList;
-  const hasFullBandData = Array.isArray(details);
+  const details = raw.sellingPlanDetailsList || [];
+  const targetAgeNum = targetAge !== undefined ? Number(targetAge) : 25;
 
-  const matchedDetail = (hasFullBandData && Number.isFinite(targetAgeNum))
-    ? details.find((d: any) => 
-        targetAgeNum >= Number(d.minAge ?? 0) && 
-        targetAgeNum <= Number(d.maxAge ?? 100)
-      )
-    : undefined;
+  // Find the detail record for the specific age band
+  const matchedDetail = details.find((d: any) => 
+    targetAgeNum >= Number(d.minAge ?? 0) && 
+    targetAgeNum <= Number(d.maxAge ?? 100)
+  ) || details[0] || {};
 
-  const ineligible = hasFullBandData && !matchedDetail;
-  const source = matchedDetail || (hasFullBandData ? details[0] : {});
-  
-  // Asego field name variance handling
-  const premium = source.total ?? source.total_premium ?? raw.total_premium ?? raw.totalPremium;
+  const premium = Number(matchedDetail.total || matchedDetail.total_premium || raw.total_premium || 0);
 
   return {
-    planId: raw.plan_id ?? raw.planId ?? raw.id ?? '',
-    name: raw.plan_name ?? raw.planName ?? raw.name,
-    insurer: raw.insurer_name ?? raw.insurerName ?? 'ICICI Lombard',
-    insurerId: raw.insurer_id ?? raw.insurerId ?? "1",
-    premium: premium !== null && premium !== undefined ? Number(premium) : undefined,
-    currency: raw.currency ?? 'INR',
-    minAge: Number(source.minAge ?? raw.min_age ?? raw.minAge ?? 0),
-    maxAge: Number(source.maxAge ?? raw.max_age ?? raw.maxAge ?? 100),
-    minDays: Number(source.minDays ?? raw.min_days ?? raw.min_days ?? 0),
-    maxDays: Number(source.maxDays ?? raw.max_days ?? raw.max_days ?? 365),
-    benefits: raw.benefits ?? [],
-    detailId: source.sellingPlanDetailId ?? source.detailId ?? raw.detailId,
-    ineligible
+    planId: String(raw.plan_id || raw.planId || raw.id || ""),
+    name: String(raw.plan_name || raw.planName || raw.name || "Standard Travel Plan"),
+    insurer: String(raw.insurer_name || raw.insurerName || "ICICI Lombard"),
+    insurerId: String(raw.insurer_id || raw.insurerId || "1"),
+    premium: premium,
+    currency: String(raw.currency || "INR"),
+    minAge: Number(matchedDetail.minAge ?? 0),
+    maxAge: Number(matchedDetail.maxAge ?? 100),
+    minDays: Number(matchedDetail.minDays ?? 1),
+    maxDays: Number(matchedDetail.maxDays ?? 365),
+    detailId: String(matchedDetail.sellingPlanDetailId || matchedDetail.detailId || "")
   };
 }
 
 /**
- * Secure Server-Side Relay with Raw Ciphertext Strategy
+ * Secure Server-Side Relay
  */
 async function asegoRequest(
   path: string, 
@@ -122,7 +112,6 @@ async function asegoRequest(
       cache: 'no-store'
     };
 
-    // RAW PAYLOAD STRATEGY: If body is string (ciphertext), send it naked.
     if (body) {
       options.body = typeof body === 'string' ? body : JSON.stringify(body);
     }
@@ -130,7 +119,6 @@ async function asegoRequest(
     const response = await fetch(endpoint, options);
     const responseText = await response.text();
     
-    // AGGRESSIVE PARSING: Handle Asego returning strings with JSON headers
     let parsedData;
     try {
       parsedData = JSON.parse(responseText);
@@ -164,9 +152,6 @@ async function asegoRequest(
   }
 }
 
-/**
- * Encryption Wrapper
- */
 export async function asegoEncrypt(value: string, creds?: AsegoCredentials) {
   const key = (creds?.secretKey || "").trim();
   const initVector = (creds?.vectorBytes || "").trim();
@@ -211,7 +196,7 @@ export async function getAsegoPlans(params: { age: string, duration: string, cat
  * Payload Assembly - Strict Swagger Alignment
  */
 function assembleAsegoPayload(payload: any, creds: AsegoCredentials) {
-  const premium = Number(payload.premium || payload.totalPremium || 0);
+  const premium = Number(payload.premium);
   
   return [
     {
@@ -222,7 +207,7 @@ function assembleAsegoPayload(payload: any, creds: AsegoCredentials) {
         partnerId: creds.partnerId
       },
       selectedPlan: {
-        insurerId: payload.insurerId || "1",
+        insurerId: payload.insurerId,
         totalPremium: premium,
         plan: {
           sellingPlanId: payload.planId,
@@ -239,7 +224,7 @@ function assembleAsegoPayload(payload: any, creds: AsegoCredentials) {
         endDate: payload.endDate
       },
       traveler: {
-        name: `${payload.firstName} ${payload.lastName}`.trim(),
+        name: payload.name,
         passport: payload.passport,
         dob: payload.dob,
         address: payload.address,
@@ -265,9 +250,6 @@ function assembleAsegoPayload(payload: any, creds: AsegoCredentials) {
   ];
 }
 
-/**
- * Policy Validation
- */
 export async function validateAsegoPolicy(policyData: any, creds?: AsegoCredentials) {
   if (!creds) return { success: false, status: 0, data: null, error: "Credentials required", endpoint: '', method: '', headersSent: {} };
   
@@ -280,9 +262,6 @@ export async function validateAsegoPolicy(policyData: any, creds?: AsegoCredenti
   return res;
 }
 
-/**
- * Policy Creation
- */
 export async function createAsegoPolicy(policyData: any, creds?: AsegoCredentials) {
   if (!creds) return { success: false, status: 0, data: null, error: "Credentials required", endpoint: '', method: '', headersSent: {} };
 
@@ -295,9 +274,6 @@ export async function createAsegoPolicy(policyData: any, creds?: AsegoCredential
   return res;
 }
 
-/**
- * Policy Cancellation
- */
 export async function cancelAsegoPolicy(policyNumber: string, remarks: string = "UAT Cleanup", creds?: AsegoCredentials) {
   if (!creds) return { success: false, status: 0, data: null, error: "Credentials required", endpoint: '', method: '', headersSent: {} };
   return asegoRequest(`/ext/b2b/v1/policy/cancel/${creds.partnerId}`, creds, 'POST', { policyNumber, remarks });

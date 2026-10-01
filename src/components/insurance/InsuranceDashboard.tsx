@@ -48,7 +48,6 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
   const [step, setStep] = useState<Step>('search');
   const [viewMode, setViewMode] = useState<ViewMode>('journey');
   
-  // FIX: Removed hardcoded Plan ID from partnerId default
   const [creds, setCreds] = useState<AsegoCredentials>({
     partnerId: '',
     sign: '',
@@ -146,7 +145,6 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
   };
 
   const handleSelectPlan = (plan: NormalizedPlan) => {
-    // FIX: Using the flat normalized plan object directly
     console.log("UTSAVS_DEBUG_SELECTED_PLAN_OBJECT:", JSON.stringify(plan, null, 2));
     setSelectedPlan(plan);
     setStep('form');
@@ -157,7 +155,8 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
     setIsValidating(true);
     const orderId = `UTS-VAL-${Math.floor(Date.now() / 1000)}`;
     const payload = { 
-        ...formData, 
+        ...formData,
+        name: `${formData.firstName} ${formData.lastName}`.trim(),
         planId: selectedPlan.planId, 
         insurerId: selectedPlan.insurerId,
         premium: selectedPlan.premium,
@@ -187,6 +186,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
     const orderId = `UTS-ISS-${Math.floor(Date.now() / 1000)}`;
     const payload = { 
         ...formData, 
+        name: `${formData.firstName} ${formData.lastName}`.trim(),
         planId: selectedPlan.planId, 
         insurerId: selectedPlan.insurerId,
         premium: selectedPlan.premium,
@@ -249,7 +249,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
     };
     setPlans([mockPlan]);
     setStep('selection');
-    toast({ title: "Mock plan injected", description: "Use this to test the form flow." });
+    toast({ title: "Mock plan injected" });
   };
 
   return (
@@ -410,7 +410,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
                        <p className="text-[#9AA1C0] max-sm mx-auto">Try adjusting the duration or checking a different region.</p>
                        <div className="pt-4">
                           <Button onClick={handleSimulate} variant="outline" className="border-white/10 text-white font-bold h-11 px-8 rounded-none">
-                             <Package className="w-4 h-4 mr-2" /> Simulate a working plan for testing
+                             <Package className="w-4 h-4 mr-2" /> Simulate a working plan
                           </Button>
                        </div>
                     </div>
@@ -420,13 +420,13 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
                     {plans.map((plan, i) => (
                       <Card key={i} className="bg-[#171D3A]/60 backdrop-blur-xl border-white/10 rounded-3xl flex flex-col hover:border-[#E8A33D]/40 transition-all shadow-2xl overflow-hidden group">
                          <div className="p-8 border-b border-white/5 bg-white/5">
-                            <h3 className="font-bold text-xl text-white leading-tight group-hover:text-[#E8A33D] transition-colors">{plan.name || "Standard Travel Plan"}</h3>
+                            <h3 className="font-bold text-xl text-white leading-tight group-hover:text-[#E8A33D] transition-colors">{plan.name}</h3>
                             <p className="text-[10px] font-bold uppercase text-[#4FD1C5] mt-1">{plan.insurer}</p>
                          </div>
                          <div className="p-8 flex-grow space-y-8">
                             <div className="flex justify-between items-baseline">
                                <p className="text-[10px] font-bold text-[#6E7495] uppercase">Premium Total</p>
-                               <p className="text-4xl font-bold text-white">₹{plan.premium || '—'}</p>
+                               <p className="text-4xl font-bold text-white">₹{plan.premium}</p>
                             </div>
                             <div className="space-y-4">
                                <div className="flex justify-between text-xs border-b border-white/5 pb-2">
@@ -541,7 +541,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
                </div>
                <div className="space-y-4">
                   <h2 className="text-4xl md:text-6xl font-headline font-bold text-white tracking-tight">Policy Generated.</h2>
-                  <p className="text-xl text-[#9AA1C0] font-medium">Your travel protection is now active for {issuedPolicy.policyNumber || 'test-policy'}.</p>
+                  <p className="text-xl text-[#9AA1C0] font-medium">Your travel protection is now active.</p>
                </div>
 
                <Card className="bg-[#171D3A] border-white/10 p-10 rounded-[40px] space-y-8 shadow-2xl text-left">
@@ -582,7 +582,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
                        <ShieldCheck className="w-4 h-4" /> SCHEMA STRATEGY
                     </h4>
                     <ul className="space-y-4 text-xs font-mono text-white/80">
-                       <li className="flex items-start gap-3"><div className="w-1 h-1 rounded-full bg-[#4FD1C5] mt-1.5" /> Array-wrapped Payload [ {`{...}`} ]</li>
+                       <li className="flex items-start gap-3"><div className="w-1 h-1 rounded-full bg-[#4FD1C5] mt-1.5" /> Array-wrapped Payload</li>
                        <li className="flex items-start gap-3"><div className="w-1 h-1 rounded-full bg-[#4FD1C5] mt-1.5" /> Embedded Identity Object</li>
                        <li className="flex items-start gap-3"><div className="w-1 h-1 rounded-full bg-[#4FD1C5] mt-1.5" /> Direct Ciphertext (Naked) Body</li>
                        <li className="flex items-start gap-3"><div className="w-1 h-1 rounded-full bg-[#4FD1C5] mt-1.5" /> Multi-Step (Validate → Create)</li>
