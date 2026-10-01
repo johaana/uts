@@ -1,3 +1,4 @@
+
 'use server';
 
 /**
@@ -10,15 +11,13 @@ const BASE_URL = "https://dolphin.asego.in/api";
 export interface NormalizedPlan {
   planId: string;
   name: string;
-  insurer: string;
-  insurerId: string;
   premium: number;
+  insurerId: string;
   currency: string;
   minAge: number;
   maxAge: number;
   minDays: number;
   maxDays: number;
-  detailId?: string;
 }
 
 export interface AsegoCredentials {
@@ -80,8 +79,7 @@ function normalizeAsegoPlan(raw: any, targetAge: number, insurerInfo: { id: stri
     minAge: Number(raw.minAge ?? 0),
     maxAge: Number(raw.maxAge ?? 100),
     minDays: Number(raw.minDays ?? 1),
-    maxDays: Number(raw.maxDays ?? 365),
-    detailId: String(raw.detailId || "")
+    maxDays: Number(raw.maxDays ?? 365)
   };
 }
 
