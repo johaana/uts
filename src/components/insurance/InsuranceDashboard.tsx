@@ -150,9 +150,10 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
     toast({ title: "Plan Selected", description: plan.name });
   };
 
-  const buildPayload = () => {
+  const buildPayload = (isValidate: boolean) => {
     if (!selectedPlan) return null;
-    const orderId = `UTS-VAL-${Math.floor(Date.now() / 1000)}`;
+    const prefix = isValidate ? "UTS-VAL-" : "UTS-ISS-";
+    const orderId = `${prefix}${Math.floor(Date.now() / 1000)}`;
     return { 
         ...formData,
         name: `${formData.firstName} ${formData.lastName}`.trim(),
@@ -169,7 +170,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
   };
 
   const handleValidate = async () => {
-    const payload = buildPayload();
+    const payload = buildPayload(true);
     if (!payload) return;
     setIsValidating(true);
     const res = await validateAsegoPolicy(payload, creds);
@@ -185,7 +186,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
   };
 
   const handleIssue = async () => {
-    const payload = buildPayload();
+    const payload = buildPayload(false);
     if (!payload) return;
     setIsIssuing(true);
     const res = await createAsegoPolicy(payload, creds);
@@ -226,7 +227,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
               <div className="flex items-center gap-3">
                 <div className="px-3 py-1 bg-[#4FD1C5]/10 border border-[#4FD1C5]/20 rounded-full flex items-center gap-2">
                    <div className="w-1.5 h-1.5 rounded-full bg-[#4FD1C5] animate-pulse"></div>
-                   <span className="text-[9px] font-bold uppercase tracking-widest text-[#4FD1C5]">Forensic Hub v5.4</span>
+                   <span className="text-[9px] font-bold uppercase tracking-widest text-[#4FD1C5]">Forensic Hub v5.5</span>
                 </div>
                 <p className="text-[10px] font-bold text-[#6E7495] uppercase tracking-widest">Transaction Trace</p>
               </div>
@@ -250,7 +251,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
         <Card className="bg-[#0B0F22] border-[#4FD1C5]/40 p-8 rounded-none font-mono text-[11px] animate-in fade-in slide-in-from-top-4 text-left relative z-20 shadow-2xl">
            <div className="flex items-center justify-between mb-6 border-b border-white/5 pb-4">
               <div className="flex items-center gap-3">
-                 <span className="text-[10px] font-bold uppercase text-[#4FD1C5]">Forensic_Report_v5.4.log</span>
+                 <span className="text-[10px] font-bold uppercase text-[#4FD1C5]">Forensic_Report_v5.5.log</span>
                  <Badge variant="outline" className="text-[9px] border-white/10 uppercase py-0">{lastTrace.status} {lastTrace.success ? 'OK' : 'ERROR'}</Badge>
               </div>
            </div>

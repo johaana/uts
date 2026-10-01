@@ -1,8 +1,8 @@
 'use server';
 
 /**
- * @fileOverview Asego API Implementation - Phase 1 Issuance (Baseline v5.4)
- * Hardened response handling to prevent server crashes on empty UAT responses.
+ * @fileOverview Asego API Implementation - Phase 1 Issuance (Baseline v5.5)
+ * Hardened response handling with strictly defensive diagnostics to prevent server-action crashes.
  */
 
 const BASE_URL = "https://dolphin.asego.in/api";
@@ -55,10 +55,9 @@ interface ActionResponse {
 }
 
 /**
- * Normalization Boundary - Baseline v5.4
+ * Normalization Boundary - Baseline v5.5
  */
 function normalizeAsegoPlan(raw: any, targetAge: number, insurerInfo: { id: string, name: string }): NormalizedPlan | null {
-  // Support both 'id' and 'plan_id' variants seen in UAT
   const planId = String(raw.id || raw.plan_id || "");
   const name = String(raw.name || raw.plan_name || raw.displayName || "Standard Plan");
   
@@ -66,9 +65,9 @@ function normalizeAsegoPlan(raw: any, targetAge: number, insurerInfo: { id: stri
   const agePremiums = raw.agePremiums || [];
   const matchedAgeEntry = agePremiums.find((ap: any) => Number(ap.age) === targetAge);
   
-  // Fail-closed: Ensure we have a real numeric premium and ID
   const premium = matchedAgeEntry ? Number(matchedAgeEntry.premium) : Number(raw.total || raw.total_premium || 0);
 
+  // Fail-closed: Ensure we have a real numeric premium and ID
   if (!planId || isNaN(premium) || premium <= 0) {
     return null;
   }
@@ -153,7 +152,6 @@ export async function getAsegoPlans(params: { age: string, duration: string, cat
     const rawData = res.data;
     let normalizedList: NormalizedPlan[] = [];
 
-    // Latest UAT Shape: [ { insurerId, plans: [...] } ]
     if (Array.isArray(rawData)) {
       rawData.forEach((insurer: any) => {
         if (Array.isArray(insurer.plans)) {
@@ -247,13 +245,14 @@ function buildDiagnostics(res: any, originalDiagnostics: any): any {
     endpoint: originalDiagnostics.endpoint || res.endpoint || '',
     method: originalDiagnostics.method || res.method || 'POST',
     requestClass: originalDiagnostics.requestClass || 'OTHER',
-    partnerId: originalDiagnostics.partnerId,
+    partnerId: originalDiagnostics.partnerId || 'PRESENT',
     planId: originalDiagnostics.planId || "N/A",
     premium: Number(originalDiagnostics.premium || 0),
     dataCheck: originalDiagnostics.dataCheck,
     responseShape: isArray ? 'ARRAY' : isObject ? 'OBJECT' : (rawData === null ? 'NULL' : 'UNKNOWN'),
-    containsValidation: originalDiagnostics.requestClass === 'POLICY_VALIDATE' && (res.success || !!rawData),
-    containsPolicy: (originalDiagnostics.requestClass === 'POLICY_ISSUE' || originalDiagnostics.requestClass === 'POLICY_CANCEL') && res.success
+    containsPlans: isArray && rawData.length > 0 && !!rawData[0]?.plans,
+    containsValidation: originalDiagnostics.requestClass === 'POLICY_VALIDATE' && res.success,
+    containsPolicy: (originalDiagnostics.requestClass === 'POLICY_ISSUE') && res.success && (isArray ? rawData.length >= 0 : !!rawData)
   };
 }
 
@@ -280,9 +279,18 @@ export async function validateAsegoPolicy(policyData: any, creds?: AsegoCredenti
     if (!encRes.success || !encRes.data) return encRes;
 
     const res = await asegoRequest(`/ext/b2b/v1/createPolicy/validate/${creds.partnerId}`, creds, 'POST', encRes.data);
-    res.plaintext = plaintext;
-    res.diagnostics = buildDiagnostics(res, diagnostics);
-    return res;
+    return {
+      success: res.success,
+      status: res.status,
+      data: res.data,
+      error: res.error,
+      endpoint: res.endpoint,
+      method: res.method,
+      headersSent: res.headersSent,
+      raw: res.raw,
+      plaintext,
+      diagnostics: buildDiagnostics(res, diagnostics)
+    };
   } catch (e: any) {
     return { success: false, status: 0, data: null, error: e.message, endpoint: 'local_validation', method: 'INTERNAL', headersSent: {}, diagnostics };
   }
@@ -311,9 +319,18 @@ export async function createAsegoPolicy(policyData: any, creds?: AsegoCredential
     if (!encRes.success || !encRes.data) return encRes;
 
     const res = await asegoRequest(`/ext/b2b/v1/createPolicy/${creds.partnerId}`, creds, 'POST', encRes.data);
-    res.plaintext = plaintext;
-    res.diagnostics = buildDiagnostics(res, diagnostics);
-    return res;
+    return {
+      success: res.success,
+      status: res.status,
+      data: res.data,
+      error: res.error,
+      endpoint: res.endpoint,
+      method: res.method,
+      headersSent: res.headersSent,
+      raw: res.raw,
+      plaintext,
+      diagnostics: buildDiagnostics(res, diagnostics)
+    };
   } catch (e: any) {
     return { success: false, status: 0, data: null, error: e.message, endpoint: 'local_validation', method: 'INTERNAL', headersSent: {}, diagnostics };
   }
@@ -338,9 +355,18 @@ export async function cancelAsegoPolicy(policyNumber: string, creds?: AsegoCrede
     if (!encRes.success || !encRes.data) return encRes;
 
     const res = await asegoRequest(`/ext/b2b/v1/policy/cancel/${creds.partnerId}`, creds, 'POST', encRes.data);
-    res.plaintext = plaintext;
-    res.diagnostics = buildDiagnostics(res, diagnostics);
-    return res;
+    return {
+      success: res.success,
+      status: res.status,
+      data: res.data,
+      error: res.error,
+      endpoint: res.endpoint,
+      method: res.method,
+      headersSent: res.headersSent,
+      raw: res.raw,
+      plaintext,
+      diagnostics: buildDiagnostics(res, diagnostics)
+    };
   } catch (e: any) {
     return { success: false, status: 0, data: null, error: e.message, endpoint: 'cancel_validation', method: 'INTERNAL', headersSent: {}, diagnostics };
   }
