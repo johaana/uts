@@ -1,9 +1,8 @@
-
 'use server';
 
 /**
- * @fileOverview Asego API Implementation - Phase 1 Issuance (Baseline v5.2 + Transaction)
- * Hardened payload assembly and normalization following successful UAT validation.
+ * @fileOverview Asego API Implementation - Phase 1 Issuance (Baseline v5.3)
+ * Hardened response handling to prevent server crashes on empty UAT responses.
  */
 
 const BASE_URL = "https://dolphin.asego.in/api";
@@ -57,20 +56,16 @@ interface ActionResponse {
 
 /**
  * Normalization Boundary - Baseline v5.2
- * Maps the confirmed UAT response (Insurers -> Plans -> agePremiums).
  */
 function normalizeAsegoPlan(raw: any, targetAge: number, insurerInfo: { id: string, name: string }): NormalizedPlan | null {
-  // Support both 'id' and 'plan_id' variants observed in UAT
   const planId = String(raw.id || raw.plan_id || "");
   const name = String(raw.name || raw.plan_name || raw.displayName || "Standard Plan");
   
   const agePremiums = raw.agePremiums || [];
   const matchedAgeEntry = agePremiums.find((ap: any) => Number(ap.age) === targetAge);
   
-  // Support top-level premium keys for older schema versions
   const premium = matchedAgeEntry ? Number(matchedAgeEntry.premium) : Number(raw.total || raw.total_premium || 0);
 
-  // FAIL CLOSED: Discard malformed records. A valid plan MUST have an ID and a Non-Zero Premium.
   if (!planId || isNaN(premium) || premium <= 0) {
     return null;
   }
@@ -123,7 +118,7 @@ async function asegoRequest(
     
     let parsedData;
     try {
-      parsedData = JSON.parse(responseText);
+      parsedData = responseText ? JSON.parse(responseText) : null;
     } catch (e) {
       parsedData = responseText;
     }
@@ -135,10 +130,10 @@ async function asegoRequest(
       endpoint: path,
       method,
       raw: parsedData,
-      headersSent: { ...headers, 'Sign': '********', 'Reference': '********' }
+      headersSent: { 'Sign': '********', 'Reference': '********' }
     };
   } catch (error: any) {
-    return { success: false, status: 0, data: null, error: error.message, endpoint: path, method, headersSent: headers };
+    return { success: false, status: 0, data: null, error: error.message, endpoint: path, method, headersSent: {} };
   }
 }
 
@@ -167,9 +162,6 @@ export async function getAsegoPlans(params: { age: string, duration: string, cat
           });
         }
       });
-    } else if (typeof rawData === 'object' && rawData !== null) {
-        const normalized = normalizeAsegoPlan(rawData, Number(params.age), { id: "1", name: "Insurer" });
-        if (normalized) normalizedList.push(normalized);
     }
 
     res.data = normalizedList;
@@ -185,8 +177,7 @@ export async function asegoEncrypt(value: string, creds?: AsegoCredentials) {
 }
 
 /**
- * Payload Assembly - Strict Mapping (Baseline v5.2)
- * Maps selection state directly to Asego payload schema.
+ * Payload Assembly - Strict Mapping
  */
 function assembleAsegoPayload(payload: any, creds: AsegoCredentials) {
   const premium = Number(payload.premium);
@@ -238,6 +229,28 @@ function assembleAsegoPayload(payload: any, creds: AsegoCredentials) {
   ];
 }
 
+/**
+ * Defensive Diagnostics Helper
+ */
+function buildDiagnostics(res: any, originalDiagnostics: any): any {
+  const rawData = res.raw || res.data;
+  const isArray = Array.isArray(rawData);
+  const isObject = typeof rawData === 'object' && rawData !== null && !isArray;
+  
+  return {
+    endpoint: originalDiagnostics.endpoint,
+    method: originalDiagnostics.method,
+    requestClass: originalDiagnostics.requestClass,
+    partnerId: originalDiagnostics.partnerId,
+    planId: originalDiagnostics.planId || "N/A",
+    premium: Number(originalDiagnostics.premium || 0),
+    dataCheck: originalDiagnostics.dataCheck,
+    responseShape: isArray ? 'ARRAY' : isObject ? 'OBJECT' : (rawData === null ? 'NULL' : 'UNKNOWN'),
+    containsValidation: originalDiagnostics.requestClass === 'POLICY_VALIDATE' && (res.success || !!rawData),
+    containsPolicy: originalDiagnostics.requestClass === 'POLICY_ISSUE' && !!(res.success && (res.data?.policyNumber || (isArray && res.data[0]?.policyNumber)))
+  };
+}
+
 export async function validateAsegoPolicy(policyData: any, creds?: AsegoCredentials) {
   if (!creds) return { success: false, status: 0, data: null, error: "Creds required", endpoint: '', method: '', headersSent: {} };
   
@@ -252,16 +265,7 @@ export async function validateAsegoPolicy(policyData: any, creds?: AsegoCredenti
   };
 
   if (diagnostics.dataCheck === "BLOCKED") {
-    return {
-      success: false,
-      status: 0,
-      data: null,
-      error: `LOCAL_VALIDATION_FAILURE: Missing mandatory plan data. planId: "${policyData.planId}", premium: ${policyData.premium}`,
-      endpoint: 'local_validation',
-      method: 'INTERNAL',
-      headersSent: {},
-      diagnostics
-    };
+    return { success: false, status: 0, data: null, error: "LOCAL_VALIDATION_FAILURE", endpoint: 'local_validation', method: 'INTERNAL', headersSent: {}, diagnostics };
   }
 
   try {
@@ -271,21 +275,13 @@ export async function validateAsegoPolicy(policyData: any, creds?: AsegoCredenti
 
     const res = await asegoRequest(`/ext/b2b/v1/createPolicy/validate/${creds.partnerId}`, creds, 'POST', encRes.data);
     res.plaintext = plaintext;
-    res.diagnostics = {
-      ...diagnostics,
-      responseShape: Array.isArray(res.raw) ? 'ARRAY' : typeof res.raw === 'object' ? 'OBJECT' : 'UNKNOWN',
-      containsValidation: !!(res.success || (res.raw && typeof res.raw === 'object' && 'code' in res.raw))
-    };
+    res.diagnostics = buildDiagnostics(res, diagnostics);
     return res;
   } catch (e: any) {
     return { success: false, status: 0, data: null, error: e.message, endpoint: 'local_validation', method: 'INTERNAL', headersSent: {}, diagnostics };
   }
 }
 
-/**
- * Phase 1: Issuance Logic
- * Hardened diagnostics to prevent crashes on empty/malformed Asego responses.
- */
 export async function createAsegoPolicy(policyData: any, creds?: AsegoCredentials) {
   if (!creds) return { success: false, status: 0, data: null, error: "Creds required", endpoint: '', method: '', headersSent: {} };
 
@@ -310,15 +306,7 @@ export async function createAsegoPolicy(policyData: any, creds?: AsegoCredential
 
     const res = await asegoRequest(`/ext/b2b/v1/createPolicy/${creds.partnerId}`, creds, 'POST', encRes.data);
     res.plaintext = plaintext;
-    
-    // SAFE ACCESS: Prevent TypeError if res.data is empty or not an array
-    const hasPolicy = !!(res.success && (res.data?.policyNumber || (Array.isArray(res.data) && res.data[0]?.policyNumber)));
-
-    res.diagnostics = {
-      ...diagnostics,
-      responseShape: Array.isArray(res.raw) ? 'ARRAY' : typeof res.raw === 'object' ? 'OBJECT' : 'UNKNOWN',
-      containsPolicy: hasPolicy
-    };
+    res.diagnostics = buildDiagnostics(res, diagnostics);
     return res;
   } catch (e: any) {
     return { success: false, status: 0, data: null, error: e.message, endpoint: 'local_validation', method: 'INTERNAL', headersSent: {}, diagnostics };

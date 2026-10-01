@@ -43,7 +43,6 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
   
   const [step, setStep] = useState<Step>('search');
   
-  // Baseline 5.2: Credentials sourced exclusively from CONFIG panel.
   const [creds, setCreds] = useState<AsegoCredentials>({
     partnerId: '',
     sign: '',
@@ -188,7 +187,9 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
     const res = await createAsegoPolicy(payload, creds);
     setLastTrace(res);
     if (res.success) {
-      setPolicyInfo(res.data);
+      // In UAT, success might return [] or a policy object. We treat both as success.
+      const pData = Array.isArray(res.data) ? res.data[0] : res.data;
+      setPolicyInfo(pData || { policyNumber: "UAT-SUCCESS" });
       setStep('success');
       toast({ title: "Policy Issued Successfully" });
     } else {
@@ -204,7 +205,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
               <div className="flex items-center gap-3">
                 <div className="px-3 py-1 bg-[#4FD1C5]/10 border border-[#4FD1C5]/20 rounded-full flex items-center gap-2">
                    <div className="w-1.5 h-1.5 rounded-full bg-[#4FD1C5] animate-pulse"></div>
-                   <span className="text-[9px] font-bold uppercase tracking-widest text-[#4FD1C5]">Forensic Hub v5.2</span>
+                   <span className="text-[9px] font-bold uppercase tracking-widest text-[#4FD1C5]">Forensic Hub v5.3</span>
                 </div>
                 <p className="text-[10px] font-bold text-[#6E7495] uppercase tracking-widest">Transaction Trace</p>
               </div>
@@ -228,7 +229,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
         <Card className="bg-[#0B0F22] border-[#4FD1C5]/40 p-8 rounded-none font-mono text-[11px] animate-in fade-in slide-in-from-top-4 text-left relative z-20 shadow-2xl">
            <div className="flex items-center justify-between mb-6 border-b border-white/5 pb-4">
               <div className="flex items-center gap-3">
-                 <span className="text-[10px] font-bold uppercase text-[#4FD1C5]">Forensic_Report_v5.2.log</span>
+                 <span className="text-[10px] font-bold uppercase text-[#4FD1C5]">Forensic_Report_v5.3.log</span>
                  <Badge variant="outline" className="text-[9px] border-white/10 uppercase py-0">{lastTrace.status} {lastTrace.success ? 'OK' : 'ERROR'}</Badge>
               </div>
            </div>
@@ -490,7 +491,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
                   <div className="flex justify-between items-start border-b border-white/5 pb-6">
                      <div className="space-y-1">
                         <p className="text-[10px] font-bold text-[#6E7495] uppercase tracking-[0.2em]">Policy Number</p>
-                        <p className="text-3xl font-bold font-mono text-[#4FD1C5]">{policyInfo.policyNumber || "UTS-123-TEST"}</p>
+                        <p className="text-3xl font-bold font-mono text-[#4FD1C5]">{policyInfo.policyNumber || "UAT-SUCCESS"}</p>
                      </div>
                      <Badge variant="outline" className="bg-white/5 text-white border-white/10 uppercase tracking-widest text-[9px]">UAT Mode</Badge>
                   </div>
@@ -529,4 +530,3 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
     </div>
   );
 }
-
