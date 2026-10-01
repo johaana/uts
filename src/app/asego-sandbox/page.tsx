@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useMemo } from 'react';
@@ -51,9 +50,9 @@ import { useToast } from '@/hooks/use-toast';
 export default function AsegoUatDiscoveryPage() {
   const { toast } = useToast();
   
-  // 1. Credentials (UAT Baseline)
+  // Baseline 5.2: Credentials start empty. Hardcoded Plan ID removed.
   const [creds, setCreds] = useState({
-    partnerId: 'd5e591b7-46dd-4d7e-8264-7a30b16cec8d',
+    partnerId: '',
     sign: '',
     reference: '',
     secretKey: '',
@@ -63,20 +62,20 @@ export default function AsegoUatDiscoveryPage() {
   const [authStrategy, setAuthStrategy] = useState<AuthStrategy>('custom_both');
   const [viewMode, setViewMode] = useState<'console' | 'journey' | 'blueprint'>('journey');
 
-  // 2. Discovery State
+  // Discovery State
   const [activeResult, setActiveResult] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState<any[]>([]);
   const [selectedPlan, setSelectedPlan] = useState<any>(null);
   
-  // 3. Plan Parameters
+  // Plan Parameters
   const [planParams, setPlanParams] = useState({
     age: '25',
     duration: '30',
     categoryId: ''
   });
 
-  // 4. Verification Tracking (Locked to True based on UAT Success)
+  // Verification Tracking (Locked to True based on UAT Success)
   const [verifiedSteps, setVerifiedSteps] = useState({
     encryption: true,
     authHeader: true,

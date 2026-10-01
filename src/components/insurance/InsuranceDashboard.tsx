@@ -44,7 +44,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
   const [step, setStep] = useState<Step>('search');
   const [viewMode, setViewMode] = useState<ViewMode>('journey');
   
-  // Baseline 5.2: partnerId starts empty. No stale plan-ID pollution.
+  // Baseline 5.2: Credentials start strictly empty. No stale plan-ID pollution.
   const [creds, setCreds] = useState<AsegoCredentials>({
     partnerId: '',
     sign: '',
@@ -141,7 +141,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
 
   /**
    * Baseline 5.2 Selection Handler
-   * Strictly consumes NormalizedPlan contract. No raw nested lookups.
+   * Strictly consumes NormalizedPlan contract directly.
    */
   const handleSelectPlan = (plan: NormalizedPlan) => {
     setSelectedPlan(plan);
