@@ -1,8 +1,8 @@
 'use server';
 
 /**
- * @fileOverview Asego API Implementation - Forensic Correction v5.1
- * Aligns payload assembly with authoritative Swagger schema and state flow.
+ * @fileOverview Asego API Implementation - Forensic Correction v5.2
+ * Aligns payload assembly and normalization with the latest UAT breakthroughs.
  */
 
 const BASE_URL = "https://dolphin.asego.in/api";
@@ -39,45 +39,50 @@ interface ActionResponse {
   headersSent: Record<string, any>;
   raw?: any;
   plaintext?: any;
-  diagnostics?: any;
+  diagnostics?: {
+    endpoint: string;
+    method: string;
+    requestClass: 'PLAN_SEARCH' | 'POLICY_VALIDATE' | 'OTHER';
+    dataCheck: 'PASS' | 'BLOCKED';
+    partnerId: string;
+    planId: string;
+    premium: number;
+    responseShape?: 'ARRAY' | 'OBJECT' | 'NULL' | 'UNKNOWN';
+    containsPlans?: boolean;
+    containsValidation?: boolean;
+  };
 }
 
 /**
- * Normalization Boundary
- * Shields the UI from Asego's raw schema.
- * Supports both standard and UAT-specific key variants.
+ * Normalization Boundary - Forensic v5.2
+ * Maps the confirmed UAT search response (Insurers -> Plans -> agePremiums).
  */
-function normalizeAsegoPlan(raw: any, targetAge: number): NormalizedPlan | null {
-  const details = raw.sellingPlanDetailsList || [];
-  const matchedDetail = details.find((d: any) => 
-    targetAge >= Number(d.minAge ?? 0) && 
-    targetAge <= Number(d.maxAge ?? 100)
-  ) || details[0] || {};
-
-  // Support confirmed UAT response variants for Plan ID
-  const planId = String(raw.id || raw.plan_id || raw.planId || "");
+function normalizeAsegoPlan(raw: any, targetAge: number, insurerInfo: { id: string, name: string }): NormalizedPlan | null {
+  const planId = String(raw.id || raw.plan_id || "");
+  const name = String(raw.name || raw.plan_name || raw.displayName || "Standard Plan");
   
-  // Support confirmed UAT response variants for Premium
-  // Checked: raw.total_premium (Standard), matchedDetail.total (UAT Variant)
-  const premium = Number(raw.total_premium || raw.total || matchedDetail.total || 0);
+  // Forensic Correction: Extract premium based on traveller age
+  const agePremiums = raw.agePremiums || [];
+  const matchedAgeEntry = agePremiums.find((ap: any) => Number(ap.age) === targetAge);
+  const premium = matchedAgeEntry ? Number(matchedAgeEntry.premium) : 0;
 
-  // FAIL CLOSED: Do not allow empty identifiers or zero premiums
+  // FAIL CLOSED: Discard malformed records
   if (!planId || isNaN(premium) || premium <= 0) {
     return null;
   }
 
   return {
     planId,
-    name: String(raw.plan_name || raw.planName || raw.name || "Standard Plan"),
-    insurer: String(raw.insurer_name || raw.insurerName || "ICICI Lombard"),
-    insurerId: String(raw.insurer_id || raw.insurerId || "1"),
+    name,
+    insurer: insurerInfo.name,
+    insurerId: insurerInfo.id,
     premium,
     currency: String(raw.currency || "INR"),
-    minAge: Number(matchedDetail.minAge ?? 0),
-    maxAge: Number(matchedDetail.maxAge ?? 100),
-    minDays: Number(matchedDetail.minDays ?? 1),
-    maxDays: Number(matchedDetail.maxDays ?? 365),
-    detailId: String(matchedDetail.sellingPlanDetailId || matchedDetail.detailId || "")
+    minAge: Number(raw.minAge ?? 0),
+    maxAge: Number(raw.maxAge ?? 100),
+    minDays: Number(raw.minDays ?? 1),
+    maxDays: Number(raw.maxDays ?? 365),
+    detailId: String(raw.detailId || "")
   };
 }
 
@@ -123,13 +128,13 @@ async function asegoRequest(
       success: response.ok,
       status: response.status,
       data: parsedData?.data ?? parsedData,
-      endpoint,
+      endpoint: path,
       method,
       raw: parsedData,
       headersSent: { ...headers, 'Sign': '********', 'Reference': '********' }
     };
   } catch (error: any) {
-    return { success: false, status: 0, data: null, error: error.message, endpoint, method, headersSent: headers };
+    return { success: false, status: 0, data: null, error: error.message, endpoint: path, method, headersSent: headers };
   }
 }
 
@@ -143,10 +148,25 @@ export async function getAsegoPlans(params: { age: string, duration: string, cat
   
   const res = await asegoRequest(path, creds);
   if (res.success) {
-    const rawPlans = res.data?.sellingPlanDto || (Array.isArray(res.data) ? res.data : []);
-    res.data = rawPlans
-      .map((p: any) => normalizeAsegoPlan(p, Number(params.age)))
-      .filter((p: NormalizedPlan | null) => p !== null);
+    const rawData = res.data;
+    let normalizedList: NormalizedPlan[] = [];
+
+    // Forensic Correction: Latest UAT returns Array of Insurers
+    if (Array.isArray(rawData)) {
+      rawData.forEach((insurer: any) => {
+        if (Array.isArray(insurer.plans)) {
+          insurer.plans.forEach((p: any) => {
+            const normalized = normalizeAsegoPlan(p, Number(params.age), {
+              id: insurer.insurerId,
+              name: insurer.insurerName
+            });
+            if (normalized) normalizedList.push(normalized);
+          });
+        }
+      });
+    }
+
+    res.data = normalizedList;
   }
   return res;
 }
@@ -160,16 +180,10 @@ export async function asegoEncrypt(value: string, creds?: AsegoCredentials) {
 
 /**
  * Payload Assembly - Strict Mapping
- * Deterministic mapping: sellingPlanId <- selectedPlan.planId
+ * Maps NormalizedPlan.planId -> sellingPlanId
  */
 function assembleAsegoPayload(payload: any, creds: AsegoCredentials) {
   const premium = Number(payload.premium);
-  
-  // Local validation before assembly
-  if (!payload.planId || isNaN(premium) || premium <= 0) {
-    throw new Error(`LOCAL_VALIDATION_FAILURE: Missing mandatory plan data. planId: "${payload.planId}", premium: ${premium}`);
-  }
-
   return [
     {
       identity: {
@@ -221,16 +235,17 @@ function assembleAsegoPayload(payload: any, creds: AsegoCredentials) {
 export async function validateAsegoPolicy(policyData: any, creds?: AsegoCredentials) {
   if (!creds) return { success: false, status: 0, data: null, error: "Creds required", endpoint: '', method: '', headersSent: {} };
   
-  // Forensic Checkpoint before encryption
-  const diagnostics = {
-    partnerId: creds.partnerId,
+  const diagnostics: any = {
+    endpoint: `/ext/b2b/v1/createPolicy/validate/${creds.partnerId}`,
+    method: 'POST',
+    requestClass: 'POLICY_VALIDATE',
+    partnerId: creds.partnerId ? "PRESENT (REDACTED)" : "MISSING",
     planId: policyData.planId,
     premium: policyData.premium,
-    detailId: policyData.detailId || "NOT_AVAILABLE",
-    validation: (policyData.planId && Number(policyData.premium) > 0 && creds.partnerId) ? "READY" : "BLOCKED"
+    dataCheck: (policyData.planId && Number(policyData.premium) > 0 && creds.partnerId) ? "PASS" : "BLOCKED"
   };
 
-  if (diagnostics.validation === "BLOCKED") {
+  if (diagnostics.dataCheck === "BLOCKED") {
     return {
       success: false,
       status: 0,
@@ -250,7 +265,12 @@ export async function validateAsegoPolicy(policyData: any, creds?: AsegoCredenti
 
     const res = await asegoRequest(`/ext/b2b/v1/createPolicy/validate/${creds.partnerId}`, creds, 'POST', encRes.data);
     res.plaintext = plaintext;
-    res.diagnostics = diagnostics;
+    res.diagnostics = {
+      ...diagnostics,
+      responseShape: Array.isArray(res.raw) ? 'ARRAY' : typeof res.raw === 'object' ? 'OBJECT' : 'UNKNOWN',
+      containsPlans: Array.isArray(res.raw) && res.raw.some((item: any) => item.plans),
+      containsValidation: typeof res.raw === 'object' && res.raw !== null && ('code' in res.raw || 'success' in res.raw)
+    };
     return res;
   } catch (e: any) {
     return { success: false, status: 0, data: null, error: e.message, endpoint: 'local_validation', method: 'INTERNAL', headersSent: {}, diagnostics };
@@ -258,11 +278,6 @@ export async function validateAsegoPolicy(policyData: any, creds?: AsegoCredenti
 }
 
 export async function createAsegoPolicy(policyData: any, creds?: AsegoCredentials) {
-  // BLOCKED: READ-ONLY VALIDATION PHASE
-  return { success: false, status: 0, data: null, error: "Feature locked during validation audit.", endpoint: '', method: '', headersSent: {} };
-}
-
-export async function cancelAsegoPolicy(policyNumber: string, remarks: string = "UAT Cleanup", creds?: AsegoCredentials) {
-  // BLOCKED: READ-ONLY VALIDATION PHASE
-  return { success: false, status: 0, data: null, error: "Feature locked during validation audit.", endpoint: '', method: '', headersSent: {} };
+  // READ-ONLY VALIDATION PHASE
+  return { success: false, status: 0, data: null, error: "Policy issuance is locked. Run Validate Schema first.", endpoint: '', method: '', headersSent: {} };
 }

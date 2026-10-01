@@ -18,8 +18,6 @@ import {
   UserCircle,
   Code,
   CheckCircle2,
-  Trash2,
-  Download,
   Eye,
   EyeOff,
   Check,
@@ -38,7 +36,7 @@ import { parseISO, differenceInDays, differenceInYears } from 'date-fns';
 import Image from 'next/image';
 
 type Step = 'search' | 'selection' | 'form' | 'success';
-type ViewMode = 'journey' | 'console' | 'blueprint';
+type ViewMode = 'journey' | 'blueprint';
 
 export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
   const { toast } = useToast();
@@ -46,7 +44,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
   const [step, setStep] = useState<Step>('search');
   const [viewMode, setViewMode] = useState<ViewMode>('journey');
   
-  // FIX 1: Initial state is clean. No stale Plan IDs.
+  // Forensic Fix: Credential state starts empty, no Plan ID pollution.
   const [creds, setCreds] = useState<AsegoCredentials>({
     partnerId: '',
     sign: '',
@@ -62,7 +60,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
     categoryId: '',
     startDate: '',
     endDate: '',
-    travelers: [{ dob: '' }]
+    travelers: [{ dob: '1997-01-01' }]
   });
 
   const calculatedDays = useMemo(() => {
@@ -75,10 +73,10 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
   }, [portalForm.startDate, portalForm.endDate]);
 
   const primaryAge = useMemo(() => {
-    if (!portalForm.travelers[0]?.dob) return 25;
+    if (!portalForm.travelers[0]?.dob) return 27;
     try {
       return differenceInYears(new Date(), parseISO(portalForm.travelers[0].dob));
-    } catch (e) { return 25; }
+    } catch (e) { return 27; }
   }, [portalForm.travelers]);
 
   const [categories, setCategories] = useState<any[]>([]);
@@ -108,7 +106,6 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
 
   const [isValidating, setIsValidating] = useState(false);
   const [isValidated, setIsValidated] = useState(false);
-  const [issuedPolicy, setIssuedPolicy] = useState<any>(null);
   const [lastTrace, setLastTrace] = useState<any>(null);
   const [showTrace, setShowTrace] = useState(false);
 
@@ -120,7 +117,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
     setLastTrace(res);
     if (res.success && Array.isArray(res.data)) {
       setCategories(res.data);
-      toast({ title: "Session Initialized", description: `${res.data.length} regions loaded.` });
+      toast({ title: "Session Initialized" });
     }
     setIsConnecting(false);
   };
@@ -142,10 +139,11 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
     setIsLoading(false);
   };
 
-  // FIX 3: Handler consumes only the NormalizedPlan contract directly.
+  // Forensic Fix: Consume the NormalizedPlan contract directly.
   const handleSelectPlan = (plan: NormalizedPlan) => {
     setSelectedPlan(plan);
     setStep('form');
+    toast({ title: "Plan Selected", description: plan.name });
   };
 
   const handleValidate = async () => {
@@ -158,7 +156,6 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
         planId: selectedPlan.planId, 
         insurerId: selectedPlan.insurerId,
         premium: selectedPlan.premium,
-        detailId: selectedPlan.detailId,
         age: primaryAge,
         duration: calculatedDays,
         categoryId: portalForm.categoryId,
@@ -186,13 +183,13 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
               <div className="flex items-center gap-3">
                 <div className="px-3 py-1 bg-[#4FD1C5]/10 border border-[#4FD1C5]/20 rounded-full flex items-center gap-2">
                    <div className="w-1.5 h-1.5 rounded-full bg-[#4FD1C5] animate-pulse"></div>
-                   <span className="text-[9px] font-bold uppercase tracking-widest text-[#4FD1C5]">UAT Live Journey</span>
+                   <span className="text-[9px] font-bold uppercase tracking-widest text-[#4FD1C5]">Forensic Hub v5.2</span>
                 </div>
-                <p className="text-[10px] font-bold text-[#6E7495] uppercase tracking-widest">Asego Dolphin Integration</p>
+                <p className="text-[10px] font-bold text-[#6E7495] uppercase tracking-widest">Real-Flow Data Trace</p>
               </div>
               <h1 className="text-4xl md:text-7xl font-headline font-medium tracking-tighter leading-[1.05] text-white">
                   Global Travel<br/>
-                  <span className="italic text-[#9AA1C0]">Protection Hub</span>
+                  <span className="italic text-[#9AA1C0]">Assistance Data</span>
               </h1>
           </div>
           
@@ -206,53 +203,48 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
           </div>
       </div>
 
-      <div className="flex bg-[#0B0F22] p-1 rounded-none border border-white/10 w-fit relative z-10">
-        <button onClick={() => setViewMode('journey')} className={cn("px-6 py-2 text-[10px] font-bold uppercase tracking-widest transition-all", viewMode === 'journey' ? "bg-white text-[#0F1428]" : "text-[#6E7495] hover:text-white")}>
-          <UserCircle className="w-3.5 h-3.5 inline mr-2" /> Simulation: Customer View
-        </button>
-        <button onClick={() => setViewMode('blueprint')} className={cn("px-6 py-2 text-[10px] font-bold uppercase tracking-widest transition-all", viewMode === 'blueprint' ? "bg-white text-[#0F1428]" : "text-[#6E7495] hover:text-white")}>
-          <Code className="w-3.5 h-3.5 inline mr-2" /> Policy Blueprint
-        </button>
-      </div>
-
       {showTrace && lastTrace && (
         <Card className="bg-[#0B0F22] border-[#4FD1C5]/40 p-8 rounded-none font-mono text-[11px] animate-in fade-in slide-in-from-top-4 text-left relative z-20 shadow-2xl">
-           <div className="flex items-center justify-between mb-4 border-b border-white/5 pb-2">
+           <div className="flex items-center justify-between mb-6 border-b border-white/5 pb-4">
               <div className="flex items-center gap-3">
-                 <span className="text-[9px] font-bold uppercase text-[#4FD1C5]">Forensic_Trace_v5.1.log</span>
+                 <span className="text-[10px] font-bold uppercase text-[#4FD1C5]">Forensic_Report_v5.2.log</span>
                  <Badge variant="outline" className="text-[9px] border-white/10 uppercase py-0">{lastTrace.status} {lastTrace.success ? 'OK' : 'ERROR'}</Badge>
               </div>
            </div>
            
-           {lastTrace.diagnostics && (
-             <div className="mb-6 grid grid-cols-2 md:grid-cols-3 gap-6 p-6 bg-white/[0.02] border border-white/5">
-                <div className="space-y-1">
-                   <p className="text-[8px] uppercase font-bold text-[#6E7495]">PARTNER ID</p>
-                   <p className="text-[#E8A33D]">{lastTrace.diagnostics.partnerId || 'NOT_SET'}</p>
-                </div>
-                <div className="space-y-1">
-                   <p className="text-[8px] uppercase font-bold text-[#6E7495]">PLAN ID</p>
-                   <p className="text-[#4FD1C5]">{lastTrace.diagnostics.planId || 'EMPTY'}</p>
-                </div>
-                <div className="space-y-1 text-right">
-                   <p className="text-[8px] uppercase font-bold text-[#6E7495]">PREMIUM</p>
-                   <p className="text-white text-lg">₹{lastTrace.diagnostics.premium || '0'}</p>
-                </div>
-             </div>
-           )}
+           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-8">
+              <div className="space-y-6">
+                 <p className="text-[10px] font-bold uppercase tracking-widest text-[#E8A33D]">1. Request Context</p>
+                 <div className="grid grid-cols-2 gap-4 bg-white/[0.02] p-4 border border-white/5">
+                    <div><p className="text-[8px] text-[#6E7495] uppercase">Endpoint</p><p className="truncate">{lastTrace.diagnostics?.endpoint || lastTrace.endpoint}</p></div>
+                    <div><p className="text-[8px] text-[#6E7495] uppercase">Class</p><p className="text-[#4FD1C5]">{lastTrace.diagnostics?.requestClass || 'PLAN_SEARCH'}</p></div>
+                    <div><p className="text-[8px] text-[#6E7495] uppercase">Data Check</p><p className={cn(lastTrace.diagnostics?.dataCheck === 'PASS' ? 'text-green-500' : 'text-red-500')}>{lastTrace.diagnostics?.dataCheck || 'N/A'}</p></div>
+                    <div><p className="text-[8px] text-[#6E7495] uppercase">Partner ID</p><p className="text-white/60">{lastTrace.diagnostics?.partnerId || 'Sourced'}</p></div>
+                 </div>
+              </div>
+              <div className="space-y-6">
+                 <p className="text-[10px] font-bold uppercase tracking-widest text-[#E8A33D]">2. Payload Identifiers</p>
+                 <div className="grid grid-cols-2 gap-4 bg-white/[0.02] p-4 border border-white/5">
+                    <div><p className="text-[8px] text-[#6E7495] uppercase">Plan ID</p><p className="truncate text-white">{lastTrace.diagnostics?.planId || 'N/A'}</p></div>
+                    <div><p className="text-[8px] text-[#6E7495] uppercase">Premium</p><p className="text-white">₹{lastTrace.diagnostics?.premium || '0'}</p></div>
+                    <div><p className="text-[8px] text-[#6E7495] uppercase">Response Shape</p><p className="text-white/40">{lastTrace.diagnostics?.responseShape || 'UNKNOWN'}</p></div>
+                    <div><p className="text-[8px] text-[#6E7495] uppercase">Contains Plans</p><p className="text-white/40">{lastTrace.diagnostics?.containsPlans ? 'YES' : 'NO'}</p></div>
+                 </div>
+              </div>
+           </div>
 
            {lastTrace.plaintext && (
              <div className="mb-6 space-y-2">
-                <p className="text-[9px] font-bold uppercase text-[#6E7495] tracking-widest">Plaintext Payload:</p>
-                <pre className="text-white/40 overflow-auto max-h-[300px] bg-white/[0.02] p-6 border border-white/5">
+                <p className="text-[9px] font-bold uppercase text-[#6E7495] tracking-widest">Plaintext Payload Builder:</p>
+                <pre className="text-white/40 overflow-auto max-h-[300px] bg-white/[0.02] p-6 border border-white/5 text-[10px]">
                   {JSON.stringify(lastTrace.plaintext, null, 2)}
                 </pre>
              </div>
            )}
 
            <div className="space-y-2">
-              <p className="text-[9px] font-bold uppercase text-[#6E7495] tracking-widest">Verbatim Asego Response:</p>
-              <pre className="text-[#4FD1C5] overflow-auto max-h-[400px] bg-white/[0.02] p-6 border border-white/5">
+              <p className="text-[9px] font-bold uppercase text-[#6E7495] tracking-widest">Raw Network Output:</p>
+              <pre className="text-[#4FD1C5] overflow-auto max-h-[400px] bg-white/[0.02] p-6 border border-white/5 text-[10px]">
                 {typeof (lastTrace.raw || lastTrace.data) === 'string' ? (lastTrace.raw || lastTrace.data) : JSON.stringify(lastTrace.raw || lastTrace.data, null, 2)}
               </pre>
            </div>
@@ -360,8 +352,8 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
                           </div>
                           <div className="space-y-4">
                              <div className="flex justify-between text-xs border-b border-white/5 pb-2">
-                                <span className="text-[#6E7495]">Age Band</span>
-                                <span className="text-white font-bold">{plan.minAge}-{plan.maxAge} Yrs</span>
+                                <span className="text-[#6E7495]">Target Age</span>
+                                <span className="text-white font-bold">{primaryAge} Yrs</span>
                              </div>
                              <div className="flex justify-between text-xs border-b border-white/5 pb-2">
                                 <span className="text-[#6E7495]">Max Duration</span>
