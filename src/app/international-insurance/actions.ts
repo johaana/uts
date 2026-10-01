@@ -1,3 +1,4 @@
+
 'use server';
 
 /**
@@ -56,18 +57,17 @@ interface ActionResponse {
 
 /**
  * Normalization Boundary - Baseline v5.2
- * Maps the confirmed UAT search response (Insurers -> Plans -> agePremiums).
+ * Maps the confirmed UAT response (Insurers -> Plans -> agePremiums).
  */
 function normalizeAsegoPlan(raw: any, targetAge: number, insurerInfo: { id: string, name: string }): NormalizedPlan | null {
-  // Key Forensic Fix: Support both 'id' and 'plan_id' variants
+  // Support both 'id' and 'plan_id' variants observed in UAT
   const planId = String(raw.id || raw.plan_id || "");
   const name = String(raw.name || raw.plan_name || raw.displayName || "Standard Plan");
   
-  // Forensic Correction: Extract premium based on traveller age within agePremiums array
   const agePremiums = raw.agePremiums || [];
   const matchedAgeEntry = agePremiums.find((ap: any) => Number(ap.age) === targetAge);
   
-  // Fallback to top-level keys only if agePremiums is absent (Fail-Closed)
+  // Support top-level premium keys for older schema versions
   const premium = matchedAgeEntry ? Number(matchedAgeEntry.premium) : Number(raw.total || raw.total_premium || 0);
 
   // FAIL CLOSED: Discard malformed records. A valid plan MUST have an ID and a Non-Zero Premium.
@@ -155,7 +155,6 @@ export async function getAsegoPlans(params: { age: string, duration: string, cat
     const rawData = res.data;
     let normalizedList: NormalizedPlan[] = [];
 
-    // Forensic Correction: Latest UAT returns Array of Insurers
     if (Array.isArray(rawData)) {
       rawData.forEach((insurer: any) => {
         if (Array.isArray(insurer.plans)) {
@@ -246,7 +245,7 @@ export async function validateAsegoPolicy(policyData: any, creds?: AsegoCredenti
     endpoint: `/ext/b2b/v1/createPolicy/validate/${creds.partnerId}`,
     method: 'POST',
     requestClass: 'POLICY_VALIDATE',
-    partnerId: creds.partnerId ? "PRESENT" : "MISSING",
+    partnerId: "PRESENT",
     planId: policyData.planId,
     premium: policyData.premium,
     dataCheck: (policyData.planId && Number(policyData.premium) > 0 && creds.partnerId) ? "PASS" : "BLOCKED"
@@ -275,7 +274,7 @@ export async function validateAsegoPolicy(policyData: any, creds?: AsegoCredenti
     res.diagnostics = {
       ...diagnostics,
       responseShape: Array.isArray(res.raw) ? 'ARRAY' : typeof res.raw === 'object' ? 'OBJECT' : 'UNKNOWN',
-      containsValidation: res.success || (typeof res.raw === 'object' && res.raw !== null && 'code' in res.raw)
+      containsValidation: !!(res.success || (res.raw && typeof res.raw === 'object' && 'code' in res.raw))
     };
     return res;
   } catch (e: any) {
@@ -284,8 +283,8 @@ export async function validateAsegoPolicy(policyData: any, creds?: AsegoCredenti
 }
 
 /**
- * Phase 1: Issuance Logic (Unlocked)
- * Uses the exact same encryption and payload assembly logic verified in Phase 0.
+ * Phase 1: Issuance Logic
+ * Hardened diagnostics to prevent crashes on empty/malformed Asego responses.
  */
 export async function createAsegoPolicy(policyData: any, creds?: AsegoCredentials) {
   if (!creds) return { success: false, status: 0, data: null, error: "Creds required", endpoint: '', method: '', headersSent: {} };
@@ -311,10 +310,14 @@ export async function createAsegoPolicy(policyData: any, creds?: AsegoCredential
 
     const res = await asegoRequest(`/ext/b2b/v1/createPolicy/${creds.partnerId}`, creds, 'POST', encRes.data);
     res.plaintext = plaintext;
+    
+    // SAFE ACCESS: Prevent TypeError if res.data is empty or not an array
+    const hasPolicy = !!(res.success && (res.data?.policyNumber || (Array.isArray(res.data) && res.data[0]?.policyNumber)));
+
     res.diagnostics = {
       ...diagnostics,
       responseShape: Array.isArray(res.raw) ? 'ARRAY' : typeof res.raw === 'object' ? 'OBJECT' : 'UNKNOWN',
-      containsPolicy: res.success && res.data && (res.data.policyNumber || (Array.isArray(res.data) && res.data[0].policyNumber))
+      containsPolicy: hasPolicy
     };
     return res;
   } catch (e: any) {
@@ -323,6 +326,5 @@ export async function createAsegoPolicy(policyData: any, creds?: AsegoCredential
 }
 
 export async function cancelAsegoPolicy(policyNumber: string, creds?: AsegoCredentials) {
-  // Lifecycle Phase: Cancellation remains stubbed until Issuance is verified.
   return { success: false, status: 0, data: null, error: "Cancellation phase locked. Verify Issuance first.", endpoint: '', method: '', headersSent: {} };
 }
