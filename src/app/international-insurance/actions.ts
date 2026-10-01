@@ -1,7 +1,7 @@
 'use server';
 
 /**
- * @fileOverview Asego API Implementation - Final Hardened Sequence
+ * @fileOverview Asego API Implementation - Hardened Forensic Sequence
  * Implements strict Swagger-compliant payload construction using real user data.
  */
 
@@ -113,12 +113,14 @@ async function asegoRequest(
     };
 
     if (body) {
+      // Direct Ciphertext Strategy: If body is a string, send as-is
       options.body = typeof body === 'string' ? body : JSON.stringify(body);
     }
 
     const response = await fetch(endpoint, options);
     const responseText = await response.text();
     
+    // Aggressive Parsing: Handle raw ciphertext vs JSON responses
     let parsedData;
     try {
       parsedData = JSON.parse(responseText);
