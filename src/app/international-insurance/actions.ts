@@ -53,12 +53,23 @@ function normalizeAsegoPlan(raw: any, targetAge: number): NormalizedPlan {
     targetAge <= Number(d.maxAge ?? 100)
   ) || details[0] || {};
 
+  // Support confirmed UAT response variants for Plan ID
+  const planId = String(raw.id || raw.plan_id || raw.planId || "");
+  
+  // Support confirmed UAT response variants for Premium
+  const premium = Number(raw.total_premium || raw.total || matchedDetail.total || 0);
+
+  // FAIL CLOSED: Do not allow empty identifiers or zero premiums in the normalized set
+  if (!planId || premium <= 0) {
+    console.warn(`[ASEGO_NORM] Filtering invalid plan: ID="${planId}", Premium=${premium}`);
+  }
+
   return {
-    planId: String(raw.plan_id || raw.planId || ""),
-    name: String(raw.plan_name || raw.planName || "Standard Plan"),
+    planId,
+    name: String(raw.plan_name || raw.planName || raw.name || "Standard Plan"),
     insurer: String(raw.insurer_name || raw.insurerName || "ICICI Lombard"),
     insurerId: String(raw.insurer_id || raw.insurerId || "1"),
-    premium: Number(matchedDetail.total || 0),
+    premium,
     currency: String(raw.currency || "INR"),
     minAge: Number(matchedDetail.minAge ?? 0),
     maxAge: Number(matchedDetail.maxAge ?? 100),
@@ -131,7 +142,9 @@ export async function getAsegoPlans(params: { age: string, duration: string, cat
   const res = await asegoRequest(path, creds);
   if (res.success) {
     const rawPlans = res.data?.sellingPlanDto || (Array.isArray(res.data) ? res.data : []);
-    res.data = rawPlans.map((p: any) => normalizeAsegoPlan(p, Number(params.age)));
+    res.data = rawPlans
+      .map((p: any) => normalizeAsegoPlan(p, Number(params.age)))
+      .filter((p: NormalizedPlan) => p.planId && p.premium > 0);
   }
   return res;
 }
@@ -206,6 +219,30 @@ function assembleAsegoPayload(payload: any, creds: AsegoCredentials) {
 export async function validateAsegoPolicy(policyData: any, creds?: AsegoCredentials) {
   if (!creds) return { success: false, status: 0, data: null, error: "Creds required", endpoint: '', method: '', headersSent: {} };
   
+  // Forensic Checkpoint before encryption
+  const diagnostics = {
+    partnerId: creds.partnerId,
+    planId: policyData.planId,
+    premium: policyData.premium,
+    sellingPlanId: policyData.planId,
+    totalPremium: policyData.premium,
+    detailId: policyData.detailId || "NOT_AVAILABLE",
+    validation: (policyData.planId && Number(policyData.premium) > 0 && creds.partnerId) ? "READY" : "BLOCKED"
+  };
+
+  if (diagnostics.validation === "BLOCKED") {
+    return {
+      success: false,
+      status: 0,
+      data: null,
+      error: `LOCAL_VALIDATION_FAILURE: Missing mandatory plan data. partnerId check: ${!!creds.partnerId}, planId: "${policyData.planId}", premium: ${policyData.premium}`,
+      endpoint: 'local_validation',
+      method: 'INTERNAL',
+      headersSent: {},
+      diagnostics
+    };
+  }
+
   try {
     const plaintext = assembleAsegoPayload(policyData, creds);
     const encRes = await asegoEncrypt(JSON.stringify(plaintext), creds);
@@ -213,15 +250,10 @@ export async function validateAsegoPolicy(policyData: any, creds?: AsegoCredenti
 
     const res = await asegoRequest(`/ext/b2b/v1/createPolicy/validate/${creds.partnerId}`, creds, 'POST', encRes.data);
     res.plaintext = plaintext;
-    res.diagnostics = {
-        partnerId: creds.partnerId,
-        planId: policyData.planId,
-        premium: policyData.premium,
-        isValid: true
-    };
+    res.diagnostics = diagnostics;
     return res;
   } catch (e: any) {
-    return { success: false, status: 0, data: null, error: e.message, endpoint: 'local_validation', method: 'INTERNAL', headersSent: {} };
+    return { success: false, status: 0, data: null, error: e.message, endpoint: 'local_validation', method: 'INTERNAL', headersSent: {}, diagnostics };
   }
 }
 

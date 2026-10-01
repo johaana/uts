@@ -48,7 +48,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
   const [step, setStep] = useState<Step>('search');
   const [viewMode, setViewMode] = useState<ViewMode>('journey');
   
-  // Partner ID is strictly empty until configured by user.
+  // FIX 1: Remove stale Plan ID from default Partner ID state
   const [creds, setCreds] = useState<AsegoCredentials>({
     partnerId: '',
     sign: '',
@@ -88,7 +88,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
   const [isLoading, setIsLoading] = useState(false);
   const [isConnecting, setIsConnecting] = useState(false);
   
-  // Selected State follows the NormalizedPlan contract directly.
+  // FIX 4: The selectedPlan state is the SOLE source for downstream payload values
   const [selectedPlan, setSelectedPlan] = useState<{
     planId: string;
     insurerId: string;
@@ -155,8 +155,8 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
   };
 
   /**
-   * Selection Handler
-   * Deterministic mapping from NormalizedPlan to internal state.
+   * FIX 3: Unified Select Handler
+   * Maps flat NormalizedPlan properties directly to state, ensuring no data loss.
    */
   const handleSelectPlan = (plan: NormalizedPlan) => {
     setSelectedPlan({
@@ -201,7 +201,8 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
   };
 
   const handleIssue = async () => {
-    if (!selectedPlan) return;
+    // POLICY ISSUANCE IS LOCKED UNTIL VALIDATION SUCCEEDS
+    if (!isValidated || !selectedPlan) return;
     setIsIssuing(true);
     const orderId = `UTS-ISS-${Math.floor(Date.now() / 1000)}`;
     const payload = { 
@@ -288,6 +289,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
               </div>
            </div>
            
+           {/* FIX 8: ADD FORENSIC CHECKPOINT */}
            {lastTrace.diagnostics && (
              <div className="mb-6 grid grid-cols-2 md:grid-cols-4 gap-6 p-6 bg-white/[0.02] border border-white/5">
                 <div className="space-y-1">
@@ -303,15 +305,15 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
                    <p className="text-white">₹{lastTrace.diagnostics.premium}</p>
                 </div>
                 <div className="space-y-1">
-                   <p className="text-[8px] uppercase font-bold text-[#6E7495]">PAYLOAD</p>
-                   <p className="text-green-500">VALIDATED</p>
+                   <p className="text-[8px] uppercase font-bold text-[#6E7495]">VALIDATION</p>
+                   <p className={cn(lastTrace.diagnostics.validation === 'READY' ? 'text-green-500' : 'text-red-500')}>{lastTrace.diagnostics.validation}</p>
                 </div>
              </div>
            )}
 
            {lastTrace.plaintext && (
              <div className="mb-6 space-y-2">
-                <p className="text-[9px] font-bold uppercase text-[#6E7495] tracking-widest">Plaintext Payload:</p>
+                <p className="text-[9px] font-bold uppercase text-[#6E7495] tracking-widest">Plaintext Payload (Task 2):</p>
                 <pre className="text-white/40 overflow-auto max-h-[300px] bg-white/[0.02] p-6 border border-white/5">
                   {JSON.stringify(lastTrace.plaintext, null, 2)}
                 </pre>
@@ -491,6 +493,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
 
                   <div className="space-y-6">
                       <Card className="sticky top-28 p-8 bg-[#171D3A] border-white/10 rounded-[32px] space-y-10 shadow-2xl text-left">
+                         {/* FIX 4: UNIFIED SOURCE FOR SIDEBAR LABELS */}
                          <div className="space-y-4">
                             <div className="space-y-1">
                                <p className="text-[10px] font-bold text-[#6E7495] uppercase tracking-widest">Selected Product</p>
@@ -523,8 +526,6 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
                                  {isIssuing ? <Loader2 className="w-5 h-5 animate-spin" /> : "ISSUE POLICY"}
                               </Button>
                             )}
-                            
-                            <p className="text-[9px] text-center text-[#6E7495] uppercase font-bold tracking-[0.2em] pt-2">Step 1: Validate · Step 2: Issue</p>
                          </div>
                       </Card>
                   </div>
