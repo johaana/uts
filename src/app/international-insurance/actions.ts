@@ -1,8 +1,7 @@
-
 'use server';
 
 /**
- * @fileOverview Asego API Implementation - Final Acceptance Phase
+ * @fileOverview Asego API Implementation - Verified Final Sequence
  * Implements strict Swagger-compliant payload construction using real user data.
  */
 
@@ -41,11 +40,11 @@ interface ActionResponse {
   method: string;
   headersSent: Record<string, any>;
   raw?: any;
-  plaintext?: any; // Added for forensic audit
+  plaintext?: any;
 }
 
 /**
- * Normalization Helper - Extracts real Insurer IDs and ensures premium is captured.
+ * Normalization Helper - Corrects the ID and Premium mapping for the real flow.
  */
 function normalizeAsegoPlan(raw: any, targetAge?: number): NormalizedPlan {
   const targetAgeNum = targetAge !== undefined ? Number(targetAge) : NaN;
@@ -60,13 +59,12 @@ function normalizeAsegoPlan(raw: any, targetAge?: number): NormalizedPlan {
     : undefined;
 
   const ineligible = hasFullBandData && !matchedDetail;
-  const source = matchedDetail || {};
+  const source = matchedDetail || (hasFullBandData ? details[0] : {});
   
-  // Hardened premium lookup
+  // Asego Swagger uses 'total' in the details list for premium
   const premium = source.total ?? source.total_premium ?? raw.total_premium ?? raw.totalPremium;
 
   return {
-    // Asego's catalog returns 'id' for the plan identifier
     planId: raw.plan_id ?? raw.planId ?? raw.id ?? '',
     name: raw.plan_name ?? raw.planName ?? raw.name,
     insurer: raw.insurer_name ?? raw.insurerName ?? 'ICICI Lombard',
@@ -207,7 +205,7 @@ export async function getAsegoPlans(params: { age: string, duration: string, cat
 }
 
 /**
- * Payload Assembly - Strict Documented Schema
+ * Payload Assembly - Final Verified Mapping
  */
 function assembleAsegoPayload(payload: any, creds: AsegoCredentials) {
   return [
@@ -263,41 +261,37 @@ function assembleAsegoPayload(payload: any, creds: AsegoCredentials) {
 }
 
 /**
- * Policy Validation (Step 4 of User Journey)
+ * Policy Validation
  */
 export async function validateAsegoPolicy(policyData: any, creds?: AsegoCredentials) {
   if (!creds) return { success: false, status: 0, data: null, error: "Credentials required", endpoint: '', method: '', headersSent: {} };
   
   const plaintext = assembleAsegoPayload(policyData, creds);
-  console.log("UTSAVS_FORENSIC_PLAINTEXT_PAYLOAD:", JSON.stringify(plaintext, null, 2));
-
   const encRes = await asegoEncrypt(JSON.stringify(plaintext), creds);
   if (!encRes.success || !encRes.data) return encRes;
 
   const res = await asegoRequest(`/ext/b2b/v1/createPolicy/validate/${creds.partnerId}`, creds, 'POST', encRes.data);
-  res.plaintext = plaintext; // Surface for TRACE panel
+  res.plaintext = plaintext;
   return res;
 }
 
 /**
- * Policy Creation (Step 5 of User Journey)
+ * Policy Creation
  */
 export async function createAsegoPolicy(policyData: any, creds?: AsegoCredentials) {
   if (!creds) return { success: false, status: 0, data: null, error: "Credentials required", endpoint: '', method: '', headersSent: {} };
 
   const plaintext = assembleAsegoPayload(policyData, creds);
-  console.log("UTSAVS_FORENSIC_PLAINTEXT_PAYLOAD:", JSON.stringify(plaintext, null, 2));
-
   const encRes = await asegoEncrypt(JSON.stringify(plaintext), creds);
   if (!encRes.success || !encRes.data) return encRes;
 
   const res = await asegoRequest(`/ext/b2b/v1/createPolicy/${creds.partnerId}`, creds, 'POST', encRes.data);
-  res.plaintext = plaintext; // Surface for TRACE panel
+  res.plaintext = plaintext;
   return res;
 }
 
 /**
- * Policy Cancellation (Cleanup Step)
+ * Policy Cancellation
  */
 export async function cancelAsegoPolicy(policyNumber: string, remarks: string = "UAT Cleanup", creds?: AsegoCredentials) {
   if (!creds) return { success: false, status: 0, data: null, error: "Credentials required", endpoint: '', method: '', headersSent: {} };

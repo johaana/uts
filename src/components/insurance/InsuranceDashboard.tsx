@@ -21,7 +21,9 @@ import {
   Trash2,
   Download,
   Eye,
-  EyeOff
+  EyeOff,
+  Check,
+  Package
 } from "lucide-react";
 import { 
   getAsegoCategories, 
@@ -149,13 +151,14 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
   };
 
   const handleValidate = async () => {
+    if (!selectedPlan) return;
     setIsValidating(true);
     const orderId = `UTS-VAL-${Math.floor(Date.now() / 1000)}`;
     const payload = { 
         ...formData, 
-        planId: selectedPlan?.planId, 
-        insurerId: selectedPlan?.insurerId,
-        totalPremium: selectedPlan?.premium,
+        planId: selectedPlan.planId, 
+        insurerId: selectedPlan.insurerId,
+        totalPremium: selectedPlan.premium,
         age: primaryAge,
         duration: calculatedDays,
         categoryId: portalForm.categoryId,
@@ -177,13 +180,14 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
   };
 
   const handleIssue = async () => {
+    if (!selectedPlan) return;
     setIsIssuing(true);
     const orderId = `UTS-ISS-${Math.floor(Date.now() / 1000)}`;
     const payload = { 
         ...formData, 
-        planId: selectedPlan?.planId, 
-        insurerId: selectedPlan?.insurerId,
-        totalPremium: selectedPlan?.premium,
+        planId: selectedPlan.planId, 
+        insurerId: selectedPlan.insurerId,
+        totalPremium: selectedPlan.premium,
         age: primaryAge,
         duration: calculatedDays,
         categoryId: portalForm.categoryId,
@@ -226,6 +230,24 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
       mobileNo: "98" + Math.floor(10000000 + Math.random() * 90000000),
     });
     toast({ title: "Test data filled" });
+  };
+
+  const handleSimulate = () => {
+    const mockPlan: NormalizedPlan = {
+      planId: "d5e591b7-46dd-4d7e-8264-7a30b16cec8d", // Example Plan ID
+      name: "UAT Simulation Plan",
+      insurer: "ICICI Lombard (SIM)",
+      insurerId: "1",
+      premium: 1450,
+      currency: "INR",
+      minAge: 0,
+      maxAge: 99,
+      minDays: 1,
+      maxDays: 365
+    };
+    setPlans([mockPlan]);
+    setStep('selection');
+    toast({ title: "Mock plan injected", description: "Use this to test the form flow." });
   };
 
   return (
@@ -333,7 +355,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
                            <div className="space-y-3">
                               <Label className="text-[11px] font-bold uppercase tracking-widest text-[#9AA1C0]">Travel Region</Label>
                               <select value={portalForm.categoryId} onChange={e => setPortalForm({...portalForm, categoryId: e.target.value})} className="w-full h-14 px-4 bg-[#0F1428]/60 border border-white/10 rounded-xl text-white font-medium outline-none">
-                                <option value="">{categories.length > 0 ? "Select Region" : "Run 'Initialize Session' in Config"}</option>
+                                <option value="">{categories.length > 0 ? "Select Region" : "Initialize Session first"}</option>
                                 {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
                               </select>
                            </div>
@@ -383,7 +405,12 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
                     <Search className="w-16 h-16 mx-auto text-[#6E7495] opacity-20" />
                     <div className="space-y-2">
                        <h3 className="text-2xl font-bold text-white">No plans discovered</h3>
-                       <p className="text-[#9AA1C0] max-w-sm mx-auto">Try adjusting the duration (usually &lt;365 days) or checking a different region.</p>
+                       <p className="text-[#9AA1C0] max-w-sm mx-auto">Try adjusting the duration or checking a different region.</p>
+                       <div className="pt-4">
+                          <Button onClick={handleSimulate} variant="outline" className="border-white/10 text-white font-bold h-11 px-8 rounded-none">
+                             <Package className="w-4 h-4 mr-2" /> Simulate a working plan for testing
+                          </Button>
+                       </div>
                     </div>
                  </div>
                ) : (
