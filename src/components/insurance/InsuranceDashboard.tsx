@@ -48,6 +48,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
   const [step, setStep] = useState<Step>('search');
   const [viewMode, setViewMode] = useState<ViewMode>('journey');
   
+  // Partner ID is strictly empty until configured by user.
   const [creds, setCreds] = useState<AsegoCredentials>({
     partnerId: '',
     sign: '',
@@ -86,7 +87,16 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
   const [plans, setPlans] = useState<NormalizedPlan[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isConnecting, setIsConnecting] = useState(false);
-  const [selectedPlan, setSelectedPlan] = useState<NormalizedPlan | null>(null);
+  
+  // Selected State follows the NormalizedPlan contract directly.
+  const [selectedPlan, setSelectedPlan] = useState<{
+    planId: string;
+    insurerId: string;
+    premium: number;
+    name: string;
+    insurer: string;
+    detailId: string;
+  } | null>(null);
   
   const [formData, setFormData] = useState({
     firstName: "John",
@@ -144,9 +154,19 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
     setIsLoading(false);
   };
 
+  /**
+   * Selection Handler
+   * Deterministic mapping from NormalizedPlan to internal state.
+   */
   const handleSelectPlan = (plan: NormalizedPlan) => {
-    console.log("UTSAVS_DEBUG_SELECTED_PLAN_OBJECT:", JSON.stringify(plan, null, 2));
-    setSelectedPlan(plan);
+    setSelectedPlan({
+      planId: plan.planId,
+      insurerId: plan.insurerId,
+      premium: plan.premium,
+      name: plan.name,
+      insurer: plan.insurer,
+      detailId: plan.detailId || ""
+    });
     setStep('form');
   };
 
@@ -175,7 +195,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
       toast({ title: "Validation Successful" });
     } else {
       setIsValidated(false);
-      toast({ title: "Validation Failed", variant: "destructive" });
+      toast({ title: "Validation Failed", description: res.error, variant: "destructive" });
     }
     setIsValidating(false);
   };
@@ -223,35 +243,6 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
     setIsCancelling(false);
   };
 
-  const fillTestData = () => {
-    setFormData({
-      ...formData,
-      firstName: "John",
-      lastName: "Doe",
-      passport: "P" + Math.floor(1000000 + Math.random() * 9000000),
-      mobileNo: "98" + Math.floor(10000000 + Math.random() * 90000000),
-    });
-    toast({ title: "Test data filled" });
-  };
-
-  const handleSimulate = () => {
-    const mockPlan: NormalizedPlan = {
-      planId: "d5e591b7-46dd-4d7e-8264-7a30b16cec8d",
-      name: "UAT Simulation Plan",
-      insurer: "ICICI Lombard (SIM)",
-      insurerId: "1",
-      premium: 1450,
-      currency: "INR",
-      minAge: 0,
-      maxAge: 99,
-      minDays: 1,
-      maxDays: 365
-    };
-    setPlans([mockPlan]);
-    setStep('selection');
-    toast({ title: "Mock plan injected" });
-  };
-
   return (
     <div className="space-y-12">
       <div className="flex flex-col lg:flex-row justify-between items-start gap-8 relative z-10">
@@ -292,15 +283,36 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
         <Card className="bg-[#0B0F22] border-[#4FD1C5]/40 p-8 rounded-none font-mono text-[11px] animate-in fade-in slide-in-from-top-4 text-left relative z-20 shadow-2xl">
            <div className="flex items-center justify-between mb-4 border-b border-white/5 pb-2">
               <div className="flex items-center gap-3">
-                 <span className="text-[9px] font-bold uppercase text-[#4FD1C5]">Forensic_Trace_v4.8.log</span>
+                 <span className="text-[9px] font-bold uppercase text-[#4FD1C5]">Forensic_Trace_v5.0.log</span>
                  <Badge variant="outline" className="text-[9px] border-white/10 uppercase py-0">{lastTrace.status} {lastTrace.success ? 'OK' : 'ERROR'}</Badge>
               </div>
            </div>
            
+           {lastTrace.diagnostics && (
+             <div className="mb-6 grid grid-cols-2 md:grid-cols-4 gap-6 p-6 bg-white/[0.02] border border-white/5">
+                <div className="space-y-1">
+                   <p className="text-[8px] uppercase font-bold text-[#6E7495]">PARTNER ID</p>
+                   <p className="text-[#E8A33D]">{lastTrace.diagnostics.partnerId}</p>
+                </div>
+                <div className="space-y-1">
+                   <p className="text-[8px] uppercase font-bold text-[#6E7495]">PLAN ID</p>
+                   <p className="text-[#4FD1C5]">{lastTrace.diagnostics.planId}</p>
+                </div>
+                <div className="space-y-1">
+                   <p className="text-[8px] uppercase font-bold text-[#6E7495]">PREMIUM</p>
+                   <p className="text-white">₹{lastTrace.diagnostics.premium}</p>
+                </div>
+                <div className="space-y-1">
+                   <p className="text-[8px] uppercase font-bold text-[#6E7495]">PAYLOAD</p>
+                   <p className="text-green-500">VALIDATED</p>
+                </div>
+             </div>
+           )}
+
            {lastTrace.plaintext && (
              <div className="mb-6 space-y-2">
-                <p className="text-[9px] font-bold uppercase text-[#6E7495] tracking-widest">Plaintext Payload (Task 2):</p>
-                <pre className="text-[#E8A33D] overflow-auto max-h-[300px] bg-white/[0.02] p-6 border border-white/5">
+                <p className="text-[9px] font-bold uppercase text-[#6E7495] tracking-widest">Plaintext Payload:</p>
+                <pre className="text-white/40 overflow-auto max-h-[300px] bg-white/[0.02] p-6 border border-white/5">
                   {JSON.stringify(lastTrace.plaintext, null, 2)}
                 </pre>
              </div>
@@ -402,53 +414,38 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
                <div className="flex items-center gap-4 mb-8">
                   <Button variant="ghost" onClick={() => setStep('search')} className="text-white hover:text-white hover:bg-white/5">← Back to Search</Button>
                </div>
-               {plans.length === 0 ? (
-                 <div className="py-24 text-center border-2 border-dashed border-white/10 rounded-[32px] space-y-6">
-                    <Search className="w-16 h-16 mx-auto text-[#6E7495] opacity-20" />
-                    <div className="space-y-2">
-                       <h3 className="text-2xl font-bold text-white">No plans discovered</h3>
-                       <p className="text-[#9AA1C0] max-sm mx-auto">Try adjusting the duration or checking a different region.</p>
-                       <div className="pt-4">
-                          <Button onClick={handleSimulate} variant="outline" className="border-white/10 text-white font-bold h-11 px-8 rounded-none">
-                             <Package className="w-4 h-4 mr-2" /> Simulate a working plan
+               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {plans.map((plan, i) => (
+                    <Card key={i} className="bg-[#171D3A]/60 backdrop-blur-xl border-white/10 rounded-3xl flex flex-col hover:border-[#E8A33D]/40 transition-all shadow-2xl overflow-hidden group">
+                       <div className="p-8 border-b border-white/5 bg-white/5">
+                          <h3 className="font-bold text-xl text-white leading-tight group-hover:text-[#E8A33D] transition-colors">{plan.name}</h3>
+                          <p className="text-[10px] font-bold uppercase text-[#4FD1C5] mt-1">{plan.insurer}</p>
+                       </div>
+                       <div className="p-8 flex-grow space-y-8">
+                          <div className="flex justify-between items-baseline">
+                             <p className="text-[10px] font-bold text-[#6E7495] uppercase">Premium Total</p>
+                             <p className="text-4xl font-bold text-white">₹{plan.premium}</p>
+                          </div>
+                          <div className="space-y-4">
+                             <div className="flex justify-between text-xs border-b border-white/5 pb-2">
+                                <span className="text-[#6E7495]">Age Band</span>
+                                <span className="text-white font-bold">{plan.minAge}-{plan.maxAge} Yrs</span>
+                             </div>
+                             <div className="flex justify-between text-xs border-b border-white/5 pb-2">
+                                <span className="text-[#6E7495]">Max Duration</span>
+                                <span className="text-white font-bold">{plan.maxDays} Days</span>
+                             </div>
+                          </div>
+                          <Button 
+                            onClick={() => handleSelectPlan(plan)}
+                            className="w-full h-14 bg-[#E8A33D] text-[#0F1428] font-bold uppercase text-[11px] tracking-[0.2em] rounded-2xl shadow-lg group-hover:bg-white transition-all"
+                          >
+                              CHOOSE PLAN
                           </Button>
                        </div>
-                    </div>
-                 </div>
-               ) : (
-                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {plans.map((plan, i) => (
-                      <Card key={i} className="bg-[#171D3A]/60 backdrop-blur-xl border-white/10 rounded-3xl flex flex-col hover:border-[#E8A33D]/40 transition-all shadow-2xl overflow-hidden group">
-                         <div className="p-8 border-b border-white/5 bg-white/5">
-                            <h3 className="font-bold text-xl text-white leading-tight group-hover:text-[#E8A33D] transition-colors">{plan.name}</h3>
-                            <p className="text-[10px] font-bold uppercase text-[#4FD1C5] mt-1">{plan.insurer}</p>
-                         </div>
-                         <div className="p-8 flex-grow space-y-8">
-                            <div className="flex justify-between items-baseline">
-                               <p className="text-[10px] font-bold text-[#6E7495] uppercase">Premium Total</p>
-                               <p className="text-4xl font-bold text-white">₹{plan.premium}</p>
-                            </div>
-                            <div className="space-y-4">
-                               <div className="flex justify-between text-xs border-b border-white/5 pb-2">
-                                  <span className="text-[#6E7495]">Max Age</span>
-                                  <span className="text-white font-bold">{plan.maxAge} Yrs</span>
-                               </div>
-                               <div className="flex justify-between text-xs border-b border-white/5 pb-2">
-                                  <span className="text-[#6E7495]">Max Duration</span>
-                                  <span className="text-white font-bold">{plan.maxDays} Days</span>
-                               </div>
-                            </div>
-                            <Button 
-                              onClick={() => handleSelectPlan(plan)}
-                              className="w-full h-14 bg-[#E8A33D] text-[#0F1428] font-bold uppercase text-[11px] tracking-[0.2em] rounded-2xl shadow-lg group-hover:bg-white transition-all"
-                            >
-                                CHOOSE PLAN
-                            </Button>
-                         </div>
-                      </Card>
-                    ))}
-                 </div>
-               )}
+                    </Card>
+                  ))}
+               </div>
             </div>
           )}
 
@@ -456,7 +453,6 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
             <div className="space-y-10 animate-in fade-in duration-700 text-left relative z-10">
                <div className="flex items-center justify-between mb-4">
                   <Button variant="ghost" onClick={() => setStep('selection')} className="text-white hover:text-white hover:bg-white/5">← Back to Selection</Button>
-                  <Button variant="outline" onClick={fillTestData} className="text-[9px] font-bold uppercase tracking-widest h-8 border-white/10 text-[#4FD1C5]">Fill with Test Data</Button>
                </div>
 
                <div className="grid lg:grid-cols-[1fr_380px] gap-12">
@@ -464,31 +460,31 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
                      <section className="p-8 bg-[#171D3A]/40 border border-white/10 rounded-[32px] space-y-6 shadow-xl">
                         <h4 className="text-lg font-bold text-white flex items-center gap-3 border-b border-white/5 pb-4"><User className="w-5 h-5 text-[#4FD1C5]" /> 01. Personal Details</h4>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                           <div className="space-y-1.5"><Label className="text-[9px] uppercase font-bold text-[#6E7495] tracking-widest">First Name</Label><Input value={formData.firstName} onChange={e => setFormData({...formData, firstName: e.target.value})} className="bg-[#0F1428]/40 border-white/10 rounded-xl h-12" /></div>
-                           <div className="space-y-1.5"><Label className="text-[9px] uppercase font-bold text-[#6E7495] tracking-widest">Last Name</Label><Input value={formData.lastName} onChange={e => setFormData({...formData, lastName: e.target.value})} className="bg-[#0F1428]/40 border-white/10 rounded-xl h-12" /></div>
+                           <div className="space-y-1.5"><Label className="text-[9px] uppercase font-bold text-[#6E7495] tracking-widest">First Name</Label><Input value={formData.firstName} onChange={e => setFormData({...formData, firstName: e.target.value})} className="bg-[#0F1428]/40 border-white/10 rounded-xl h-12 text-white" /></div>
+                           <div className="space-y-1.5"><Label className="text-[9px] uppercase font-bold text-[#6E7495] tracking-widest">Last Name</Label><Input value={formData.lastName} onChange={e => setFormData({...formData, lastName: e.target.value})} className="bg-[#0F1428]/40 border-white/10 rounded-xl h-12 text-white" /></div>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                           <div className="space-y-1.5"><Label className="text-[9px] uppercase font-bold text-[#6E7495] tracking-widest">Passport No</Label><Input value={formData.passport} onChange={e => setFormData({...formData, passport: e.target.value})} className="bg-[#0F1428]/40 border-white/10 rounded-xl h-12" /></div>
-                           <div className="space-y-1.5"><Label className="text-[9px] uppercase font-bold text-[#6E7495] tracking-widest">Mobile No</Label><Input value={formData.mobileNo} onChange={e => setFormData({...formData, mobileNo: e.target.value})} className="bg-[#0F1428]/40 border-white/10 rounded-xl h-12" /></div>
-                           <div className="space-y-1.5"><Label className="text-[9px] uppercase font-bold text-[#6E7495] tracking-widest">Gender</Label><Input value={formData.gender} onChange={e => setFormData({...formData, gender: e.target.value})} className="bg-[#0F1428]/40 border-white/10 rounded-xl h-12" /></div>
+                           <div className="space-y-1.5"><Label className="text-[9px] uppercase font-bold text-[#6E7495] tracking-widest">Passport No</Label><Input value={formData.passport} onChange={e => setFormData({...formData, passport: e.target.value})} className="bg-[#0F1428]/40 border-white/10 rounded-xl h-12 text-white" /></div>
+                           <div className="space-y-1.5"><Label className="text-[9px] uppercase font-bold text-[#6E7495] tracking-widest">Mobile No</Label><Input value={formData.mobileNo} onChange={e => setFormData({...formData, mobileNo: e.target.value})} className="bg-[#0F1428]/40 border-white/10 rounded-xl h-12 text-white" /></div>
+                           <div className="space-y-1.5"><Label className="text-[9px] uppercase font-bold text-[#6E7495] tracking-widest">Gender</Label><Input value={formData.gender} onChange={e => setFormData({...formData, gender: e.target.value})} className="bg-[#0F1428]/40 border-white/10 rounded-xl h-12 text-white" /></div>
                         </div>
-                        <div className="space-y-1.5"><Label className="text-[9px] uppercase font-bold text-[#6E7495] tracking-widest">Email Address</Label><Input value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} className="bg-[#0F1428]/40 border-white/10 rounded-xl h-12" /></div>
+                        <div className="space-y-1.5"><Label className="text-[9px] uppercase font-bold text-[#6E7495] tracking-widest">Email Address</Label><Input value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} className="bg-[#0F1428]/40 border-white/10 rounded-xl h-12 text-white" /></div>
                      </section>
 
                      <section className="p-8 bg-[#171D3A]/40 border border-white/10 rounded-[32px] space-y-6 shadow-xl">
                         <h4 className="text-lg font-bold text-white flex items-center gap-3 border-b border-white/5 pb-4"><MapPin className="w-5 h-5 text-[#4FD1C5]" /> 02. Address & Nominee</h4>
-                        <div className="space-y-1.5"><Label className="text-[9px] uppercase font-bold text-[#6E7495] tracking-widest">Full Address</Label><Input value={formData.address} onChange={e => setFormData({...formData, address: e.target.value})} className="bg-[#0F1428]/40 border-white/10 rounded-xl h-12" /></div>
+                        <div className="space-y-1.5"><Label className="text-[9px] uppercase font-bold text-[#6E7495] tracking-widest">Full Address</Label><Input value={formData.address} onChange={e => setFormData({...formData, address: e.target.value})} className="bg-[#0F1428]/40 border-white/10 rounded-xl h-12 text-white" /></div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                           <div className="space-y-1.5"><Label className="text-[9px] uppercase font-bold text-[#6E7495] tracking-widest">City</Label><Input value={formData.city} onChange={e => setFormData({...formData, city: e.target.value})} className="bg-[#0F1428]/40 border-white/10 rounded-xl h-12" /></div>
-                           <div className="space-y-1.5"><Label className="text-[9px] uppercase font-bold text-[#6E7495] tracking-widest">District</Label><Input value={formData.district} onChange={e => setFormData({...formData, district: e.target.value})} className="bg-[#0F1428]/40 border-white/10 rounded-xl h-12" /></div>
+                           <div className="space-y-1.5"><Label className="text-[9px] uppercase font-bold text-[#6E7495] tracking-widest">City</Label><Input value={formData.city} onChange={e => setFormData({...formData, city: e.target.value})} className="bg-[#0F1428]/40 border-white/10 rounded-xl h-12 text-white" /></div>
+                           <div className="space-y-1.5"><Label className="text-[9px] uppercase font-bold text-[#6E7495] tracking-widest">District</Label><Input value={formData.district} onChange={e => setFormData({...formData, district: e.target.value})} className="bg-[#0F1428]/40 border-white/10 rounded-xl h-12 text-white" /></div>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                           <div className="space-y-1.5"><Label className="text-[9px] uppercase font-bold text-[#6E7495] tracking-widest">State</Label><Input value={formData.state} onChange={e => setFormData({...formData, state: e.target.value})} className="bg-[#0F1428]/40 border-white/10 rounded-xl h-12" /></div>
-                           <div className="space-y-1.5"><Label className="text-[9px] uppercase font-bold text-[#6E7495] tracking-widest">Country</Label><Input value={formData.country} onChange={e => setFormData({...formData, country: e.target.value})} className="bg-[#0F1428]/40 border-white/10 rounded-xl h-12" /></div>
+                           <div className="space-y-1.5"><Label className="text-[9px] uppercase font-bold text-[#6E7495] tracking-widest">State</Label><Input value={formData.state} onChange={e => setFormData({...formData, state: e.target.value})} className="bg-[#0F1428]/40 border-white/10 rounded-xl h-12 text-white" /></div>
+                           <div className="space-y-1.5"><Label className="text-[9px] uppercase font-bold text-[#6E7495] tracking-widest">Country</Label><Input value={formData.country} onChange={e => setFormData({...formData, country: e.target.value})} className="bg-[#0F1428]/40 border-white/10 rounded-xl h-12 text-white" /></div>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
-                           <div className="space-y-1.5"><Label className="text-[9px] uppercase font-bold text-[#6E7495] tracking-widest">Nominee Name</Label><Input value={formData.nomineeName} onChange={e => setFormData({...formData, nomineeName: e.target.value})} className="bg-[#0F1428]/40 border-white/10 rounded-xl h-12" /></div>
-                           <div className="space-y-1.5"><Label className="text-[9px] uppercase font-bold text-[#6E7495] tracking-widest">Nominee Relation</Label><Input value={formData.nomineeRelation} onChange={e => setFormData({...formData, nomineeRelation: e.target.value})} className="bg-[#0F1428]/40 border-white/10 rounded-xl h-12" /></div>
+                           <div className="space-y-1.5"><Label className="text-[9px] uppercase font-bold text-[#6E7495] tracking-widest">Nominee Name</Label><Input value={formData.nomineeName} onChange={e => setFormData({...formData, nomineeName: e.target.value})} className="bg-[#0F1428]/40 border-white/10 rounded-xl h-12 text-white" /></div>
+                           <div className="space-y-1.5"><Label className="text-[9px] uppercase font-bold text-[#6E7495] tracking-widest">Nominee Relation</Label><Input value={formData.nomineeRelation} onChange={e => setFormData({...formData, nomineeRelation: e.target.value})} className="bg-[#0F1428]/40 border-white/10 rounded-xl h-12 text-white" /></div>
                         </div>
                      </section>
                   </div>
@@ -518,13 +514,15 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
                                {isValidating ? <Loader2 className="w-4 h-4 animate-spin" /> : isValidated ? <><CheckCircle2 className="w-4 h-4 mr-2" /> Validated</> : "VALIDATE SCHEMA"}
                             </Button>
                             
-                            <Button 
-                              onClick={handleIssue} 
-                              disabled={isIssuing || !isValidated} 
-                              className="w-full h-16 bg-[#F15A24] text-white hover:bg-white hover:text-black font-bold uppercase text-lg tracking-[0.1em] rounded-2xl shadow-xl disabled:opacity-30"
-                            >
-                               {isIssuing ? <Loader2 className="w-5 h-5 animate-spin" /> : "ISSUE POLICY"}
-                            </Button>
+                            {isValidated && (
+                              <Button 
+                                onClick={handleIssue} 
+                                disabled={isIssuing} 
+                                className="w-full h-16 bg-[#F15A24] text-white hover:bg-white hover:text-black font-bold uppercase text-lg tracking-[0.1em] rounded-2xl shadow-xl"
+                              >
+                                 {isIssuing ? <Loader2 className="w-5 h-5 animate-spin" /> : "ISSUE POLICY"}
+                              </Button>
+                            )}
                             
                             <p className="text-[9px] text-center text-[#6E7495] uppercase font-bold tracking-[0.2em] pt-2">Step 1: Validate · Step 2: Issue</p>
                          </div>
@@ -564,8 +562,6 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
                      </Button>
                   </div>
                </Card>
-               
-               <Button variant="ghost" onClick={() => setStep('search')} className="text-[#6E7495] hover:text-white uppercase text-[10px] font-bold tracking-widest">Start New Application</Button>
             </div>
           )}
 
@@ -585,7 +581,6 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
                        <li className="flex items-start gap-3"><div className="w-1 h-1 rounded-full bg-[#4FD1C5] mt-1.5" /> Array-wrapped Payload</li>
                        <li className="flex items-start gap-3"><div className="w-1 h-1 rounded-full bg-[#4FD1C5] mt-1.5" /> Embedded Identity Object</li>
                        <li className="flex items-start gap-3"><div className="w-1 h-1 rounded-full bg-[#4FD1C5] mt-1.5" /> Direct Ciphertext (Naked) Body</li>
-                       <li className="flex items-start gap-3"><div className="w-1 h-1 rounded-full bg-[#4FD1C5] mt-1.5" /> Multi-Step (Validate → Create)</li>
                     </ul>
                  </div>
                  
@@ -620,7 +615,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
                     <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#E8A33D] flex items-center gap-2">
                        <Code className="w-4 h-4" /> FORENSIC NOTE
                     </h4>
-                    <p className="text-[11px] text-[#9AA1C0] leading-relaxed font-medium italic">"Ensure <code>orderId</code> is strictly unique per request. Duplicate IDs in UAT will trigger 'Validation Error' even if the schema is otherwise perfect."</p>
+                    <p className="text-[11px] text-[#9AA1C0] leading-relaxed font-medium italic">"The <code>sellingPlanId</code> in the final payload maps to the <code>planId</code> of the selected catalog item. Ensure numerical values are never nullified during conversion."</p>
                  </div>
               </div>
             </div>
