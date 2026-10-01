@@ -1,3 +1,4 @@
+
 'use server';
 
 /**
@@ -65,7 +66,7 @@ function normalizeAsegoPlan(raw: any, targetAge?: number): NormalizedPlan {
 
   return {
     planId: raw.plan_id ?? raw.planId ?? raw.id ?? '',
-    name: raw.plan_name ?? raw.planName,
+    name: raw.plan_name ?? raw.planName ?? raw.name,
     insurer: raw.insurer_name ?? raw.insurerName ?? 'ICICI Lombard',
     premium: premium !== null && premium !== undefined ? Number(premium) : undefined,
     currency: raw.currency ?? 'INR',
@@ -81,7 +82,6 @@ function normalizeAsegoPlan(raw: any, targetAge?: number): NormalizedPlan {
 
 /**
  * Secure Server-Side Relay
- * PRIORITIZATION: Uses providedCreds if they exist, otherwise falls back to ENV.
  */
 async function asegoRequest(
   path: string, 
@@ -89,7 +89,6 @@ async function asegoRequest(
   method: string = 'GET',
   body: any = null
 ): Promise<ActionResponse> {
-  // Use provided credentials if they have content, otherwise fallback to system env
   const pId = (providedCreds?.partnerId || process.env.UTSAVS_PARTNER_ID || '').trim();
   const sgn = (providedCreds?.sign || process.env.UTSAVS_SIGN || '').trim();
   const ref = (providedCreds?.reference || process.env.UTSAVS_REFERENCE || '').trim();
@@ -99,7 +98,7 @@ async function asegoRequest(
       success: false,
       status: 0,
       data: null,
-      error: "Authentication credentials not configured. Please enter them in the CONFIG panel.",
+      error: "Authentication credentials not configured. Please enter Partner ID, Sign, and Reference in the CONFIG panel.",
       endpoint: path,
       method,
       headersSent: {}
@@ -109,7 +108,7 @@ async function asegoRequest(
   const endpoint = `${BASE_URL}${path}`;
   const headers: Record<string, string> = {
     'Accept': 'application/json',
-    'User-Agent': 'External API/1.0',
+    'User-Agent': 'Utsavs/1.0',
     'Content-Type': 'application/json',
     'Sign': sgn,
     'Reference': ref,
@@ -154,7 +153,7 @@ async function asegoRequest(
       success: false,
       status: 0,
       data: null,
-      error: error.message || "Network request failed. Verify endpoint connectivity.",
+      error: error.message || "Network request failed. Ensure dolphin.asego.in is reachable from the server.",
       endpoint,
       method,
       headersSent: headers
@@ -174,7 +173,7 @@ export async function asegoEncrypt(value: string, creds?: AsegoCredentials) {
       success: false,
       status: 0,
       data: null,
-      error: "Encryption keys (Secret Key / Vector Bytes) missing.",
+      error: "Encryption keys (Secret Key / Vector Bytes) missing in CONFIG.",
       endpoint: '/encryption/encrypt',
       method: 'POST',
       headersSent: {}
@@ -197,7 +196,7 @@ export async function asegoDecrypt(value: string, creds?: AsegoCredentials) {
       success: false,
       status: 0,
       data: null,
-      error: "Encryption keys (Secret Key / Vector Bytes) missing.",
+      error: "Encryption keys (Secret Key / Vector Bytes) missing in CONFIG.",
       endpoint: '/encryption/decrypt',
       method: 'POST',
       headersSent: {}

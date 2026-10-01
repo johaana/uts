@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
@@ -346,7 +347,7 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
                   <Button variant="ghost" size="sm" onClick={() => { navigator.clipboard.writeText(JSON.stringify(lastTrace.raw || lastTrace.data, null, 2)); toast({ title: "JSON Copied" }); }} className="h-6 text-[8px] uppercase font-bold text-[#4FD1C5] hover:bg-[#4FD1C5]/10">Copy JSON</Button>
                 </div>
                 <pre className="text-[#4FD1C5] overflow-auto max-h-[400px] leading-relaxed custom-scrollbar bg-white/[0.02] p-6 border border-white/5 shadow-inner">
-                  {lastTrace.raw || lastTrace.data ? JSON.stringify(lastTrace.raw || lastTrace.data, null, 2) : "No response body received."}
+                  {lastTrace.raw || lastTrace.data ? JSON.stringify(lastTrace.raw || lastTrace.data, null, 2) : (lastTrace.error ? `Trace captured error: ${lastTrace.error}` : "No response body received.")}
                 </pre>
               </div>
            </div>
@@ -538,14 +539,14 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {plans.map((plan, i) => (
                       <Card key={i} className="bg-[#171D3A]/60 backdrop-blur-xl border-white/10 rounded-3xl flex flex-col hover:border-[#E8A33D]/40 transition-all group overflow-hidden shadow-2xl">
-                         <div className="p-8 border-b border-white/5 bg-white/5">
+                         <div className="p-8 border-b border-white/5 bg-white/5 text-left">
                             <div className="flex justify-between items-start mb-2">
                                <h3 className="font-bold text-xl text-white leading-tight">{plan.name}</h3>
                                <ShieldCheck className="w-6 h-6 text-[#E8A33D] opacity-40" />
                             </div>
                             <p className="text-[10px] font-bold uppercase tracking-widest text-[#4FD1C5]">{plan.insurer}</p>
                          </div>
-                         <div className="p-8 space-y-8 flex-grow flex flex-col justify-between">
+                         <div className="p-8 space-y-8 flex-grow flex flex-col justify-between text-left">
                             <div className="space-y-4">
                                <div className="flex justify-between items-baseline">
                                   <p className="text-[10px] font-bold text-[#6E7495] uppercase">Total Premium</p>
@@ -669,11 +670,11 @@ export function InsuranceDashboard({ isDebug }: InsuranceDashboardProps) {
                   </div>
                   <h2 className="text-4xl font-bold font-headline text-white">Issuance Successful</h2>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/10 border border-white/10 rounded-2xl overflow-hidden text-left">
-                     <div className="bg-white/5 p-8 space-y-1">
+                     <div className="bg-white/5 p-8 space-y-1 text-left">
                         <p className="text-[10px] font-bold text-[#6E7495] uppercase tracking-widest">Policy Number</p>
                         <p className="text-2xl font-bold font-mono text-white">{issuedPolicy.policyNumber}</p>
                      </div>
-                     <div className="bg-white/5 p-8 space-y-1">
+                     <div className="bg-white/5 p-8 space-y-1 text-left">
                         <p className="text-[10px] font-bold text-[#6E7495] uppercase tracking-widest">Transaction ID</p>
                         <p className="text-2xl font-bold font-mono text-white">{issuedPolicy.orderId}</p>
                      </div>
