@@ -1,7 +1,7 @@
 'use server';
 
 /**
- * @fileOverview Asego API Implementation - Phase 1 Issuance (Baseline v5.3)
+ * @fileOverview Asego API Implementation - Phase 1 Issuance (Baseline v5.4)
  * Hardened response handling to prevent server crashes on empty UAT responses.
  */
 
@@ -55,15 +55,18 @@ interface ActionResponse {
 }
 
 /**
- * Normalization Boundary - Baseline v5.2
+ * Normalization Boundary - Baseline v5.4
  */
 function normalizeAsegoPlan(raw: any, targetAge: number, insurerInfo: { id: string, name: string }): NormalizedPlan | null {
+  // Support both 'id' and 'plan_id' variants seen in UAT
   const planId = String(raw.id || raw.plan_id || "");
   const name = String(raw.name || raw.plan_name || raw.displayName || "Standard Plan");
   
+  // Premium Extraction from age-matched array
   const agePremiums = raw.agePremiums || [];
   const matchedAgeEntry = agePremiums.find((ap: any) => Number(ap.age) === targetAge);
   
+  // Fail-closed: Ensure we have a real numeric premium and ID
   const premium = matchedAgeEntry ? Number(matchedAgeEntry.premium) : Number(raw.total || raw.total_premium || 0);
 
   if (!planId || isNaN(premium) || premium <= 0) {
@@ -150,6 +153,7 @@ export async function getAsegoPlans(params: { age: string, duration: string, cat
     const rawData = res.data;
     let normalizedList: NormalizedPlan[] = [];
 
+    // Latest UAT Shape: [ { insurerId, plans: [...] } ]
     if (Array.isArray(rawData)) {
       rawData.forEach((insurer: any) => {
         if (Array.isArray(insurer.plans)) {
@@ -233,21 +237,23 @@ function assembleAsegoPayload(payload: any, creds: AsegoCredentials) {
  * Defensive Diagnostics Helper
  */
 function buildDiagnostics(res: any, originalDiagnostics: any): any {
+  if (!res) return { ...originalDiagnostics, dataCheck: 'BLOCKED', error: 'Null response' };
+
   const rawData = res.raw || res.data;
   const isArray = Array.isArray(rawData);
   const isObject = typeof rawData === 'object' && rawData !== null && !isArray;
   
   return {
-    endpoint: originalDiagnostics.endpoint,
-    method: originalDiagnostics.method,
-    requestClass: originalDiagnostics.requestClass,
+    endpoint: originalDiagnostics.endpoint || res.endpoint || '',
+    method: originalDiagnostics.method || res.method || 'POST',
+    requestClass: originalDiagnostics.requestClass || 'OTHER',
     partnerId: originalDiagnostics.partnerId,
     planId: originalDiagnostics.planId || "N/A",
     premium: Number(originalDiagnostics.premium || 0),
     dataCheck: originalDiagnostics.dataCheck,
     responseShape: isArray ? 'ARRAY' : isObject ? 'OBJECT' : (rawData === null ? 'NULL' : 'UNKNOWN'),
     containsValidation: originalDiagnostics.requestClass === 'POLICY_VALIDATE' && (res.success || !!rawData),
-    containsPolicy: originalDiagnostics.requestClass === 'POLICY_ISSUE' && !!(res.success && (res.data?.policyNumber || (isArray && res.data[0]?.policyNumber)))
+    containsPolicy: originalDiagnostics.requestClass === 'POLICY_ISSUE' && !!(res.success && (res.data?.policyNumber || (isArray && rawData?.[0]?.policyNumber)))
   };
 }
 

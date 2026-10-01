@@ -188,7 +188,8 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
     setLastTrace(res);
     if (res.success) {
       // In UAT, success might return [] or a policy object. We treat both as success.
-      const pData = Array.isArray(res.data) ? res.data[0] : res.data;
+      const rawData = res.raw || res.data;
+      const pData = Array.isArray(rawData) ? rawData[0] : rawData;
       setPolicyInfo(pData || { policyNumber: "UAT-SUCCESS" });
       setStep('success');
       toast({ title: "Policy Issued Successfully" });
@@ -205,7 +206,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
               <div className="flex items-center gap-3">
                 <div className="px-3 py-1 bg-[#4FD1C5]/10 border border-[#4FD1C5]/20 rounded-full flex items-center gap-2">
                    <div className="w-1.5 h-1.5 rounded-full bg-[#4FD1C5] animate-pulse"></div>
-                   <span className="text-[9px] font-bold uppercase tracking-widest text-[#4FD1C5]">Forensic Hub v5.3</span>
+                   <span className="text-[9px] font-bold uppercase tracking-widest text-[#4FD1C5]">Forensic Hub v5.4</span>
                 </div>
                 <p className="text-[10px] font-bold text-[#6E7495] uppercase tracking-widest">Transaction Trace</p>
               </div>
@@ -229,7 +230,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
         <Card className="bg-[#0B0F22] border-[#4FD1C5]/40 p-8 rounded-none font-mono text-[11px] animate-in fade-in slide-in-from-top-4 text-left relative z-20 shadow-2xl">
            <div className="flex items-center justify-between mb-6 border-b border-white/5 pb-4">
               <div className="flex items-center gap-3">
-                 <span className="text-[10px] font-bold uppercase text-[#4FD1C5]">Forensic_Report_v5.3.log</span>
+                 <span className="text-[10px] font-bold uppercase text-[#4FD1C5]">Forensic_Report_v5.4.log</span>
                  <Badge variant="outline" className="text-[9px] border-white/10 uppercase py-0">{lastTrace.status} {lastTrace.success ? 'OK' : 'ERROR'}</Badge>
               </div>
            </div>
