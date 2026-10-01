@@ -42,7 +42,7 @@ interface ActionResponse {
   diagnostics?: {
     endpoint: string;
     method: string;
-    requestClass: 'PLAN_SEARCH' | 'POLICY_VALIDATE' | 'POLICY_ISSUE' | 'OTHER';
+    requestClass: 'PLAN_SEARCH' | 'POLICY_VALIDATE' | 'POLICY_ISSUE' | 'POLICY_CANCEL' | 'OTHER';
     dataCheck: 'PASS' | 'BLOCKED';
     partnerId: string;
     planId: string;
@@ -253,7 +253,7 @@ function buildDiagnostics(res: any, originalDiagnostics: any): any {
     dataCheck: originalDiagnostics.dataCheck,
     responseShape: isArray ? 'ARRAY' : isObject ? 'OBJECT' : (rawData === null ? 'NULL' : 'UNKNOWN'),
     containsValidation: originalDiagnostics.requestClass === 'POLICY_VALIDATE' && (res.success || !!rawData),
-    containsPolicy: originalDiagnostics.requestClass === 'POLICY_ISSUE' && !!(res.success && (res.data?.policyNumber || (isArray && rawData?.[0]?.policyNumber)))
+    containsPolicy: (originalDiagnostics.requestClass === 'POLICY_ISSUE' || originalDiagnostics.requestClass === 'POLICY_CANCEL') && res.success
   };
 }
 
@@ -320,5 +320,28 @@ export async function createAsegoPolicy(policyData: any, creds?: AsegoCredential
 }
 
 export async function cancelAsegoPolicy(policyNumber: string, creds?: AsegoCredentials) {
-  return { success: false, status: 0, data: null, error: "Cancellation phase locked. Verify Issuance first.", endpoint: '', method: '', headersSent: {} };
+  if (!creds || !policyNumber) return { success: false, status: 0, data: null, error: "Creds and Policy No required", endpoint: '', method: '', headersSent: {} };
+
+  const diagnostics: any = {
+    endpoint: `/ext/b2b/v1/policy/cancel/${creds.partnerId}`,
+    method: 'POST',
+    requestClass: 'POLICY_CANCEL',
+    partnerId: "PRESENT",
+    planId: "N/A",
+    premium: 0,
+    dataCheck: "PASS"
+  };
+
+  try {
+    const plaintext = { policyNumber };
+    const encRes = await asegoEncrypt(JSON.stringify(plaintext), creds);
+    if (!encRes.success || !encRes.data) return encRes;
+
+    const res = await asegoRequest(`/ext/b2b/v1/policy/cancel/${creds.partnerId}`, creds, 'POST', encRes.data);
+    res.plaintext = plaintext;
+    res.diagnostics = buildDiagnostics(res, diagnostics);
+    return res;
+  } catch (e: any) {
+    return { success: false, status: 0, data: null, error: e.message, endpoint: 'cancel_validation', method: 'INTERNAL', headersSent: {}, diagnostics };
+  }
 }

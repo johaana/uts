@@ -21,13 +21,16 @@ import {
   Package,
   ArrowRight,
   FileText,
-  AlertCircle
+  AlertCircle,
+  RotateCcw,
+  XCircle
 } from "lucide-react";
 import { 
   getAsegoCategories, 
   getAsegoPlans, 
   validateAsegoPolicy,
   createAsegoPolicy,
+  cancelAsegoPolicy,
   AsegoCredentials,
   NormalizedPlan 
 } from '@/app/international-insurance/actions';
@@ -105,6 +108,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
   const [isValidating, setIsValidating] = useState(false);
   const [isValidated, setIsValidated] = useState(false);
   const [isIssuing, setIsIssuing] = useState(false);
+  const [isCancelling, setIsCancelling] = useState(false);
   const [policyInfo, setPolicyInfo] = useState<any>(null);
   const [lastTrace, setLastTrace] = useState<any>(null);
   const [showTrace, setShowTrace] = useState(false);
@@ -187,16 +191,32 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
     const res = await createAsegoPolicy(payload, creds);
     setLastTrace(res);
     if (res.success) {
-      // In UAT, success might return [] or a policy object. We treat both as success.
       const rawData = res.raw || res.data;
       const pData = Array.isArray(rawData) ? rawData[0] : rawData;
       setPolicyInfo(pData || { policyNumber: "UAT-SUCCESS" });
       setStep('success');
-      toast({ title: "Policy Issued Successfully" });
+      toast({ title: "Policy Issued" });
     } else {
       toast({ title: "Issuance Failed", description: res.error, variant: "destructive" });
     }
     setIsIssuing(false);
+  };
+
+  const handleCancel = async () => {
+    const pNumber = policyInfo?.policyNumber;
+    if (!pNumber) return;
+    setIsCancelling(true);
+    const res = await cancelAsegoPolicy(pNumber, creds);
+    setLastTrace(res);
+    if (res.success) {
+      toast({ title: "Policy Cancelled" });
+      setStep('search');
+      setPolicyInfo(null);
+      setIsValidated(false);
+    } else {
+      toast({ title: "Cancellation Failed", variant: "destructive" });
+    }
+    setIsCancelling(false);
   };
 
   return (
@@ -494,7 +514,9 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
                         <p className="text-[10px] font-bold text-[#6E7495] uppercase tracking-[0.2em]">Policy Number</p>
                         <p className="text-3xl font-bold font-mono text-[#4FD1C5]">{policyInfo.policyNumber || "UAT-SUCCESS"}</p>
                      </div>
-                     <Badge variant="outline" className="bg-white/5 text-white border-white/10 uppercase tracking-widest text-[9px]">UAT Mode</Badge>
+                     <div className="flex gap-2">
+                        <Badge variant="outline" className="bg-white/5 text-white border-white/10 uppercase tracking-widest text-[9px]">UAT Mode</Badge>
+                     </div>
                   </div>
 
                   <div className="grid grid-cols-2 gap-12">
@@ -521,8 +543,21 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
                   </div>
 
                   <div className="pt-8 border-t border-white/5 flex gap-4">
-                     <Button className="flex-1 h-12 bg-white text-ink font-bold uppercase text-[10px] tracking-widest rounded-xl">Download PDF</Button>
-                     <Button variant="outline" onClick={() => setStep('search')} className="flex-1 h-12 border-white/10 text-white hover:bg-white/5 font-bold uppercase text-[10px] tracking-widest rounded-xl">New Quote</Button>
+                     <Button 
+                       onClick={handleCancel}
+                       disabled={isCancelling}
+                       variant="outline" 
+                       className="flex-1 h-12 border-red-500/20 text-red-500 hover:bg-red-500 hover:text-white font-bold uppercase text-[10px] tracking-widest rounded-xl transition-all"
+                     >
+                       {isCancelling ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <XCircle className="w-4 h-4 mr-2" />}
+                       VOID POLICY (UAT TEST)
+                     </Button>
+                     <Button 
+                       onClick={() => setStep('search')}
+                       className="flex-1 h-12 bg-white text-ink font-bold uppercase text-[10px] tracking-widest rounded-xl"
+                     >
+                       NEW QUOTE
+                     </Button>
                   </div>
                </Card>
             </div>
