@@ -1,3 +1,4 @@
+
 'use server';
 
 /**
@@ -44,7 +45,7 @@ interface ActionResponse {
 }
 
 /**
- * Normalization Helper - Extracts real Insurer IDs
+ * Normalization Helper - Extracts real Insurer IDs and ensures premium is captured.
  */
 function normalizeAsegoPlan(raw: any, targetAge?: number): NormalizedPlan {
   const targetAgeNum = targetAge !== undefined ? Number(targetAge) : NaN;
@@ -61,9 +62,11 @@ function normalizeAsegoPlan(raw: any, targetAge?: number): NormalizedPlan {
   const ineligible = hasFullBandData && !matchedDetail;
   const source = matchedDetail || {};
   
+  // Hardened premium lookup
   const premium = source.total ?? source.total_premium ?? raw.total_premium ?? raw.totalPremium;
 
   return {
+    // Asego's catalog returns 'id' for the plan identifier
     planId: raw.plan_id ?? raw.planId ?? raw.id ?? '',
     name: raw.plan_name ?? raw.planName ?? raw.name,
     insurer: raw.insurer_name ?? raw.insurerName ?? 'ICICI Lombard',

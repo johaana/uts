@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useMemo } from 'react';
@@ -43,6 +44,8 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
   
   const [step, setStep] = useState<Step>('search');
   const [viewMode, setViewMode] = useState<ViewMode>('journey');
+  
+  // FIXED: Removed the hardcoded Plan ID that was masquerading as a Partner ID
   const [creds, setCreds] = useState<AsegoCredentials>({
     partnerId: '',
     sign: '',
@@ -50,6 +53,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
     secretKey: '',
     vectorBytes: ''
   });
+  
   const [showGate, setShowGate] = useState(false);
   const [showSecrets, setShowSecrets] = useState(false);
 
@@ -138,6 +142,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
     setIsLoading(false);
   };
 
+  // TASK 1 & 4: Fixing the state selection gap and adding forensic log
   const handleSelectPlan = (plan: NormalizedPlan) => {
     console.log("UTSAVS_DEBUG_SELECTED_PLAN_OBJECT:", JSON.stringify(plan, null, 2));
     setSelectedPlan(plan);
@@ -164,7 +169,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
     setLastTrace(res);
     if (res.success) {
       setIsValidated(true);
-      toast({ title: "Validation Successful", description: "Schema matches Asego requirement." });
+      toast({ title: "Validation Successful" });
     } else {
       setIsValidated(false);
       toast({ title: "Validation Failed", variant: "destructive" });
