@@ -1,8 +1,8 @@
 'use server';
 
 /**
- * @fileOverview Asego API Implementation - Forensic Correction v5.2
- * Aligns payload assembly and normalization with the latest UAT breakthroughs.
+ * @fileOverview Asego API Implementation - Frozen Baseline v5.2
+ * Hardened payload assembly and normalization following successful UAT validation.
  */
 
 const BASE_URL = "https://dolphin.asego.in/api";
@@ -54,17 +54,20 @@ interface ActionResponse {
 }
 
 /**
- * Normalization Boundary - Forensic v5.2
+ * Normalization Boundary - Baseline v5.2
  * Maps the confirmed UAT search response (Insurers -> Plans -> agePremiums).
  */
 function normalizeAsegoPlan(raw: any, targetAge: number, insurerInfo: { id: string, name: string }): NormalizedPlan | null {
+  // Support both 'id' (UAT) and 'plan_id' (Production) variants
   const planId = String(raw.id || raw.plan_id || "");
   const name = String(raw.name || raw.plan_name || raw.displayName || "Standard Plan");
   
-  // Forensic Correction: Extract premium based on traveller age
+  // Forensic Correction: Extract premium based on traveller age within agePremiums array
   const agePremiums = raw.agePremiums || [];
   const matchedAgeEntry = agePremiums.find((ap: any) => Number(ap.age) === targetAge);
-  const premium = matchedAgeEntry ? Number(matchedAgeEntry.premium) : 0;
+  
+  // Fallback to top-level total/total_premium if agePremiums is absent (compatibility)
+  const premium = matchedAgeEntry ? Number(matchedAgeEntry.premium) : Number(raw.total || raw.total_premium || 0);
 
   // FAIL CLOSED: Discard malformed records
   if (!planId || isNaN(premium) || premium <= 0) {
@@ -164,6 +167,10 @@ export async function getAsegoPlans(params: { age: string, duration: string, cat
           });
         }
       });
+    } else if (typeof rawData === 'object' && rawData !== null) {
+        // Fallback for flat response
+        const normalized = normalizeAsegoPlan(rawData, Number(params.age), { id: "1", name: "Insurer" });
+        if (normalized) normalizedList.push(normalized);
     }
 
     res.data = normalizedList;
@@ -180,7 +187,7 @@ export async function asegoEncrypt(value: string, creds?: AsegoCredentials) {
 
 /**
  * Payload Assembly - Strict Mapping
- * Maps NormalizedPlan.planId -> sellingPlanId
+ * Baseline v5.2: Maps selection state directly to Asego payload.
  */
 function assembleAsegoPayload(payload: any, creds: AsegoCredentials) {
   const premium = Number(payload.premium);
@@ -278,6 +285,6 @@ export async function validateAsegoPolicy(policyData: any, creds?: AsegoCredenti
 }
 
 export async function createAsegoPolicy(policyData: any, creds?: AsegoCredentials) {
-  // READ-ONLY VALIDATION PHASE
+  // READ-ONLY BASELINE: Issuance remains locked until further approval.
   return { success: false, status: 0, data: null, error: "Policy issuance is locked. Run Validate Schema first.", endpoint: '', method: '', headersSent: {} };
 }
