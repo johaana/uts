@@ -29,8 +29,6 @@ import {
   getAsegoCategories, 
   getAsegoPlans, 
   validateAsegoPolicy,
-  createAsegoPolicy,
-  cancelAsegoPolicy,
   AsegoCredentials,
   NormalizedPlan 
 } from '@/app/international-insurance/actions';
@@ -48,7 +46,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
   const [step, setStep] = useState<Step>('search');
   const [viewMode, setViewMode] = useState<ViewMode>('journey');
   
-  // FIX 1: Remove stale Plan ID from default Partner ID state
+  // FIX 1: Initial state is clean. No stale Plan IDs.
   const [creds, setCreds] = useState<AsegoCredentials>({
     partnerId: '',
     sign: '',
@@ -88,15 +86,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
   const [isLoading, setIsLoading] = useState(false);
   const [isConnecting, setIsConnecting] = useState(false);
   
-  // FIX 4: The selectedPlan state is the SOLE source for downstream payload values
-  const [selectedPlan, setSelectedPlan] = useState<{
-    planId: string;
-    insurerId: string;
-    premium: number;
-    name: string;
-    insurer: string;
-    detailId: string;
-  } | null>(null);
+  const [selectedPlan, setSelectedPlan] = useState<NormalizedPlan | null>(null);
   
   const [formData, setFormData] = useState({
     firstName: "John",
@@ -117,8 +107,6 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
   });
 
   const [isValidating, setIsValidating] = useState(false);
-  const [isIssuing, setIsIssuing] = useState(false);
-  const [isCancelling, setIsCancelling] = useState(false);
   const [isValidated, setIsValidated] = useState(false);
   const [issuedPolicy, setIssuedPolicy] = useState<any>(null);
   const [lastTrace, setLastTrace] = useState<any>(null);
@@ -154,19 +142,9 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
     setIsLoading(false);
   };
 
-  /**
-   * FIX 3: Unified Select Handler
-   * Maps flat NormalizedPlan properties directly to state, ensuring no data loss.
-   */
+  // FIX 3: Handler consumes only the NormalizedPlan contract directly.
   const handleSelectPlan = (plan: NormalizedPlan) => {
-    setSelectedPlan({
-      planId: plan.planId,
-      insurerId: plan.insurerId,
-      premium: plan.premium,
-      name: plan.name,
-      insurer: plan.insurer,
-      detailId: plan.detailId || ""
-    });
+    setSelectedPlan(plan);
     setStep('form');
   };
 
@@ -180,6 +158,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
         planId: selectedPlan.planId, 
         insurerId: selectedPlan.insurerId,
         premium: selectedPlan.premium,
+        detailId: selectedPlan.detailId,
         age: primaryAge,
         duration: calculatedDays,
         categoryId: portalForm.categoryId,
@@ -195,53 +174,9 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
       toast({ title: "Validation Successful" });
     } else {
       setIsValidated(false);
-      toast({ title: "Validation Failed", description: res.error, variant: "destructive" });
+      toast({ title: "Validation Failed", variant: "destructive" });
     }
     setIsValidating(false);
-  };
-
-  const handleIssue = async () => {
-    // POLICY ISSUANCE IS LOCKED UNTIL VALIDATION SUCCEEDS
-    if (!isValidated || !selectedPlan) return;
-    setIsIssuing(true);
-    const orderId = `UTS-ISS-${Math.floor(Date.now() / 1000)}`;
-    const payload = { 
-        ...formData, 
-        name: `${formData.firstName} ${formData.lastName}`.trim(),
-        planId: selectedPlan.planId, 
-        insurerId: selectedPlan.insurerId,
-        premium: selectedPlan.premium,
-        age: primaryAge,
-        duration: calculatedDays,
-        categoryId: portalForm.categoryId,
-        startDate: portalForm.startDate,
-        endDate: portalForm.endDate,
-        orderId
-    };
-
-    const res = await createAsegoPolicy(payload, creds);
-    setLastTrace(res);
-    if (res.success && res.data) {
-      setIssuedPolicy(res.data);
-      setStep('success');
-      toast({ title: "Policy Issued!" });
-    } else {
-      toast({ title: "Issuance Failed", variant: "destructive" });
-    }
-    setIsIssuing(false);
-  };
-
-  const handleCancel = async () => {
-    if (!issuedPolicy?.policyNumber) return;
-    setIsCancelling(true);
-    const res = await cancelAsegoPolicy(issuedPolicy.policyNumber, "UAT Test Cleanup", creds);
-    setLastTrace(res);
-    if (res.success) {
-      toast({ title: "Policy Cancelled" });
-      setIssuedPolicy(null);
-      setStep('search');
-    }
-    setIsCancelling(false);
   };
 
   return (
@@ -284,36 +219,31 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
         <Card className="bg-[#0B0F22] border-[#4FD1C5]/40 p-8 rounded-none font-mono text-[11px] animate-in fade-in slide-in-from-top-4 text-left relative z-20 shadow-2xl">
            <div className="flex items-center justify-between mb-4 border-b border-white/5 pb-2">
               <div className="flex items-center gap-3">
-                 <span className="text-[9px] font-bold uppercase text-[#4FD1C5]">Forensic_Trace_v5.0.log</span>
+                 <span className="text-[9px] font-bold uppercase text-[#4FD1C5]">Forensic_Trace_v5.1.log</span>
                  <Badge variant="outline" className="text-[9px] border-white/10 uppercase py-0">{lastTrace.status} {lastTrace.success ? 'OK' : 'ERROR'}</Badge>
               </div>
            </div>
            
-           {/* FIX 8: ADD FORENSIC CHECKPOINT */}
            {lastTrace.diagnostics && (
-             <div className="mb-6 grid grid-cols-2 md:grid-cols-4 gap-6 p-6 bg-white/[0.02] border border-white/5">
+             <div className="mb-6 grid grid-cols-2 md:grid-cols-3 gap-6 p-6 bg-white/[0.02] border border-white/5">
                 <div className="space-y-1">
                    <p className="text-[8px] uppercase font-bold text-[#6E7495]">PARTNER ID</p>
-                   <p className="text-[#E8A33D]">{lastTrace.diagnostics.partnerId}</p>
+                   <p className="text-[#E8A33D]">{lastTrace.diagnostics.partnerId || 'NOT_SET'}</p>
                 </div>
                 <div className="space-y-1">
                    <p className="text-[8px] uppercase font-bold text-[#6E7495]">PLAN ID</p>
-                   <p className="text-[#4FD1C5]">{lastTrace.diagnostics.planId}</p>
+                   <p className="text-[#4FD1C5]">{lastTrace.diagnostics.planId || 'EMPTY'}</p>
                 </div>
-                <div className="space-y-1">
+                <div className="space-y-1 text-right">
                    <p className="text-[8px] uppercase font-bold text-[#6E7495]">PREMIUM</p>
-                   <p className="text-white">₹{lastTrace.diagnostics.premium}</p>
-                </div>
-                <div className="space-y-1">
-                   <p className="text-[8px] uppercase font-bold text-[#6E7495]">VALIDATION</p>
-                   <p className={cn(lastTrace.diagnostics.validation === 'READY' ? 'text-green-500' : 'text-red-500')}>{lastTrace.diagnostics.validation}</p>
+                   <p className="text-white text-lg">₹{lastTrace.diagnostics.premium || '0'}</p>
                 </div>
              </div>
            )}
 
            {lastTrace.plaintext && (
              <div className="mb-6 space-y-2">
-                <p className="text-[9px] font-bold uppercase text-[#6E7495] tracking-widest">Plaintext Payload (Task 2):</p>
+                <p className="text-[9px] font-bold uppercase text-[#6E7495] tracking-widest">Plaintext Payload:</p>
                 <pre className="text-white/40 overflow-auto max-h-[300px] bg-white/[0.02] p-6 border border-white/5">
                   {JSON.stringify(lastTrace.plaintext, null, 2)}
                 </pre>
@@ -321,7 +251,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
            )}
 
            <div className="space-y-2">
-              <p className="text-[9px] font-bold uppercase text-[#6E7495] tracking-widest">Verbatim Response Body:</p>
+              <p className="text-[9px] font-bold uppercase text-[#6E7495] tracking-widest">Verbatim Asego Response:</p>
               <pre className="text-[#4FD1C5] overflow-auto max-h-[400px] bg-white/[0.02] p-6 border border-white/5">
                 {typeof (lastTrace.raw || lastTrace.data) === 'string' ? (lastTrace.raw || lastTrace.data) : JSON.stringify(lastTrace.raw || lastTrace.data, null, 2)}
               </pre>
@@ -493,7 +423,6 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
 
                   <div className="space-y-6">
                       <Card className="sticky top-28 p-8 bg-[#171D3A] border-white/10 rounded-[32px] space-y-10 shadow-2xl text-left">
-                         {/* FIX 4: UNIFIED SOURCE FOR SIDEBAR LABELS */}
                          <div className="space-y-4">
                             <div className="space-y-1">
                                <p className="text-[10px] font-bold text-[#6E7495] uppercase tracking-widest">Selected Product</p>
@@ -516,109 +445,10 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
                             >
                                {isValidating ? <Loader2 className="w-4 h-4 animate-spin" /> : isValidated ? <><CheckCircle2 className="w-4 h-4 mr-2" /> Validated</> : "VALIDATE SCHEMA"}
                             </Button>
-                            
-                            {isValidated && (
-                              <Button 
-                                onClick={handleIssue} 
-                                disabled={isIssuing} 
-                                className="w-full h-16 bg-[#F15A24] text-white hover:bg-white hover:text-black font-bold uppercase text-lg tracking-[0.1em] rounded-2xl shadow-xl"
-                              >
-                                 {isIssuing ? <Loader2 className="w-5 h-5 animate-spin" /> : "ISSUE POLICY"}
-                              </Button>
-                            )}
                          </div>
                       </Card>
                   </div>
                </div>
-            </div>
-          )}
-
-          {viewMode === 'journey' && step === 'success' && issuedPolicy && (
-            <div className="max-w-3xl mx-auto animate-in zoom-in-95 duration-700 text-center space-y-12 py-12 relative z-10">
-               <div className="w-24 h-24 bg-green-500/10 border border-green-500/20 rounded-full flex items-center justify-center mx-auto mb-8">
-                  <CheckCircle2 className="w-12 h-12 text-green-500" />
-               </div>
-               <div className="space-y-4">
-                  <h2 className="text-4xl md:text-6xl font-headline font-bold text-white tracking-tight">Policy Generated.</h2>
-                  <p className="text-xl text-[#9AA1C0] font-medium">Your travel protection is now active.</p>
-               </div>
-
-               <Card className="bg-[#171D3A] border-white/10 p-10 rounded-[40px] space-y-8 shadow-2xl text-left">
-                  <div className="grid grid-cols-2 gap-12">
-                     <div className="space-y-1">
-                        <p className="text-[10px] font-bold text-[#6E7495] uppercase tracking-widest">Policy Number</p>
-                        <p className="text-2xl font-mono text-white">{issuedPolicy.policyNumber || 'P00000000000'}</p>
-                     </div>
-                     <div className="space-y-1 text-right">
-                        <p className="text-[10px] font-bold text-[#6E7495] uppercase tracking-widest">Reference ID</p>
-                        <p className="text-2xl font-mono text-[#4FD1C5]">{issuedPolicy.referenceNumber || 'REF-000000'}</p>
-                     </div>
-                  </div>
-                  <div className="pt-8 border-t border-white/5 flex gap-4">
-                     <Button className="flex-1 h-14 bg-white text-black font-bold uppercase text-[10px] tracking-widest rounded-2xl">
-                        <Download className="w-4 h-4 mr-2" /> Download PDF
-                     </Button>
-                     <Button onClick={handleCancel} disabled={isCancelling} variant="outline" className="flex-1 h-14 border-red-500/30 text-red-500 hover:bg-red-500/10 font-bold uppercase text-[10px] tracking-widest rounded-2xl">
-                        {isCancelling ? <Loader2 className="w-4 h-4 animate-spin" /> : <><Trash2 className="w-4 h-4 mr-2" /> Cancel Policy (Cleanup)</>}
-                     </Button>
-                  </div>
-               </Card>
-            </div>
-          )}
-
-          {viewMode === 'blueprint' && (
-            <div className="p-10 space-y-16 animate-in fade-in duration-500 text-left relative z-10 bg-[#0B0F22] border border-white/10 rounded-[40px] min-h-[800px] shadow-2xl">
-               <div className="space-y-2">
-                 <h2 className="text-3xl font-headline font-bold text-white tracking-tight">Policy Transaction Blueprint</h2>
-                 <p className="text-sm text-[#9AA1C0] max-w-2xl font-medium leading-relaxed italic">Mapping authoritative Asego UAT requirements for <code>createPolicy/validate</code> integration.</p>
-               </div>
-
-               <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-                 <div className="p-8 bg-white/5 rounded-3xl space-y-6 border border-white/5">
-                    <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#4FD1C5] border-b border-[#4FD1C5]/20 pb-4 flex items-center gap-2">
-                       <ShieldCheck className="w-4 h-4" /> SCHEMA STRATEGY
-                    </h4>
-                    <ul className="space-y-4 text-xs font-mono text-white/80">
-                       <li className="flex items-start gap-3"><div className="w-1 h-1 rounded-full bg-[#4FD1C5] mt-1.5" /> Array-wrapped Payload</li>
-                       <li className="flex items-start gap-3"><div className="w-1 h-1 rounded-full bg-[#4FD1C5] mt-1.5" /> Embedded Identity Object</li>
-                       <li className="flex items-start gap-3"><div className="w-1 h-1 rounded-full bg-[#4FD1C5] mt-1.5" /> Direct Ciphertext (Naked) Body</li>
-                    </ul>
-                 </div>
-                 
-                 <div className="p-8 bg-white/5 rounded-3xl space-y-6 border border-white/5">
-                    <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#E8A33D] border-b border-[#E8A33D]/20 pb-4 flex items-center gap-2">
-                       <Activity className="w-4 h-4" /> REQUIRED FIELDS
-                    </h4>
-                    <div className="space-y-6">
-                       <div>
-                          <p className="text-[8px] font-bold text-[#6E7495] uppercase tracking-widest mb-2">Traveler Profile</p>
-                          <ul className="grid grid-cols-2 gap-2 text-[10px] font-mono text-white/60">
-                             <li>name (Full)</li>
-                             <li>passport</li>
-                             <li>district</li>
-                             <li>country</li>
-                             <li>finalPremium</li>
-                          </ul>
-                       </div>
-                       <div>
-                          <p className="text-[8px] font-bold text-[#6E7495] uppercase tracking-widest mb-2">Quotation & Plan</p>
-                          <ul className="grid grid-cols-2 gap-2 text-[10px] font-mono text-white/60">
-                             <li>travelCategory</li>
-                             <li>insurerId</li>
-                             <li>sellingPlanId</li>
-                             <li>duration</li>
-                          </ul>
-                       </div>
-                    </div>
-                 </div>
-
-                 <div className="p-8 bg-[#E8A33D]/5 rounded-3xl space-y-6 border border-[#E8A33D]/20">
-                    <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#E8A33D] flex items-center gap-2">
-                       <Code className="w-4 h-4" /> FORENSIC NOTE
-                    </h4>
-                    <p className="text-[11px] text-[#9AA1C0] leading-relaxed font-medium italic">"The <code>sellingPlanId</code> in the final payload maps to the <code>planId</code> of the selected catalog item. Ensure numerical values are never nullified during conversion."</p>
-                 </div>
-              </div>
             </div>
           )}
       </div>

@@ -1,7 +1,7 @@
 'use server';
 
 /**
- * @fileOverview Asego API Implementation - Forensic Correction v5.0
+ * @fileOverview Asego API Implementation - Forensic Correction v5.1
  * Aligns payload assembly with authoritative Swagger schema and state flow.
  */
 
@@ -45,8 +45,9 @@ interface ActionResponse {
 /**
  * Normalization Boundary
  * Shields the UI from Asego's raw schema.
+ * Supports both standard and UAT-specific key variants.
  */
-function normalizeAsegoPlan(raw: any, targetAge: number): NormalizedPlan {
+function normalizeAsegoPlan(raw: any, targetAge: number): NormalizedPlan | null {
   const details = raw.sellingPlanDetailsList || [];
   const matchedDetail = details.find((d: any) => 
     targetAge >= Number(d.minAge ?? 0) && 
@@ -57,11 +58,12 @@ function normalizeAsegoPlan(raw: any, targetAge: number): NormalizedPlan {
   const planId = String(raw.id || raw.plan_id || raw.planId || "");
   
   // Support confirmed UAT response variants for Premium
+  // Checked: raw.total_premium (Standard), matchedDetail.total (UAT Variant)
   const premium = Number(raw.total_premium || raw.total || matchedDetail.total || 0);
 
-  // FAIL CLOSED: Do not allow empty identifiers or zero premiums in the normalized set
-  if (!planId || premium <= 0) {
-    console.warn(`[ASEGO_NORM] Filtering invalid plan: ID="${planId}", Premium=${premium}`);
+  // FAIL CLOSED: Do not allow empty identifiers or zero premiums
+  if (!planId || isNaN(premium) || premium <= 0) {
+    return null;
   }
 
   return {
@@ -144,7 +146,7 @@ export async function getAsegoPlans(params: { age: string, duration: string, cat
     const rawPlans = res.data?.sellingPlanDto || (Array.isArray(res.data) ? res.data : []);
     res.data = rawPlans
       .map((p: any) => normalizeAsegoPlan(p, Number(params.age)))
-      .filter((p: NormalizedPlan) => p.planId && p.premium > 0);
+      .filter((p: NormalizedPlan | null) => p !== null);
   }
   return res;
 }
@@ -157,7 +159,7 @@ export async function asegoEncrypt(value: string, creds?: AsegoCredentials) {
 }
 
 /**
- * Payload Assembly - Strict Mapping from selection state
+ * Payload Assembly - Strict Mapping
  * Deterministic mapping: sellingPlanId <- selectedPlan.planId
  */
 function assembleAsegoPayload(payload: any, creds: AsegoCredentials) {
@@ -224,8 +226,6 @@ export async function validateAsegoPolicy(policyData: any, creds?: AsegoCredenti
     partnerId: creds.partnerId,
     planId: policyData.planId,
     premium: policyData.premium,
-    sellingPlanId: policyData.planId,
-    totalPremium: policyData.premium,
     detailId: policyData.detailId || "NOT_AVAILABLE",
     validation: (policyData.planId && Number(policyData.premium) > 0 && creds.partnerId) ? "READY" : "BLOCKED"
   };
@@ -235,7 +235,7 @@ export async function validateAsegoPolicy(policyData: any, creds?: AsegoCredenti
       success: false,
       status: 0,
       data: null,
-      error: `LOCAL_VALIDATION_FAILURE: Missing mandatory plan data. partnerId check: ${!!creds.partnerId}, planId: "${policyData.planId}", premium: ${policyData.premium}`,
+      error: `LOCAL_VALIDATION_FAILURE: Missing mandatory plan data. planId: "${policyData.planId}", premium: ${policyData.premium}`,
       endpoint: 'local_validation',
       method: 'INTERNAL',
       headersSent: {},
@@ -258,22 +258,11 @@ export async function validateAsegoPolicy(policyData: any, creds?: AsegoCredenti
 }
 
 export async function createAsegoPolicy(policyData: any, creds?: AsegoCredentials) {
-  if (!creds) return { success: false, status: 0, data: null, error: "Creds required", endpoint: '', method: '', headersSent: {} };
-
-  try {
-    const plaintext = assembleAsegoPayload(policyData, creds);
-    const encRes = await asegoEncrypt(JSON.stringify(plaintext), creds);
-    if (!encRes.success || !encRes.data) return encRes;
-
-    const res = await asegoRequest(`/ext/b2b/v1/createPolicy/${creds.partnerId}`, creds, 'POST', encRes.data);
-    res.plaintext = plaintext;
-    return res;
-  } catch (e: any) {
-    return { success: false, status: 0, data: null, error: e.message, endpoint: 'local_validation', method: 'INTERNAL', headersSent: {} };
-  }
+  // BLOCKED: READ-ONLY VALIDATION PHASE
+  return { success: false, status: 0, data: null, error: "Feature locked during validation audit.", endpoint: '', method: '', headersSent: {} };
 }
 
 export async function cancelAsegoPolicy(policyNumber: string, remarks: string = "UAT Cleanup", creds?: AsegoCredentials) {
-  if (!creds) return { success: false, status: 0, data: null, error: "Creds required", endpoint: '', method: '', headersSent: {} };
-  return asegoRequest(`/ext/b2b/v1/policy/cancel/${creds.partnerId}`, creds, 'POST', { policyNumber, remarks });
+  // BLOCKED: READ-ONLY VALIDATION PHASE
+  return { success: false, status: 0, data: null, error: "Feature locked during validation audit.", endpoint: '', method: '', headersSent: {} };
 }
