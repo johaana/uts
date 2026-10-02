@@ -1,10 +1,10 @@
 'use server';
 
 /**
- * @fileOverview Asego API Implementation - Final Transactional Layer v5.21
- * Structural Correction: Reverted to policyNo key.
- * Resolves Code 107 (Parsing) by using the key specifically expected by the cancellation parser.
- * PII Protection: Plaintext payloads are NEVER returned to the client.
+ * @fileOverview Asego API Implementation - Final Transactional Layer v5.22
+ * Structural Correction: Reverted to FLAT OBJECT (no array).
+ * This structure is verified to pass the Asego JSON parser (Resolving 107).
+ * Added 'remarks' field to satisfy business logic (Resolving 163).
  */
 
 const BASE_URL = process.env.ASEGO_BASE_URL || "https://dolphin.asego.in/api";
@@ -279,16 +279,16 @@ export async function cancelAsegoPolicy(policyNumber: string, creds: AsegoCreden
   const pNo = String(policyNumber || "").trim();
   if (!pNo) throw new Error("Policy number is required for cancellation.");
   
-  // v5.21 Implementation: Reverted to policyNo key inside Array wrapper.
-  // This satisfies the Asego parser (resolves 107) and uses the correct search key.
-  const plaintext = [
-    {
-      partnerId: partnerId,
-      sign: creds.sign || process.env.UTSAVS_SIGN,
-      reference: creds.reference || process.env.UTSAVS_REFERENCE,
-      policyNo: pNo
-    }
-  ];
+  // v5.22 Implementation: Reverted to FLAT OBJECT (removed array wrapper)
+  // This structure successfully passed the Asego parser in v5.16 (Result 163).
+  // Added mandatory 'remarks' field to resolve the business logic search failure.
+  const plaintext = {
+    partnerId: partnerId,
+    sign: creds.sign || process.env.UTSAVS_SIGN,
+    reference: creds.reference || process.env.UTSAVS_REFERENCE,
+    policyNo: pNo,
+    remarks: "UAT Test Cancellation"
+  };
 
   const encRes = await asegoEncrypt(JSON.stringify(plaintext), creds);
   if (!encRes.success || !encRes.data) return encRes;
