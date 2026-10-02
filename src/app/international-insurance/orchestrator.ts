@@ -30,6 +30,8 @@ function assertEnvironmentSafety() {
     if (!baseUrl.includes('dolphin.asego.in') && baseUrl !== "") {
       throw new Error("UAT_SAFETY_VIOLATION: UAT environment configured with non-UAT endpoint.");
     }
+  } else {
+    throw new Error(`CONFIGURATION_ERROR: Invalid UTSAVS_ASEGO_ENV (${env}). Must be 'uat' or 'production'.`);
   }
 }
 
@@ -45,9 +47,11 @@ export async function orchestrateIssuance(payload: any, sessionToken: string, id
     if (userData.status !== 'active') throw new Error("UNAUTHORIZED: Account is not active.");
     
     const agencyId = userData.agencyId;
-    if (!agencyId) throw new Error("CONFIGURATION_ERROR: User is not associated with an agency.");
+    if (!agencyId && userData.role !== 'admin') throw new Error("CONFIGURATION_ERROR: User is not associated with an agency.");
 
-    const agencyRef = adminDb.collection('agencies').doc(agencyId);
+    // Resolve Agency Configuration
+    const targetAgencyId = userData.role === 'admin' ? payload.agencyId : agencyId;
+    const agencyRef = adminDb.collection('agencies').doc(targetAgencyId);
     const agencySnap = await agencyRef.get();
     const agencyData = agencySnap.data();
 
@@ -56,7 +60,7 @@ export async function orchestrateIssuance(payload: any, sessionToken: string, id
     }
 
     const commissionRate = agencyData.commissionRate;
-    if (typeof commissionRate !== 'number' || !Number.isFinite(commissionRate)) {
+    if (!Number.isFinite(commissionRate)) {
       throw new Error("COMMERCIAL_ERROR: Agency commission rate is not valid. Contact support.");
     }
 
@@ -88,13 +92,16 @@ export async function orchestrateIssuance(payload: any, sessionToken: string, id
 
     // 3. Namespaced Idempotency & Pending Creation
     // ID format: {agencyId}_{uid}_{key} ensures isolation and prevents cross-tenant overwrites.
-    const namespacedId = `${agencyId}_${uid}_${idempotencyKey.replace(/[^a-zA-Z0-9]/g, '')}`;
+    const cleanKey = String(idempotencyKey || "").replace(/[^a-zA-Z0-9]/g, '');
+    if (!cleanKey) throw new Error("IDEMPOTENCY_ERROR: Key is required.");
+    
+    const namespacedId = `${targetAgencyId}_${uid}_${cleanKey}`;
     const ledgerRef = adminDb.collection('policy_ledger').doc(namespacedId);
 
     try {
       await ledgerRef.create({
         transactionId: namespacedId,
-        agencyId,
+        agencyId: targetAgencyId,
         agencyUserId: uid,
         status: 'pending',
         travelerName: payload.name,
@@ -102,7 +109,7 @@ export async function orchestrateIssuance(payload: any, sessionToken: string, id
         commissionRateAtSale: commissionRate,
         commissionAmount,
         utsavsShareAmount,
-        environment: process.env.UTSAVS_ASEGO_ENV || 'uat',
+        environment: process.env.UTSAVS_ASEGO_ENV,
         providerId: 'asego',
         createdAt: FieldValue.serverTimestamp(),
         updatedAt: FieldValue.serverTimestamp()
@@ -124,23 +131,24 @@ export async function orchestrateIssuance(payload: any, sessionToken: string, id
     try {
       asegoRes = await createAsegoPolicy(payload, asegoCreds);
     } catch (asegoErr: any) {
+      // Call threw - outcome unknown
       await ledgerRef.update({
         status: 'reconciliation_required',
-        error: `Provider Call Failed: ${asegoErr.message}`,
+        errorCode: 'PROVIDER_EXCEPTION',
         updatedAt: FieldValue.serverTimestamp()
       });
-      throw new Error(`PROVIDER_CONNECTION_FAILED: ${asegoErr.message}`);
+      return { success: false, error: 'PROVIDER_STATUS_UNKNOWN', transactionId: namespacedId };
     }
 
     // 5. Finalize Ledger Update
     if (asegoRes.success) {
       const policyData = Array.isArray(asegoRes.data) ? asegoRes.data[0] : asegoRes.data;
-      const policyNumber = policyData.policyNumber;
+      const policyNumber = policyData?.policyNumber;
 
       if (!policyNumber) {
         await ledgerRef.update({
           status: 'reconciliation_required',
-          error: "Asego success but policyNumber missing in response.",
+          errorCode: 'MISSING_POLICY_NUMBER',
           updatedAt: FieldValue.serverTimestamp()
         });
         return { success: false, error: "Policy issued but reference missing. Reconciliation required." };
@@ -155,21 +163,23 @@ export async function orchestrateIssuance(payload: any, sessionToken: string, id
         });
         return { success: true, policyNumber };
       } catch (finalWriteErr: any) {
-        // Log locally for manual audit - policy exists at Asego but ledger failed to update
-        console.error("CRITICAL_RECONCILIATION_EVENT:", namespacedId, policyNumber);
+        // Success at Asego but failed to update ledger
         return { 
           success: true, 
+          status: 'SUBMITTED_AWAITING_CONFIRMATION',
           policyNumber, 
-          warning: "Policy issued, internal ledger update delayed. Transaction ID: " + namespacedId 
+          transactionId: namespacedId 
         };
       }
     } else {
+      // explicit failure from provider
       await ledgerRef.update({
         status: 'failed',
-        error: asegoRes.data?.msg || 'Issuance refused by provider',
+        errorCode: 'PROVIDER_REJECTED',
+        providerMsg: asegoRes.data?.msg || 'Unknown rejection',
         updatedAt: FieldValue.serverTimestamp()
       });
-      return { success: false, error: asegoRes.data?.msg || 'Issuance failed' };
+      return { success: false, error: 'ISSUANCE_FAILED', msg: asegoRes.data?.msg };
     }
 
   } catch (error: any) {

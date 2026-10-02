@@ -1,7 +1,7 @@
 
 'use client';
 
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -14,7 +14,8 @@ import {
   User as UserIcon, 
   CheckCircle2, 
   RotateCcw,
-  ArrowRight
+  ArrowRight,
+  AlertCircle
 } from "lucide-react";
 import { 
   getAsegoCategories, 
@@ -42,11 +43,15 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
   const [selectedPlan, setSelectedPlan] = useState<NormalizedPlan | null>(null);
   const [issuedPolicy, setIssuedPolicy] = useState<any>(null);
 
-  // Stabilize Idempotency Key once per form session
+  // Generate Idempotency Key once per form session
   const [sessionKey, setSessionKey] = useState("");
-  useEffect(() => {
+  const regenerateKey = useCallback(() => {
     setSessionKey(`IDEM-${Math.random().toString(36).substring(2, 10).toUpperCase()}`);
-  }, [step === 'search']);
+  }, []);
+
+  useEffect(() => {
+    if (step === 'search') regenerateKey();
+  }, [step, regenerateKey]);
 
   const [portalForm, setPortalForm] = useState({
     categoryId: '',
@@ -73,7 +78,6 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
   });
 
   useEffect(() => {
-    // Client-side fetch uses empty creds (server-side env handles actual sign/ref)
     const creds = { partnerId: '', sign: '', reference: '' };
     getAsegoCategories(creds).then(res => {
       if (res.success) setCategories(res.data);
@@ -138,10 +142,17 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
       if (res.success) {
         setIssuedPolicy({ policyNumber: res.policyNumber });
         setStep('success');
-        // Force token refresh to apply any new custom claims if assigned during session
-        user.getIdToken(true);
       } else {
-        toast({ title: "Issuance Failed", description: res.error, variant: "destructive" });
+        // Critical: Do not regenerate key on PROVIDER_STATUS_UNKNOWN
+        if (res.error !== 'PROVIDER_STATUS_UNKNOWN') regenerateKey();
+        
+        toast({ 
+            title: res.error === 'PROVIDER_STATUS_UNKNOWN' ? "Status Unknown" : "Issuance Failed", 
+            description: res.error === 'PROVIDER_STATUS_UNKNOWN' 
+                ? "Transaction reference recorded. Do NOT retry. Contact support." 
+                : res.msg || res.error, 
+            variant: "destructive" 
+        });
       }
     } finally {
       setIsIssuing(false);
