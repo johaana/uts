@@ -1,14 +1,14 @@
 'use server';
 
 /**
- * @fileOverview Utsavs Transaction Orchestrator v3 (Hardened)
+ * @fileOverview Utsavs Transaction Orchestrator v4 (Hardened)
  * 
  * CORE RESPONSIBILITIES:
  * 1. Authenticate via ID Token (NOT browser UIDs)
  * 2. Resolve authoritative Pricing (Server-side re-fetch from Asego)
- * 3. Fail-Closed Environment Assertion (Prod never touches UAT)
+ * 3. Fail-Closed Environment Assertion
  * 4. Atomic Ledger Creation (Namespaced Idempotency)
- * 5. Fault-Tolerant Asego Handshake (Ghost Sale Protection)
+ * 5. Sanitized Error Propagation
  */
 
 import { adminDb, verifySession, getAuthoritativeUser } from '@/lib/server/admin';
@@ -23,23 +23,26 @@ function assertEnvironmentSafety() {
   const baseUrl = process.env.ASEGO_BASE_URL || "";
   
   if (env !== 'uat' && env !== 'production') {
-    throw new Error(`CONFIGURATION_ERROR: UTSAVS_ASEGO_ENV must be exactly 'uat' or 'production'. Current: ${env}`);
+    throw new Error("CONFIGURATION_ERROR: Environment must be exactly 'uat' or 'production'.");
   }
 
   if (env === 'production') {
     if (!baseUrl || baseUrl.includes('dolphin.asego.in')) {
-      throw new Error("PRODUCTION_SAFETY_VIOLATION: Production environment cannot use UAT host.");
+      throw new Error("PRODUCTION_SAFETY_VIOLATION: Production cannot use UAT host.");
     }
   } else if (env === 'uat') {
     if (baseUrl !== "" && !baseUrl.includes('dolphin.asego.in')) {
       throw new Error("UAT_SAFETY_VIOLATION: UAT environment configured with non-UAT host.");
     }
   }
+  return env;
 }
 
 export async function orchestrateIssuance(payload: any, sessionToken: string, idempotencyKey: string) {
+  const txRef = `TX-${Math.random().toString(36).substring(7).toUpperCase()}`;
+  
   try {
-    assertEnvironmentSafety();
+    const validatedEnv = assertEnvironmentSafety();
 
     // 1. Authenticate & Resolve Authority
     const decodedToken = await verifySession(sessionToken);
@@ -48,12 +51,12 @@ export async function orchestrateIssuance(payload: any, sessionToken: string, id
     
     if (userData.status !== 'active') throw new Error("UNAUTHORIZED: Account is suspended.");
     
+    // REQUIRE agencyId for all sales (No admin override path)
     const agencyId = userData.agencyId;
-    if (!agencyId && userData.role !== 'admin') throw new Error("CONFIGURATION_ERROR: User lacks agency association.");
+    if (!agencyId) throw new Error("UNAUTHORIZED: User lacks agency association.");
 
     // Resolve Agency Commercials
-    const targetAgencyId = userData.role === 'admin' ? payload.agencyId : agencyId;
-    const agencyRef = adminDb.collection('agencies').doc(targetAgencyId);
+    const agencyRef = adminDb.collection('agencies').doc(agencyId);
     const agencySnap = await agencyRef.get();
     const agencyData = agencySnap.data();
 
@@ -63,7 +66,7 @@ export async function orchestrateIssuance(payload: any, sessionToken: string, id
 
     const commissionRate = agencyData.commissionRate;
     if (!Number.isFinite(commissionRate)) {
-      throw new Error("COMMERCIAL_ERROR: Valid commission rate not found for agency.");
+      throw new Error("VALIDATION_ERROR: Valid commission rate not found.");
     }
 
     // 2. Authoritative Price Verification (Server-Side Re-fetch)
@@ -79,7 +82,7 @@ export async function orchestrateIssuance(payload: any, sessionToken: string, id
       categoryId: payload.categoryId
     }, asegoCreds);
 
-    if (!planRes.success) throw new Error("PROVIDER_ERROR: Price verification failed.");
+    if (!planRes.success) throw new Error("VALIDATION_ERROR: Price verification failed.");
     
     const matchedPlan = planRes.data.find((p: any) => p.planId === payload.planId);
     if (!matchedPlan) throw new Error("VALIDATION_ERROR: Plan no longer available.");
@@ -92,18 +95,18 @@ export async function orchestrateIssuance(payload: any, sessionToken: string, id
     const commissionAmount = Number((authoritativePremium * commissionRate).toFixed(2));
     const utsavsShareAmount = Number((authoritativePremium - commissionAmount).toFixed(2));
 
-    // 3. Namespaced Idempotency (Prevents Cross-Tenant Collisions)
+    // 3. Namespaced Idempotency
     const cleanKey = String(idempotencyKey || "").replace(/[^a-zA-Z0-9]/g, '');
-    if (!cleanKey) throw new Error("IDEMPOTENCY_ERROR: Valid key required.");
+    if (!cleanKey) throw new Error("VALIDATION_ERROR: Idempotency key required.");
     
-    const namespacedId = `${targetAgencyId}_${uid}_${cleanKey}`;
+    const namespacedId = `${agencyId}_${uid}_${cleanKey}`;
     const ledgerRef = adminDb.collection('policy_ledger').doc(namespacedId);
 
-    // 4. Create PENDING Record (Ghost Sale Protection)
+    // 4. Create PENDING Record
     try {
       await ledgerRef.create({
         transactionId: namespacedId,
-        agencyId: targetAgencyId,
+        agencyId: agencyId,
         agencyUserId: uid,
         status: 'pending',
         travelerName: payload.name,
@@ -111,7 +114,7 @@ export async function orchestrateIssuance(payload: any, sessionToken: string, id
         commissionRateAtSale: commissionRate,
         commissionAmount,
         utsavsShareAmount,
-        environment: process.env.UTSAVS_ASEGO_ENV,
+        environment: validatedEnv,
         providerId: 'asego',
         createdAt: FieldValue.serverTimestamp(),
         updatedAt: FieldValue.serverTimestamp()
@@ -121,7 +124,7 @@ export async function orchestrateIssuance(payload: any, sessionToken: string, id
         const snap = await ledgerRef.get();
         const data = snap.data();
         if (data?.status === 'issued') return { success: true, policyNumber: data.policyNumber, resumed: true };
-        throw new Error("IDEMPOTENCY_LOCKED: Transaction processing.");
+        throw new Error("VALIDATION_ERROR: Idempotency locked. Transaction in progress.");
       }
       throw e;
     }
@@ -131,7 +134,7 @@ export async function orchestrateIssuance(payload: any, sessionToken: string, id
     try {
       asegoRes = await createAsegoPolicy(payload, asegoCreds);
     } catch (asegoErr: any) {
-      // Critical: Asego call threw. Outcome unknown.
+      // CRITICAL: Call throw. Result unknown. 
       await ledgerRef.update({
         status: 'reconciliation_required',
         errorCode: 'PROVIDER_EXCEPTION',
@@ -147,7 +150,7 @@ export async function orchestrateIssuance(payload: any, sessionToken: string, id
 
       if (!policyNumber) {
         await ledgerRef.update({ status: 'reconciliation_required', errorCode: 'MISSING_REF', updatedAt: FieldValue.serverTimestamp() });
-        return { success: false, error: "RECONCILIATION_REQUIRED: No policy number returned." };
+        return { success: false, error: "RECONCILIATION_REQUIRED", msg: "Policy number missing from provider response." };
       }
 
       try {
@@ -159,11 +162,10 @@ export async function orchestrateIssuance(payload: any, sessionToken: string, id
         });
         return { success: true, policyNumber };
       } catch (finalWriteErr: any) {
-        // Asego succeeded, but our final log failed. Record is stuck in 'pending'.
+        // Success at Asego but final log failed.
         return { 
           success: false, 
           error: 'ASEGO_SUCCESS_LEDGER_FAILED',
-          msg: 'Policy issued but record update failed. Reference: ' + policyNumber,
           transactionId: namespacedId 
         };
       }
@@ -173,11 +175,17 @@ export async function orchestrateIssuance(payload: any, sessionToken: string, id
         errorCode: 'PROVIDER_REJECTED',
         updatedAt: FieldValue.serverTimestamp()
       });
-      return { success: false, error: 'ISSUANCE_FAILED', msg: 'Asego rejected the request.' };
+      return { success: false, error: 'ISSUANCE_FAILED' };
     }
 
   } catch (error: any) {
-    console.error("ORCHESTRATION_FAILURE:", error.message);
-    return { success: false, error: "INTERNAL_ERROR", msg: error.message };
+    const isClientSafe = error.message.startsWith("UNAUTHORIZED") || error.message.startsWith("VALIDATION_ERROR");
+    console.error(`ORCHESTRATION_FAILURE [${txRef}]:`, error.message);
+    
+    return { 
+      success: false, 
+      error: isClientSafe ? error.message : "INTERNAL_ERROR",
+      ref: txRef 
+    };
   }
 }

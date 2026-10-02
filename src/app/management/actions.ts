@@ -2,9 +2,6 @@
 
 /**
  * @fileOverview Utsavs Management Server Actions (Hardened)
- * 
- * Implements administrative functions using Admin SDK.
- * Validates requester authority (admin claim) for all mutations.
  */
 
 import { adminDb, verifySession, getAuthoritativeUser, adminAuth } from '@/lib/server/admin';
@@ -43,23 +40,23 @@ export async function requestAgencyOnboarding(sessionToken: string, payload: { n
 }
 
 /**
- * Admin: Approves a pending agency and establishes commercial terms.
+ * Admin: Approves a pending agency.
  */
 export async function approveAgency(sessionToken: string, agencyId: string, commissionRate: number) {
   try {
     const decoded = await verifySession(sessionToken);
     const adminUser = await getAuthoritativeUser(decoded.uid);
-    if (adminUser.role !== 'admin') throw new Error("UNAUTHORIZED: Admin privilege required.");
+    if (adminUser.role !== 'admin') throw new Error("UNAUTHORIZED");
 
     if (!Number.isFinite(commissionRate) || commissionRate < 0 || commissionRate > 1) {
-      throw new Error("Invalid commission rate. Must be between 0 and 1.");
+      throw new Error("Invalid commission rate.");
     }
 
     const agencyRef = adminDb.collection('agencies').doc(agencyId);
     const snap = await agencyRef.get();
     
     if (!snap.exists) throw new Error("Agency not found.");
-    if (snap.data()?.status !== 'pending_review') throw new Error("Only pending agencies can be approved.");
+    if (snap.data()?.status !== 'pending_review') throw new Error("Agency status must be pending_review.");
 
     await agencyRef.update({
       status: 'active',
@@ -74,7 +71,7 @@ export async function approveAgency(sessionToken: string, agencyId: string, comm
 }
 
 /**
- * Admin: Suspends an agency.
+ * Admin: Suspends an agency and revokes all user sessions.
  */
 export async function suspendAgency(sessionToken: string, agencyId: string) {
   try {
@@ -82,10 +79,16 @@ export async function suspendAgency(sessionToken: string, agencyId: string) {
     const adminUser = await getAuthoritativeUser(decoded.uid);
     if (adminUser.role !== 'admin') throw new Error("UNAUTHORIZED.");
 
+    // 1. Mark Agency Suspended
     await adminDb.collection('agencies').doc(agencyId).update({
       status: 'suspended',
       updatedAt: FieldValue.serverTimestamp()
     });
+
+    // 2. Revoke Sessions for all agency users
+    const usersSnap = await adminDb.collection('users').where('agencyId', '==', agencyId).get();
+    const revokes = usersSnap.docs.map(u => adminAuth.revokeRefreshTokens(u.id));
+    await Promise.all(revokes);
 
     return { success: true };
   } catch (error: any) {
@@ -109,7 +112,7 @@ export async function createAgencyUser(sessionToken: string, payload: { email: s
       if (!payload.agencyId) throw new Error("Agency ID required for staff.");
       const agencySnap = await adminDb.collection('agencies').doc(payload.agencyId).get();
       if (!agencySnap.exists || agencySnap.data()?.status !== 'active') {
-        throw new Error("CANNOT_ASSIGN: Target agency is not active.");
+        throw new Error("Target agency is not active.");
       }
     }
 

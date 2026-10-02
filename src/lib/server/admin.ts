@@ -39,15 +39,16 @@ export const adminAuth = admin.auth();
 
 /**
  * Verifies a client-supplied ID token and returns the decoded payload.
- * Never trust a UID string passed directly from the browser.
+ * Force check ensures revoked tokens are caught immediately.
  */
 export async function verifySession(idToken: string) {
   if (!idToken) throw new Error("UNAUTHORIZED: Session token missing.");
   try {
-    const decodedToken = await adminAuth.verifyIdToken(idToken);
+    // Second argument 'true' forces a check if the token has been revoked
+    const decodedToken = await adminAuth.verifyIdToken(idToken, true);
     return decodedToken;
-  } catch (error) {
-    throw new Error("UNAUTHORIZED: Invalid session.");
+  } catch (error: any) {
+    throw new Error("UNAUTHORIZED: Invalid or revoked session.");
   }
 }
 
