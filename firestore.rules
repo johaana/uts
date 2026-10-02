@@ -24,7 +24,7 @@ service cloud.firestore {
       allow write: if false;
     }
 
-    // Widgets: agency-scoped reads; public serving goes through a server route.
+    // Widgets: agency-scoped reads.
     match /widgets/{widgetId} {
       allow read: if isAdmin() || (myAgency() != null && resource.data.agencyId == myAgency());
       allow write: if false;

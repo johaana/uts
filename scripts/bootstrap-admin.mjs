@@ -1,35 +1,32 @@
 import admin from 'firebase-admin';
 
-// Check for environment variables
-const projectId = process.env.FIREBASE_PROJECT_ID;
-const clientEmail = process.env.FIREBASE_CLIENT_EMAIL;
-const privateKey = process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n');
-
-if (!projectId || !clientEmail || !privateKey) {
-  console.error("ERROR: Missing Firebase Admin credentials in environment.");
-  process.exit(1);
+// Initialize with environment variables
+if (!admin.apps.length) {
+  admin.initializeApp({
+    credential: admin.credential.cert({
+      projectId: process.env.FIREBASE_PROJECT_ID,
+      clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+      privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+    })
+  });
 }
-
-admin.initializeApp({
-  credential: admin.credential.cert({ projectId, clientEmail, privateKey }),
-  databaseURL: `https://${projectId}.firebaseio.com`
-});
 
 const uid = process.argv[2];
 if (!uid) {
-  console.error('Usage: node scripts/bootstrap-admin.mjs <UID>');
+  console.error('Usage: node scripts/bootstrap-admin.mjs <USER_UID>');
   process.exit(1);
 }
 
 async function bootstrap() {
   try {
-    console.log(`Starting bootstrap for UID: ${uid}...`);
-    
-    // 1. Set Custom Claim
-    await admin.auth().setCustomUserClaims(uid, { role: 'admin' });
-    
-    // 2. Set Identity Document
-    await admin.firestore().collection('users').doc(uid).set({
+    const auth = admin.auth();
+    const db = admin.firestore();
+
+    // 1. Set Custom Claims (The primary security boundary)
+    await auth.setCustomUserClaims(uid, { role: 'admin' });
+
+    // 2. Set Authoritative Identity Document
+    await db.collection('users').doc(uid).set({
       uid,
       role: 'admin',
       agencyId: null,
@@ -37,8 +34,8 @@ async function bootstrap() {
       updatedAt: admin.firestore.FieldValue.serverTimestamp()
     }, { merge: true });
 
-    console.log('SUCCESS: Admin claim + identity doc set.');
-    console.log('ACTION REQUIRED: Sign out and back in on the website to refresh your session.');
+    console.log(`Successfully bootstrapped UID: ${uid} as Principal Admin.`);
+    console.log('IMPORTANT: Sign out and sign back in on the website for changes to take effect.');
   } catch (error) {
     console.error('Bootstrap failed:', error.message);
   }
