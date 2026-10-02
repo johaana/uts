@@ -24,6 +24,6 @@ import { adminAuth } from '@/lib/server/admin';
 
 async function bootstrapAdmin(uid: string) {
   await adminAuth.setCustomUserClaims(uid, { role: 'admin' });
-  console.log("Claims updated for Principal Admin.");
+  console.error("Claims updated for Principal Admin.");
 }
 ```
