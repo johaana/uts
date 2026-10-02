@@ -47,7 +47,6 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
   const [isIssuing, setIsIssuing] = useState(false);
   const [isCancelling, setIsCancelling] = useState(false);
   
-  // Credentials
   const [creds, setCreds] = useState<AsegoCredentials>({
     partnerId: '',
     sign: '',
@@ -60,7 +59,6 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
   const [showSecrets, setShowSecrets] = useState(false);
   const [manualPolicyNumber, setManualPolicyNumber] = useState('');
 
-  // Idempotent orderId per wizard session
   const orderId = useMemo(() => `UTS-${Date.now()}-${Math.random().toString(36).substring(7).toUpperCase()}`, [step === 'search']);
 
   const [portalForm, setPortalForm] = useState({
@@ -115,7 +113,6 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
   const [isValidating, setIsValidating] = useState(false);
   const [isValidated, setIsValidated] = useState(false);
 
-  // Trace History System (Last 5 interactions)
   const [traceHistory, setTraceHistory] = useState<any[]>([]);
   const [showTrace, setShowTrace] = useState(isDebug);
 
@@ -301,6 +298,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
                    <div className="flex items-center justify-between">
                       <div className="flex items-center gap-4">
                         <Badge variant="outline" className="border-[#E8A33D] text-[#E8A33D] font-bold text-[10px] px-3 py-1 uppercase">{trace.actionLabel}</Badge>
+                        {i === 0 && <Badge className="bg-green-600 text-white text-[8px] font-bold uppercase tracking-widest">Latest</Badge>}
                         <span className="text-[9px] text-[#6E7495] flex items-center gap-1"><Clock className="w-3 h-3" /> {new Date(trace.timestamp).toLocaleTimeString()}</span>
                       </div>
                       <Badge variant="outline" className={cn("text-[9px] uppercase px-4", trace.success ? "border-green-500 text-green-500" : "border-red-500 text-red-500")}>
@@ -375,7 +373,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
                       {isCancelling ? <Loader2 className="w-3 h-3 animate-spin mr-2" /> : <Zap className="w-3 h-3 mr-2" />} Force Void
                    </Button>
                 </div>
-                <p className="text-[9px] text-[#6E7495] italic">Note: This utility calls policy/cancel against the specified identifier. Verified server-side gating enforced.</p>
+                <p className="text-[9px] text-[#6E7495] italic">Note: This utility calls cancelPolicy against the specified identifier. Verified server-side gating enforced.</p>
             </div>
         </Card>
       )}

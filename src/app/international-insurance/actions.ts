@@ -201,7 +201,6 @@ function assembleAsegoPayload(payload: any, creds: AsegoCredentials) {
         totalPremium: premium,
         plan: {
           sellingPlanId: payload.planId, 
-          // v5.7+: Enforce OBJECT structure for single traveler request
           agePremiums: { age: Number(payload.age), premium: premium }
         }
       },
@@ -261,7 +260,6 @@ export async function createAsegoPolicy(policyData: any, creds: AsegoCredentials
 }
 
 export async function cancelAsegoPolicy(policyNumber: string, creds: AsegoCredentials) {
-  // B4: Strict server-side gating for all cancellation calls during UAT/Testing phase
   if (process.env.UTSAVS_INTERNAL_DEBUG !== 'true') {
     throw new Error("UNAUTHORIZED: Cancellation service restricted to debug mode.");
   }
@@ -279,6 +277,7 @@ export async function cancelAsegoPolicy(policyNumber: string, creds: AsegoCreden
   const encRes = await asegoEncrypt(JSON.stringify(plaintext), creds);
   if (!encRes.success || !encRes.data) return encRes;
 
-  const res = await asegoRequest(`/ext/b2b/v1/policy/cancel/${partnerId}`, creds, 'POST', encRes.data, 'VOID_POLICY');
+  // Pattern Match: createPolicy sibling is cancelPolicy
+  const res = await asegoRequest(`/ext/b2b/v1/cancelPolicy/${partnerId}`, creds, 'POST', encRes.data, 'VOID_POLICY');
   return { ...res, data: res.data?.code ? { ...res.data, msg: userFacingError(res.data.code) } : res.data };
 }
