@@ -1,10 +1,9 @@
-
 'use server';
 
 /**
- * @fileOverview Asego API Implementation - Final Transactional Layer v5.13
- * Structural Correction: cancelPolicy re-aligned to SINGLE OBJECT structure (removing [] wrapper).
- * Key Alignment: Using 'policyNumber' as the unique identifier.
+ * @fileOverview Asego API Implementation - Final Transactional Layer v5.14
+ * Structural Correction: policyNo alignment to resolve Code 500.
+ * Key Alignment: Using 'policyNo' as the unique identifier for cancellation.
  * PII Protection: Plaintext payloads are NEVER returned to the client.
  */
 
@@ -269,15 +268,15 @@ export async function cancelAsegoPolicy(policyNumber: string, creds: AsegoCreden
 
   const partnerId = creds.partnerId || process.env.UTSAVS_PARTNER_ID;
   
-  // v5.13 FIX: Structural alignment for cancellation.
-  // Removing the [] array wrapper to resolve Code 107.
+  // v5.14 FIX: Using 'policyNo' instead of 'policyNumber' in a single object.
+  // This resolves the 500 error following the successful 107 parsing fix.
   const plaintext = {
     identity: {
       sign: creds.sign || process.env.UTSAVS_SIGN,
       reference: creds.reference || process.env.UTSAVS_REFERENCE,
       partnerId: partnerId
     },
-    policyNumber: policyNumber
+    policyNo: policyNumber
   };
 
   const encRes = await asegoEncrypt(JSON.stringify(plaintext), creds);
