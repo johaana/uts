@@ -2,8 +2,8 @@
 'use server';
 
 /**
- * @fileOverview Asego API Implementation - Final Transactional Layer v5.15
- * Structural Correction: policyNo alignment to resolve Code 500/107.
+ * @fileOverview Asego API Implementation - Final Transactional Layer v5.16
+ * Structural Correction: Flat schema for cancelPolicy to resolve Code 163.
  * Error Mapping: surfacing specific Asego codes for better UX.
  * PII Protection: Plaintext payloads are NEVER returned to the client.
  */
@@ -271,12 +271,11 @@ export async function cancelAsegoPolicy(policyNumber: string, creds: AsegoCreden
   const pNo = String(policyNumber || "").trim();
   if (!pNo) throw new Error("Policy number is required for cancellation.");
   
+  // v5.16 Correction: Flat structure (no identity wrapper) to resolve Code 163 search failure.
   const plaintext = {
-    identity: {
-      sign: creds.sign || process.env.UTSAVS_SIGN,
-      reference: creds.reference || process.env.UTSAVS_REFERENCE,
-      partnerId: partnerId
-    },
+    sign: creds.sign || process.env.UTSAVS_SIGN,
+    reference: creds.reference || process.env.UTSAVS_REFERENCE,
+    partnerId: partnerId,
     policyNo: pNo
   };
 
@@ -285,7 +284,6 @@ export async function cancelAsegoPolicy(policyNumber: string, creds: AsegoCreden
 
   const res = await asegoRequest(`/ext/b2b/v1/cancelPolicy/${partnerId}`, creds, 'POST', encRes.data, 'VOID_POLICY');
   
-  // v5.15 Enhancement: Surface business logic errors properly in the return object
   if (res.data?.code) {
     res.success = false;
     res.data.msg = userFacingError(res.data.code);
