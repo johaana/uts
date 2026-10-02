@@ -1,16 +1,17 @@
-
 'use server';
 
 /**
  * @fileOverview Utsavs Management Server Actions (Hardened)
- * Handles authoritative partner management using Firebase Admin SDK.
+ * 
+ * Implements administrative functions using Admin SDK.
+ * Validates requester authority (admin claim) for all mutations.
  */
 
 import { adminDb, verifySession, getAuthoritativeUser, adminAuth } from '@/lib/server/admin';
 import { FieldValue } from 'firebase-admin/firestore';
 
 /**
- * Initiates an agency onboarding request (status: pending_review)
+ * Authenticated user initiates onboarding request.
  */
 export async function requestAgencyOnboarding(sessionToken: string, payload: { name: string, email: string }) {
   try {
@@ -31,7 +32,7 @@ export async function requestAgencyOnboarding(sessionToken: string, payload: { n
       commissionRate: null,
       allowedDomains: [],
       requestedBy: decoded.uid,
-      onboardedAt: FieldValue.serverTimestamp(),
+      createdAt: FieldValue.serverTimestamp(),
       updatedAt: FieldValue.serverTimestamp()
     });
 
@@ -42,20 +43,21 @@ export async function requestAgencyOnboarding(sessionToken: string, payload: { n
 }
 
 /**
- * Admin: Approves a pending agency and sets their commission rate.
+ * Admin: Approves a pending agency and establishes commercial terms.
  */
 export async function approveAgency(sessionToken: string, agencyId: string, commissionRate: number) {
   try {
     const decoded = await verifySession(sessionToken);
     const adminUser = await getAuthoritativeUser(decoded.uid);
-    if (adminUser.role !== 'admin') throw new Error("UNAUTHORIZED.");
+    if (adminUser.role !== 'admin') throw new Error("UNAUTHORIZED: Admin privilege required.");
 
     if (!Number.isFinite(commissionRate) || commissionRate < 0 || commissionRate > 1) {
-      throw new Error("Invalid commission rate. Must be a finite number between 0 and 1.");
+      throw new Error("Invalid commission rate. Must be between 0 and 1.");
     }
 
     const agencyRef = adminDb.collection('agencies').doc(agencyId);
     const snap = await agencyRef.get();
+    
     if (!snap.exists) throw new Error("Agency not found.");
     if (snap.data()?.status !== 'pending_review') throw new Error("Only pending agencies can be approved.");
 
@@ -92,7 +94,7 @@ export async function suspendAgency(sessionToken: string, agencyId: string) {
 }
 
 /**
- * Admin: Assigns a user to an agency and sets custom claims.
+ * Admin: Maps a Firebase user to an agency and assigns Custom Claims.
  */
 export async function createAgencyUser(sessionToken: string, payload: { email: string, agencyId: string, role: 'agency_staff' | 'admin' }) {
   try {
@@ -102,16 +104,16 @@ export async function createAgencyUser(sessionToken: string, payload: { email: s
 
     const normalizedEmail = String(payload.email || "").trim().toLowerCase();
 
-    // 1. Validate Agency
+    // 1. Validate Agency Link
     if (payload.role !== 'admin') {
       if (!payload.agencyId) throw new Error("Agency ID required for staff.");
       const agencySnap = await adminDb.collection('agencies').doc(payload.agencyId).get();
       if (!agencySnap.exists || agencySnap.data()?.status !== 'active') {
-        throw new Error("CANNOT_ASSIGN: Agency is not active.");
+        throw new Error("CANNOT_ASSIGN: Target agency is not active.");
       }
     }
 
-    // 2. Create/Get Auth User
+    // 2. Resolve Auth Identity
     let authUser;
     try {
       authUser = await adminAuth.getUserByEmail(normalizedEmail);
@@ -119,7 +121,7 @@ export async function createAgencyUser(sessionToken: string, payload: { email: s
       authUser = await adminAuth.createUser({ email: normalizedEmail });
     }
 
-    // 3. Set Custom Claims
+    // 3. Set Authoritative Claims
     const claims: any = { role: payload.role };
     if (payload.role !== 'admin') {
       claims.agencyId = payload.agencyId;
@@ -127,7 +129,7 @@ export async function createAgencyUser(sessionToken: string, payload: { email: s
     
     await adminAuth.setCustomUserClaims(authUser.uid, claims);
 
-    // 4. Create/Update Identity Document
+    // 4. Create/Update authoritative identity document
     await adminDb.collection('users').doc(authUser.uid).set({
       uid: authUser.uid,
       email: normalizedEmail,

@@ -1,4 +1,3 @@
-
 import 'server-only';
 import * as admin from 'firebase-admin';
 
@@ -40,6 +39,7 @@ export const adminAuth = admin.auth();
 
 /**
  * Verifies a client-supplied ID token and returns the decoded payload.
+ * Never trust a UID string passed directly from the browser.
  */
 export async function verifySession(idToken: string) {
   if (!idToken) throw new Error("UNAUTHORIZED: Session token missing.");
@@ -52,7 +52,7 @@ export async function verifySession(idToken: string) {
 }
 
 /**
- * Resolves authoritative user metadata from Firestore.
+ * Resolves authoritative user metadata from Firestore using Admin SDK.
  */
 export async function getAuthoritativeUser(uid: string) {
   const userDoc = await adminDb.collection('users').doc(uid).get();

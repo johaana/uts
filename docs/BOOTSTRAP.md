@@ -1,4 +1,3 @@
-
 # Utsavs Principal Admin Bootstrap
 
 Because self-escalation is blocked by database security rules, the first **Principal Admin** must be created manually or via the Admin SDK.
@@ -24,6 +23,6 @@ import { adminAuth } from '@/lib/server/admin';
 
 async function bootstrapAdmin(uid: string) {
   await adminAuth.setCustomUserClaims(uid, { role: 'admin' });
-  console.error("Claims updated for Principal Admin.");
+  console.log("Claims updated for Principal Admin.");
 }
 ```

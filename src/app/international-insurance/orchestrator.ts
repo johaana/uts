@@ -1,14 +1,14 @@
-
 'use server';
 
 /**
- * @fileOverview Utsavs Transaction Orchestrator v2 (Hardened)
+ * @fileOverview Utsavs Transaction Orchestrator v3 (Hardened)
  * 
  * CORE RESPONSIBILITIES:
  * 1. Authenticate via ID Token (NOT browser UIDs)
  * 2. Resolve authoritative Pricing (Server-side re-fetch from Asego)
- * 3. Atomic Ledger Creation (Namespaced Idempotency to prevent cross-tenant leaks)
- * 4. Fault-Tolerant Asego Handshake (Ghost Sale Protection)
+ * 3. Fail-Closed Environment Assertion (Prod never touches UAT)
+ * 4. Atomic Ledger Creation (Namespaced Idempotency)
+ * 5. Fault-Tolerant Asego Handshake (Ghost Sale Protection)
  */
 
 import { adminDb, verifySession, getAuthoritativeUser } from '@/lib/server/admin';
@@ -16,22 +16,24 @@ import { getAsegoPlans, createAsegoPolicy, AsegoCredentials } from './actions';
 import { FieldValue } from 'firebase-admin/firestore';
 
 /**
- * Explicit Environment Assertion
+ * Strict Environment Assertion
  */
 function assertEnvironmentSafety() {
   const env = process.env.UTSAVS_ASEGO_ENV;
   const baseUrl = process.env.ASEGO_BASE_URL || "";
   
+  if (env !== 'uat' && env !== 'production') {
+    throw new Error(`CONFIGURATION_ERROR: UTSAVS_ASEGO_ENV must be exactly 'uat' or 'production'. Current: ${env}`);
+  }
+
   if (env === 'production') {
     if (!baseUrl || baseUrl.includes('dolphin.asego.in')) {
-      throw new Error("PRODUCTION_SAFETY_VIOLATION: Production environment configured with UAT endpoint or missing URL.");
+      throw new Error("PRODUCTION_SAFETY_VIOLATION: Production environment cannot use UAT host.");
     }
   } else if (env === 'uat') {
-    if (!baseUrl.includes('dolphin.asego.in') && baseUrl !== "") {
-      throw new Error("UAT_SAFETY_VIOLATION: UAT environment configured with non-UAT endpoint.");
+    if (baseUrl !== "" && !baseUrl.includes('dolphin.asego.in')) {
+      throw new Error("UAT_SAFETY_VIOLATION: UAT environment configured with non-UAT host.");
     }
-  } else {
-    throw new Error(`CONFIGURATION_ERROR: Invalid UTSAVS_ASEGO_ENV (${env}). Must be 'uat' or 'production'.`);
   }
 }
 
@@ -44,24 +46,24 @@ export async function orchestrateIssuance(payload: any, sessionToken: string, id
     const uid = decodedToken.uid;
     const userData = await getAuthoritativeUser(uid);
     
-    if (userData.status !== 'active') throw new Error("UNAUTHORIZED: Account is not active.");
+    if (userData.status !== 'active') throw new Error("UNAUTHORIZED: Account is suspended.");
     
     const agencyId = userData.agencyId;
-    if (!agencyId && userData.role !== 'admin') throw new Error("CONFIGURATION_ERROR: User is not associated with an agency.");
+    if (!agencyId && userData.role !== 'admin') throw new Error("CONFIGURATION_ERROR: User lacks agency association.");
 
-    // Resolve Agency Configuration
+    // Resolve Agency Commercials
     const targetAgencyId = userData.role === 'admin' ? payload.agencyId : agencyId;
     const agencyRef = adminDb.collection('agencies').doc(targetAgencyId);
     const agencySnap = await agencyRef.get();
     const agencyData = agencySnap.data();
 
     if (!agencySnap.exists || agencyData?.status !== 'active') {
-      throw new Error("UNAUTHORIZED: Agency record not found or suspended.");
+      throw new Error("UNAUTHORIZED: Agency is not active.");
     }
 
     const commissionRate = agencyData.commissionRate;
     if (!Number.isFinite(commissionRate)) {
-      throw new Error("COMMERCIAL_ERROR: Agency commission rate is not valid. Contact support.");
+      throw new Error("COMMERCIAL_ERROR: Valid commission rate not found for agency.");
     }
 
     // 2. Authoritative Price Verification (Server-Side Re-fetch)
@@ -77,27 +79,27 @@ export async function orchestrateIssuance(payload: any, sessionToken: string, id
       categoryId: payload.categoryId
     }, asegoCreds);
 
-    if (!planRes.success) throw new Error("PROVIDER_ERROR: Could not verify pricing with provider.");
+    if (!planRes.success) throw new Error("PROVIDER_ERROR: Price verification failed.");
     
     const matchedPlan = planRes.data.find((p: any) => p.planId === payload.planId);
-    if (!matchedPlan) throw new Error("VALIDATION_ERROR: The selected plan is no longer available.");
+    if (!matchedPlan) throw new Error("VALIDATION_ERROR: Plan no longer available.");
     
     const authoritativePremium = Number(matchedPlan.premium);
     if (authoritativePremium !== Number(payload.premium)) {
-      throw new Error("VALIDATION_ERROR: Premium mismatch. The price may have expired.");
+      throw new Error("VALIDATION_ERROR: Price mismatch. Please refresh quotes.");
     }
 
     const commissionAmount = Number((authoritativePremium * commissionRate).toFixed(2));
     const utsavsShareAmount = Number((authoritativePremium - commissionAmount).toFixed(2));
 
-    // 3. Namespaced Idempotency & Pending Creation
-    // ID format: {agencyId}_{uid}_{key} ensures isolation and prevents cross-tenant overwrites.
+    // 3. Namespaced Idempotency (Prevents Cross-Tenant Collisions)
     const cleanKey = String(idempotencyKey || "").replace(/[^a-zA-Z0-9]/g, '');
-    if (!cleanKey) throw new Error("IDEMPOTENCY_ERROR: Key is required.");
+    if (!cleanKey) throw new Error("IDEMPOTENCY_ERROR: Valid key required.");
     
     const namespacedId = `${targetAgencyId}_${uid}_${cleanKey}`;
     const ledgerRef = adminDb.collection('policy_ledger').doc(namespacedId);
 
+    // 4. Create PENDING Record (Ghost Sale Protection)
     try {
       await ledgerRef.create({
         transactionId: namespacedId,
@@ -118,20 +120,18 @@ export async function orchestrateIssuance(payload: any, sessionToken: string, id
       if (e.code === 6) { // ALREADY_EXISTS
         const snap = await ledgerRef.get();
         const data = snap.data();
-        if (data?.status === 'issued') {
-          return { success: true, policyNumber: data.policyNumber, resumed: true };
-        }
-        throw new Error("IDEMPOTENCY_LOCKED: Transaction is currently being processed.");
+        if (data?.status === 'issued') return { success: true, policyNumber: data.policyNumber, resumed: true };
+        throw new Error("IDEMPOTENCY_LOCKED: Transaction processing.");
       }
       throw e;
     }
 
-    // 4. Call Frozen Asego Engine
+    // 5. Call Frozen Asego Engine
     let asegoRes;
     try {
       asegoRes = await createAsegoPolicy(payload, asegoCreds);
     } catch (asegoErr: any) {
-      // Call threw - outcome unknown
+      // Critical: Asego call threw. Outcome unknown.
       await ledgerRef.update({
         status: 'reconciliation_required',
         errorCode: 'PROVIDER_EXCEPTION',
@@ -140,18 +140,14 @@ export async function orchestrateIssuance(payload: any, sessionToken: string, id
       return { success: false, error: 'PROVIDER_STATUS_UNKNOWN', transactionId: namespacedId };
     }
 
-    // 5. Finalize Ledger Update
+    // 6. Finalize Ledger
     if (asegoRes.success) {
       const policyData = Array.isArray(asegoRes.data) ? asegoRes.data[0] : asegoRes.data;
       const policyNumber = policyData?.policyNumber;
 
       if (!policyNumber) {
-        await ledgerRef.update({
-          status: 'reconciliation_required',
-          errorCode: 'MISSING_POLICY_NUMBER',
-          updatedAt: FieldValue.serverTimestamp()
-        });
-        return { success: false, error: "Policy issued but reference missing. Reconciliation required." };
+        await ledgerRef.update({ status: 'reconciliation_required', errorCode: 'MISSING_REF', updatedAt: FieldValue.serverTimestamp() });
+        return { success: false, error: "RECONCILIATION_REQUIRED: No policy number returned." };
       }
 
       try {
@@ -163,27 +159,25 @@ export async function orchestrateIssuance(payload: any, sessionToken: string, id
         });
         return { success: true, policyNumber };
       } catch (finalWriteErr: any) {
-        // Success at Asego but failed to update ledger
+        // Asego succeeded, but our final log failed. Record is stuck in 'pending'.
         return { 
-          success: true, 
-          status: 'SUBMITTED_AWAITING_CONFIRMATION',
-          policyNumber, 
+          success: false, 
+          error: 'ASEGO_SUCCESS_LEDGER_FAILED',
+          msg: 'Policy issued but record update failed. Reference: ' + policyNumber,
           transactionId: namespacedId 
         };
       }
     } else {
-      // explicit failure from provider
       await ledgerRef.update({
         status: 'failed',
         errorCode: 'PROVIDER_REJECTED',
-        providerMsg: asegoRes.data?.msg || 'Unknown rejection',
         updatedAt: FieldValue.serverTimestamp()
       });
-      return { success: false, error: 'ISSUANCE_FAILED', msg: asegoRes.data?.msg };
+      return { success: false, error: 'ISSUANCE_FAILED', msg: 'Asego rejected the request.' };
     }
 
   } catch (error: any) {
-    console.error("ORCHESTRATION_FAILURE:", error);
-    return { success: false, error: error.message };
+    console.error("ORCHESTRATION_FAILURE:", error.message);
+    return { success: false, error: "INTERNAL_ERROR", msg: error.message };
   }
 }

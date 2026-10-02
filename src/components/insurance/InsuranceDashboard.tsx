@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useMemo, useEffect, useCallback } from 'react';
@@ -7,7 +6,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { cn } from '@/lib/utils';
 import { 
   ShieldCheck, 
   Loader2, 
@@ -15,12 +13,10 @@ import {
   CheckCircle2, 
   RotateCcw,
   ArrowRight,
-  AlertCircle
 } from "lucide-react";
 import { 
   getAsegoCategories, 
   getAsegoPlans, 
-  AsegoCredentials,
   NormalizedPlan 
 } from '@/app/international-insurance/actions';
 import { orchestrateIssuance } from '@/app/international-insurance/orchestrator';
@@ -43,10 +39,10 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
   const [selectedPlan, setSelectedPlan] = useState<NormalizedPlan | null>(null);
   const [issuedPolicy, setIssuedPolicy] = useState<any>(null);
 
-  // Generate Idempotency Key once per form session
+  // Idempotency: Generate a key once per form session.
   const [sessionKey, setSessionKey] = useState("");
   const regenerateKey = useCallback(() => {
-    setSessionKey(`IDEM-${Math.random().toString(36).substring(2, 10).toUpperCase()}`);
+    setSessionKey(`TX-${Math.random().toString(36).substring(2, 10).toUpperCase()}`);
   }, []);
 
   useEffect(() => {
@@ -122,6 +118,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
     if (!selectedPlan || isIssuing || !user) return;
     setIsIssuing(true);
     try {
+      // Authoritative token retrieval
       const token = await user.getIdToken();
       
       const payload = { 
@@ -129,7 +126,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
           name: `${formData.firstName} ${formData.lastName}`,
           planId: selectedPlan.planId, 
           insurerId: selectedPlan.insurerId,
-          premium: selectedPlan.premium,
+          premium: selectedPlan.premium, // Server will re-verify this
           age: primaryAge,
           duration: calculatedDays,
           categoryId: portalForm.categoryId,
@@ -138,21 +135,24 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
           dob: portalForm.travelers[0].dob
       };
 
+      // Atomic Server Orchestration
       const res = await orchestrateIssuance(payload, token, sessionKey);
+      
       if (res.success) {
         setIssuedPolicy({ policyNumber: res.policyNumber });
         setStep('success');
       } else {
-        // Critical: Do not regenerate key on PROVIDER_STATUS_UNKNOWN
-        if (res.error !== 'PROVIDER_STATUS_UNKNOWN') regenerateKey();
-        
-        toast({ 
-            title: res.error === 'PROVIDER_STATUS_UNKNOWN' ? "Status Unknown" : "Issuance Failed", 
-            description: res.error === 'PROVIDER_STATUS_UNKNOWN' 
-                ? "Transaction reference recorded. Do NOT retry. Contact support." 
-                : res.msg || res.error, 
-            variant: "destructive" 
-        });
+        // Fail-safe logic
+        if (res.error === 'PROVIDER_STATUS_UNKNOWN') {
+           toast({ 
+             title: "Outcome Unknown", 
+             description: "The Asego call was made but connection lost. DO NOT retry. Reference: " + res.transactionId,
+             variant: "destructive"
+           });
+        } else {
+           regenerateKey(); // Allow retry with a new ID
+           toast({ title: "Issuance Failed", description: res.msg || res.error, variant: "destructive" });
+        }
       }
     } finally {
       setIsIssuing(false);
@@ -272,11 +272,11 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
                  </div>
               </div>
 
-              <div className="pt-6">
+              <div className="pt-6 text-center space-y-4">
                  <Button onClick={handleIssue} disabled={isIssuing || !user} className="w-full h-16 bg-[#F15A24] font-bold text-lg rounded-2xl shadow-2xl hover:scale-[1.01] transition-all">
                     {isIssuing ? <Loader2 className="animate-spin" /> : "FINALIZE & ISSUE POLICY"}
                  </Button>
-                 {!user && <p className="text-center text-xs text-red-400 mt-4 font-bold uppercase tracking-widest">Authentication Required to Issue</p>}
+                 {!user && <p className="text-xs text-red-400 font-bold uppercase tracking-widest">Login required to issue policy</p>}
               </div>
            </section>
         </div>
