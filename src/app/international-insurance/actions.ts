@@ -1,8 +1,8 @@
 'use server';
 
 /**
- * @fileOverview Asego API Implementation - Final Transactional Layer v5.11
- * Structural Correction: cancelPolicy re-aligned to single object + policyNo key.
+ * @fileOverview Asego API Implementation - Final Transactional Layer v5.12
+ * Structural Correction: cancelPolicy re-aligned to ARRAY structure [{...}] with policyNumber key.
  * PII Protection: Plaintext payloads are NEVER returned to the client.
  */
 
@@ -45,6 +45,7 @@ const ASEGO_ERROR_MESSAGES: Record<number, string> = {
   115: "Something went wrong calculating your premium. Please contact support.",
   117: "The selected plan is no longer available. Please choose another.",
   132: "Please select a travel region before continuing.",
+  163: "Record search failed. The policy number may be incorrect or not yet settled.",
 };
 
 function userFacingError(code: number): string {
@@ -265,16 +266,17 @@ export async function cancelAsegoPolicy(policyNumber: string, creds: AsegoCreden
   }
 
   const partnerId = creds.partnerId || process.env.UTSAVS_PARTNER_ID;
-  // FIX: Structural re-alignment for cancelPolicy
-  // Reverted to single object + policyNo key (Standard Asego Cancellation Pattern)
-  const plaintext = {
-    identity: {
-      sign: creds.sign || process.env.UTSAVS_SIGN,
-      reference: creds.reference || process.env.UTSAVS_REFERENCE,
-      partnerId: partnerId
-    },
-    policyNo: policyNumber
-  };
+  // FIX: v5.12 - Align structure to ARRAY wrapped [{...}] with policyNumber key
+  const plaintext = [
+    {
+      identity: {
+        sign: creds.sign || process.env.UTSAVS_SIGN,
+        reference: creds.reference || process.env.UTSAVS_REFERENCE,
+        partnerId: partnerId
+      },
+      policyNumber: policyNumber
+    }
+  ];
 
   const encRes = await asegoEncrypt(JSON.stringify(plaintext), creds);
   if (!encRes.success || !encRes.data) return encRes;
