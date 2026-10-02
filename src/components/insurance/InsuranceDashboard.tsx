@@ -6,6 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
+import { cn } from '@/lib/utils';
 import { 
   ShieldCheck, 
   Loader2, 
@@ -17,7 +18,8 @@ import {
   XCircle,
   Eye,
   EyeOff,
-  RotateCcw
+  RotateCcw,
+  Check
 } from "lucide-react";
 import { 
   getAsegoCategories, 
@@ -28,7 +30,6 @@ import {
   AsegoCredentials,
   NormalizedPlan 
 } from '@/app/international-insurance/actions';
-import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
 import { parseISO, differenceInDays, differenceInYears } from 'date-fns';
 import Image from 'next/image';
@@ -42,6 +43,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
   const [isIssuing, setIsIssuing] = useState(false);
   const [isCancelling, setIsCancelling] = useState(false);
   
+  // Credentials pull from input or env fallbacks
   const [creds, setCreds] = useState<AsegoCredentials>({
     partnerId: '',
     sign: '',
@@ -53,7 +55,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
   const [showGate, setShowGate] = useState(false);
   const [showSecrets, setShowSecrets] = useState(false);
 
-  // Generate orderId once per attempt
+  // B7: Idempotent orderId
   const orderId = useMemo(() => `UTS-${Date.now()}-${Math.random().toString(36).substring(7).toUpperCase()}`, [step]);
 
   const [portalForm, setPortalForm] = useState({
@@ -110,8 +112,6 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
   const [lastTrace, setLastTrace] = useState<any>(null);
   const [showTrace, setShowTrace] = useState(isDebug);
 
-  const isSessionActive = !!(creds.partnerId.trim() && creds.sign.trim() && creds.reference.trim());
-
   const fetchCategories = async () => {
     setIsConnecting(true);
     try {
@@ -120,6 +120,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
       if (res.success && Array.isArray(res.data)) {
         setCategories(res.data);
         toast({ title: "Session Initialized" });
+        setShowGate(false);
       }
     } catch (e: any) {
       toast({ title: "Connection Failed", description: e.message, variant: "destructive" });
@@ -175,10 +176,11 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
       };
       const res = await validateAsegoPolicy(payload, creds);
       setLastTrace(res);
-      // Empty array is Asego's "Success / No Errors" signal
       if (res.success && Array.isArray(res.data) && res.data.length === 0) {
         setIsValidated(true);
         toast({ title: "Validation Passed" });
+      } else if (res.data?.msg) {
+        toast({ title: "Asego Error", description: res.data.msg, variant: "destructive" });
       }
     } catch (e: any) {
       toast({ title: "Validation Error", description: e.message, variant: "destructive" });
@@ -211,6 +213,8 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
         setIssuedPolicy(policyData);
         setStep('success');
         toast({ title: "Policy Issued Successfully" });
+      } else if (res.data?.msg) {
+         toast({ title: "Asego Error", description: res.data.msg, variant: "destructive" });
       }
     } catch (e: any) {
       toast({ title: "Issuance Error", description: e.message, variant: "destructive" });
@@ -231,6 +235,8 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
         setStep('search');
         setSelectedPlan(null);
         setIssuedPolicy(null);
+      } else if (res.data?.msg) {
+         toast({ title: "Asego Error", description: res.data.msg, variant: "destructive" });
       }
     } catch (e: any) {
       toast({ title: "Cancellation Error", description: e.message, variant: "destructive" });
@@ -245,6 +251,8 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
           <div className="text-left space-y-4 max-w-2xl">
               <div className="flex items-center gap-3">
                 <p className="text-[10px] font-bold text-[#6E7495] uppercase tracking-widest">Transaction Lifecycle</p>
+                {/* B4 Gated Badge */}
+                {isDebug && <Badge variant="outline" className="text-[8px] border-[#4FD1C5] text-[#4FD1C5]">FORENSIC_AUDIT_V6.0_ACTIVE</Badge>}
               </div>
               <h1 className="text-4xl md:text-7xl font-headline font-medium tracking-tighter leading-[1.05] text-white">
                   Global Travel<br/>
@@ -253,14 +261,17 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
           </div>
           
           <div className="flex gap-3">
+              {/* B4 Gated Controls */}
               {isDebug && (
-                <Button variant="ghost" size="sm" onClick={() => setShowTrace(!showTrace)} className={cn("text-[9px] uppercase tracking-widest font-bold border h-8 rounded-none", showTrace && "bg-white text-black")}>
-                  <Terminal className="w-3 h-3 mr-2" /> Trace
-                </Button>
+                <>
+                  <Button variant="ghost" size="sm" onClick={() => setShowTrace(!showTrace)} className={cn("text-[9px] uppercase tracking-widest font-bold border h-8 rounded-none", showTrace && "bg-white text-black")}>
+                    <Terminal className="w-3 h-3 mr-2" /> Trace
+                  </Button>
+                  <Button variant="ghost" size="sm" onClick={() => setShowGate(!showGate)} className={cn("text-[9px] uppercase tracking-widest font-bold border h-8 rounded-none", showGate && "bg-[#E8A33D] text-black border-transparent")}>
+                    <Lock className="w-3 h-3 mr-2" /> Session
+                  </Button>
+                </>
               )}
-              <Button variant="ghost" size="sm" onClick={() => setShowGate(!showGate)} className={cn("text-[9px] uppercase tracking-widest font-bold border h-8 rounded-none", isSessionActive ? "text-green-500 border-green-500/20" : "text-[#E8A33D] border-[#E8A33D]/20")}>
-                <Lock className="w-3 h-3 mr-2" /> Config
-              </Button>
           </div>
       </div>
 
@@ -274,12 +285,22 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
            </div>
            
            <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-8">
+                 <div>
+                    <p className="text-[7px] text-[#6E7495] uppercase mb-1">Method</p>
+                    <p className="text-white font-bold">{lastTrace.method}</p>
+                 </div>
+                 <div className="text-right">
+                    <p className="text-[7px] text-[#6E7495] uppercase mb-1">Status</p>
+                    <p className={cn("font-bold", lastTrace.success ? "text-green-500" : "text-red-500")}>{lastTrace.status}</p>
+                 </div>
+              </div>
               <div>
                 <p className="text-[7px] text-[#6E7495] uppercase mb-1">Request URL</p>
                 <p className="text-blue-400 break-all">{lastTrace.fullUrl}</p>
               </div>
               <div>
-                <p className="text-[7px] text-[#6E7495] uppercase mb-1">Raw Response Data</p>
+                <p className="text-[7px] text-[#6E7495] uppercase mb-1">Raw Response Body</p>
                 <pre className="overflow-auto max-h-[300px] bg-white/[0.01] p-6 border border-white/5 text-[9px] text-[#4FD1C5]">
                   {JSON.stringify(lastTrace.data, null, 2)}
                 </pre>
@@ -462,13 +483,13 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
                                 isValidated ? "bg-green-600/20 text-green-500 border border-green-500/20" : "bg-white text-black hover:bg-[#E8A33D]"
                               )}
                             >
-                               {isValidating ? <Loader2 className="w-4 h-4 animate-spin" /> : isValidated ? "SCHEMA VALIDATED" : "VALIDATE SCHEMA"}
+                               {isValidating ? <Loader2 className="w-4 h-4 animate-spin" /> : isValidated ? <><Check className="w-3 h-3 mr-2" /> VALIDATED</> : "VALIDATE SCHEMA"}
                             </Button>
                             
                             <Button 
                               onClick={handleIssue} 
                               disabled={!isValidated || isIssuing} 
-                              className="w-full h-16 bg-[#F15A24] text-white hover:bg-white hover:text-black font-bold uppercase text-lg rounded-2xl shadow-2xl"
+                              className="w-full h-16 bg-[#F15A24] text-white hover:bg-white hover:text-black font-bold uppercase text-lg rounded-2xl shadow-2xl transition-all active:scale-[0.98]"
                             >
                                {isIssuing ? <Loader2 className="w-6 h-6 animate-spin" /> : "ISSUE POLICY"}
                             </Button>
@@ -493,7 +514,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
                   <div className="grid grid-cols-2 gap-8">
                      <div>
                         <p className="text-[10px] font-bold text-[#6E7495] uppercase">Policy Number</p>
-                        <p className="text-2xl font-bold text-[#4FD1C5] font-mono">{issuedPolicy?.policyNumber || "UAT-SUCCESS"}</p>
+                        <p className="text-2xl font-bold text-[#4FD1C5] font-mono">{issuedPolicy?.policyNumber || "SUCCESS"}</p>
                      </div>
                      <div className="text-right">
                         <p className="text-[10px] font-bold text-[#6E7495] uppercase">Reference</p>
@@ -507,7 +528,12 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
                </Card>
 
                <div className="flex flex-col items-center gap-4 pt-12">
-                  <Button onClick={handleCancel} disabled={isCancelling} variant="outline" className="text-red-400 border-red-500/30 hover:bg-red-500/10 h-12 px-10 rounded-full font-bold uppercase text-[10px]">
+                  <Button 
+                    onClick={handleCancel} 
+                    disabled={isCancelling} 
+                    variant="outline" 
+                    className="text-red-400 border-red-500/30 hover:bg-red-500/10 h-12 px-10 rounded-full font-bold uppercase text-[10px] transition-all active:scale-[0.98]"
+                  >
                     {isCancelling ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <XCircle className="w-4 h-4 mr-2" />} 
                     VOID POLICY (UAT TEST)
                   </Button>
