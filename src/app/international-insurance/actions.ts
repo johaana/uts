@@ -1,8 +1,8 @@
 'use server';
 
 /**
- * @fileOverview Asego API Implementation - Final Transactional Layer v5.18
- * Structural Correction: Identity-wrapped Object format for cancelPolicy.
+ * @fileOverview Asego API Implementation - Final Transactional Layer v5.19
+ * Structural Correction: Identity-wrapped Array format for cancelPolicy.
  * Resolves Code 107 (Parsing) and Code 163 (Authorization/Search).
  * PII Protection: Plaintext payloads are NEVER returned to the client.
  */
@@ -279,24 +279,25 @@ export async function cancelAsegoPolicy(policyNumber: string, creds: AsegoCreden
   const pNo = String(policyNumber || "").trim();
   if (!pNo) throw new Error("Policy number is required for cancellation.");
   
-  // v5.18 Implementation: Identity-wrapped Single Object.
-  // This mirrors the createPolicy structure but as a single object (fixing 107) 
-  // and using the identity block (fixing 163).
-  const plaintext = {
-    identity: {
-      sign: creds.sign || process.env.UTSAVS_SIGN,
-      reference: creds.reference || process.env.UTSAVS_REFERENCE,
-      partnerId: partnerId
-    },
-    policyNumber: pNo
-  };
+  // v5.19 Implementation: Identity-wrapped Array.
+  // Mirrored exactly from createPolicy, as v5.17 confirmed Array passes parser
+  // and createPolicy confirms Identity block passes searcher.
+  const plaintext = [
+    {
+      identity: {
+        sign: creds.sign || process.env.UTSAVS_SIGN,
+        reference: creds.reference || process.env.UTSAVS_REFERENCE,
+        partnerId: partnerId
+      },
+      policyNumber: pNo
+    }
+  ];
 
   const encRes = await asegoEncrypt(JSON.stringify(plaintext), creds);
   if (!encRes.success || !encRes.data) return encRes;
 
   const res = await asegoRequest(`/ext/b2b/v1/cancelPolicy/${partnerId}`, creds, 'POST', encRes.data, 'VOID_POLICY');
   
-  // Update msg for UI clarity if business error code exists
   if (res.data?.code) {
     res.data.msg = userFacingError(res.data.code);
   }
