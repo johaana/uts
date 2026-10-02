@@ -1,72 +1,63 @@
 {
   "entities": {
-    "IntelligenceRecord": {
-      "title": "Intelligence Record",
-      "description": "A verified temporal record (holiday, policy, or operational signal).",
-      "type": "object",
-      "properties": {
-        "id": { "type": "string" },
-        "name": { "type": "string" },
-        "date": { "type": "string", "format": "date" },
-        "status": { "type": "string", "enum": ["draft", "published", "archived"] },
-        "category": { "type": "string" },
-        "jurisdiction": {
-          "type": "object",
-          "properties": {
-            "country_code": { "type": "string" },
-            "country_name": { "type": "string" },
-            "region": { "type": "string" },
-            "scope": { "type": "string", "enum": ["national", "regional", "local", "institutional"] }
-          }
-        },
-        "consequences": {
-          "type": "object",
-          "properties": {
-            "implication": { "type": "string" },
-            "severity": { "type": "string", "enum": ["low", "medium", "high"] }
-          }
-        }
-      }
-    },
     "Agency": {
       "title": "Agency",
-      "description": "Partner agency profile within the Utsavs ecosystem.",
+      "description": "Partner profile within the Utsavs distribution network.",
       "type": "object",
       "properties": {
         "id": { "type": "string" },
         "name": { "type": "string" },
         "contactEmail": { "type": "string", "format": "email" },
-        "commissionTier": { "type": "number", "description": "Percentage share for the agency." },
-        "status": { "type": "string", "enum": ["active", "suspended", "pending"] },
+        "commissionRate": { "type": "number", "description": "Percentage share as a decimal (e.g. 0.10 for 10%)." },
+        "status": { "type": "string", "enum": ["pending", "active", "suspended"] },
+        "allowedDomains": { "type": "array", "items": { "type": "string" } },
         "onboardedAt": { "type": "string", "format": "date-time" }
       },
-      "required": ["name", "contactEmail"]
+      "required": ["name", "contactEmail", "status", "commissionRate"]
     },
     "PolicyRecord": {
       "title": "Policy Record",
-      "description": "Shadow ledger entry for every policy issued via the engine.",
+      "description": "Immutable transaction ledger entry representing a sale attempt.",
       "type": "object",
       "properties": {
-        "id": { "type": "string", "description": "Utsavs Internal ID" },
-        "policyNumber": { "type": "string", "description": "Identifier from Underwriter/Asego" },
-        "orderId": { "type": "string" },
-        "agencyId": { "type": "string", "description": "ID of the agency that made the sale." },
+        "transactionId": { "type": "string" },
+        "agencyId": { "type": "string" },
+        "agencyUserId": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "issued", "failed", "reconciliation_required", "voided", "void_failed"] },
+        "policyNumber": { "type": "string" },
         "travelerName": { "type": "string" },
         "premiumAmount": { "type": "number" },
-        "currency": { "type": "string", "default": "INR" },
-        "status": { "type": "string", "enum": ["issued", "voided", "expired"] },
-        "issuedAt": { "type": "string", "format": "date-time" },
-        "documentUrl": { "type": "string" }
+        "commissionRateAtSale": { "type": "number" },
+        "commissionAmount": { "type": "number" },
+        "utsavsShareAmount": { "type": "number" },
+        "documentUrl": { "type": "string" },
+        "environment": { "type": "string", "enum": ["uat", "production"] },
+        "providerId": { "type": "string", "default": "asego" },
+        "issuedAt": { "type": "string", "format": "date-time" }
       }
     },
     "PortalUser": {
       "title": "Portal User",
-      "description": "Mapping of authenticated users to roles and agencies.",
+      "description": "Authoritative mapping of authenticated users to roles and agencies.",
       "type": "object",
       "properties": {
+        "uid": { "type": "string" },
         "email": { "type": "string", "format": "email" },
         "role": { "type": "string", "enum": ["admin", "agency_staff"] },
-        "agencyId": { "type": "string", "description": "Null for platform admins." }
+        "agencyId": { "type": "string", "description": "ID of the associated agency." },
+        "status": { "type": "string", "enum": ["active", "suspended"] }
+      }
+    },
+    "Widget": {
+      "title": "Widget",
+      "description": "Distribution registry for embeddable components.",
+      "type": "object",
+      "properties": {
+        "widgetId": { "type": "string" },
+        "agencyId": { "type": "string" },
+        "type": { "type": "string", "enum": ["date_intelligence", "insurance_express"] },
+        "status": { "type": "string", "enum": ["active", "suspended"] },
+        "allowedDomains": { "type": "array", "items": { "type": "string" } }
       }
     }
   },
@@ -74,21 +65,21 @@
     "providers": ["password", "emailLink"]
   },
   "firestore": {
-    "/intelligence_records/{recordId}": {
-      "schema": { "$ref": "#/backend/entities/IntelligenceRecord" },
-      "description": "Collection of all temporal and operational records."
-    },
     "/agencies/{agencyId}": {
       "schema": { "$ref": "#/backend/entities/Agency" },
-      "description": "Profiles for partner agencies."
+      "description": "Partner agency profiles."
     },
     "/policy_ledger/{policyId}": {
       "schema": { "$ref": "#/backend/entities/PolicyRecord" },
-      "description": "The shadow ledger of all sales across the network."
+      "description": "Universal transaction ledger."
     },
     "/users/{userId}": {
       "schema": { "$ref": "#/backend/entities/PortalUser" },
-      "description": "Role-based access control mapping."
+      "description": "Authoritative identity and role-based access."
+    },
+    "/widgets/{widgetId}": {
+      "schema": { "$ref": "#/backend/entities/Widget" },
+      "description": "Widget distribution and domain control registry."
     }
   }
 }

@@ -6,12 +6,64 @@ service cloud.firestore {
       return request.auth != null;
     }
 
+    function getUserData() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() && getUserData().role == 'admin';
+    }
+
+    function isAgencyStaff() {
+      return isAuthenticated() && getUserData().role == 'agency_staff';
+    }
+
+    function getAgencyId() {
+      return getUserData().agencyId;
+    }
+
+    // User Profiles
+    match /users/{userId} {
+      // Users can read their own profile
+      allow read: if isAuthenticated() && request.auth.uid == userId;
+      // Admins can manage all users
+      allow read, write: if isAdmin();
+      // No self-promotion or self-assignment
+      allow create, update: if false;
+    }
+
+    // Agencies
+    match /agencies/{agencyId} {
+      // Public can see basic agency info if needed, but we restrict to members for security
+      allow read: if isAdmin() || (isAgencyStaff() && getAgencyId() == agencyId);
+      // Only admins can manage agency records
+      allow write: if isAdmin();
+    }
+
+    // Policy Ledger (Transactions)
+    match /policy_ledger/{policyId} {
+      // Isolation: Staff see only their agency's records. Admins see everything.
+      allow read: if isAdmin() || (isAgencyStaff() && getAgencyId() == resource.data.agencyId);
+      
+      // Creation: Strictly controlled. User can only create a 'pending' record for their own agency.
+      allow create: if isAuthenticated() && 
+        request.resource.data.status == 'pending' &&
+        (isAdmin() || (isAgencyStaff() && request.resource.data.agencyId == getAgencyId()));
+      
+      // Updates: Only admins can update (for reconciliation) or the system (via server actions)
+      allow update: if isAdmin();
+    }
+
+    // Widgets Registry
+    match /widgets/{widgetId} {
+      allow read: if true; // Publicly readable for loading
+      allow write: if isAdmin();
+    }
+
+    // Legacy Intelligence Records
     match /intelligence_records/{recordId} {
-      // Public can see published records
-      allow read: if resource.data.status == 'published';
-      // Admin (authenticated) can manage everything
-      // Note: In development, we allow authenticated write access
-      allow write: if isAuthenticated();
+      allow read: if resource.data.status == 'published' || isAdmin();
+      allow write: if isAdmin();
     }
   }
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -23,29 +23,27 @@ import {
   Zap,
   Trash2,
   Clock,
-  Activity
+  Activity,
+  ArrowRight
 } from "lucide-react";
 import { 
   getAsegoCategories, 
   getAsegoPlans, 
-  validateAsegoPolicy,
-  createAsegoPolicy,
   cancelAsegoPolicy,
   AsegoCredentials,
   NormalizedPlan 
 } from '@/app/international-insurance/actions';
+import { orchestrateIssuance } from '@/app/international-insurance/orchestrator';
 import { useToast } from '@/hooks/use-toast';
 import { parseISO, differenceInDays, differenceInYears } from 'date-fns';
 import Image from 'next/image';
-import { getFirestore } from '@/firebase';
-import { doc, setDoc, updateDoc } from 'firebase/firestore';
-import { errorEmitter } from '@/firebase/error-emitter';
-import { FirestorePermissionError } from '@/firebase/errors';
+import { useUser } from '@/firebase';
 
 type Step = 'search' | 'selection' | 'form' | 'success';
 
 export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
   const { toast } = useToast();
+  const { user } = useUser();
   
   const [step, setStep] = useState<Step>('search');
   const [isIssuing, setIsIssuing] = useState(false);
@@ -62,8 +60,6 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
   const [showGate, setShowGate] = useState(false);
   const [showSecrets, setShowSecrets] = useState(false);
   const [manualPolicyNumber, setManualPolicyNumber] = useState('');
-
-  const orderId = useMemo(() => `UTS-${Date.now()}-${Math.random().toString(36).substring(7).toUpperCase()}`, [step === 'search']);
 
   const [portalForm, setPortalForm] = useState({
     categoryId: '',
@@ -114,9 +110,6 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
     nomineeRelation: "Spouse",
   });
 
-  const [isValidating, setIsValidating] = useState(false);
-  const [isValidated, setIsValidated] = useState(false);
-
   const [traceHistory, setTraceHistory] = useState<any[]>([]);
   const [showTrace, setShowTrace] = useState(isDebug);
 
@@ -165,43 +158,10 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
   const handleSelectPlan = (plan: NormalizedPlan) => {
     setSelectedPlan(plan);
     setStep('form');
-    setIsValidated(false);
-  };
-
-  const handleValidate = async () => {
-    if (!selectedPlan || isValidating) return;
-    setIsValidating(true);
-    try {
-      const payload = { 
-          ...formData,
-          name: `${formData.firstName} ${formData.lastName}`.trim(),
-          planId: selectedPlan.planId, 
-          insurerId: selectedPlan.insurerId,
-          premium: selectedPlan.premium,
-          age: primaryAge,
-          duration: calculatedDays,
-          categoryId: portalForm.categoryId,
-          startDate: portalForm.startDate,
-          endDate: portalForm.endDate,
-          orderId
-      };
-      const res = await validateAsegoPolicy(payload, creds);
-      addTrace(res);
-      if (res.success && Array.isArray(res.data) && res.data.length === 0) {
-        setIsValidated(true);
-        toast({ title: "Validation Passed" });
-      } else if (res.data?.msg) {
-        toast({ title: "Asego Error", description: res.data.msg, variant: "destructive" });
-      }
-    } catch (e: any) {
-      toast({ title: "Validation Error", description: e.message, variant: "destructive" });
-    } finally {
-      setIsValidating(false);
-    }
   };
 
   const handleIssue = async () => {
-    if (!selectedPlan || isIssuing) return;
+    if (!selectedPlan || isIssuing || !user) return;
     setIsIssuing(true);
     try {
       const payload = { 
@@ -214,47 +174,24 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
           duration: calculatedDays,
           categoryId: portalForm.categoryId,
           startDate: portalForm.startDate,
-          endDate: portalForm.endDate,
-          orderId
+          endDate: portalForm.endDate
       };
-      const res = await createAsegoPolicy(payload, creds);
-      addTrace(res);
+
+      // AUTHENTICATED ORCHESTRATION (THE GHOST SALE FIX)
+      const res = await orchestrateIssuance(payload, user.uid);
+      
       if (res.success) {
-        const policyData = Array.isArray(res.data) ? res.data[0] : res.data;
-        setIssuedPolicy(policyData);
+        setIssuedPolicy({
+            policyNumber: res.policyNumber,
+            transactionId: res.transactionId
+        });
         setStep('success');
-
-        // --- SHADOW LEDGER LOGGING ---
-        const db = getFirestore();
-        if (db) {
-          const ledgerRef = doc(db, "policy_ledger", policyData.policyNumber || orderId);
-          setDoc(ledgerRef, {
-            id: orderId,
-            policyNumber: policyData.policyNumber,
-            orderId: orderId,
-            agencyId: "Utsavs Master", 
-            travelerName: `${formData.firstName} ${formData.lastName}`,
-            premiumAmount: selectedPlan.premium,
-            currency: selectedPlan.currency,
-            status: "issued",
-            issuedAt: new Date().toISOString(),
-            documentUrl: policyData.policyUrl || ""
-          }).catch(async (serverError) => {
-            const permissionError = new FirestorePermissionError({
-              path: ledgerRef.path,
-              operation: 'create',
-              requestResourceData: { policyNumber: policyData.policyNumber }
-            });
-            errorEmitter.emit('permission-error', permissionError);
-          });
-        }
-
         toast({ title: "Policy Issued Successfully" });
-      } else if (res.data?.msg) {
-         toast({ title: "Asego Error", description: res.data.msg, variant: "destructive" });
+      } else {
+         toast({ title: "Issuance Error", description: res.error, variant: "destructive" });
       }
     } catch (e: any) {
-      toast({ title: "Issuance Error", description: e.message, variant: "destructive" });
+      toast({ title: "Critical Error", description: e.message, variant: "destructive" });
     } finally {
       setIsIssuing(false);
     }
@@ -269,21 +206,6 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
       addTrace(res);
       if (res.success) {
         toast({ title: "Policy Voided" });
-
-        // --- SHADOW LEDGER UPDATE ---
-        const db = getFirestore();
-        if (db) {
-          const docRef = doc(db, "policy_ledger", pNo);
-          updateDoc(docRef, { status: "voided" }).catch(async (serverError) => {
-             const permissionError = new FirestorePermissionError({
-               path: docRef.path,
-               operation: 'update',
-               requestResourceData: { status: 'voided' }
-             });
-             errorEmitter.emit('permission-error', permissionError);
-          });
-        }
-
         if (!policyNo) {
             setStep('search');
             setSelectedPlan(null);
@@ -304,7 +226,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
       <div className="flex flex-col lg:flex-row justify-between items-start gap-8 relative z-10">
           <div className="text-left space-y-4 max-w-2xl">
               <div className="flex items-center gap-3">
-                <p className="text-[10px] font-bold text-[#6E7495] uppercase tracking-widest">Transaction Lifecycle</p>
+                <p className="text-[10px] font-bold text-[#6E7495] uppercase tracking-widest">Insurance Distribution</p>
                 {isDebug && <Badge variant="outline" className="text-[8px] border-[#4FD1C5] text-[#4FD1C5]">FORENSIC_AUDIT_V6.5_ACTIVE</Badge>}
               </div>
               <h1 className="text-4xl md:text-7xl font-headline font-medium tracking-tighter leading-[1.05] text-white">
@@ -332,37 +254,19 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
            <div className="flex items-center justify-between px-8 py-6 border-b border-white/5 bg-white/[0.02]">
               <span className="text-[12px] font-bold uppercase text-white tracking-widest flex items-center gap-3">
                 <Activity className="w-4 h-4 text-[#4FD1C5]" /> 
-                Forensic History (Recent First)
+                Forensic Trace
               </span>
-              <Button variant="ghost" size="sm" onClick={() => setTraceHistory([])} className="text-[9px] text-[#6E7495] hover:text-white uppercase font-bold">Clear All</Button>
            </div>
-           
-           <div className="divide-y divide-white/5 max-h-[600px] overflow-auto custom-scrollbar">
+           <div className="divide-y divide-white/5 max-h-[400px] overflow-auto custom-scrollbar">
               {traceHistory.map((trace, i) => (
-                <div key={trace.timestamp} className={cn("p-8 space-y-6 transition-colors", i === 0 ? "bg-white/[0.03]" : "opacity-40 hover:opacity-100")}>
-                   <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-4">
-                        <Badge variant="outline" className="border-[#E8A33D] text-[#E8A33D] font-bold text-[10px] px-3 py-1 uppercase">{trace.actionLabel}</Badge>
-                        {i === 0 && <Badge className="bg-green-600 text-white text-[8px] font-bold uppercase tracking-widest">Latest</Badge>}
-                        <span className="text-[9px] text-[#6E7495] flex items-center gap-1"><Clock className="w-3 h-3" /> {new Date(trace.timestamp).toLocaleTimeString()}</span>
-                      </div>
-                      <Badge variant="outline" className={cn("text-[9px] uppercase px-4", trace.success ? "border-green-500 text-green-500" : "border-red-500 text-red-500")}>
-                        {trace.status} {trace.method}
-                      </Badge>
+                <div key={trace.timestamp} className="p-6 opacity-60 hover:opacity-100 transition-opacity">
+                   <div className="flex justify-between mb-4">
+                      <Badge variant="outline" className="border-[#E8A33D] text-[#E8A33D] uppercase text-[9px]">{trace.actionLabel}</Badge>
+                      <span className="text-[9px] text-[#6E7495]">{new Date(trace.timestamp).toLocaleTimeString()}</span>
                    </div>
-                   
-                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                      <div className="space-y-3">
-                         <p className="text-[7px] text-[#6E7495] uppercase font-bold tracking-widest">Endpoint</p>
-                         <p className="text-blue-400 break-all text-[10px]">{trace.fullUrl}</p>
-                      </div>
-                      <div className="space-y-3">
-                        <p className="text-[7px] text-[#6E7495] uppercase font-bold tracking-widest">Raw Response Body</p>
-                        <pre className="bg-[#050711] p-4 border border-white/5 text-[9px] text-[#4FD1C5] overflow-auto max-h-[200px]">
-                          {JSON.stringify(trace.data, null, 2)}
-                        </pre>
-                      </div>
-                   </div>
+                   <pre className="bg-[#050711] p-4 text-[9px] text-[#4FD1C5] overflow-auto">
+                     {JSON.stringify(trace.data, null, 2)}
+                   </pre>
                 </div>
               ))}
            </div>
@@ -370,62 +274,33 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
       )}
 
       {showGate && (
-        <Card className="bg-[#171D3A] border border-[#E8A33D]/40 p-0 rounded-none shadow-2xl text-left relative z-30 overflow-hidden">
-            <div className="p-8 space-y-10">
-                <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-                    {[
-                      { k: 'partnerId', l: 'Partner ID' },
-                      { k: 'sign', l: 'Sign' },
-                      { k: 'reference', l: 'Reference' },
-                      { k: 'secretKey', l: 'Secret Key' },
-                      { k: 'vectorBytes', l: 'Vector Bytes' }
-                    ].map(f => (
-                      <div key={f.k} className="space-y-1.5">
-                        <Label className="text-[8px] font-bold uppercase tracking-widest text-[#6E7495]">{f.l}</Label>
-                        <Input type={showSecrets ? "text" : "password"} value={(creds as any)[f.k]} onChange={e => setCreds({...creds, [f.k]: e.target.value})} className="bg-[#0F1428] border-white/10 h-11 text-xs rounded-none text-white" />
-                      </div>
-                    ))}
-                </div>
-                
-                <div className="flex flex-wrap gap-6 items-center">
-                   <Button onClick={fetchCategories} disabled={isConnecting} className="bg-white text-black font-bold rounded-none uppercase text-[10px] tracking-widest h-12 px-8">
-                      {isConnecting ? <Loader2 className="w-4 h-4 animate-spin" /> : "Initialize Session"}
-                   </Button>
-                   <Button variant="ghost" onClick={() => setShowSecrets(!showSecrets)} className="text-white text-[9px] font-bold uppercase tracking-widest">
-                     {showSecrets ? <EyeOff className="w-3 h-3 mr-2" /> : <Eye className="w-3 h-3 mr-2" />} {showSecrets ? "Hide" : "Show"} Secrets
-                   </Button>
-                </div>
+        <Card className="bg-[#171D3A] border border-[#E8A33D]/40 p-8 rounded-none shadow-2xl text-left relative z-30 space-y-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {[
+                  { k: 'partnerId', l: 'Partner ID' },
+                  { k: 'sign', l: 'Sign' },
+                  { k: 'reference', l: 'Reference' }
+                ].map(f => (
+                  <div key={f.k} className="space-y-1.5">
+                    <Label className="text-[8px] font-bold uppercase tracking-widest text-[#6E7495]">{f.l}</Label>
+                    <Input type={showSecrets ? "text" : "password"} value={(creds as any)[f.k]} onChange={e => setCreds({...creds, [f.k]: e.target.value})} className="bg-[#0F1428] border-white/10 h-11 text-xs rounded-none text-white" />
+                  </div>
+                ))}
             </div>
-
-            <div className="bg-[#0F1428] p-8 border-t border-[#E8A33D]/20 space-y-6">
-                <div className="flex items-center gap-3">
-                   <Trash2 className="w-4 h-4 text-red-500" />
-                   <h4 className="text-[11px] font-bold uppercase tracking-widest text-white">Manual Policy Cleanup (Admin)</h4>
-                   <Badge variant="outline" className="text-[8px] border-red-500/40 text-red-500">DANGER_ZONE</Badge>
-                </div>
-                <div className="flex max-w-md gap-3">
-                   <Input 
-                      placeholder="Enter Policy Number (e.g. IC33590)" 
-                      value={manualPolicyNumber}
-                      onChange={e => setManualPolicyNumber(e.target.value.trim())}
-                      className="bg-[#171D3A] border-white/10 rounded-none h-11 text-xs text-white"
-                   />
-                   <Button 
-                      onClick={() => handleCancel(manualPolicyNumber)}
-                      disabled={isCancelling || !manualPolicyNumber}
-                      className="bg-red-600 text-white font-bold rounded-none uppercase text-[9px] tracking-widest h-11 px-6 hover:bg-red-700"
-                   >
-                      {isCancelling ? <Loader2 className="w-3 h-3 animate-spin mr-2" /> : <Zap className="w-3 h-3 mr-2" />} Force Void
-                   </Button>
-                </div>
-                <p className="text-[9px] text-[#6E7495] italic">Note: This utility calls cancelPolicy against the specified identifier. Verified server-side gating enforced.</p>
+            <div className="flex gap-4">
+                <Button onClick={fetchCategories} disabled={isConnecting} className="bg-white text-black font-bold rounded-none uppercase text-[10px] tracking-widest h-12 px-8">
+                  {isConnecting ? <Loader2 className="w-4 h-4 animate-spin" /> : "Init Session"}
+                </Button>
+                <Button variant="ghost" onClick={() => setShowSecrets(!showSecrets)} className="text-white text-[9px] font-bold uppercase tracking-widest">
+                  {showSecrets ? <EyeOff className="w-3 h-3 mr-2" /> : <Eye className="w-3 h-3 mr-2" />} Secrets
+                </Button>
             </div>
         </Card>
       )}
 
-      <div className="relative min-h-[700px]">
+      <div className="relative min-h-[600px]">
           {step === 'search' && (
-            <div className="relative min-h-[700px] flex items-center justify-center animate-in fade-in duration-700">
+            <div className="relative min-h-[600px] flex items-center justify-center animate-in fade-in duration-700">
                <div className="absolute inset-0 z-0 rounded-[40px] overflow-hidden grayscale-[30%] opacity-60">
                  <Image src="https://i.postimg.cc/xqLH4nQz/Accessories-for-Airport-Travel.jpg" layout="fill" objectFit="cover" alt="Travel" />
                  <div className="absolute inset-0 bg-gradient-to-br from-[#0F1428]/95 via-[#0F1428]/40 to-transparent" />
@@ -517,7 +392,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
                <div className="grid lg:grid-cols-[1fr_380px] gap-12">
                   <div className="space-y-8">
                      <section className="p-8 bg-[#171D3A]/40 border border-white/10 rounded-[32px] space-y-6 shadow-xl">
-                        <h4 className="text-lg font-bold text-white flex items-center gap-3 border-b border-white/5 pb-4"><User className="w-5 h-5 text-[#4FD1C5]" /> 01. Personal Details</h4>
+                        <h4 className="text-lg font-bold text-white flex items-center gap-3 border-b border-white/5 pb-4"><User className="w-5 h-5 text-[#4FD1C5]" /> Personal Details</h4>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                            <div className="space-y-1.5"><Label className="text-[9px] uppercase font-bold text-[#6E7495]">First Name</Label><Input value={formData.firstName} onChange={e => setFormData({...formData, firstName: e.target.value})} className="bg-[#0F1428]/40 border-white/10 rounded-xl h-12 text-white" /></div>
                            <div className="space-y-1.5"><Label className="text-[9px] uppercase font-bold text-[#6E7495]">Last Name</Label><Input value={formData.lastName} onChange={e => setFormData({...formData, lastName: e.target.value})} className="bg-[#0F1428]/40 border-white/10 rounded-xl h-12 text-white" /></div>
@@ -529,58 +404,27 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
                         </div>
                         <div className="space-y-1.5"><Label className="text-[9px] uppercase font-bold text-[#6E7495]">Email Address</Label><Input value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} className="bg-[#0F1428]/40 border-white/10 rounded-xl h-12 text-white" /></div>
                      </section>
-
-                     <section className="p-8 bg-[#171D3A]/40 border border-white/10 rounded-[32px] space-y-6 shadow-xl">
-                        <h4 className="text-lg font-bold text-white flex items-center gap-3 border-b border-white/5 pb-4"><MapPin className="w-5 h-5 text-[#4FD1C5]" /> 02. Address & Nominee</h4>
-                        <div className="space-y-1.5"><Label className="text-[9px] uppercase font-bold text-[#6E7495]">Full Address</Label><Input value={formData.address} onChange={e => setFormData({...formData, address: e.target.value})} className="bg-[#0F1428]/40 border-white/10 rounded-xl h-12 text-white" /></div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                           <div className="space-y-1.5"><Label className="text-[9px] uppercase font-bold text-[#6E7495]">City</Label><Input value={formData.city} onChange={e => setFormData({...formData, city: e.target.value})} className="bg-[#0F1428]/40 border-white/10 rounded-xl h-12 text-white" /></div>
-                           <div className="space-y-1.5"><Label className="text-[9px] uppercase font-bold text-[#6E7495]">District</Label><Input value={formData.district} onChange={e => setFormData({...formData, district: e.target.value})} className="bg-[#0F1428]/40 border-white/10 rounded-xl h-12 text-white" /></div>
-                        </div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                           <div className="space-y-1.5"><Label className="text-[9px] uppercase font-bold text-[#6E7495]">State</Label><Input value={formData.state} onChange={e => setFormData({...formData, state: e.target.value})} className="bg-[#0F1428]/40 border-white/10 rounded-xl h-12 text-white" /></div>
-                           <div className="space-y-1.5"><Label className="text-[9px] uppercase font-bold text-[#6E7495]">Pincode</Label><Input value={formData.pincode} onChange={e => setFormData({...formData, pincode: e.target.value})} className="bg-[#0F1428]/40 border-white/10 rounded-xl h-12 text-white" /></div>
-                        </div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
-                           <div className="space-y-1.5"><Label className="text-[9px] uppercase font-bold text-[#6E7495]">Nominee Name</Label><Input value={formData.nomineeName} onChange={e => setFormData({...formData, nomineeName: e.target.value})} className="bg-[#0F1428]/40 border-white/10 rounded-xl h-12 text-white" /></div>
-                           <div className="space-y-1.5"><Label className="text-[9px] uppercase font-bold text-[#6E7495]">Relation</Label><Input value={formData.nomineeRelation} onChange={e => setFormData({...formData, nomineeRelation: e.target.value})} className="bg-[#0F1428]/40 border-white/10 rounded-xl h-12 text-white" /></div>
-                        </div>
-                     </section>
                   </div>
 
                   <div className="space-y-6">
                       <Card className="sticky top-28 p-8 bg-[#171D3A] border-white/10 rounded-[32px] space-y-10 shadow-2xl text-left">
                          <div className="space-y-4">
                             <div className="space-y-1">
-                               <p className="text-[10px] font-bold text-[#6E7495] uppercase">Plan</p>
+                               <p className="text-[10px] font-bold text-[#6E7495] uppercase">Selected Coverage</p>
                                <p className="text-xl font-bold text-white">{selectedPlan.name}</p>
                             </div>
                             <div className="space-y-1">
-                               <p className="text-[10px] font-bold text-[#6E7495] uppercase">Premium</p>
+                               <p className="text-[10px] font-bold text-[#6E7495] uppercase">Total Amount</p>
                                <p className="text-5xl font-bold text-white">₹{selectedPlan.premium}</p>
                             </div>
                          </div>
-                         
-                         <div className="space-y-3 pt-6 border-t border-white/5">
-                            <Button 
-                              onClick={handleValidate} 
-                              disabled={isValidating || isIssuing} 
-                              className={cn(
-                                "w-full h-14 font-bold uppercase text-[10px] tracking-widest rounded-2xl",
-                                isValidated ? "bg-green-600/20 text-green-500 border border-green-500/20" : "bg-white text-black hover:bg-[#E8A33D]"
-                              )}
-                            >
-                               {isValidating ? <Loader2 className="w-4 h-4 animate-spin" /> : isValidated ? <><Check className="w-3 h-3 mr-2" /> VALIDATED</> : "VALIDATE SCHEMA"}
-                            </Button>
-                            
-                            <Button 
-                              onClick={handleIssue} 
-                              disabled={!isValidated || isIssuing} 
-                              className="w-full h-16 bg-[#F15A24] text-white hover:bg-white hover:text-black font-bold uppercase text-lg rounded-2xl shadow-2xl transition-all active:scale-[0.98]"
-                            >
-                               {isIssuing ? <Loader2 className="w-6 h-6 animate-spin" /> : "ISSUE POLICY"}
-                            </Button>
-                         </div>
+                         <Button 
+                            onClick={handleIssue} 
+                            disabled={isIssuing || !user} 
+                            className="w-full h-16 bg-[#F15A24] text-white hover:bg-white hover:text-black font-bold uppercase text-lg rounded-2xl shadow-2xl transition-all active:scale-[0.98]"
+                          >
+                             {isIssuing ? <Loader2 className="w-6 h-6 animate-spin" /> : "ISSUE POLICY"}
+                          </Button>
                       </Card>
                   </div>
                </div>
@@ -594,38 +438,12 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
                </div>
                <div className="space-y-3">
                   <h2 className="text-4xl md:text-6xl font-headline font-bold text-white">Policy Issued</h2>
-                  <p className="text-xl text-[#9AA1C0]">Your travel protection is active.</p>
+                  <p className="text-xl text-[#9AA1C0]">The internal transaction record has been established.</p>
                </div>
                
-               <Card className="bg-white/5 border-white/10 p-10 rounded-[32px] max-w-2xl mx-auto space-y-8 text-left">
-                  <div className="grid grid-cols-2 gap-8">
-                     <div>
-                        <p className="text-[10px] font-bold text-[#6E7495] uppercase">Policy Number</p>
-                        <p className="text-2xl font-bold text-[#4FD1C5] font-mono">{issuedPolicy?.policyNumber || "SUCCESS"}</p>
-                     </div>
-                     <div className="text-right">
-                        <p className="text-[10px] font-bold text-[#6E7495] uppercase">Reference</p>
-                        <p className="text-sm font-bold text-white font-mono">{orderId}</p>
-                     </div>
-                  </div>
-                  <div className="pt-8 border-t border-white/10 flex items-center gap-3 text-xs text-[#9AA1C0]">
-                      <ShieldCheck className="w-4 h-4 text-green-500" />
-                      <span>Coverage details have been sent to {formData.email}.</span>
-                  </div>
-               </Card>
-
                <div className="flex flex-col items-center gap-4 pt-12">
-                  <Button 
-                    onClick={() => handleCancel()} 
-                    disabled={isCancelling} 
-                    variant="outline" 
-                    className="text-red-400 border-red-500/30 hover:bg-red-500/10 h-12 px-10 rounded-full font-bold uppercase text-[10px] transition-all active:scale-[0.98]"
-                  >
-                    {isCancelling ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <XCircle className="w-4 h-4 mr-2" />} 
-                    VOID POLICY (UAT TEST)
-                  </Button>
-                  <Button onClick={() => { setStep('search'); setSelectedPlan(null); setIssuedPolicy(null); }} variant="ghost" className="text-[#6E7495] hover:text-white uppercase text-[10px] font-bold">
-                    <RotateCcw className="w-3 h-3 mr-2" /> New Search
+                  <Button onClick={() => { setStep('search'); setSelectedPlan(null); setIssuedPolicy(null); }} variant="outline" className="h-12 px-10 rounded-full font-bold uppercase text-[10px] text-white border-white/10">
+                    <RotateCcw className="w-3 h-3 mr-2" /> New Application
                   </Button>
                </div>
             </div>
