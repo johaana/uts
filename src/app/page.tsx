@@ -1,5 +1,4 @@
-
-'use client';
+"use client";
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { cn } from '@/lib/utils';
@@ -12,8 +11,9 @@ import { getSource } from '@/lib/operational/source';
 import { evaluateQuery } from '@/lib/operational/engine';
 import { DateIntelligenceRecord, CanonicalRule } from '@/lib/operational/types';
 import { format, addDays, differenceInDays, isAfter, isSameDay, parseISO, startOfToday } from 'date-fns';
-import { ChevronDown, ChevronUp, ShieldCheck, Clock, ExternalLink, Repeat } from 'lucide-react';
+import { ChevronDown, ChevronUp, ShieldCheck, Clock, ExternalLink, Repeat, Zap, Globe, Layout, Shield } from 'lucide-react';
 import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 
 export default function HomePage() {
   const [isMounted, setIsMounted] = useState(false);
@@ -33,7 +33,6 @@ export default function HomePage() {
   
   useEffect(() => {
     setIsMounted(true);
-    // Use actual system today
     const now = startOfToday();
     const tKey = format(now, 'yyyy-MM-dd');
     setTodayKey(tKey);
@@ -41,7 +40,6 @@ export default function HomePage() {
     const end = addDays(now, 60); 
     setEndDate(format(end, 'yyyy-MM-dd'));
 
-    // Immediate hydration from the Static-First engine
     const engine = getSource();
     engine.getRecords().then(records => {
       setAllRecords(records);
@@ -78,7 +76,6 @@ export default function HomePage() {
 
   const nextEvent = useMemo(() => {
     if (!isMounted || !todayKey || allRecords.length === 0) return null;
-    // Ensure anchor date is treated as local time
     const anchorDate = new Date(todayKey + 'T00:00:00');
     return allRecords.find(r => {
       const d = new Date(r.date + 'T00:00:00');
@@ -132,7 +129,6 @@ export default function HomePage() {
     
     const nextImplication = uniqueMatches.find(r => r.date === nextDate)?.consequences.implication || '';
 
-    // Advanced Sequence Detection (Holiday + Weekend)
     let maxOffSequence = 0;
     const dateSet = new Set(uniqueDates);
     const start = parseISO(startDate);
@@ -439,6 +435,55 @@ export default function HomePage() {
           </div>
         </section>
 
+        {/* DRIVE ANCILLARY REVENUE - PARTNER SECTION */}
+        <section className="py-24 border-t border-white/5 bg-[#171D3A]" id="partners">
+          <div className="wrap">
+             <div className="grid lg:grid-cols-[1fr_auto] gap-16 items-center">
+                <div className="space-y-8 text-left max-w-3xl">
+                   <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#E8A33D]/10 border border-[#E8A33D]/20 rounded-full">
+                      <Zap className="w-3 h-3 text-[#E8A33D] fill-current" />
+                      <span className="text-[10px] font-bold uppercase tracking-widest text-[#E8A33D]">Partner Opportunity</span>
+                   </div>
+                   <h2 className="text-4xl md:text-7xl font-headline font-medium tracking-tight text-white leading-[0.95]">
+                     Drive ancillary revenue. <br/>
+                     <span className="text-[#9AA1C0]">One widget at a time.</span>
+                   </h2>
+                   <p className="text-lg text-[#9AA1C0] leading-relaxed font-medium">
+                      Equip your travel agency with the Utsavs Distribution Engine. Give your clients verified date intelligence and instant insurance protection directly on your website. 
+                   </p>
+                   
+                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-4">
+                      <div className="space-y-2">
+                        <Layout className="w-6 h-6 text-[#4FD1C5]" />
+                        <h4 className="font-bold text-sm uppercase tracking-widest">No-Code Widgets</h4>
+                        <p className="text-xs text-[#6E7495]">Embed high-converting tools in under 5 minutes.</p>
+                      </div>
+                      <div className="space-y-2">
+                        <Shield className="w-6 h-6 text-[#E8A33D]" />
+                        <h4 className="font-bold text-sm uppercase tracking-widest">Verified Engine</h4>
+                        <p className="text-xs text-[#6E7495]">Every transaction is backed by our master Asego code.</p>
+                      </div>
+                      <div className="space-y-2">
+                        <Repeat className="w-6 h-6 text-purple-400" />
+                        <h4 className="font-bold text-sm uppercase tracking-widest">Revenue Split</h4>
+                        <p className="text-xs text-[#6E7495]">Track every sale and commission in your private portal.</p>
+                      </div>
+                   </div>
+                </div>
+                <div className="flex flex-col gap-4">
+                  <Link href="/partners">
+                     <Button className="bg-[#E8A33D] text-[#0F1428] font-bold text-xs h-14 px-12 rounded-full hover:bg-white transition-all uppercase tracking-[0.2em] shadow-xl">
+                        View Partner Benefits
+                     </Button>
+                  </Link>
+                  <Button variant="ghost" onClick={openChat} className="text-[#9AA1C0] hover:text-white uppercase font-bold text-[10px] tracking-[0.2em]">
+                    Inquire About Agreement →
+                  </Button>
+                </div>
+             </div>
+          </div>
+        </section>
+
         <section className="py-20 border-t border-white/5" id="built-for">
           <div className="wrap text-left">
             <div className="mb-10 space-y-3">
@@ -480,26 +525,6 @@ export default function HomePage() {
                    </button>
                 </Link>
              </div>
-          </div>
-        </section>
-
-        <section className="py-20 border-t border-white/5 bg-white/[0.01]">
-          <div className="wrap text-left">
-            <div className="max-w-3xl space-y-6">
-               <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#4FD1C5]/10 border border-[#4FD1C5]/20 rounded-full">
-                 <span className="text-[9px] font-bold uppercase tracking-widest text-[#4FD1C5]">B2B Opportunity</span>
-               </div>
-               <h3 className="headline text-3xl md:text-4xl font-medium text-left">Drive ancillary revenue.</h3>
-               <p className="text-[#9AA1C0] leading-relaxed text-lg font-medium text-left">
-                  Work with Utsavs to integrate travel protection and verified calendar intelligence into your booking engines. 
-                  Provide high-trust safety layers that enhance customer loyalty and operational precision.
-               </p>
-               <div className="pt-2 text-left">
-                 <button onClick={openChat} className="inline-flex items-center gap-2 text-sm font-bold text-[#E8A33D] hover:underline uppercase tracking-[0.2em] group">
-                    Inquire about partnership <Repeat className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
-                 </button>
-               </div>
-            </div>
           </div>
         </section>
       </main>

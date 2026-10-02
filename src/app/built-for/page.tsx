@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import React from 'react';
 import { Header } from '@/components/header';
@@ -10,7 +10,10 @@ import {
   Clock, 
   CheckCircle2,
   ArrowRight,
-  ShieldCheck
+  ShieldCheck,
+  Zap,
+  Building2,
+  GraduationCap
 } from "lucide-react";
 import Link from 'next/link';
 import { Button } from "@/components/ui/button";
@@ -18,7 +21,7 @@ import { Button } from "@/components/ui/button";
 export default function BuiltForPage() {
   const useCases = [
     {
-      title: "Travelers",
+      title: "Leisure Travel",
       subtitle: "When to go",
       icon: Plane,
       description: "Understand the cultural intensity and operational state of your destination. Flag festivals that drive high-density migration or unexpected closures.",
@@ -27,18 +30,18 @@ export default function BuiltForPage() {
       iconColor: "text-blue-400"
     },
     {
-      title: "International Students",
+      title: "Education Partners",
       subtitle: "When to arrive",
-      icon: Globe,
+      icon: GraduationCap,
       description: "Put institutional calendars and arrival timing around your dates. Align visa interviews and orientation with verified host-country intelligence.",
       impact: "A holiday can mean a university admissions office is offline for 48 hours.",
       theme: "from-purple-500/10 to-transparent",
       iconColor: "text-purple-400"
     },
     {
-      title: "Corporate & HR",
+      title: "Global HR & Fintech",
       subtitle: "When to operate",
-      icon: Clock,
+      icon: Building2,
       description: "Manage global workforce calendars with precision. Identify local regional holidays that affect payroll, meetings, and office availability.",
       impact: "A holiday means cross-border settlement latency and modified office hours.",
       theme: "from-gold/10 to-transparent",
@@ -61,23 +64,25 @@ export default function BuiltForPage() {
           <div className="max-w-6xl mx-auto space-y-24">
             
             <div className="space-y-6 max-w-3xl">
-              <div className="text-[12.5px] font-mono text-[#4FD1C5] tracking-[0.3em] uppercase">The Intelligence Layer</div>
-              <h1 className="text-4xl md:text-7xl font-headline font-medium leading-none tracking-tighter text-left">
+              <div className="flex items-center gap-2">
+                <Zap className="w-4 h-4 text-[#4FD1C5] fill-current" />
+                <span className="text-[12px] font-mono font-bold text-[#4FD1C5] tracking-[0.3em] uppercase">Solution Scopes</span>
+              </div>
+              <h1 className="text-4xl md:text-8xl font-headline font-medium leading-[0.95] tracking-tighter text-left">
                 One date.<br/>Different consequences.
               </h1>
-              <p className="text-xl text-[#9AA1C0] leading-relaxed font-medium text-left">
-                A holiday for one traveler is a closed office for another. Utsavs was built for teams and individuals who need to know which one they are.
+              <p className="text-xl text-[#9AA1C0] leading-relaxed font-medium text-left max-w-2xl">
+                A holiday for one traveler is a closed office for another. Utsavs provides the multi-layered intelligence needed to navigate the world's most complex calendars.
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {useCases.map((uc, i) => (
-                <Card key={i} className="bg-[#171D3A] border-white/10 rounded-2xl overflow-hidden group hover:border-white/20 transition-all shadow-xl text-left flex flex-col">
-                  {/* Stylized Icon Panel */}
-                  <div className={`relative h-40 w-full bg-gradient-to-br ${uc.theme} flex items-center justify-center overflow-hidden shrink-0`}>
+                <Card key={i} className="bg-[#171D3A] border-white/10 rounded-3xl overflow-hidden group hover:border-white/20 transition-all shadow-xl text-left flex flex-col">
+                  <div className={`relative h-44 w-full bg-gradient-to-br ${uc.theme} flex items-center justify-center overflow-hidden shrink-0`}>
                     <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)', backgroundSize: '32px 32px' }}></div>
-                    <uc.icon className={`w-20 h-20 ${uc.iconColor} opacity-20 transform -rotate-12 group-hover:scale-110 transition-transform duration-700`} />
-                    <uc.icon className={`absolute w-10 h-10 ${uc.iconColor} drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]`} />
+                    <uc.icon className={`w-24 h-24 ${uc.iconColor} opacity-20 transform -rotate-12 group-hover:rotate-0 transition-transform duration-700`} />
+                    <uc.icon className={`absolute w-12 h-12 ${uc.iconColor} drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]`} />
                   </div>
                   
                   <CardContent className="p-8 space-y-6 pt-6 flex-grow flex flex-col justify-between">
@@ -96,41 +101,43 @@ export default function BuiltForPage() {
                       </p>
                     </div>
                     <div className="p-4 bg-white/5 border-l-2 border-[#4FD1C5] rounded-r-lg mt-auto">
-                       <p className="text-xs text-[#4FD1C5] italic">"{uc.impact}"</p>
+                       <p className="text-xs text-[#4FD1C5] italic font-medium">"{uc.impact}"</p>
                     </div>
                   </CardContent>
                 </Card>
               ))}
             </div>
 
-            <div className="p-10 md:p-16 rounded-[40px] border-2 border-dashed border-white/10 bg-white/5 space-y-8 text-center max-w-4xl mx-auto">
-                <ShieldCheck className="w-10 h-10 text-[#E8A33D] mx-auto" />
-                <div className="space-y-4 text-center">
-                  <h2 className="text-3xl md:text-4xl font-headline font-medium">Source-backed intelligence.</h2>
-                  <p className="text-lg text-[#9AA1C0] leading-relaxed max-w-2xl mx-auto font-medium">
-                    Every data point is backed by an underlying source, with the source available to inspect. Human-verified. 
-                    Unlike generic AI, Utsavs uses a deterministic engine cross-checked by our research team to ensure 
-                    accuracy for high-stakes operational risk assessment.
+            {/* TRUST SECTION */}
+            <div className="p-12 md:p-20 rounded-[48px] border-2 border-dashed border-white/10 bg-white/5 space-y-10 text-center max-w-5xl mx-auto">
+                <div className="w-16 h-16 bg-[#E8A33D]/10 rounded-full flex items-center justify-center mx-auto">
+                   <ShieldCheck className="w-8 h-8 text-[#E8A33D]" />
+                </div>
+                <div className="space-y-6 text-center">
+                  <h2 className="text-3xl md:text-5xl font-headline font-medium tracking-tight">Source-backed intelligence.</h2>
+                  <p className="text-lg md:text-xl text-[#9AA1C0] leading-relaxed max-w-3xl mx-auto font-medium">
+                    Unlike generic AI, Utsavs uses a deterministic engine cross-checked by our research team. We independently verify institutional closures and government-declared dates for high-stakes operational risk assessment.
                   </p>
                 </div>
-                <div className="flex flex-wrap justify-center gap-6 pt-4">
-                   {["Source-Backed", "Human-Verified", "Institutional", "Policy-Aware"].map(tag => (
-                     <div key={tag} className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#F4F1E8]">
+                <div className="flex flex-wrap justify-center gap-8 pt-4">
+                   {["Sourced", "Verified", "Institutional", "Policy-Aware"].map(tag => (
+                     <div key={tag} className="flex items-center gap-2.5 text-xs font-bold uppercase tracking-widest text-[#F4F1E8]">
                         <CheckCircle2 className="w-4 h-4 text-[#4FD1C5]" /> {tag}
                      </div>
                    ))}
                 </div>
             </div>
 
-            <section className="py-24 border-t border-white/10 text-center space-y-10">
-               <h2 className="text-4xl md:text-6xl font-headline font-medium tracking-tight text-center">Ready to understand your dates?</h2>
+            {/* FINAL CTA */}
+            <section className="py-24 border-t border-white/10 text-center space-y-12">
+               <h2 className="text-4xl md:text-7xl font-headline font-medium tracking-tight text-center">Need a custom set?</h2>
                <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
                   <Button onClick={openChat} className="bg-[#E8A33D] text-[#0F1428] font-bold px-12 h-16 rounded-full shadow-2xl transition-all hover:scale-105 uppercase tracking-widest text-xs">
-                    Start Planning <ArrowRight className="ml-2 w-5 h-5 text-[#0F1428]" />
+                    Start Partner Chat <ArrowRight className="ml-2 w-5 h-5 text-[#0F1428]" />
                   </Button>
-                  <Button asChild variant="ghost" className="px-10 h-16 font-bold border border-white/10 rounded-full hover:bg-white/5 transition-colors text-white">
-                    <Link href="/api">
-                      Explore the API →
+                  <Button asChild variant="ghost" className="px-10 h-16 font-bold border border-white/10 rounded-full hover:bg-white/5 transition-colors text-white uppercase text-xs tracking-widest">
+                    <Link href="/partners">
+                      Partner Benefits →
                     </Link>
                   </Button>
                </div>

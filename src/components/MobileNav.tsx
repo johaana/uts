@@ -42,7 +42,7 @@ export function MobileNav({ setOpen }: { setOpen: (open: boolean) => void }) {
       </nav>
       <div className="mt-auto p-6 border-t border-white/5 bg-white/[0.02]">
         <Button onClick={openChat} className="w-full font-bold h-12 rounded-full bg-[#E8A33D] text-[#0F1428] hover:bg-[#F0C888]">
-          <MessageSquare className="w-4 h-4 mr-2" /> Start Chat
+          <MessageSquare className="w-4 h-4 mr-2" /> Partner with us
         </Button>
       </div>
     </div>
