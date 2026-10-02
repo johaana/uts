@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -37,17 +37,22 @@ import {
   Percent,
   Link as LinkIcon,
   Globe,
-  Code
+  Code,
+  ExternalLink,
+  Trash2,
+  Loader2
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import { Badge } from "@/components/ui/badge";
+import { getFirestore, useCollection } from "@/firebase";
+import { collection, doc, setDoc, updateDoc } from "firebase/firestore";
+import { cancelAsegoPolicy } from "@/app/international-insurance/actions";
 
-// MOCK DATA for visualization
+// MOCK AGENCIES - Fallback for UI if collection empty
 const MOCK_AGENCIES = [
   { id: "AG-101", name: "Skyline Travel Solutions", email: "ops@skylinetravel.com", tier: "Gold", commission: 15, status: "Active", policies: 142, revenue: "₹245,600" },
   { id: "AG-102", name: "Global Nomads Hub", email: "partner@globalnomads.in", tier: "Silver", commission: 12, status: "Active", policies: 89, revenue: "₹156,200" },
-  { id: "AG-103", name: "Zenith Study Abroad", email: "admin@zenithstudy.org", tier: "Standard", commission: 10, status: "Pending", policies: 0, revenue: "₹0" },
 ];
 
 export default function ManagementPortalPage() {
@@ -55,15 +60,75 @@ export default function ManagementPortalPage() {
   const [activeTab, setActiveTab] = useState<'overview' | 'agencies' | 'ledger' | 'widgets'>('overview');
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [onboardState, setOnboardState] = useState<'form' | 'success'>('form');
+  const [isVoiding, setIsVoiding] = useState<string | null>(null);
+
+  // New Agency State
+  const [newAgency, setNewAgency] = useState({
+    name: "",
+    email: "",
+    tier: "standard"
+  });
+
+  // REAL DATA FETCHING
+  const db = getFirestore();
+  const ledgerQuery = useMemo(() => db ? collection(db, "policy_ledger") : null, [db]);
+  const agenciesQuery = useMemo(() => db ? collection(db, "agencies") : null, [db]);
+  
+  const { data: realPolicies, loading: ledgerLoading } = useCollection(ledgerQuery);
+  const { data: realAgencies, loading: agenciesLoading } = useCollection(agenciesQuery);
+
+  const displayAgencies = realAgencies && realAgencies.length > 0 ? realAgencies : MOCK_AGENCIES;
 
   const copyToClipboard = (text: string, label: string) => {
     navigator.clipboard.writeText(text);
     toast({ title: `${label} copied` });
   };
 
-  const handleOnboardSubmit = (e: React.FormEvent) => {
+  const handleOnboardSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setOnboardState('success');
+    if (!db) return;
+
+    try {
+      const agencyRef = doc(collection(db, "agencies"));
+      await setDoc(agencyRef, {
+        id: agencyRef.id,
+        name: newAgency.name,
+        contactEmail: newAgency.email,
+        commissionTier: newAgency.tier === 'gold' ? 15 : newAgency.tier === 'silver' ? 12 : 10,
+        status: "Active",
+        policies: 0,
+        revenue: "₹0",
+        onboardedAt: new Date().toISOString()
+      });
+      setOnboardState('success');
+    } catch (error) {
+      toast({ title: "Onboarding Failed", variant: "destructive" });
+    }
+  };
+
+  const handleVoidPolicy = async (policyNo: string) => {
+    if (!confirm(`Are you sure you want to void policy ${policyNo}? This action is permanent.`)) return;
+    setIsVoiding(policyNo);
+    
+    try {
+      // 1. Call Asego (using defaults from actions.ts)
+      const res = await cancelAsegoPolicy(policyNo, { partnerId: '', sign: '', reference: '' });
+      
+      if (res.success) {
+        // 2. Update Shadow Ledger
+        if (db) {
+          const docRef = doc(db, "policy_ledger", policyNo);
+          await updateDoc(docRef, { status: "voided" });
+        }
+        toast({ title: "Policy voided successfully" });
+      } else {
+        toast({ title: "Asego Error", description: res.data?.msg || "Void failed", variant: "destructive" });
+      }
+    } catch (e: any) {
+      toast({ title: "Error", description: e.message, variant: "destructive" });
+    } finally {
+      setIsVoiding(null);
+    }
   };
 
   return (
@@ -106,15 +171,31 @@ export default function ManagementPortalPage() {
                     <div className="space-y-4">
                       <div className="space-y-2">
                         <Label className="text-[10px] uppercase font-bold text-[#6E7495] tracking-widest">Agency Name</Label>
-                        <Input placeholder="e.g. Travel Express" required className="bg-[#0F1428] border-white/10 h-12 text-white" />
+                        <Input 
+                          placeholder="e.g. Travel Express" 
+                          required 
+                          value={newAgency.name}
+                          onChange={e => setNewAgency({...newAgency, name: e.target.value})}
+                          className="bg-[#0F1428] border-white/10 h-12 text-white" 
+                        />
                       </div>
                       <div className="space-y-2">
                         <Label className="text-[10px] uppercase font-bold text-[#6E7495] tracking-widest">Primary Email</Label>
-                        <Input type="email" placeholder="contact@agency.com" required className="bg-[#0F1428] border-white/10 h-12 text-white" />
+                        <Input 
+                          type="email" 
+                          placeholder="contact@agency.com" 
+                          required 
+                          value={newAgency.email}
+                          onChange={e => setNewAgency({...newAgency, email: e.target.value})}
+                          className="bg-[#0F1428] border-white/10 h-12 text-white" 
+                        />
                       </div>
                       <div className="space-y-2">
                         <Label className="text-[10px] uppercase font-bold text-[#6E7495] tracking-widest">Commission Tier</Label>
-                        <Select defaultValue="standard">
+                        <Select 
+                          value={newAgency.tier}
+                          onValueChange={v => setNewAgency({...newAgency, tier: v})}
+                        >
                           <SelectTrigger className="bg-[#0F1428] border-white/10 h-12 text-white">
                             <SelectValue />
                           </SelectTrigger>
@@ -122,7 +203,6 @@ export default function ManagementPortalPage() {
                             <SelectItem value="standard">Standard (10%)</SelectItem>
                             <SelectItem value="silver">Silver (12%)</SelectItem>
                             <SelectItem value="gold">Gold (15%)</SelectItem>
-                            <SelectItem value="custom">Custom Override</SelectItem>
                           </SelectContent>
                         </Select>
                       </div>
@@ -145,13 +225,6 @@ export default function ManagementPortalPage() {
                           <div className="text-left">
                             <p className="text-[8px] font-bold text-[#6E7495] uppercase">Portal Invite Link</p>
                             <p className="text-xs font-mono text-white/80">utsavs.com/invite/ag-7721</p>
-                          </div>
-                          <Copy className="w-3 h-3 text-[#6E7495] group-hover:text-white" />
-                       </div>
-                       <div className="p-4 bg-white/5 border border-white/5 rounded-xl flex items-center justify-between group cursor-pointer" onClick={() => copyToClipboard('UTS-KEY-AG7721-SEC', 'Widget Key')}>
-                          <div className="text-left">
-                            <p className="text-[8px] font-bold text-[#6E7495] uppercase">Secure Widget Key</p>
-                            <p className="text-xs font-mono text-white/80">UTS-KEY-AG7721-SEC</p>
                           </div>
                           <Copy className="w-3 h-3 text-[#6E7495] group-hover:text-white" />
                        </div>
@@ -198,51 +271,51 @@ export default function ManagementPortalPage() {
                     <Card className="bg-[#171D3A] border-white/10 p-8 rounded-3xl space-y-4 shadow-lg hover:border-white/20 transition-all">
                       <CardTitle className="text-[10px] font-bold uppercase tracking-widest text-[#6E7495]">Total Network Revenue</CardTitle>
                       <div className="flex items-baseline gap-2">
-                        <span className="text-4xl font-bold font-serif">₹401,800</span>
-                        <span className="text-xs text-green-500 font-bold">↑ 12%</span>
+                        <span className="text-4xl font-bold font-serif">₹{realPolicies?.reduce((acc, p: any) => acc + (p.premiumAmount || 0), 0) || 0}</span>
+                        <span className="text-xs text-green-500 font-bold">Live Data</span>
                       </div>
                     </Card>
                     <Card className="bg-[#171D3A] border-white/10 p-8 rounded-3xl space-y-4 shadow-lg hover:border-white/20 transition-all">
                       <CardTitle className="text-[10px] font-bold uppercase tracking-widest text-[#6E7495]">Active Agencies</CardTitle>
                       <div className="flex items-baseline gap-2">
-                        <span className="text-4xl font-bold font-serif">2</span>
-                        <span className="text-xs text-[#9AA1C0]">/ 3 Onboarded</span>
+                        <span className="text-4xl font-bold font-serif">{realAgencies?.length || 0}</span>
+                        <span className="text-xs text-[#9AA1C0]">Onboarded</span>
                       </div>
                     </Card>
                     <Card className="bg-[#171D3A] border-white/10 p-8 rounded-3xl space-y-4 shadow-lg hover:border-white/20 transition-all">
-                      <CardTitle className="text-[10px] font-bold uppercase tracking-widest text-[#6E7495]">Policies Issued (MTD)</CardTitle>
+                      <CardTitle className="text-[10px] font-bold uppercase tracking-widest text-[#6E7495]">Policies Issued (Total)</CardTitle>
                       <div className="flex items-baseline gap-2">
-                        <span className="text-4xl font-bold font-serif">231</span>
-                        <span className="text-xs text-[#9AA1C0]">This month</span>
+                        <span className="text-4xl font-bold font-serif">{realPolicies?.length || 0}</span>
+                        <span className="text-xs text-[#9AA1C0]">In Ledger</span>
                       </div>
                     </Card>
                   </div>
 
                   <div className="grid md:grid-cols-2 gap-8">
                      <Card className="bg-[#171D3A] border-white/10 rounded-3xl p-8 space-y-6">
-                        <h3 className="text-sm font-bold uppercase tracking-widest text-white border-b border-white/5 pb-4">Top Performing Agencies</h3>
+                        <h3 className="text-sm font-bold uppercase tracking-widest text-white border-b border-white/5 pb-4">Recent Network Activity</h3>
                         <div className="space-y-6">
-                           {MOCK_AGENCIES.slice(0, 2).map(ag => (
-                             <div key={ag.id} className="flex items-center justify-between">
+                           {realPolicies?.slice(0, 3).map((p: any) => (
+                             <div key={p.id} className="flex items-center justify-between">
                                 <div className="space-y-1">
-                                   <p className="text-sm font-bold text-white">{ag.name}</p>
-                                   <p className="text-[10px] text-[#6E7495] font-mono uppercase">{ag.policies} policies</p>
+                                   <p className="text-sm font-bold text-white">{p.travelerName}</p>
+                                   <p className="text-[10px] text-[#6E7495] font-mono uppercase">{p.policyNumber} · {p.agencyId}</p>
                                 </div>
-                                <p className="text-sm font-bold text-[#4FD1C5]">{ag.revenue}</p>
+                                <p className="text-sm font-bold text-[#4FD1C5]">₹{p.premiumAmount}</p>
                              </div>
                            ))}
                         </div>
                      </Card>
                      <Card className="bg-[#171D3A] border-white/10 rounded-3xl p-8 space-y-6">
-                        <h3 className="text-sm font-bold uppercase tracking-widest text-white border-b border-white/5 pb-4">Recent Alerts</h3>
+                        <h3 className="text-sm font-bold uppercase tracking-widest text-white border-b border-white/5 pb-4">System Notifications</h3>
                         <div className="space-y-4">
                            <div className="flex gap-4">
-                              <div className="w-1.5 h-1.5 rounded-full bg-[#E8A33D] mt-1.5 shrink-0" />
-                              <p className="text-xs text-[#9AA1C0] leading-relaxed">New agency <strong>Zenith Study Abroad</strong> is awaiting verification of their domain whitelist.</p>
+                              <div className="w-1.5 h-1.5 rounded-full bg-[#4FD1C5] mt-1.5 shrink-0" />
+                              <p className="text-xs text-[#9AA1C0] leading-relaxed">Shadow Ledger is successfully connected to the Asego engine.</p>
                            </div>
                            <div className="flex gap-4">
-                              <div className="w-1.5 h-1.5 rounded-full bg-[#4FD1C5] mt-1.5 shrink-0" />
-                              <p className="text-xs text-[#9AA1C0] leading-relaxed">Network volume surge detected for <strong>Japan (October)</strong> travel dates.</p>
+                              <div className="w-1.5 h-1.5 rounded-full bg-[#E8A33D] mt-1.5 shrink-0" />
+                              <p className="text-xs text-[#9AA1C0] leading-relaxed">Agency onboarding is active. Whitelisting enforced on distribution widgets.</p>
                            </div>
                         </div>
                      </Card>
@@ -260,31 +333,24 @@ export default function ManagementPortalPage() {
                               <th className="px-8 py-5">Agency Profile</th>
                               <th className="px-8 py-5">Tier</th>
                               <th className="px-8 py-5">Commission</th>
-                              <th className="px-8 py-5">Activity</th>
                               <th className="px-8 py-5">Status</th>
                               <th className="px-8 py-5 text-right">Actions</th>
                             </tr>
                           </thead>
                           <tbody className="divide-y divide-white/5">
-                            {MOCK_AGENCIES.map((ag) => (
+                            {displayAgencies.map((ag: any) => (
                               <tr key={ag.id} className="hover:bg-white/[0.02] transition-colors group">
                                 <td className="px-8 py-6">
                                   <div className="space-y-1">
                                     <p className="font-bold text-white group-hover:text-[#E8A33D] transition-colors">{ag.name}</p>
-                                    <p className="text-[11px] text-[#6E7495]">{ag.email}</p>
+                                    <p className="text-[11px] text-[#6E7495]">{ag.contactEmail || ag.email}</p>
                                   </div>
                                 </td>
                                 <td className="px-8 py-6">
-                                  <Badge variant="outline" className="text-[9px] uppercase border-white/10 text-white/60">{ag.tier}</Badge>
+                                  <Badge variant="outline" className="text-[9px] uppercase border-white/10 text-white/60">{ag.commissionTier === 15 ? 'Gold' : ag.commissionTier === 12 ? 'Silver' : 'Standard'}</Badge>
                                 </td>
                                 <td className="px-8 py-6 font-mono text-xs text-[#4FD1C5]">
-                                  {ag.commission}%
-                                </td>
-                                <td className="px-8 py-6">
-                                  <div className="space-y-1">
-                                     <p className="text-xs font-bold text-white">{ag.policies}</p>
-                                     <p className="text-[10px] text-[#6E7495]">Policies</p>
-                                  </div>
+                                  {ag.commissionTier || ag.commission}%
                                 </td>
                                 <td className="px-8 py-6">
                                   <span className={cn("text-[9px] font-bold uppercase tracking-widest", ag.status === 'Active' ? "text-green-500" : "text-yellow-500")}>
@@ -306,8 +372,8 @@ export default function ManagementPortalPage() {
               {activeTab === 'ledger' && (
                 <div className="space-y-6 animate-in fade-in duration-500">
                   <div className="flex justify-between items-center bg-[#171D3A] border border-white/10 p-6 rounded-2xl">
-                     <p className="text-[11px] font-bold text-[#6E7495] uppercase tracking-[0.2em]">Showing Last 24 Hours</p>
-                     <Button variant="outline" className="border-white/10 rounded-full text-[10px] font-bold uppercase text-white">Export CSV</Button>
+                     <p className="text-[11px] font-bold text-[#6E7495] uppercase tracking-[0.2em]">Master Transaction Ledger</p>
+                     <Button variant="outline" className="border-white/10 rounded-full text-[10px] font-bold uppercase text-white">Export Analytics</Button>
                   </div>
                   <Card className="bg-[#171D3A] border-white/10 rounded-3xl overflow-hidden shadow-2xl text-white">
                     <div className="overflow-x-auto">
@@ -319,34 +385,47 @@ export default function ManagementPortalPage() {
                             <th className="px-8 py-5">Traveler</th>
                             <th className="px-8 py-5">Premium</th>
                             <th className="px-8 py-5">Status</th>
-                            <th className="px-8 py-5 text-right">Void</th>
+                            <th className="px-8 py-5 text-right">Actions</th>
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-white/5">
-                           <tr className="hover:bg-white/[0.02]">
-                              <td className="px-8 py-6 font-mono text-xs text-[#4FD1C5]">IC33610</td>
-                              <td className="px-8 py-6 font-bold">Skyline Travel</td>
-                              <td className="px-8 py-6 text-xs text-[#9AA1C0]">John Doe</td>
-                              <td className="px-8 py-6 font-bold">₹1,850</td>
-                              <td className="px-8 py-6">
-                                <Badge variant="outline" className="bg-green-500/10 text-green-500 border-green-500/20 text-[9px] uppercase font-bold">Issued</Badge>
-                              </td>
-                              <td className="px-8 py-6 text-right">
-                                <Button variant="ghost" size="icon" className="text-red-400 hover:text-red-500 hover:bg-red-500/10"><ChevronRight className="w-4 h-4" /></Button>
-                              </td>
-                           </tr>
-                           <tr className="hover:bg-white/[0.02]">
-                              <td className="px-8 py-6 font-mono text-xs text-[#4FD1C5]">IC33609</td>
-                              <td className="px-8 py-6 font-bold">Global Nomads</td>
-                              <td className="px-8 py-6 text-xs text-[#9AA1C0]">Sarah Smith</td>
-                              <td className="px-8 py-6 font-bold">₹2,400</td>
-                              <td className="px-8 py-6">
-                                <Badge variant="outline" className="bg-green-500/10 text-green-500 border-green-500/20 text-[9px] uppercase font-bold">Issued</Badge>
-                              </td>
-                              <td className="px-8 py-6 text-right">
-                                <Button variant="ghost" size="icon" className="text-red-400 hover:text-red-500 hover:bg-red-500/10"><ChevronRight className="w-4 h-4" /></Button>
-                              </td>
-                           </tr>
+                           {realPolicies?.map((p: any) => (
+                             <tr key={p.id} className="hover:bg-white/[0.02]">
+                                <td className="px-8 py-6 font-mono text-xs text-[#4FD1C5]">{p.policyNumber}</td>
+                                <td className="px-8 py-6 font-bold">{p.agencyId}</td>
+                                <td className="px-8 py-6 text-xs text-[#9AA1C0]">{p.travelerName}</td>
+                                <td className="px-8 py-6 font-bold">₹{p.premiumAmount}</td>
+                                <td className="px-8 py-6">
+                                  <Badge variant="outline" className={cn(
+                                    "text-[9px] uppercase font-bold",
+                                    p.status === 'voided' ? "bg-red-500/10 text-red-500 border-red-500/20" : "bg-green-500/10 text-green-500 border-green-500/20"
+                                  )}>{p.status}</Badge>
+                                </td>
+                                <td className="px-8 py-6 text-right flex justify-end gap-2">
+                                  {p.documentUrl && (
+                                    <a href={p.documentUrl} target="_blank" rel="noopener noreferrer">
+                                      <Button variant="ghost" size="icon" className="text-[#4FD1C5]"><ExternalLink className="w-4 h-4" /></Button>
+                                    </a>
+                                  )}
+                                  {p.status !== 'voided' && (
+                                    <Button 
+                                      variant="ghost" 
+                                      size="icon" 
+                                      onClick={() => handleVoidPolicy(p.policyNumber)}
+                                      disabled={isVoiding === p.policyNumber}
+                                      className="text-red-400 hover:text-red-500 hover:bg-red-500/10"
+                                    >
+                                      {isVoiding === p.policyNumber ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
+                                    </Button>
+                                  )}
+                                </td>
+                             </tr>
+                           ))}
+                           {(!realPolicies || realPolicies.length === 0) && (
+                             <tr>
+                               <td colSpan={6} className="px-8 py-20 text-center text-[#6E7495] italic">No real policies in ledger yet. Issue a policy to start logging.</td>
+                             </tr>
+                           )}
                         </tbody>
                       </table>
                     </div>
@@ -376,18 +455,10 @@ export default function ManagementPortalPage() {
                          <div className="pt-4 flex flex-col gap-3">
                             <div className="p-4 bg-[#0F1428] rounded-xl font-mono text-[11px] text-[#4FD1C5] border border-white/5 relative group/code overflow-hidden">
                                <code className="block leading-relaxed">
-                                  {`<iframe src="https://utsavs.com/w/di?ag=AG-101" />`}
+                                  {`<iframe src="https://utsavs.com/w/di?ag=MASTER" />`}
                                </code>
                                <button className="absolute right-3 top-3 opacity-0 group-hover/code:opacity-100 transition-opacity bg-white/10 p-1.5 rounded-lg">
-                                  <Copy className="w-3 h-3 text-white" onClick={() => copyToClipboard('<iframe src="https://utsavs.com/w/di?ag=AG-101" />', 'Iframe Snippet')} />
-                               </button>
-                            </div>
-                            <div className="p-4 bg-[#0F1428] rounded-xl font-mono text-[11px] text-[#E8A33D] border border-white/5 relative group/code overflow-hidden">
-                               <code className="block leading-relaxed">
-                                  {`<DateIntelWidget agencyId="AG-101" />`}
-                               </code>
-                               <button className="absolute right-3 top-3 opacity-0 group-hover/code:opacity-100 transition-opacity bg-white/10 p-1.5 rounded-lg">
-                                  <Copy className="w-3 h-3 text-white" onClick={() => copyToClipboard('<DateIntelWidget agencyId="AG-101" />', 'React Snippet')} />
+                                  <Copy className="w-3 h-3 text-white" onClick={() => copyToClipboard('<iframe src="https://utsavs.com/w/di?ag=MASTER" />', 'Iframe Snippet')} />
                                </button>
                             </div>
                             <Button variant="ghost" className="self-start text-[10px] font-bold uppercase tracking-widest text-primary hover:text-white px-0">Preview Configuration →</Button>
@@ -408,18 +479,10 @@ export default function ManagementPortalPage() {
                          <div className="pt-4 flex flex-col gap-3">
                             <div className="p-4 bg-[#0F1428] rounded-xl font-mono text-[11px] text-[#4FD1C5] border border-white/5 relative group/code overflow-hidden">
                                <code className="block leading-relaxed">
-                                  {`<iframe src="https://utsavs.com/w/ins?ag=AG-101" />`}
+                                  {`<iframe src="https://utsavs.com/w/ins?ag=MASTER" />`}
                                </code>
                                <button className="absolute right-3 top-3 opacity-0 group-hover/code:opacity-100 transition-opacity bg-white/10 p-1.5 rounded-lg">
-                                  <Copy className="w-3 h-3 text-white" onClick={() => copyToClipboard('<iframe src="https://utsavs.com/w/ins?ag=AG-101" />', 'Iframe Snippet')} />
-                               </button>
-                            </div>
-                            <div className="p-4 bg-[#0F1428] rounded-xl font-mono text-[11px] text-[#E8A33D] border border-white/5 relative group/code overflow-hidden">
-                               <code className="block leading-relaxed">
-                                  {`<InsuranceExpressWidget agencyId="AG-101" />`}
-                               </code>
-                               <button className="absolute right-3 top-3 opacity-0 group-hover/code:opacity-100 transition-opacity bg-white/10 p-1.5 rounded-lg">
-                                  <Copy className="w-3 h-3 text-white" onClick={() => copyToClipboard('<InsuranceExpressWidget agencyId="AG-101" />', 'React Snippet')} />
+                                  <Copy className="w-3 h-3 text-white" onClick={() => copyToClipboard('<iframe src="https://utsavs.com/w/ins?ag=MASTER" />', 'Iframe Snippet')} />
                                </button>
                             </div>
                             <Button variant="ghost" className="self-start text-[10px] font-bold uppercase tracking-widest text-[#4FD1C5] hover:text-white px-0">White-label Settings →</Button>

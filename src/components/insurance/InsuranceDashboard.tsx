@@ -37,6 +37,10 @@ import {
 import { useToast } from '@/hooks/use-toast';
 import { parseISO, differenceInDays, differenceInYears } from 'date-fns';
 import Image from 'next/image';
+import { getFirestore } from '@/firebase';
+import { doc, setDoc, updateDoc } from 'firebase/firestore';
+import { errorEmitter } from '@/firebase/error-emitter';
+import { FirestorePermissionError } from '@/firebase/errors';
 
 type Step = 'search' | 'selection' | 'form' | 'success';
 
@@ -219,6 +223,32 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
         const policyData = Array.isArray(res.data) ? res.data[0] : res.data;
         setIssuedPolicy(policyData);
         setStep('success');
+
+        // --- SHADOW LEDGER LOGGING ---
+        const db = getFirestore();
+        if (db) {
+          const ledgerRef = doc(db, "policy_ledger", policyData.policyNumber || orderId);
+          setDoc(ledgerRef, {
+            id: orderId,
+            policyNumber: policyData.policyNumber,
+            orderId: orderId,
+            agencyId: "Utsavs Master", 
+            travelerName: `${formData.firstName} ${formData.lastName}`,
+            premiumAmount: selectedPlan.premium,
+            currency: selectedPlan.currency,
+            status: "issued",
+            issuedAt: new Date().toISOString(),
+            documentUrl: policyData.policyUrl || ""
+          }).catch(async (serverError) => {
+            const permissionError = new FirestorePermissionError({
+              path: ledgerRef.path,
+              operation: 'create',
+              requestResourceData: { policyNumber: policyData.policyNumber }
+            });
+            errorEmitter.emit('permission-error', permissionError);
+          });
+        }
+
         toast({ title: "Policy Issued Successfully" });
       } else if (res.data?.msg) {
          toast({ title: "Asego Error", description: res.data.msg, variant: "destructive" });
@@ -239,6 +269,21 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
       addTrace(res);
       if (res.success) {
         toast({ title: "Policy Voided" });
+
+        // --- SHADOW LEDGER UPDATE ---
+        const db = getFirestore();
+        if (db) {
+          const docRef = doc(db, "policy_ledger", pNo);
+          updateDoc(docRef, { status: "voided" }).catch(async (serverError) => {
+             const permissionError = new FirestorePermissionError({
+               path: docRef.path,
+               operation: 'update',
+               requestResourceData: { status: 'voided' }
+             });
+             errorEmitter.emit('permission-error', permissionError);
+          });
+        }
+
         if (!policyNo) {
             setStep('search');
             setSelectedPlan(null);
