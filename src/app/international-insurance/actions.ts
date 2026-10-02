@@ -1,9 +1,9 @@
 'use server';
 
 /**
- * @fileOverview Asego API Implementation - Production-Ready Transactional Layer v6.1
- * PII Protection: Plaintext payloads are NEVER returned to the client or logged without debug gating.
- * Trace History: Every response includes an actionLabel and execution timestamp.
+ * @fileOverview Asego API Implementation - Production-Ready Transactional Layer v6.5
+ * PII Protection: Plaintext payloads are NEVER returned to the client.
+ * Security Gating: All non-idempotent operations are gated by environment flags.
  */
 
 const BASE_URL = process.env.ASEGO_BASE_URL || "https://dolphin.asego.in/api";
@@ -36,7 +36,6 @@ interface ActionResponse {
   error?: string;
   fullUrl: string;
   method: string;
-  headersSent: Record<string, any>;
   actionLabel: string;
   timestamp: string;
 }
@@ -54,15 +53,15 @@ function userFacingError(code: number): string {
 
 function validateTravelerInput(t: any): string[] {
   const errors: string[] = [];
-  if (!/^[A-Za-z0-9]{6,12}$/.test(t.passport)) errors.push("Invalid passport format.");
-  if (!/^\d{10}$/.test(t.mobileNo)) errors.push("Mobile number must be 10 digits.");
-  if (!/^\S+@\S+\.\S+$/.test(t.email)) errors.push("Invalid email format.");
+  if (!t.passport || !/^[A-Za-z0-9]{6,12}$/.test(t.passport)) errors.push("Invalid passport format.");
+  if (!t.mobileNo || !/^\d{10}$/.test(t.mobileNo)) errors.push("Mobile number must be 10 digits.");
+  if (!t.email || !/^\S+@\S+\.\S+$/.test(t.email)) errors.push("Invalid email format.");
   if (!t.pincode || !/^\d{6}$/.test(t.pincode)) errors.push("Invalid pincode (6 digits).");
   return errors;
 }
 
 /**
- * Hardened Fetch Wrapper with PII protection and verbatim tracing.
+ * Hardened Fetch Wrapper with PII protection and diagnostic tracing.
  */
 async function asegoRequest(
   path: string, 
@@ -103,7 +102,6 @@ async function asegoRequest(
     
     let parsed: any;
     try {
-      // Fix for "Unexpected response" crash: handle empty [] or raw text gracefully
       parsed = rawText.length > 0 ? JSON.parse(rawText) : [];
     } catch {
       parsed = rawText; 
@@ -115,7 +113,6 @@ async function asegoRequest(
       method,
       fullUrl,
       data: parsed,
-      headersSent: { 'Sign': '********', 'Reference': '********' },
       actionLabel,
       timestamp
     };
@@ -125,7 +122,6 @@ async function asegoRequest(
       method,
       actionLabel,
       errorName: err?.name,
-      errorMessage: err?.message,
     });
     throw new Error(`Connection failed: ${err?.message ?? "unknown network error"}`);
   }
@@ -192,7 +188,7 @@ function assembleAsegoPayload(payload: any, creds: AsegoCredentials) {
   const premium = Number(payload.premium);
   const pId = creds.partnerId || process.env.UTSAVS_PARTNER_ID;
 
-  const data = [
+  return [
     {
       identity: {
         orderId: payload.orderId,
@@ -205,7 +201,7 @@ function assembleAsegoPayload(payload: any, creds: AsegoCredentials) {
         totalPremium: premium,
         plan: {
           sellingPlanId: payload.planId, 
-          // v5.7: Corrected to OBJECT structure based on forensic audit
+          // v5.7+: Enforce OBJECT structure for single traveler request
           agePremiums: { age: Number(payload.age), premium: premium }
         }
       },
@@ -236,13 +232,6 @@ function assembleAsegoPayload(payload: any, creds: AsegoCredentials) {
       otherDetails: { policyComment: "", universityName: "", universityAddress: "" }
     }
   ];
-
-  if (process.env.UTSAVS_INTERNAL_DEBUG === 'true') {
-    // Audit-only logging: No PII returned to browser, but visible in server console
-    console.log("UTSAVS_FORENSIC_PLAINTEXT_PAYLOAD:", JSON.stringify(data, null, 2));
-  }
-
-  return data;
 }
 
 export async function validateAsegoPolicy(policyData: any, creds: AsegoCredentials) {
@@ -259,6 +248,9 @@ export async function validateAsegoPolicy(policyData: any, creds: AsegoCredentia
 }
 
 export async function createAsegoPolicy(policyData: any, creds: AsegoCredentials) {
+  const inputErrors = validateTravelerInput(policyData);
+  if (inputErrors.length > 0) throw new Error(inputErrors.join(" "));
+
   const partnerId = creds.partnerId || process.env.UTSAVS_PARTNER_ID;
   const plaintext = assembleAsegoPayload(policyData, creds);
   const encRes = await asegoEncrypt(JSON.stringify(plaintext), creds);
@@ -269,9 +261,9 @@ export async function createAsegoPolicy(policyData: any, creds: AsegoCredentials
 }
 
 export async function cancelAsegoPolicy(policyNumber: string, creds: AsegoCredentials) {
-  // B4: Server-side gating for the Manual Void Utility
+  // B4: Strict server-side gating for all cancellation calls during UAT/Testing phase
   if (process.env.UTSAVS_INTERNAL_DEBUG !== 'true') {
-    throw new Error("UNAUTHORIZED: Manual cancellation utility is restricted to debug mode.");
+    throw new Error("UNAUTHORIZED: Cancellation service restricted to debug mode.");
   }
 
   const partnerId = creds.partnerId || process.env.UTSAVS_PARTNER_ID;

@@ -115,7 +115,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
   const [isValidating, setIsValidating] = useState(false);
   const [isValidated, setIsValidated] = useState(false);
 
-  // Trace History System
+  // Trace History System (Last 5 interactions)
   const [traceHistory, setTraceHistory] = useState<any[]>([]);
   const [showTrace, setShowTrace] = useState(isDebug);
 
@@ -263,7 +263,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
           <div className="text-left space-y-4 max-w-2xl">
               <div className="flex items-center gap-3">
                 <p className="text-[10px] font-bold text-[#6E7495] uppercase tracking-widest">Transaction Lifecycle</p>
-                {isDebug && <Badge variant="outline" className="text-[8px] border-[#4FD1C5] text-[#4FD1C5]">FORENSIC_AUDIT_V6.1_ACTIVE</Badge>}
+                {isDebug && <Badge variant="outline" className="text-[8px] border-[#4FD1C5] text-[#4FD1C5]">FORENSIC_AUDIT_V6.5_ACTIVE</Badge>}
               </div>
               <h1 className="text-4xl md:text-7xl font-headline font-medium tracking-tighter leading-[1.05] text-white">
                   Global Travel<br/>
@@ -314,7 +314,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
                          <p className="text-blue-400 break-all text-[10px]">{trace.fullUrl}</p>
                       </div>
                       <div className="space-y-3">
-                        <p className="text-[7px] text-[#6E7495] uppercase font-bold tracking-widest">Raw Body</p>
+                        <p className="text-[7px] text-[#6E7495] uppercase font-bold tracking-widest">Raw Response Body</p>
                         <pre className="bg-[#050711] p-4 border border-white/5 text-[9px] text-[#4FD1C5] overflow-auto max-h-[200px]">
                           {JSON.stringify(trace.data, null, 2)}
                         </pre>
@@ -591,4 +591,3 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
     </div>
   );
 }
-
