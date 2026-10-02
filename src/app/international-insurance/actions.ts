@@ -1,8 +1,10 @@
+
 'use server';
 
 /**
- * @fileOverview Asego API Implementation - Final Transactional Layer v5.12
- * Structural Correction: cancelPolicy re-aligned to ARRAY structure [{...}] with policyNumber key.
+ * @fileOverview Asego API Implementation - Final Transactional Layer v5.13
+ * Structural Correction: cancelPolicy re-aligned to SINGLE OBJECT structure (removing [] wrapper).
+ * Key Alignment: Using 'policyNumber' as the unique identifier.
  * PII Protection: Plaintext payloads are NEVER returned to the client.
  */
 
@@ -266,17 +268,17 @@ export async function cancelAsegoPolicy(policyNumber: string, creds: AsegoCreden
   }
 
   const partnerId = creds.partnerId || process.env.UTSAVS_PARTNER_ID;
-  // FIX: v5.12 - Align structure to ARRAY wrapped [{...}] with policyNumber key
-  const plaintext = [
-    {
-      identity: {
-        sign: creds.sign || process.env.UTSAVS_SIGN,
-        reference: creds.reference || process.env.UTSAVS_REFERENCE,
-        partnerId: partnerId
-      },
-      policyNumber: policyNumber
-    }
-  ];
+  
+  // v5.13 FIX: Structural alignment for cancellation.
+  // Removing the [] array wrapper to resolve Code 107.
+  const plaintext = {
+    identity: {
+      sign: creds.sign || process.env.UTSAVS_SIGN,
+      reference: creds.reference || process.env.UTSAVS_REFERENCE,
+      partnerId: partnerId
+    },
+    policyNumber: policyNumber
+  };
 
   const encRes = await asegoEncrypt(JSON.stringify(plaintext), creds);
   if (!encRes.success || !encRes.data) return encRes;
