@@ -9,11 +9,11 @@
       ]
     },
     {
-      "collectionGroup": "policy_ledger",
+      "collectionGroup": "intelligence_records",
       "queryScope": "COLLECTION",
       "fields": [
         { "fieldPath": "status", "order": "ASCENDING" },
-        { "fieldPath": "createdAt", "order": "DESCENDING" }
+        { "fieldPath": "date", "order": "DESCENDING" }
       ]
     }
   ],

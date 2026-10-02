@@ -38,7 +38,8 @@ export default function AdminGatePage() {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    if (password === "Johaana@2319") {
+    // V5.24 FIX: Password moved to environment variable for production safety
+    if (password === process.env.NEXT_PUBLIC_ADMIN_CONTROL_PASSWORD) {
       setIsAuthenticated(true);
       setError(false);
     } else {
@@ -91,7 +92,6 @@ export default function AdminGatePage() {
     }
 
     // Helper to remove undefined values for Firestore compatibility
-    // This resolves the "FirebaseError: Unsupported field value: undefined"
     const cleanObject = (obj: any): any => {
       if (obj === undefined) return null;
       if (obj === null || typeof obj !== 'object') return obj;
@@ -107,17 +107,14 @@ export default function AdminGatePage() {
     };
     
     try {
-      const rules = getCanonicalRules(); // Fetches the 416 baseline patterns
+      const rules = getCanonicalRules(); 
       let count = 0;
       
       for (const rule of rules) {
-        // Use rule_id as the document key to prevent duplicates
         const docRef = doc(db, "intelligence_records", rule.rule_id);
-        
-        // Sanitize data to remove any 'undefined' fields which trigger Firebase errors
         const cleanedRule = cleanObject({ 
           ...rule, 
-          status: "published" // Force published status for verified baseline
+          status: "published"
         });
 
         await setDoc(docRef, cleanedRule, { merge: true });
@@ -172,7 +169,6 @@ export default function AdminGatePage() {
             </div>
 
             <div className="max-w-4xl mx-auto grid md:grid-cols-1 gap-12">
-                {/* Review Queue */}
                 <div className="space-y-6">
                     <div className="flex items-center justify-between border-b border-white/10 pb-4">
                        <h3 className="text-xl font-bold font-serif flex items-center gap-2">
@@ -224,7 +220,6 @@ export default function AdminGatePage() {
                     )}
                 </div>
 
-                {/* System Maintenance */}
                 <div className="pt-12 border-t border-white/10 space-y-6">
                     <h3 className="text-xl font-bold font-serif flex items-center gap-2">
                       <Zap className="w-5 h-5 text-[#E8A33D]" /> System Utilities
