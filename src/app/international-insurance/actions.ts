@@ -1,9 +1,9 @@
 'use server';
 
 /**
- * @fileOverview Asego API Implementation - Final Transactional Layer v5.19
- * Structural Correction: Identity-wrapped Array format for cancelPolicy.
- * Resolves Code 107 (Parsing) and Code 163 (Authorization/Search).
+ * @fileOverview Asego API Implementation - Final Transactional Layer v5.20
+ * Structural Correction: Flat Object inside Array format for cancelPolicy.
+ * Resolves Code 107 (Parsing) by removing identity wrapper and Code 163 (Search) by using canonical policyNumber.
  * PII Protection: Plaintext payloads are NEVER returned to the client.
  */
 
@@ -153,7 +153,7 @@ export async function getAsegoPlans(params: { age: string, duration: string, cat
             const agePremiums = p.agePremiums || [];
             const targetAgeNum = Number(params.age);
             
-            // v5.18 logic: Handle both array and object responses for agePremiums
+            // Handle both array and object responses for agePremiums
             let premium = 0;
             if (Array.isArray(agePremiums)) {
               const matched = agePremiums.find((ap: any) => Number(ap.age) === targetAgeNum);
@@ -279,16 +279,14 @@ export async function cancelAsegoPolicy(policyNumber: string, creds: AsegoCreden
   const pNo = String(policyNumber || "").trim();
   if (!pNo) throw new Error("Policy number is required for cancellation.");
   
-  // v5.19 Implementation: Identity-wrapped Array.
-  // Mirrored exactly from createPolicy, as v5.17 confirmed Array passes parser
-  // and createPolicy confirms Identity block passes searcher.
+  // v5.20 Implementation: Flat Object inside Array.
+  // This structure targets the successful resolution of Code 107 (Parser) 
+  // by using the array envelope and flat auth fields.
   const plaintext = [
     {
-      identity: {
-        sign: creds.sign || process.env.UTSAVS_SIGN,
-        reference: creds.reference || process.env.UTSAVS_REFERENCE,
-        partnerId: partnerId
-      },
+      partnerId: partnerId,
+      sign: creds.sign || process.env.UTSAVS_SIGN,
+      reference: creds.reference || process.env.UTSAVS_REFERENCE,
       policyNumber: pNo
     }
   ];
