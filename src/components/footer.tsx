@@ -4,7 +4,7 @@ import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import { format } from "date-fns";
 import { Button } from "./ui/button";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ShieldCheck, Activity } from "lucide-react";
 
 export function Footer() {
   const [reviewDate, setReviewDate] = useState("8 Sept 2026");
@@ -40,10 +40,11 @@ export function Footer() {
               <Button onClick={openChat} className="bg-[#E8A33D] text-[#0F1428] font-bold h-12 px-8 rounded-full shadow-lg group active:scale-95 transition-all">
                 Get API Access <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
               </Button>
-              <div className="flex gap-8 text-sm font-bold text-muted uppercase tracking-widest">
-                <Link href="/date-intelligence" className="hover:text-white transition-colors">Explorer</Link>
+              <div className="flex flex-wrap gap-8 text-sm font-bold text-muted uppercase tracking-widest justify-start md:justify-end">
+                <Link href="/date-intelligence" className="hover:text-white transition-colors flex items-center gap-1.5"><Activity className="w-3.5 h-3.5" /> Explorer</Link>
                 <Link href="/festivals" className="hover:text-white transition-colors">Stories</Link>
                 <Link href="/api" className="hover:text-white transition-colors">API</Link>
+                <Link href="/management" className="hover:text-white transition-colors flex items-center gap-1.5 text-[#4FD1C5]"><ShieldCheck className="w-3.5 h-3.5" /> Portal</Link>
               </div>
            </div>
         </div>

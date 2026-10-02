@@ -35,10 +35,13 @@ import {
   CheckCircle2,
   Mail,
   Percent,
-  Link as LinkIcon
+  Link as LinkIcon,
+  Globe,
+  Code
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
+import { Badge } from "@/components/ui/badge";
 
 // MOCK DATA for visualization
 const MOCK_AGENCIES = [
@@ -60,7 +63,6 @@ export default function ManagementPortalPage() {
 
   const handleOnboardSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // In a real implementation, this would save to Firestore
     setOnboardState('success');
   };
 
@@ -78,7 +80,7 @@ export default function ManagementPortalPage() {
                 <ShieldCheck className="w-4 h-4" />
                 <span className="text-[10px] font-mono font-bold uppercase tracking-[0.3em]">Principal Dashboard</span>
               </div>
-              <h1 className="text-4xl md:text-5xl font-serif font-bold tracking-tight">Utsavs Partner Network</h1>
+              <h1 className="text-4xl md:text-5xl font-serif font-bold tracking-tight text-white">Utsavs Partner Network</h1>
               <p className="text-[#9AA1C0] max-w-xl font-medium">Manage agency onboarding, track cross-network sales, and deploy distribution widgets.</p>
             </div>
             
@@ -104,16 +106,16 @@ export default function ManagementPortalPage() {
                     <div className="space-y-4">
                       <div className="space-y-2">
                         <Label className="text-[10px] uppercase font-bold text-[#6E7495] tracking-widest">Agency Name</Label>
-                        <Input placeholder="e.g. Travel Express" required className="bg-[#0F1428] border-white/10 h-12" />
+                        <Input placeholder="e.g. Travel Express" required className="bg-[#0F1428] border-white/10 h-12 text-white" />
                       </div>
                       <div className="space-y-2">
                         <Label className="text-[10px] uppercase font-bold text-[#6E7495] tracking-widest">Primary Email</Label>
-                        <Input type="email" placeholder="contact@agency.com" required className="bg-[#0F1428] border-white/10 h-12" />
+                        <Input type="email" placeholder="contact@agency.com" required className="bg-[#0F1428] border-white/10 h-12 text-white" />
                       </div>
                       <div className="space-y-2">
                         <Label className="text-[10px] uppercase font-bold text-[#6E7495] tracking-widest">Commission Tier</Label>
                         <Select defaultValue="standard">
-                          <SelectTrigger className="bg-[#0F1428] border-white/10 h-12">
+                          <SelectTrigger className="bg-[#0F1428] border-white/10 h-12 text-white">
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent className="bg-[#171D3A] border-white/10 text-white">
@@ -223,7 +225,7 @@ export default function ManagementPortalPage() {
                            {MOCK_AGENCIES.slice(0, 2).map(ag => (
                              <div key={ag.id} className="flex items-center justify-between">
                                 <div className="space-y-1">
-                                   <p className="text-sm font-bold">{ag.name}</p>
+                                   <p className="text-sm font-bold text-white">{ag.name}</p>
                                    <p className="text-[10px] text-[#6E7495] font-mono uppercase">{ag.policies} policies</p>
                                 </div>
                                 <p className="text-sm font-bold text-[#4FD1C5]">{ag.revenue}</p>
@@ -305,9 +307,9 @@ export default function ManagementPortalPage() {
                 <div className="space-y-6 animate-in fade-in duration-500">
                   <div className="flex justify-between items-center bg-[#171D3A] border border-white/10 p-6 rounded-2xl">
                      <p className="text-[11px] font-bold text-[#6E7495] uppercase tracking-[0.2em]">Showing Last 24 Hours</p>
-                     <Button variant="outline" className="border-white/10 rounded-full text-[10px] font-bold uppercase">Export CSV</Button>
+                     <Button variant="outline" className="border-white/10 rounded-full text-[10px] font-bold uppercase text-white">Export CSV</Button>
                   </div>
-                  <Card className="bg-[#171D3A] border-white/10 rounded-3xl overflow-hidden shadow-2xl">
+                  <Card className="bg-[#171D3A] border-white/10 rounded-3xl overflow-hidden shadow-2xl text-white">
                     <div className="overflow-x-auto">
                       <table className="w-full text-left text-sm">
                         <thead className="bg-white/5 text-[10px] font-bold uppercase tracking-widest text-[#6E7495]">
@@ -327,7 +329,7 @@ export default function ManagementPortalPage() {
                               <td className="px-8 py-6 text-xs text-[#9AA1C0]">John Doe</td>
                               <td className="px-8 py-6 font-bold">₹1,850</td>
                               <td className="px-8 py-6">
-                                <Badge variant="outline" className="bg-green-500/10 text-green-500 border-green-500/20 text-[9px] uppercase">Issued</Badge>
+                                <Badge variant="outline" className="bg-green-500/10 text-green-500 border-green-500/20 text-[9px] uppercase font-bold">Issued</Badge>
                               </td>
                               <td className="px-8 py-6 text-right">
                                 <Button variant="ghost" size="icon" className="text-red-400 hover:text-red-500 hover:bg-red-500/10"><ChevronRight className="w-4 h-4" /></Button>
@@ -339,7 +341,7 @@ export default function ManagementPortalPage() {
                               <td className="px-8 py-6 text-xs text-[#9AA1C0]">Sarah Smith</td>
                               <td className="px-8 py-6 font-bold">₹2,400</td>
                               <td className="px-8 py-6">
-                                <Badge variant="outline" className="bg-green-500/10 text-green-500 border-green-500/20 text-[9px] uppercase">Issued</Badge>
+                                <Badge variant="outline" className="bg-green-500/10 text-green-500 border-green-500/20 text-[9px] uppercase font-bold">Issued</Badge>
                               </td>
                               <td className="px-8 py-6 text-right">
                                 <Button variant="ghost" size="icon" className="text-red-400 hover:text-red-500 hover:bg-red-500/10"><ChevronRight className="w-4 h-4" /></Button>
@@ -355,7 +357,7 @@ export default function ManagementPortalPage() {
               {activeTab === 'widgets' && (
                 <div className="space-y-12 animate-in fade-in duration-500">
                    <div className="max-w-2xl space-y-4">
-                      <h2 className="text-3xl font-serif font-bold">Distribution Strategy</h2>
+                      <h2 className="text-3xl font-serif font-bold text-white">Distribution Strategy</h2>
                       <p className="text-[#9AA1C0]">Enable your partners to drive high-trust travel planning with embeddable Utsavs intelligence modules.</p>
                    </div>
 
@@ -368,16 +370,24 @@ export default function ManagementPortalPage() {
                             <Badge variant="outline" className="border-white/10 text-[9px] uppercase tracking-widest text-[#6E7495]">Intelligence</Badge>
                          </div>
                          <div className="space-y-2">
-                            <h3 className="text-2xl font-bold">Date Intelligence Widget</h3>
+                            <h3 className="text-2xl font-bold text-white">Date Intelligence Widget</h3>
                             <p className="text-sm text-[#9AA1C0] leading-relaxed">Embed our verified temporal engine on partner sites to display real-time travel signals for any country.</p>
                          </div>
                          <div className="pt-4 flex flex-col gap-3">
                             <div className="p-4 bg-[#0F1428] rounded-xl font-mono text-[11px] text-[#4FD1C5] border border-white/5 relative group/code overflow-hidden">
                                <code className="block leading-relaxed">
-                                  {`<iframe src="utsavs.com/w/di?ag=AG-101" />`}
+                                  {`<iframe src="https://utsavs.com/w/di?ag=AG-101" />`}
                                </code>
                                <button className="absolute right-3 top-3 opacity-0 group-hover/code:opacity-100 transition-opacity bg-white/10 p-1.5 rounded-lg">
-                                  <Copy className="w-3 h-3 text-white" />
+                                  <Copy className="w-3 h-3 text-white" onClick={() => copyToClipboard('<iframe src="https://utsavs.com/w/di?ag=AG-101" />', 'Iframe Snippet')} />
+                               </button>
+                            </div>
+                            <div className="p-4 bg-[#0F1428] rounded-xl font-mono text-[11px] text-[#E8A33D] border border-white/5 relative group/code overflow-hidden">
+                               <code className="block leading-relaxed">
+                                  {`<DateIntelWidget agencyId="AG-101" />`}
+                               </code>
+                               <button className="absolute right-3 top-3 opacity-0 group-hover/code:opacity-100 transition-opacity bg-white/10 p-1.5 rounded-lg">
+                                  <Copy className="w-3 h-3 text-white" onClick={() => copyToClipboard('<DateIntelWidget agencyId="AG-101" />', 'React Snippet')} />
                                </button>
                             </div>
                             <Button variant="ghost" className="self-start text-[10px] font-bold uppercase tracking-widest text-primary hover:text-white px-0">Preview Configuration →</Button>
@@ -392,16 +402,24 @@ export default function ManagementPortalPage() {
                             <Badge variant="outline" className="border-white/10 text-[9px] uppercase tracking-widest text-[#6E7495]">Transactional</Badge>
                          </div>
                          <div className="space-y-2">
-                            <h3 className="text-2xl font-bold">Assistance Express Widget</h3>
+                            <h3 className="text-2xl font-bold text-white">Insurance Express Widget</h3>
                             <p className="text-sm text-[#9AA1C0] leading-relaxed">A lightweight, low-friction checkout that allows agencies to sell policies directly on their own domain.</p>
                          </div>
                          <div className="pt-4 flex flex-col gap-3">
                             <div className="p-4 bg-[#0F1428] rounded-xl font-mono text-[11px] text-[#4FD1C5] border border-white/5 relative group/code overflow-hidden">
                                <code className="block leading-relaxed">
-                                  {`<button data-uts-widget="AG-101">Buy Protection</button>`}
+                                  {`<iframe src="https://utsavs.com/w/ins?ag=AG-101" />`}
                                </code>
                                <button className="absolute right-3 top-3 opacity-0 group-hover/code:opacity-100 transition-opacity bg-white/10 p-1.5 rounded-lg">
-                                  <Copy className="w-3 h-3 text-white" />
+                                  <Copy className="w-3 h-3 text-white" onClick={() => copyToClipboard('<iframe src="https://utsavs.com/w/ins?ag=AG-101" />', 'Iframe Snippet')} />
+                               </button>
+                            </div>
+                            <div className="p-4 bg-[#0F1428] rounded-xl font-mono text-[11px] text-[#E8A33D] border border-white/5 relative group/code overflow-hidden">
+                               <code className="block leading-relaxed">
+                                  {`<InsuranceExpressWidget agencyId="AG-101" />`}
+                               </code>
+                               <button className="absolute right-3 top-3 opacity-0 group-hover/code:opacity-100 transition-opacity bg-white/10 p-1.5 rounded-lg">
+                                  <Copy className="w-3 h-3 text-white" onClick={() => copyToClipboard('<InsuranceExpressWidget agencyId="AG-101" />', 'React Snippet')} />
                                </button>
                             </div>
                             <Button variant="ghost" className="self-start text-[10px] font-bold uppercase tracking-widest text-[#4FD1C5] hover:text-white px-0">White-label Settings →</Button>
@@ -414,10 +432,10 @@ export default function ManagementPortalPage() {
                          <LinkIcon className="w-6 h-6 text-[#9AA1C0]" />
                       </div>
                       <div className="space-y-2 max-w-sm mx-auto">
-                        <h3 className="text-xl font-bold">Domain Whitelisting</h3>
+                        <h3 className="text-xl font-bold text-white">Domain Whitelisting</h3>
                         <p className="text-xs text-[#9AA1C0] leading-relaxed">For security, widgets will only load on verified domains. Add domains in each agency's profile settings.</p>
                       </div>
-                      <Button variant="outline" className="border-white/10 hover:bg-white/5 rounded-full font-bold uppercase text-[10px] px-8">Manage Whitelist</Button>
+                      <Button variant="outline" className="border-white/10 hover:bg-white/5 rounded-full font-bold uppercase text-[10px] px-8 text-white">Manage Whitelist</Button>
                    </Card>
                 </div>
               )}
