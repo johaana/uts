@@ -15,8 +15,8 @@ export async function requestAgencyOnboarding(sessionToken: string, payload: { n
     const decoded = await verifySession(sessionToken);
     const email = String(payload.email || "").trim().toLowerCase();
     
-    if (!payload.name.trim() || !email) throw new Error("Name and Email are required.");
-    if (!email.includes('@')) throw new Error("Invalid email format.");
+    if (!payload.name.trim() || !email) throw new Error("VALIDATION_ERROR: Name and Email are required.");
+    if (!email.includes('@')) throw new Error("VALIDATION_ERROR: Invalid email format.");
     
     const agencyRef = adminDb.collection('agencies').doc();
     const agencyId = agencyRef.id;
@@ -48,15 +48,15 @@ export async function approveAgency(sessionToken: string, agencyId: string, comm
     const adminUser = await getAuthoritativeUser(decoded.uid);
     if (adminUser.role !== 'admin') throw new Error("UNAUTHORIZED");
 
-    if (!Number.isFinite(commissionRate) || commissionRate < 0 || commissionRate > 1) {
-      throw new Error("Invalid commission rate.");
+    if (typeof commissionRate !== 'number' || !Number.isFinite(commissionRate) || commissionRate < 0 || commissionRate > 1) {
+      throw new Error("VALIDATION_ERROR: Invalid commission rate.");
     }
 
     const agencyRef = adminDb.collection('agencies').doc(agencyId);
     const snap = await agencyRef.get();
     
-    if (!snap.exists) throw new Error("Agency not found.");
-    if (snap.data()?.status !== 'pending_review') throw new Error("Agency status must be pending_review.");
+    if (!snap.exists) throw new Error("VALIDATION_ERROR: Agency not found.");
+    if (snap.data()?.status !== 'pending_review') throw new Error("VALIDATION_ERROR: Agency status must be pending_review.");
 
     await agencyRef.update({
       status: 'active',
@@ -77,7 +77,7 @@ export async function suspendAgency(sessionToken: string, agencyId: string) {
   try {
     const decoded = await verifySession(sessionToken);
     const adminUser = await getAuthoritativeUser(decoded.uid);
-    if (adminUser.role !== 'admin') throw new Error("UNAUTHORIZED.");
+    if (adminUser.role !== 'admin') throw new Error("UNAUTHORIZED");
 
     // 1. Mark Agency Suspended
     await adminDb.collection('agencies').doc(agencyId).update({
@@ -103,16 +103,16 @@ export async function createAgencyUser(sessionToken: string, payload: { email: s
   try {
     const decoded = await verifySession(sessionToken);
     const adminUser = await getAuthoritativeUser(decoded.uid);
-    if (adminUser.role !== 'admin') throw new Error("UNAUTHORIZED.");
+    if (adminUser.role !== 'admin') throw new Error("UNAUTHORIZED");
 
     const normalizedEmail = String(payload.email || "").trim().toLowerCase();
 
     // 1. Validate Agency Link
     if (payload.role !== 'admin') {
-      if (!payload.agencyId) throw new Error("Agency ID required for staff.");
+      if (!payload.agencyId) throw new Error("VALIDATION_ERROR: Agency ID required for staff.");
       const agencySnap = await adminDb.collection('agencies').doc(payload.agencyId).get();
       if (!agencySnap.exists || agencySnap.data()?.status !== 'active') {
-        throw new Error("Target agency is not active.");
+        throw new Error("VALIDATION_ERROR: Target agency is not active.");
       }
     }
 

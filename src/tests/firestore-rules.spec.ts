@@ -1,74 +1,82 @@
+import { readFileSync } from 'fs';
 import {
-  initializeTestEnvironment,
-  RulesTestEnvironment,
-} from "@firebase/rules-unit-testing";
-import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+  initializeTestEnvironment, assertFails, assertSucceeds, RulesTestEnvironment,
+} from '@firebase/rules-unit-testing';
+import { doc, getDoc, setDoc, updateDoc, deleteDoc, collection, query, where, getDocs } from 'firebase/firestore';
 
-/**
- * @fileOverview Firestore Security Rules Test Suite
- */
+let env: RulesTestEnvironment;
 
-let testEnv: RulesTestEnvironment;
-
-describe("Firestore Security Rules", () => {
-  beforeAll(async () => {
-    testEnv = await initializeTestEnvironment({
-      projectId: "utsavs-pro",
-      firestore: {
-        rules: `rules_version = '2';
-service cloud.firestore {
-  match /databases/{database}/documents {
-    function signedIn() { return request.auth != null; }
-    function isAdmin()  { return signedIn() && request.auth.token.get('role', null) == 'admin'; }
-    function myAgency() { return signedIn() ? request.auth.token.get('agencyId', null) : null; }
-    match /users/{userId} {
-      allow read: if signedIn() && (request.auth.uid == userId || isAdmin());
-      allow write: if false;
-    }
-    match /agencies/{agencyId} {
-      allow read: if isAdmin() || (myAgency() != null && myAgency() == agencyId);
-      allow write: if false;
-    }
-    match /policy_ledger/{transactionId} {
-      allow read: if isAdmin() || (myAgency() != null && resource.data.agencyId == myAgency());
-      allow write: if false;
-    }
-  }
-}`,
-      },
-    });
+beforeAll(async () => {
+  env = await initializeTestEnvironment({
+    projectId: 'utsavs-rules-test',
+    firestore: { rules: readFileSync('firestore.rules', 'utf8'), host: '127.0.0.1', port: 8080 },
   });
+});
+afterAll(async () => { await env.cleanup(); });
 
-  afterAll(async () => {
-    await testEnv.cleanup();
+beforeEach(async () => {
+  await env.clearFirestore();
+  await env.withSecurityRulesDisabled(async (ctx) => {
+    const db = ctx.firestore();
+    await setDoc(doc(db, 'policy_ledger', 'tx_a'), { agencyId: 'AGENCY_A', status: 'issued' });
+    await setDoc(doc(db, 'policy_ledger', 'tx_b'), { agencyId: 'AGENCY_B', status: 'issued' });
+    await setDoc(doc(db, 'agencies', 'AGENCY_A'), { status: 'active', commissionRate: 0.1 });
+    await setDoc(doc(db, 'agencies', 'AGENCY_B'), { status: 'active', commissionRate: 0.1 });
+    await setDoc(doc(db, 'users', 'uA'), { role: 'agency_staff', agencyId: 'AGENCY_A', status: 'active' });
+    await setDoc(doc(db, 'widgets', 'w_a'), { agencyId: 'AGENCY_A' });
+    await setDoc(doc(db, 'widgets', 'w_b'), { agencyId: 'AGENCY_B' });
+    await setDoc(doc(db, 'intelligence_records', 'pub'), { status: 'published' });
+    await setDoc(doc(db, 'intelligence_records', 'draft'), { status: 'draft' });
   });
+});
 
-  it("Test A: Agency A cannot read Agency B transactions", async () => {
-    const agencyA = testEnv.authenticatedContext("user_a", { agencyId: "AGENCY_A" });
-    const db = agencyA.firestore();
-    const ledgerRef = doc(db, "policy_ledger", "tx_b");
-    
-    // Setup data in emulator
-    await testEnv.withSecurityRulesDisabled(async (context) => {
-      await setDoc(doc(context.firestore(), "policy_ledger", "tx_b"), { agencyId: "AGENCY_B" });
-    });
+const staffA = () => env.authenticatedContext('uA', { role: 'agency_staff', agencyId: 'AGENCY_A' }).firestore();
+const admin  = () => env.authenticatedContext('uAdmin', { role: 'admin' }).firestore();
+const anon   = () => env.unauthenticatedContext().firestore();
 
-    await expect(getDoc(ledgerRef)).rejects.toThrow();
+describe('Isolation', () => {
+  test('A: own ledger row readable (positive control)', () => assertSucceeds(getDoc(doc(staffA(), 'policy_ledger', 'tx_a'))));
+  test('A: own agency readable (positive control)',     () => assertSucceeds(getDoc(doc(staffA(), 'agencies', 'AGENCY_A'))));
+  test('A: other agency ledger row denied',             () => assertFails(getDoc(doc(staffA(), 'policy_ledger', 'tx_b'))));
+  test('B: query forced to AGENCY_B denied',            () => assertFails(getDocs(query(collection(staffA(), 'policy_ledger'), where('agencyId', '==', 'AGENCY_B')))));
+  test('B: unfiltered ledger list denied',              () => assertFails(getDocs(collection(staffA(), 'policy_ledger'))));
+  test('B: query scoped to own agency allowed',         () => assertSucceeds(getDocs(query(collection(staffA(), 'policy_ledger'), where('agencyId', '==', 'AGENCY_A')))));
+  test('A: other agency doc denied',                    () => assertFails(getDoc(doc(staffA(), 'agencies', 'AGENCY_B'))));
+  test('widgets: own readable, other denied', async () => {
+    await assertSucceeds(getDoc(doc(staffA(), 'widgets', 'w_a')));
+    await assertFails(getDoc(doc(staffA(), 'widgets', 'w_b')));
   });
+});
 
-  it("Test C: Client-side write to policy_ledger is denied", async () => {
-    const agencyA = testEnv.authenticatedContext("user_a", { agencyId: "AGENCY_A" });
-    const db = agencyA.firestore();
-    const ledgerRef = doc(db, "policy_ledger", "new_tx");
-    
-    await expect(setDoc(ledgerRef, { agencyId: "AGENCY_A" })).rejects.toThrow();
+describe('Identity & writes', () => {
+  test('C: client write to ledger denied',        () => assertFails(setDoc(doc(staffA(), 'policy_ledger', 'x'), { agencyId: 'AGENCY_A' })));
+  test('C: client update of ledger row denied',   () => assertFails(updateDoc(doc(staffA(), 'policy_ledger', 'tx_a'), { status: 'voided' })));
+  test('D: self role escalation denied',          () => assertFails(updateDoc(doc(staffA(), 'users', 'uA'), { role: 'admin' })));
+  test('E: self agency reassignment denied',      () => assertFails(updateDoc(doc(staffA(), 'users', 'uA'), { agencyId: 'AGENCY_B' })));
+  test('E: self status change denied',            () => assertFails(updateDoc(doc(staffA(), 'users', 'uA'), { status: 'active' })));
+  test('agency staff cannot create agency',       () => assertFails(setDoc(doc(staffA(), 'agencies', 'new'), { status: 'active' })));
+  test('agency staff cannot edit own commission', () => assertFails(updateDoc(doc(staffA(), 'agencies', 'AGENCY_A'), { commissionRate: 0.9 })));
+  test('admin client writes denied (server-only)', async () => {
+    const db = admin();
+    await assertFails(setDoc(doc(db, 'users', 'uA'), { role: 'admin' }));
+    await assertFails(updateDoc(doc(db, 'agencies', 'AGENCY_A'), { status: 'suspended' }));
+    await assertFails(setDoc(doc(db, 'widgets', 'w_new'), { agencyId: 'AGENCY_A' }));
+    await assertFails(deleteDoc(doc(db, 'policy_ledger', 'tx_a')));
   });
+  test('F: unauthenticated denied', async () => {
+    await assertFails(getDoc(doc(anon(), 'policy_ledger', 'tx_a')));
+    await assertFails(getDoc(doc(anon(), 'users', 'uA')));
+    await assertFails(getDoc(doc(anon(), 'agencies', 'AGENCY_A')));
+  });
+});
 
-  it("Test D: User cannot escalate their own role", async () => {
-    const userA = testEnv.authenticatedContext("user_a", { role: "agency_staff" });
-    const db = userA.firestore();
-    const userRef = doc(db, "users", "user_a");
-    
-    await expect(updateDoc(userRef, { role: "admin" })).rejects.toThrow();
+describe('Admin & Date Intelligence', () => {
+  test('admin reads any ledger row', () => assertSucceeds(getDoc(doc(admin(), 'policy_ledger', 'tx_b'))));
+  test('published intelligence public', () => assertSucceeds(getDoc(doc(anon(), 'intelligence_records', 'pub'))));
+  test('draft hidden from anon and staff', async () => {
+    await assertFails(getDoc(doc(anon(), 'intelligence_records', 'draft')));
+    await assertFails(getDoc(doc(staffA(), 'intelligence_records', 'draft')));
   });
+  test('admin reads draft', () => assertSucceeds(getDoc(doc(admin(), 'intelligence_records', 'draft'))));
+  test('non-admin cannot write intelligence', () => assertFails(updateDoc(doc(staffA(), 'intelligence_records', 'pub'), { status: 'draft' })));
 });

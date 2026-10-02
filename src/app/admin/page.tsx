@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -213,7 +212,7 @@ export default function AdminGatePage() {
                           <CheckCircle2 className="w-12 h-12 text-[#9AA1C0] mx-auto opacity-40" />
                           <div className="space-y-2">
                             <h3 className="text-2xl font-bold font-serif">No pending data changes.</h3>
-                            <p className="text-[#9AA1C0] max-w-sm mx-auto">The production dataset is currently synchronized with the authoritative source registry.</p>
+                            <p className="text-[#9AA1C0] max-sm mx-auto">The production dataset is currently synchronized with the authoritative source registry.</p>
                           </div>
                           <Button variant="ghost" onClick={fetchDrafts} className="text-[10px] font-bold uppercase tracking-widest text-[#4FD1C5]">Refresh Registry</Button>
                       </div>

@@ -1,28 +1,21 @@
 # Utsavs Principal Admin Bootstrap
 
-Because self-escalation is blocked by database security rules, the first **Principal Admin** must be created manually or via the Admin SDK.
+Because self-escalation is blocked by database security rules, the first **Principal Admin** must be created via the Admin SDK from a trusted environment.
 
-## Option 1: Firebase Console (Fastest)
+## Bootstrap Process
 
-1. Go to your **Firestore Database**.
-2. Create a collection named `users`.
-3. Create a document with the ID matching your **Auth UID**.
-4. Add the following fields:
-   - `uid`: (string) Your Auth UID
-   - `role`: "admin"
-   - `status`: "active"
-   - `email`: (string) Your email
-5. Go to `/management` and log in.
+1. **Obtain UID**: The user must first sign in once to the application (e.g., via the Management portal) to create their Firebase Auth record and obtain their UID.
+2. **Setup Environment**: Ensure your terminal has the service account credentials for the Firebase project.
+   ```bash
+   export FIREBASE_PROJECT_ID="utsavs-pro"
+   export FIREBASE_CLIENT_EMAIL="firebase-adminsdk-..."
+   export FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----..."
+   ```
+3. **Run Script**: Use the provided Node.js script to assign the `admin` role.
+   ```bash
+   node scripts/bootstrap-admin.mjs <USER_UID>
+   ```
+4. **Refresh Session**: The user must sign out and sign back in for the new custom claims to take effect.
 
-## Option 2: Scripted Claims (Production)
-
-Once the project is deployed, use the `adminAuth.setCustomUserClaims` method in a controlled environment to assign the `role: "admin"` claim. This is necessary for Firestore rules that check `request.auth.token.role`.
-
-```ts
-import { adminAuth } from '@/lib/server/admin';
-
-async function bootstrapAdmin(uid: string) {
-  await adminAuth.setCustomUserClaims(uid, { role: 'admin' });
-  console.log("Claims updated for Principal Admin.");
-}
-```
+## Verification
+Once bootstrapped, the user will have `request.auth.token.role == 'admin'`, allowing them to bypass agency isolation and manage the entire platform.
