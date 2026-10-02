@@ -13,7 +13,8 @@ import {
   Clock, 
   CheckCircle2,
   RefreshCw,
-  Zap
+  Zap,
+  Loader2
 } from "lucide-react";
 import { useUser } from "@/firebase";
 import { listDrafts, publishRecord as publishAction, syncCanonical } from "./actions";
@@ -89,7 +90,13 @@ export default function AdminGatePage() {
     }
   };
 
-  if (authLoading) return null;
+  if (authLoading) {
+    return (
+      <div className="bg-[#0F1428] text-[#F4F1E8] min-h-screen flex items-center justify-center">
+        <Loader2 className="w-10 h-10 animate-spin text-[#E8A33D]" />
+      </div>
+    );
+  }
 
   if (!isAuthenticated) {
     return (
@@ -172,13 +179,13 @@ export default function AdminGatePage() {
                      <div className="space-y-4">
                         {drafts.map((record) => (
                           <div key={record.firestoreId} className="bg-[#171D3A] border border-white/10 rounded-xl p-6 flex flex-col md:flex-row justify-between gap-6 hover:border-[#4FD1C5]/40 transition-colors">
-                             <div className="space-y-3">
+                             <div className="space-y-3 text-left">
                                 <div className="flex items-center gap-3">
                                    <span className="font-mono text-[10px] text-[#4FD1C5] font-bold uppercase tracking-widest">{record.date || 'Standing Policy'}</span>
                                    <div className="w-1 h-1 rounded-full bg-white/20"></div>
                                    <span className="text-[10px] font-bold uppercase tracking-widest text-[#6E7495]">{COUNTRY_LABELS[record.jurisdiction?.country_code] || 'Global'}</span>
                                 </div>
-                                <h4 className="text-xl font-bold font-serif">{record.name}</h4>
+                                <h4 className="text-xl font-bold font-serif text-white">{record.name}</h4>
                                 <p className="text-sm text-[#9AA1C0] italic leading-relaxed">"{record.consequences?.implication}"</p>
                              </div>
                              <div className="flex items-center gap-3 shrink-0">
@@ -211,7 +218,7 @@ export default function AdminGatePage() {
                   <Card className="bg-[#171D3A] border-dashed border-white/10">
                       <CardContent className="p-10 flex flex-col md:flex-row items-center justify-between gap-8">
                           <div className="space-y-2 text-left">
-                              <h4 className="font-bold text-lg">Sync Canonical Base</h4>
+                              <h4 className="font-bold text-lg text-white">Sync Canonical Base</h4>
                               <p className="text-sm text-[#9AA1C0] max-w-md">
                                   Pushes the verified code patterns into Firestore as published records. 
                                   Requires authoritative token resolution.

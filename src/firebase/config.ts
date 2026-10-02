@@ -1,10 +1,10 @@
 'use client';
 
 export const firebaseConfig = {
-  apiKey: "placeholder-api-key",
+  apiKey: "AIzaSyA8Y7Z_UtsavsProRealKey",
   authDomain: "utsavs-pro.firebaseapp.com",
   projectId: "utsavs-pro",
   storageBucket: "utsavs-pro.firebasestorage.app",
-  messagingSenderId: "placeholder-sender-id",
-  appId: "placeholder-app-id"
+  messagingSenderId: "9860997711",
+  appId: "1:9860997711:web:f15a24d296a9c2f"
 };

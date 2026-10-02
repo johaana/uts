@@ -1,7 +1,7 @@
 'use server';
 
 /**
- * @fileOverview Utsavs Transaction Orchestrator v5.3 (Production Hardened)
+ * @fileOverview Utsavs Transaction Orchestrator v5.4
  * Implements fault-tolerant ledger writes, payload pinning, and sanitized errors.
  */
 
@@ -153,7 +153,7 @@ export async function orchestrateIssuance(payload: any, sessionToken: string, id
       };
     }
 
-    // 6. Finalize Ledger
+    // 6. Finalize Ledger with Retry Loop
     if (asegoRes.success) {
       const policyData = Array.isArray(asegoRes.data) ? asegoRes.data[0] : asegoRes.data;
       const policyNumber = policyData?.policyNumber;
@@ -175,7 +175,9 @@ export async function orchestrateIssuance(payload: any, sessionToken: string, id
         try {
           await ledgerRef.update(finalize);
           written = true;
-        } catch (updateErr) {}
+        } catch (updateErr) {
+          // loop retry
+        }
       }
 
       if (!written) {
