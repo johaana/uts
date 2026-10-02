@@ -1,9 +1,9 @@
 'use server';
 
 /**
- * @fileOverview Asego API Implementation - Production-Ready Transactional Layer v6.5
+ * @fileOverview Asego API Implementation - Final Transactional Layer v5.11
+ * Structural Correction: cancelPolicy re-aligned to single object + policyNo key.
  * PII Protection: Plaintext payloads are NEVER returned to the client.
- * Security Gating: All non-idempotent operations are gated by environment flags.
  */
 
 const BASE_URL = process.env.ASEGO_BASE_URL || "https://dolphin.asego.in/api";
@@ -61,7 +61,7 @@ function validateTravelerInput(t: any): string[] {
 }
 
 /**
- * Hardened Fetch Wrapper with PII protection and diagnostic tracing.
+ * Hardened Fetch Wrapper
  */
 async function asegoRequest(
   path: string, 
@@ -265,19 +265,20 @@ export async function cancelAsegoPolicy(policyNumber: string, creds: AsegoCreden
   }
 
   const partnerId = creds.partnerId || process.env.UTSAVS_PARTNER_ID;
-  const plaintext = [{
+  // FIX: Structural re-alignment for cancelPolicy
+  // Reverted to single object + policyNo key (Standard Asego Cancellation Pattern)
+  const plaintext = {
     identity: {
       sign: creds.sign || process.env.UTSAVS_SIGN,
       reference: creds.reference || process.env.UTSAVS_REFERENCE,
       partnerId: partnerId
     },
-    policyNumber
-  }];
+    policyNo: policyNumber
+  };
 
   const encRes = await asegoEncrypt(JSON.stringify(plaintext), creds);
   if (!encRes.success || !encRes.data) return encRes;
 
-  // Pattern Match: createPolicy sibling is cancelPolicy
   const res = await asegoRequest(`/ext/b2b/v1/cancelPolicy/${partnerId}`, creds, 'POST', encRes.data, 'VOID_POLICY');
   return { ...res, data: res.data?.code ? { ...res.data, msg: userFacingError(res.data.code) } : res.data };
 }
