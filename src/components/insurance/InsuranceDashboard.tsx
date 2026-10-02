@@ -22,7 +22,8 @@ import {
   Check,
   Zap,
   Trash2,
-  Clock
+  Clock,
+  Activity
 } from "lucide-react";
 import { 
   getAsegoCategories, 
@@ -59,7 +60,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
   const [showSecrets, setShowSecrets] = useState(false);
   const [manualPolicyNumber, setManualPolicyNumber] = useState('');
 
-  // B7: Idempotent orderId per wizard session
+  // Idempotent orderId per wizard session
   const orderId = useMemo(() => `UTS-${Date.now()}-${Math.random().toString(36).substring(7).toUpperCase()}`, [step === 'search']);
 
   const [portalForm, setPortalForm] = useState({
@@ -114,7 +115,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
   const [isValidating, setIsValidating] = useState(false);
   const [isValidated, setIsValidated] = useState(false);
 
-  // TASK 1: Trace History System
+  // Trace History System
   const [traceHistory, setTraceHistory] = useState<any[]>([]);
   const [showTrace, setShowTrace] = useState(isDebug);
 
@@ -353,7 +354,6 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
                 </div>
             </div>
 
-            {/* TASK 3: Manual Void Utility */}
             <div className="bg-[#0F1428] p-8 border-t border-[#E8A33D]/20 space-y-6">
                 <div className="flex items-center gap-3">
                    <Trash2 className="w-4 h-4 text-red-500" />
@@ -591,3 +591,4 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
     </div>
   );
 }
+
