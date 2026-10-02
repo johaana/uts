@@ -1,11 +1,11 @@
 'use server';
 
 /**
- * @fileOverview Asego API Implementation - Forensic Correction v5.7
- * Focus: Restoring agePremiums as an OBJECT and hardening response parsing.
+ * @fileOverview Asego API Implementation - Production Hardened v5.8
+ * Implementation: Full Lifecycle (Issue/Cancel) + PII Protection + Input Validation.
  */
 
-const BASE_URL = "https://dolphin.asego.in/api";
+const BASE_URL = process.env.ASEGO_BASE_URL || "https://dolphin.asego.in/api";
 
 export interface NormalizedPlan {
   planId: string;
@@ -37,49 +37,37 @@ interface ActionResponse {
   method: string;
   headersSent: Record<string, any>;
   raw?: any;
-  plaintext?: any;
   partnerIdSource?: string;
   diagnostics?: {
     endpoint: string;
     method: string;
     requestClass: 'PLAN_SEARCH' | 'POLICY_VALIDATE' | 'POLICY_ISSUE' | 'POLICY_CANCEL' | 'OTHER';
-    dataCheck: 'PASS' | 'BLOCKED';
     responseShape: 'ARRAY' | 'OBJECT' | 'NULL' | 'STRING' | 'EMPTY_ARRAY' | 'UNKNOWN';
     itemCount: number;
-    agePremiumsType: 'OBJECT' | 'ARRAY';
-    pathPayloadMatch: boolean;
     asegoCode?: number;
     asegoMsg?: string;
+    pathPayloadMatch: boolean;
   };
 }
 
-function normalizeAsegoPlan(raw: any, targetAge: number, insurerInfo: { id: string, name: string }): NormalizedPlan | null {
-  const planId = String(raw.id || raw.plan_id || "");
-  const name = String(raw.name || raw.plan_name || raw.displayName || "Standard Plan");
-  
-  const agePremiums = raw.agePremiums || [];
-  const matchedAgeEntry = Array.isArray(agePremiums) 
-    ? agePremiums.find((ap: any) => Number(ap.age) === targetAge)
-    : (Number(agePremiums.age) === targetAge ? agePremiums : null);
-  
-  const premium = matchedAgeEntry ? Number(matchedAgeEntry.premium) : Number(raw.total || raw.total_premium || 0);
+const ASEGO_ERROR_MESSAGES: Record<number, string> = {
+  107: "We couldn't process your request. Please check your data and try again.",
+  115: "Something went wrong calculating your premium. Please contact support.",
+  117: "The selected plan is no longer available. Please choose another.",
+  132: "Please select a travel region before continuing.",
+};
 
-  if (!planId || isNaN(premium) || premium <= 0) {
-    return null;
-  }
+function userFacingError(code: number): string {
+  return ASEGO_ERROR_MESSAGES[code] ?? "Something went wrong. Please try again or contact support.";
+}
 
-  return {
-    planId,
-    name,
-    insurer: insurerInfo.name,
-    insurerId: insurerInfo.id,
-    premium,
-    currency: String(raw.currency || "INR"),
-    minAge: Number(raw.minAge ?? 0),
-    maxAge: Number(raw.maxAge ?? 100),
-    minDays: Number(raw.minDays ?? 1),
-    maxDays: Number(raw.maxDays ?? 365)
-  };
+function validateTravelerInput(t: any): string[] {
+  const errors: string[] = [];
+  if (!/^[A-Za-z0-9]{6,9}$/.test(t.passport)) errors.push("Invalid passport format.");
+  if (!/^\d{10}$/.test(t.mobileNo)) errors.push("Mobile number must be 10 digits.");
+  if (!/^\S+@\S+\.\S+$/.test(t.email)) errors.push("Invalid email format.");
+  if (!t.pincode || !/^\d{6}$/.test(t.pincode)) errors.push("Invalid 6-digit pincode.");
+  return errors;
 }
 
 async function asegoRequest(
@@ -88,7 +76,11 @@ async function asegoRequest(
   method: string = 'GET',
   body: any = null
 ): Promise<ActionResponse> {
-  if (!creds?.partnerId || !creds?.sign || !creds?.reference) {
+  const partnerId = creds?.partnerId || process.env.UTSAVS_PARTNER_ID;
+  const sign = creds?.sign || process.env.UTSAVS_SIGN;
+  const ref = creds?.reference || process.env.UTSAVS_REFERENCE;
+
+  if (!partnerId || !sign || !ref) {
     return { success: false, status: 0, data: null, error: "Configuration missing.", endpoint: path, method, headersSent: {} };
   }
 
@@ -97,8 +89,8 @@ async function asegoRequest(
     'Accept': 'application/json',
     'User-Agent': 'Utsavs/1.0',
     'Content-Type': 'application/json',
-    'Sign': creds.sign,
-    'Reference': creds.reference,
+    'Sign': sign,
+    'Reference': ref,
   };
 
   try {
@@ -117,11 +109,6 @@ async function asegoRequest(
       parsedData = responseText;
     }
 
-    let partnerIdSource = "MANUAL_INPUT";
-    if (creds.partnerId === "d5e591b7-46dd-4d7e-8264-7a30b16cec8d") {
-      partnerIdSource = "CONFIG_STATE_GUID";
-    }
-
     return {
       success: response.ok,
       status: response.status,
@@ -129,7 +116,6 @@ async function asegoRequest(
       endpoint: path,
       method,
       raw: parsedData,
-      partnerIdSource,
       headersSent: { 'Sign': '********', 'Reference': '********' }
     };
   } catch (error: any) {
@@ -137,12 +123,60 @@ async function asegoRequest(
   }
 }
 
+function normalizeAsegoPlan(raw: any, targetAge: number, insurerInfo: { id: string, name: string }): NormalizedPlan | null {
+  const planId = String(raw.id || raw.plan_id || "");
+  const name = String(raw.name || raw.plan_name || raw.displayName || "Standard Plan");
+  
+  const agePremiums = raw.agePremiums || [];
+  const matchedAgeEntry = Array.isArray(agePremiums) 
+    ? agePremiums.find((ap: any) => Number(ap.age) === targetAge)
+    : (Number(agePremiums.age) === targetAge ? agePremiums : null);
+  
+  const premium = matchedAgeEntry ? Number(matchedAgeEntry.premium) : Number(raw.total || raw.total_premium || 0);
+
+  if (!planId || isNaN(premium) || premium <= 0) return null;
+
+  return {
+    planId,
+    name,
+    insurer: insurerInfo.name,
+    insurerId: insurerInfo.id,
+    premium,
+    currency: String(raw.currency || "INR"),
+    minAge: Number(raw.minAge ?? 0),
+    maxAge: Number(raw.maxAge ?? 100),
+    minDays: Number(raw.minDays ?? 1),
+    maxDays: Number(raw.maxDays ?? 365)
+  };
+}
+
+function buildDiagnostics(res: any, original: any): any {
+  const rawData = res.raw || res.data;
+  const isArray = Array.isArray(rawData);
+  const isObject = typeof rawData === 'object' && rawData !== null && !isArray;
+  
+  let shape: any = 'UNKNOWN';
+  if (isArray) shape = rawData.length === 0 ? 'EMPTY_ARRAY' : 'ARRAY';
+  else if (isObject) shape = 'OBJECT';
+  else if (rawData === null) shape = 'NULL';
+
+  const asegoCode = isObject ? rawData.code : undefined;
+
+  return {
+    ...original,
+    responseShape: shape,
+    itemCount: isArray ? rawData.length : (isObject ? 1 : 0),
+    asegoCode,
+    asegoMsg: asegoCode ? userFacingError(asegoCode) : undefined
+  };
+}
+
 export async function getAsegoCategories(creds?: AsegoCredentials) {
   return asegoRequest('/ext/b2b/v1/category', creds);
 }
 
 export async function getAsegoPlans(params: { age: string, duration: string, categoryId: string }, creds?: AsegoCredentials) {
-  const pId = creds?.partnerId || "";
+  const pId = creds?.partnerId || process.env.UTSAVS_PARTNER_ID || "";
   const path = `/ext/b2b/v1/plan/${pId}?duration=${params.duration}&age=${params.age}&category=${params.categoryId}`;
   
   const res = await asegoRequest(path, creds);
@@ -163,44 +197,39 @@ export async function getAsegoPlans(params: { age: string, duration: string, cat
         }
       });
     }
-
     res.data = normalizedList;
   }
   return res;
 }
 
 export async function asegoEncrypt(value: string, creds?: AsegoCredentials) {
-  const key = (creds?.secretKey || "").trim();
-  const initVector = (creds?.vectorBytes || "").trim();
-  if (!key || !initVector) return { success: false, status: 0, data: null, error: "Encryption keys missing.", endpoint: '', method: '', headersSent: {} };
+  const key = (creds?.secretKey || process.env.UTSAVS_SECRET_KEY || "").trim();
+  const initVector = (creds?.vectorBytes || process.env.UTSAVS_INIT_VECTOR || "").trim();
+  if (!key || !initVector) return { success: false, status: 0, data: null, error: "Encryption configuration missing." };
   
-  // Serialization Boundary: Plain Object -> JSON String -> Encryption
   return asegoRequest('/ext/b2b/v1/encryption/encrypt', creds, 'POST', { value, key, initVector });
 }
 
-/**
- * Payload Assembly - Restored to OBJECT for agePremiums (v5.7)
- */
-function assembleAsegoPayload(payload: any, creds: AsegoCredentials) {
+function assembleAsegoPayload(payload: any, creds?: AsegoCredentials) {
+  const partnerId = creds?.partnerId || process.env.UTSAVS_PARTNER_ID;
+  const sign = creds?.sign || process.env.UTSAVS_SIGN;
+  const ref = creds?.reference || process.env.UTSAVS_REFERENCE;
+
   const premium = Number(payload.premium);
   return [
     {
       identity: {
         orderId: payload.orderId,
-        sign: creds.sign,
-        reference: creds.reference,
-        partnerId: creds.partnerId
+        sign,
+        reference: ref,
+        partnerId
       },
       selectedPlan: {
         insurerId: payload.insurerId,
         totalPremium: premium,
         plan: {
           sellingPlanId: payload.planId, 
-          // v5.7 Correction: agePremiums must be an OBJECT for createPolicy/validate
-          agePremiums: {
-            age: Number(payload.age),
-            premium: premium
-          }
+          agePremiums: { age: Number(payload.age), premium: premium }
         }
       },
       quotation: {
@@ -232,78 +261,93 @@ function assembleAsegoPayload(payload: any, creds: AsegoCredentials) {
   ];
 }
 
-/**
- * Hardened Diagnostic Builder (v5.7)
- * Prevents Server Action crashes by establishing response shape first.
- */
-function buildDiagnostics(res: any, original: any): any {
-  const rawData = res.raw || res.data;
-  const isArray = Array.isArray(rawData);
-  const isObject = typeof rawData === 'object' && rawData !== null && !isArray;
-  
-  let shape: any = 'UNKNOWN';
-  if (isArray) shape = rawData.length === 0 ? 'EMPTY_ARRAY' : 'ARRAY';
-  else if (isObject) shape = 'OBJECT';
-  else if (rawData === null) shape = 'NULL';
-
-  return {
-    ...original,
-    responseShape: shape,
-    itemCount: isArray ? rawData.length : (isObject ? 1 : 0),
-    asegoCode: isObject ? rawData.code : undefined,
-    asegoMsg: isObject ? rawData.msg : undefined
-  };
-}
-
 export async function validateAsegoPolicy(policyData: any, creds?: AsegoCredentials) {
-  if (!creds) return { success: false, status: 0, data: null, error: "Creds required", endpoint: '', method: '', headersSent: {} };
-  
-  const pathPartnerId = creds.partnerId;
-  const payloadPartnerId = policyData.partnerId;
+  const inputErrors = validateTravelerInput(policyData);
+  if (inputErrors.length > 0) return { success: false, status: 400, error: inputErrors.join(" "), endpoint: '', method: '', headersSent: {} };
 
+  const partnerId = creds?.partnerId || process.env.UTSAVS_PARTNER_ID;
   const initialDiagnostics = {
-    endpoint: `/ext/b2b/v1/createPolicy/validate/${pathPartnerId}`,
+    endpoint: `/ext/b2b/v1/createPolicy/validate/${partnerId}`,
     method: 'POST',
     requestClass: 'POLICY_VALIDATE',
-    dataCheck: (policyData.planId && Number(policyData.premium) > 0) ? "PASS" : "BLOCKED",
-    agePremiumsType: 'OBJECT',
-    pathPayloadMatch: pathPartnerId === payloadPartnerId
+    pathPayloadMatch: partnerId === policyData.partnerId
   };
 
   try {
     const plaintext = assembleAsegoPayload(policyData, creds);
-    // Serialization Boundary: Plain Object -> JSON String -> Encryption
     const encRes = await asegoEncrypt(JSON.stringify(plaintext), creds);
     
     if (!encRes.success || !encRes.data) {
       return { ...encRes, diagnostics: buildDiagnostics(encRes, initialDiagnostics) };
     }
 
-    const res = await asegoRequest(`/ext/b2b/v1/createPolicy/validate/${pathPartnerId}`, creds, 'POST', encRes.data);
+    const res = await asegoRequest(`/ext/b2b/v1/createPolicy/validate/${partnerId}`, creds, 'POST', encRes.data);
     
-    // Strict Plain Object Return for Next.js Serialization
     return JSON.parse(JSON.stringify({
-      success: res.success,
-      status: res.status,
-      data: res.data,
-      error: res.error,
-      endpoint: res.endpoint,
-      method: res.method,
-      headersSent: res.headersSent,
-      raw: res.raw,
-      plaintext,
-      partnerIdSource: res.partnerIdSource,
+      ...res,
       diagnostics: buildDiagnostics(res, initialDiagnostics)
     }));
   } catch (e: any) {
-    return { success: false, status: 0, data: null, error: e.message, endpoint: 'server_action', method: 'POST', headersSent: {}, diagnostics: initialDiagnostics };
+    return { success: false, status: 0, data: null, error: e.message, endpoint: 'server', method: 'POST', headersSent: {} };
   }
 }
 
 export async function createAsegoPolicy(policyData: any, creds?: AsegoCredentials) {
-  return { success: false, status: 403, data: null, error: "ISSUANCE_LOCKED_FOR_VALIDATION_TESTING", endpoint: '', method: '', headersSent: {} };
+  const partnerId = creds?.partnerId || process.env.UTSAVS_PARTNER_ID;
+  const initialDiagnostics = {
+    endpoint: `/ext/b2b/v1/createPolicy/${partnerId}`,
+    method: 'POST',
+    requestClass: 'POLICY_ISSUE',
+    pathPayloadMatch: true
+  };
+
+  try {
+    const plaintext = assembleAsegoPayload(policyData, creds);
+    const encRes = await asegoEncrypt(JSON.stringify(plaintext), creds);
+    
+    if (!encRes.success || !encRes.data) return encRes;
+
+    const res = await asegoRequest(`/ext/b2b/v1/createPolicy/${partnerId}`, creds, 'POST', encRes.data);
+    
+    return JSON.parse(JSON.stringify({
+      ...res,
+      diagnostics: buildDiagnostics(res, initialDiagnostics)
+    }));
+  } catch (e: any) {
+    return { success: false, status: 0, data: null, error: e.message, endpoint: 'server', method: 'POST', headersSent: {} };
+  }
 }
 
 export async function cancelAsegoPolicy(policyNumber: string, creds?: AsegoCredentials) {
-  return { success: false, status: 403, data: null, error: "CANCELLATION_LOCKED_FOR_VALIDATION_TESTING", endpoint: '', method: '', headersSent: {} };
+  const partnerId = creds?.partnerId || process.env.UTSAVS_PARTNER_ID;
+  const initialDiagnostics = {
+    endpoint: `/ext/b2b/v1/policy/cancel/${partnerId}`,
+    method: 'POST',
+    requestClass: 'POLICY_CANCEL',
+    pathPayloadMatch: true
+  };
+
+  try {
+    // Asego Cancellation Contract: [ { identity: {...}, policyNumber: "..." } ]
+    const plaintext = [{
+      identity: {
+        sign: creds?.sign || process.env.UTSAVS_SIGN,
+        reference: creds?.reference || process.env.UTSAVS_REFERENCE,
+        partnerId
+      },
+      policyNumber
+    }];
+
+    const encRes = await asegoEncrypt(JSON.stringify(plaintext), creds);
+    if (!encRes.success || !encRes.data) return encRes;
+
+    const res = await asegoRequest(`/ext/b2b/v1/policy/cancel/${partnerId}`, creds, 'POST', encRes.data);
+    
+    return JSON.parse(JSON.stringify({
+      ...res,
+      diagnostics: buildDiagnostics(res, initialDiagnostics)
+    }));
+  } catch (e: any) {
+    return { success: false, status: 0, data: null, error: e.message, endpoint: 'server', method: 'POST', headersSent: {} };
+  }
 }

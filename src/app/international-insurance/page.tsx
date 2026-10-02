@@ -3,10 +3,13 @@ import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { InsuranceDashboard } from '@/components/insurance/InsuranceDashboard';
 
+/**
+ * @fileOverview International Insurance Page
+ * Gating: UTSAVS_INTERNAL_DEBUG controls forensic tools and UAT badge.
+ */
+
 export default function InternationalInsurancePage() {
-  // VERIFICATION PHASE: Temporarily forcing isDebug to true to allow UAT testing
-  // without requiring manual server environment variable configuration.
-  const isDebug = true; 
+  const isDebug = process.env.UTSAVS_INTERNAL_DEBUG === 'true';
 
   return (
     <div className="bg-[#0F1428] text-[#F4F1E8] min-h-screen font-sans selection:bg-[#E8A33D] selection:text-[#0F1428]">
