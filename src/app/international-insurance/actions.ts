@@ -1,9 +1,9 @@
 'use server';
 
 /**
- * @fileOverview Asego API Implementation - Final Transactional Layer v5.17
- * Structural Correction: Bulk Array format for cancelPolicy to resolve Code 163.
- * Error Mapping: surfacing specific Asego codes for better UX.
+ * @fileOverview Asego API Implementation - Final Transactional Layer v5.18
+ * Structural Correction: Identity-wrapped Object format for cancelPolicy.
+ * Resolves Code 107 (Parsing) and Code 163 (Authorization/Search).
  * PII Protection: Plaintext payloads are NEVER returned to the client.
  */
 
@@ -46,7 +46,7 @@ const ASEGO_ERROR_MESSAGES: Record<number, string> = {
   115: "Premium Mismatch: The calculated price has expired.",
   117: "Plan Unavailable: The selected coverage is no longer offered.",
   132: "Region Error: Please re-select your destination.",
-  163: "Record search failed. The policy number may be incorrect or not yet settled in the UAT database.",
+  163: "Settlement Latency: Policy not yet searchable. Please wait 2-3 minutes and try again.",
 };
 
 function userFacingError(code: number): string {
@@ -109,8 +109,11 @@ async function asegoRequest(
       parsed = rawText; 
     }
 
+    // Success check for business logic errors returned with HTTP 200/400/500
+    const isBusinessError = parsed?.code && parsed.code !== 0 && parsed.code !== 200;
+
     return {
-      success: response.ok,
+      success: response.ok && !isBusinessError,
       status: response.status,
       method,
       fullUrl,
@@ -149,11 +152,17 @@ export async function getAsegoPlans(params: { age: string, duration: string, cat
             const planId = String(p.id || p.plan_id || "");
             const agePremiums = p.agePremiums || [];
             const targetAgeNum = Number(params.age);
-            const matchedAgeEntry = Array.isArray(agePremiums) 
-              ? agePremiums.find((ap: any) => Number(ap.age) === targetAgeNum)
-              : (Number(agePremiums.age) === targetAgeNum ? agePremiums : null);
             
-            const premium = matchedAgeEntry ? Number(matchedAgeEntry.premium) : Number(p.total || p.total_premium || 0);
+            // v5.18 logic: Handle both array and object responses for agePremiums
+            let premium = 0;
+            if (Array.isArray(agePremiums)) {
+              const matched = agePremiums.find((ap: any) => Number(ap.age) === targetAgeNum);
+              premium = matched ? Number(matched.premium) : Number(p.total || p.total_premium || 0);
+            } else if (agePremiums && typeof agePremiums === 'object') {
+              premium = Number(agePremiums.premium || p.total || p.total_premium || 0);
+            } else {
+              premium = Number(p.total || p.total_premium || 0);
+            }
 
             if (planId && !isNaN(premium) && premium > 0) {
               normalizedList.push({
@@ -270,25 +279,25 @@ export async function cancelAsegoPolicy(policyNumber: string, creds: AsegoCreden
   const pNo = String(policyNumber || "").trim();
   if (!pNo) throw new Error("Policy number is required for cancellation.");
   
-  // v5.17 Implementation: Bulk Array format with flat identifiers inside.
-  // This aligns with Asego's expected search criteria for the cancelPolicy endpoint.
-  const plaintext = [
-    {
+  // v5.18 Implementation: Identity-wrapped Single Object.
+  // This mirrors the createPolicy structure but as a single object (fixing 107) 
+  // and using the identity block (fixing 163).
+  const plaintext = {
+    identity: {
       sign: creds.sign || process.env.UTSAVS_SIGN,
       reference: creds.reference || process.env.UTSAVS_REFERENCE,
-      partnerId: partnerId,
-      policyNo: pNo
-    }
-  ];
+      partnerId: partnerId
+    },
+    policyNumber: pNo
+  };
 
   const encRes = await asegoEncrypt(JSON.stringify(plaintext), creds);
   if (!encRes.success || !encRes.data) return encRes;
 
   const res = await asegoRequest(`/ext/b2b/v1/cancelPolicy/${partnerId}`, creds, 'POST', encRes.data, 'VOID_POLICY');
   
-  // If the server returns a business error code, treat as success = false
+  // Update msg for UI clarity if business error code exists
   if (res.data?.code) {
-    res.success = false;
     res.data.msg = userFacingError(res.data.code);
   }
   
