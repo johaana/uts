@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { DateIntelWidget } from "@/components/widgets/DateIntelWidget";
 import { InsuranceExpressWidget } from "@/components/widgets/InsuranceExpressWidget";
+import { cn } from "@/lib/utils";
 
 export default function PartnersPage() {
   const openChat = () => {
