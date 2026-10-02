@@ -1,10 +1,9 @@
 'use server';
 
 /**
- * @fileOverview Asego API Implementation - Final Transactional Layer v5.23
- * Forensic Update: Removed partnerId from cancelPolicy URL path.
- * This resolves the 'Code 163' search failure by ensuring the searcher 
- * uses the body-level scoping correctly.
+ * @fileOverview Asego API Implementation - Final Transactional Layer v5.24
+ * Forensic Update: Restored partnerId to URL path to resolve 404 routing error.
+ * Implemented 'identity' block wrapping for cancellation to align with searcher expectations.
  */
 
 const BASE_URL = process.env.ASEGO_BASE_URL || "https://dolphin.asego.in/api";
@@ -46,7 +45,7 @@ const ASEGO_ERROR_MESSAGES: Record<number, string> = {
   115: "Premium Mismatch: The calculated price has expired.",
   117: "Plan Unavailable: The selected coverage is no longer offered.",
   132: "Region Error: Please re-select your destination.",
-  163: "Record search failed. The policy number may be incorrect or not yet settled.",
+  163: "Settlement Latency: Policy not yet searchable. Please wait 2-3 minutes and try again.",
 };
 
 function userFacingError(code: number): string {
@@ -279,22 +278,22 @@ export async function cancelAsegoPolicy(policyNumber: string, creds: AsegoCreden
   const pNo = String(policyNumber || "").trim();
   if (!pNo) throw new Error("Policy number is required for cancellation.");
   
-  // v5.23 implementation: Retained Flat Object structure (passed parser)
-  // Added mandatory 'remarks' field (passed parser)
+  // v5.24 implementation: Restored identity block wrapping for cancellation
+  // and corrected the URL path to include partnerId (resolving 404).
   const plaintext = {
-    partnerId: partnerId,
-    sign: creds.sign || process.env.UTSAVS_SIGN,
-    reference: creds.reference || process.env.UTSAVS_REFERENCE,
+    identity: {
+      partnerId: partnerId,
+      sign: creds.sign || process.env.UTSAVS_SIGN,
+      reference: creds.reference || process.env.UTSAVS_REFERENCE
+    },
     policyNo: pNo,
-    remarks: "UAT Test Cancellation"
+    remarks: "UAT Test Void"
   };
 
   const encRes = await asegoEncrypt(JSON.stringify(plaintext), creds);
   if (!encRes.success || !encRes.data) return encRes;
 
-  // Surgical fix: Removed the redundant /{partnerId} suffix from the URL.
-  // The Partner ID is already inside the encrypted body.
-  const res = await asegoRequest(`/ext/b2b/v1/cancelPolicy`, creds, 'POST', encRes.data, 'VOID_POLICY');
+  const res = await asegoRequest(`/ext/b2b/v1/cancelPolicy/${partnerId}`, creds, 'POST', encRes.data, 'VOID_POLICY');
   
   if (res.data?.code) {
     res.data.msg = userFacingError(res.data.code);
