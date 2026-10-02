@@ -40,7 +40,14 @@ export async function listDrafts(token: string) {
 
 export async function publishRecord(token: string, firestoreId: string) {
   const uid = await requireAdmin(token);
-  await adminDb.collection('intelligence_records').doc(firestoreId).update({
+  const ref = adminDb.collection('intelligence_records').doc(firestoreId);
+  const snap = await ref.get();
+  
+  if (!snap.exists || snap.data()?.status !== 'draft') {
+    throw new Error('VALIDATION_ERROR: Record not found or not in draft status.');
+  }
+
+  await ref.update({
     status: 'published',
     publishedBy: uid,
     updatedAt: FieldValue.serverTimestamp(),

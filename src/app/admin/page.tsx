@@ -21,7 +21,7 @@ import { COUNTRY_LABELS } from "@/lib/calendar-intelligence";
 import Link from "next/link";
 
 export default function AdminGatePage() {
-  const { user } = useUser();
+  const { user, loading: authLoading } = useUser();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [drafts, setDrafts] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
@@ -88,6 +88,8 @@ export default function AdminGatePage() {
       setSyncLoading(false);
     }
   };
+
+  if (authLoading) return null;
 
   if (!isAuthenticated) {
     return (

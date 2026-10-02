@@ -1,8 +1,8 @@
 'use server';
 
 /**
- * @fileOverview Utsavs Transaction Orchestrator v5.2 (Hardened)
- * Implements fault-tolerant ledger writes and server-authoritative commercials.
+ * @fileOverview Utsavs Transaction Orchestrator v5.3 (Production Hardened)
+ * Implements fault-tolerant ledger writes, payload pinning, and sanitized errors.
  */
 
 import { adminDb, verifySession, getAuthoritativeUser } from '@/lib/server/admin';
@@ -32,6 +32,13 @@ function assertEnvironmentSafety() {
   return env;
 }
 
+async function requireUser(token: string) {
+  const decoded = await verifySession(token);
+  const user = await getAuthoritativeUser(decoded.uid);
+  if (user.status !== 'active') throw new Error("UNAUTHORIZED");
+  return { ...user, uid: decoded.uid };
+}
+
 export async function orchestrateIssuance(payload: any, sessionToken: string, idempotencyKey: string) {
   const txRef = `TX-${Math.random().toString(36).substring(7).toUpperCase()}`;
   
@@ -39,12 +46,7 @@ export async function orchestrateIssuance(payload: any, sessionToken: string, id
     const validatedEnv = assertEnvironmentSafety();
 
     // 1. Authenticate & Resolve Authority
-    const decodedToken = await verifySession(sessionToken);
-    const uid = decodedToken.uid;
-    const userData = await getAuthoritativeUser(uid);
-    
-    if (userData.status !== 'active') throw new Error("UNAUTHORIZED");
-    
+    const userData = await requireUser(sessionToken);
     const agencyId = userData.agencyId;
     if (!agencyId) throw new Error("UNAUTHORIZED");
 
@@ -92,7 +94,7 @@ export async function orchestrateIssuance(payload: any, sessionToken: string, id
     const cleanKey = String(idempotencyKey || "").replace(/[^a-zA-Z0-9]/g, '');
     if (!cleanKey) throw new Error("VALIDATION_ERROR: Idempotency key required.");
     
-    const namespacedId = `${agencyId}_${uid}_${cleanKey}`;
+    const namespacedId = `${agencyId}_${userData.uid}_${cleanKey}`;
     const ledgerRef = adminDb.collection('policy_ledger').doc(namespacedId);
 
     // 4. Create PENDING Record
@@ -100,8 +102,8 @@ export async function orchestrateIssuance(payload: any, sessionToken: string, id
       await ledgerRef.create({
         transactionId: namespacedId,
         txRef,
-        agencyId: agencyId,
-        agencyUserId: uid,
+        agencyId,
+        agencyUserId: userData.uid,
         status: 'pending',
         travelerName: payload.name,
         premiumAmount: authoritativePremium,
@@ -117,23 +119,32 @@ export async function orchestrateIssuance(payload: any, sessionToken: string, id
       if (e.code === 6) { // ALREADY_EXISTS
         const snap = await ledgerRef.get();
         const data = snap.data();
-        if (data?.status === 'issued') return { success: true, policyNumber: data.policyNumber, resumed: true, ref: txRef };
+        if (data?.status === 'issued') return { success: true, policyNumber: data.policyNumber, ref: data.txRef };
         throw new Error("VALIDATION_ERROR: Idempotency locked.");
       }
       throw e;
     }
 
-    // 5. Call Frozen Asego Engine
+    // 5. Call Frozen Asego Engine with Pinned Payload
+    const issuePayload = { 
+      ...payload, 
+      planId: matchedPlan.planId, 
+      insurerId: matchedPlan.insurerId ?? payload.insurerId, 
+      premium: authoritativePremium 
+    };
+
     let asegoRes;
     try {
-      asegoRes = await createAsegoPolicy(payload, asegoCreds);
+      asegoRes = await createAsegoPolicy(issuePayload, asegoCreds);
     } catch (asegoErr: any) {
-      // Outcome unknown branch: protect against double issuance
-      await ledgerRef.update({
-        status: 'reconciliation_required',
-        errorCode: 'PROVIDER_EXCEPTION',
-        updatedAt: FieldValue.serverTimestamp()
-      });
+      try {
+        await ledgerRef.update({
+          status: 'reconciliation_required',
+          errorCode: 'PROVIDER_EXCEPTION',
+          updatedAt: FieldValue.serverTimestamp()
+        });
+      } catch (err) {}
+      console.error(`PROVIDER_EXCEPTION [${txRef}] ledger=${namespacedId}`);
       return { 
         success: false, 
         error: 'PROVIDER_STATUS_UNKNOWN', 
@@ -164,9 +175,7 @@ export async function orchestrateIssuance(payload: any, sessionToken: string, id
         try {
           await ledgerRef.update(finalize);
           written = true;
-        } catch (updateErr) {
-          // Retry logic for transient Firestore issues
-        }
+        } catch (updateErr) {}
       }
 
       if (!written) {
@@ -178,7 +187,7 @@ export async function orchestrateIssuance(payload: any, sessionToken: string, id
             errorCode: 'LEDGER_FINALIZE_FAILED',
             updatedAt: FieldValue.serverTimestamp(),
           });
-        } catch { /* best effort */ }
+        } catch (err) {}
         return { success: true, policyNumber, warning: 'LEDGER_PENDING', ref: txRef };
       }
 
