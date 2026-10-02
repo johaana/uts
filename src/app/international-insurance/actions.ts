@@ -1,9 +1,8 @@
-
 'use server';
 
 /**
- * @fileOverview Asego API Implementation - Final Transactional Layer v5.16
- * Structural Correction: Flat schema for cancelPolicy to resolve Code 163.
+ * @fileOverview Asego API Implementation - Final Transactional Layer v5.17
+ * Structural Correction: Bulk Array format for cancelPolicy to resolve Code 163.
  * Error Mapping: surfacing specific Asego codes for better UX.
  * PII Protection: Plaintext payloads are NEVER returned to the client.
  */
@@ -47,7 +46,7 @@ const ASEGO_ERROR_MESSAGES: Record<number, string> = {
   115: "Premium Mismatch: The calculated price has expired.",
   117: "Plan Unavailable: The selected coverage is no longer offered.",
   132: "Region Error: Please re-select your destination.",
-  163: "Settlement Latency: Policy not yet searchable. Please wait 2-3 minutes and try again.",
+  163: "Record search failed. The policy number may be incorrect or not yet settled in the UAT database.",
 };
 
 function userFacingError(code: number): string {
@@ -271,19 +270,23 @@ export async function cancelAsegoPolicy(policyNumber: string, creds: AsegoCreden
   const pNo = String(policyNumber || "").trim();
   if (!pNo) throw new Error("Policy number is required for cancellation.");
   
-  // v5.16 Correction: Flat structure (no identity wrapper) to resolve Code 163 search failure.
-  const plaintext = {
-    sign: creds.sign || process.env.UTSAVS_SIGN,
-    reference: creds.reference || process.env.UTSAVS_REFERENCE,
-    partnerId: partnerId,
-    policyNo: pNo
-  };
+  // v5.17 Implementation: Bulk Array format with flat identifiers inside.
+  // This aligns with Asego's expected search criteria for the cancelPolicy endpoint.
+  const plaintext = [
+    {
+      sign: creds.sign || process.env.UTSAVS_SIGN,
+      reference: creds.reference || process.env.UTSAVS_REFERENCE,
+      partnerId: partnerId,
+      policyNo: pNo
+    }
+  ];
 
   const encRes = await asegoEncrypt(JSON.stringify(plaintext), creds);
   if (!encRes.success || !encRes.data) return encRes;
 
   const res = await asegoRequest(`/ext/b2b/v1/cancelPolicy/${partnerId}`, creds, 'POST', encRes.data, 'VOID_POLICY');
   
+  // If the server returns a business error code, treat as success = false
   if (res.data?.code) {
     res.success = false;
     res.data.msg = userFacingError(res.data.code);
