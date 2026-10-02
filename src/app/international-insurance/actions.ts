@@ -1,9 +1,10 @@
+
 'use server';
 
 /**
- * @fileOverview Asego API Implementation - Final Transactional Layer v5.14
- * Structural Correction: policyNo alignment to resolve Code 500.
- * Key Alignment: Using 'policyNo' as the unique identifier for cancellation.
+ * @fileOverview Asego API Implementation - Final Transactional Layer v5.15
+ * Structural Correction: policyNo alignment to resolve Code 500/107.
+ * Error Mapping: surfacing specific Asego codes for better UX.
  * PII Protection: Plaintext payloads are NEVER returned to the client.
  */
 
@@ -42,15 +43,15 @@ interface ActionResponse {
 }
 
 const ASEGO_ERROR_MESSAGES: Record<number, string> = {
-  107: "We couldn't process your request. Please check your data and try again.",
-  115: "Something went wrong calculating your premium. Please contact support.",
-  117: "The selected plan is no longer available. Please choose another.",
-  132: "Please select a travel region before continuing.",
-  163: "Record search failed. The policy number may be incorrect or not yet settled.",
+  107: "Parsing Error: Asego could not read the request structure.",
+  115: "Premium Mismatch: The calculated price has expired.",
+  117: "Plan Unavailable: The selected coverage is no longer offered.",
+  132: "Region Error: Please re-select your destination.",
+  163: "Settlement Latency: Policy not yet searchable. Please wait 2-3 minutes and try again.",
 };
 
 function userFacingError(code: number): string {
-  return ASEGO_ERROR_MESSAGES[code] ?? "Something went wrong. Please try again or contact support.";
+  return ASEGO_ERROR_MESSAGES[code] ?? `Asego Error ${code}: Please contact support for assistance.`;
 }
 
 function validateTravelerInput(t: any): string[] {
@@ -267,21 +268,28 @@ export async function cancelAsegoPolicy(policyNumber: string, creds: AsegoCreden
   }
 
   const partnerId = creds.partnerId || process.env.UTSAVS_PARTNER_ID;
+  const pNo = String(policyNumber || "").trim();
+  if (!pNo) throw new Error("Policy number is required for cancellation.");
   
-  // v5.14 FIX: Using 'policyNo' instead of 'policyNumber' in a single object.
-  // This resolves the 500 error following the successful 107 parsing fix.
   const plaintext = {
     identity: {
       sign: creds.sign || process.env.UTSAVS_SIGN,
       reference: creds.reference || process.env.UTSAVS_REFERENCE,
       partnerId: partnerId
     },
-    policyNo: policyNumber
+    policyNo: pNo
   };
 
   const encRes = await asegoEncrypt(JSON.stringify(plaintext), creds);
   if (!encRes.success || !encRes.data) return encRes;
 
   const res = await asegoRequest(`/ext/b2b/v1/cancelPolicy/${partnerId}`, creds, 'POST', encRes.data, 'VOID_POLICY');
-  return { ...res, data: res.data?.code ? { ...res.data, msg: userFacingError(res.data.code) } : res.data };
+  
+  // v5.15 Enhancement: Surface business logic errors properly in the return object
+  if (res.data?.code) {
+    res.success = false;
+    res.data.msg = userFacingError(res.data.code);
+  }
+  
+  return res;
 }
