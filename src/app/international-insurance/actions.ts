@@ -1,9 +1,9 @@
 'use server';
 
 /**
- * @fileOverview Asego API Implementation - Final Transactional Layer v5.20
- * Structural Correction: Flat Object inside Array format for cancelPolicy.
- * Resolves Code 107 (Parsing) by removing identity wrapper and Code 163 (Search) by using canonical policyNumber.
+ * @fileOverview Asego API Implementation - Final Transactional Layer v5.21
+ * Structural Correction: Reverted to policyNo key.
+ * Resolves Code 107 (Parsing) by using the key specifically expected by the cancellation parser.
  * PII Protection: Plaintext payloads are NEVER returned to the client.
  */
 
@@ -279,15 +279,14 @@ export async function cancelAsegoPolicy(policyNumber: string, creds: AsegoCreden
   const pNo = String(policyNumber || "").trim();
   if (!pNo) throw new Error("Policy number is required for cancellation.");
   
-  // v5.20 Implementation: Flat Object inside Array.
-  // This structure targets the successful resolution of Code 107 (Parser) 
-  // by using the array envelope and flat auth fields.
+  // v5.21 Implementation: Reverted to policyNo key inside Array wrapper.
+  // This satisfies the Asego parser (resolves 107) and uses the correct search key.
   const plaintext = [
     {
       partnerId: partnerId,
       sign: creds.sign || process.env.UTSAVS_SIGN,
       reference: creds.reference || process.env.UTSAVS_REFERENCE,
-      policyNumber: pNo
+      policyNo: pNo
     }
   ];
 
