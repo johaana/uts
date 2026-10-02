@@ -2,6 +2,7 @@
 
 /**
  * @fileOverview Utsavs Transaction Orchestrator v5 (Hardened)
+ * Implements fault-tolerant ledger writes and server-authoritative commercials.
  */
 
 import { adminDb, verifySession, getAuthoritativeUser } from '@/lib/server/admin';
@@ -16,16 +17,16 @@ function assertEnvironmentSafety() {
   const baseUrl = process.env.ASEGO_BASE_URL || "";
   
   if (env !== 'uat' && env !== 'production') {
-    throw new Error("VALIDATION_ERROR: Environment must be exactly 'uat' or 'production'.");
+    throw new Error("CONFIG_ERROR: environment must be exactly 'uat' or 'production'.");
   }
 
   if (env === 'production') {
     if (!baseUrl || baseUrl.includes('dolphin.asego.in')) {
-      throw new Error("VALIDATION_ERROR: Production safety check failed. Review ASEGO_BASE_URL.");
+      throw new Error("CONFIG_ERROR: production safety check failed. Review ASEGO_BASE_URL.");
     }
   } else if (env === 'uat') {
     if (baseUrl !== "" && !baseUrl.includes('dolphin.asego.in')) {
-      throw new Error("VALIDATION_ERROR: UAT environment configured with non-UAT host.");
+      throw new Error("CONFIG_ERROR: uat environment configured with non-UAT host.");
     }
   }
   return env;
@@ -58,7 +59,7 @@ export async function orchestrateIssuance(payload: any, sessionToken: string, id
 
     const commissionRate = agencyData.commissionRate;
     if (typeof commissionRate !== 'number' || !Number.isFinite(commissionRate)) {
-      throw new Error("VALIDATION_ERROR: Valid commission rate not found.");
+      throw new Error("CONFIG_ERROR: commission rate");
     }
 
     // 2. Authoritative Price Verification (Server-Side Re-fetch)
@@ -98,6 +99,7 @@ export async function orchestrateIssuance(payload: any, sessionToken: string, id
     try {
       await ledgerRef.create({
         transactionId: namespacedId,
+        txRef,
         agencyId: agencyId,
         agencyUserId: uid,
         status: 'pending',
@@ -115,7 +117,7 @@ export async function orchestrateIssuance(payload: any, sessionToken: string, id
       if (e.code === 6) { // ALREADY_EXISTS
         const snap = await ledgerRef.get();
         const data = snap.data();
-        if (data?.status === 'issued') return { success: true, policyNumber: data.policyNumber, resumed: true };
+        if (data?.status === 'issued') return { success: true, policyNumber: data.policyNumber, resumed: true, ref: txRef };
         throw new Error("VALIDATION_ERROR: Idempotency locked. Transaction already processed.");
       }
       throw e;
@@ -126,12 +128,18 @@ export async function orchestrateIssuance(payload: any, sessionToken: string, id
     try {
       asegoRes = await createAsegoPolicy(payload, asegoCreds);
     } catch (asegoErr: any) {
+      // Outcome unknown branch: protect against double issuance
       await ledgerRef.update({
         status: 'reconciliation_required',
         errorCode: 'PROVIDER_EXCEPTION',
         updatedAt: FieldValue.serverTimestamp()
       });
-      return { success: false, error: 'PROVIDER_STATUS_UNKNOWN', ref: txRef };
+      return { 
+        success: false, 
+        error: 'PROVIDER_STATUS_UNKNOWN', 
+        msg: "Transaction status is uncertain. DO NOT retry. Contact support with reference.",
+        ref: txRef 
+      };
     }
 
     // 6. Finalize Ledger
@@ -141,31 +149,47 @@ export async function orchestrateIssuance(payload: any, sessionToken: string, id
 
       if (!policyNumber) {
         await ledgerRef.update({ status: 'reconciliation_required', errorCode: 'MISSING_REF', updatedAt: FieldValue.serverTimestamp() });
-        return { success: false, error: "RECONCILIATION_REQUIRED", msg: "Policy number missing from provider response." };
+        return { success: false, error: "RECONCILIATION_REQUIRED", msg: "Policy number missing from provider response.", ref: txRef };
       }
 
-      try {
-        await ledgerRef.update({
-          status: 'issued',
-          policyNumber,
-          documentUrl: policyData.policyUrl || '',
-          updatedAt: FieldValue.serverTimestamp()
-        });
-        return { success: true, policyNumber };
-      } catch (finalWriteErr: any) {
-        return { 
-          success: false, 
-          error: 'ASEGO_SUCCESS_LEDGER_PENDING',
-          ref: txRef 
-        };
+      const finalize = {
+        status: 'issued',
+        policyNumber,
+        documentUrl: policyData.policyUrl || '',
+        updatedAt: FieldValue.serverTimestamp(),
+      };
+
+      let written = false;
+      for (let i = 0; i < 2 && !written; i++) {
+        try {
+          await ledgerRef.update(finalize);
+          written = true;
+        } catch (updateErr) {
+          // Retry logic for transient Firestore issues
+        }
       }
+
+      if (!written) {
+        console.error(`CRITICAL_RECONCILIATION [${txRef}] ledger=${namespacedId} policy=${policyNumber}`);
+        try {
+          await ledgerRef.update({
+            status: 'reconciliation_required',
+            policyNumber,
+            errorCode: 'LEDGER_FINALIZE_FAILED',
+            updatedAt: FieldValue.serverTimestamp(),
+          });
+        } catch { /* best effort */ }
+        return { success: true, policyNumber, warning: 'LEDGER_PENDING', ref: txRef };
+      }
+
+      return { success: true, policyNumber, ref: txRef };
     } else {
       await ledgerRef.update({
         status: 'failed',
         errorCode: 'PROVIDER_REJECTED',
         updatedAt: FieldValue.serverTimestamp()
       });
-      return { success: false, error: 'ISSUANCE_FAILED' };
+      return { success: false, error: 'ISSUANCE_FAILED', ref: txRef };
     }
 
   } catch (error: any) {
