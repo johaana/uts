@@ -1,62 +1,57 @@
+
 'use server';
 
 /**
- * @fileOverview Utsavs Management Server Actions
- * Handles authoritative partner management, onboarding, and status control.
+ * @fileOverview Utsavs Management Server Actions (Hardened)
+ * Handles authoritative partner management using Firebase Admin SDK.
  */
 
-import { getFirestore } from '@/firebase';
-import { doc, setDoc, updateDoc, serverTimestamp, collection, getDoc } from 'firebase/firestore';
+import { adminDb, verifySession, getAuthoritativeUser, adminAuth } from '@/lib/server/admin';
+import { FieldValue } from 'firebase-admin/firestore';
 
-export async function onboardAgency(adminId: string, payload: { name: string, email: string, tier: string }) {
-  const db = getFirestore();
-  
+/**
+ * Initiates an agency onboarding request (status: pending_review)
+ */
+export async function requestAgencyOnboarding(sessionToken: string, payload: { name: string, email: string }) {
   try {
-    // 1. Authorize Admin
-    const adminRef = doc(db, 'users', adminId);
-    const adminSnap = await getDoc(adminRef);
-    if (!adminSnap.exists() || adminSnap.data().role !== 'admin') {
-      throw new Error("UNAUTHORIZED: Only principal admins can onboard agencies.");
-    }
-
-    // 2. Create Agency Record
-    const agencyRef = doc(collection(db, 'agencies'));
-    const agencyId = agencyRef.id;
+    await verifySession(sessionToken); // Just ensure they are logged in at all
     
-    const commissionRate = payload.tier === 'gold' ? 0.15 : payload.tier === 'silver' ? 0.12 : 0.10;
+    const agencyRef = adminDb.collection('agencies').doc();
+    const agencyId = agencyRef.id;
 
-    await setDoc(agencyRef, {
+    await agencyRef.set({
       id: agencyId,
       name: payload.name,
       contactEmail: payload.email,
-      commissionRate,
-      status: 'active', // For MVP, we activate immediately on admin creation
+      status: 'pending_review', // Brief requirement: not active immediately
+      commissionRate: null,     // Must be set by admin
       allowedDomains: [],
-      onboardedAt: serverTimestamp(),
-      updatedAt: serverTimestamp()
+      onboardedAt: FieldValue.serverTimestamp(),
+      updatedAt: FieldValue.serverTimestamp()
     });
 
     return { success: true, agencyId };
   } catch (error: any) {
-    console.error("ONBOARDING_FAILURE:", error);
     return { success: false, error: error.message };
   }
 }
 
-export async function updateAgencyStatus(adminId: string, agencyId: string, status: 'active' | 'suspended') {
-  const db = getFirestore();
-  
+/**
+ * Admin: Approves a pending agency and sets their commission rate.
+ */
+export async function approveAgency(sessionToken: string, agencyId: string, commissionRate: number) {
   try {
-    const adminRef = doc(db, 'users', adminId);
-    const adminSnap = await getDoc(adminRef);
-    if (!adminSnap.exists() || adminSnap.data().role !== 'admin') {
-      throw new Error("UNAUTHORIZED.");
-    }
+    const decoded = await verifySession(sessionToken);
+    const adminUser = await getAuthoritativeUser(decoded.uid);
+    if (adminUser.role !== 'admin') throw new Error("UNAUTHORIZED.");
 
-    const agencyRef = doc(db, 'agencies', agencyId);
-    await updateDoc(agencyRef, { 
-      status,
-      updatedAt: serverTimestamp()
+    if (commissionRate < 0 || commissionRate > 1) throw new Error("Invalid commission rate (must be 0-1).");
+
+    const agencyRef = adminDb.collection('agencies').doc(agencyId);
+    await agencyRef.update({
+      status: 'active',
+      commissionRate: Number(commissionRate.toFixed(4)),
+      updatedAt: FieldValue.serverTimestamp()
     });
 
     return { success: true };
@@ -65,22 +60,61 @@ export async function updateAgencyStatus(adminId: string, agencyId: string, stat
   }
 }
 
-export async function assignUserToAgency(adminId: string, userId: string, agencyId: string) {
-    const db = getFirestore();
-    try {
-        const adminRef = doc(db, 'users', adminId);
-        const adminSnap = await getDoc(adminRef);
-        if (!adminSnap.exists() || adminSnap.data().role !== 'admin') throw new Error("UNAUTHORIZED");
+/**
+ * Admin: Suspends an agency.
+ */
+export async function suspendAgency(sessionToken: string, agencyId: string) {
+  try {
+    const decoded = await verifySession(sessionToken);
+    const adminUser = await getAuthoritativeUser(decoded.uid);
+    if (adminUser.role !== 'admin') throw new Error("UNAUTHORIZED.");
 
-        const userRef = doc(db, 'users', userId);
-        await updateDoc(userRef, {
-            agencyId,
-            role: 'agency_staff',
-            status: 'active',
-            updatedAt: serverTimestamp()
-        });
-        return { success: true };
-    } catch (e: any) {
-        return { success: false, error: e.message };
+    await adminDb.collection('agencies').doc(agencyId).update({
+      status: 'suspended',
+      updatedAt: FieldValue.serverTimestamp()
+    });
+
+    return { success: true };
+  } catch (error: any) {
+    return { success: false, error: error.message };
+  }
+}
+
+/**
+ * Admin: Assigns a user to an agency and sets custom claims.
+ */
+export async function createAgencyUser(sessionToken: string, payload: { email: string, agencyId: string, role: 'agency_staff' | 'admin' }) {
+  try {
+    const decoded = await verifySession(sessionToken);
+    const adminUser = await getAuthoritativeUser(decoded.uid);
+    if (adminUser.role !== 'admin') throw new Error("UNAUTHORIZED.");
+
+    // 1. Create/Get Auth User
+    let authUser;
+    try {
+      authUser = await adminAuth.getUserByEmail(payload.email);
+    } catch {
+      authUser = await adminAuth.createUser({ email: payload.email });
     }
+
+    // 2. Set Custom Claims (Server-Authoritative RBAC)
+    await adminAuth.setCustomUserClaims(authUser.uid, {
+      agencyId: payload.agencyId,
+      role: payload.role
+    });
+
+    // 3. Create/Update Identity Document
+    await adminDb.collection('users').doc(authUser.uid).set({
+      uid: authUser.uid,
+      email: payload.email,
+      role: payload.role,
+      agencyId: payload.agencyId,
+      status: 'active',
+      updatedAt: FieldValue.serverTimestamp()
+    }, { merge: true });
+
+    return { success: true, uid: authUser.uid };
+  } catch (error: any) {
+    return { success: false, error: error.message };
+  }
 }

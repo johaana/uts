@@ -1,85 +1,55 @@
+
 {
   "entities": {
     "Agency": {
       "title": "Agency",
-      "description": "Partner profile within the Utsavs distribution network.",
+      "description": "Distribution partner record. Authoritative source for commission and domains.",
       "type": "object",
       "properties": {
         "id": { "type": "string" },
         "name": { "type": "string" },
         "contactEmail": { "type": "string", "format": "email" },
-        "commissionRate": { "type": "number", "description": "Percentage share as a decimal (e.g. 0.10 for 10%)." },
-        "status": { "type": "string", "enum": ["pending", "active", "suspended"] },
-        "allowedDomains": { "type": "array", "items": { "type": "string" } },
-        "onboardedAt": { "type": "string", "format": "date-time" }
-      },
-      "required": ["name", "contactEmail", "status", "commissionRate"]
+        "commissionRate": { "type": "number", "description": "Fixed decimal rate (e.g. 0.12). Captured at sale." },
+        "status": { "type": "string", "enum": ["pending_review", "active", "suspended"] },
+        "allowedDomains": { "type": "array", "items": { "type": "string" } }
+      }
     },
     "PolicyRecord": {
       "title": "Policy Record",
-      "description": "Immutable transaction ledger entry representing a sale attempt.",
+      "description": "The Shadow Ledger entry. Immutable commercial snapshot.",
       "type": "object",
       "properties": {
         "transactionId": { "type": "string" },
         "agencyId": { "type": "string" },
         "agencyUserId": { "type": "string" },
-        "status": { "type": "string", "enum": ["pending", "issued", "failed", "reconciliation_required", "voided", "void_failed"] },
-        "policyNumber": { "type": "string" },
-        "travelerName": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "issued", "failed", "reconciliation_required", "voided"] },
         "premiumAmount": { "type": "number" },
         "commissionRateAtSale": { "type": "number" },
-        "commissionAmount": { "type": "number" },
         "utsavsShareAmount": { "type": "number" },
+        "policyNumber": { "type": "string" },
         "documentUrl": { "type": "string" },
-        "environment": { "type": "string", "enum": ["uat", "production"] },
-        "providerId": { "type": "string", "default": "asego" },
-        "issuedAt": { "type": "string", "format": "date-time" }
+        "environment": { "type": "string", "enum": ["uat", "production"] }
       }
     },
     "PortalUser": {
       "title": "Portal User",
-      "description": "Authoritative mapping of authenticated users to roles and agencies.",
+      "description": "Authoritative identity mapping. Backed by Custom Claims.",
       "type": "object",
       "properties": {
         "uid": { "type": "string" },
-        "email": { "type": "string", "format": "email" },
         "role": { "type": "string", "enum": ["admin", "agency_staff"] },
-        "agencyId": { "type": "string", "description": "ID of the associated agency." },
-        "status": { "type": "string", "enum": ["active", "suspended"] }
-      }
-    },
-    "Widget": {
-      "title": "Widget",
-      "description": "Distribution registry for embeddable components.",
-      "type": "object",
-      "properties": {
-        "widgetId": { "type": "string" },
         "agencyId": { "type": "string" },
-        "type": { "type": "string", "enum": ["date_intelligence", "insurance_express"] },
-        "status": { "type": "string", "enum": ["active", "suspended"] },
-        "allowedDomains": { "type": "array", "items": { "type": "string" } }
+        "status": { "type": "string", "enum": ["active", "suspended"] }
       }
     }
   },
   "auth": {
-    "providers": ["password", "emailLink"]
+    "providers": ["emailLink"],
+    "customClaims": ["role", "agencyId"]
   },
   "firestore": {
-    "/agencies/{agencyId}": {
-      "schema": { "$ref": "#/backend/entities/Agency" },
-      "description": "Partner agency profiles."
-    },
-    "/policy_ledger/{policyId}": {
-      "schema": { "$ref": "#/backend/entities/PolicyRecord" },
-      "description": "Universal transaction ledger."
-    },
-    "/users/{userId}": {
-      "schema": { "$ref": "#/backend/entities/PortalUser" },
-      "description": "Authoritative identity and role-based access."
-    },
-    "/widgets/{widgetId}": {
-      "schema": { "$ref": "#/backend/entities/Widget" },
-      "description": "Widget distribution and domain control registry."
-    }
+    "/users/{uid}": { "schema": { "$ref": "#/backend/entities/PortalUser" }, "description": "Identity vault." },
+    "/agencies/{agencyId}": { "schema": { "$ref": "#/backend/entities/Agency" }, "description": "Partner registry." },
+    "/policy_ledger/{txId}": { "schema": { "$ref": "#/backend/entities/PolicyRecord" }, "description": "Shadow financial ledger." }
   }
 }
