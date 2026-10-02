@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
-    "test:rules": "firebase emulators:exec --only firestore \"jest src/tests/firestore-rules.spec.ts\""
+    "test:rules": "firebase emulators:exec --only firestore \"npx jest src/tests/firestore-rules.spec.ts\""
   },
   "dependencies": {
     "@genkit-ai/googleai": "^0.5.11",

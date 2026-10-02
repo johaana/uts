@@ -2,13 +2,6 @@
 
 /**
  * @fileOverview Utsavs Transaction Orchestrator v5 (Hardened)
- * 
- * CORE RESPONSIBILITIES:
- * 1. Authenticate via ID Token (Admin SDK verification)
- * 2. Resolve authoritative Pricing (Server-side re-fetch from Asego)
- * 3. Fail-Closed Environment Assertion
- * 4. Atomic Ledger Creation (Namespaced Idempotency via create())
- * 5. Sanitized Error Propagation (Reference IDs for browsers)
  */
 
 import { adminDb, verifySession, getAuthoritativeUser } from '@/lib/server/admin';
@@ -27,7 +20,6 @@ function assertEnvironmentSafety() {
   }
 
   if (env === 'production') {
-    // Hard check: Production MUST have a BASE_URL and it MUST NOT be the UAT host
     if (!baseUrl || baseUrl.includes('dolphin.asego.in')) {
       throw new Error("VALIDATION_ERROR: Production safety check failed. Review ASEGO_BASE_URL.");
     }
@@ -52,7 +44,6 @@ export async function orchestrateIssuance(payload: any, sessionToken: string, id
     
     if (userData.status !== 'active') throw new Error("UNAUTHORIZED: Account is suspended.");
     
-    // Strict Agency Attribution: All sales use the user's authoritative agencyId
     const agencyId = userData.agencyId;
     if (!agencyId) throw new Error("UNAUTHORIZED: User lacks agency association.");
 
@@ -103,7 +94,7 @@ export async function orchestrateIssuance(payload: any, sessionToken: string, id
     const namespacedId = `${agencyId}_${uid}_${cleanKey}`;
     const ledgerRef = adminDb.collection('policy_ledger').doc(namespacedId);
 
-    // 4. Create PENDING Record (Phase 1: Deterministic creation before provider call)
+    // 4. Create PENDING Record
     try {
       await ledgerRef.create({
         transactionId: namespacedId,
@@ -130,12 +121,11 @@ export async function orchestrateIssuance(payload: any, sessionToken: string, id
       throw e;
     }
 
-    // 5. Call Frozen Asego Engine (v5.24)
+    // 5. Call Frozen Asego Engine
     let asegoRes;
     try {
       asegoRes = await createAsegoPolicy(payload, asegoCreds);
     } catch (asegoErr: any) {
-      // Phase 2: Unknown Outcome Handling. DO NOT return plain error.
       await ledgerRef.update({
         status: 'reconciliation_required',
         errorCode: 'PROVIDER_EXCEPTION',
@@ -163,7 +153,6 @@ export async function orchestrateIssuance(payload: any, sessionToken: string, id
         });
         return { success: true, policyNumber };
       } catch (finalWriteErr: any) {
-        // Phase 3: Recovery. Success at Asego but final log update failed.
         return { 
           success: false, 
           error: 'ASEGO_SUCCESS_LEDGER_PENDING',
@@ -183,7 +172,6 @@ export async function orchestrateIssuance(payload: any, sessionToken: string, id
     const isClientSafe = error.message.startsWith("UNAUTHORIZED") || error.message.startsWith("VALIDATION_ERROR");
     console.error(`ORCHESTRATION_FAILURE [${txRef}]:`, error.message);
     
-    // Sanitize errors: Never pass raw system exceptions to the browser
     return { 
       success: false, 
       error: isClientSafe ? error.message : "INTERNAL_ERROR",

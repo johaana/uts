@@ -1,17 +1,8 @@
 import admin from 'firebase-admin';
 
-/**
- * @fileOverview Utsavs Principal Admin Bootstrap Script
- * 
- * Usage:
- * export FIREBASE_PROJECT_ID="utsavs-pro"
- * export FIREBASE_CLIENT_EMAIL="..."
- * export FIREBASE_PRIVATE_KEY="..."
- * node scripts/bootstrap-admin.mjs <USER_UID>
- */
-
+// Initialize with environment variables
 if (!process.env.FIREBASE_PROJECT_ID || !process.env.FIREBASE_CLIENT_EMAIL || !process.env.FIREBASE_PRIVATE_KEY) {
-  console.error("Error: Missing FIREBASE_ environment variables.");
+  console.error('CRITICAL: Admin credentials missing in environment.');
   process.exit(1);
 }
 
@@ -25,16 +16,16 @@ admin.initializeApp({
 
 const uid = process.argv[2];
 if (!uid) {
-  console.error('Usage: node scripts/bootstrap-admin.mjs <uid>');
+  console.error('Usage: node scripts/bootstrap-admin.mjs <USER_UID>');
   process.exit(1);
 }
 
 async function bootstrap() {
   try {
-    // 1. Set Custom Claims (The real security boundary)
+    // 1. Set Custom Claims
     await admin.auth().setCustomUserClaims(uid, { role: 'admin' });
-    
-    // 2. Create the Identity Doc (For UI lookups)
+
+    // 2. Set Authoritative Identity Document
     await admin.firestore().collection('users').doc(uid).set({
       uid,
       role: 'admin',
@@ -44,9 +35,9 @@ async function bootstrap() {
     }, { merge: true });
 
     console.log(`Successfully bootstrapped UID: ${uid} as Principal Admin.`);
-    console.log('Action required: The user must sign out and back in to refresh their token.');
+    console.log('IMPORTANT: The user must sign out and sign back in for claims to take effect.');
   } catch (error) {
-    console.error('Bootstrap failed:', error);
+    console.error('Bootstrap failed:', error.message);
   }
 }
 
