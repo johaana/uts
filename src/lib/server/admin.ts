@@ -5,21 +5,33 @@ import * as admin from 'firebase-admin';
 /**
  * @fileOverview Server-Authoritative Firebase Admin Initialization
  * This module is restricted to server-side execution only.
+ * Hardened to fail loudly if production credentials are missing.
  */
 
+const projectId = process.env.FIREBASE_PROJECT_ID;
+const clientEmail = process.env.FIREBASE_CLIENT_EMAIL;
+const privateKey = process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n');
+
 if (!admin.apps.length) {
+  if (!projectId || !clientEmail || !privateKey) {
+    throw new Error(
+      "CRITICAL_CONFIGURATION_ERROR: Firebase Admin credentials missing from environment. " +
+      "Check FIREBASE_PROJECT_ID, FIREBASE_CLIENT_EMAIL, and FIREBASE_PRIVATE_KEY."
+    );
+  }
+
   try {
     admin.initializeApp({
       credential: admin.credential.cert({
-        projectId: process.env.FIREBASE_PROJECT_ID,
-        clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-        privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+        projectId,
+        clientEmail,
+        privateKey,
       }),
-      databaseURL: `https://${process.env.FIREBASE_PROJECT_ID}.firebaseio.com`,
+      databaseURL: `https://${projectId}.firebaseio.com`,
     });
-  } catch (error) {
-    console.warn('Firebase Admin init skipped (using application default or mock for local dev).', error);
-    // In local development where secrets might be missing, we may let it fail later or use a different init
+  } catch (error: any) {
+    console.error('Firebase Admin init failed:', error);
+    throw new Error(`INTERNAL_SERVER_ERROR: ${error.message}`);
   }
 }
 
@@ -28,7 +40,6 @@ export const adminAuth = admin.auth();
 
 /**
  * Verifies a client-supplied ID token and returns the decoded payload.
- * Throws if the token is invalid or expired.
  */
 export async function verifySession(idToken: string) {
   if (!idToken) throw new Error("UNAUTHORIZED: Session token missing.");

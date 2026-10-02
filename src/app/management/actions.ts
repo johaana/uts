@@ -14,18 +14,22 @@ import { FieldValue } from 'firebase-admin/firestore';
  */
 export async function requestAgencyOnboarding(sessionToken: string, payload: { name: string, email: string }) {
   try {
-    await verifySession(sessionToken); // Just ensure they are logged in at all
+    const decoded = await verifySession(sessionToken);
+    
+    // Basic validation
+    if (!payload.name.trim() || !payload.email.trim()) throw new Error("Name and Email are required.");
     
     const agencyRef = adminDb.collection('agencies').doc();
     const agencyId = agencyRef.id;
 
     await agencyRef.set({
       id: agencyId,
-      name: payload.name,
-      contactEmail: payload.email,
-      status: 'pending_review', // Brief requirement: not active immediately
-      commissionRate: null,     // Must be set by admin
+      name: payload.name.trim(),
+      contactEmail: payload.email.trim(),
+      status: 'pending_review',
+      commissionRate: null,
       allowedDomains: [],
+      requestedBy: decoded.uid,
       onboardedAt: FieldValue.serverTimestamp(),
       updatedAt: FieldValue.serverTimestamp()
     });
@@ -45,9 +49,15 @@ export async function approveAgency(sessionToken: string, agencyId: string, comm
     const adminUser = await getAuthoritativeUser(decoded.uid);
     if (adminUser.role !== 'admin') throw new Error("UNAUTHORIZED.");
 
-    if (commissionRate < 0 || commissionRate > 1) throw new Error("Invalid commission rate (must be 0-1).");
+    if (!Number.isFinite(commissionRate) || commissionRate < 0 || commissionRate > 1) {
+      throw new Error("Invalid commission rate. Must be a finite number between 0 and 1.");
+    }
 
     const agencyRef = adminDb.collection('agencies').doc(agencyId);
+    const snap = await agencyRef.get();
+    if (!snap.exists) throw new Error("Agency not found.");
+    if (snap.data()?.status !== 'pending_review') throw new Error("Agency is already processed.");
+
     await agencyRef.update({
       status: 'active',
       commissionRate: Number(commissionRate.toFixed(4)),
@@ -89,7 +99,15 @@ export async function createAgencyUser(sessionToken: string, payload: { email: s
     const adminUser = await getAuthoritativeUser(decoded.uid);
     if (adminUser.role !== 'admin') throw new Error("UNAUTHORIZED.");
 
-    // 1. Create/Get Auth User
+    // 1. Validate Agency
+    if (payload.role !== 'admin') {
+      const agencySnap = await adminDb.collection('agencies').doc(payload.agencyId).get();
+      if (!agencySnap.exists || agencySnap.data()?.status !== 'active') {
+        throw new Error("CANNOT_ASSIGN: Agency is not active.");
+      }
+    }
+
+    // 2. Create/Get Auth User
     let authUser;
     try {
       authUser = await adminAuth.getUserByEmail(payload.email);
@@ -97,18 +115,20 @@ export async function createAgencyUser(sessionToken: string, payload: { email: s
       authUser = await adminAuth.createUser({ email: payload.email });
     }
 
-    // 2. Set Custom Claims (Server-Authoritative RBAC)
-    await adminAuth.setCustomUserClaims(authUser.uid, {
-      agencyId: payload.agencyId,
-      role: payload.role
-    });
+    // 3. Set Custom Claims (Server-Authoritative RBAC)
+    const claims: any = { role: payload.role };
+    if (payload.role !== 'admin') {
+      claims.agencyId = payload.agencyId;
+    }
+    
+    await adminAuth.setCustomUserClaims(authUser.uid, claims);
 
-    // 3. Create/Update Identity Document
+    // 4. Create/Update Identity Document
     await adminDb.collection('users').doc(authUser.uid).set({
       uid: authUser.uid,
       email: payload.email,
       role: payload.role,
-      agencyId: payload.agencyId,
+      agencyId: payload.role === 'admin' ? null : payload.agencyId,
       status: 'active',
       updatedAt: FieldValue.serverTimestamp()
     }, { merge: true });
