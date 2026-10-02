@@ -1,9 +1,9 @@
 'use server';
 
 /**
- * @fileOverview Asego API Implementation - Production-Ready Transactional Layer v6.0
+ * @fileOverview Asego API Implementation - Production-Ready Transactional Layer v6.1
  * PII Protection: Plaintext payloads are NEVER returned to the client or logged without debug gating.
- * Hardened Logic: Includes input validation, error mapping, and environment-driven config.
+ * Trace History: Every response includes an actionLabel and execution timestamp.
  */
 
 const BASE_URL = process.env.ASEGO_BASE_URL || "https://dolphin.asego.in/api";
@@ -37,6 +37,8 @@ interface ActionResponse {
   fullUrl: string;
   method: string;
   headersSent: Record<string, any>;
+  actionLabel: string;
+  timestamp: string;
 }
 
 const ASEGO_ERROR_MESSAGES: Record<number, string> = {
@@ -66,7 +68,8 @@ async function asegoRequest(
   path: string, 
   creds: AsegoCredentials,
   method: string = 'GET',
-  body: any = null
+  body: any = null,
+  actionLabel: string = 'UNSPECIFIED'
 ): Promise<ActionResponse> {
   const sign = creds?.sign || process.env.UTSAVS_SIGN;
   const ref = creds?.reference || process.env.UTSAVS_REFERENCE;
@@ -76,6 +79,7 @@ async function asegoRequest(
   }
 
   const fullUrl = `${BASE_URL}${path}`;
+  const timestamp = new Date().toISOString();
 
   try {
     const options: RequestInit = {
@@ -83,7 +87,7 @@ async function asegoRequest(
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'User-Agent': 'Utsavs/1.0',
+        'User-Agent': 'Utsavs/1.1',
         'Sign': sign,
         'Reference': ref,
       },
@@ -99,6 +103,7 @@ async function asegoRequest(
     
     let parsed: any;
     try {
+      // Fix for "Unexpected response" crash: handle empty [] or raw text gracefully
       parsed = rawText.length > 0 ? JSON.parse(rawText) : [];
     } catch {
       parsed = rawText; 
@@ -110,13 +115,15 @@ async function asegoRequest(
       method,
       fullUrl,
       data: parsed,
-      // B1: Mask sensitive headers
-      headersSent: { 'Sign': '********', 'Reference': '********' }
+      headersSent: { 'Sign': '********', 'Reference': '********' },
+      actionLabel,
+      timestamp
     };
   } catch (err: any) {
     console.error("ASEGO_REQUEST_FAILURE:", {
       fullUrl,
       method,
+      actionLabel,
       errorName: err?.name,
       errorMessage: err?.message,
     });
@@ -125,14 +132,14 @@ async function asegoRequest(
 }
 
 export async function getAsegoCategories(creds: AsegoCredentials) {
-  return asegoRequest('/ext/b2b/v1/category', creds);
+  return asegoRequest('/ext/b2b/v1/category', creds, 'GET', null, 'INITIALIZE');
 }
 
 export async function getAsegoPlans(params: { age: string, duration: string, categoryId: string }, creds: AsegoCredentials) {
   const pId = creds.partnerId || process.env.UTSAVS_PARTNER_ID;
   const path = `/ext/b2b/v1/plan/${pId}?duration=${params.duration}&age=${params.age}&category=${params.categoryId}`;
   
-  const res = await asegoRequest(path, creds);
+  const res = await asegoRequest(path, creds, 'GET', null, 'SEARCH_PLANS');
   if (res.success) {
     const rawData = res.data?.data ?? res.data;
     let normalizedList: NormalizedPlan[] = [];
@@ -178,7 +185,7 @@ export async function asegoEncrypt(value: string, creds: AsegoCredentials) {
   const initVector = (creds?.vectorBytes || process.env.UTSAVS_INIT_VECTOR || "").trim();
   if (!key || !initVector) throw new Error("Encryption configuration missing.");
   
-  return asegoRequest('/ext/b2b/v1/encryption/encrypt', creds, 'POST', { value, key, initVector });
+  return asegoRequest('/ext/b2b/v1/encryption/encrypt', creds, 'POST', { value, key, initVector }, 'ENCRYPT');
 }
 
 function assembleAsegoPayload(payload: any, creds: AsegoCredentials) {
@@ -198,6 +205,7 @@ function assembleAsegoPayload(payload: any, creds: AsegoCredentials) {
         totalPremium: premium,
         plan: {
           sellingPlanId: payload.planId, 
+          // v5.7: Corrected to OBJECT structure based on forensic audit
           agePremiums: { age: Number(payload.age), premium: premium }
         }
       },
@@ -229,8 +237,8 @@ function assembleAsegoPayload(payload: any, creds: AsegoCredentials) {
     }
   ];
 
-  // B1: Log only in debug mode
   if (process.env.UTSAVS_INTERNAL_DEBUG === 'true') {
+    // Audit-only logging: No PII returned to browser, but visible in server console
     console.log("UTSAVS_FORENSIC_PLAINTEXT_PAYLOAD:", JSON.stringify(data, null, 2));
   }
 
@@ -246,7 +254,7 @@ export async function validateAsegoPolicy(policyData: any, creds: AsegoCredentia
   const encRes = await asegoEncrypt(JSON.stringify(plaintext), creds);
   if (!encRes.success || !encRes.data) return encRes;
 
-  const res = await asegoRequest(`/ext/b2b/v1/createPolicy/validate/${partnerId}`, creds, 'POST', encRes.data);
+  const res = await asegoRequest(`/ext/b2b/v1/createPolicy/validate/${partnerId}`, creds, 'POST', encRes.data, 'VALIDATE');
   return { ...res, data: res.data?.code ? { ...res.data, msg: userFacingError(res.data.code) } : res.data };
 }
 
@@ -256,11 +264,16 @@ export async function createAsegoPolicy(policyData: any, creds: AsegoCredentials
   const encRes = await asegoEncrypt(JSON.stringify(plaintext), creds);
   if (!encRes.success || !encRes.data) return encRes;
 
-  const res = await asegoRequest(`/ext/b2b/v1/createPolicy/${partnerId}`, creds, 'POST', encRes.data);
+  const res = await asegoRequest(`/ext/b2b/v1/createPolicy/${partnerId}`, creds, 'POST', encRes.data, 'ISSUE_POLICY');
   return { ...res, data: res.data?.code ? { ...res.data, msg: userFacingError(res.data.code) } : res.data };
 }
 
 export async function cancelAsegoPolicy(policyNumber: string, creds: AsegoCredentials) {
+  // B4: Server-side gating for the Manual Void Utility
+  if (process.env.UTSAVS_INTERNAL_DEBUG !== 'true') {
+    throw new Error("UNAUTHORIZED: Manual cancellation utility is restricted to debug mode.");
+  }
+
   const partnerId = creds.partnerId || process.env.UTSAVS_PARTNER_ID;
   const plaintext = [{
     identity: {
@@ -274,6 +287,6 @@ export async function cancelAsegoPolicy(policyNumber: string, creds: AsegoCreden
   const encRes = await asegoEncrypt(JSON.stringify(plaintext), creds);
   if (!encRes.success || !encRes.data) return encRes;
 
-  const res = await asegoRequest(`/ext/b2b/v1/policy/cancel/${partnerId}`, creds, 'POST', encRes.data);
+  const res = await asegoRequest(`/ext/b2b/v1/policy/cancel/${partnerId}`, creds, 'POST', encRes.data, 'VOID_POLICY');
   return { ...res, data: res.data?.code ? { ...res.data, msg: userFacingError(res.data.code) } : res.data };
 }

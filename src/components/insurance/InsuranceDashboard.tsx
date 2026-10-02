@@ -19,7 +19,10 @@ import {
   Eye,
   EyeOff,
   RotateCcw,
-  Check
+  Check,
+  Zap,
+  Trash2,
+  Clock
 } from "lucide-react";
 import { 
   getAsegoCategories, 
@@ -43,7 +46,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
   const [isIssuing, setIsIssuing] = useState(false);
   const [isCancelling, setIsCancelling] = useState(false);
   
-  // Credentials pull from input or env fallbacks
+  // Credentials
   const [creds, setCreds] = useState<AsegoCredentials>({
     partnerId: '',
     sign: '',
@@ -54,9 +57,10 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
   
   const [showGate, setShowGate] = useState(false);
   const [showSecrets, setShowSecrets] = useState(false);
+  const [manualPolicyNumber, setManualPolicyNumber] = useState('');
 
-  // B7: Idempotent orderId
-  const orderId = useMemo(() => `UTS-${Date.now()}-${Math.random().toString(36).substring(7).toUpperCase()}`, [step]);
+  // B7: Idempotent orderId per wizard session
+  const orderId = useMemo(() => `UTS-${Date.now()}-${Math.random().toString(36).substring(7).toUpperCase()}`, [step === 'search']);
 
   const [portalForm, setPortalForm] = useState({
     categoryId: '',
@@ -109,18 +113,23 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
 
   const [isValidating, setIsValidating] = useState(false);
   const [isValidated, setIsValidated] = useState(false);
-  const [lastTrace, setLastTrace] = useState<any>(null);
+
+  // TASK 1: Trace History System
+  const [traceHistory, setTraceHistory] = useState<any[]>([]);
   const [showTrace, setShowTrace] = useState(isDebug);
+
+  const addTrace = (res: any) => {
+    setTraceHistory(prev => [res, ...prev].slice(0, 5));
+  };
 
   const fetchCategories = async () => {
     setIsConnecting(true);
     try {
       const res = await getAsegoCategories(creds);
-      setLastTrace(res);
+      addTrace(res);
       if (res.success && Array.isArray(res.data)) {
         setCategories(res.data);
         toast({ title: "Session Initialized" });
-        setShowGate(false);
       }
     } catch (e: any) {
       toast({ title: "Connection Failed", description: e.message, variant: "destructive" });
@@ -139,7 +148,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
         duration: calculatedDays.toString() || '30',
         categoryId: portalForm.categoryId
       }, creds);
-      setLastTrace(res);
+      addTrace(res);
       if (res.success) {
         setPlans(res.data);
         setStep('selection');
@@ -175,7 +184,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
           orderId
       };
       const res = await validateAsegoPolicy(payload, creds);
-      setLastTrace(res);
+      addTrace(res);
       if (res.success && Array.isArray(res.data) && res.data.length === 0) {
         setIsValidated(true);
         toast({ title: "Validation Passed" });
@@ -207,7 +216,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
           orderId
       };
       const res = await createAsegoPolicy(payload, creds);
-      setLastTrace(res);
+      addTrace(res);
       if (res.success) {
         const policyData = Array.isArray(res.data) ? res.data[0] : res.data;
         setIssuedPolicy(policyData);
@@ -223,18 +232,20 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
     }
   };
 
-  const handleCancel = async () => {
-    const pNo = issuedPolicy?.policyNumber;
+  const handleCancel = async (policyNo?: string) => {
+    const pNo = policyNo || issuedPolicy?.policyNumber;
     if (!pNo || isCancelling) return;
     setIsCancelling(true);
     try {
       const res = await cancelAsegoPolicy(pNo, creds);
-      setLastTrace(res);
+      addTrace(res);
       if (res.success) {
         toast({ title: "Policy Voided" });
-        setStep('search');
-        setSelectedPlan(null);
-        setIssuedPolicy(null);
+        if (!policyNo) {
+            setStep('search');
+            setSelectedPlan(null);
+            setIssuedPolicy(null);
+        }
       } else if (res.data?.msg) {
          toast({ title: "Asego Error", description: res.data.msg, variant: "destructive" });
       }
@@ -251,8 +262,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
           <div className="text-left space-y-4 max-w-2xl">
               <div className="flex items-center gap-3">
                 <p className="text-[10px] font-bold text-[#6E7495] uppercase tracking-widest">Transaction Lifecycle</p>
-                {/* B4 Gated Badge */}
-                {isDebug && <Badge variant="outline" className="text-[8px] border-[#4FD1C5] text-[#4FD1C5]">FORENSIC_AUDIT_V6.0_ACTIVE</Badge>}
+                {isDebug && <Badge variant="outline" className="text-[8px] border-[#4FD1C5] text-[#4FD1C5]">FORENSIC_AUDIT_V6.1_ACTIVE</Badge>}
               </div>
               <h1 className="text-4xl md:text-7xl font-headline font-medium tracking-tighter leading-[1.05] text-white">
                   Global Travel<br/>
@@ -261,11 +271,10 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
           </div>
           
           <div className="flex gap-3">
-              {/* B4 Gated Controls */}
               {isDebug && (
                 <>
                   <Button variant="ghost" size="sm" onClick={() => setShowTrace(!showTrace)} className={cn("text-[9px] uppercase tracking-widest font-bold border h-8 rounded-none", showTrace && "bg-white text-black")}>
-                    <Terminal className="w-3 h-3 mr-2" /> Trace
+                    <Terminal className="w-3 h-3 mr-2" /> Trace ({traceHistory.length})
                   </Button>
                   <Button variant="ghost" size="sm" onClick={() => setShowGate(!showGate)} className={cn("text-[9px] uppercase tracking-widest font-bold border h-8 rounded-none", showGate && "bg-[#E8A33D] text-black border-transparent")}>
                     <Lock className="w-3 h-3 mr-2" /> Session
@@ -275,63 +284,98 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
           </div>
       </div>
 
-      {showTrace && lastTrace && (
-        <Card className="bg-[#0B0F22] border-white/10 p-8 rounded-none font-mono text-[11px] animate-in fade-in slide-in-from-top-4 text-left relative z-20 shadow-2xl">
-           <div className="flex items-center justify-between mb-6 border-b border-white/5 pb-4">
-              <span className="text-[12px] font-bold uppercase text-white tracking-widest">Verbatim HTTP Trace</span>
-              <Badge variant="outline" className={cn("text-[9px] uppercase px-4", lastTrace.success ? "border-green-500 text-green-500" : "border-red-500 text-red-500")}>
-                {lastTrace.status} {lastTrace.method}
-              </Badge>
+      {showTrace && traceHistory.length > 0 && (
+        <Card className="bg-[#0B0F22] border-white/10 p-0 rounded-none font-mono text-[11px] animate-in fade-in slide-in-from-top-4 text-left relative z-20 shadow-2xl overflow-hidden">
+           <div className="flex items-center justify-between px-8 py-6 border-b border-white/5 bg-white/[0.02]">
+              <span className="text-[12px] font-bold uppercase text-white tracking-widest flex items-center gap-3">
+                <Activity className="w-4 h-4 text-[#4FD1C5]" /> 
+                Forensic History (Recent First)
+              </span>
+              <Button variant="ghost" size="sm" onClick={() => setTraceHistory([])} className="text-[9px] text-[#6E7495] hover:text-white uppercase font-bold">Clear All</Button>
            </div>
            
-           <div className="space-y-4">
-              <div className="grid grid-cols-2 gap-8">
-                 <div>
-                    <p className="text-[7px] text-[#6E7495] uppercase mb-1">Method</p>
-                    <p className="text-white font-bold">{lastTrace.method}</p>
-                 </div>
-                 <div className="text-right">
-                    <p className="text-[7px] text-[#6E7495] uppercase mb-1">Status</p>
-                    <p className={cn("font-bold", lastTrace.success ? "text-green-500" : "text-red-500")}>{lastTrace.status}</p>
-                 </div>
-              </div>
-              <div>
-                <p className="text-[7px] text-[#6E7495] uppercase mb-1">Request URL</p>
-                <p className="text-blue-400 break-all">{lastTrace.fullUrl}</p>
-              </div>
-              <div>
-                <p className="text-[7px] text-[#6E7495] uppercase mb-1">Raw Response Body</p>
-                <pre className="overflow-auto max-h-[300px] bg-white/[0.01] p-6 border border-white/5 text-[9px] text-[#4FD1C5]">
-                  {JSON.stringify(lastTrace.data, null, 2)}
-                </pre>
-              </div>
+           <div className="divide-y divide-white/5 max-h-[600px] overflow-auto custom-scrollbar">
+              {traceHistory.map((trace, i) => (
+                <div key={trace.timestamp} className={cn("p-8 space-y-6 transition-colors", i === 0 ? "bg-white/[0.03]" : "opacity-40 hover:opacity-100")}>
+                   <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-4">
+                        <Badge variant="outline" className="border-[#E8A33D] text-[#E8A33D] font-bold text-[10px] px-3 py-1 uppercase">{trace.actionLabel}</Badge>
+                        <span className="text-[9px] text-[#6E7495] flex items-center gap-1"><Clock className="w-3 h-3" /> {new Date(trace.timestamp).toLocaleTimeString()}</span>
+                      </div>
+                      <Badge variant="outline" className={cn("text-[9px] uppercase px-4", trace.success ? "border-green-500 text-green-500" : "border-red-500 text-red-500")}>
+                        {trace.status} {trace.method}
+                      </Badge>
+                   </div>
+                   
+                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                      <div className="space-y-3">
+                         <p className="text-[7px] text-[#6E7495] uppercase font-bold tracking-widest">Endpoint</p>
+                         <p className="text-blue-400 break-all text-[10px]">{trace.fullUrl}</p>
+                      </div>
+                      <div className="space-y-3">
+                        <p className="text-[7px] text-[#6E7495] uppercase font-bold tracking-widest">Raw Body</p>
+                        <pre className="bg-[#050711] p-4 border border-white/5 text-[9px] text-[#4FD1C5] overflow-auto max-h-[200px]">
+                          {JSON.stringify(trace.data, null, 2)}
+                        </pre>
+                      </div>
+                   </div>
+                </div>
+              ))}
            </div>
         </Card>
       )}
 
       {showGate && (
-        <Card className="bg-[#171D3A] border border-[#E8A33D]/40 p-8 rounded-none shadow-2xl text-left relative z-30">
-            <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8">
-                {[
-                  { k: 'partnerId', l: 'Partner ID' },
-                  { k: 'sign', l: 'Sign' },
-                  { k: 'reference', l: 'Reference' },
-                  { k: 'secretKey', l: 'Secret Key' },
-                  { k: 'vectorBytes', l: 'Vector Bytes' }
-                ].map(f => (
-                  <div key={f.k} className="space-y-1.5">
-                    <Label className="text-[8px] font-bold uppercase tracking-widest text-[#6E7495]">{f.l}</Label>
-                    <Input type={showSecrets ? "text" : "password"} value={(creds as any)[f.k]} onChange={e => setCreds({...creds, [f.k]: e.target.value})} className="bg-[#0F1428] border-white/10 h-11 text-xs rounded-none text-white" />
-                  </div>
-                ))}
+        <Card className="bg-[#171D3A] border border-[#E8A33D]/40 p-0 rounded-none shadow-2xl text-left relative z-30 overflow-hidden">
+            <div className="p-8 space-y-10">
+                <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+                    {[
+                      { k: 'partnerId', l: 'Partner ID' },
+                      { k: 'sign', l: 'Sign' },
+                      { k: 'reference', l: 'Reference' },
+                      { k: 'secretKey', l: 'Secret Key' },
+                      { k: 'vectorBytes', l: 'Vector Bytes' }
+                    ].map(f => (
+                      <div key={f.k} className="space-y-1.5">
+                        <Label className="text-[8px] font-bold uppercase tracking-widest text-[#6E7495]">{f.l}</Label>
+                        <Input type={showSecrets ? "text" : "password"} value={(creds as any)[f.k]} onChange={e => setCreds({...creds, [f.k]: e.target.value})} className="bg-[#0F1428] border-white/10 h-11 text-xs rounded-none text-white" />
+                      </div>
+                    ))}
+                </div>
+                
+                <div className="flex flex-wrap gap-6 items-center">
+                   <Button onClick={fetchCategories} disabled={isConnecting} className="bg-white text-black font-bold rounded-none uppercase text-[10px] tracking-widest h-12 px-8">
+                      {isConnecting ? <Loader2 className="w-4 h-4 animate-spin" /> : "Initialize Session"}
+                   </Button>
+                   <Button variant="ghost" onClick={() => setShowSecrets(!showSecrets)} className="text-white text-[9px] font-bold uppercase tracking-widest">
+                     {showSecrets ? <EyeOff className="w-3 h-3 mr-2" /> : <Eye className="w-3 h-3 mr-2" />} {showSecrets ? "Hide" : "Show"} Secrets
+                   </Button>
+                </div>
             </div>
-            <div className="flex gap-4">
-               <Button onClick={fetchCategories} disabled={isConnecting} className="bg-white text-black font-bold rounded-none uppercase text-[10px] tracking-widest h-12 px-8">
-                  {isConnecting ? <Loader2 className="w-4 h-4 animate-spin" /> : "Initialize Session"}
-               </Button>
-               <Button variant="ghost" onClick={() => setShowSecrets(!showSecrets)} className="text-white text-[9px] font-bold">
-                 {showSecrets ? <EyeOff className="w-3 h-3 mr-2" /> : <Eye className="w-3 h-3 mr-2" />} {showSecrets ? "Hide" : "Show"} Secrets
-               </Button>
+
+            {/* TASK 3: Manual Void Utility */}
+            <div className="bg-[#0F1428] p-8 border-t border-[#E8A33D]/20 space-y-6">
+                <div className="flex items-center gap-3">
+                   <Trash2 className="w-4 h-4 text-red-500" />
+                   <h4 className="text-[11px] font-bold uppercase tracking-widest text-white">Manual Policy Cleanup (Admin)</h4>
+                   <Badge variant="outline" className="text-[8px] border-red-500/40 text-red-500">DANGER_ZONE</Badge>
+                </div>
+                <div className="flex max-w-md gap-3">
+                   <Input 
+                      placeholder="Enter Policy Number (e.g. IC33590)" 
+                      value={manualPolicyNumber}
+                      onChange={e => setManualPolicyNumber(e.target.value.trim())}
+                      className="bg-[#171D3A] border-white/10 rounded-none h-11 text-xs text-white"
+                   />
+                   <Button 
+                      onClick={() => handleCancel(manualPolicyNumber)}
+                      disabled={isCancelling || !manualPolicyNumber}
+                      className="bg-red-600 text-white font-bold rounded-none uppercase text-[9px] tracking-widest h-11 px-6 hover:bg-red-700"
+                   >
+                      {isCancelling ? <Loader2 className="w-3 h-3 animate-spin mr-2" /> : <Zap className="w-3 h-3 mr-2" />} Force Void
+                   </Button>
+                </div>
+                <p className="text-[9px] text-[#6E7495] italic">Note: This utility calls policy/cancel against the specified identifier. Verified server-side gating enforced.</p>
             </div>
         </Card>
       )}
@@ -529,7 +573,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
 
                <div className="flex flex-col items-center gap-4 pt-12">
                   <Button 
-                    onClick={handleCancel} 
+                    onClick={() => handleCancel()} 
                     disabled={isCancelling} 
                     variant="outline" 
                     className="text-red-400 border-red-500/30 hover:bg-red-500/10 h-12 px-10 rounded-full font-bold uppercase text-[10px] transition-all active:scale-[0.98]"
