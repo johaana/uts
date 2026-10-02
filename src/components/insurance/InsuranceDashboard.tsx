@@ -53,7 +53,8 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
   const [showGate, setShowGate] = useState(false);
   const [showSecrets, setShowSecrets] = useState(false);
 
-  const orderId = useMemo(() => `UTS-${Date.now()}-${Math.random().toString(36).substring(7)}`, []);
+  // Generate orderId once per attempt
+  const orderId = useMemo(() => `UTS-${Date.now()}-${Math.random().toString(36).substring(7).toUpperCase()}`, [step]);
 
   const [portalForm, setPortalForm] = useState({
     categoryId: '',
@@ -174,6 +175,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
       };
       const res = await validateAsegoPolicy(payload, creds);
       setLastTrace(res);
+      // Empty array is Asego's "Success / No Errors" signal
       if (res.success && Array.isArray(res.data) && res.data.length === 0) {
         setIsValidated(true);
         toast({ title: "Validation Passed" });
@@ -205,8 +207,10 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
       const res = await createAsegoPolicy(payload, creds);
       setLastTrace(res);
       if (res.success) {
-        setIssuedPolicy(Array.isArray(res.data) ? res.data[0] : res.data);
+        const policyData = Array.isArray(res.data) ? res.data[0] : res.data;
+        setIssuedPolicy(policyData);
         setStep('success');
+        toast({ title: "Policy Issued Successfully" });
       }
     } catch (e: any) {
       toast({ title: "Issuance Error", description: e.message, variant: "destructive" });
@@ -225,6 +229,8 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
       if (res.success) {
         toast({ title: "Policy Voided" });
         setStep('search');
+        setSelectedPlan(null);
+        setIssuedPolicy(null);
       }
     } catch (e: any) {
       toast({ title: "Cancellation Error", description: e.message, variant: "destructive" });
@@ -238,12 +244,6 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
       <div className="flex flex-col lg:flex-row justify-between items-start gap-8 relative z-10">
           <div className="text-left space-y-4 max-w-2xl">
               <div className="flex items-center gap-3">
-                {isDebug && (
-                  <div className="px-3 py-1 bg-[#E8A33D]/10 border border-[#E8A33D]/20 rounded-full flex items-center gap-2">
-                    <div className="w-1.5 h-1.5 rounded-full bg-[#E8A33D] animate-pulse"></div>
-                    <span className="text-[9px] font-bold uppercase tracking-widest text-[#E8A33D]">Network Debug Active</span>
-                  </div>
-                )}
                 <p className="text-[10px] font-bold text-[#6E7495] uppercase tracking-widest">Transaction Lifecycle</p>
               </div>
               <h1 className="text-4xl md:text-7xl font-headline font-medium tracking-tighter leading-[1.05] text-white">
@@ -265,7 +265,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
       </div>
 
       {showTrace && lastTrace && (
-        <Card className="bg-[#0B0F22] border-[#DED9D0]/40 p-8 rounded-none font-mono text-[11px] animate-in fade-in slide-in-from-top-4 text-left relative z-20 shadow-2xl">
+        <Card className="bg-[#0B0F22] border-white/10 p-8 rounded-none font-mono text-[11px] animate-in fade-in slide-in-from-top-4 text-left relative z-20 shadow-2xl">
            <div className="flex items-center justify-between mb-6 border-b border-white/5 pb-4">
               <span className="text-[12px] font-bold uppercase text-white tracking-widest">Verbatim HTTP Trace</span>
               <Badge variant="outline" className={cn("text-[9px] uppercase px-4", lastTrace.success ? "border-green-500 text-green-500" : "border-red-500 text-red-500")}>
@@ -511,7 +511,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
                     {isCancelling ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <XCircle className="w-4 h-4 mr-2" />} 
                     VOID POLICY (UAT TEST)
                   </Button>
-                  <Button onClick={() => setStep('search')} variant="ghost" className="text-[#6E7495] hover:text-white uppercase text-[10px] font-bold">
+                  <Button onClick={() => { setStep('search'); setSelectedPlan(null); setIssuedPolicy(null); }} variant="ghost" className="text-[#6E7495] hover:text-white uppercase text-[10px] font-bold">
                     <RotateCcw className="w-3 h-3 mr-2" /> New Search
                   </Button>
                </div>
