@@ -1,7 +1,7 @@
 'use server';
 
 /**
- * @fileOverview Utsavs Transaction Orchestrator v5 (Hardened)
+ * @fileOverview Utsavs Transaction Orchestrator v5.2 (Hardened)
  * Implements fault-tolerant ledger writes and server-authoritative commercials.
  */
 
@@ -17,16 +17,16 @@ function assertEnvironmentSafety() {
   const baseUrl = process.env.ASEGO_BASE_URL || "";
   
   if (env !== 'uat' && env !== 'production') {
-    throw new Error("CONFIG_ERROR: environment must be exactly 'uat' or 'production'.");
+    throw new Error("CONFIG_ERROR: environment");
   }
 
   if (env === 'production') {
     if (!baseUrl || baseUrl.includes('dolphin.asego.in')) {
-      throw new Error("CONFIG_ERROR: production safety check failed. Review ASEGO_BASE_URL.");
+      throw new Error("CONFIG_ERROR: environment");
     }
   } else if (env === 'uat') {
     if (baseUrl !== "" && !baseUrl.includes('dolphin.asego.in')) {
-      throw new Error("CONFIG_ERROR: uat environment configured with non-UAT host.");
+      throw new Error("CONFIG_ERROR: environment");
     }
   }
   return env;
@@ -43,10 +43,10 @@ export async function orchestrateIssuance(payload: any, sessionToken: string, id
     const uid = decodedToken.uid;
     const userData = await getAuthoritativeUser(uid);
     
-    if (userData.status !== 'active') throw new Error("UNAUTHORIZED: Account is suspended.");
+    if (userData.status !== 'active') throw new Error("UNAUTHORIZED");
     
     const agencyId = userData.agencyId;
-    if (!agencyId) throw new Error("UNAUTHORIZED: User lacks agency association.");
+    if (!agencyId) throw new Error("UNAUTHORIZED");
 
     // Resolve Agency Commercials
     const agencyRef = adminDb.collection('agencies').doc(agencyId);
@@ -54,7 +54,7 @@ export async function orchestrateIssuance(payload: any, sessionToken: string, id
     const agencyData = agencySnap.data();
 
     if (!agencySnap.exists || agencyData?.status !== 'active') {
-      throw new Error("UNAUTHORIZED: Agency is not active.");
+      throw new Error("UNAUTHORIZED");
     }
 
     const commissionRate = agencyData.commissionRate;
@@ -75,7 +75,7 @@ export async function orchestrateIssuance(payload: any, sessionToken: string, id
       categoryId: payload.categoryId
     }, asegoCreds);
 
-    if (!planRes.success) throw new Error("VALIDATION_ERROR: Price verification failed.");
+    if (!planRes.success) throw new Error("INTERNAL_ERROR");
     
     const matchedPlan = planRes.data.find((p: any) => p.planId === payload.planId);
     if (!matchedPlan) throw new Error("VALIDATION_ERROR: Plan no longer available.");
@@ -118,7 +118,7 @@ export async function orchestrateIssuance(payload: any, sessionToken: string, id
         const snap = await ledgerRef.get();
         const data = snap.data();
         if (data?.status === 'issued') return { success: true, policyNumber: data.policyNumber, resumed: true, ref: txRef };
-        throw new Error("VALIDATION_ERROR: Idempotency locked. Transaction already processed.");
+        throw new Error("VALIDATION_ERROR: Idempotency locked.");
       }
       throw e;
     }
