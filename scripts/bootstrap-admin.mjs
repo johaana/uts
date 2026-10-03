@@ -1,58 +1,49 @@
 import admin from 'firebase-admin';
 
 /**
- * @fileOverview Administrative Bootstrap Utility
- * Elevates the first user to 'admin' role via Custom Claims.
+ * @fileOverview One-time bootstrap script to create the first Principal Admin.
+ * Usage: node scripts/bootstrap-admin.mjs <USER_UID>
  */
-
-const projectId = process.env.FIREBASE_PROJECT_ID;
-const clientEmail = process.env.FIREBASE_CLIENT_EMAIL;
-const privateKey = process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n');
-
-if (!projectId || !clientEmail || !privateKey) {
-  console.error('CRITICAL ERROR: Terminal environment variables missing.');
-  console.log('Please ensure FIREBASE_PROJECT_ID, FIREBASE_CLIENT_EMAIL, and FIREBASE_PRIVATE_KEY are set.');
-  process.exit(1);
-}
-
-admin.initializeApp({
-  credential: admin.credential.cert({
-    projectId,
-    clientEmail,
-    privateKey,
-  }),
-});
 
 const uid = process.argv[2];
 
 if (!uid) {
-  console.error('Error: No UID provided.');
-  console.log('Usage: node scripts/bootstrap-admin.mjs <USER_UID>');
+  console.error("Error: Please provide the User UID as an argument.");
+  console.error("Usage: node scripts/bootstrap-admin.mjs v05gSOufRpO40SLQtsM6jEAzl7h1");
   process.exit(1);
 }
 
-async function bootstrapAdmin() {
+// Initialize using environment variables set in the terminal
+if (!admin.apps.length) {
+  admin.initializeApp();
+}
+
+const auth = admin.auth();
+const db = admin.firestore();
+
+async function promoteToAdmin() {
+  console.log(`Promoting UID: ${uid} to Principal Admin...`);
+
   try {
-    // 1. Set the Custom Claim (The Security Key)
-    await admin.auth().setCustomUserClaims(uid, { role: 'admin' });
+    // 1. Set Custom Claims (The "Key" in the login token)
+    await auth.setCustomUserClaims(uid, { role: 'admin' });
+    console.log("✅ Custom claims 'role: admin' set.");
 
-    // 2. Update the Identity Record in the Vault
-    await admin.firestore().collection('users').doc(uid).set({
-      uid,
+    // 2. Update Firestore Identity Record
+    await db.collection('users').doc(uid).set({
+      uid: uid,
       role: 'admin',
-      agencyId: null,
       status: 'active',
-      updatedAt: admin.firestore.FieldValue.serverTimestamp(),
+      updatedAt: admin.firestore.FieldValue.serverTimestamp()
     }, { merge: true });
+    console.log("✅ Firestore identity record updated.");
 
-    console.log('----------------------------------------------------');
-    console.log(`SUCCESS: User ${uid} is now a Principal Admin.`);
-    console.log('ACTION REQUIRED: Sign OUT and Sign BACK IN to the website.');
-    console.log('----------------------------------------------------');
+    console.log("\nSuccess! Your account is now a Principal Admin.");
+    console.log("Next Step: Sign OUT and Sign IN again on the website for the changes to take effect.");
   } catch (error) {
-    console.error('Bootstrap failed:', error);
+    console.error("❌ Bootstrap failed:", error.message);
     process.exit(1);
   }
 }
 
-bootstrapAdmin();
+promoteToAdmin();
