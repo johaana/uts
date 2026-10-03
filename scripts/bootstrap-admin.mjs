@@ -1,17 +1,24 @@
+
 import admin from 'firebase-admin';
 
 /**
- * @fileOverview Utsavs Principal Admin Bootstrap Tool
- * Usage: node scripts/bootstrap-admin.mjs <USER_UID>
+ * @fileOverview Admin Bootstrap Script v1.1
+ * Grants 'admin' custom claims and mirrors the record in Firestore.
  */
 
+const uid = process.argv[2];
 const projectId = process.env.FIREBASE_PROJECT_ID;
 const clientEmail = process.env.FIREBASE_CLIENT_EMAIL;
 const privateKey = process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n');
 
+if (!uid) {
+  console.error('Usage: node scripts/bootstrap-admin.mjs <USER_UID>');
+  process.exit(1);
+}
+
 if (!projectId || !clientEmail || !privateKey) {
-  console.error('❌ Error: Missing Firebase Admin environment variables.');
-  console.log('Please set FIREBASE_PROJECT_ID, FIREBASE_CLIENT_EMAIL, and FIREBASE_PRIVATE_KEY in your terminal.');
+  console.error('ERROR: Missing environment variables.');
+  console.log('Ensure you have exported: FIREBASE_PROJECT_ID, FIREBASE_CLIENT_EMAIL, FIREBASE_PRIVATE_KEY');
   process.exit(1);
 }
 
@@ -23,40 +30,41 @@ admin.initializeApp({
   }),
 });
 
-const db = admin.firestore();
-const auth = admin.auth();
-
-const uid = process.argv[2];
-
-if (!uid) {
-  console.error('❌ Error: Please provide a UID as an argument.');
-  console.log('Usage: node scripts/bootstrap-admin.mjs <USER_UID>');
-  process.exit(1);
-}
-
 async function bootstrap() {
-  console.log(`🚀 Bootstrapping admin for UID: ${uid}...`);
-
   try {
-    // 1. Set Custom Claims
-    await auth.setCustomUserClaims(uid, { role: 'admin' });
-    console.log('✅ Custom claims (role: admin) set successfully.');
+    console.log(`Attempting to promote UID: ${uid} to Admin...`);
 
-    // 2. Update Firestore User Document
-    // This ensures the UI recognizes the admin status immediately
-    await db.collection('users').doc(uid).set({
-      uid,
-      role: 'admin',
-      status: 'active',
-      updatedAt: admin.firestore.FieldValue.serverTimestamp()
-    }, { merge: true });
-    console.log('✅ Firestore user document updated to admin role.');
+    // 1. Set Custom Claims (The Master Key)
+    await admin.auth().setCustomUserClaims(uid, { role: 'admin' });
+    console.log('✅ Auth Claim: Admin set successfully.');
 
-    console.log('\n⭐ SUCCESS! User is now a Principal Admin.');
-    console.log('👉 FINAL ACTION: Sign out and sign back in on the website for changes to take effect.');
-    process.exit(0);
+    // 2. Mirror to Firestore (The Identity Record)
+    console.log('Attempting to sync record to Firestore...');
+    try {
+      const user = await admin.auth().getUser(uid);
+      await admin.firestore().collection('users').doc(uid).set({
+        uid,
+        email: user.email,
+        role: 'admin',
+        status: 'active',
+        updatedAt: admin.firestore.FieldValue.serverTimestamp()
+      }, { merge: true });
+      console.log('✅ Firestore Sync: Record mirrored successfully.');
+      console.log('\n🎉 SUCCESS: You are now a Principal Admin.');
+      console.log('Next step: Sign out and Sign back in on the website to refresh your session.');
+    } catch (dbError) {
+      if (dbError.code === 7 || dbError.message.includes('permission-denied')) {
+        console.error('\n❌ DATABASE ERROR (7): Permission Denied.');
+        console.log('This usually means the Firestore Database instance has not been created yet.');
+        console.log('FIX: Go to Firebase Console -> Firestore Database -> Click "Create Database".');
+        console.log('After creating it, run this script one more time.');
+      } else {
+        throw dbError;
+      }
+    }
+
   } catch (error) {
-    console.error('❌ Error during bootstrap:', error.message);
+    console.error('\n❌ CRITICAL ERROR:', error.message);
     process.exit(1);
   }
 }
