@@ -7,7 +7,7 @@ Because self-escalation is blocked by database security rules, the first **Princ
 1. **Obtain UID**: The user must first sign in once to the application (e.g., via the Management portal) to create their Firebase Auth record and obtain their UID.
 2. **Setup Environment**: Ensure your terminal has the service account credentials for the Firebase project.
    ```bash
-   export FIREBASE_PROJECT_ID="utsavs-pro"
+   export FIREBASE_PROJECT_ID="utsavs"
    export FIREBASE_CLIENT_EMAIL="firebase-adminsdk-..."
    export FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----..."
    ```

@@ -1,10 +1,10 @@
 'use client';
 
 export const firebaseConfig = {
-  apiKey: "AIzaSyA8Y7Z_UtsavsProRealKey",
-  authDomain: "utsavs-pro.firebaseapp.com",
-  projectId: "utsavs-pro",
-  storageBucket: "utsavs-pro.firebasestorage.app",
-  messagingSenderId: "9860997711",
-  appId: "1:9860997711:web:f15a24d296a9c2f"
+  apiKey: "AIzaSyAW6KIpv1onQWuQllpnhPeZDe7_DBw4PUU",
+  authDomain: "utsavs.firebaseapp.com",
+  projectId: "utsavs",
+  storageBucket: "utsavs.firebasestorage.app",
+  messagingSenderId: "137590302946",
+  appId: "1:137590302946:web:b879542562629df4d8d6bb"
 };
