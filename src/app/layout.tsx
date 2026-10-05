@@ -29,7 +29,6 @@ const plexMono = IBM_Plex_Mono({
 
 const siteTitle = "Know before you fly. Know before you schedule.";
 const siteDescription = "A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.";
-const ogImage = "https://i.postimg.cc/3W2pcYhm/d747e23cb49deff051147f1657027da2.jpg";
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://utsavs.com'),
@@ -41,10 +40,10 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: ogImage,
+        url: '/og/utsavs-share.png',
         width: 1200,
         height: 630,
-        alt: siteTitle,
+        alt: 'Utsavs: Global Holiday Intelligence',
       },
     ],
   },
@@ -52,7 +51,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: siteTitle,
     description: siteDescription,
-    images: [ogImage],
+    images: ['/og/utsavs-share.png'],
   }
 };
 

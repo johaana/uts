@@ -138,7 +138,7 @@ export default function AdminGatePage() {
             </div>
             <h1 className="text-4xl md:text-6xl font-serif font-bold tracking-tight">Utsavs Control Room</h1>
             <p className="text-xl text-[#9AA1C0] leading-relaxed max-w-2xl">
-              Governance for 92 jurisdictions. Managed via server-authoritative actions.
+              Administrative gateway for 92 jurisdictions. Managed via server-authoritative actions.
             </p>
           </div>
 
@@ -189,6 +189,13 @@ export default function AdminGatePage() {
                                 <p className="text-sm text-[#9AA1C0] italic leading-relaxed">"{record.consequences?.implication}"</p>
                              </div>
                              <div className="flex items-center gap-3 shrink-0">
+                                <Button 
+                                  variant="ghost"
+                                  onClick={() => alert(JSON.stringify(record, null, 2))}
+                                  className="text-[10px] font-bold uppercase tracking-widest text-[#6E7495]"
+                                >
+                                  Details
+                                </Button>
                                 <Button 
                                   onClick={() => publishRecord(record.firestoreId)}
                                   className="bg-[#4FD1C5] text-[#0F1428] hover:bg-[#F4F1E8] font-bold text-xs uppercase tracking-widest h-10 px-6 rounded-lg shadow-lg"
