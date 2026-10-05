@@ -138,20 +138,20 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
       // Atomic Server Orchestration
       const res = await orchestrateIssuance(payload, token, sessionKey);
       
-      if (res.success) {
+      if (res.success && 'policyNumber' in res) {
         setIssuedPolicy({ policyNumber: res.policyNumber });
         setStep('success');
       } else {
         // Fail-safe logic
-        if (res.error === 'PROVIDER_STATUS_UNKNOWN') {
+        if (!res.success && res.error === 'PROVIDER_STATUS_UNKNOWN') {
            toast({ 
              title: "Outcome Unknown", 
-             description: "The Asego call was made but connection lost. DO NOT retry. Reference: " + res.transactionId,
+             description: "The Asego call was made but connection lost. DO NOT retry. Reference: " + (res as any).ref,
              variant: "destructive"
            });
         } else {
            regenerateKey(); // Allow retry with a new ID
-           toast({ title: "Issuance Failed", description: res.msg || res.error, variant: "destructive" });
+           toast({ title: "Issuance Failed", description: (res as any).msg || (res as any).error, variant: "destructive" });
         }
       }
     } finally {
@@ -289,7 +289,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
            </div>
            <div className="space-y-4">
               <h2 className="text-5xl font-serif font-bold">Policy Issued</h2>
-              <p className="text-xl text-[#9AA1C0] max-w-md mx-auto">Your international travel protection is now active.</p>
+              <p className="text-xl text-[#9AA1C0] max-md mx-auto">Your international travel protection is now active.</p>
            </div>
            <div className="p-8 bg-[#171D3A]/40 border border-white/10 rounded-[32px] max-w-lg mx-auto space-y-4">
               <div className="flex justify-between items-center text-sm">

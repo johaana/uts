@@ -55,7 +55,7 @@ export async function orchestrateIssuance(payload: any, sessionToken: string, id
     const agencySnap = await agencyRef.get();
     const agencyData = agencySnap.data();
 
-    if (!agencySnap.exists || agencyData?.status !== 'active') {
+    if (!agencySnap.exists || !agencyData || agencyData.status !== 'active') {
       throw new Error("UNAUTHORIZED");
     }
 
