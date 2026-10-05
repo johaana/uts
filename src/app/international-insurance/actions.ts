@@ -1,12 +1,35 @@
 'use server';
 
 /**
- * @fileOverview Asego API Implementation - Final Transactional Layer v5.24
- * Forensic Update: Restored partnerId to URL path to resolve 404 routing error.
- * Implemented 'identity' block wrapping for cancellation to align with searcher expectations.
+ * @fileOverview Asego API Implementation - Final Transactional Layer v5.25
+ * Hardened environment safety: Implemented Fail-Closed logic for production routing.
  */
 
-const BASE_URL = process.env.ASEGO_BASE_URL || "https://dolphin.asego.in/api";
+const UAT_ENDPOINT = "https://dolphin.asego.in/api";
+
+/**
+ * Validates environment configuration to prevent accidental crossover.
+ * Returns the authoritative Base URL for the current environment.
+ */
+function validateConfig(): string {
+  const env = process.env.UTSAVS_ASEGO_ENV; // Expects 'uat' or 'production'
+  const configuredUrl = process.env.ASEGO_BASE_URL;
+
+  if (env === 'production') {
+    // 1. Production MUST have an explicit URL set
+    if (!configuredUrl) {
+      throw new Error("CONFIG_ERROR: Production environment requires an explicit ASEGO_BASE_URL.");
+    }
+    // 2. Production MUST NOT point to the UAT host
+    if (configuredUrl.includes('dolphin.asego.in')) {
+      throw new Error("CONFIG_ERROR: Production environment is misconfigured to use the Dolphin UAT host.");
+    }
+    return configuredUrl;
+  }
+
+  // UAT or Development: Fallback to hardcoded UAT if env var is missing
+  return configuredUrl || UAT_ENDPOINT;
+}
 
 export interface NormalizedPlan {
   planId: string;
@@ -71,6 +94,9 @@ async function asegoRequest(
   body: any = null,
   actionLabel: string = 'UNSPECIFIED'
 ): Promise<ActionResponse> {
+  // Resolve base URL using hardened validation logic
+  const baseUrl = validateConfig();
+  
   const sign = creds?.sign || process.env.UTSAVS_SIGN;
   const ref = creds?.reference || process.env.UTSAVS_REFERENCE;
 
@@ -78,7 +104,7 @@ async function asegoRequest(
     throw new Error("Asego credentials (Sign/Reference) are missing.");
   }
 
-  const fullUrl = `${BASE_URL}${path}`;
+  const fullUrl = `${baseUrl}${path}`;
   const timestamp = new Date().toISOString();
 
   try {
@@ -108,7 +134,6 @@ async function asegoRequest(
       parsed = rawText; 
     }
 
-    // Success check for business logic errors returned with HTTP 200/400/500
     const isBusinessError = parsed?.code && parsed.code !== 0 && parsed.code !== 200;
 
     return {
@@ -152,7 +177,6 @@ export async function getAsegoPlans(params: { age: string, duration: string, cat
             const agePremiums = p.agePremiums || [];
             const targetAgeNum = Number(params.age);
             
-            // Handle both array and object responses for agePremiums
             let premium = 0;
             if (Array.isArray(agePremiums)) {
               const matched = agePremiums.find((ap: any) => Number(ap.age) === targetAgeNum);
@@ -278,8 +302,6 @@ export async function cancelAsegoPolicy(policyNumber: string, creds: AsegoCreden
   const pNo = String(policyNumber || "").trim();
   if (!pNo) throw new Error("Policy number is required for cancellation.");
   
-  // v5.24 implementation: Restored identity block wrapping for cancellation
-  // and corrected the URL path to include partnerId (resolving 404).
   const plaintext = {
     identity: {
       partnerId: partnerId,
