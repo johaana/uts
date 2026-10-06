@@ -27,8 +27,8 @@ const plexMono = IBM_Plex_Mono({
   display: 'swap',
 });
 
-const siteTitle = "Know before you fly. Know before you schedule.";
-const siteDescription = "A holiday for one traveler is a closed office for another. Know which one you are. Same date. Different plans. Different consequences.";
+const siteTitle = "Going Abroad in 2026? Check Holidays First — Utsavs";
+const siteDescription = "Free lookup of festivals, public holidays, closures, and working days across 92+ countries. Plan your travel, study, or business dates with confidence.";
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://utsavs.com'),
@@ -38,20 +38,11 @@ export const metadata: Metadata = {
     title: siteTitle,
     description: siteDescription,
     type: 'website',
-    images: [
-      {
-        url: '/og/utsavs-share.png',
-        width: 1200,
-        height: 630,
-        alt: 'Utsavs: Global Holiday Intelligence',
-      },
-    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: siteTitle,
     description: siteDescription,
-    images: ['/og/utsavs-share.png'],
   }
 };
 
