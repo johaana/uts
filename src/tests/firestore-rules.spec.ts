@@ -59,7 +59,7 @@ describe('Identity & writes', () => {
   test('admin client writes denied (server-only)', async () => {
     const db = admin();
     await assertFails(setDoc(doc(db, 'users', 'uA'), { role: 'admin' }));
-    await assertFails(updateDoc(db, 'agencies', 'AGENCY_A'), { status: 'suspended' });
+    await assertFails(updateDoc(doc(db, 'agencies', 'AGENCY_A'), { status: 'suspended' }));
     await assertFails(setDoc(doc(db, 'widgets', 'w_new'), { agencyId: 'AGENCY_A' }));
     await assertFails(deleteDoc(doc(db, 'policy_ledger', 'tx_a')));
   });
