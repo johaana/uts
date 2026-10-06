@@ -18,30 +18,58 @@ export default function Image() {
           justifyContent: 'center',
           color: '#F4F1E8',
           fontFamily: 'serif',
+          position: 'relative',
+          overflow: 'hidden',
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
+        {/* Background Image Layer */}
+        <img
+          src="https://i.postimg.cc/bwJWCywk/Accessories-for-Airport-Travel.jpg"
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            opacity: 0.5,
+          }}
+        />
+        
+        {/* Gradient Overlay for legibility */}
+        <div 
+          style={{
+            position: 'absolute',
+            inset: 0,
+            background: 'linear-gradient(to bottom, rgba(15, 20, 40, 0.8), rgba(15, 20, 40, 0.4))',
+          }}
+        />
+
+        <div style={{ display: 'flex', alignItems: 'center', gap: 24, position: 'relative', zIndex: 10 }}>
           <div
             style={{
-              width: 80,
-              height: 80,
+              width: 100,
+              height: 100,
               background: '#E8A33D',
-              borderRadius: '20%',
+              borderRadius: '24%',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               color: '#0F1428',
-              fontSize: 48,
+              fontSize: 64,
               fontWeight: 'bold',
+              boxShadow: '0 20px 40px rgba(0,0,0,0.4)',
             }}
           >
             U
           </div>
-          <span style={{ fontSize: 100, fontWeight: 'bold', letterSpacing: '-0.02em' }}>Utsavs</span>
+          <span style={{ fontSize: 120, fontWeight: 'bold', letterSpacing: '-0.03em', textShadow: '0 4px 12px rgba(0,0,0,0.5)' }}>Utsavs</span>
         </div>
-        <div style={{ fontSize: 32, marginTop: 24, color: '#9AA1C0', fontStyle: 'italic' }}>
+
+        <div style={{ fontSize: 36, marginTop: 24, color: '#9AA1C0', fontStyle: 'italic', position: 'relative', zIndex: 10 }}>
           from occasion to impact
         </div>
+
         <div 
           style={{ 
             position: 'absolute', 
@@ -50,7 +78,11 @@ export default function Image() {
             color: '#E8A33D', 
             fontWeight: 'bold', 
             textTransform: 'uppercase', 
-            letterSpacing: '0.3em' 
+            letterSpacing: '0.4em',
+            zIndex: 10,
+            background: 'rgba(0,0,0,0.3)',
+            padding: '8px 24px',
+            borderRadius: '100px',
           }}
         >
           Global Holiday Intelligence
