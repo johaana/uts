@@ -7,15 +7,15 @@
     "host": "127.0.0.1",
     "firestore": {
       "host": "127.0.0.1",
-      "port": 8080
+      "port": 8085
     },
     "hub": {
       "host": "127.0.0.1",
-      "port": 4400
+      "port": 4405
     },
     "logging": {
       "host": "127.0.0.1",
-      "port": 4500
+      "port": 4505
     },
     "ui": {
       "enabled": true,

@@ -9,7 +9,7 @@ let env: RulesTestEnvironment;
 beforeAll(async () => {
   env = await initializeTestEnvironment({
     projectId: 'utsavs-rules-test',
-    firestore: { rules: readFileSync('firestore.rules', 'utf8'), host: '127.0.0.1', port: 8080 },
+    firestore: { rules: readFileSync('firestore.rules', 'utf8'), host: '127.0.0.1', port: 8085 },
   });
 });
 afterAll(async () => { await env.cleanup(); });
@@ -59,7 +59,7 @@ describe('Identity & writes', () => {
   test('admin client writes denied (server-only)', async () => {
     const db = admin();
     await assertFails(setDoc(doc(db, 'users', 'uA'), { role: 'admin' }));
-    await assertFails(updateDoc(doc(db, 'agencies', 'AGENCY_A'), { status: 'suspended' }));
+    await assertFails(updateDoc(db, 'agencies', 'AGENCY_A'), { status: 'suspended' });
     await assertFails(setDoc(doc(db, 'widgets', 'w_new'), { agencyId: 'AGENCY_A' }));
     await assertFails(deleteDoc(doc(db, 'policy_ledger', 'tx_a')));
   });
