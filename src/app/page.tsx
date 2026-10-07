@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useEffect, useMemo } from 'react';
@@ -11,9 +12,11 @@ import { getSource } from '@/lib/operational/source';
 import { evaluateQuery } from '@/lib/operational/engine';
 import { DateIntelligenceRecord, CanonicalRule } from '@/lib/operational/types';
 import { format, addDays, differenceInDays, isAfter, isSameDay, parseISO, startOfToday } from 'date-fns';
-import { ChevronDown, ChevronUp, ShieldCheck, Clock, ExternalLink, Repeat, Zap, Globe, Layout, Shield } from 'lucide-react';
+import { ChevronDown, ChevronUp, ShieldCheck, Clock, ExternalLink, Repeat, Zap, Globe, Layout, Shield, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import Image from 'next/image';
 import placeholderImages from '@/app/lib/placeholder-images.json';
 
 export default function HomePage() {
@@ -436,6 +439,48 @@ export default function HomePage() {
           </div>
         </section>
 
+        {/* WORLD TODAY */}
+        <section className="py-24" id="world-today">
+          <div className="wrap">
+            <div className="max-w-3xl mb-16 space-y-4 text-left">
+               <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#E8A33D]">WORLD TODAY</div>
+               <h2 className="text-3xl md:text-5xl font-headline font-bold">Dates are not just dates.</h2>
+               <p className="text-lg text-[#9AA1C0] leading-relaxed font-medium">
+                 Around the world, a date can mean a public holiday, a regional observance, an institutional closure, 
+                 a working-day difference or something entirely specific to your trip.
+               </p>
+            </div>
+            <div className="grid md:grid-cols-2 gap-8">
+               <Card className="bg-primary/5 border-primary/20 p-8 md:p-10 flex flex-col justify-between items-start border-white/10 text-left">
+                  <div className="space-y-4">
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-primary">TODAY</span>
+                    <h3 className="text-2xl font-headline font-bold text-white">Understanding today's calendar</h3>
+                    <p className="text-[#9AA1C0] text-sm font-medium">See the dates and places that may matter today across our global index.</p>
+                  </div>
+                  <Link href="/date-intelligence" className="mt-8">
+                     <Button variant="outline" className="font-bold border-white/10 text-white hover:bg-white/5">Explore today <ArrowRight className="ml-2 w-4 h-4" /></Button>
+                  </Link>
+               </Card>
+               <Card className="p-8 md:p-10 flex flex-col justify-between items-start bg-[#171D3A] border-white/10 text-left">
+                  <div className="space-y-4">
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-[#9AA1C0]">COMING UP</span>
+                    <h3 className="text-2xl font-headline font-bold text-white" id="next-event-name">
+                      {nextEvent?.name || "Diwali 2026"}
+                    </h3>
+                    <p className="text-[#9AA1C0] text-sm font-medium" id="next-event-meta">
+                      {nextEvent 
+                        ? `${format(new Date(nextEvent.date + 'T00:00:00'), 'd MMMM yyyy')} · ${COUNTRY_LABELS[nextEvent.jurisdiction.country_code]} · ${nextEvent.jurisdiction.scope.toUpperCase()}` 
+                        : "8 November 2026 · India · National"}
+                    </p>
+                  </div>
+                  <Link href={nextEvent?.link || "/festivals/diwali"} className="mt-8">
+                     <Button variant="ghost" className="font-bold text-[#E8A33D] hover:text-white p-0 hover:bg-transparent">Check the date <ArrowRight className="ml-2 w-4 h-4" /></Button>
+                  </Link>
+               </Card>
+            </div>
+          </div>
+        </section>
+
         {/* DRIVE ANCILLARY REVENUE - PARTNER SECTION */}
         <section className="py-24 border-t border-white/5 bg-[#171D3A]" id="partners">
           <div className="wrap">
@@ -540,4 +585,3 @@ export default function HomePage() {
   );
 }
 
-import Image from 'next/image';

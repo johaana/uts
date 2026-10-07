@@ -1,3 +1,4 @@
+
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
@@ -34,10 +35,17 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://utsavs.com'),
   title: siteTitle,
   description: siteDescription,
+  applicationName: 'Utsavs',
+  appleWebApp: {
+    title: 'Utsavs',
+    statusBarStyle: 'default',
+    capable: true,
+  },
   openGraph: {
     title: siteTitle,
     description: siteDescription,
     type: 'website',
+    siteName: 'Utsavs Global Intelligence',
   },
   twitter: {
     card: 'summary_large_image',
@@ -48,6 +56,9 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: "#0F1428",
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
 };
 
 export default function RootLayout({

@@ -1,4 +1,3 @@
-'use client';
 
 import React from 'react';
 import { Header } from '@/components/header';
@@ -15,6 +14,11 @@ import {
   Waves,
   Sun
 } from 'lucide-react';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  robots: 'noindex, nofollow'
+};
 
 export default function FaviconLabPage() {
   const options = [
@@ -52,69 +56,12 @@ export default function FaviconLabPage() {
       bg: 'bg-[#1E2650]'
     },
     {
-      id: 'global-meridian',
-      name: 'The Global Meridian',
-      desc: 'Abstract globe with focus on time zones and regionality.',
-      icon: <Globe className="w-20 h-20 text-[#E8A33D]" />,
-      bg: 'bg-[#171D3A]'
-    },
-    {
       id: 'impact-spark',
       name: 'The Impact Spark',
       desc: 'Represents the "Impact" in your tagline. Kinetic and energetic.',
       icon: <Zap className="w-20 h-20 text-[#F0C888]" />,
       bg: 'bg-[#0F1428]',
       border: 'border-white/10'
-    },
-    {
-      id: 'calendar-node',
-      name: 'The Calendar Node',
-      desc: 'Literal but refined. The intersection of a specific date and global data.',
-      icon: <Calendar className="w-20 h-20 text-white" />,
-      bg: 'bg-[#E8A33D]'
-    },
-    {
-      id: 'the-pulse',
-      name: 'The Signal Pulse',
-      desc: 'A concentric radio wave pattern representing the "Pulse" of the world.',
-      icon: <CircleDot className="w-20 h-20 text-[#4FD1C5]" />,
-      bg: 'bg-[#171D3A]'
-    },
-    {
-      id: 'luminous-sparkle',
-      name: 'The Luminous Sparkle',
-      desc: 'A nod to festivals (lights/stars) but with a mathematical, grid-aligned feel.',
-      icon: <Sparkle className="w-20 h-20 text-[#E8A33D]" />,
-      bg: 'bg-white'
-    },
-    {
-      id: 'direction-compass',
-      name: 'The Horizon Compass',
-      desc: 'For the traveler and the planner. Finding the right path/date.',
-      icon: <Compass className="w-20 h-20 text-[#9AA1C0]" />,
-      bg: 'bg-[#1E2650]'
-    },
-    {
-      id: 'secure-vault',
-      name: 'The Secure Vault',
-      desc: 'Reinforces "Safe for internal use" and "No data leakage".',
-      icon: <Lock className="w-20 h-20 text-[#4FD1C5]" />,
-      bg: 'bg-[#0F1428]',
-      border: 'border-[#4FD1C5]/20'
-    },
-    {
-      id: 'tidal-wave',
-      name: 'The Cultural Wave',
-      desc: 'Representing the flow of traditions and the "Boil Over" of festivals like Pongal.',
-      icon: <Waves className="w-20 h-20 text-white" />,
-      bg: 'bg-[#171D3A]'
-    },
-    {
-      id: 'solar-source',
-      name: 'The Solar Source',
-      desc: 'The sun as the ultimate source of many calendars (Solar/Lunisolar).',
-      icon: <Sun className="w-20 h-20 text-[#0F1428]" />,
-      bg: 'bg-[#E8A33D]'
     }
   ];
 
@@ -123,9 +70,9 @@ export default function FaviconLabPage() {
       <Header />
       <main className="py-24">
         <div className="max-w-[1180px] mx-auto px-6 space-y-16">
-          <div className="space-y-4">
+          <div className="space-y-4 text-left">
             <div className="text-[12.5px] font-mono text-[#E8A33D] tracking-widest uppercase">Identity Lab</div>
-            <h1 className="text-4xl md:text-6xl font-headline font-medium">Favicon Options v2</h1>
+            <h1 className="text-4xl md:text-6xl font-headline font-medium">Favicon Options</h1>
             <p className="text-xl text-[#9AA1C0] max-w-2xl font-medium">
               Expanded options focusing on the intersection of global data, verification, and cultural light.
             </p>
@@ -138,17 +85,11 @@ export default function FaviconLabPage() {
                   {opt.icon}
                 </div>
                 <div className="text-center space-y-2">
-                  <h3 className="text-lg font-bold">{opt.name}</h3>
+                  <h3 className="text-lg font-bold text-white">{opt.name}</h3>
                   <p className="text-xs text-[#9AA1C0] leading-relaxed">{opt.desc}</p>
                 </div>
               </div>
             ))}
-          </div>
-
-          <div className="p-12 rounded-3xl border-2 border-dashed border-white/10 bg-white/5 text-center">
-            <p className="text-sm text-[#9AA1C0]">
-              Once a direction is selected, we will generate the multi-size ICO, PNG, and SVG assets for the production root.
-            </p>
           </div>
         </div>
       </main>
