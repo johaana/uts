@@ -1,81 +1,92 @@
-
 import { PageLayout } from "@/components/PageLayout";
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import { Users, Target, Rss, Utensils, Calendar, Globe } from "lucide-react";
+import placeholderImages from "@/app/lib/placeholder-images.json";
+import { Header } from "@/components/header";
+import { Footer } from "@/components/footer";
 
 export default function AboutUsPage() {
     return (
-        <PageLayout>
-            <div className="text-center mb-12">
-                <h1 className="font-headline text-4xl md:text-5xl font-bold">About Utsavs</h1>
-                <p className="mt-4 text-lg text-foreground/80 max-w-3xl mx-auto">
-                    Rediscovering roots, one festival at a time.
-                </p>
-            </div>
+        <div className="bg-[#0F1428] text-[#F4F1E8] min-h-screen font-sans">
+            <Header />
+            <PageLayout>
+                <div className="text-center mb-16 pt-12">
+                    <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#E8A33D]/10 border border-[#E8A33D]/20 rounded-full mb-4">
+                        <span className="text-[10px] font-bold uppercase tracking-widest text-[#E8A33D]">Our Story</span>
+                    </div>
+                    <h1 className="font-headline text-4xl md:text-7xl font-bold tracking-tighter">About Utsavs</h1>
+                    <p className="mt-6 text-xl text-[#9AA1C0] max-w-3xl mx-auto font-medium">
+                        Rediscovering roots, one festival at a time. From occasion to impact.
+                    </p>
+                </div>
 
-            <Card className="mb-12">
-                <CardContent className="p-6 md:p-10">
-                    <div className="flex flex-col md:flex-row gap-8 items-center">
-                        <div className="md:w-2/3">
-                            <h2 className="font-headline text-3xl font-bold mb-4 text-primary">Our Story</h2>
-                            <div className="space-y-4 text-foreground/80 prose max-w-none">
-                                <p>In today's fast-paced world, it's easy to lose touch with our cultural roots. For many, especially younger generations, the rich stories, traditions, and intricate details behind the festivals we celebrate have become faded memories or scattered pieces of information across the internet. The deep significance of the rituals, the taste of ancestral recipes, and the powerful myths that have shaped our heritage are often overlooked.</p>
-                                <p>We saw a gap—a need for a single, beautifully crafted place where this knowledge wasn't just stored, but brought to life. Utsavs was born from a simple idea: to create a vibrant, comprehensive, and engaging resource for anyone curious about the "why" behind the celebration. We wanted to build a bridge to our past, making the wisdom of our traditions accessible and relevant for today's world.</p>
-                                <p>This platform is for the curious traveler planning their next journey around a local spectacle, for the parent wanting to share the story of Diwali with their children, for the foodie eager to cook an authentic festive meal, and for anyone who believes that understanding our festivals is a powerful way to understand ourselves.</p>
+                <Card className="mb-12 bg-[#171D3A] border-white/10 rounded-[32px] overflow-hidden shadow-2xl">
+                    <CardContent className="p-0">
+                        <div className="flex flex-col lg:flex-row items-stretch">
+                            <div className="p-8 md:p-16 lg:w-3/5 text-left space-y-8">
+                                <h2 className="font-headline text-3xl md:text-5xl font-bold text-white tracking-tight">The "Why" Behind the Celebration.</h2>
+                                <div className="space-y-6 text-[#9AA1C0] text-lg leading-relaxed font-medium">
+                                    <p>In today's fast-paced world, it's easy to lose touch with our cultural roots. For many, the rich stories, traditions, and intricate details behind the festivals we celebrate have become faded memories or scattered pieces of information.</p>
+                                    <p>Utsavs was born from a simple idea: to create a vibrant, comprehensive, and engaging resource for anyone curious about the significance behind the celebration. We wanted to build a bridge to our past, making the wisdom of our traditions accessible and relevant for today's world.</p>
+                                    <p>This platform is for the curious traveler planning their next journey around a local spectacle, for the student seeking connection abroad, and for anyone who believes that understanding our festivals is a powerful way to understand ourselves.</p>
+                                </div>
+                            </div>
+                            <div className="lg:w-2/5 relative min-h-[400px]">
+                                <Image 
+                                    src={placeholderImages.worldToday.url} 
+                                    alt="Global celebrations" 
+                                    fill 
+                                    className="object-cover grayscale-[30%] hover:grayscale-0 transition-all duration-700" 
+                                    data-ai-hint="cultural scene"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-[#171D3A] via-transparent to-transparent lg:hidden" />
                             </div>
                         </div>
-                        <div className="md:w-1/3">
-                            <Image src="https://i.postimg.cc/mg1bYqXc/Diwali-blog-same-fest.jpg" alt="A collage of festival celebrations" width={400} height={400} className="rounded-lg shadow-lg w-full" data-ai-hint="diwali collage"/>
+                    </CardContent>
+                </Card>
+
+                <div className="grid md:grid-cols-2 gap-8 my-24">
+                    <Card className="bg-[#171D3A] border-white/10 p-10 rounded-[32px] shadow-xl text-left space-y-6 group hover:border-[#E8A33D] transition-colors">
+                        <div className="w-12 h-12 bg-[#E8A33D]/10 rounded-2xl flex items-center justify-center text-[#E8A33D] group-hover:scale-110 transition-transform">
+                            <Target className="w-6 h-6" />
                         </div>
-                    </div>
-                </CardContent>
-            </Card>
+                        <h3 className="font-headline text-3xl font-bold text-white">Our Mission</h3>
+                        <p className="text-[#9AA1C0] text-lg leading-relaxed font-medium">
+                            To be the most definitive and inspiring guide to global festivals. We aim to preserve and share the cultural richness of these events by providing detailed information on their history, rituals, and the stories that make them unique.
+                        </p>
+                    </Card>
+                    <Card className="bg-[#171D3A] border-white/10 p-10 rounded-[32px] shadow-xl text-left space-y-6 group hover:border-[#4FD1C5] transition-colors">
+                        <div className="w-12 h-12 bg-[#4FD1C5]/10 rounded-2xl flex items-center justify-center text-[#4FD1C5] group-hover:scale-110 transition-transform">
+                            <Users className="w-6 h-6" />
+                        </div>
+                        <h3 className="font-headline text-3xl font-bold text-white">Who We Are</h3>
+                        <p className="text-[#9AA1C0] text-lg leading-relaxed font-medium">
+                            We are a small, passionate team of storytellers, developers, and cultural enthusiasts. This platform is a collaborative effort between human creativity and verified intelligence, dedicated to building a space that is both informative and beautiful.
+                        </p>
+                    </Card>
+                </div>
 
-            <div className="grid md:grid-cols-2 gap-8">
-                <Card>
-                    <CardContent className="p-8">
-                        <Target className="w-12 h-12 text-accent mb-4"/>
-                        <h3 className="font-headline text-2xl font-bold mb-2">Our Mission</h3>
-                        <p className="text-foreground/80">Our mission is to be the most definitive and inspiring guide to Indian and international festivals. We aim to preserve and share the cultural richness of these events by providing detailed information on their history, rituals, and the stories that make them unique. We want to empower you to not just observe, but to truly experience and understand the heart of each 'utsav'.</p>
-                    </CardContent>
-                </Card>
-                 <Card>
-                    <CardContent className="p-8">
-                        <Users className="w-12 h-12 text-accent mb-4"/>
-                        <h3 className="font-headline text-2xl font-bold mb-2">Who We Are</h3>
-                        <p className="text-foreground/80">We are a small, passionate team of storytellers, developers, and cultural enthusiasts. This platform is a labor of love, a collaborative effort between human creativity and artificial intelligence, dedicated to building a space that is both informative and beautiful. We believe in the power of stories to connect us and the power of technology to share them with the world.</p>
-                    </CardContent>
-                </Card>
-            </div>
+                <div className="text-center my-24 space-y-6">
+                    <div className="h-px w-24 bg-[#E8A33D] mx-auto" />
+                    <h2 className="font-headline text-4xl md:text-6xl font-bold text-white tracking-tight">Traceable Intelligence</h2>
+                </div>
 
-            <div className="text-center my-16">
-                 <h2 className="font-headline text-3xl md:text-4xl font-bold text-primary">What We Offer</h2>
-            </div>
-             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <Card className="p-6 flex items-start gap-4">
-                    <Calendar className="w-8 h-8 text-accent shrink-0 mt-1"/>
-                    <div>
-                        <h4 className="font-bold text-lg mb-1">Festival Guides</h4>
-                        <p className="text-sm text-foreground/80">In-depth information on dates, history, and rituals of numerous festivals.</p>
-                    </div>
-                </Card>
-                <Card className="p-6 flex items-start gap-4">
-                    <Utensils className="w-8 h-8 text-accent shrink-0 mt-1"/>
-                    <div>
-                        <h4 className="font-bold text-lg mb-1">Authentic Recipes</h4>
-                        <p className="text-sm text-foreground/80">A library of traditional recipes to help you cook the authentic taste of each festival.</p>
-                    </div>
-                </Card>
-                <Card className="p-6 flex items-start gap-4">
-                    <Rss className="w-8 h-8 text-accent shrink-0 mt-1"/>
-                    <div>
-                        <h4 className="font-bold text-lg mb-1">Cultural Stories</h4>
-                        <p className="text-sm text-foreground/80">A blog that dives deeper into the culture, traditions, and fascinating stories behind the celebrations.</p>
-                    </div>
-                </Card>
-            </div>
-
-        </PageLayout>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-24">
+                    {[
+                        { icon: Calendar, t: "Festival Guides", d: "In-depth information on dates, history, and rituals of numerous global festivals." },
+                        { icon: Utensils, t: "Sacred Recipes", d: "A library of traditional recipes to help you cook the authentic taste of each festival." },
+                        { icon: Globe, t: "Operational Data", d: "Deterministic holiday data for technical planning and operational assessment." }
+                    ].map((item, idx) => (
+                        <Card key={idx} className="p-8 bg-[#171D3A] border-white/10 rounded-2xl text-left space-y-4 hover:bg-white/5 transition-colors">
+                            <item.icon className="w-8 h-8 text-[#E8A33D]" />
+                            <h4 className="text-xl font-bold text-white">{item.t}</h4>
+                            <p className="text-sm text-[#9AA1C0] font-medium leading-relaxed">{item.d}</p>
+                        </Card>
+                    ))}
+                </div>
+            </PageLayout>
+            <Footer />
+        </div>
     );
 }

@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
@@ -39,8 +38,8 @@ export default function DateIntelligencePage() {
   const [canonicalRules, setCanonicalRules] = useState<CanonicalRule[]>([]);
   const [query, setQuery] = useState<OperationalQuery>({
     destination: 'IN',
-    startDate: format(startOfToday(), 'yyyy-MM-dd'),
-    endDate: format(startOfToday(), 'yyyy-MM-dd'),
+    startDate: '', // Empty initially for hydration safety
+    endDate: '',   // Empty initially for hydration safety
     purpose: 'travel'
   });
   const [result, setResult] = useState<OperationalResult | null>(null);
@@ -48,6 +47,10 @@ export default function DateIntelligencePage() {
   const [activeLens, setActiveLens] = useState('all');
 
   useEffect(() => {
+    // Correct hydration safety: initialize dates on the client only
+    const today = format(startOfToday(), 'yyyy-MM-dd');
+    setQuery(prev => ({ ...prev, startDate: today, endDate: today }));
+    
     getSource().getCanonicalRules().then(rules => {
       setCanonicalRules(rules);
     });
@@ -60,6 +63,8 @@ export default function DateIntelligencePage() {
 
   const handleSearch = async (overrideQuery?: any) => {
     const q = overrideQuery || query;
+    if (!q.startDate) return; // Wait for hydration
+    
     setIsSearching(true);
     setTimeout(async () => {
       try {
@@ -73,11 +78,15 @@ export default function DateIntelligencePage() {
     }, 400);
   };
 
+  // Run initial search once query is hydrated
   useEffect(() => {
-    handleSearch();
-  }, []);
+    if (query.startDate) {
+      handleSearch();
+    }
+  }, [query.startDate]);
 
   const changeDate = (days: number) => {
+    if (!query.startDate) return;
     // Force interpretation as local time
     const current = new Date(query.startDate + 'T00:00:00');
     const target = addDays(current, days);
@@ -168,13 +177,13 @@ export default function DateIntelligencePage() {
                    <div className="space-y-1">
                       <p className="text-[10.5px] font-mono text-[#4FD1C5] uppercase tracking-widest">Date context</p>
                       <h2 className="text-2xl md:text-3xl font-headline font-medium text-[#F4F1E8] flex items-baseline gap-3">
-                        {new Date(query.startDate + 'T00:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
-                        {query.startDate === format(startOfToday(), 'yyyy-MM-dd') && (
+                        {query.startDate ? new Date(query.startDate + 'T00:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }) : 'Loading...'}
+                        {query.startDate && query.startDate === format(startOfToday(), 'yyyy-MM-dd') && (
                           <span className="text-[10px] font-mono text-[#4FD1C5] border border-[#4FD1C5]/30 rounded-full px-2 py-0.5 uppercase">Today</span>
                         )}
                       </h2>
                       <p className="text-[13px] text-[#9AA1C0]">
-                        {COUNTRY_LABELS[query.destination] || query.destination} · {new Date(query.startDate + 'T00:00:00').toLocaleDateString('en-GB', { weekday: 'long' })}
+                        {COUNTRY_LABELS[query.destination] || query.destination} · {query.startDate ? new Date(query.startDate + 'T00:00:00').toLocaleDateString('en-GB', { weekday: 'long' }) : '—'}
                       </p>
                    </div>
 

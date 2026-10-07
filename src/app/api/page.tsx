@@ -1,4 +1,3 @@
-
 'use client';
 
 import React from 'react';
@@ -13,7 +12,10 @@ import {
   Link as LinkIcon,
   Zap,
   Activity,
-  Info
+  Info,
+  Key,
+  CheckCircle2,
+  ArrowRight
 } from "lucide-react";
 
 export default function ApiPage() {
@@ -214,6 +216,49 @@ export default function ApiPage() {
                           </div>
                        </div>
                     </div>
+                 </div>
+              </div>
+           </div>
+        </section>
+
+        {/* INTEGRATION ROADMAP */}
+        <section className="py-24 bg-[#0F1428] border-t border-white/5">
+           <div className="container mx-auto px-6">
+              <div className="max-w-4xl mx-auto space-y-16">
+                 <div className="text-center space-y-4">
+                    <h2 className="text-3xl md:text-5xl font-headline font-medium">Integration Roadmap</h2>
+                    <p className="text-lg text-[#9AA1C0] font-medium">Four steps to production-grade intelligence.</p>
+                 </div>
+
+                 <div className="grid md:grid-cols-2 gap-8">
+                    {[
+                      { step: "01", t: "Partner Request", d: "Initiate contact via the support chat. Our team evaluates jurisdiction requirements and volume tiers.", icon: Key },
+                      { step: "02", t: "Sandbox Token", d: "Receive a restricted key for local development and schema validation in your testing environment.", icon: Activity },
+                      { step: "03", t: "Schema Alignment", d: "Map your application purpose (travel/study/biz) to our deterministic record logic.", icon: Code },
+                      { step: "04", t: "Production Key", d: "Rotate to a production-grade X-API-KEY with SLA-backed uptime and verified data refreshes.", icon: CheckCircle2 }
+                    ].map((item) => (
+                      <div key={item.step} className="p-8 bg-[#171D3A] rounded-[32px] border border-white/10 space-y-6 text-left group hover:border-[#E8A33D] transition-all">
+                         <div className="flex items-center justify-between">
+                            <div className="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center text-[#E8A33D] group-hover:bg-[#E8A33D]/10 transition-colors">
+                               <item.icon className="w-5 h-5" />
+                            </div>
+                            <span className="text-3xl font-headline font-bold text-white/10">{item.step}</span>
+                         </div>
+                         <div className="space-y-2">
+                            <h4 className="text-xl font-bold text-white">{item.t}</h4>
+                            <p className="text-sm text-[#9AA1C0] leading-relaxed font-medium">{item.d}</p>
+                         </div>
+                      </div>
+                    ))}
+                 </div>
+
+                 <div className="pt-12 text-center">
+                    <Button 
+                      onClick={openChat}
+                      className="bg-[#E8A33D] text-[#0F1428] hover:bg-[#F0C888] font-bold px-12 h-16 rounded-full shadow-2xl uppercase tracking-widest text-xs transition-all active:scale-95"
+                    >
+                      Start Partner Request <ArrowRight className="ml-2 w-5 h-5" />
+                    </Button>
                  </div>
               </div>
            </div>

@@ -14,6 +14,7 @@ import { format, addDays, differenceInDays, isAfter, isSameDay, parseISO, startO
 import { ChevronDown, ChevronUp, ShieldCheck, Clock, ExternalLink, Repeat, Zap, Globe, Layout, Shield } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import placeholderImages from '@/app/lib/placeholder-images.json';
 
 export default function HomePage() {
   const [isMounted, setIsMounted] = useState(false);
@@ -493,14 +494,20 @@ export default function HomePage() {
             </div>
             <div className="grid md:grid-cols-3 gap-6">
                {[
-                 { icon: Repeat, t: "Travelers", d: "Understand the cultural intensity and operational state of your destination. Flag festivals that drive high-density migration or unexpected closures." },
-                 { icon: ShieldCheck, t: "Students", d: "Put institutional calendars and arrival timing around your dates. Align visa interviews and orientation with verified host-country intelligence." },
-                 { icon: Clock, t: "Corporate & HR", d: "Manage global workforce calendars with precision. Identify local regional holidays that affect payroll, meetings, and office availability." }
+                 { icon: Repeat, t: "Travelers", d: "Understand the cultural intensity and operational state of your destination. Flag festivals that drive high-density migration or unexpected closures.", img: placeholderImages.travelerHero },
+                 { icon: ShieldCheck, t: "Students", d: "Put institutional calendars and arrival timing around your dates. Align visa interviews and orientation with verified host-country intelligence.", img: placeholderImages.studentHero },
+                 { icon: Clock, t: "Corporate & HR", d: "Manage global workforce calendars with precision. Identify local regional holidays that affect payroll, meetings, and office availability.", img: placeholderImages.corporateHero }
                ].map(uc => (
-                 <div key={uc.t} className="p-8 bg-[#171D3A] border border-white/10 rounded-2xl space-y-4 group hover:border-gold-soft transition-colors">
-                    <uc.icon className="w-8 h-8 text-[#E8A33D]" />
-                    <h4 className="font-headline text-2xl font-bold text-left">{uc.t}</h4>
-                    <p className="text-sm text-[#9AA1C0] leading-relaxed font-medium text-left">{uc.d}</p>
+                 <div key={uc.t} className="bg-[#171D3A] border border-white/10 rounded-2xl overflow-hidden group hover:border-gold-soft transition-colors flex flex-col">
+                    <div className="relative h-40 w-full grayscale-[40%] group-hover:grayscale-0 transition-all duration-700">
+                       <Image src={uc.img.url} alt={uc.t} fill className="object-cover" data-ai-hint={uc.img.hint} />
+                       <div className="absolute inset-0 bg-gradient-to-t from-[#171D3A] to-transparent" />
+                    </div>
+                    <div className="p-8 pt-0 space-y-4 flex-1 flex flex-col items-start">
+                       <uc.icon className="w-8 h-8 text-[#E8A33D]" />
+                       <h4 className="font-headline text-2xl font-bold text-left">{uc.t}</h4>
+                       <p className="text-sm text-[#9AA1C0] leading-relaxed font-medium text-left flex-1">{uc.d}</p>
+                    </div>
                  </div>
                ))}
             </div>
@@ -532,3 +539,5 @@ export default function HomePage() {
     </div>
   );
 }
+
+import Image from 'next/image';
