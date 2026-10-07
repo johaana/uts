@@ -10,6 +10,7 @@ import { MobileNav } from "./MobileNav";
 
 export const NAV_LINKS = [
   { href: "/built-for", label: "Built For" },
+  { href: "/international-insurance", label: "International Insurance" },
   { href: "/partners", label: "Partner with us" },
   { href: "/festivals", label: "Stories" },
 ];

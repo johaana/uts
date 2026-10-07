@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useEffect, useMemo } from 'react';
@@ -105,7 +104,7 @@ export default function HomePage() {
     }
 
     return [{
-      text: "Standard Global business day · High-trust window for international meetings.",
+      text: "Standard Global business day · 92 jurisdictions verified.",
       isLive: true
     }];
   }, [isMounted, todayKey, allRecords]);
@@ -568,7 +567,7 @@ export default function HomePage() {
                    </div>
                    <h2 className="font-headline text-3xl md:text-5xl font-medium text-left">Source-backed intelligence. Human-verified.</h2>
                    <p className="text-[#9AA1C0] text-lg max-w-2xl font-medium text-left">
-                      See where the information comes from and, where applicable, whether it has been reviewed or confirmed. Utsavs keeps the underlying source and verification status visible so you can inspect the evidence behind a result.
+                      See where the information comes from and, whether it has been reviewed or confirmed. Utsavs keeps the underlying source and verification status visible.
                    </p>
                 </div>
                 <Link href="/date-intelligence">
@@ -584,4 +583,3 @@ export default function HomePage() {
     </div>
   );
 }
-
