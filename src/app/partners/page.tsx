@@ -21,6 +21,8 @@ import {
 import { DateIntelWidget } from "@/components/widgets/DateIntelWidget";
 import { InsuranceExpressWidget } from "@/components/widgets/InsuranceExpressWidget";
 import { cn } from "@/lib/utils";
+import Image from 'next/image';
+import placeholderImages from '@/app/lib/placeholder-images.json';
 
 export default function PartnersPage() {
   const openChat = () => {
@@ -62,39 +64,53 @@ export default function PartnersPage() {
       
       <main>
         {/* HERO */}
-        <section className="py-20 md:py-32 border-b border-white/5 relative overflow-hidden">
-          <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#F4F1E8 1px, transparent 1px)', backgroundSize: '40px 40px' }}></div>
-          <div className="container mx-auto px-6 text-left">
-            <div className="max-w-4xl space-y-8">
-              <div className="flex items-center gap-3 text-[#E8A33D]">
-                <Zap className="w-5 h-5 fill-current" />
-                <span className="text-[12px] font-mono font-bold uppercase tracking-[0.4em]">Ecosystem Expansion</span>
-              </div>
-              <h1 className="text-5xl md:text-8xl font-headline font-medium tracking-tighter leading-[0.95] text-white">
-                Power your agency with <br />Utsavs Intelligence.
-              </h1>
-              <p className="text-xl text-[#9AA1C0] leading-relaxed max-w-2xl font-medium">
-                Join our network of elite travel partners. Integrate verified holiday data and instant insurance into your workflow to drive ancillary revenue and trust.
-              </p>
-              <div className="pt-6">
-                <Button onClick={openChat} className="bg-[#E8A33D] text-[#0F1428] hover:bg-white font-bold h-16 px-10 rounded-full shadow-2xl text-base transition-all group">
-                  Become a Partner <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </Button>
-              </div>
-            </div>
+        <section className="py-20 md:py-32 border-b border-white/5 relative overflow-hidden flex items-center justify-center">
+          <div className="absolute inset-0 z-0 opacity-40 grayscale-[20%]">
+             <Image 
+               src={placeholderImages.corporateHero.url} 
+               fill 
+               style={{ objectFit: 'cover' }} 
+               alt="Partnership Background" 
+               data-ai-hint="business traveler"
+             />
+             <div className="absolute inset-0 bg-gradient-to-b from-[#0F1428]/95 via-[#0F1428]/40 to-[#0F1428]" />
+          </div>
+
+          <div className="container mx-auto px-6 relative z-10">
+            <Card className="max-w-4xl mx-auto bg-[#171D3A]/80 backdrop-blur-2xl border-white/10 rounded-[48px] overflow-hidden shadow-3xl">
+               <CardContent className="p-10 md:p-20 text-center space-y-8">
+                  <div className="flex flex-col items-center space-y-4">
+                    <div className="flex items-center gap-3 text-[#E8A33D]">
+                      <Zap className="w-5 h-5 fill-current" />
+                      <span className="text-[12px] font-mono font-bold uppercase tracking-[0.4em]">Ecosystem Expansion</span>
+                    </div>
+                    <h1 className="text-5xl md:text-8xl font-headline font-medium tracking-tighter leading-[0.95] text-white">
+                      One engine. <br />Endless distribution.
+                    </h1>
+                    <p className="text-xl text-[#9AA1C0] leading-relaxed max-w-2xl mx-auto font-medium">
+                      Join our network of elite travel partners. Integrate verified holiday data and instant insurance into your workflow to drive ancillary revenue and trust.
+                    </p>
+                  </div>
+                  <div className="pt-6">
+                    <Button onClick={openChat} className="bg-[#E8A33D] text-[#0F1428] hover:bg-white font-bold h-16 px-12 rounded-full shadow-2xl text-base transition-all group active:scale-95">
+                      Become a Partner <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                    </Button>
+                  </div>
+               </CardContent>
+            </Card>
           </div>
         </section>
 
         {/* BENEFITS GRID */}
         <section className="py-24 bg-white/[0.01]">
           <div className="container mx-auto px-6">
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12">
               {benefits.map((b, i) => (
-                <div key={i} className="space-y-6 group">
+                <div key={i} className="space-y-6 group text-left">
                   <div className={cn("w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center transition-all group-hover:scale-110", b.color)}>
                     <b.icon className="w-7 h-7" />
                   </div>
-                  <div className="space-y-3 text-left">
+                  <div className="space-y-3">
                     <h3 className="text-2xl font-headline font-bold text-white">{b.title}</h3>
                     <p className="text-sm text-[#9AA1C0] leading-relaxed font-medium">{b.desc}</p>
                   </div>
@@ -119,27 +135,27 @@ export default function PartnersPage() {
                  <div className="space-y-6">
                     <div className="flex items-start gap-4">
                        <CheckCircle2 className="w-5 h-5 text-[#4FD1C5] mt-1" />
-                       <p className="text-sm text-[#F4F1E8] font-medium"><span className="font-bold">Instant Deployment:</span> Copy-paste a single React snippet or Iframe.</p>
+                       <p className="text-sm text-[#F4F1E8] font-medium leading-relaxed"><span className="font-bold">Instant Deployment:</span> Copy-paste a single React snippet or Iframe to go live today.</p>
                     </div>
                     <div className="flex items-start gap-4">
                        <CheckCircle2 className="w-5 h-5 text-[#4FD1C5] mt-1" />
-                       <p className="text-sm text-[#F4F1E8] font-medium"><span className="font-bold">Conversion Optimized:</span> Minimalist design that builds trust and drives action.</p>
+                       <p className="text-sm text-[#F4F1E8] font-medium leading-relaxed"><span className="font-bold">Conversion Optimized:</span> Minimalist design that builds trust and drives ancillary action.</p>
                     </div>
                     <div className="flex items-start gap-4">
                        <CheckCircle2 className="w-5 h-5 text-[#4FD1C5] mt-1" />
-                       <p className="text-sm text-[#F4F1E8] font-medium"><span className="font-bold">Live Tracking:</span> Every widget sale appears instantly in your partner portal.</p>
+                       <p className="text-sm text-[#F4F1E8] font-medium leading-relaxed"><span className="font-bold">Live Tracking:</span> Every widget sale appears instantly in your private partner portal.</p>
                     </div>
                  </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative">
                  <div className="absolute -inset-10 bg-[#E8A33D]/5 blur-[80px] rounded-full"></div>
                  <div className="relative z-10 space-y-4">
-                    <p className="text-[10px] font-mono font-bold text-[#E8A33D] uppercase tracking-widest text-center">Date Intelligence</p>
+                    <p className="text-[10px] font-mono font-bold text-[#E8A33D] uppercase tracking-widest text-center opacity-60">Date Intelligence</p>
                     <DateIntelWidget className="w-full" />
                  </div>
                  <div className="relative z-10 space-y-4 pt-12 md:pt-24">
-                    <p className="text-[10px] font-mono font-bold text-[#4FD1C5] uppercase tracking-widest text-center">Insurance Express</p>
+                    <p className="text-[10px] font-mono font-bold text-[#4FD1C5] uppercase tracking-widest text-center opacity-60">Insurance Express</p>
                     <InsuranceExpressWidget className="w-full" />
                  </div>
               </div>
@@ -176,7 +192,7 @@ export default function PartnersPage() {
                         <div className="space-y-4">
                            <div className="flex items-center justify-between text-[11px] font-bold text-[#6E7495] uppercase tracking-widest">
                               <span>Latest Policies</span>
-                              <span className="text-[#4FD1C5]">Live Feed</span>
+                              <span className="text-[#4FD1C5] flex items-center gap-1.5"><TrendingUp className="w-3 h-3" /> Live Feed</span>
                            </div>
                            {[1,2,3].map(i => (
                              <div key={i} className="flex items-center justify-between p-4 bg-white/5 rounded-xl border border-white/5">
@@ -190,7 +206,7 @@ export default function PartnersPage() {
                </div>
                <div className="flex-1 text-left space-y-8 order-1 lg:order-2">
                   <div className="space-y-4">
-                     <h2 className="text-3xl md:text-5xl font-headline font-medium tracking-tight">One Dashboard. <br/>Complete Control.</h2>
+                     <h2 className="text-3xl md:text-5xl font-headline font-medium tracking-tight leading-tight">One Dashboard. <br/>Complete Control.</h2>
                      <p className="text-lg text-[#9AA1C0] leading-relaxed font-medium">
                         Every partner gets a secure, private portal. Track your earnings, manage your distribution, and get instant tech support through our integrated channels.
                      </p>
@@ -198,13 +214,13 @@ export default function PartnersPage() {
                   <div className="grid grid-cols-2 gap-8">
                      <div className="space-y-2">
                         <TrendingUp className="w-6 h-6 text-[#E8A33D]" />
-                        <h4 className="font-bold">Real-time Accounting</h4>
-                        <p className="text-xs text-[#9AA1C0]">See exactly what you earned the moment a policy is issued.</p>
+                        <h4 className="font-bold text-white uppercase text-[10px] tracking-widest">Real-time Ledger</h4>
+                        <p className="text-xs text-[#9AA1C0] leading-relaxed">See exactly what you earned the moment a policy is issued.</p>
                      </div>
                      <div className="space-y-2">
                         <Smartphone className="w-6 h-6 text-[#4FD1C5]" />
-                        <h4 className="font-bold">Mobile First</h4>
-                        <p className="text-xs text-[#9AA1C0]">Manage your entire distribution network from any device.</p>
+                        <h4 className="font-bold text-white uppercase text-[10px] tracking-widest">Mobile First</h4>
+                        <p className="text-xs text-[#9AA1C0] leading-relaxed">Manage your entire distribution network from any device, anywhere.</p>
                      </div>
                   </div>
                </div>
@@ -217,7 +233,7 @@ export default function PartnersPage() {
            <div className="container mx-auto px-6 max-w-4xl space-y-12">
               <h2 className="text-4xl md:text-7xl font-headline font-medium tracking-tight">Ready to join the network?</h2>
               <p className="text-xl text-[#9AA1C0] leading-relaxed font-medium">
-                 Speak with our principal team about commission tiers and regional distribution rights.
+                 Speak with our principal team about commission tiers and regional distribution rights for your agency.
               </p>
               <div className="flex flex-col sm:flex-row justify-center items-center gap-6">
                  <Button onClick={openChat} className="bg-[#E8A33D] text-[#0F1428] font-bold h-16 px-12 rounded-full shadow-2xl text-lg hover:scale-105 transition-all">

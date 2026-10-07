@@ -42,7 +42,7 @@ export function Footer() {
               </Button>
               <div className="flex flex-wrap gap-8 text-sm font-bold text-muted uppercase tracking-widest justify-start md:justify-end">
                 <Link href="/date-intelligence" className="hover:text-white transition-colors flex items-center gap-1.5"><Activity className="w-3.5 h-3.5" /> Explorer</Link>
-                <Link href="/international-insurance" className="hover:text-white transition-colors flex items-center gap-1.5"><Shield className="w-3.5 h-3.5" /> Insurance</Link>
+                <Link href="/international-insurance" className="hover:text-white transition-colors flex items-center gap-1.5"><Shield className="w-3.5 h-3.5" /> International Insurance</Link>
                 <Link href="/partners" className="hover:text-white transition-colors flex items-center gap-1.5"><Users className="w-3.5 h-3.5" /> Partners</Link>
                 <Link href="/api" className="hover:text-white transition-colors">API Docs</Link>
                 <Link href="/management" className="hover:text-white transition-colors flex items-center gap-1.5 text-[#4FD1C5]"><ShieldCheck className="w-3.5 h-3.5" /> Portal</Link>

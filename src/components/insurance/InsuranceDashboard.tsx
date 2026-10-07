@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -23,7 +23,6 @@ import placeholderImages from '@/app/lib/placeholder-images.json';
  * 
  * Hides the transactional Asego engine (Search/Select/Buy) while 
  * maintaining the professional product presence for the public launch.
- * Transactional code is preserved in the logic but the UI is redirected to Inquiry.
  */
 
 export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
