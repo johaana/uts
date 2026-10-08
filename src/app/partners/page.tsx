@@ -16,7 +16,9 @@ import {
   ArrowRight,
   Code,
   Smartphone,
-  CheckCircle2
+  CheckCircle2,
+  Lock,
+  FileText
 } from "lucide-react";
 import { DateIntelWidget } from "@/components/widgets/DateIntelWidget";
 import { InsuranceExpressWidget } from "@/components/widgets/InsuranceExpressWidget";
@@ -34,25 +36,25 @@ export default function PartnersPage() {
   const benefits = [
     {
       title: "Date Intelligence",
-      desc: "Exclusive access to our verified temporal engine. Show your clients the 'Why' behind every date.",
+      desc: "Verified date intelligence for your clients: the 'why' behind every date.",
       icon: Globe,
       color: "text-[#4FD1C5]"
     },
     {
-      title: "Instant Insurance",
-      desc: "Issue global travel protection in seconds. Managed engine with real-time PDF generation.",
+      title: "Managed Insurance",
+      desc: "Offer international travel insurance through one managed engine. Available to approved partners.",
       icon: ShieldCheck,
       color: "text-[#E8A33D]"
     },
     {
       title: "Distribution Widgets",
-      desc: "No developers needed. Embed our high-converting tools directly on your website.",
+      desc: "Embed our tools on your site with a copy-and-paste snippet. No custom dev required.",
       icon: Layout,
       color: "text-purple-400"
     },
     {
-      title: "Expert Support",
-      desc: "White-labeled technology support. We handle the complex plumbing; you handle the clients.",
+      title: "Onboarding Support",
+      desc: "Support from the Utsavs team for onboarding, domain verification, and integration.",
       icon: MessageSquare,
       color: "text-blue-400"
     }
@@ -79,16 +81,16 @@ export default function PartnersPage() {
           <div className="container mx-auto px-6 relative z-10">
             <Card className="max-w-4xl mx-auto bg-[#171D3A]/80 backdrop-blur-2xl border-white/10 rounded-[48px] overflow-hidden shadow-3xl">
                <CardContent className="p-10 md:p-20 text-center space-y-8">
-                  <div className="flex flex-col items-center space-y-4">
+                  <div className="flex flex-col items-center space-y-4 text-center">
                     <div className="flex items-center gap-3 text-[#E8A33D]">
                       <Zap className="w-5 h-5 fill-current" />
                       <span className="text-[12px] font-mono font-bold uppercase tracking-[0.4em]">Ecosystem Expansion</span>
                     </div>
                     <h1 className="text-5xl md:text-8xl font-headline font-medium tracking-tighter leading-[0.95] text-white">
-                      One engine. <br />Endless distribution.
+                      One engine. <br />Many ways to distribute.
                     </h1>
                     <p className="text-xl text-[#9AA1C0] leading-relaxed max-w-2xl mx-auto font-medium">
-                      Join our network of elite travel partners. Integrate verified holiday data and instant insurance into your workflow to drive ancillary revenue and trust.
+                      Join the Utsavs partner network. Add verified holiday intelligence and, for approved partners, travel insurance to your workflow.
                     </p>
                   </div>
                   <div className="pt-6">
@@ -128,22 +130,22 @@ export default function PartnersPage() {
                  <div className="space-y-4">
                     <h2 className="text-3xl md:text-5xl font-headline font-medium tracking-tight">The "No-Code" Advantage.</h2>
                     <p className="text-lg text-[#9AA1C0] leading-relaxed font-medium">
-                      Deploy our verified engine on your own site in under 5 minutes. No development costs. Full branding control.
+                      Deploy our verified engine on your own site. Once approved, your widget goes live in minutes with a simple embed snippet.
                     </p>
                  </div>
                  
                  <div className="space-y-6">
                     <div className="flex items-start gap-4">
                        <CheckCircle2 className="w-5 h-5 text-[#4FD1C5] mt-1" />
-                       <p className="text-sm text-[#F4F1E8] font-medium leading-relaxed"><span className="font-bold">Instant Deployment:</span> Copy-paste a single React snippet or Iframe to go live today.</p>
+                       <p className="text-sm text-[#F4F1E8] font-medium leading-relaxed"><span className="font-bold">Instant Deployment:</span> Copy-paste an embed snippet to go live after approval.</p>
                     </div>
                     <div className="flex items-start gap-4">
                        <CheckCircle2 className="w-5 h-5 text-[#4FD1C5] mt-1" />
-                       <p className="text-sm text-[#F4F1E8] font-medium leading-relaxed"><span className="font-bold">Conversion Optimized:</span> Minimalist design that builds trust and drives ancillary action.</p>
+                       <p className="text-sm text-[#F4F1E8] font-medium leading-relaxed"><span className="font-bold">Conversion Optimized:</span> Minimalist design that builds trust and drives client engagement.</p>
                     </div>
                     <div className="flex items-start gap-4">
                        <CheckCircle2 className="w-5 h-5 text-[#4FD1C5] mt-1" />
-                       <p className="text-sm text-[#F4F1E8] font-medium leading-relaxed"><span className="font-bold">Live Tracking:</span> Every widget sale appears instantly in your private partner portal.</p>
+                       <p className="text-sm text-[#F4F1E8] font-medium leading-relaxed"><span className="font-bold">Managed Records:</span> Sales are recorded against your agency in your private partner portal.</p>
                     </div>
                  </div>
               </div>
@@ -167,8 +169,13 @@ export default function PartnersPage() {
         <section className="py-24 bg-[#171D3A] border-y border-white/5 overflow-hidden">
           <div className="container mx-auto px-6">
             <div className="flex flex-col lg:flex-row items-center gap-16 lg:gap-24">
-               <div className="flex-1 w-full order-2 lg:order-1">
-                  <Card className="bg-[#0B0F22] border-white/10 rounded-[32px] overflow-hidden shadow-2xl scale-110 md:scale-100 origin-left">
+               <div className="flex-1 w-full order-2 lg:order-1 relative">
+                  {/* Sample Data Watermark */}
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rotate-12 z-20 pointer-events-none opacity-10">
+                     <span className="text-[120px] font-bold border-8 border-white p-10 whitespace-nowrap">SAMPLE DATA</span>
+                  </div>
+                  
+                  <Card className="bg-[#0B0F22] border-white/10 rounded-[32px] overflow-hidden shadow-2xl scale-110 md:scale-100 origin-left relative z-10">
                      <div className="p-8 border-b border-white/5 flex items-center justify-between bg-white/[0.02]">
                         <div className="flex gap-1.5">
                            <div className="w-2.5 h-2.5 rounded-full bg-red-500/50"></div>
@@ -178,49 +185,60 @@ export default function PartnersPage() {
                         <span className="text-[9px] font-mono font-bold text-[#6E7495] uppercase tracking-widest">partner_dashboard_v2.1</span>
                      </div>
                      <div className="p-10 space-y-12">
-                        <div className="grid grid-cols-2 gap-8">
+                        <div className="grid grid-cols-3 gap-8">
                            <div className="space-y-1 text-left">
-                              <p className="text-[10px] text-[#6E7495] uppercase font-bold tracking-widest">This Month's Sales</p>
-                              <p className="text-3xl font-bold font-serif text-white">₹4,82,500</p>
+                              <p className="text-[10px] text-[#6E7495] uppercase font-bold tracking-widest">Policies (Month)</p>
+                              <p className="text-3xl font-bold font-serif text-white">42</p>
+                           </div>
+                           <div className="space-y-1 text-center">
+                              <p className="text-[10px] text-[#6E7495] uppercase font-bold tracking-widest">Travellers</p>
+                              <p className="text-3xl font-bold font-serif text-white">128</p>
                            </div>
                            <div className="space-y-1 text-right">
-                              <p className="text-[10px] text-[#6E7495] uppercase font-bold tracking-widest">My Commission</p>
-                              <p className="text-3xl font-bold font-serif text-[#E8A33D]">₹57,900</p>
+                              <p className="text-[10px] text-[#6E7495] uppercase font-bold tracking-widest">Docs Ready</p>
+                              <p className="text-3xl font-bold font-serif text-[#4FD1C5]">42</p>
                            </div>
                         </div>
                         <div className="h-px bg-white/5 w-full"></div>
                         <div className="space-y-4">
                            <div className="flex items-center justify-between text-[11px] font-bold text-[#6E7495] uppercase tracking-widest">
-                              <span>Latest Policies</span>
+                              <span>Recent Activity</span>
                               <span className="text-[#4FD1C5] flex items-center gap-1.5"><TrendingUp className="w-3 h-3" /> Live Feed</span>
                            </div>
-                           {[1,2,3].map(i => (
-                             <div key={i} className="flex items-center justify-between p-4 bg-white/5 rounded-xl border border-white/5">
-                                <div className="text-left"><p className="font-bold text-xs">P00249{i}</p><p className="text-[10px] text-[#9AA1C0]">Traveler: Sarah J.</p></div>
-                                <div className="text-right"><p className="font-bold text-xs text-green-500">ISSUED</p><p className="text-[10px] text-[#9AA1C0]">₹14,200</p></div>
-                             </div>
-                           ))}
+                           
+                           <div className="flex items-center justify-between p-4 bg-white/5 rounded-xl border border-white/5">
+                              <div className="text-left"><p className="font-bold text-xs">P002491</p><p className="text-[10px] text-[#9AA1C0]">Student Essential · Asia Pacific</p></div>
+                              <div className="text-right"><p className="font-bold text-xs text-green-500">ISSUED</p><p className="text-[10px] text-[#9AA1C0]">20 Oct 2026</p></div>
+                           </div>
+                           <div className="flex items-center justify-between p-4 bg-white/5 rounded-xl border border-white/5">
+                              <div className="text-left"><p className="font-bold text-xs">P002492</p><p className="text-[10px] text-[#9AA1C0]">Corporate Premium · Europe</p></div>
+                              <div className="text-right"><p className="font-bold text-xs text-green-500">ISSUED</p><p className="text-[10px] text-[#9AA1C0]">21 Oct 2026</p></div>
+                           </div>
+                           <div className="flex items-center justify-between p-4 bg-white/5 rounded-xl border border-white/5 opacity-60">
+                              <div className="text-left"><p className="font-bold text-xs">P002493</p><p className="text-[10px] text-[#9AA1C0]">Leisure Group · Americas</p></div>
+                              <div className="text-right"><p className="font-bold text-xs text-yellow-500">PENDING</p><p className="text-[10px] text-[#9AA1C0]">22 Oct 2026</p></div>
+                           </div>
                         </div>
                      </div>
                   </Card>
                </div>
                <div className="flex-1 text-left space-y-8 order-1 lg:order-2">
                   <div className="space-y-4">
-                     <h2 className="text-3xl md:text-5xl font-headline font-medium tracking-tight leading-tight">One Dashboard. <br/>Complete Control.</h2>
+                     <h2 className="text-3xl md:text-5xl font-headline font-medium tracking-tight leading-tight">One Dashboard. <br/>Complete Visibility.</h2>
                      <p className="text-lg text-[#9AA1C0] leading-relaxed font-medium">
-                        Every partner gets a secure, private portal. Track your earnings, manage your distribution, and get instant tech support through our integrated channels.
+                        Every approved partner gets a private portal to issue policies, see their own sales, and download policy documents in real-time.
                      </p>
                   </div>
                   <div className="grid grid-cols-2 gap-8">
                      <div className="space-y-2">
-                        <TrendingUp className="w-6 h-6 text-[#E8A33D]" />
-                        <h4 className="font-bold text-white uppercase text-[10px] tracking-widest">Real-time Ledger</h4>
-                        <p className="text-xs text-[#9AA1C0] leading-relaxed">See exactly what you earned the moment a policy is issued.</p>
+                        <Lock className="w-6 h-6 text-[#E8A33D]" />
+                        <h4 className="font-bold text-white uppercase text-[10px] tracking-widest">Private by Design</h4>
+                        <p className="text-xs text-[#9AA1C0] leading-relaxed">Each agency sees only its own policies and records via secure authentication.</p>
                      </div>
                      <div className="space-y-2">
-                        <Smartphone className="w-6 h-6 text-[#4FD1C5]" />
-                        <h4 className="font-bold text-white uppercase text-[10px] tracking-widest">Mobile First</h4>
-                        <p className="text-xs text-[#9AA1C0] leading-relaxed">Manage your entire distribution network from any device, anywhere.</p>
+                        <FileText className="w-6 h-6 text-[#4FD1C5]" />
+                        <h4 className="font-bold text-white uppercase text-[10px] tracking-widest">One Record, One Place</h4>
+                        <p className="text-xs text-[#9AA1C0] leading-relaxed">Search and download policies and documents directly from your integrated list.</p>
                      </div>
                   </div>
                </div>
@@ -233,7 +251,7 @@ export default function PartnersPage() {
            <div className="container mx-auto px-6 max-w-4xl space-y-12">
               <h2 className="text-4xl md:text-7xl font-headline font-medium tracking-tight">Ready to join the network?</h2>
               <p className="text-xl text-[#9AA1C0] leading-relaxed font-medium">
-                 Speak with our principal team about commission tiers and regional distribution rights for your agency.
+                 Speak with our team about partnership terms for your agency. Commission and distribution rights are discussed during onboarding.
               </p>
               <div className="flex flex-col sm:flex-row justify-center items-center gap-6">
                  <Button onClick={openChat} className="bg-[#E8A33D] text-[#0F1428] font-bold h-16 px-12 rounded-full shadow-2xl text-lg hover:scale-105 transition-all">

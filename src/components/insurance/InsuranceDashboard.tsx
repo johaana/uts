@@ -77,7 +77,7 @@ export function InsuranceDashboard({ isDebug }: { isDebug: boolean }) {
                 </div>
                 <div className="flex items-center gap-3">
                   <ShieldCheck className="w-5 h-5 text-[#4FD1C5]" />
-                  <span className="text-sm font-bold text-white/90">24/7 Assistance</span>
+                  <span className="text-sm font-bold text-white/90">Policy document delivery</span>
                 </div>
               </div>
 

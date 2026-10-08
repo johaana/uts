@@ -7,12 +7,12 @@ import { Button } from "./ui/button";
 import { ArrowRight, ShieldCheck, Activity, Users, Shield } from "lucide-react";
 
 export function Footer() {
-  const [reviewDate, setReviewDate] = useState("8 Sept 2026");
+  // Hard-coded static baseline for the launch phase
+  const reviewDate = "8 Sept 2026";
   const [currentYear, setCurrentYear] = useState("2026");
 
   useEffect(() => {
     const now = new Date();
-    setReviewDate(format(now, "d MMM yyyy"));
     setCurrentYear(format(now, "yyyy"));
   }, []);
 
@@ -60,7 +60,8 @@ export function Footer() {
 
         <div className="text-[10px] text-muted-dim/60 leading-relaxed uppercase tracking-wider max-w-5xl mx-auto text-center border-t border-white/5 pt-8 space-y-4">
           <p>
-            Source-backed intelligence. We independently verify institutional closures and government-declared dates. Every record is traceable to its authoritative source.
+            Source-backed intelligence. Records carry a verification status and, where available, an authoritative source reference. 
+            Every record is reviewed against our deterministic logic baseline.
           </p>
           <p>
             Lunar and government-declared dates are subject to change; Utsavs maintains the source and verification status for our comprehensive global database.

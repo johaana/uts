@@ -490,28 +490,28 @@ export default function HomePage() {
                       <span className="text-[10px] font-bold uppercase tracking-widest text-[#E8A33D]">Partner Opportunity</span>
                    </div>
                    <h2 className="text-4xl md:text-7xl font-headline font-medium tracking-tight text-white leading-[0.95]">
-                     Drive ancillary revenue. <br/>
+                     Drive ancillary services. <br/>
                      <span className="text-[#9AA1C0]">One widget at a time.</span>
                    </h2>
                    <p className="text-lg text-[#9AA1C0] leading-relaxed font-medium">
-                      Equip your travel agency with the Utsavs Distribution Engine. Give your clients verified date intelligence and instant insurance protection directly on your website. 
+                      Equip your travel agency with the Utsavs Distribution Engine. Give your clients verified date intelligence and access to managed insurance protection directly on your website. 
                    </p>
                    
                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-4">
                       <div className="space-y-2">
                         <Layout className="w-6 h-6 text-[#4FD1C5]" />
-                        <h4 className="font-bold text-sm uppercase tracking-widest">No-Code Widgets</h4>
-                        <p className="text-xs text-[#6E7495]">Embed high-converting tools in under 5 minutes.</p>
+                        <h4 className="font-bold text-sm uppercase tracking-widest">Embeddable Widgets</h4>
+                        <p className="text-xs text-[#6E7495]">Add high-value tools to your site in minutes.</p>
                       </div>
                       <div className="space-y-2">
                         <Shield className="w-6 h-6 text-[#E8A33D]" />
                         <h4 className="font-bold text-sm uppercase tracking-widest">Verified Engine</h4>
-                        <p className="text-xs text-[#6E7495]">Every transaction is backed by our master Asego code.</p>
+                        <p className="text-xs text-[#6E7495]">Every transaction is backed by our master technical layer.</p>
                       </div>
                       <div className="space-y-2">
                         <Repeat className="w-6 h-6 text-purple-400" />
-                        <h4 className="font-bold text-sm uppercase tracking-widest">Revenue Split</h4>
-                        <p className="text-xs text-[#6E7495]">Track every sale and commission in your private portal.</p>
+                        <h4 className="font-bold text-sm uppercase tracking-widest">Reporting</h4>
+                        <p className="text-xs text-[#6E7495]">Track every interaction and status in your private portal.</p>
                       </div>
                    </div>
                 </div>
@@ -567,7 +567,7 @@ export default function HomePage() {
                    </div>
                    <h2 className="font-headline text-3xl md:text-5xl font-medium text-left">Source-backed intelligence. Human-verified.</h2>
                    <p className="text-[#9AA1C0] text-lg max-w-2xl font-medium text-left">
-                      See where the information comes from and, whether it has been reviewed or confirmed. Utsavs keeps the underlying source and verification status visible.
+                      Records carry a verification status and, where available, an authoritative source reference. Utsavs keeps the underlying process and status visible.
                    </p>
                 </div>
                 <Link href="/date-intelligence">

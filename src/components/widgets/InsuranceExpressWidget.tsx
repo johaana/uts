@@ -46,11 +46,11 @@ export function InsuranceExpressWidget({ agencyId = "PARTNER", className }: Insu
           <div className="p-4 bg-white/5 rounded-xl space-y-3">
              <div className="flex items-center justify-between text-[9px] font-bold uppercase tracking-widest text-[#6E7495]">
                 <span>Status</span>
-                <span className="text-[#4FD1C5]">Available</span>
+                <span className="text-[#4FD1C5]">Enquiry Only</span>
              </div>
              <div className="space-y-1">
-                <p className="text-xs font-bold text-white">Full Medical & Trip Loss</p>
-                <p className="text-[8px] text-[#9AA1C0]">Managed distribution for agencies</p>
+                <p className="text-xs font-bold text-white">Group Coverage</p>
+                <p className="text-[8px] text-[#9AA1C0]">Terms discussed per agreement</p>
              </div>
           </div>
         </div>
